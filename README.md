@@ -2,7 +2,7 @@
 
 Nền tảng AI hỗ trợ chuyển bài báo nghiên cứu khoa học thành dữ liệu sáng chế có cấu trúc và bản dự thảo patent specification để con người rà soát.
 
-> **Trạng thái hiện tại:** Phase 1 — Specification & Architecture. Repository đã có cấu trúc dự án và bộ tài liệu quản trị; frontend, backend và AI pipeline chưa được triển khai.
+> **Trạng thái hiện tại:** Phase 1 — Specification & Architecture. Output Schema v1.0.0 đã được triển khai và đang chờ Gemini review; frontend, backend và AI pipeline chưa được triển khai.
 >
 > **Deadline MVP:** 02/10/2026.
 
@@ -87,6 +87,8 @@ Mỗi nội dung kỹ thuật quan trọng phải có evidence nếu xác địn
 
 Không được chuyển `INFERENCE` thành `SOURCE_FACT`. Nội dung chưa có căn cứ phải được đánh dấu `[CẦN TÁC GIẢ XÁC NHẬN]` thay vì tự điền.
 
+Riêng Output Schema v1.0.0 chỉ chấp nhận `SOURCE_FACT`, `PARAPHRASE`, `INFERENCE`, và mỗi nhãn phải có ít nhất một evidence ID. `MISSING` được biểu diễn trong collection `missing_information`; `HUMAN_CONFIRMED` và audit state nằm ngoài contract v1.0.0.
+
 ## 5. Phạm vi MVP
 
 ### Trong phạm vi
@@ -160,10 +162,13 @@ ai-ip-description-generator/
 ├── prompts/                          # Prompt có version
 ├── templates/                        # DOCX template có version
 ├── tests/                            # Test cases và AI evaluation
+├── schemas/                          # JSON Schema production có version
 ├── docs/
 │   ├── system-specification.md       # Đặc tả hệ thống đầy đủ
 │   ├── architecture.md               # Ghi chú kiến trúc ban đầu
 │   ├── workflow.md                   # Ghi chú workflow ban đầu
+│   ├── decisions/                    # Architecture Decision Records
+│   ├── tasks/                        # Task specification và acceptance criteria
 │   ├── operations/
 │   │   ├── 01_PROJECT_CONTROL_CENTER.md
 │   │   └── 02_GEMINI_REVIEW_LOG.md
@@ -201,17 +206,17 @@ GitHub là **Technical Source of Truth**. Gemini không ghi đè production arte
 
 - [x] Repository Private đã được khởi tạo.
 - [x] Cấu trúc `frontend`, `backend`, `prompts`, `templates`, `tests` và `.github`.
-- [x] System Specification 0.1.0.
+- [x] System Specification 0.2.0.
 - [x] AGENTS.md 0.1.1.
-- [x] Project Context 0.1.1.
-- [x] Project Control Center 0.1.1.
+- [x] Project Context 0.2.0.
+- [x] Project Control Center 0.2.0.
 - [x] Gemini Review Log template 0.1.0.
+- [x] Output Schema v1.0.0, fixtures và automated validation tests — Implemented; awaiting Gemini review.
 
 ### Chưa hoàn thành
 
 - [ ] Human/Gemini review bộ tài liệu Draft.
-- [ ] ADR được phê duyệt.
-- [ ] Production JSON Schema v1.
+- [ ] Gemini review ADR-006 và Output Schema v1.0.0.
 - [ ] Extraction Prompt v1.
 - [ ] DOCX Template v1.
 - [ ] Next.js application.
@@ -258,14 +263,14 @@ Danh sách chi tiết nằm trong [`docs/system-specification.md`](docs/system-s
 
 ## 15. Bắt đầu phát triển
 
-Repository hiện chưa có application code hoặc dependency manifest, vì vậy chưa có lệnh cài đặt/chạy chính thức. Không sử dụng hướng dẫn giả định.
+Repository hiện chưa có application code. AI-001 chỉ bổ sung test dependency manifest tại `tests/requirements.txt`; hướng dẫn validation nằm tại `schemas/invention-output/v1.0.0/README.md`.
 
 Sau khi Human phê duyệt architecture và scope, bước kỹ thuật kế tiếp là:
 
-1. Tạo ADR đã được phê duyệt.
-2. Tạo `invention-schema-v1`.
-3. Tạo `extraction-prompt-v1`.
-4. Tạo `patent-template-v1`.
+1. Gemini review ADR-006 và Output Schema v1.0.0.
+2. Human xử lý finding và quyết định trạng thái AI-001.
+3. Tạo `extraction-prompt-v1` theo task được phê duyệt riêng.
+4. Tạo `patent-template-v1` theo task được phê duyệt riêng.
 5. Khởi tạo FastAPI và Next.js theo task riêng.
 
 ## 16. License

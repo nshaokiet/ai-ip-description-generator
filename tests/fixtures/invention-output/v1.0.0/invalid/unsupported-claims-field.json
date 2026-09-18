@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0.0",
+  "output_type": "STRUCTURED_INVENTION_ANALYSIS",
+  "output_notice": {
+    "status": "DRAFT",
+    "human_review_required": true,
+    "is_legal_advice": false,
+    "filing_ready": false,
+    "includes_patentability_assessment": false
+  },
+  "document_metadata": {
+    "document_id": "doc-invalid-claims",
+    "file_name": "synthetic-invalid-claims.pdf",
+    "media_type": "application/pdf"
+  },
+  "title_candidates": [],
+  "technical_field": { "status": "MISSING" },
+  "background": [],
+  "technical_problems": [],
+  "technical_solutions": [],
+  "components": [],
+  "process_steps": [],
+  "potential_distinguishing_features": [],
+  "technical_effects": [],
+  "embodiments": [],
+  "experimental_data": [],
+  "drawing_requirements": [],
+  "missing_information": [],
+  "author_questions": [],
+  "evidence": [],
+  "claims": []
+}

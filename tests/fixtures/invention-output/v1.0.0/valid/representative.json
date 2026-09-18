@@ -1,0 +1,185 @@
+{
+  "schema_version": "1.0.0",
+  "output_type": "STRUCTURED_INVENTION_ANALYSIS",
+  "output_notice": {
+    "status": "DRAFT",
+    "human_review_required": true,
+    "is_legal_advice": false,
+    "filing_ready": false,
+    "includes_patentability_assessment": false
+  },
+  "document_metadata": {
+    "document_id": "doc-synthetic-001",
+    "file_name": "synthetic-sensor-study.pdf",
+    "media_type": "application/pdf",
+    "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "title_candidates": [
+    {
+      "title_id": "title-001",
+      "title": "Adaptive Calibration of a Synthetic Optical Sensor",
+      "rationale": "Describes the reported calibration process without asserting legal novelty.",
+      "grounding": { "label": "PARAPHRASE", "evidence_ids": ["ev-title"] }
+    }
+  ],
+  "technical_field": {
+    "status": "PRESENT",
+    "item": {
+      "field_id": "field-001",
+      "name": "Optical sensing",
+      "description": "Calibration of a synthetic optical sensor under changing temperature.",
+      "grounding": { "label": "SOURCE_FACT", "evidence_ids": ["ev-field"] }
+    }
+  },
+  "background": [
+    {
+      "statement_id": "background-001",
+      "text": "Synthetic sensor readings drift when temperature changes.",
+      "grounding": { "label": "SOURCE_FACT", "evidence_ids": ["ev-background"] }
+    }
+  ],
+  "technical_problems": [
+    {
+      "problem_id": "problem-001",
+      "statement": "Temperature drift reduces measurement repeatability.",
+      "grounding": { "label": "PARAPHRASE", "evidence_ids": ["ev-problem"] }
+    }
+  ],
+  "technical_solutions": [
+    {
+      "solution_id": "solution-001",
+      "statement": "Apply a calibration coefficient selected from the measured temperature band.",
+      "addresses_problem_ids": ["problem-001"],
+      "grounding": { "label": "SOURCE_FACT", "evidence_ids": ["ev-solution"] }
+    }
+  ],
+  "components": [
+    {
+      "component_id": "component-sensor",
+      "name": "Optical sensor",
+      "description": "Synthetic sensing element used for the example.",
+      "related_component_ids": ["component-controller"],
+      "grounding": { "label": "SOURCE_FACT", "evidence_ids": ["ev-components"] }
+    },
+    {
+      "component_id": "component-controller",
+      "name": "Calibration controller",
+      "related_component_ids": ["component-sensor"],
+      "grounding": { "label": "SOURCE_FACT", "evidence_ids": ["ev-components"] }
+    }
+  ],
+  "process_steps": [
+    {
+      "step_id": "step-measure",
+      "sequence": 1,
+      "action": "Measure the sensor response and ambient temperature.",
+      "input_component_ids": ["component-sensor"],
+      "output_component_ids": ["component-controller"],
+      "conditions": [
+        {
+          "statement_id": "condition-stable-input",
+          "text": "Use a stable synthetic reference input.",
+          "grounding": { "label": "SOURCE_FACT", "evidence_ids": ["ev-method"] }
+        }
+      ],
+      "grounding": { "label": "PARAPHRASE", "evidence_ids": ["ev-method"] }
+    }
+  ],
+  "potential_distinguishing_features": [
+    {
+      "feature_id": "feature-band-selection",
+      "statement": "The controller selects a coefficient by temperature band.",
+      "rationale": "This appears central to the described process but is not a novelty conclusion.",
+      "related_component_ids": ["component-controller"],
+      "related_step_ids": ["step-measure"],
+      "grounding": { "label": "INFERENCE", "evidence_ids": ["ev-solution", "ev-method"] }
+    }
+  ],
+  "technical_effects": [
+    {
+      "effect_id": "effect-repeatability",
+      "statement": "The reported synthetic trial shows improved repeatability.",
+      "related_solution_ids": ["solution-001"],
+      "conditions": [
+        {
+          "statement_id": "effect-condition-001",
+          "text": "The comparison uses the same reference input.",
+          "grounding": { "label": "SOURCE_FACT", "evidence_ids": ["ev-results"] }
+        }
+      ],
+      "grounding": { "label": "PARAPHRASE", "evidence_ids": ["ev-results"] }
+    }
+  ],
+  "embodiments": [
+    {
+      "embodiment_id": "embodiment-001",
+      "name": "Controller-based calibration example",
+      "description": "A sensor and controller execute the documented measurement step.",
+      "component_ids": ["component-sensor", "component-controller"],
+      "process_step_ids": ["step-measure"],
+      "grounding": { "label": "PARAPHRASE", "evidence_ids": ["ev-components", "ev-method"] }
+    }
+  ],
+  "experimental_data": [
+    {
+      "experiment_id": "experiment-001",
+      "name": "Synthetic repeatability comparison",
+      "description": "A non-research fixture illustrating structured conditions and results.",
+      "conditions": [
+        { "parameter": "Temperature", "value": 25, "unit": "degC" }
+      ],
+      "results": [
+        { "metric": "Repeatability improvement", "value": 12, "unit": "percent" }
+      ],
+      "grounding": { "label": "SOURCE_FACT", "evidence_ids": ["ev-results"] }
+    }
+  ],
+  "drawing_requirements": [
+    {
+      "drawing_id": "drawing-source-001",
+      "kind": "SOURCE_FIGURE",
+      "title": "Synthetic sensor arrangement",
+      "status": "AVAILABLE",
+      "source_evidence_ids": ["ev-figure"],
+      "human_confirmation_required": false
+    },
+    {
+      "drawing_id": "drawing-proposed-001",
+      "kind": "PROPOSED_DRAWING",
+      "title": "Proposed calibration flow diagram",
+      "status": "PROPOSED",
+      "source_evidence_ids": [],
+      "human_confirmation_required": true
+    }
+  ],
+  "missing_information": [
+    {
+      "missing_id": "missing-controller-model",
+      "target_path": "/components/1/description",
+      "description": "The synthetic source does not specify a controller model.",
+      "reason": "NOT_FOUND",
+      "impact": "LOW",
+      "owner": "AUTHOR",
+      "grounding_label": "MISSING"
+    }
+  ],
+  "author_questions": [
+    {
+      "question_id": "question-controller-model",
+      "missing_information_id": "missing-controller-model",
+      "question": "Should a specific controller model be identified?",
+      "priority": "LOW"
+    }
+  ],
+  "evidence": [
+    { "evidence_id": "ev-title", "document_id": "doc-synthetic-001", "evidence_type": "METADATA", "locator": { "page": 1 }, "excerpt": "Synthetic title evidence." },
+    { "evidence_id": "ev-field", "document_id": "doc-synthetic-001", "evidence_type": "TEXT", "locator": { "page": 1, "section": "Field" }, "excerpt": "Synthetic optical sensing field." },
+    { "evidence_id": "ev-background", "document_id": "doc-synthetic-001", "evidence_type": "TEXT", "locator": { "page": 2 }, "excerpt": "Synthetic description of temperature drift." },
+    { "evidence_id": "ev-problem", "document_id": "doc-synthetic-001", "evidence_type": "TEXT", "locator": { "page": 2, "paragraph_id": "paragraph-problem" }, "excerpt": "Synthetic repeatability problem." },
+    { "evidence_id": "ev-solution", "document_id": "doc-synthetic-001", "evidence_type": "TEXT", "locator": { "page": 3 }, "excerpt": "Synthetic coefficient selection process." },
+    { "evidence_id": "ev-components", "document_id": "doc-synthetic-001", "evidence_type": "FIGURE", "locator": { "page": 3, "figure_id": "figure-1" }, "excerpt": "Synthetic sensor and controller arrangement." },
+    { "evidence_id": "ev-method", "document_id": "doc-synthetic-001", "evidence_type": "TEXT", "locator": { "page": 4, "chunk_id": "chunk-method" }, "excerpt": "Synthetic measurement method." },
+    { "evidence_id": "ev-results", "document_id": "doc-synthetic-001", "evidence_type": "TABLE", "locator": { "page": 5, "table_id": "table-1" }, "excerpt": "Synthetic repeatability result at 25 degC." },
+    { "evidence_id": "ev-figure", "document_id": "doc-synthetic-001", "evidence_type": "FIGURE", "locator": { "page": 3, "figure_id": "figure-1" }, "excerpt": "Synthetic figure used only for schema testing." }
+  ]
+}
