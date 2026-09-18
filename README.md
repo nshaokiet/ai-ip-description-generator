@@ -2,7 +2,7 @@
 
 Nền tảng AI hỗ trợ chuyển bài báo nghiên cứu khoa học thành dữ liệu sáng chế có cấu trúc và bản dự thảo patent specification để con người rà soát.
 
-> **Trạng thái hiện tại:** Phase 1 — Specification & Architecture. Output Schema v1.0.0 đã được triển khai và đang chờ Gemini review; frontend, backend và AI pipeline chưa được triển khai.
+> **Trạng thái hiện tại:** Phase 1 — Specification & Architecture. Output Schema v1.0.0 có trạng thái **Gemini Review Passed — Awaiting Human Merge Approval** tại PR #1; frontend, backend và AI pipeline chưa được triển khai.
 >
 > **Deadline MVP:** 02/10/2026.
 
@@ -208,15 +208,15 @@ GitHub là **Technical Source of Truth**. Gemini không ghi đè production arte
 - [x] Cấu trúc `frontend`, `backend`, `prompts`, `templates`, `tests` và `.github`.
 - [x] System Specification 0.2.0.
 - [x] AGENTS.md 0.1.1.
-- [x] Project Context 0.2.0.
-- [x] Project Control Center 0.2.0.
-- [x] Gemini Review Log template 0.1.0.
-- [x] Output Schema v1.0.0, fixtures và automated validation tests — Implemented; awaiting Gemini review.
+- [x] Project Context 0.2.1.
+- [x] Project Control Center 0.2.1.
+- [x] Gemini Review Log 0.2.0 với review entry `REV-AI-001`.
+- [x] Output Schema v1.0.0, fixtures và automated validation tests — Gemini Review Passed — Awaiting Human Merge Approval.
 
 ### Chưa hoàn thành
 
 - [ ] Human/Gemini review bộ tài liệu Draft.
-- [ ] Gemini review ADR-006 và Output Schema v1.0.0.
+- [ ] Human merge approval cho PR #1 chứa ADR-006 và Output Schema v1.0.0.
 - [ ] Extraction Prompt v1.
 - [ ] DOCX Template v1.
 - [ ] Next.js application.
@@ -267,8 +267,8 @@ Repository hiện chưa có application code. AI-001 chỉ bổ sung test depend
 
 Sau khi Human phê duyệt architecture và scope, bước kỹ thuật kế tiếp là:
 
-1. Gemini review ADR-006 và Output Schema v1.0.0.
-2. Human xử lý finding và quyết định trạng thái AI-001.
+1. Human xem xét merge approval cho PR #1 sau governance closeout.
+2. Chỉ đánh dấu AI-001 `Completed` sau khi có bằng chứng merge và cập nhật trạng thái phù hợp.
 3. Tạo `extraction-prompt-v1` theo task được phê duyệt riêng.
 4. Tạo `patent-template-v1` theo task được phê duyệt riêng.
 5. Khởi tạo FastAPI và Next.js theo task riêng.

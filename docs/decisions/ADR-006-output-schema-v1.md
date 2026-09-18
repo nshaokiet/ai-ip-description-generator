@@ -76,4 +76,4 @@ Thiết kế này tạo contract rõ ràng trước khi có runtime, bắt lỗi
 
 ## Review status
 
-Decision đã được Human/Product Owner phê duyệt. Implementation hiện **Awaiting Gemini Review**; ADR acceptance không đồng nghĩa AI-001 đã `Completed`.
+Decision đã được Human/Product Owner phê duyệt. Gemini 3.1 Pro full review và targeted whitespace re-review đều `PASS`, không có finding. Trạng thái hiện tại là **Gemini Review Passed — Awaiting Human Merge Approval** tại PR #1; ADR acceptance và review PASS không đồng nghĩa AI-001 đã `Completed` hoặc PR đã merge.

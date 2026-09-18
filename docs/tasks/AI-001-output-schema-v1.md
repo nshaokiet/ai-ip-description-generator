@@ -8,7 +8,7 @@
 | Owner | ChatGPT/Codex |
 | Reviewer | Gemini Pro |
 | Approver | Human / Product Owner |
-| Status | Implemented — Awaiting Gemini Review |
+| Status | Gemini Review Passed — Awaiting Human Merge Approval |
 | Schema version | 1.0.0 |
 | Base repository state | Commit `29ec432` |
 | Implementation branch | `ai/output-schema-v1` |
@@ -61,8 +61,8 @@ Tạo hợp đồng dữ liệu JSON có version cho kết quả phân tích sá
 - [x] Test tự động kiểm tra schema, fixtures, strict objects, notice flags, grounding và các constraint quan trọng.
 - [x] Tài liệu nêu rõ `uniqueItems` không đảm bảo logical-ID uniqueness hoặc cross-reference existence.
 - [x] Fixtures chỉ dùng dữ liệu synthetic, không chứa secret, PII hoặc dữ liệu nghiên cứu thật.
-- [ ] Gemini Pro review và ghi finding trong review log.
-- [ ] Human xử lý finding nếu có; AI-001 chưa được đánh dấu `Completed`.
+- [x] Gemini 3.1 Pro full review và targeted whitespace re-review đều `PASS`; review evidence được ghi tại `REV-AI-001`.
+- [x] Không có finding cần xử lý; PR #1 đang chờ Human merge approval và AI-001 chưa được đánh dấu `Completed`.
 
 ## Verification command
 
@@ -70,4 +70,4 @@ Tạo hợp đồng dữ liệu JSON có version cho kết quả phân tích sá
 .\.venv\Scripts\python.exe -m unittest discover -s tests/schema -p "test_*.py" -v
 ```
 
-Kết quả implementation trước review: 15 test pass, 0 fail. Trạng thái vẫn là **Implemented — Awaiting Gemini Review**.
+Kết quả được review: Python 3.12.10, `jsonschema` 4.26.0, 15 test pass, 0 fail và `git diff --check` đạt. Trạng thái là **Gemini Review Passed — Awaiting Human Merge Approval**.

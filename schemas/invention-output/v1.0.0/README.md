@@ -2,7 +2,7 @@
 
 Canonical schema: `schemas/invention-output/v1.0.0/invention-output.schema.json`
 JSON Schema dialect: Draft 2020-12
-Status: **Implemented — Awaiting Gemini Review**
+Status: **Gemini Review Passed — Awaiting Human Merge Approval**
 
 ## Purpose and boundary
 
