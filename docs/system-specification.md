@@ -1,800 +1,515 @@
 # ĐẶC TẢ HỆ THỐNG
+
 ## AI Intellectual Property Description Generator
 
-**Phiên bản:** 0.1  
-**Trạng thái:** Draft / MVP Specification  
-**Mục tiêu:** Đặc tả hệ thống AI hỗ trợ chuyển đổi bài báo nghiên cứu khoa học thành bản mô tả SHTT / bản mô tả sáng chế có cấu trúc để người dùng rà soát và xuất tài liệu.
+## 1. Metadata
 
----
-
-# 1. Tổng quan hệ thống
-
-## 1.1. Bài toán
-
-Người dùng cung cấp một bài báo nghiên cứu khoa học ở định dạng PDF hoặc DOCX. Hệ thống sử dụng AI để:
-
-1. Đọc và phân tích nội dung tài liệu.
-2. Trích xuất thông tin kỹ thuật quan trọng.
-3. Xác định các yếu tố có liên quan đến sáng chế / giải pháp kỹ thuật.
-4. Chuẩn hóa thông tin thành cấu trúc dữ liệu cố định.
-5. Sinh bản nháp mô tả SHTT theo mẫu đã cấu hình.
-6. Cho phép người dùng rà soát, chỉnh sửa và xuất file DOCX.
-
-Hệ thống là công cụ **hỗ trợ soạn thảo**, không thay thế việc thẩm định pháp lý, đánh giá khả năng bảo hộ hoặc tư vấn chuyên môn của chuyên gia SHTT.
-
-## 1.2. Mục tiêu
-
-Xây dựng một nền tảng có khả năng thực hiện luồng:
-
-```text
-Bài báo nghiên cứu
-        ↓
-Upload tài liệu
-        ↓
-AI phân tích
-        ↓
-Trích xuất thông tin kỹ thuật
-        ↓
-Chuẩn hóa dữ liệu
-        ↓
-Sinh bản mô tả SHTT
-        ↓
-Người dùng rà soát
-        ↓
-Xuất DOCX
-```
-
-## 1.3. Phạm vi MVP
-
-MVP tập trung vào một luồng xử lý đơn giản:
-
-- 01 tài liệu đầu vào cho mỗi lần phân tích.
-- Hỗ trợ PDF và DOCX.
-- AI xử lý nội dung tài liệu.
-- Trả về dữ liệu có cấu trúc.
-- Sinh bản nháp mô tả SHTT.
-- Cho phép xem trước và chỉnh sửa.
-- Xuất file DOCX.
-
-Các chức năng nâng cao như quản lý người dùng, lịch sử phiên bản, tìm kiếm prior art quy mô lớn, billing và collaboration được để cho giai đoạn sau.
-
----
-
-# 2. Đối tượng sử dụng
-
-## 2.1. Người dùng chính
-
-- Cán bộ nghiên cứu.
-- Giảng viên / nhà khoa học.
-- Nhân sự phụ trách SHTT.
-- Chuyên viên chuyển giao công nghệ.
-- Quản trị viên dự án nghiên cứu.
-
-## 2.2. Vai trò trong MVP
-
-### User
-
-Có thể:
-
-- Upload tài liệu.
-- Bắt đầu phân tích.
-- Xem kết quả AI.
-- Chỉnh sửa nội dung.
-- Xuất DOCX.
-
-### Admin
-
-Chưa bắt buộc ở MVP.
-
-Có thể bổ sung ở giai đoạn sau để:
-
-- Quản lý người dùng.
-- Quản lý template.
-- Quản lý prompt.
-- Theo dõi usage.
-- Xem log hệ thống.
-
----
-
-# 3. Yêu cầu chức năng
-
-## FR-01. Upload tài liệu
-
-Hệ thống phải cho phép người dùng tải lên:
-
-- PDF.
-- DOCX.
-
-### Điều kiện
-
-- Kiểm tra định dạng file.
-- Kiểm tra kích thước file.
-- Từ chối file không hợp lệ.
-- Không cho phép thực thi file từ phía server.
-
----
-
-## FR-02. Đọc và xử lý nội dung tài liệu
-
-Hệ thống phải có khả năng:
-
-- Đọc text trong tài liệu.
-- Gửi tài liệu hoặc nội dung đã trích xuất cho AI.
-- Xử lý tài liệu có nhiều trang.
-- Giữ lại metadata cần thiết nếu có.
-
----
-
-## FR-03. Phân tích nội dung bằng AI
-
-AI phải trích xuất tối thiểu các nhóm thông tin:
-
-- Tên nghiên cứu.
-- Lĩnh vực kỹ thuật.
-- Vấn đề kỹ thuật đang tồn tại.
-- Mục tiêu nghiên cứu.
-- Giải pháp / phương pháp được đề xuất.
-- Thành phần hoặc bước xử lý chính.
-- Dữ liệu thực nghiệm / cách triển khai.
-- Kết quả kỹ thuật.
-- Ưu điểm kỹ thuật.
-- Điểm khác biệt hoặc yếu tố có thể xem xét là mới.
-- Thông tin còn thiếu.
-- Nội dung cần chuyên gia xác minh.
-
----
-
-## FR-04. Structured Output
-
-Kết quả AI phải được trả về theo một schema xác định trước.
-
-Ví dụ:
-
-```json
-{
-  "invention_title": "",
-  "technical_field": "",
-  "background": "",
-  "technical_problem": "",
-  "technical_objective": "",
-  "technical_solution": "",
-  "components_or_steps": [],
-  "novel_features": [],
-  "technical_effects": [],
-  "advantages": [],
-  "embodiments": [],
-  "supporting_evidence": [],
-  "missing_information": [],
-  "review_flags": []
-}
-```
-
-Hệ thống không nên sử dụng free-form text làm dữ liệu trung gian chính.
-
----
-
-## FR-05. Phát hiện thông tin không đủ cơ sở
-
-Hệ thống phải có cơ chế đánh dấu:
-
-- Thông tin không xuất hiện trong tài liệu nguồn.
-- Thông tin AI suy luận nhưng không có bằng chứng rõ ràng.
-- Nội dung thiếu dữ kiện.
-- Thuật ngữ cần xác minh.
-- Điểm cần chuyên gia SHTT đánh giá.
-
-Không được tự động coi nội dung AI suy luận là sự thật.
-
----
-
-## FR-06. Sinh bản mô tả SHTT
-
-Từ structured output, hệ thống phải sinh bản nháp theo cấu trúc đã cấu hình.
-
-Các mục có thể bao gồm:
-
-1. Tên sáng chế.
-2. Lĩnh vực kỹ thuật.
-3. Tình trạng kỹ thuật.
-4. Vấn đề kỹ thuật.
-5. Mục đích / nhiệm vụ của sáng chế.
-6. Bản chất kỹ thuật.
-7. Mô tả chi tiết.
-8. Ví dụ thực hiện.
-9. Hiệu quả kỹ thuật.
-10. Nội dung phục vụ cho việc xây dựng yêu cầu bảo hộ.
-
-Cấu trúc cuối cùng sẽ được điều chỉnh theo template chính thức mà dự án sử dụng.
-
----
-
-## FR-07. Human Review
-
-Hệ thống phải cho phép người dùng:
-
-- Xem từng trường nội dung.
-- Sửa nội dung do AI tạo.
-- Xác nhận hoặc bỏ qua cảnh báo.
-- Nhập bổ sung thông tin còn thiếu.
-- Sinh lại một phần nội dung nếu cần.
-
----
-
-## FR-08. Export DOCX
-
-Hệ thống phải cho phép:
-
-- Mapping dữ liệu vào template DOCX.
-- Sinh file DOCX có thể chỉnh sửa.
-- Giữ định dạng theo template.
-- Tải file về sau khi hoàn tất.
-
-Thư viện dự kiến:
-
-```text
-docxtpl
-```
-
----
-
-## FR-09. Lưu trữ dữ liệu
-
-Trong MVP có thể chưa bắt buộc.
-
-Nếu bật Supabase, hệ thống có thể lưu:
-
-- Project.
-- Tên file.
-- Thời điểm tạo.
-- Structured output.
-- Bản nháp đã chỉnh sửa.
-- Phiên bản prompt.
-- Phiên bản schema.
-- Đường dẫn file đầu ra.
-
----
-
-# 4. Yêu cầu phi chức năng
-
-## NFR-01. Bảo mật
-
-- API key phải nằm ở backend.
-- Không hard-code secret trong source code.
-- Không expose OpenAI API key ra frontend.
-- Sử dụng biến môi trường.
-- Không commit file `.env`.
-
----
-
-## NFR-02. Riêng tư dữ liệu
-
-Tài liệu nghiên cứu có thể chứa thông tin chưa công bố.
-
-Hệ thống cần:
-
-- Hạn chế lưu file lâu hơn mức cần thiết.
-- Cho phép xóa file tạm.
-- Không dùng tài liệu của người dùng làm dữ liệu công khai.
-- Tách rõ dữ liệu người dùng và log kỹ thuật.
-
----
-
-## NFR-03. Khả năng truy vết
-
-Mỗi kết quả AI nên có khả năng lưu:
-
-- Prompt version.
-- Schema version.
-- Model.
-- Thời gian xử lý.
-- Source document.
-- Các cảnh báo liên quan.
-
----
-
-## NFR-04. Khả năng bảo trì
-
-Hệ thống cần tách biệt:
-
-- Frontend.
-- Backend.
-- Prompt.
-- Schema.
-- Template.
-- Logic export.
-
-Việc thay đổi prompt không nên yêu cầu viết lại frontend.
-
----
-
-## NFR-05. Khả năng mở rộng
-
-Kiến trúc phải cho phép bổ sung:
-
-- Nhiều tài liệu đầu vào.
-- File Search.
-- Database.
-- Authentication.
-- Version history.
-- Prior-art reference.
-- Collaboration.
-- Multi-language.
-
----
-
-## NFR-06. Hiệu năng
-
-Mục tiêu MVP:
-
-- Upload file phản hồi ngay.
-- Hiển thị trạng thái processing.
-- Không khóa UI trong quá trình AI xử lý.
-- Có timeout và xử lý lỗi.
-- Có thông báo rõ ràng khi API thất bại.
-
----
-
-# 5. Kiến trúc đề xuất
-
-## 5.1. Tổng quan
-
-```text
-┌──────────────────────────────┐
-│          Frontend            │
-│      Next.js + TypeScript    │
-└──────────────┬───────────────┘
-               │ HTTPS / API
-               ▼
-┌──────────────────────────────┐
-│           Backend            │
-│       FastAPI + Python       │
-│                              │
-│ - File validation            │
-│ - AI orchestration           │
-│ - Schema validation          │
-│ - Prompt management          │
-│ - DOCX generation            │
-└───────┬──────────────┬───────┘
-        │              │
-        ▼              ▼
-┌───────────────┐  ┌──────────────┐
-│  OpenAI API   │  │   docxtpl    │
-│ Responses API │  │ DOCX Export  │
-└───────┬───────┘  └──────────────┘
-        │
-        ▼
-┌──────────────────────────────┐
-│ Supabase (optional / MVP+)   │
-│ PostgreSQL + storage         │
-└──────────────────────────────┘
-```
-
----
-
-# 6. Công nghệ sử dụng
-
-| Thành phần | Công nghệ |
+| Thuộc tính | Giá trị |
 |---|---|
-| Frontend | Next.js |
-| Frontend language | TypeScript |
-| Backend | FastAPI |
-| Backend language | Python |
-| AI | OpenAI Responses API |
-| Output schema | Structured Outputs / JSON Schema |
-| Retrieval | OpenAI File Search, nếu cần |
-| Database | Supabase / PostgreSQL |
-| DOCX generation | docxtpl |
-| Frontend hosting | Vercel |
-| Backend hosting | Railway |
-| Version control | GitHub |
-
----
-
-# 7. Luồng xử lý chi tiết
-
-## Bước 1 — Upload
-
-Frontend gửi file đến backend.
-
-```text
-POST /api/documents
-```
-
-Backend:
-
-- Validate extension.
-- Validate MIME type.
-- Validate size.
-- Tạo processing ID.
-
----
-
-## Bước 2 — AI Analysis
-
-Backend gọi AI service.
-
-```text
-Document
-   ↓
-Extraction Prompt
-   ↓
-Structured Output
-```
-
-Output phải tuân thủ JSON schema.
-
----
-
-## Bước 3 — Validation
-
-Backend kiểm tra:
-
-- Đủ field bắt buộc.
-- Đúng datatype.
-- Không lỗi parse.
-- Có missing information.
-- Có review flag.
-
----
-
-## Bước 4 — Draft Generation
-
-Structured data được đưa vào prompt sinh từng section.
-
-```text
-Structured JSON
-      ↓
-Section Generator
-      ↓
-Draft Description
-```
-
----
-
-## Bước 5 — User Review
-
-Frontend hiển thị:
-
-- Nội dung AI.
-- Cảnh báo.
-- Trường thiếu.
-- Nguồn hỗ trợ nếu có.
-
-Người dùng chỉnh sửa trước khi export.
-
----
-
-## Bước 6 — Export
-
-```text
-Reviewed Data
-      ↓
-docxtpl
-      ↓
-Template
-      ↓
-output.docx
-```
-
----
-
-# 8. API dự kiến
-
-## POST /api/documents
-
-Upload tài liệu.
-
-### Response
-
-```json
-{
-  "document_id": "uuid",
-  "filename": "research-paper.pdf",
-  "status": "uploaded"
-}
-```
-
----
-
-## POST /api/documents/{id}/analyze
-
-Bắt đầu AI analysis.
-
-### Response
-
-```json
-{
-  "document_id": "uuid",
-  "status": "processing"
-}
-```
-
----
-
-## GET /api/documents/{id}/analysis
-
-Lấy structured output.
-
-### Response
-
-```json
-{
-  "status": "completed",
-  "analysis": {
-    "invention_title": "",
-    "technical_field": "",
-    "technical_problem": "",
-    "technical_solution": ""
-  }
-}
-```
-
----
-
-## PUT /api/documents/{id}/draft
-
-Lưu nội dung sau khi user chỉnh sửa.
-
----
-
-## POST /api/documents/{id}/export
-
-Sinh file DOCX.
-
----
-
-# 9. Cấu trúc backend dự kiến
-
-```text
-backend/
-│
-├── app/
-│   ├── main.py
-│   │
-│   ├── api/
-│   │   ├── documents.py
-│   │   └── export.py
-│   │
-│   ├── core/
-│   │   ├── config.py
-│   │   └── security.py
-│   │
-│   ├── schemas/
-│   │   ├── analysis.py
-│   │   └── document.py
-│   │
-│   ├── services/
-│   │   ├── openai_service.py
-│   │   ├── analysis_service.py
-│   │   └── document_service.py
-│   │
-│   └── exporters/
-│       └── docx_exporter.py
-│
-└── tests/
-```
-
----
-
-# 10. Cấu trúc frontend dự kiến
-
-```text
-frontend/
-│
-├── app/
-│   ├── page.tsx
-│   ├── upload/
-│   ├── analysis/
-│   └── review/
-│
-├── components/
-│   ├── UploadBox.tsx
-│   ├── ProcessingStatus.tsx
-│   ├── AnalysisForm.tsx
-│   └── ExportButton.tsx
-│
-└── lib/
-    └── api.ts
-```
-
----
-
-# 11. Quản lý Prompt
-
-Prompt được lưu riêng trong thư mục:
-
-```text
-prompts/
-├── v1/
-│   ├── extraction.md
-│   ├── invention-analysis.md
-│   ├── draft-generation.md
-│   └── validation.md
-└── README.md
-```
-
-Mỗi prompt nên có:
-
-- Version.
-- Mục tiêu.
-- Input.
-- Expected output.
-- Constraints.
-- Evaluation notes.
-
----
-
-# 12. Error Handling
-
-Hệ thống cần xử lý tối thiểu:
-
-| Mã | Trường hợp |
+| Document ID | SPEC-001 |
+| Document title | Đặc tả hệ thống — AI Intellectual Property Description Generator |
+| Version | 0.1.0 |
+| Status | Draft |
+| Owner | Human / Product Owner |
+| Author | ChatGPT/Codex |
+| Reviewer | Gemini Pro |
+| Created date | 18/09/2026 |
+| Last updated | 18/09/2026 |
+| Related task ID | SPEC-001 |
+| Source of Truth | GitHub — `docs/system-specification.md` |
+| Confidentiality level | Internal; tài liệu nghiên cứu đầu vào phải được xử lý như Confidential |
+
+> Tài liệu này là đặc tả dự thảo. Các mục có nhãn `[CẦN XÁC NHẬN]` cần Human / Product Owner quyết định trước khi triển khai hoặc phát hành.
+
+## 2. Lịch sử phiên bản
+
+| Phiên bản cũ | Phiên bản mới | Ngày | Người thực hiện | Thay đổi | Lý do | Finding/Decision liên quan | Breaking change |
+|---|---|---|---|---|---|---|---|
+| Chưa có | 0.1.0 | 18/09/2026 | ChatGPT/Codex | Tạo bản đặc tả hệ thống đầu tiên | Khởi tạo Phase 1 | SPEC-001 | No |
+
+## 3. Tổng quan
+
+AI Intellectual Property Description Generator là nền tảng web hỗ trợ chuyển một bài báo nghiên cứu khoa học dạng PDF hoặc DOCX thành dữ liệu sáng chế có cấu trúc, bản dự thảo patent specification, câu hỏi bổ sung và bằng chứng truy vết về nguồn. Đầu ra chỉ phục vụ rà soát; Human hoặc chuyên gia sở hữu trí tuệ phải kiểm tra trước khi dùng cho bất kỳ mục đích pháp lý hoặc SHTT nào.
+
+Cụm từ “mẫu B của USPTO” trong phạm vi dự án được hiểu là tham chiếu cấu trúc trình bày của patent specification trong các bằng sáng chế tiện ích có mã tài liệu B2, không phải tên một biểu mẫu chính thức của USPTO.
+
+## 4. Bối cảnh bài toán
+
+Bài báo nghiên cứu thường trình bày mục tiêu học thuật, phương pháp, thí nghiệm và kết quả nhưng không được tổ chức theo cấu trúc hồ sơ sáng chế. Việc chuyển đổi thủ công đòi hỏi người thực hiện nhận diện vấn đề kỹ thuật, giải pháp, thành phần hoặc bước thực hiện, hiệu quả kỹ thuật, phương án thực hiện và mối liên hệ giữa từng phát biểu với tài liệu nguồn. Quá trình này tốn thời gian và dễ phát sinh nội dung thiếu căn cứ nếu dùng AI không có cơ chế source grounding.
+
+## 5. Problem Statement
+
+Cần một workflow có kiểm soát để phân tích một bài báo nghiên cứu, chuẩn hóa thông tin kỹ thuật, chỉ ra dữ liệu còn thiếu, tạo bản dự thảo theo cấu trúc patent specification và giữ được đường dẫn bằng chứng đến tài liệu nguồn. Hệ thống phải phân biệt rõ fact, paraphrase, inference và missing; không được biến suy luận thành sự kiện có nguồn.
+
+## 6. Business Objective
+
+- Giảm công sức chuẩn bị bản nháp ban đầu từ bài báo nghiên cứu.
+- Chuẩn hóa cách thu thập thông tin kỹ thuật trước khi chuyên gia SHTT rà soát.
+- Tăng khả năng truy vết giữa nội dung dự thảo và tài liệu nguồn.
+- Phát hiện sớm thông tin thiếu, mâu thuẫn và phát biểu chưa có căn cứ.
+- Tạo đầu ra DOCX có thể chỉnh sửa để phục vụ vòng làm việc Human-in-the-loop.
+
+Hệ thống không thay thế luật sư, đại diện sáng chế hoặc chuyên gia SHTT.
+
+## 7. Mục tiêu hệ thống
+
+1. Nhận một file PDF hoặc DOCX hợp lệ trong mỗi phiên xử lý MVP.
+2. Trích xuất nội dung và bằng chứng nguồn có định vị.
+3. Sinh Structured JSON tuân thủ schema có version.
+4. Xác định vấn đề kỹ thuật, giải pháp, thành phần, bước, đặc trưng khác biệt tiềm năng, hiệu quả và dữ liệu thí nghiệm.
+5. Phát hiện thông tin thiếu và tạo câu hỏi cho tác giả.
+6. Sinh bản dự thảo patent specification, Draft Claims và Abstract tối đa 150 từ.
+7. Cho phép Human rà soát, chỉnh sửa và theo dõi trạng thái từng phần.
+8. Kiểm tra grounding và tính nhất quán trước khi xuất DOCX.
+
+## 8. Phạm vi hệ thống
+
+Phạm vi tổng thể gồm giao diện upload và review, API điều phối, xử lý tài liệu, gọi AI, validation Structured Output, quản lý phiên bản nội dung, kiểm tra grounding, tạo DOCX, xử lý lỗi, audit ở mức MVP và xóa dữ liệu theo quyền của người dùng.
+
+## 9. Phạm vi MVP
+
+- Một bài báo cho một hồ sơ xử lý.
+- Đầu vào PDF có text hoặc DOCX; scanned PDF/OCR `[CẦN XÁC NHẬN]`.
+- Kiểm tra file, phân tích AI, Structured JSON, grounding, missing information và author questions.
+- Draft patent specification gồm các phần có căn cứ; phần thiếu gắn `[CẦN TÁC GIẢ XÁC NHẬN]`.
+- Draft Claims với số lượng và loại claim `[CẦN XÁC NHẬN]`.
+- Abstract không quá 150 từ.
+- Giao diện Human review, chỉnh sửa và trạng thái phê duyệt từng section.
+- Xuất DOCX bằng `docxtpl`.
+- Lưu activity history đủ để biết ai hoặc tác nhân nào thực hiện hành động chính.
+- Structured JSON và DOCX là đầu ra chính.
+- PDF, báo cáo QA và claim–description–source mapping là `[CẦN XÁC NHẬN]` đối với MVP.
+
+## 10. Ngoài phạm vi MVP
+
+- Tự động nộp hồ sơ lên USPTO.
+- Kết luận patentability, tính mới, trình độ sáng tạo hoặc khả năng được cấp bằng.
+- Prior-art search toàn diện.
+- Kết luận chính thức về inventor, inventorship, assignee hoặc quan hệ với đơn khác.
+- Tư vấn pháp lý hoặc cam kết đầu ra sẵn sàng nộp.
+- Fine-tuning model.
+- Multi-agent runtime phức tạp.
+- Hỗ trợ đầy đủ mọi loại hồ sơ SHTT và mọi khu vực pháp lý.
+- Tạo dữ liệu kỹ thuật, kết quả thí nghiệm, hiệu quả hoặc biến thể không có căn cứ.
+- Tự động phê duyệt nội dung thay Human.
+
+## 11. Stakeholder và đối tượng sử dụng
+
+| Stakeholder | Nhu cầu chính | Trách nhiệm |
+|---|---|---|
+| Human / Product Owner | Sản phẩm đúng phạm vi, kiểm soát rủi ro và quyết định | Phê duyệt scope, kiến trúc chính, breaking change và đầu ra cuối |
+| Tác giả/nghiên cứu viên | Chuyển nội dung nghiên cứu thành bản nháp có thể rà soát | Cung cấp tài liệu hợp lệ, trả lời câu hỏi còn thiếu, xác nhận kỹ thuật |
+| Chuyên gia SHTT | Rà soát cấu trúc, claims, căn cứ và rủi ro | Đánh giá chuyên môn trước khi sử dụng pháp lý |
+| ChatGPT/Codex | Triển khai và tích hợp | Lead Developer, System Architect, Integration Owner |
+| Gemini Pro | Review độc lập | Research Analyst, QA Reviewer; không ghi đè artefact production |
+| Quản trị vận hành `[CẦN XÁC NHẬN]` | Quản lý truy cập, vận hành và sự cố | Vai trò và quyền cụ thể `[CẦN XÁC NHẬN]` |
+
+## 12. Actor
+
+- **End User:** upload, xem kết quả, chỉnh sửa, xác nhận section và yêu cầu export.
+- **Human Reviewer:** xác nhận nội dung kỹ thuật và trạng thái section.
+- **System:** kiểm tra file, điều phối pipeline, validation, lưu version và export.
+- **OpenAI Responses API:** tạo Structured Output và bản nháp theo prompt/schema có version.
+- **ChatGPT/Codex:** xây dựng, bảo trì và xử lý review.
+- **Gemini Pro:** review artefact và output được giao.
+
+## 13. User journey
+
+1. Người dùng đăng nhập theo cơ chế `[CẦN XÁC NHẬN]`.
+2. Tạo hồ sơ và upload một PDF hoặc DOCX.
+3. Hệ thống kiểm tra quyền, loại file, tính toàn vẹn và giới hạn kích thước `[CẦN XÁC NHẬN]`.
+4. Hệ thống trích xuất nội dung, tạo định danh đoạn và evidence chunks.
+5. AI tạo Structured JSON; backend validation schema và business rules.
+6. Hệ thống hiển thị dữ liệu, nhãn nguồn, thông tin thiếu và câu hỏi tác giả.
+7. Người dùng chỉnh sửa và xác nhận từng section.
+8. Hệ thống tạo draft, chạy grounding/consistency checks và hiển thị cảnh báo.
+9. Human phê duyệt phần đủ điều kiện hoặc trả về để sửa.
+10. Hệ thống xuất DOCX kèm cảnh báo đây là bản dự thảo cần review chuyên môn.
+
+## 14. Use case chính
+
+### UC-001 — Upload và kiểm tra tài liệu
+
+- **Actor:** End User.
+- **Mục tiêu:** Tạo hồ sơ từ một PDF hoặc DOCX hợp lệ.
+- **Tiền điều kiện:** Người dùng có quyền truy cập; cơ chế authentication `[CẦN XÁC NHẬN]`.
+- **Luồng chính:** Chọn file → gửi upload → backend kiểm tra → tạo document ID → lưu private → trả metadata.
+- **Luồng thay thế:** File trùng được xử lý theo quy tắc duplicate `[CẦN XÁC NHẬN]`.
+- **Lỗi có thể xảy ra:** Sai loại, file hỏng, vượt giới hạn, malware scan không đạt nếu chức năng được phê duyệt, mất kết nối.
+- **Kết quả:** Hồ sơ ở trạng thái sẵn sàng phân tích hoặc lỗi có hướng xử lý.
+- **Acceptance criteria:** Không nhận file ngoài PDF/DOCX; không lộ file qua public URL; lỗi trả mã và thông điệp có correlation ID; không log toàn văn tài liệu.
+
+### UC-002 — Phân tích và trích xuất có cấu trúc
+
+- **Actor:** End User, System, OpenAI Responses API.
+- **Mục tiêu:** Tạo Structured JSON có evidence và nhãn grounding.
+- **Tiền điều kiện:** UC-001 thành công; prompt/schema version hợp lệ.
+- **Luồng chính:** Parse → tạo evidence chunks → gọi AI → validate schema → normalize → lưu version.
+- **Luồng thay thế:** Retry có kiểm soát khi timeout hoặc output sai schema; chính sách retry `[CẦN XÁC NHẬN]`.
+- **Lỗi có thể xảy ra:** Không trích xuất được text, AI timeout, rate limit, output sai schema, không đủ căn cứ.
+- **Kết quả:** Analysis version hoặc trạng thái lỗi; dữ liệu thiếu được đánh dấu.
+- **Acceptance criteria:** Mọi trường quan trọng có evidence hoặc nhãn `INFERENCE`/`MISSING`; không chuyển `INFERENCE` thành `SOURCE_FACT`; output qua schema validation trước khi hiển thị là hợp lệ.
+
+### UC-003 — Rà soát và bổ sung thông tin
+
+- **Actor:** End User, Human Reviewer.
+- **Mục tiêu:** Sửa dữ liệu, trả lời câu hỏi và xác nhận từng phần.
+- **Tiền điều kiện:** Có analysis version.
+- **Luồng chính:** Xem dữ liệu/evidence → chỉnh sửa → ghi lý do → lưu version → đặt section status.
+- **Luồng thay thế:** Phần chưa đủ căn cứ giữ trạng thái cần xác nhận.
+- **Lỗi có thể xảy ra:** Xung đột phiên bản, mất quyền, dữ liệu không hợp lệ.
+- **Kết quả:** Analysis đã chỉnh sửa có lịch sử và attribution.
+- **Acceptance criteria:** Không ghi đè im lặng; lưu người/tác nhân, thời điểm và phiên bản; nội dung Human xác nhận được gắn `HUMAN_CONFIRMED` cùng audit event.
+
+### UC-004 — Tạo và kiểm tra bản dự thảo
+
+- **Actor:** End User, System, OpenAI Responses API, Human Reviewer.
+- **Mục tiêu:** Sinh patent specification draft có grounding.
+- **Tiền điều kiện:** Có Structured JSON hợp lệ.
+- **Luồng chính:** Tạo draft sections → tạo Draft Claims theo phạm vi được xác nhận → tạo Abstract → validation grounding/consistency → Human review.
+- **Luồng thay thế:** Phần không đủ dữ liệu được tạo với `[CẦN TÁC GIẢ XÁC NHẬN]` hoặc bỏ theo quy tắc template đã phê duyệt.
+- **Lỗi có thể xảy ra:** Claim không được description hỗ trợ, nội dung mới không có nguồn, thuật ngữ không nhất quán, AI timeout.
+- **Kết quả:** Draft version và validation report.
+- **Acceptance criteria:** Abstract tối đa 150 từ; claim unsupported bị cảnh báo; các phần bắt buộc không bị âm thầm bỏ qua; draft mang disclaimer rõ ràng.
+
+### UC-005 — Xuất DOCX
+
+- **Actor:** End User, System.
+- **Mục tiêu:** Tải bản dự thảo có thể chỉnh sửa.
+- **Tiền điều kiện:** Có draft version; điều kiện section approval trước export `[CẦN XÁC NHẬN]`.
+- **Luồng chính:** Chọn version → kiểm tra trạng thái/cảnh báo → render `docxtpl` → kiểm tra file → cung cấp tải xuống có kiểm soát.
+- **Luồng thay thế:** Cho phép export có watermark/cảnh báo khi chưa duyệt `[CẦN XÁC NHẬN]`.
+- **Lỗi có thể xảy ra:** Template lỗi, thiếu dữ liệu, render thất bại, liên kết hết hạn.
+- **Kết quả:** DOCX gắn version và audit event.
+- **Acceptance criteria:** File mở được, đúng version, giữ nhãn cần xác nhận và không chứa trường kỹ thuật ngoài draft được chọn.
+
+### UC-006 — Xóa hồ sơ và dữ liệu phát sinh
+
+- **Actor:** End User có quyền, System.
+- **Mục tiêu:** Xóa file nguồn và dữ liệu liên quan theo chính sách.
+- **Tiền điều kiện:** Xác thực và authorization thành công.
+- **Luồng chính:** Yêu cầu xóa → cảnh báo phạm vi → xác nhận → xóa/đánh dấu xóa → ghi audit event không chứa nội dung nhạy cảm.
+- **Luồng thay thế:** Legal hold hoặc backup retention `[CẦN XÁC NHẬN]`.
+- **Lỗi có thể xảy ra:** Không đủ quyền, xóa một phần, storage không khả dụng.
+- **Kết quả:** Trạng thái xóa có thể kiểm chứng.
+- **Acceptance criteria:** Không còn truy cập qua API; báo rõ phạm vi dữ liệu còn trong backup nếu có; không tuyên bố xóa hoàn toàn khi chưa xác minh.
+
+## 15. Functional Requirements
+
+Trạng thái `Draft — cần xác nhận` nghĩa là requirement được đề xuất trong đặc tả nhưng chưa được Human phê duyệt triển khai.
+
+| ID | Tên | Mô tả | Actor | Input | Output | Priority | Dependency | Acceptance criteria | Trạng thái xác nhận |
+|---|---|---|---|---|---|---|---|---|---|
+| FR-001 | Upload PDF/DOCX | Nhận một bài báo PDF hoặc DOCX cho mỗi hồ sơ MVP | End User | File | Document metadata | Must | Auth `[CẦN XÁC NHẬN]` | Chỉ định dạng được phép được nhận | Draft — cần xác nhận |
+| FR-002 | File validation | Xác minh extension, MIME, signature và khả năng đọc | System | File | Validation result | Must | FR-001 | File giả định dạng hoặc hỏng bị từ chối | Draft — cần xác nhận |
+| FR-003 | Kiểm tra kích thước | Áp giới hạn upload do Human phê duyệt | System | File size | Pass/fail | Must | FR-001 | Giới hạn và thông báo lỗi là `[CẦN XÁC NHẬN]` | Draft — cần xác nhận |
+| FR-004 | Phân tích tài liệu | Điều phối parsing và AI analysis | System | Valid document | Analysis job/result | Must | FR-002, AI-002 | Có trạng thái job, lỗi và correlation ID | Draft — cần xác nhận |
+| FR-005 | Structured extraction | Sinh JSON theo schema có version | System, AI | Parsed content | Structured JSON | Must | FR-004, AI-001 | JSON hợp lệ theo đúng schema version | Draft — cần xác nhận |
+| FR-006 | Trích xuất vấn đề kỹ thuật | Nhận diện vấn đề có evidence | AI, Human | Evidence chunks | Technical problems | Must | FR-005 | Mỗi mục có evidence hoặc nhãn phù hợp | Draft — cần xác nhận |
+| FR-007 | Trích xuất giải pháp kỹ thuật | Nhận diện giải pháp và quan hệ với vấn đề | AI, Human | Evidence chunks | Technical solutions | Must | FR-005 | Không tạo giải pháp không có căn cứ | Draft — cần xác nhận |
+| FR-008 | Trích xuất thành phần/bước | Chuẩn hóa component hoặc process step | AI, Human | Evidence chunks | Components/process steps | Must | FR-005 | Giữ thuật ngữ và thứ tự có nguồn | Draft — cần xác nhận |
+| FR-009 | Đặc trưng khác biệt tiềm năng | Ghi nhận đặc trưng được bài báo hỗ trợ; không kết luận novelty | AI, Human | Analysis | Candidate features | Must | FR-005 | Có disclaimer và evidence | Draft — cần xác nhận |
+| FR-010 | Hiệu quả kỹ thuật | Trích xuất effect có căn cứ | AI, Human | Evidence chunks | Technical effects | Must | FR-005 | Không suy diễn công dụng thành fact | Draft — cần xác nhận |
+| FR-011 | Dữ liệu thí nghiệm | Trích bảng, điều kiện, số liệu có định vị nguồn | AI, Human | Tables/text | Experimental data | Must | FR-005 | Giá trị và đơn vị truy vết được | Draft — cần xác nhận |
+| FR-012 | Phát hiện thông tin thiếu | So sánh dữ liệu với yêu cầu draft | System, AI | Structured JSON | Missing list | Must | FR-005 | Mục thiếu không được tự điền | Draft — cần xác nhận |
+| FR-013 | Source evidence | Lưu file, trang, mục, đoạn, bảng/hình, excerpt và trạng thái | System, AI | Parsed content | Evidence records | Must | FR-004 | Nội dung quan trọng liên kết evidence khi có thể | Draft — cần xác nhận |
+| FR-014 | Phân loại grounding | Gán `SOURCE_FACT`, `PARAPHRASE`, `INFERENCE`, `MISSING`, `HUMAN_CONFIRMED` | System, AI, Human | Content/evidence | Grounding label | Must | FR-013 | Không tự nâng cấp `INFERENCE` | Draft — cần xác nhận |
+| FR-015 | Câu hỏi tác giả | Tạo câu hỏi cụ thể cho dữ liệu thiếu/mơ hồ | AI, Human | Missing list | Author questions | Must | FR-012 | Câu hỏi gắn section và lý do | Draft — cần xác nhận |
+| FR-016 | Draft generation | Tạo các section patent specification theo dữ liệu đã kiểm tra | System, AI | Structured JSON | Draft sections | Must | FR-005, FR-014 | Phần thiếu gắn nhãn xác nhận | Draft — cần xác nhận |
+| FR-017 | Draft Claims | Tạo claim nháp trong phạm vi Human phê duyệt | AI, Human | Validated analysis | Draft Claims | Must | FR-016 | Loại/số lượng claim `[CẦN XÁC NHẬN]`; claim có support check | Draft — cần xác nhận |
+| FR-018 | Abstract | Tạo Abstract tối đa 150 từ | AI, Human | Draft | Abstract | Must | FR-016 | Bộ đếm xác nhận không quá 150 từ | Draft — cần xác nhận |
+| FR-019 | Human review | Hiển thị content cùng evidence và cảnh báo | Human | Analysis/draft | Review decisions | Must | FR-013, FR-016 | Human có thể chấp nhận, trả sửa hoặc giữ cần xác nhận | Draft — cần xác nhận |
+| FR-020 | Chỉnh sửa nội dung | Cho phép sửa field/section có attribution | Human | User edits | New content version | Must | FR-019 | Không ghi đè version trước | Draft — cần xác nhận |
+| FR-021 | Section approval | Theo dõi trạng thái từng section | Human | Review action | Section status | Must | FR-019 | Danh sách trạng thái `[CẦN XÁC NHẬN]`; audit được lưu | Draft — cần xác nhận |
+| FR-022 | DOCX generation | Render draft bằng template có version | System | Approved/selected draft | DOCX | Must | FR-016, DOC-001 | File mở được, đúng version và disclaimer | Draft — cần xác nhận |
+| FR-023 | Error handling | Trả lỗi nhất quán, không lộ dữ liệu | System | Failure | Error response | Must | API contract | Có error code, safe message, correlation ID | Draft — cần xác nhận |
+| FR-024 | Version tracking | Quản lý version prompt, schema, template, analysis và draft | System | Artefact change | Version metadata | Must | Version policy | Xác định được artefact nào tạo mỗi output | Draft — cần xác nhận |
+| FR-025 | Activity history | Ghi sự kiện upload, analyze, edit, approve, export, delete | System | User/system actions | Audit events | Must | Auth `[CẦN XÁC NHẬN]` | Có actor, action, time, object/version; không ghi toàn văn | Draft — cần xác nhận |
+| FR-026 | Grounding validation | Kiểm tra nội dung draft với evidence | System, AI, Human | Draft/evidence | Validation results | Must | FR-013, FR-016 | Nội dung không nguồn bị cảnh báo; không tự coi là hợp lệ | Draft — cần xác nhận |
+| FR-027 | Consistency validation | Phát hiện thuật ngữ, số liệu, mâu thuẫn và claim support | System, AI | Analysis/draft | Findings | Must | FR-016 | Finding có location, severity và trạng thái | Draft — cần xác nhận |
+| FR-028 | Data deletion | Xóa hồ sơ và dữ liệu phát sinh theo quyền/chính sách | End User, System | Delete request | Deletion result | Must | Auth/storage policy | API không còn trả dữ liệu đã xóa; backup retention được công bố | Draft — cần xác nhận |
+
+## 16. Non-functional Requirements
+
+| ID | Mô tả | Chỉ số hoặc tiêu chí kiểm tra | Priority | Cách xác minh | Trạng thái xác nhận |
+|---|---|---|---|---|---|
+| NFR-001 | Security | Không có secret trong client/repository; authorization trên mọi tài nguyên | Must | Secret scan, API security test, code review | Draft — cần xác nhận |
+| NFR-002 | Privacy | Không log toàn văn paper; chỉ truyền dữ liệu cho nhà cung cấp được phê duyệt | Must | Log inspection, data-flow review | Draft — cần xác nhận |
+| NFR-003 | Confidentiality | File nguồn private và không có public URL ổn định | Must | Access-control test | Draft — cần xác nhận |
+| NFR-004 | Traceability | Mỗi nội dung kỹ thuật quan trọng có evidence hoặc nhãn không có evidence | Must | Golden-set và manual audit | Draft — cần xác nhận |
+| NFR-005 | Reliability | Job thất bại có trạng thái rõ, không tạo output thành công giả | Must | Failure injection; ngưỡng định lượng `[CẦN XÁC NHẬN]` | Draft — cần xác nhận |
+| NFR-006 | Maintainability | Module, API, prompt, schema và template có version/tài liệu | Should | Repository review, tests | Draft — cần xác nhận |
+| NFR-007 | Scalability | Kiến trúc không khóa khả năng tăng số job; mục tiêu tải `[CẦN XÁC NHẬN]` | Should | Load test sau khi xác nhận workload | Draft — cần xác nhận |
+| NFR-008 | Performance | Thời gian upload/analyze/export mục tiêu `[CẦN XÁC NHẬN]` | Should | Performance test theo dữ liệu thực | Draft — cần xác nhận |
+| NFR-009 | Logging | Log có level, correlation ID và redaction | Must | Automated log tests và review | Draft — cần xác nhận |
+| NFR-010 | Monitoring | Theo dõi error rate, latency, job failure, provider error; ngưỡng cảnh báo `[CẦN XÁC NHẬN]` | Should | Dashboard/alert test khi triển khai | Draft — cần xác nhận |
+| NFR-011 | Secret management | Secret chỉ ở backend environment/secret manager, có rotation process | Must | Deployment review và rotation drill | Draft — cần xác nhận |
+| NFR-012 | Accessibility | Luồng chính dùng được bằng bàn phím, label rõ; chuẩn đích `[CẦN XÁC NHẬN]` | Should | Accessibility audit | Draft — cần xác nhận |
+| NFR-013 | Data deletion | Có thể xóa file nguồn và derived data; thời hạn hoàn tất `[CẦN XÁC NHẬN]` | Must | Deletion end-to-end test | Draft — cần xác nhận |
+| NFR-014 | Backup/recovery | Phạm vi, tần suất, RPO/RTO và retention `[CẦN XÁC NHẬN]` | Should | Restore drill sau khi chính sách được duyệt | Draft — cần xác nhận |
+| NFR-015 | Version compatibility | Output lưu schema/prompt/template version và có strategy migration | Must | Compatibility/regression tests | Draft — cần xác nhận |
+| NFR-016 | Data retention | Retention của source, output, log và backup `[CẦN XÁC NHẬN]` | Must | Policy review và automated expiry test | Draft — cần xác nhận |
+
+## 17. Kiến trúc hệ thống
+
+Luồng kiến trúc định hướng:
+
+`Next.js → FastAPI → OpenAI Responses API → Structured Outputs → Validation → Draft generation → docxtpl → DOCX`
+
+| Thành phần | Trách nhiệm |
 |---|---|
-| 400 | File không hợp lệ |
-| 413 | File quá lớn |
-| 422 | Structured output không hợp lệ |
-| 429 | API rate limit |
-| 500 | Lỗi server |
-| 502 | Lỗi từ AI provider |
-| 504 | Timeout |
+| Next.js + TypeScript | Upload, trạng thái xử lý, review evidence/content, chỉnh sửa, section approval, export |
+| FastAPI + Python | Authorization, API contract, orchestration, parsing, validation, versioning, audit, export |
+| OpenAI Responses API | Extraction và draft generation theo prompt/schema được version hóa |
+| Structured Outputs / JSON Schema | Ràng buộc hình dạng dữ liệu và kiểu dữ liệu |
+| Validation layer | Schema, business rules, grounding, consistency và claim support checks |
+| `docxtpl` | Render draft đã chọn bằng DOCX template có version |
+| Private storage | Lưu file nguồn và export; lựa chọn cụ thể `[CẦN XÁC NHẬN]` |
+| Supabase/PostgreSQL | Optional/MVP+ hoặc chỉ dùng khi Human phê duyệt; không mặc định đã chọn |
+| Vercel | Frontend deployment theo định hướng, cấu hình `[CẦN XÁC NHẬN]` |
+| Railway | Backend deployment theo định hướng, cấu hình `[CẦN XÁC NHẬN]` |
 
-Frontend phải hiển thị thông báo dễ hiểu cho người dùng.
+## 18. Data flow
 
----
+| Dữ liệu | Nguồn | Xử lý | Đích | Quy tắc |
+|---|---|---|---|---|
+| File nguồn | User | Validation, private upload | Private storage | Không public, không commit, có delete path |
+| Parsed content | Parser | Chuẩn hóa text/structure | Temporary/private processing store | Retention `[CẦN XÁC NHẬN]` |
+| Evidence chunks | Parsed content | Gắn page/section/paragraph/table/figure IDs | Analysis store | Không làm mất định vị nguồn |
+| Structured JSON | AI + validator | Schema/business validation | Versioned analysis | Ghi prompt/schema/model metadata phù hợp |
+| Draft sections | Structured JSON | Generation + grounding check | Versioned draft | Nội dung thiếu gắn nhãn |
+| User edits | Human | Validate + version | Analysis/draft history | Attribution và không ghi đè im lặng |
+| Export file | Selected draft | `docxtpl` render | Private download/storage | Gắn template/content version |
+| Logs | Components | Redact | Logging platform `[CẦN XÁC NHẬN]` | Không chứa full paper, secret hoặc prompt payload nhạy cảm |
+| Temporary data | Pipeline | Dùng trong job | Ephemeral storage | Cách xóa và TTL `[CẦN XÁC NHẬN]` |
 
-# 13. Logging
+## 19. AI processing flow
 
-Backend cần log:
+1. **Ingestion:** xác nhận quyền, file metadata và checksum phù hợp.
+2. **Parsing:** trích text, heading, bảng và hình tham chiếu; scanned PDF đi theo quyết định OCR `[CẦN XÁC NHẬN]`.
+3. **Chunking/file retrieval:** giữ context và locator; chiến lược dùng OpenAI File Search hoặc chunking backend `[CẦN XÁC NHẬN]`.
+4. **Extraction:** gọi Responses API bằng extraction prompt và schema version cụ thể.
+5. **Normalization:** chuẩn hóa thuật ngữ, đơn vị và quan hệ nhưng không sửa giá trị nguồn.
+6. **Validation:** kiểm tra schema, kiểu, business rules và tham chiếu evidence.
+7. **Missing-information detection:** gắn `MISSING`, lý do và author question.
+8. **Draft generation:** chỉ dùng dữ liệu đã phân loại; inference phải hiển thị rõ.
+9. **Grounding check:** so nội dung dự thảo với evidence; tạo finding cho unsupported content.
+10. **Human review:** chỉnh sửa, xác nhận hoặc yêu cầu làm lại.
+11. **Export:** render version đã chọn và lưu audit event.
 
-- Request ID.
-- Document ID.
-- Processing stage.
-- Thời gian xử lý.
-- Model.
-- Prompt version.
-- Schema version.
-- Error.
+## 20. Structured Output concept
 
-Không log:
+| Object | Mục đích và quan hệ chính |
+|---|---|
+| `document_metadata` | File ID, tên, loại, checksum, parser metadata và locator conventions |
+| `title_candidates` | Danh sách tiêu đề đề xuất, rationale và evidence; không tự coi là tiêu đề đã duyệt |
+| `technical_field` | Lĩnh vực kỹ thuật với grounding record |
+| `background` | Bối cảnh từ paper; không biến thành prior-art search |
+| `technical_problems` | Vấn đề và evidence; liên kết tới solutions/effects |
+| `technical_solutions` | Giải pháp; liên kết components/process steps/problems |
+| `components` | Thành phần, thuộc tính, quan hệ và evidence |
+| `process_steps` | Bước, thứ tự, điều kiện và evidence |
+| `potential_distinguishing_features` | Đặc trưng khác biệt tiềm năng, không phải kết luận novelty |
+| `technical_effects` | Hiệu quả, điều kiện và mức grounding |
+| `embodiments` | Phương án thực hiện có nguồn; biến thể thiếu nguồn không được tự tạo |
+| `experimental_data` | Bảng/đo, điều kiện, giá trị, đơn vị và source locator |
+| `drawing_requirements` | Hình có sẵn hoặc hình được đề nghị; hình mới cần Human xác nhận |
+| `missing_information` | Field/section thiếu, lý do, impact và owner trả lời |
+| `author_questions` | Câu hỏi liên kết tới missing item |
+| `evidence` | Evidence ID, file, page, section, paragraph, table/figure, excerpt, type, status |
+| `draft_sections` | Section text, version, used evidence IDs, warnings và approval status |
+| `validation_results` | Rule, severity, location, evidence, trạng thái và resolution |
 
-- API key.
-- Token bí mật.
-- Nội dung nhạy cảm không cần thiết.
+Nguyên tắc validation: ID duy nhất trong phạm vi document version; reference phải tồn tại; enum grounding cố định; Abstract không quá 150 từ; field quan trọng phải có evidence hoặc trạng thái thiếu; claim element phải map tới description/evidence hoặc tạo finding; schema không thay thế business-rule validation.
 
----
+## 21. API dự kiến
 
-# 14. Kiểm thử
+Các endpoint dưới đây là contract đề xuất, chưa được khẳng định đã triển khai. Authentication/authorization cụ thể `[CẦN XÁC NHẬN]`; mặc định thiết kế phải từ chối truy cập tài nguyên không thuộc quyền người dùng.
 
-## 14.1. Functional Test
+| Endpoint | Mục đích | Input | Output | Authentication | Error responses | Idempotency |
+|---|---|---|---|---|---|---|
+| `POST /api/documents` | Upload/tạo document | Multipart PDF/DOCX, metadata cho phép | Document metadata, validation status | Required; cơ chế `[CẦN XÁC NHẬN]` | 400, 401, 403, 413, 415, 422, 500 | Idempotency key/checksum policy `[CẦN XÁC NHẬN]` |
+| `GET /api/documents/{id}` | Lấy metadata/trạng thái | Document ID | Document view | Required | 401, 403, 404, 500 | Safe/idempotent |
+| `POST /api/documents/{id}/analyze` | Khởi chạy analysis | Document ID, prompt/schema version tùy chọn được phép | Job/status | Required | 400, 403, 404, 409, 422, 429, 500, 502, 504 | Idempotency key cần hỗ trợ |
+| `GET /api/documents/{id}/analysis` | Lấy analysis version | Document ID, version query | Structured analysis | Required | 403, 404, 500 | Safe/idempotent |
+| `PUT /api/documents/{id}/analysis` | Lưu chỉnh sửa analysis | Base version, patch/full payload `[CẦN XÁC NHẬN]` | New analysis version | Required | 400, 403, 404, 409, 422, 500 | Conditional on base version |
+| `POST /api/documents/{id}/generate-draft` | Tạo draft | Analysis version, generation config được duyệt | Draft job/status | Required | 400, 403, 404, 409, 422, 429, 500, 502, 504 | Idempotency key cần hỗ trợ |
+| `GET /api/documents/{id}/draft` | Lấy draft version | Document ID, version query | Draft sections | Required | 403, 404, 500 | Safe/idempotent |
+| `PUT /api/documents/{id}/draft` | Lưu chỉnh sửa/trạng thái section | Base version, edits/status | New draft version | Required | 400, 403, 404, 409, 422, 500 | Conditional on base version |
+| `POST /api/documents/{id}/validate` | Chạy grounding/consistency | Analysis/draft version, ruleset version | Validation results | Required | 400, 403, 404, 409, 422, 500, 502 | Idempotent theo input/ruleset version |
+| `POST /api/documents/{id}/export` | Tạo DOCX | Draft/template version | Export metadata/download token | Required | 400, 403, 404, 409, 422, 500 | Idempotent theo version hoặc key `[CẦN XÁC NHẬN]` |
+| `DELETE /api/documents/{id}` | Yêu cầu xóa | Document ID, confirmation | Deletion status | Required + delete permission | 401, 403, 404, 409, 500 | Repeated delete không phục hồi dữ liệu |
 
-- Upload PDF hợp lệ.
-- Upload DOCX hợp lệ.
-- Từ chối file sai định dạng.
-- AI trả structured output.
-- Export DOCX thành công.
+Mọi lỗi API phải có mã máy đọc được, thông điệp an toàn, correlation ID và chi tiết validation không chứa nội dung tài liệu nhạy cảm.
 
-## 14.2. AI Evaluation
+## 22. Error handling
 
-Đánh giá:
+| Tình huống | Hành vi yêu cầu |
+|---|---|
+| File không hợp lệ/hỏng | Từ chối trước AI; nêu lý do an toàn và cách chọn lại file |
+| PDF không trích xuất được text | Không tiếp tục như thành công; báo lỗi hoặc chuyển OCR nếu được phê duyệt |
+| Scanned PDF | Gắn trạng thái cần OCR; OCR `[CẦN XÁC NHẬN]` |
+| DOCX không đọc được | Từ chối hoặc yêu cầu file khác; không gửi bytes hỏng tới AI |
+| AI timeout/rate limit | Job ở trạng thái retryable/failed; retry policy `[CẦN XÁC NHẬN]` |
+| AI trả sai schema | Không publish output; validate, retry có giới hạn hoặc yêu cầu xử lý |
+| Không đủ căn cứ | Trả `MISSING`/warning và author question, không bịa nội dung |
+| Export DOCX thất bại | Không tạo link giả; giữ draft, ghi error event và cho thử lại |
+| Mất kết nối | Client hiển thị trạng thái chưa xác định và kiểm tra lại job bằng ID |
+| Không có quyền | Trả 401/403 mà không tiết lộ document có tồn tại hay không theo policy |
+| File quá lớn | Trả 413 theo giới hạn `[CẦN XÁC NHẬN]` trước xử lý tốn kém |
+| Lỗi không xác định | Trả generic message + correlation ID; chi tiết chỉ ở log đã redaction |
 
-- Độ đầy đủ.
-- Độ chính xác so với tài liệu nguồn.
-- Tỷ lệ hallucination.
-- Khả năng phát hiện missing information.
-- Độ ổn định giữa các lần chạy.
-- Chất lượng mapping sang template.
+## 23. Logging và monitoring
 
-## 14.3. Regression Test
+- Được log: timestamp, correlation ID, actor ID dạng phù hợp, action, object ID, version, trạng thái job, latency, token/cost metadata không chứa payload, error code và provider request ID nếu an toàn.
+- Không được log: API key, password/token, toàn văn paper, full parsed text, full AI prompt/response chứa dữ liệu nghiên cứu, signed URL, dữ liệu cá nhân không cần thiết.
+- Level tối thiểu: `INFO`, `WARN`, `ERROR`; `DEBUG` trong production phải mặc định không chứa payload nhạy cảm.
+- Audit event: upload, analysis started/completed/failed, edit, Human confirmation, section status, validation, export và deletion.
+- Monitoring: API availability, job failure, provider error, schema failure, export failure, latency và chi phí; ngưỡng alert `[CẦN XÁC NHẬN]`.
+- Retention period cho application log, audit log và provider metadata: `[CẦN XÁC NHẬN]`.
 
-Chuẩn bị một tập bài báo cố định để test khi:
+## 24. Security
 
-- Đổi prompt.
-- Đổi schema.
-- Đổi model.
-- Đổi template.
+- OpenAI API key chỉ ở FastAPI backend; không gửi sang Next.js client.
+- Authentication/authorization model và tenant isolation: `[CẦN XÁC NHẬN]` trước khi triển khai dữ liệu thật.
+- File nguồn và export ở private storage; download dùng kiểm tra quyền và URL hết hạn nếu áp dụng.
+- Validation extension, MIME, magic bytes, parser isolation và tên file an toàn.
+- Malware scanning: `[CẦN XÁC NHẬN]`; nếu chưa có, không được tuyên bố file đã scan.
+- Encryption in transit bắt buộc; encryption at rest và nhà cung cấp storage `[CẦN XÁC NHẬN]`.
+- Có data deletion workflow; backup retention và legal hold `[CẦN XÁC NHẬN]`.
+- Secret rotation, least privilege và tách môi trường development/staging/production.
+- Dependency lock, vulnerability scanning và cập nhật có kiểm thử.
+- Không commit confidential paper, sample chứa dữ liệu thật, `.env`, token hoặc generated document nhạy cảm.
+- Chính sách dữ liệu của nhà cung cấp AI phải được Human kiểm tra và phê duyệt trước dữ liệu chưa công bố.
 
----
+## 25. Testing strategy
 
-# 15. Tiêu chí hoàn thành MVP
+| Loại test | Phạm vi | Bằng chứng mong đợi |
+|---|---|---|
+| Unit test | Parser helpers, validators, mapping, word count, redaction | Automated test results |
+| Integration test | FastAPI với storage/AI adapter/docxtpl bằng test fixtures an toàn | CI result và logs không chứa fixture nhạy cảm |
+| API test | Contract, authz, validation, idempotency, error shape | Contract test report |
+| Schema validation | Valid/invalid output, enums, references, version | Deterministic test cases |
+| DOCX generation | Required sections, labels, format, file integrity | Generated test DOCX mở được |
+| Security test | Upload abuse, broken access control, secret scan, injection | Security findings/resolution |
+| Regression test | Prompt/schema/template/code versions trên golden set | Comparison report |
+| End-to-end test | Upload → analysis → review → validation → export → delete | Traceable run result |
+| Manual acceptance | Human kiểm tra chất lượng, disclaimer, evidence và workflow | Signed acceptance result |
 
-MVP được xem là hoàn thành khi đáp ứng được toàn bộ luồng sau:
+Không dùng bài báo mật làm fixture trong public CI. Test data và quyền sử dụng phải được xác minh.
 
-```text
-User upload PDF/DOCX
-        ↓
-System accepts file
-        ↓
-AI extracts structured technical data
-        ↓
-System generates IP description draft
-        ↓
-User can review/edit
-        ↓
-System exports valid DOCX
-```
+## 26. AI evaluation strategy
 
-Các tiêu chí tối thiểu:
+| Tiêu chí | Cách đánh giá đề xuất |
+|---|---|
+| Hallucination | Tỷ lệ phát biểu kỹ thuật không có support; ngưỡng `[CẦN XÁC NHẬN]` |
+| Completeness | Coverage của thông tin có trong nguồn so với annotation Human |
+| Source grounding | Độ đúng locator và entailment giữa nội dung với evidence |
+| Missing-information detection | Precision/recall trên danh sách thiếu do Human gán nhãn |
+| Terminology consistency | Số mâu thuẫn thuật ngữ/đơn vị giữa sections |
+| Internal consistency | Mâu thuẫn problem–solution–effect–experiment |
+| Claim support | Tỷ lệ claim elements có description/evidence support |
+| Regression | So sánh phiên bản prompt/schema/model trên cùng golden set |
+| Human reviewer agreement | Mức đồng thuận giữa output và reviewer; cách đo `[CẦN XÁC NHẬN]` |
 
-- Upload hoạt động.
-- AI integration hoạt động.
-- Structured output parse được.
-- Có cơ chế đánh dấu nội dung thiếu / cần review.
-- Có preview.
-- Có export DOCX.
-- Không lộ API key.
-- Có test với ít nhất một bộ tài liệu mẫu.
+Đề xuất xây dựng golden set gồm tài liệu được cấp quyền, annotation và expected evidence. Hiện chưa có bằng chứng golden set đã tồn tại: `[FILE CHƯA TỒN TẠI]`. Kích thước, lĩnh vực, người gán nhãn và ngưỡng pass cần Human phê duyệt.
 
----
+## 27. Traceability
 
-# 16. Ngoài phạm vi MVP
+Chuỗi truy vết bắt buộc:
 
-Các chức năng chưa bắt buộc:
+`Requirement → Use case → API → Test case → Evidence → Acceptance result`
 
-- Automatic patentability conclusion.
-- Legal opinion.
-- Freedom-to-operate analysis.
-- Automated prior-art decision.
-- Multi-user collaboration.
-- Billing.
-- Enterprise SSO.
-- Full patent database search.
-- Automatic filing to patent offices.
+Mỗi requirement phải map tới ít nhất một use case và test; mỗi API contract có test; mỗi acceptance result tham chiếu commit/build/test run. Với nội dung AI, cần thêm chuỗi `Output field/draft sentence → Evidence ID → Source locator → Human status`.
 
----
+## 28. Tiêu chí hoàn thành MVP
 
-# 17. Roadmap đề xuất
+MVP chỉ đạt khi có bằng chứng cho toàn bộ tiêu chí sau:
 
-## Phase 1 — Foundation
+- Luồng một PDF/DOCX hợp lệ đến Structured JSON và DOCX chạy end-to-end trong môi trường được phê duyệt.
+- File invalid, corrupt, unauthorized và unsupported bị xử lý đúng.
+- Structured JSON qua schema và business-rule validation.
+- Nội dung kỹ thuật quan trọng có evidence hoặc nhãn `INFERENCE`/`MISSING` rõ ràng.
+- Human có thể review, edit và xác nhận section mà không mất version cũ.
+- Draft có các phần đã phê duyệt về phạm vi, Draft Claims và Abstract tối đa 150 từ.
+- Grounding/consistency validation phát hiện test cases unsupported và mâu thuẫn đã định nghĩa.
+- DOCX mở được, đúng content/template version và giữ disclaimer/nhãn xác nhận.
+- Security, deletion, secret scan và access-control acceptance tests đạt theo tiêu chí đã phê duyệt.
+- Không còn finding CRITICAL/HIGH mở; finding được chấp nhận có quyết định Human.
+- Tài liệu triển khai, vận hành và handover đủ để tái hiện bản build.
 
-- Hoàn thiện đặc tả.
-- Chốt output schema.
-- Chốt template.
-- Khởi tạo frontend.
-- Khởi tạo backend.
+## 29. Roadmap
 
-## Phase 2 — AI Pipeline
+| Giai đoạn | Kết quả dự kiến | Điều kiện chuyển giai đoạn |
+|---|---|---|
+| Phase 1 — Specification and architecture | Đặc tả, context, AGENTS, ADR, schema/prompt/template proposal | Human phê duyệt phạm vi và quyết định còn mở |
+| Phase 2 — Core pipeline | Upload, parse, extraction, validation và evidence mapping | Core tests đạt; grounding được review |
+| Phase 3 — Draft generation and DOCX | Draft sections, claims scope đã chốt, review UI, DOCX | Template và export acceptance đạt |
+| Phase 4 — Evaluation and stabilization | Golden set, regression, security, error handling | Không còn blocker release |
+| Phase 5 — Deployment and handover | Vercel/Railway theo cấu hình duyệt, runbook, acceptance | Human phê duyệt release |
+| Post-MVP | Các tính năng được quyết định sau MVP | Scope/chi phí/rủi ro được phê duyệt riêng |
 
-- Upload.
-- OpenAI integration.
-- Structured Outputs.
-- Validation.
-- Prompt v1.
+Ngày hoàn thành từng phase: `[CẦN XÁC NHẬN]`. Deadline MVP chung là 02/10/2026.
 
-## Phase 3 — Draft Generator
+## 30. Rủi ro kỹ thuật
 
-- Mapping nội dung.
-- Review UI.
-- DOCX generation.
+| Risk ID | Mô tả | Khả năng | Ảnh hưởng | Biện pháp giảm thiểu | Owner | Status |
+|---|---|---|---|---|---|---|
+| RISK-001 | AI tạo nội dung không có nguồn | Cao | Cao | Schema/evidence bắt buộc, grounding check, Human review | ChatGPT/Codex + Human | Open |
+| RISK-002 | PDF phức tạp làm sai locator | Trung bình | Cao | Parser tests, page mapping, manual evidence preview | ChatGPT/Codex | Open |
+| RISK-003 | Claim vượt support của description | Cao | Cao | Claim-element mapping, warning, chuyên gia SHTT review | Human / chuyên gia SHTT | Open |
+| RISK-004 | Rò rỉ nghiên cứu chưa công bố | Trung bình | Critical | Private storage, access control, redaction, vendor policy review | Human / Product Owner | Open |
+| RISK-005 | Schema/prompt thay đổi làm hỏng output cũ | Trung bình | Cao | Semantic version, compatibility tests, migration policy | ChatGPT/Codex | Open |
+| RISK-006 | Deadline ngắn dẫn tới over-scope | Cao | Cao | Giữ luồng 1 paper, hoãn optional items, quyết định nhanh open questions | Human / Product Owner | Open |
+| RISK-007 | Không có golden set đủ đại diện | Cao | Trung bình | Chọn tài liệu được cấp quyền, annotation protocol, review độc lập | Human + Gemini Pro | Open |
+| RISK-008 | DOCX template không phản ánh yêu cầu chuyên môn | Trung bình | Cao | Template review với chuyên gia SHTT trước khóa version | Human / chuyên gia SHTT | Open |
 
-## Phase 4 — Evaluation
+## 31. Assumptions
 
-- Test nhiều bài báo.
-- Đánh giá hallucination.
-- Chỉnh prompt.
-- Chỉnh schema.
+- Repository `ai-ip-description-generator` được giữ private.
+- Mỗi lần xử lý MVP có một bài báo PDF hoặc DOCX.
+- Người dùng có quyền hợp pháp để cung cấp và xử lý tài liệu.
+- Human/chuyên gia SHTT sẵn sàng review trước khi dùng đầu ra.
+- OpenAI Responses API và Structured Outputs là production AI đã định hướng, nhưng model cụ thể `[CẦN XÁC NHẬN]`.
+- Supabase/PostgreSQL chưa mặc định thuộc MVP nếu chưa được phê duyệt.
+- Hai bằng sáng chế B2 là tài liệu tham chiếu cấu trúc, không phải “mẫu B” chính thức.
 
-## Phase 5 — Deployment
+## 32. Dependencies
 
-- Vercel.
-- Railway.
-- Supabase nếu cần lưu trữ.
+- Quyền sử dụng OpenAI API và chính sách dữ liệu phù hợp.
+- Tài liệu nghiên cứu được cấp quyền và test fixtures không nhạy cảm.
+- Quyết định storage, authentication/authorization và retention.
+- Prompt, schema, API contract và DOCX template có version.
+- Human/chuyên gia SHTT review scope Draft Claims và cấu trúc draft.
+- Vercel/Railway account/config khi đến Phase 5.
+- Google Drive/NotebookLM chỉ phục vụ phối hợp và research, không thay GitHub Technical Source of Truth.
 
----
+## 33. Open questions
 
-# 18. Kết luận
+1. Giới hạn file và số trang của MVP là bao nhiêu?
+2. Có hỗ trợ scanned PDF/OCR trong MVP không?
+3. Cơ chế authentication, organization/tenant và vai trò người dùng là gì?
+4. Private storage nào được dùng trước khi Supabase/PostgreSQL được phê duyệt?
+5. Retention cho source, derived data, export, logs và backup là bao lâu?
+6. Có malware scanning trong MVP không?
+7. Model OpenAI, giới hạn chi phí, timeout và retry policy là gì?
+8. Sử dụng File Search hay backend parsing/chunking cho từng loại tài liệu?
+9. Số lượng, loại và cấu trúc Draft Claims được phép tạo là gì?
+10. Có bắt buộc mọi section được Human approve trước export không?
+11. PDF, QA report và claim mapping có thuộc MVP không?
+12. Bộ test/golden set dùng tài liệu nào, ai annotation và pass threshold là gì?
 
-Kiến trúc ưu tiên nguyên tắc:
+## 34. Các vấn đề cần Human xác nhận
 
-```text
-Source Document
-      ↓
-Structured Extraction
-      ↓
-Validation
-      ↓
-Human Review
-      ↓
-Controlled Document Generation
-```
-
-Mục tiêu của hệ thống không phải là để AI tự động đưa ra kết luận pháp lý, mà là giảm thời gian chuyển đổi nội dung nghiên cứu thành một bản nháp SHTT có cấu trúc, có khả năng truy vết và thuận tiện cho chuyên gia tiếp tục xử lý.
+| ID | Quyết định cần xác nhận | Ảnh hưởng nếu chưa quyết định | Người quyết định |
+|---|---|---|---|
+| HD-001 | Phê duyệt phạm vi MVP và ngoài phạm vi | Không thể khóa acceptance criteria | Human / Product Owner |
+| HD-002 | OCR/scanned PDF | Ảnh hưởng parser, chi phí và timeline | Human / Product Owner |
+| HD-003 | File size/page limits | Không thể cấu hình upload và performance test | Human / Product Owner |
+| HD-004 | Auth, authorization và private storage | Chặn xử lý dữ liệu thật an toàn | Human / Product Owner |
+| HD-005 | Retention/deletion/backup | Chặn phê duyệt privacy và vận hành | Human / Product Owner |
+| HD-006 | Model, File Search/chunking, timeout, retry và cost limit | Chặn khóa AI architecture/runtime | Human / Product Owner |
+| HD-007 | Phạm vi Draft Claims và người review chuyên môn | Chặn tiêu chí export/release | Human / chuyên gia SHTT |
+| HD-008 | DOCX template và các section áp dụng | Chặn DOC-001 | Human / chuyên gia SHTT |
+| HD-009 | Optional PDF/QA/claim mapping | Ảnh hưởng workload trước deadline | Human / Product Owner |
+| HD-010 | Golden set, metrics và threshold | Không thể kết luận chất lượng AI đạt | Human / Product Owner |
