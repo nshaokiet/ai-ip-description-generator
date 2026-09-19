@@ -12,7 +12,7 @@ Planned prompt groups:
 
 Canonical extraction prompt:
 
-- `extraction/v1.0.0/extraction-prompt.md` — AI-002, Gemini review passed; awaiting Human merge approval on PR #3.
+- `extraction/v1.0.0/extraction-prompt.md` — AI-002, Completed — Merged via PR #3 ngày 19/09/2026; Gemini review `PASS`, không có finding.
 - `extraction/v1.0.0/README.md` — input/output contract and integration limits.
 
 Recommended versioning:

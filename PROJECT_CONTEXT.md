@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | SPEC-002 |
 | Document title | Project Context — AI Intellectual Property Description Generator |
-| Version | 0.2.4 |
+| Version | 0.2.5 |
 | Status | Draft |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -30,6 +30,7 @@
 | 0.2.1 | 0.2.2 | 19/09/2026 | ChatGPT/Codex | Ghi nhận AI-001 hoàn tất sau khi Human merge PR #1 | Đồng bộ governance state sau merge | AI-001, REV-AI-001, PR #1, merge commit `49efead593437dfc5c88397ea6f335a2d4ff84d7` | No |
 | 0.2.2 | 0.2.3 | 19/09/2026 | ChatGPT/Codex | Ghi nhận Extraction Prompt v1.0.0 và ranh giới canonical offline validation | Đồng bộ quyết định Human cho AI-002 | AI-002, ADR-007 | No |
 | 0.2.3 | 0.2.4 | 19/09/2026 | ChatGPT/Codex | Ghi nhận Gemini 3.1 Pro High review PASS và PR #3 đang chờ Human merge approval | Đồng bộ review evidence thực tế | AI-002, REV-AI-002, PR #3 | No |
+| 0.2.4 | 0.2.5 | 19/09/2026 | ChatGPT/Codex | Chuyển AI-002 sang Completed sau khi Human merge PR #3 | Đồng bộ governance state sau merge | AI-002, REV-AI-002, PR #3, merge commit `8f2b7082881961cc1a2cf7fa56ece81976759c7f` | No |
 
 ## 2. Project name
 
@@ -107,7 +108,7 @@ Pipeline MVP ưu tiên một paper cho một hồ sơ. Nội dung thiếu không
 | Backend | FastAPI + Python | Requirement; chưa có bằng chứng triển khai |
 | Production AI | OpenAI Responses API | Requirement; model `[CẦN XÁC NHẬN]` |
 | Structured data | JSON Schema Draft 2020-12 | Output Schema v1.0.0 — Completed — Merged via PR #1 |
-| Extraction prompt | Markdown prompt contract | v1.0.0 — Gemini Review Passed — Awaiting Human Merge Approval |
+| Extraction prompt | Markdown prompt contract | v1.0.0 — Completed — Merged via PR #3 |
 | Retrieval | OpenAI File Search nếu cần | Quyết định `[CẦN XÁC NHẬN]` |
 | Database | Supabase/PostgreSQL | Optional/MVP+ hoặc khi được phê duyệt |
 | DOCX | `docxtpl` | Requirement; template `[FILE CHƯA TỒN TẠI]` |
@@ -273,13 +274,13 @@ NotebookLM lưu và tra cứu nguồn được cấp quyền, hỗ trợ groundi
 |---|---|---|---|
 | System Specification | `docs/system-specification.md` | 0.2.1 | Draft file cập nhật cho AI-002 |
 | AI Collaboration Rules | `AGENTS.md` | 0.1.1 | Draft file tồn tại |
-| Project Context | `PROJECT_CONTEXT.md` | 0.2.4 | Ghi nhận Gemini review PASS cho AI-002 và PR #3 đang chờ Human merge approval |
-| Project Control Center source | `docs/operations/01_PROJECT_CONTROL_CENTER.md` | 0.2.4 | Theo dõi AI-002 đang chờ Human merge approval |
-| Gemini Review Log source | `docs/operations/02_GEMINI_REVIEW_LOG.md` | 0.2.2 | REV-AI-001 đã `CLOSED`; REV-AI-002 đã `APPROVED` và chưa đóng |
+| Project Context | `PROJECT_CONTEXT.md` | 0.2.5 | Ghi nhận AI-002 Completed — Merged via PR #3 |
+| Project Control Center source | `docs/operations/01_PROJECT_CONTROL_CENTER.md` | 0.2.5 | Theo dõi AI-001 và AI-002 đã hoàn tất; Phase 1 chưa hoàn tất |
+| Gemini Review Log source | `docs/operations/02_GEMINI_REVIEW_LOG.md` | 0.2.3 | REV-AI-001 và REV-AI-002 đã `CLOSED` |
 | ADR | `docs/decisions/ADR-006-output-schema-v1.md` | ADR-006 | Accepted; Completed — Merged via PR #1 |
 | Production JSON Schema | `schemas/invention-output/v1.0.0/invention-output.schema.json` | 1.0.0 | Completed — Merged via PR #1; Gemini review PASS; 15/15 tests pass |
-| Production extraction prompt | `prompts/extraction/v1.0.0/extraction-prompt.md` | 1.0.0 | Gemini Review Passed — Awaiting Human Merge Approval; canonical offline validation only |
-| Extraction prompt ADR | `docs/decisions/ADR-007-extraction-prompt-v1.md` | ADR-007 | Accepted — Gemini Review Passed — Awaiting Human Merge Approval |
+| Production extraction prompt | `prompts/extraction/v1.0.0/extraction-prompt.md` | 1.0.0 | Completed — Merged via PR #3; canonical offline validation only |
+| Extraction prompt ADR | `docs/decisions/ADR-007-extraction-prompt-v1.md` | ADR-007 | Accepted — Completed — Merged via PR #3 |
 | DOCX template | Chưa xác định | Chưa có | `[FILE CHƯA TỒN TẠI]` |
 | Application code | Chưa khởi tạo | Chưa có | `[FILE CHƯA TỒN TẠI]` |
 
@@ -309,6 +310,6 @@ NotebookLM lưu và tra cứu nguồn được cấp quyền, hỗ trợ groundi
 1. Human review/phê duyệt hoặc chỉnh sửa phạm vi trong system specification.
 2. Gemini review độc lập ba tài liệu kỹ thuật hiện hành và ghi review entry thật.
 3. Human xử lý các câu hỏi chặn về OCR, auth/storage, retention, AI runtime, Draft Claims và optional outputs.
-4. Human xem xét merge PR #3 sau Gemini 3.1 Pro High review `PASS`, không có finding hoặc required change; chưa ghi AI-002 là `Completed` khi PR chưa merge.
+4. Có thể chuẩn bị specification/approval cho DOCX Template v1 theo task riêng; AI-002 đã `Completed — Merged via PR #3` ngày 19/09/2026 tại merge commit `8f2b7082881961cc1a2cf7fa56ece81976759c7f`.
 
-AI-002 không chứng minh Responses API hoặc live-model integration. Canonical Output Schema v1.0.0 không được gửi nguyên trạng vào Structured Outputs strict mode; provider-specific generation schema/adapter cần task runtime và approval riêng.
+AI-002 được merge với implementation commit `f8772b228a23bf7cdec10fa0c463e6d1f672c341` và governance commit `9f2a78b1396cdadb747c263a2bbbbacb8d7f4292`; Gemini review `PASS`, không có finding, AI-001 regression 15/15 và AI-002 tests 17/17 pass. AI-002 không chứng minh Responses API hoặc live-model integration. Canonical Output Schema v1.0.0 không được gửi nguyên trạng vào Structured Outputs strict mode; provider-specific generation schema/adapter cần task runtime và approval riêng. Claims vẫn nằm ngoài Output Schema và Extraction Prompt v1.0.0.

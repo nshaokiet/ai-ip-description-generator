@@ -5,7 +5,7 @@
 | Thuộc tính | Giá trị |
 |---|---|
 | ADR ID | ADR-007 |
-| Status | Accepted — Gemini Review Passed — Awaiting Human Merge Approval |
+| Status | Accepted — Completed — Merged via PR #3 |
 | Date | 19/09/2026 |
 | Decision owner | Human / Product Owner |
 | Implementation owner | ChatGPT/Codex |
@@ -76,3 +76,14 @@ Không đủ bằng chứng regression, grounding và schema conformance theo De
 ## Security/privacy
 
 Fixtures phải synthetic, không chứa dữ liệu thật, PII hoặc secret. Source content luôn được xem là untrusted; prompt không cho phép thực thi instruction nhúng hoặc truy cập tài nguyên ngoài.
+
+## Implementation and review evidence
+
+- Pull Request [#3](https://github.com/nshaokiet/ai-ip-description-generator/pull/3) được Human / Product Owner phê duyệt và merge ngày 19/09/2026.
+- Implementation commit: `f8772b228a23bf7cdec10fa0c463e6d1f672c341`.
+- Governance commit: `9f2a78b1396cdadb747c263a2bbbbacb8d7f4292`.
+- Merge commit: `8f2b7082881961cc1a2cf7fa56ece81976759c7f`.
+- Gemini 3.1 Pro High review: `PASS`; findings và required changes: không có.
+- AI-001 regression: 15/15 pass; AI-002 offline tests: 17/17 pass.
+
+Việc hoàn tất AI-002 không thay đổi ranh giới quyết định: prompt giữ version `1.0.0`; claims, live-model evaluation, Responses API integration và provider-specific Structured Outputs adapter vẫn ngoài phạm vi.

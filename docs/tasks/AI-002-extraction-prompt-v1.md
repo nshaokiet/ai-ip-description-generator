@@ -8,13 +8,15 @@
 | Owner | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro (High) |
 | Approver | Human / Product Owner |
-| Status | Gemini Review Passed — Awaiting Human Merge Approval |
+| Status | Completed — Merged via PR #3 |
 | Prompt version | 1.0.0 |
 | Output contract | Output Schema v1.0.0 |
 | Base commit | `c78ac5bcd0514dfedee2983d9155ee278a34cfd5` |
 | Branch | `ai/extraction-prompt-v1` |
 | Implementation commit | `f8772b228a23bf7cdec10fa0c463e6d1f672c341` |
-| Pull Request | [#3](https://github.com/nshaokiet/ai-ip-description-generator/pull/3) — open, chưa merge |
+| Governance commit | `9f2a78b1396cdadb747c263a2bbbbacb8d7f4292` |
+| Pull Request | [#3](https://github.com/nshaokiet/ai-ip-description-generator/pull/3) — merged 19/09/2026 |
+| Merge commit | `8f2b7082881961cc1a2cf7fa56ece81976759c7f` |
 | Date | 19/09/2026 |
 
 ## Mục tiêu
@@ -62,7 +64,7 @@ Expected outputs trong fixtures là oracle offline cho contract validation; chú
 - [x] `git diff --check` đạt và diff chỉ chứa file được Human phê duyệt.
 - [x] Không chứa secret, PII hoặc dữ liệu nghiên cứu thật.
 - [x] Gemini 3.1 Pro High independent review hoàn tất với verdict `PASS`, không có finding hoặc required change.
-- [ ] Human merge approval cho PR #3 được thực hiện và có merge commit làm bằng chứng.
+- [x] Human merge approval cho PR #3 được thực hiện ngày 19/09/2026; merge commit `8f2b7082881961cc1a2cf7fa56ece81976759c7f`.
 
 ## Verification commands
 
@@ -79,3 +81,7 @@ git diff --name-only
 ## Không phải bằng chứng runtime
 
 AI-002 chưa gọi model thật. Test pass chỉ chứng minh prompt/fixture contract, schema conformance của expected outputs và business invariants offline; không chứng minh model sẽ luôn tuân thủ prompt. Live evaluation cần task, dataset và Human approval riêng.
+
+## Closeout evidence
+
+AI-002 đã `Completed — Merged via PR #3`. Gemini 3.1 Pro High review `PASS`, không có finding hoặc required change; AI-001 regression 15/15 và AI-002 offline tests 17/17 pass. Human / Product Owner đã phê duyệt và merge PR #3 ngày 19/09/2026. Prompt vẫn ở version `1.0.0`; claims, DOCX template, backend, frontend, runtime, Responses API integration và live-model evaluation không được triển khai trong task này.
