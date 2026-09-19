@@ -76,4 +76,4 @@ Thiết kế này tạo contract rõ ràng trước khi có runtime, bắt lỗi
 
 ## Review status
 
-Decision đã được Human/Product Owner phê duyệt. Gemini 3.1 Pro full review và targeted whitespace re-review đều `PASS`, không có finding. Trạng thái hiện tại là **Gemini Review Passed — Awaiting Human Merge Approval** tại PR #1; ADR acceptance và review PASS không đồng nghĩa AI-001 đã `Completed` hoặc PR đã merge.
+Decision đã được Human/Product Owner phê duyệt. Gemini 3.1 Pro full review và targeted whitespace re-review đều `PASS`, không có finding; 15/15 tests pass. Trạng thái hiện tại là **Completed — Merged via PR #1**: Human đã merge PR #1 ngày 19/09/2026 tại commit `49efead593437dfc5c88397ea6f335a2d4ff84d7`.

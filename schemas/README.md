@@ -4,6 +4,6 @@ Các schema production của dự án được lưu theo artefact và semantic v
 
 | Artefact | Version | Canonical path | Status |
 |---|---|---|---|
-| Invention Output | 1.0.0 | `schemas/invention-output/v1.0.0/invention-output.schema.json` | Gemini Review Passed — Awaiting Human Merge Approval |
+| Invention Output | 1.0.0 | `schemas/invention-output/v1.0.0/invention-output.schema.json` | Completed — Merged via PR #1 |
 
 Hướng dẫn và field contract: [`invention-output/v1.0.0/README.md`](invention-output/v1.0.0/README.md).

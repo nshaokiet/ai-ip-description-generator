@@ -2,7 +2,9 @@
 
 Canonical schema: `schemas/invention-output/v1.0.0/invention-output.schema.json`
 JSON Schema dialect: Draft 2020-12
-Status: **Gemini Review Passed — Awaiting Human Merge Approval**
+Status: **Completed — Merged via PR #1**
+
+Merge evidence: PR [#1](https://github.com/nshaokiet/ai-ip-description-generator/pull/1), commit `49efead593437dfc5c88397ea6f335a2d4ff84d7`, 19/09/2026. Gemini review: `PASS`; tests: 15/15 pass; findings: không có.
 
 ## Purpose and boundary
 
