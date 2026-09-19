@@ -10,13 +10,13 @@
 | Document title | Gemini Review Log |
 | Project | AI Intellectual Property Description Generator |
 | Project deadline | 02/10/2026 |
-| Version | 0.2.2 |
+| Version | 0.2.3 |
 | Status | Active review log |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini Pro |
 | Created date | 18/09/2026 |
-| Last updated | 19/09/2026 10:56 GMT+7 |
+| Last updated | 19/09/2026 11:15 GMT+7 |
 | Related task ID | REVIEW-001; AI-001; AI-002 |
 | Source of Truth | Review history; bản nguồn Git tại `docs/operations/02_GEMINI_REVIEW_LOG.md` |
 | Confidentiality level | Internal; findings về research input có thể là Confidential |
@@ -29,6 +29,7 @@
 | 0.1.0 | 0.2.0 | 18/09/2026 | ChatGPT/Codex | Ghi review entry AI-001 từ kết quả Gemini 3.1 Pro được Human xác nhận | Governance closeout trước merge | REV-AI-001, AI-001, PR #1 | No |
 | 0.2.0 | 0.2.1 | 19/09/2026 | ChatGPT/Codex | Ghi Human decision, merge resolution và đóng REV-AI-001 | Governance closeout sau merge | REV-AI-001, AI-001, PR #1, merge commit `49efead593437dfc5c88397ea6f335a2d4ff84d7` | No |
 | 0.2.1 | 0.2.2 | 19/09/2026 | ChatGPT/Codex | Ghi independent review PASS cho Extraction Prompt v1.0.0; PR #3 vẫn open | Đồng bộ review evidence được Human xác nhận trước merge | REV-AI-002, AI-002, PR #3 | No |
+| 0.2.2 | 0.2.3 | 19/09/2026 | ChatGPT/Codex | Ghi Human decision, merge resolution và đóng REV-AI-002 | Governance closeout sau merge | REV-AI-002, AI-002, PR #3, merge commit `8f2b7082881961cc1a2cf7fa56ece81976759c7f` | No |
 
 ## 2. Review Rules
 
@@ -74,7 +75,7 @@
 | Review ID | Date | Task ID | Artefact | Version | Recommendation | Status |
 |---|---|---|---|---|---|---|
 | REV-AI-001 | 18/09/2026 | AI-001 | Output Schema v1.0.0 và supporting artefacts | Commit `69b85be6b55cf2c46fc4f02bbfbf3083d2389299`; resolved by merge commit `49efead593437dfc5c88397ea6f335a2d4ff84d7` | APPROVE | CLOSED |
-| REV-AI-002 | 19/09/2026 | AI-002 | Extraction Prompt v1.0.0 | Commit `f8772b228a23bf7cdec10fa0c463e6d1f672c341`; PR #3 open | APPROVE | APPROVED — Awaiting Human Merge Decision |
+| REV-AI-002 | 19/09/2026 | AI-002 | Extraction Prompt v1.0.0 | Commit `f8772b228a23bf7cdec10fa0c463e6d1f672c341`; resolved by merge commit `8f2b7082881961cc1a2cf7fa56ece81976759c7f` | APPROVE | CLOSED |
 
 Các entry `REV-AI-001` và `REV-AI-002` được ChatGPT/Codex ghi lại từ kết quả Gemini do Human / Product Owner xác nhận; Gemini không sửa production artefact.
 
@@ -365,11 +366,11 @@ Extraction Prompt v1.0.0 và supporting artefacts tại implementation commit `f
 
 #### Version reviewed
 
-Extraction Prompt `1.0.0`; branch `ai/extraction-prompt-v1`; implementation commit `f8772b228a23bf7cdec10fa0c463e6d1f672c341`.
+Extraction Prompt `1.0.0`; branch `ai/extraction-prompt-v1`; implementation commit `f8772b228a23bf7cdec10fa0c463e6d1f672c341`; governance commit `9f2a78b1396cdadb747c263a2bbbbacb8d7f4292`; resolved by merge commit `8f2b7082881961cc1a2cf7fa56ece81976759c7f`.
 
 #### Review status
 
-`APPROVED — Awaiting Human Merge Decision`
+`CLOSED`
 
 #### 1. Review Objective
 
@@ -378,7 +379,8 @@ Review độc lập, chỉ đọc canonical Extraction Prompt v1.0.0, JSON input
 #### 2. Sources Reviewed
 
 - Branch `ai/extraction-prompt-v1` tại commit `f8772b228a23bf7cdec10fa0c463e6d1f672c341`.
-- Pull Request [#3](https://github.com/nshaokiet/ai-ip-description-generator/pull/3), title `AI-002: Add Extraction Prompt v1.0.0`, base `main`, head `ai/extraction-prompt-v1`; trạng thái open, chưa merge.
+- Pull Request [#3](https://github.com/nshaokiet/ai-ip-description-generator/pull/3), title `AI-002: Add Extraction Prompt v1.0.0`, base `main`, head `ai/extraction-prompt-v1`; Human merge ngày 19/09/2026.
+- Governance commit `9f2a78b1396cdadb747c263a2bbbbacb8d7f4292`; merge commit `8f2b7082881961cc1a2cf7fa56ece81976759c7f`.
 - Canonical prompt `prompts/extraction/v1.0.0/extraction-prompt.md` và ADR-007.
 - Sáu fixtures synthetic và automated offline tests của AI-002.
 - Python 3.12.10; `jsonschema` 4.26.0.
@@ -387,7 +389,7 @@ Review độc lập, chỉ đọc canonical Extraction Prompt v1.0.0, JSON input
 
 #### 3. Summary
 
-Gemini 3.1 Pro High independent review verdict: `PASS`. Không có finding và không có required change. Recommendation là `APPROVE`. PR #3 vẫn open và đang chờ Human merge decision; AI-002 chưa `Completed`.
+Gemini 3.1 Pro High independent review verdict: `PASS`. Không có finding và không có required change. Recommendation là `APPROVE`. Human / Product Owner đã phê duyệt và merge PR #3 ngày 19/09/2026; AI-002 có trạng thái `Completed — Merged via PR #3`.
 
 #### 4. Findings
 
@@ -405,7 +407,7 @@ Không có finding. Prompt giữ các ràng buộc không dùng external knowled
 
 #### 7. Missing Information
 
-Không có missing information chặn merge recommendation. Human merge decision cho PR #3 chưa được thực hiện.
+Không có missing information chặn closeout. Human merge approval cho PR #3 đã được thực hiện ngày 19/09/2026.
 
 #### 8. Technical Concerns
 
@@ -421,7 +423,7 @@ Không có finding. Extraction Prompt và Output Schema giữ version `1.0.0`; c
 
 #### 11. Suggested Changes
 
-Không có thay đổi bắt buộc. Required changes: Không có. Chỉ đồng bộ governance state và chờ Human merge decision.
+Không có thay đổi bắt buộc. Required changes: Không có. Governance state được đồng bộ với merge evidence; technical artefacts giữ nguyên.
 
 #### 12. Recommendation
 
@@ -433,16 +435,16 @@ Không có thay đổi bắt buộc. Required changes: Không có. Chỉ đồng
 Task ID: AI-002
 Agent: Gemini 3.1 Pro High
 Reviewer: Human / Product Owner
-Status: APPROVED — Awaiting Human Merge Decision
-Version: Extraction Prompt 1.0.0; reviewed commit f8772b228a23bf7cdec10fa0c463e6d1f672c341; PR #3 open
+Status: CLOSED — AI-002 Completed — Merged via PR #3
+Version: Extraction Prompt 1.0.0; reviewed commit f8772b228a23bf7cdec10fa0c463e6d1f672c341; governance commit 9f2a78b1396cdadb747c263a2bbbbacb8d7f4292; resolved by merge commit 8f2b7082881961cc1a2cf7fa56ece81976759c7f
 Work completed: Independent read-only review hoàn tất với verdict PASS; không có finding hoặc required change.
 Files affected: Review log only; production artefact not overwritten
 Evidence checked: Python 3.12.10; jsonschema 4.26.0; AI-001 15/15 pass; AI-002 17/17 pass; whitespace, scope và security checks PASS; PR #3.
 Findings: Không có.
-Decisions: Recommendation APPROVE; Human merge decision vẫn đang chờ.
-Issues: PR #3 chưa merge; review chưa CLOSED.
+Decisions: Recommendation APPROVE; Human / Product Owner đã phê duyệt và merge PR #3 ngày 19/09/2026.
+Issues: Không có finding hoặc required change; provider integration và live-model evaluation vẫn ngoài phạm vi AI-002.
 Security impact: PASS; không phát hiện secret, cache, PII hoặc dữ liệu nghiên cứu thật.
-Recommended next action: Targeted re-review governance update; sau đó Human quyết định merge PR #3.
+Recommended next action: Targeted review governance closeout; sau đó có thể chuẩn bị specification/approval cho DOCX Template v1 theo task riêng.
 ```
 
 #### 14. ChatGPT/Codex Response
@@ -451,20 +453,20 @@ Không có finding cần `ACCEPT`, `PARTIALLY ACCEPT`, `REJECT WITH REASON` ho�
 
 #### 15. Human Decision
 
-Human / Product Owner xác nhận verdict `PASS`, findings `Không có`, required changes `Không có` và cho phép ghi review evidence vào governance documents. Human chưa thực hiện merge approval cho PR #3.
+Human Decision: Approve và merge PR #3. Human / Product Owner xác nhận verdict `PASS`, findings `Không có`, required changes `Không có`; merge được thực hiện ngày 19/09/2026.
 
 #### 16. Resolution
 
-Không có finding cần resolution. Review evidence gắn với implementation commit `f8772b228a23bf7cdec10fa0c463e6d1f672c341` và PR #3. Review chưa đóng vì PR #3 chưa được Human merge.
+Merged successfully. Review evidence gắn với implementation commit `f8772b228a23bf7cdec10fa0c463e6d1f672c341`, governance commit `9f2a78b1396cdadb747c263a2bbbbacb8d7f4292`, PR #3 và merge commit `8f2b7082881961cc1a2cf7fa56ece81976759c7f`. Không có finding cần xử lý.
 
 #### 17. Resolved Version
 
-`[CHƯA CÓ — PR #3 CHƯA MERGE]`
+`8f2b7082881961cc1a2cf7fa56ece81976759c7f`
 
 #### 18. Closed Date
 
-`[CHƯA ĐÓNG]`
+`19/09/2026`
 
 #### 19. Closed By
 
-`[CHƯA ĐÓNG]`
+Human / Product Owner.
