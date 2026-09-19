@@ -1,0 +1,170 @@
+{
+  "case_id": "baseline-research",
+  "description": "Synthetic technical passage with a supported problem, solution, components, process step, and effect.",
+  "expected_outcome": "SCHEMA_VALID_OUTPUT",
+  "input": {
+    "document_metadata": {
+      "document_id": "doc-baseline",
+      "file_name": "synthetic-baseline.pdf",
+      "media_type": "application/pdf"
+    },
+    "source_units": [
+      {
+        "evidence_id": "ev-baseline-1",
+        "evidence_type": "TEXT",
+        "locator": {
+          "page": 1,
+          "section": "Synthetic technical summary",
+          "paragraph_id": "p-1"
+        },
+        "content": "Optical monitoring systems can lose measurements when dust blocks a fixed detector. A sensor module measures reflected light, and a controller rotates a cleaning ring when the signal falls below a threshold. The cleaning action restores the optical path without stopping measurement."
+      }
+    ]
+  },
+  "expected_output": {
+    "schema_version": "1.0.0",
+    "output_type": "STRUCTURED_INVENTION_ANALYSIS",
+    "output_notice": {
+      "status": "DRAFT",
+      "human_review_required": true,
+      "is_legal_advice": false,
+      "filing_ready": false,
+      "includes_patentability_assessment": false
+    },
+    "document_metadata": {
+      "document_id": "doc-baseline",
+      "file_name": "synthetic-baseline.pdf",
+      "media_type": "application/pdf"
+    },
+    "title_candidates": [
+      {
+        "title_id": "title-1",
+        "title": "Self-cleaning optical monitoring module",
+        "rationale": "The title summarizes the source-supported detector cleaning arrangement.",
+        "grounding": {
+          "label": "INFERENCE",
+          "evidence_ids": ["ev-baseline-1"]
+        }
+      }
+    ],
+    "technical_field": {
+      "status": "PRESENT",
+      "item": {
+        "field_id": "field-1",
+        "name": "Optical monitoring systems",
+        "grounding": {
+          "label": "SOURCE_FACT",
+          "evidence_ids": ["ev-baseline-1"]
+        }
+      }
+    },
+    "background": [],
+    "technical_problems": [
+      {
+        "problem_id": "problem-1",
+        "statement": "Optical monitoring systems can lose measurements when dust blocks a fixed detector.",
+        "grounding": {
+          "label": "SOURCE_FACT",
+          "evidence_ids": ["ev-baseline-1"]
+        }
+      }
+    ],
+    "technical_solutions": [
+      {
+        "solution_id": "solution-1",
+        "statement": "A controller rotates a cleaning ring when the reflected-light signal falls below a threshold.",
+        "addresses_problem_ids": ["problem-1"],
+        "grounding": {
+          "label": "PARAPHRASE",
+          "evidence_ids": ["ev-baseline-1"]
+        }
+      }
+    ],
+    "components": [
+      {
+        "component_id": "component-sensor",
+        "name": "sensor module",
+        "related_component_ids": ["component-controller"],
+        "grounding": {
+          "label": "SOURCE_FACT",
+          "evidence_ids": ["ev-baseline-1"]
+        }
+      },
+      {
+        "component_id": "component-controller",
+        "name": "controller",
+        "related_component_ids": ["component-ring"],
+        "grounding": {
+          "label": "SOURCE_FACT",
+          "evidence_ids": ["ev-baseline-1"]
+        }
+      },
+      {
+        "component_id": "component-ring",
+        "name": "cleaning ring",
+        "related_component_ids": [],
+        "grounding": {
+          "label": "SOURCE_FACT",
+          "evidence_ids": ["ev-baseline-1"]
+        }
+      }
+    ],
+    "process_steps": [
+      {
+        "step_id": "step-1",
+        "sequence": 1,
+        "action": "Measure reflected light with the sensor module.",
+        "input_component_ids": ["component-sensor"],
+        "output_component_ids": ["component-controller"],
+        "conditions": [],
+        "grounding": {
+          "label": "PARAPHRASE",
+          "evidence_ids": ["ev-baseline-1"]
+        }
+      },
+      {
+        "step_id": "step-2",
+        "sequence": 2,
+        "action": "Rotate the cleaning ring when the signal falls below a threshold.",
+        "input_component_ids": ["component-controller"],
+        "output_component_ids": ["component-ring"],
+        "conditions": [],
+        "grounding": {
+          "label": "PARAPHRASE",
+          "evidence_ids": ["ev-baseline-1"]
+        }
+      }
+    ],
+    "potential_distinguishing_features": [],
+    "technical_effects": [
+      {
+        "effect_id": "effect-1",
+        "statement": "The cleaning action restores the optical path without stopping measurement.",
+        "related_solution_ids": ["solution-1"],
+        "conditions": [],
+        "grounding": {
+          "label": "SOURCE_FACT",
+          "evidence_ids": ["ev-baseline-1"]
+        }
+      }
+    ],
+    "embodiments": [],
+    "experimental_data": [],
+    "drawing_requirements": [],
+    "missing_information": [],
+    "author_questions": [],
+    "evidence": [
+      {
+        "evidence_id": "ev-baseline-1",
+        "document_id": "doc-baseline",
+        "evidence_type": "TEXT",
+        "locator": {
+          "page": 1,
+          "section": "Synthetic technical summary",
+          "paragraph_id": "p-1"
+        },
+        "excerpt": "Optical monitoring systems can lose measurements when dust blocks a fixed detector. A sensor module measures reflected light, and a controller rotates a cleaning ring when the signal falls below a threshold. The cleaning action restores the optical path without stopping measurement."
+      }
+    ]
+  }
+}

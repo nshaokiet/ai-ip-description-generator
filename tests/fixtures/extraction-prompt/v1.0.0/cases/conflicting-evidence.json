@@ -1,0 +1,111 @@
+{
+  "case_id": "conflicting-evidence",
+  "description": "Two synthetic source units report different response times for the same configuration.",
+  "expected_outcome": "SCHEMA_VALID_OUTPUT",
+  "input": {
+    "document_metadata": {
+      "document_id": "doc-conflict",
+      "file_name": "synthetic-conflict.pdf",
+      "media_type": "application/pdf"
+    },
+    "source_units": [
+      {
+        "evidence_id": "ev-conflict-a",
+        "evidence_type": "TABLE",
+        "locator": {
+          "page": 4,
+          "table_id": "table-a"
+        },
+        "content": "For configuration C, Trial A reports a response time of 2 seconds."
+      },
+      {
+        "evidence_id": "ev-conflict-b",
+        "evidence_type": "TEXT",
+        "locator": {
+          "page": 5,
+          "paragraph_id": "p-results"
+        },
+        "content": "For configuration C, Trial B reports a response time of 5 seconds."
+      }
+    ]
+  },
+  "expected_output": {
+    "schema_version": "1.0.0",
+    "output_type": "STRUCTURED_INVENTION_ANALYSIS",
+    "output_notice": {
+      "status": "DRAFT",
+      "human_review_required": true,
+      "is_legal_advice": false,
+      "filing_ready": false,
+      "includes_patentability_assessment": false
+    },
+    "document_metadata": {
+      "document_id": "doc-conflict",
+      "file_name": "synthetic-conflict.pdf",
+      "media_type": "application/pdf"
+    },
+    "title_candidates": [],
+    "technical_field": {
+      "status": "PRESENT",
+      "item": {
+        "field_id": "field-1",
+        "name": "Response-time testing",
+        "grounding": {
+          "label": "INFERENCE",
+          "evidence_ids": ["ev-conflict-a", "ev-conflict-b"]
+        }
+      }
+    },
+    "background": [],
+    "technical_problems": [],
+    "technical_solutions": [],
+    "components": [],
+    "process_steps": [],
+    "potential_distinguishing_features": [],
+    "technical_effects": [],
+    "embodiments": [],
+    "experimental_data": [],
+    "drawing_requirements": [],
+    "missing_information": [
+      {
+        "missing_id": "missing-response-time",
+        "target_path": "/experimental_data",
+        "description": "The reported response time for configuration C conflicts between Trial A and Trial B.",
+        "reason": "CONFLICTING",
+        "impact": "HIGH",
+        "owner": "AUTHOR",
+        "grounding_label": "MISSING"
+      }
+    ],
+    "author_questions": [
+      {
+        "question_id": "question-response-time",
+        "missing_information_id": "missing-response-time",
+        "question": "Which response time is correct for configuration C, and what explains the discrepancy?",
+        "priority": "HIGH"
+      }
+    ],
+    "evidence": [
+      {
+        "evidence_id": "ev-conflict-a",
+        "document_id": "doc-conflict",
+        "evidence_type": "TABLE",
+        "locator": {
+          "page": 4,
+          "table_id": "table-a"
+        },
+        "excerpt": "For configuration C, Trial A reports a response time of 2 seconds."
+      },
+      {
+        "evidence_id": "ev-conflict-b",
+        "document_id": "doc-conflict",
+        "evidence_type": "TEXT",
+        "locator": {
+          "page": 5,
+          "paragraph_id": "p-results"
+        },
+        "excerpt": "For configuration C, Trial B reports a response time of 5 seconds."
+      }
+    ]
+  }
+}

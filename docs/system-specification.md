@@ -8,13 +8,13 @@
 |---|---|
 | Document ID | SPEC-001 |
 | Document title | Đặc tả hệ thống — AI Intellectual Property Description Generator |
-| Version | 0.2.0 |
+| Version | 0.2.1 |
 | Status | Draft |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini Pro |
 | Created date | 18/09/2026 |
-| Last updated | 18/09/2026 |
+| Last updated | 19/09/2026 |
 | Related task ID | SPEC-001 |
 | Source of Truth | GitHub — `docs/system-specification.md` |
 | Confidentiality level | Internal; tài liệu nghiên cứu đầu vào phải được xử lý như Confidential |
@@ -27,6 +27,7 @@
 |---|---|---|---|---|---|---|---|
 | Chưa có | 0.1.0 | 18/09/2026 | ChatGPT/Codex | Tạo bản đặc tả hệ thống đầu tiên | Khởi tạo Phase 1 | SPEC-001 | No |
 | 0.1.0 | 0.2.0 | 18/09/2026 | ChatGPT/Codex | Liên kết Output Schema v1.0.0 và ghi rõ ranh giới contract | Đồng bộ quyết định Human cho AI-001 | AI-001, ADR-006 | No |
+| 0.2.0 | 0.2.1 | 19/09/2026 | ChatGPT/Codex | Liên kết Extraction Prompt v1.0.0, input envelope và giới hạn provider integration | Đồng bộ quyết định Human cho AI-002 | AI-002, ADR-007 | No |
 
 ## 3. Tổng quan
 
@@ -289,7 +290,7 @@ Luồng kiến trúc định hướng:
 1. **Ingestion:** xác nhận quyền, file metadata và checksum phù hợp.
 2. **Parsing:** trích text, heading, bảng và hình tham chiếu; scanned PDF đi theo quyết định OCR `[CẦN XÁC NHẬN]`.
 3. **Chunking/file retrieval:** giữ context và locator; chiến lược dùng OpenAI File Search hoặc chunking backend `[CẦN XÁC NHẬN]`.
-4. **Extraction:** gọi Responses API bằng extraction prompt và schema version cụ thể.
+4. **Extraction:** runtime tương lai gọi model bằng extraction prompt và schema version cụ thể; AI-002 mới chỉ kiểm tra canonical prompt contract offline.
 5. **Normalization:** chuẩn hóa thuật ngữ, đơn vị và quan hệ nhưng không sửa giá trị nguồn.
 6. **Validation:** kiểm tra schema, kiểu, business rules và tham chiếu evidence.
 7. **Missing-information detection:** gắn `MISSING`, lý do và author question.
@@ -326,6 +327,10 @@ Mọi object trong v1.0.0 là strict (`additionalProperties: false`). Grounding 
 | `validation_results` | Rule, severity, location, evidence, trạng thái và resolution |
 
 Nguyên tắc validation: JSON Schema kiểm tra shape, type, enum và constraint cục bộ. `uniqueItems` không bảo đảm uniqueness của logical ID bên trong object; ID uniqueness và cross-reference existence phải được kiểm tra bởi downstream business validation. Các quy tắc Abstract/claims/draft chỉ áp dụng cho artefact tương lai đã được phê duyệt, không thuộc Output Schema v1.0.0.
+
+Extraction Prompt v1.0.0 được triển khai tại `prompts/extraction/v1.0.0/extraction-prompt.md`. Caller cung cấp JSON input envelope đã chuẩn hóa, document metadata và source units có evidence ID/type/locator; caller phải từ chối nội dung rỗng hoặc chỉ có khoảng trắng trước model invocation. Prompt dùng nguồn English/Vietnamese, giữ ngôn ngữ kỹ thuật chính và evidence excerpt nguyên văn. Claims và kết luận pháp lý không thuộc prompt này.
+
+AI-002 chỉ bảo đảm canonical offline validation bằng fixtures synthetic. Canonical schema dùng keyword/conditional và optional properties không tương thích nguyên trạng với OpenAI Structured Outputs strict subset. Vì vậy AI-002 không sửa schema, không tạo provider-specific generation schema/adapter, không gọi model thật và không tuyên bố đã tích hợp Responses API. Adapter và live evaluation phải thuộc task runtime riêng được Human phê duyệt.
 
 ## 21. API dự kiến
 
@@ -454,7 +459,7 @@ MVP chỉ đạt khi có bằng chứng cho toàn bộ tiêu chí sau:
 | Phase 5 — Deployment and handover | Vercel/Railway theo cấu hình duyệt, runbook, acceptance | Human phê duyệt release |
 | Post-MVP | Các tính năng được quyết định sau MVP | Scope/chi phí/rủi ro được phê duyệt riêng |
 
-Ngày hoàn thành từng phase: `[CẦN XÁC NHẬN]`. Deadline MVP chung là 02/10/2026.
+Ngày hoàn thành từng phase: `[CẦN XÁC NHẬN]`. Mục tiêu hoàn thành nội bộ là 30/09/2026; ngày 01–02/10 dành cho buffer/test/handover; deadline bàn giao chính thức vẫn là 02/10/2026.
 
 ## 30. Rủi ro kỹ thuật
 

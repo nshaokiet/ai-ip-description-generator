@@ -1,0 +1,103 @@
+{
+  "case_id": "missing-information",
+  "description": "Synthetic passage that names a sensing component but omits calibration and operating-range details.",
+  "expected_outcome": "SCHEMA_VALID_OUTPUT",
+  "input": {
+    "document_metadata": {
+      "document_id": "doc-missing",
+      "file_name": "synthetic-missing.docx",
+      "media_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    },
+    "source_units": [
+      {
+        "evidence_id": "ev-missing-1",
+        "evidence_type": "TEXT",
+        "locator": {
+          "section": "Device description",
+          "paragraph_id": "p-1"
+        },
+        "content": "Nguyên mẫu sử dụng màng polymer để phát hiện độ ẩm. Điều kiện hiệu chuẩn và dải độ ẩm được hỗ trợ chưa được báo cáo."
+      }
+    ]
+  },
+  "expected_output": {
+    "schema_version": "1.0.0",
+    "output_type": "STRUCTURED_INVENTION_ANALYSIS",
+    "output_notice": {
+      "status": "DRAFT",
+      "human_review_required": true,
+      "is_legal_advice": false,
+      "filing_ready": false,
+      "includes_patentability_assessment": false
+    },
+    "document_metadata": {
+      "document_id": "doc-missing",
+      "file_name": "synthetic-missing.docx",
+      "media_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    },
+    "title_candidates": [],
+    "technical_field": {
+      "status": "PRESENT",
+      "item": {
+        "field_id": "field-1",
+        "name": "Cảm biến độ ẩm",
+        "grounding": {
+          "label": "INFERENCE",
+          "evidence_ids": ["ev-missing-1"]
+        }
+      }
+    },
+    "background": [],
+    "technical_problems": [],
+    "technical_solutions": [],
+    "components": [
+      {
+        "component_id": "component-membrane",
+        "name": "màng polymer",
+        "description": "Nguyên mẫu sử dụng màng polymer để phát hiện độ ẩm.",
+        "related_component_ids": [],
+        "grounding": {
+          "label": "PARAPHRASE",
+          "evidence_ids": ["ev-missing-1"]
+        }
+      }
+    ],
+    "process_steps": [],
+    "potential_distinguishing_features": [],
+    "technical_effects": [],
+    "embodiments": [],
+    "experimental_data": [],
+    "drawing_requirements": [],
+    "missing_information": [
+      {
+        "missing_id": "missing-calibration",
+        "target_path": "/experimental_data",
+        "description": "Nguồn thiếu điều kiện hiệu chuẩn và dải độ ẩm được hỗ trợ.",
+        "reason": "NOT_FOUND",
+        "impact": "HIGH",
+        "owner": "AUTHOR",
+        "grounding_label": "MISSING"
+      }
+    ],
+    "author_questions": [
+      {
+        "question_id": "question-calibration",
+        "missing_information_id": "missing-calibration",
+        "question": "Nguyên mẫu sử dụng điều kiện hiệu chuẩn và dải độ ẩm nào?",
+        "priority": "HIGH"
+      }
+    ],
+    "evidence": [
+      {
+        "evidence_id": "ev-missing-1",
+        "document_id": "doc-missing",
+        "evidence_type": "TEXT",
+        "locator": {
+          "section": "Device description",
+          "paragraph_id": "p-1"
+        },
+        "excerpt": "Nguyên mẫu sử dụng màng polymer để phát hiện độ ẩm. Điều kiện hiệu chuẩn và dải độ ẩm được hỗ trợ chưa được báo cáo."
+      }
+    ]
+  }
+}

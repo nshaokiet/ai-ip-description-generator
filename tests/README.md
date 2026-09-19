@@ -32,3 +32,14 @@ Fixtures là dữ liệu synthetic. Không đưa paper nghiên cứu, PII, secre
 - End-to-end sample-paper tests
 
 Golden set dùng research paper chỉ được tạo sau khi có quyền sử dụng và data policy được Human phê duyệt.
+
+## AI-002 extraction prompt contract
+
+Chạy test offline bằng Python 3.12 và dependency `jsonschema==4.26.0` đã khóa cho AI-001:
+
+```powershell
+$env:PYTHONDONTWRITEBYTECODE="1"
+.\.venv\Scripts\python.exe -m unittest discover -s tests/prompt -p "test_*.py" -v
+```
+
+Test AI-002 kiểm tra prompt metadata, required sections, security constraints, sáu fixture synthetic, canonical schema validation của expected outputs, evidence traceability, logical-ID uniqueness và cross-reference existence. Fixture có expected output là oracle offline, không phải bằng chứng về hành vi của model thật.
