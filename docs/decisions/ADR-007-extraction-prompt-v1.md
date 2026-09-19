@@ -5,7 +5,7 @@
 | Thuộc tính | Giá trị |
 |---|---|
 | ADR ID | ADR-007 |
-| Status | Accepted — Implemented, Awaiting Gemini Review |
+| Status | Accepted — Gemini Review Passed — Awaiting Human Merge Approval |
 | Date | 19/09/2026 |
 | Decision owner | Human / Product Owner |
 | Implementation owner | ChatGPT/Codex |

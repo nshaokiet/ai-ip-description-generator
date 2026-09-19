@@ -8,11 +8,13 @@
 | Owner | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro (High) |
 | Approver | Human / Product Owner |
-| Status | Implemented — Awaiting Gemini Review |
+| Status | Gemini Review Passed — Awaiting Human Merge Approval |
 | Prompt version | 1.0.0 |
 | Output contract | Output Schema v1.0.0 |
 | Base commit | `c78ac5bcd0514dfedee2983d9155ee278a34cfd5` |
 | Branch | `ai/extraction-prompt-v1` |
+| Implementation commit | `f8772b228a23bf7cdec10fa0c463e6d1f672c341` |
+| Pull Request | [#3](https://github.com/nshaokiet/ai-ip-description-generator/pull/3) — open, chưa merge |
 | Date | 19/09/2026 |
 
 ## Mục tiêu
@@ -59,8 +61,8 @@ Expected outputs trong fixtures là oracle offline cho contract validation; chú
 - [x] AI-002 offline tests đạt; không dùng dependency mới.
 - [x] `git diff --check` đạt và diff chỉ chứa file được Human phê duyệt.
 - [x] Không chứa secret, PII hoặc dữ liệu nghiên cứu thật.
-- [ ] Gemini 3.1 Pro independent review hoàn tất.
-- [ ] Human quyết định xử lý finding/merge sau review.
+- [x] Gemini 3.1 Pro High independent review hoàn tất với verdict `PASS`, không có finding hoặc required change.
+- [ ] Human merge approval cho PR #3 được thực hiện và có merge commit làm bằng chứng.
 
 ## Verification commands
 

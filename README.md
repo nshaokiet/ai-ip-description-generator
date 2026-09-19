@@ -2,7 +2,7 @@
 
 Nền tảng AI hỗ trợ chuyển bài báo nghiên cứu khoa học thành dữ liệu sáng chế có cấu trúc và bản dự thảo patent specification để con người rà soát.
 
-> **Trạng thái hiện tại:** Phase 1 — Specification & Architecture. Output Schema v1.0.0 có trạng thái **Completed — Merged via PR #1**; Extraction Prompt v1.0.0 đã được triển khai offline và đang chờ Gemini review. Frontend, backend và AI pipeline runtime chưa được triển khai.
+> **Trạng thái hiện tại:** Phase 1 — Specification & Architecture. Output Schema v1.0.0 có trạng thái **Completed — Merged via PR #1**; Extraction Prompt v1.0.0 có trạng thái **Gemini Review Passed — Awaiting Human Merge Approval** trên PR #3. Frontend, backend và AI pipeline runtime chưa được triển khai.
 >
 > **Deadline MVP:** bàn giao chính thức 02/10/2026; mục tiêu hoàn thành nội bộ 30/09/2026, ngày 01–02/10 dành cho buffer/test/handover.
 
@@ -208,16 +208,16 @@ GitHub là **Technical Source of Truth**. Gemini không ghi đè production arte
 - [x] Cấu trúc `frontend`, `backend`, `prompts`, `templates`, `tests` và `.github`.
 - [x] System Specification 0.2.1.
 - [x] AGENTS.md 0.1.1.
-- [x] Project Context 0.2.3.
-- [x] Project Control Center 0.2.3.
-- [x] Gemini Review Log 0.2.1 với review entry `REV-AI-001` đã đóng.
+- [x] Project Context 0.2.4.
+- [x] Project Control Center 0.2.4.
+- [x] Gemini Review Log 0.2.2 với `REV-AI-001` đã đóng và `REV-AI-002` đang chờ Human merge decision.
 - [x] Output Schema v1.0.0, fixtures và automated validation tests — Completed — Merged via PR #1; Gemini review `PASS`, 15/15 tests pass, không có finding.
-- [x] Extraction Prompt v1.0.0, ADR-007 và synthetic offline tests — Implemented — Awaiting Gemini Review; chưa tích hợp model/API thật.
+- [x] Extraction Prompt v1.0.0, ADR-007 và synthetic offline tests — Gemini Review Passed — Awaiting Human Merge Approval; chưa tích hợp model/API thật.
 
 ### Chưa hoàn thành
 
 - [ ] Human/Gemini review bộ tài liệu Draft.
-- [ ] Gemini review và Human merge decision cho Extraction Prompt v1.0.0.
+- [ ] Human merge decision cho PR #3 — Extraction Prompt v1.0.0.
 - [ ] DOCX Template v1.
 - [ ] Next.js application.
 - [ ] FastAPI application.
@@ -267,8 +267,8 @@ Repository hiện chưa có application code. AI-001 bổ sung test dependency m
 
 AI-001 đã `Completed` sau khi Human merge PR #1. AI-002 đã được Human phê duyệt và triển khai trên branch `ai/extraction-prompt-v1`. Bước tiếp theo:
 
-1. Gemini 3.1 Pro High review AI-002 và ghi review evidence thực tế.
-2. Human quyết định xử lý finding và merge; không coi offline tests là live-model evaluation.
+1. Human xem xét merge PR #3 sau Gemini 3.1 Pro High review `PASS`, không có finding.
+2. Sau merge, thực hiện governance closeout riêng; không coi offline tests là live-model evaluation.
 3. Tạo `patent-template-v1` theo task được phê duyệt riêng.
 4. Khởi tạo runtime adapter, FastAPI và Next.js theo các task riêng.
 
