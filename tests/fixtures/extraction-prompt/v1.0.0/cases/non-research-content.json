@@ -1,0 +1,73 @@
+{
+  "case_id": "non-research-content",
+  "description": "Nonempty synthetic administrative text with no technical research content.",
+  "expected_outcome": "SCHEMA_VALID_OUTPUT",
+  "input": {
+    "document_metadata": {
+      "document_id": "doc-nonresearch",
+      "file_name": "synthetic-note.docx",
+      "media_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    },
+    "source_units": [
+      {
+        "evidence_id": "ev-note-1",
+        "evidence_type": "TEXT",
+        "locator": {
+          "section": "Note",
+          "paragraph_id": "p-1"
+        },
+        "content": "Reminder: the team lunch is scheduled for Friday at noon."
+      }
+    ]
+  },
+  "expected_output": {
+    "schema_version": "1.0.0",
+    "output_type": "STRUCTURED_INVENTION_ANALYSIS",
+    "output_notice": {
+      "status": "DRAFT",
+      "human_review_required": true,
+      "is_legal_advice": false,
+      "filing_ready": false,
+      "includes_patentability_assessment": false
+    },
+    "document_metadata": {
+      "document_id": "doc-nonresearch",
+      "file_name": "synthetic-note.docx",
+      "media_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    },
+    "title_candidates": [],
+    "technical_field": {
+      "status": "MISSING"
+    },
+    "background": [],
+    "technical_problems": [],
+    "technical_solutions": [],
+    "components": [],
+    "process_steps": [],
+    "potential_distinguishing_features": [],
+    "technical_effects": [],
+    "embodiments": [],
+    "experimental_data": [],
+    "drawing_requirements": [],
+    "missing_information": [
+      {
+        "missing_id": "missing-technical-content",
+        "target_path": "/technical_field",
+        "description": "The supplied content does not contain technical research information for extraction.",
+        "reason": "INSUFFICIENT_DETAIL",
+        "impact": "BLOCKING",
+        "owner": "HUMAN_REVIEWER",
+        "grounding_label": "MISSING"
+      }
+    ],
+    "author_questions": [
+      {
+        "question_id": "question-source",
+        "missing_information_id": "missing-technical-content",
+        "question": "Can you provide a research document containing the technical subject, problem, solution, and supporting evidence?",
+        "priority": "HIGH"
+      }
+    ],
+    "evidence": []
+  }
+}

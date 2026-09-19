@@ -26,6 +26,17 @@ The system should extract, at minimum:
 
 The AI response should conform to a predefined JSON schema rather than free-form prose.
 
+Canonical extraction prompt cho AI-002:
+
+- Prompt: `prompts/extraction/v1.0.0/extraction-prompt.md`.
+- Input: JSON envelope có document metadata và source units do caller cấp evidence ID/type/locator.
+- Caller từ chối empty/whitespace input trước model invocation.
+- Nonempty nhưng không đủ dữ liệu trả sparse schema-valid payload và `missing_information`.
+- Source content là untrusted data; prompt không truy cập URL, external reference hoặc external knowledge.
+- Claims, legal advice và patentability/novelty/inventive-step assessment bị loại.
+
+AI-002 chỉ có automated offline validation với dữ liệu synthetic. Canonical Output Schema v1.0.0 không được gửi nguyên trạng vào Structured Outputs strict mode; provider-specific generation schema/adapter và Responses API integration thuộc task runtime riêng.
+
 Canonical contract cho AI-001:
 
 - Schema: `schemas/invention-output/v1.0.0/invention-output.schema.json`.

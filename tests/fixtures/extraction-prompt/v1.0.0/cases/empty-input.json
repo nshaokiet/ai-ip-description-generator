@@ -1,0 +1,23 @@
+{
+  "case_id": "empty-input",
+  "description": "Whitespace-only synthetic input that the caller must reject before model invocation.",
+  "expected_outcome": "REJECT_BEFORE_MODEL",
+  "input": {
+    "document_metadata": {
+      "document_id": "doc-empty",
+      "file_name": "synthetic-empty.pdf",
+      "media_type": "application/pdf"
+    },
+    "source_units": [
+      {
+        "evidence_id": "ev-empty-1",
+        "evidence_type": "TEXT",
+        "locator": {
+          "page": 1,
+          "paragraph_id": "p-empty"
+        },
+        "content": "   \n\t"
+      }
+    ]
+  }
+}
