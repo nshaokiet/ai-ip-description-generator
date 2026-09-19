@@ -10,13 +10,13 @@
 | Document title | Gemini Review Log |
 | Project | AI Intellectual Property Description Generator |
 | Project deadline | 02/10/2026 |
-| Version | 0.2.0 |
+| Version | 0.2.1 |
 | Status | Active review log |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini Pro |
 | Created date | 18/09/2026 |
-| Last updated | 18/09/2026 21:53 GMT+7 |
+| Last updated | 19/09/2026 09:39 GMT+7 |
 | Related task ID | REVIEW-001; AI-001 |
 | Source of Truth | Review history; bản nguồn Git tại `docs/operations/02_GEMINI_REVIEW_LOG.md` |
 | Confidentiality level | Internal; findings về research input có thể là Confidential |
@@ -27,6 +27,7 @@
 |---|---|---|---|---|---|---|---|
 | Chưa có | 0.1.0 | 18/09/2026 | ChatGPT/Codex | Tạo review log format ban đầu | Khởi tạo quy trình independent review | REVIEW-001 | No |
 | 0.1.0 | 0.2.0 | 18/09/2026 | ChatGPT/Codex | Ghi review entry AI-001 từ kết quả Gemini 3.1 Pro được Human xác nhận | Governance closeout trước merge | REV-AI-001, AI-001, PR #1 | No |
+| 0.2.0 | 0.2.1 | 19/09/2026 | ChatGPT/Codex | Ghi Human decision, merge resolution và đóng REV-AI-001 | Governance closeout sau merge | REV-AI-001, AI-001, PR #1, merge commit `49efead593437dfc5c88397ea6f335a2d4ff84d7` | No |
 
 ## 2. Review Rules
 
@@ -65,13 +66,13 @@
 - `REJECTED WITH REASON`: không chấp nhận và có bằng chứng/lý do.
 - `RESOLVED`: thay đổi hoặc quyết định đã có evidence trên resolved version.
 - `CLOSED`: review được người có thẩm quyền đóng sau khi xác minh resolution.
-- `Gemini Review Passed — Awaiting Human Merge Approval`: reviewer đã PASS, không có finding chặn, nhưng review chưa đóng và PR chưa được Human merge.
+- `MERGE PENDING`: reviewer đã PASS, không có finding chặn, nhưng review chưa đóng và PR chưa được Human merge.
 
 ## 6. Review Index
 
 | Review ID | Date | Task ID | Artefact | Version | Recommendation | Status |
 |---|---|---|---|---|---|---|
-| REV-AI-001 | 18/09/2026 | AI-001 | Output Schema v1.0.0 và supporting artefacts | Commit `69b85be6b55cf2c46fc4f02bbfbf3083d2389299` | APPROVE | Gemini Review Passed — Awaiting Human Merge Approval |
+| REV-AI-001 | 18/09/2026 | AI-001 | Output Schema v1.0.0 và supporting artefacts | Commit `69b85be6b55cf2c46fc4f02bbfbf3083d2389299`; resolved by merge commit `49efead593437dfc5c88397ea6f335a2d4ff84d7` | APPROVE | CLOSED |
 
 Entry `REV-AI-001` được ChatGPT/Codex ghi lại từ kết quả Gemini 3.1 Pro do Human / Product Owner xác nhận; Gemini không sửa production artefact.
 
@@ -245,7 +246,7 @@ Output Schema `1.0.0`; commit `69b85be6b55cf2c46fc4f02bbfbf3083d2389299`.
 
 #### Review status
 
-`Gemini Review Passed — Awaiting Human Merge Approval`
+`CLOSED`
 
 #### 1. Review Objective
 
@@ -262,7 +263,7 @@ Review độc lập contract Output Schema v1.0.0, fixtures, tests và supportin
 
 #### 3. Summary
 
-Gemini 3.1 Pro full review: `PASS`. Targeted whitespace re-review: `PASS`. Không có finding ở mức BLOCKER, MAJOR, MINOR hoặc mức khác được báo cáo. Recommendation là `APPROVE`; PR #1 vẫn chờ Human merge approval.
+Gemini 3.1 Pro full review: `PASS`. Targeted whitespace re-review: `PASS`. Không có finding ở mức BLOCKER, MAJOR, MINOR hoặc mức khác được báo cáo. Recommendation là `APPROVE`; Human / Product Owner đã merge PR #1 ngày 19/09/2026.
 
 #### 4. Findings
 
@@ -278,7 +279,7 @@ Không phát hiện finding trong phạm vi schema/fixtures/documentation đư�
 
 #### 7. Missing Information
 
-Không có missing information chặn AI-001. Quyết định merge PR #1 thuộc Human / Product Owner.
+Không có missing information chặn AI-001. Human / Product Owner đã thực hiện quyết định merge PR #1.
 
 #### 8. Technical Concerns
 
@@ -294,7 +295,7 @@ Không có finding trong full review hoặc targeted whitespace re-review.
 
 #### 11. Suggested Changes
 
-Không có thay đổi kỹ thuật bắt buộc. Hoàn tất governance state và chuyển PR #1 cho Human merge approval.
+Không có thay đổi kỹ thuật bắt buộc. Governance state được đóng theo bằng chứng Human merge PR #1.
 
 #### 12. Recommendation
 
@@ -306,16 +307,16 @@ Không có thay đổi kỹ thuật bắt buộc. Hoàn tất governance state v
 Task ID: AI-001
 Agent: Gemini 3.1 Pro
 Reviewer: Human / Product Owner
-Status: Gemini Review Passed — Awaiting Human Merge Approval
-Version: Output Schema 1.0.0; commit 69b85be6b55cf2c46fc4f02bbfbf3083d2389299
-Work completed: Full review và targeted whitespace re-review hoàn tất.
+Status: CLOSED — AI-001 Completed — Merged via PR #1
+Version: Output Schema 1.0.0; reviewed commit 69b85be6b55cf2c46fc4f02bbfbf3083d2389299; resolved merge commit 49efead593437dfc5c88397ea6f335a2d4ff84d7
+Work completed: Full review và targeted whitespace re-review hoàn tất; Human / Product Owner đã phê duyệt và merge PR #1.
 Files affected: Review log only; production artefact not overwritten
 Evidence checked: Python 3.12.10; jsonschema 4.26.0; 15/15 tests pass; git diff --check pass; PR #1.
 Findings: Không có.
-Decisions: Recommendation APPROVE; merge approval vẫn thuộc Human.
-Issues: PR #1 chưa merge.
+Decisions: Recommendation APPROVE; Human / Product Owner đã thực hiện merge approval ngày 19/09/2026.
+Issues: Không có finding hoặc vấn đề AI-001 còn mở.
 Security impact: Không có finding; không có secret hoặc dữ liệu nghiên cứu thật trong commit được review.
-Recommended next action: Human xem xét merge approval sau governance closeout.
+Recommended next action: Lưu bằng chứng closeout; AI-002 chỉ chuyển sang specification/approval theo task riêng.
 ```
 
 #### 14. ChatGPT/Codex Response
@@ -324,20 +325,20 @@ Không có finding cần `ACCEPT`, `PARTIALLY ACCEPT`, `REJECT WITH REASON` ho�
 
 #### 15. Human Decision
 
-Human / Product Owner đã xác nhận kết quả full review `PASS`, targeted whitespace re-review `PASS`, không có finding và recommendation `APPROVE`. Quyết định merge PR #1 vẫn đang chờ.
+Human / Product Owner đã xác nhận kết quả full review `PASS`, targeted whitespace re-review `PASS`, không có finding, recommendation `APPROVE`, và quyết định phê duyệt/merge PR #1 ngày 19/09/2026.
 
 #### 16. Resolution
 
-Không có finding cần resolution. Review evidence gắn với commit `69b85be6b55cf2c46fc4f02bbfbf3083d2389299`; PR chưa merge và AI-001 chưa được ghi `Completed`.
+Không có finding cần resolution. PR #1 đã merge thành công ngày 19/09/2026. Review evidence gắn với implementation commit `69b85be6b55cf2c46fc4f02bbfbf3083d2389299`, governance commit `b738fcd3e46c9cb9159b4c6e092c04fde83545b0` và merge commit `49efead593437dfc5c88397ea6f335a2d4ff84d7`. AI-001 được ghi `Completed — Merged via PR #1`.
 
 #### 17. Resolved Version
 
-Commit được review: `69b85be6b55cf2c46fc4f02bbfbf3083d2389299`.
+`49efead593437dfc5c88397ea6f335a2d4ff84d7`
 
 #### 18. Closed Date
 
-`[CHƯA ĐÓNG — CHỜ HUMAN MERGE APPROVAL]`
+`19/09/2026`
 
 #### 19. Closed By
 
-`[CHƯA ĐÓNG — HUMAN / PRODUCT OWNER CHƯA MERGE]`
+Human / Product Owner.

@@ -8,11 +8,14 @@
 | Owner | ChatGPT/Codex |
 | Reviewer | Gemini Pro |
 | Approver | Human / Product Owner |
-| Status | Gemini Review Passed — Awaiting Human Merge Approval |
+| Status | Completed |
 | Schema version | 1.0.0 |
 | Base repository state | Commit `29ec432` |
 | Implementation branch | `ai/output-schema-v1` |
 | Approval date | 18/09/2026 |
+| Pull Request | [#1](https://github.com/nshaokiet/ai-ip-description-generator/pull/1) — merged |
+| Merge commit | `49efead593437dfc5c88397ea6f335a2d4ff84d7` |
+| Merge date | 19/09/2026 |
 
 ## Mục tiêu
 
@@ -62,7 +65,7 @@ Tạo hợp đồng dữ liệu JSON có version cho kết quả phân tích sá
 - [x] Tài liệu nêu rõ `uniqueItems` không đảm bảo logical-ID uniqueness hoặc cross-reference existence.
 - [x] Fixtures chỉ dùng dữ liệu synthetic, không chứa secret, PII hoặc dữ liệu nghiên cứu thật.
 - [x] Gemini 3.1 Pro full review và targeted whitespace re-review đều `PASS`; review evidence được ghi tại `REV-AI-001`.
-- [x] Không có finding cần xử lý; PR #1 đang chờ Human merge approval và AI-001 chưa được đánh dấu `Completed`.
+- [x] Không có finding cần xử lý; Human đã phê duyệt và merge PR #1 tại commit `49efead593437dfc5c88397ea6f335a2d4ff84d7` ngày 19/09/2026.
 
 ## Verification command
 
@@ -70,4 +73,4 @@ Tạo hợp đồng dữ liệu JSON có version cho kết quả phân tích sá
 .\.venv\Scripts\python.exe -m unittest discover -s tests/schema -p "test_*.py" -v
 ```
 
-Kết quả được review: Python 3.12.10, `jsonschema` 4.26.0, 15 test pass, 0 fail và `git diff --check` đạt. Trạng thái là **Gemini Review Passed — Awaiting Human Merge Approval**.
+Kết quả được review: Python 3.12.10, `jsonschema` 4.26.0, 15 test pass, 0 fail và `git diff --check` đạt. Gemini review `PASS`, không có finding. Human merge approval đã được thực hiện qua PR #1; trạng thái là **Completed — Merged via PR #1**.
