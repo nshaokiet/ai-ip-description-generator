@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0.0",
+  "output_type": "STRUCTURED_INVENTION_ANALYSIS",
+  "output_notice": {
+    "status": "DRAFT",
+    "human_review_required": true,
+    "is_legal_advice": false,
+    "filing_ready": false,
+    "includes_patentability_assessment": false
+  },
+  "document_metadata": {
+    "document_id": "doc-invalid-evidence",
+    "file_name": "synthetic-invalid-evidence.pdf",
+    "media_type": "application/pdf"
+  },
+  "title_candidates": [],
+  "technical_field": { "status": "MISSING" },
+  "background": [],
+  "technical_problems": [
+    {
+      "problem_id": "problem-001",
+      "statement": "A synthetic technical problem.",
+      "grounding": { "label": "SOURCE_FACT", "evidence_ids": [] }
+    }
+  ],
+  "technical_solutions": [],
+  "components": [],
+  "process_steps": [],
+  "potential_distinguishing_features": [],
+  "technical_effects": [],
+  "embodiments": [],
+  "experimental_data": [],
+  "drawing_requirements": [],
+  "missing_information": [
+    {
+      "missing_id": "missing-technical-field",
+      "target_path": "/technical_field",
+      "description": "The synthetic input does not identify a technical field.",
+      "reason": "NOT_FOUND",
+      "impact": "HIGH",
+      "owner": "AUTHOR",
+      "grounding_label": "MISSING"
+    }
+  ],
+  "author_questions": [],
+  "evidence": []
+}

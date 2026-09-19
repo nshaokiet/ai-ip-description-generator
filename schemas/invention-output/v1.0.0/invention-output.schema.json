@@ -1,0 +1,501 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ai-ip-description-generator:invention-output:1.0.0",
+  "title": "Invention Output Schema v1.0.0",
+  "description": "Machine-validatable structured invention analysis draft. It is not legal advice, a patentability assessment, or a filing-ready patent application.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "output_type",
+    "output_notice",
+    "document_metadata",
+    "title_candidates",
+    "technical_field",
+    "background",
+    "technical_problems",
+    "technical_solutions",
+    "components",
+    "process_steps",
+    "potential_distinguishing_features",
+    "technical_effects",
+    "embodiments",
+    "experimental_data",
+    "drawing_requirements",
+    "missing_information",
+    "author_questions",
+    "evidence"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "output_type": { "const": "STRUCTURED_INVENTION_ANALYSIS" },
+    "output_notice": { "$ref": "#/$defs/output_notice" },
+    "document_metadata": { "$ref": "#/$defs/document_metadata" },
+    "title_candidates": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/title_candidate" }
+    },
+    "technical_field": { "$ref": "#/$defs/technical_field" },
+    "background": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/grounded_statement" }
+    },
+    "technical_problems": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/technical_problem" }
+    },
+    "technical_solutions": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/technical_solution" }
+    },
+    "components": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/component" }
+    },
+    "process_steps": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/process_step" }
+    },
+    "potential_distinguishing_features": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/potential_distinguishing_feature" }
+    },
+    "technical_effects": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/technical_effect" }
+    },
+    "embodiments": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/embodiment" }
+    },
+    "experimental_data": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/experiment" }
+    },
+    "drawing_requirements": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/drawing_requirement" }
+    },
+    "missing_information": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/missing_information" }
+    },
+    "author_questions": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/author_question" }
+    },
+    "evidence": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/evidence" }
+    }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9._:-]{0,127}$"
+    },
+    "non_empty_text": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "short_name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500,
+      "pattern": "\\S"
+    },
+    "unit_text": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "\\S"
+    },
+    "json_pointer_path": {
+      "type": "string",
+      "pattern": "^/"
+    },
+    "identifier_array": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/identifier" }
+    },
+    "grounding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label", "evidence_ids"],
+      "properties": {
+        "label": {
+          "enum": ["SOURCE_FACT", "PARAPHRASE", "INFERENCE"]
+        },
+        "evidence_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/identifier" }
+        }
+      }
+    },
+    "output_notice": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "human_review_required",
+        "is_legal_advice",
+        "filing_ready",
+        "includes_patentability_assessment"
+      ],
+      "properties": {
+        "status": { "const": "DRAFT" },
+        "human_review_required": { "const": true },
+        "is_legal_advice": { "const": false },
+        "filing_ready": { "const": false },
+        "includes_patentability_assessment": { "const": false }
+      }
+    },
+    "document_metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["document_id", "file_name", "media_type"],
+      "properties": {
+        "document_id": { "$ref": "#/$defs/identifier" },
+        "file_name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255,
+          "pattern": "\\S"
+        },
+        "media_type": {
+          "enum": [
+            "application/pdf",
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+          ]
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "title_candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title_id", "title", "rationale", "grounding"],
+      "properties": {
+        "title_id": { "$ref": "#/$defs/identifier" },
+        "title": { "$ref": "#/$defs/short_name" },
+        "rationale": { "$ref": "#/$defs/non_empty_text" },
+        "grounding": { "$ref": "#/$defs/grounding" }
+      }
+    },
+    "technical_field_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["field_id", "name", "grounding"],
+      "properties": {
+        "field_id": { "$ref": "#/$defs/identifier" },
+        "name": { "$ref": "#/$defs/short_name" },
+        "description": { "$ref": "#/$defs/non_empty_text" },
+        "grounding": { "$ref": "#/$defs/grounding" }
+      }
+    },
+    "technical_field": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status"],
+      "properties": {
+        "status": { "enum": ["PRESENT", "MISSING"] },
+        "item": { "$ref": "#/$defs/technical_field_item" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "status": { "const": "PRESENT" } }, "required": ["status"] },
+          "then": { "required": ["item"] }
+        },
+        {
+          "if": { "properties": { "status": { "const": "MISSING" } }, "required": ["status"] },
+          "then": { "not": { "required": ["item"] } }
+        }
+      ]
+    },
+    "grounded_statement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["statement_id", "text", "grounding"],
+      "properties": {
+        "statement_id": { "$ref": "#/$defs/identifier" },
+        "text": { "$ref": "#/$defs/non_empty_text" },
+        "grounding": { "$ref": "#/$defs/grounding" }
+      }
+    },
+    "technical_problem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["problem_id", "statement", "grounding"],
+      "properties": {
+        "problem_id": { "$ref": "#/$defs/identifier" },
+        "statement": { "$ref": "#/$defs/non_empty_text" },
+        "grounding": { "$ref": "#/$defs/grounding" }
+      }
+    },
+    "technical_solution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["solution_id", "statement", "addresses_problem_ids", "grounding"],
+      "properties": {
+        "solution_id": { "$ref": "#/$defs/identifier" },
+        "statement": { "$ref": "#/$defs/non_empty_text" },
+        "addresses_problem_ids": {
+          "allOf": [
+            { "$ref": "#/$defs/identifier_array" },
+            { "minItems": 1 }
+          ]
+        },
+        "grounding": { "$ref": "#/$defs/grounding" }
+      }
+    },
+    "component": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["component_id", "name", "related_component_ids", "grounding"],
+      "properties": {
+        "component_id": { "$ref": "#/$defs/identifier" },
+        "name": { "$ref": "#/$defs/short_name" },
+        "description": { "$ref": "#/$defs/non_empty_text" },
+        "related_component_ids": { "$ref": "#/$defs/identifier_array" },
+        "grounding": { "$ref": "#/$defs/grounding" }
+      }
+    },
+    "process_step": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "step_id",
+        "sequence",
+        "action",
+        "input_component_ids",
+        "output_component_ids",
+        "conditions",
+        "grounding"
+      ],
+      "properties": {
+        "step_id": { "$ref": "#/$defs/identifier" },
+        "sequence": { "type": "integer", "minimum": 1 },
+        "action": { "$ref": "#/$defs/non_empty_text" },
+        "input_component_ids": { "$ref": "#/$defs/identifier_array" },
+        "output_component_ids": { "$ref": "#/$defs/identifier_array" },
+        "conditions": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/grounded_statement" }
+        },
+        "grounding": { "$ref": "#/$defs/grounding" }
+      }
+    },
+    "potential_distinguishing_feature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "feature_id",
+        "statement",
+        "rationale",
+        "related_component_ids",
+        "related_step_ids",
+        "grounding"
+      ],
+      "properties": {
+        "feature_id": { "$ref": "#/$defs/identifier" },
+        "statement": { "$ref": "#/$defs/non_empty_text" },
+        "rationale": { "$ref": "#/$defs/non_empty_text" },
+        "related_component_ids": { "$ref": "#/$defs/identifier_array" },
+        "related_step_ids": { "$ref": "#/$defs/identifier_array" },
+        "grounding": { "$ref": "#/$defs/grounding" }
+      }
+    },
+    "technical_effect": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["effect_id", "statement", "related_solution_ids", "conditions", "grounding"],
+      "properties": {
+        "effect_id": { "$ref": "#/$defs/identifier" },
+        "statement": { "$ref": "#/$defs/non_empty_text" },
+        "related_solution_ids": { "$ref": "#/$defs/identifier_array" },
+        "conditions": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/grounded_statement" }
+        },
+        "grounding": { "$ref": "#/$defs/grounding" }
+      }
+    },
+    "embodiment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["embodiment_id", "name", "description", "component_ids", "process_step_ids", "grounding"],
+      "properties": {
+        "embodiment_id": { "$ref": "#/$defs/identifier" },
+        "name": { "$ref": "#/$defs/short_name" },
+        "description": { "$ref": "#/$defs/non_empty_text" },
+        "component_ids": { "$ref": "#/$defs/identifier_array" },
+        "process_step_ids": { "$ref": "#/$defs/identifier_array" },
+        "grounding": { "$ref": "#/$defs/grounding" }
+      }
+    },
+    "scalar_value": {
+      "oneOf": [
+        { "$ref": "#/$defs/non_empty_text" },
+        { "type": "number" },
+        { "type": "boolean" }
+      ]
+    },
+    "experiment_condition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["parameter", "value"],
+      "properties": {
+        "parameter": { "$ref": "#/$defs/short_name" },
+        "value": { "$ref": "#/$defs/scalar_value" },
+        "unit": { "$ref": "#/$defs/unit_text" }
+      }
+    },
+    "experiment_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["metric", "value"],
+      "properties": {
+        "metric": { "$ref": "#/$defs/short_name" },
+        "value": { "$ref": "#/$defs/scalar_value" },
+        "unit": { "$ref": "#/$defs/unit_text" }
+      }
+    },
+    "experiment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["experiment_id", "name", "description", "conditions", "results", "grounding"],
+      "properties": {
+        "experiment_id": { "$ref": "#/$defs/identifier" },
+        "name": { "$ref": "#/$defs/short_name" },
+        "description": { "$ref": "#/$defs/non_empty_text" },
+        "conditions": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/experiment_condition" }
+        },
+        "results": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/experiment_result" }
+        },
+        "grounding": { "$ref": "#/$defs/grounding" }
+      }
+    },
+    "drawing_requirement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "drawing_id",
+        "kind",
+        "title",
+        "status",
+        "source_evidence_ids",
+        "human_confirmation_required"
+      ],
+      "properties": {
+        "drawing_id": { "$ref": "#/$defs/identifier" },
+        "kind": { "enum": ["SOURCE_FIGURE", "PROPOSED_DRAWING"] },
+        "title": { "$ref": "#/$defs/short_name" },
+        "status": { "enum": ["AVAILABLE", "PROPOSED", "MISSING"] },
+        "source_evidence_ids": { "$ref": "#/$defs/identifier_array" },
+        "human_confirmation_required": { "type": "boolean" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "kind": { "const": "SOURCE_FIGURE" } }, "required": ["kind"] },
+          "then": { "properties": { "source_evidence_ids": { "minItems": 1 } } }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "PROPOSED_DRAWING" } }, "required": ["kind"] },
+          "then": { "properties": { "human_confirmation_required": { "const": true } } }
+        }
+      ]
+    },
+    "missing_information": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["missing_id", "target_path", "description", "reason", "impact", "owner", "grounding_label"],
+      "properties": {
+        "missing_id": { "$ref": "#/$defs/identifier" },
+        "target_path": { "$ref": "#/$defs/json_pointer_path" },
+        "description": { "$ref": "#/$defs/non_empty_text" },
+        "reason": { "enum": ["NOT_FOUND", "AMBIGUOUS", "CONFLICTING", "INSUFFICIENT_DETAIL"] },
+        "impact": { "enum": ["BLOCKING", "HIGH", "MEDIUM", "LOW"] },
+        "owner": { "enum": ["AUTHOR", "HUMAN_REVIEWER", "IP_SPECIALIST"] },
+        "grounding_label": { "const": "MISSING" }
+      }
+    },
+    "author_question": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["question_id", "missing_information_id", "question", "priority"],
+      "properties": {
+        "question_id": { "$ref": "#/$defs/identifier" },
+        "missing_information_id": { "$ref": "#/$defs/identifier" },
+        "question": { "$ref": "#/$defs/non_empty_text" },
+        "priority": { "enum": ["HIGH", "MEDIUM", "LOW"] }
+      }
+    },
+    "evidence_locator": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "page": { "type": "integer", "minimum": 1 },
+        "section": { "$ref": "#/$defs/short_name" },
+        "paragraph_id": { "$ref": "#/$defs/identifier" },
+        "chunk_id": { "$ref": "#/$defs/identifier" },
+        "table_id": { "$ref": "#/$defs/identifier" },
+        "figure_id": { "$ref": "#/$defs/identifier" }
+      },
+      "anyOf": [
+        { "required": ["page"] },
+        { "required": ["section"] },
+        { "required": ["paragraph_id"] },
+        { "required": ["chunk_id"] },
+        { "required": ["table_id"] },
+        { "required": ["figure_id"] }
+      ]
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evidence_id", "document_id", "evidence_type", "locator", "excerpt"],
+      "properties": {
+        "evidence_id": { "$ref": "#/$defs/identifier" },
+        "document_id": { "$ref": "#/$defs/identifier" },
+        "evidence_type": { "enum": ["TEXT", "TABLE", "FIGURE", "METADATA"] },
+        "locator": { "$ref": "#/$defs/evidence_locator" },
+        "excerpt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "pattern": "\\S"
+        }
+      }
+    }
+  }
+}

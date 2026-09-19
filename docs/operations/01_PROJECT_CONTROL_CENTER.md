@@ -8,13 +8,13 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.1.1 |
+| Version | 0.2.1 |
 | Status | Draft |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini Pro |
 | Created date | 18/09/2026 |
-| Last updated | 18/09/2026 10:49 GMT+7 |
+| Last updated | 18/09/2026 21:53 GMT+7 |
 | Related task ID | SPEC-004 |
 | Source of Truth | Operational status bridge; bản nguồn Git tại `docs/operations/01_PROJECT_CONTROL_CENTER.md` |
 | Confidentiality level | Internal |
@@ -25,6 +25,8 @@
 |---|---|---|---|---|---|---|---|
 | Chưa có | 0.1.0 | 18/09/2026 | ChatGPT/Codex | Tạo Project Control Center ban đầu | Khởi tạo điều phối Phase 1 | SPEC-004 | No |
 | 0.1.0 | 0.1.1 | 18/09/2026 | ChatGPT/Codex | Cập nhật GitHub URL, Private visibility và trạng thái publish | Đồng bộ operational status với repository thực tế | Yêu cầu Human đưa artefact lên GitHub | No |
+| 0.1.1 | 0.2.0 | 18/09/2026 | ChatGPT/Codex | Ghi nhận AI-001 implementation trước independent review | Đồng bộ bằng chứng schema, fixtures và tests | AI-001, ADR-006 | No |
+| 0.2.0 | 0.2.1 | 18/09/2026 | ChatGPT/Codex | Ghi nhận Gemini review PASS, không có finding và PR #1 đang chờ Human merge approval | Governance closeout trước merge | AI-001, REV-AI-001, PR #1 | No |
 
 ## 2. Project
 
@@ -74,8 +76,10 @@ Các mục trên chưa được coi là đã chốt chỉ vì có tài liệu Dr
 - [x] Tạo bản nguồn Draft Gemini Review Log 0.1.0.
 - [ ] Human review/phê duyệt specification và context.
 - [ ] Gemini review chính thức các artefact hiện hành.
-- [ ] Tạo/phê duyệt ADR.
-- [ ] Tạo/phê duyệt output schema v1.
+- [x] Human phê duyệt ADR-006 và contract Output Schema v1.0.0.
+- [x] Implement Output Schema v1.0.0, fixtures và automated tests.
+- [x] Gemini 3.1 Pro full review và targeted whitespace re-review cho AI-001: PASS, không có finding.
+- [ ] Human merge approval cho PR #1; chưa đánh dấu AI-001 `Completed`.
 - [ ] Tạo/phê duyệt prompt specification v1.
 - [ ] Chốt phạm vi Draft Claims.
 - [ ] Tạo/phê duyệt DOCX template v1.
@@ -108,6 +112,7 @@ Các deliverable Draft đã tạo, có bằng chứng file:
 | SPEC-003 | Review và chốt AGENTS.md | Human / Product Owner | Gemini Pro | Pending review | Draft 0.1.1 tồn tại |
 | SPEC-004 | Đồng bộ Project Control Center sang Google Docs | Human / Product Owner | ChatGPT/Codex | `[CẦN XÁC NHẬN TRẠNG THÁI]` | Chưa có bằng chứng Google Doc/link |
 | REVIEW-001 | Đồng bộ Gemini Review Log và thực hiện review đầu tiên | Gemini Pro | Human / Product Owner | Pending | Chưa có review entry chính thức |
+| AI-001 | Output Schema v1.0.0 | ChatGPT/Codex | Gemini 3.1 Pro | Gemini Review Passed — Awaiting Human Merge Approval | Commit `69b85be6b55cf2c46fc4f02bbfbf3083d2389299`, PR #1, 15/15 tests, không có finding |
 
 ## 10. Next Tasks
 
@@ -119,8 +124,8 @@ Các deliverable Draft đã tạo, có bằng chứng file:
 | ADR-003 | Ghi nhận Gemini chỉ là reviewer | ChatGPT/Codex đề xuất; Human phê duyệt | Gemini Pro | Medium | Proposed | AGENTS review | `[CẦN XÁC NHẬN]` |
 | ADR-004 | Ghi nhận GitHub là Technical Source of Truth | ChatGPT/Codex đề xuất; Human phê duyệt | Gemini Pro | High | Proposed | AGENTS review | `[CẦN XÁC NHẬN]` |
 | ADR-005 | Ghi nhận Human review bắt buộc | ChatGPT/Codex đề xuất; Human phê duyệt | Gemini Pro | Critical | Proposed | Legal/product review | `[CẦN XÁC NHẬN]` |
-| AI-001 | Tạo `invention-schema-v1` | ChatGPT/Codex | Gemini Pro | Critical | Not started | Human decisions về output/claims | `[CẦN XÁC NHẬN]` |
-| AI-002 | Tạo `extraction-prompt-v1` | ChatGPT/Codex | Gemini Pro | Critical | Not started | AI-001 Draft | `[CẦN XÁC NHẬN]` |
+| AI-001 | Human merge approval cho `invention-output` v1.0.0 | Human / Product Owner | Gemini 3.1 Pro | Critical | Gemini Review Passed — Awaiting Human Merge Approval | PR #1; full/targeted review PASS | `[CẦN XÁC NHẬN]` |
+| AI-002 | Tạo `extraction-prompt-v1` | ChatGPT/Codex | Gemini Pro | Critical | Not started | AI-001 qua review/decision | `[CẦN XÁC NHẬN]` |
 | DOC-001 | Tạo `patent-template-v1` | ChatGPT/Codex | Gemini Pro + Human | High | Not started | Claims/section decisions | `[CẦN XÁC NHẬN]` |
 
 Mọi target date cụ thể cần được xếp trước deadline chung 02/10/2026 và do Human xác nhận.
@@ -132,7 +137,7 @@ Mọi target date cụ thể cần được xếp trước deadline chung 02/10/
 | BLK-002 | Chưa xác nhận OCR/scanned PDF | Chưa khóa parser scope | Human / Product Owner | Open |
 | BLK-003 | Chưa chốt auth/private storage/retention | Không nên dùng dữ liệu nghiên cứu thật | Human / Product Owner | Open |
 | BLK-004 | Chưa chốt model, retrieval, retry, timeout, cost | Chưa khóa AI runtime design | Human / Product Owner | Open |
-| BLK-005 | Chưa chốt phạm vi Draft Claims | Chưa thể khóa schema/prompt/template | Human + chuyên gia SHTT | Open |
+| BLK-005 | Chưa chốt phạm vi Draft Claims | Không chặn AI-001 vì claims bị loại khỏi v1.0.0; vẫn ảnh hưởng prompt/template và schema tương lai | Human + chuyên gia SHTT | Open — non-blocker for AI-001 |
 | BLK-006 | Chưa có review chính thức từ Gemini | Các artefact hiện hành chưa có independent QA | Gemini Pro | Open |
 | BLK-007 | Chưa có bằng chứng Google Docs được tạo/đồng bộ | Operational bridge chưa sẵn sàng trên Drive | Human / Product Owner | Open |
 
@@ -145,53 +150,55 @@ Mọi target date cụ thể cần được xếp trước deadline chung 02/10/
 | ADR-003 | 18/09/2026 | Gemini acts as reviewer, not production AI dependency | Tách implementation và independent review | Gemini runtime dependency | Human / Product Owner | PROPOSED | `AGENTS.md` |
 | ADR-004 | 18/09/2026 | GitHub is Technical Source of Truth | Version control và traceability | Google Drive làm technical source | Human / Product Owner | PROPOSED | `AGENTS.md` |
 | ADR-005 | 18/09/2026 | Human review is mandatory | Giảm hallucination/rủi ro pháp lý và kỹ thuật | Fully automated approval | Human / Product Owner | PROPOSED | Tất cả artefact |
+| ADR-006 | 18/09/2026 | JSON Schema Draft 2020-12, strict Output Schema v1.0.0; loại claims và Human confirmation state | Tạo contract kiểm thử được, đúng phạm vi AI-001 | Schema lỏng; claims optional; Human confirmation trong payload | Human / Product Owner | ACCEPTED | `docs/decisions/ADR-006-output-schema-v1.md` |
 
-Không có ADR nào ở bảng trên được ghi `Approved`.
+ADR-006 đã được Human phê duyệt; ADR-001 đến ADR-005 vẫn chỉ là `PROPOSED`.
 
 ## 13. Current AI Assignments
 
 | Task ID | Task | Owner | Reviewer | Status | Expected output |
 |---|---|---|---|---|---|
-| SPEC-001 | System Specification Draft | ChatGPT/Codex | Gemini Pro + Human | Ready for review | `docs/system-specification.md` 0.1.0 |
-| SPEC-002 | Project Context Draft | ChatGPT/Codex | Gemini Pro + Human | Ready for review | `PROJECT_CONTEXT.md` 0.1.1 |
+| SPEC-001 | System Specification Draft | ChatGPT/Codex | Gemini Pro + Human | Ready for review | `docs/system-specification.md` 0.2.0 |
+| SPEC-002 | Project Context Draft | ChatGPT/Codex | Gemini Pro + Human | Ready for review | `PROJECT_CONTEXT.md` 0.2.1 |
 | SPEC-003 | AGENTS.md Draft | ChatGPT/Codex | Gemini Pro + Human | Ready for review | `AGENTS.md` 0.1.1 |
-| SPEC-004 | Control Center source | ChatGPT/Codex | Human | Ready for review | File hiện tại 0.1.1 |
-| REVIEW-001 | Review Log template | ChatGPT/Codex | Gemini Pro + Human | Ready for use | `02_GEMINI_REVIEW_LOG.md` 0.1.0 |
+| SPEC-004 | Control Center source | ChatGPT/Codex | Human | Ready for review | File hiện tại 0.2.1 |
+| REVIEW-001 | Review Log | ChatGPT/Codex | Gemini Pro + Human | Active | `02_GEMINI_REVIEW_LOG.md` 0.2.0 |
+| AI-001 | Output Schema v1.0.0 | ChatGPT/Codex | Gemini 3.1 Pro | Gemini Review Passed — Awaiting Human Merge Approval | PR #1 chứa schema, fixtures, tests, ADR và hướng dẫn sử dụng |
 
 ## 14. Latest ChatGPT/Codex Handoff
 
 ```text
-Task ID: SPEC-001, SPEC-002, SPEC-003, SPEC-004, REVIEW-001
+Task ID: AI-001
 Agent: ChatGPT/Codex
-Reviewer: Gemini Pro + Human / Product Owner
-Status: Published to private GitHub main; pending Human/Gemini review and Google Docs sync
-Version: 0.1.1 operational state
-Work completed: Published five independent Draft artefacts, rewrote README and preserved the previous system specification in the archive.
-Files affected: README.md; docs/system-specification.md; AGENTS.md; PROJECT_CONTEXT.md; docs/operations/01_PROJECT_CONTROL_CENTER.md; docs/operations/02_GEMINI_REVIEW_LOG.md; docs/archive/system-specification-before-2026-09-18.md
-Evidence checked: GitHub repository metadata, Private visibility, main branch, file paths, required section coverage, consistency and commit result.
-Findings: No official Gemini review exists; several product, security and claim-scope decisions remain open.
-Decisions: No Human decision was invented or marked Approved.
-Issues: Google Drive synchronization is not verified; Human decisions and Gemini review remain pending.
-Security impact: Documentation only; no paper, credential, secret or application code added.
-Recommended next action: Request Gemini review and Human decisions for the listed blockers, then synchronize the two operational documents to Google Docs.
+Reviewer: Gemini Pro
+Status: Gemini Review Passed — Awaiting Human Merge Approval
+Version: Output Schema 1.0.0
+Work completed: Đồng bộ governance state sau Gemini full review và targeted whitespace re-review PASS; technical implementation giữ nguyên tại commit được review.
+Files affected: README.md; PROJECT_CONTEXT.md; hai schema README; ADR-006; AI-001 task spec; Project Control Center; Gemini Review Log. Không chỉnh schema, fixtures, tests hoặc application folders.
+Evidence checked: Commit 69b85be6b55cf2c46fc4f02bbfbf3083d2389299; PR #1; Python 3.12.10; jsonschema 4.26.0; 15/15 tests pass; git diff --check pass; Gemini full và targeted review PASS.
+Findings: Không có finding từ Gemini 3.1 Pro.
+Decisions: Human đã phê duyệt contract v1.0.0; claims và Human confirmation/audit state bị loại khỏi schema.
+Issues: PR #1 chưa merge; logical-ID uniqueness và cross-reference existence cần downstream business validator trong task tương lai.
+Security impact: Chỉ có synthetic fixtures; không có secret, PII hoặc dữ liệu nghiên cứu thật.
+Recommended next action: Human xem xét merge approval cho PR #1 sau targeted review của governance update; không đánh dấu AI-001 Completed trước khi có bằng chứng merge.
 ```
 
 ## 15. Latest Gemini Handoff
 
 ```text
-Task ID: REVIEW-001
+Task ID: AI-001
 Agent: Gemini Pro
 Reviewer: Human / Product Owner
-Status: Not started
-Version: [CẦN XÁC NHẬN]
-Work completed: Chưa có review entry chính thức.
-Files affected: Không có.
-Evidence checked: Chưa có.
-Findings: Chưa có.
-Decisions: Chưa có.
-Issues: Gemini chưa thực hiện review chính thức trên các artefact hiện hành.
-Security impact: Chưa đánh giá.
-Recommended next action: Gemini đọc AGENTS.md, PROJECT_CONTEXT.md và docs/system-specification.md rồi tạo REV-001.
+Status: Gemini Review Passed — Awaiting Human Merge Approval
+Version: Output Schema 1.0.0; commit 69b85be6b55cf2c46fc4f02bbfbf3083d2389299
+Work completed: Full review và targeted whitespace re-review hoàn tất.
+Files affected: Review only; production artefact không bị Gemini ghi đè.
+Evidence checked: Python 3.12.10; jsonschema 4.26.0; 15/15 tests pass; git diff --check pass; PR #1.
+Findings: Không có.
+Decisions: Recommendation APPROVE; không thay thế Human merge approval.
+Issues: PR #1 chưa merge.
+Security impact: Không phát hiện secret, cache hoặc dữ liệu nghiên cứu thật trong phạm vi review được Human xác nhận.
+Recommended next action: Human xem xét merge approval cho PR #1 sau governance closeout.
 ```
 
 ## 16. Files Changed
@@ -208,6 +215,9 @@ Recommended next action: Gemini đọc AGENTS.md, PROJECT_CONTEXT.md và docs/sy
 | 18/09/2026 | `PROJECT_CONTEXT.md` | 0.1.1 | Đồng bộ URL và visibility repository | ChatGPT/Codex | SPEC-002 |
 | 18/09/2026 | `docs/operations/01_PROJECT_CONTROL_CENTER.md` | 0.1.1 | Cập nhật trạng thái publish GitHub | ChatGPT/Codex | SPEC-004 |
 | 18/09/2026 | `docs/archive/system-specification-before-2026-09-18.md` | Archived snapshot | Bảo toàn đặc tả cũ trước khi thay bản 0.1.0 đầy đủ | ChatGPT/Codex | SPEC-001 |
+| 18/09/2026 | `schemas/invention-output/v1.0.0/invention-output.schema.json` | 1.0.0 | Tạo Output Schema Draft 2020-12 | ChatGPT/Codex | AI-001 |
+| 18/09/2026 | `docs/decisions/ADR-006-output-schema-v1.md` | ADR-006 | Ghi quyết định kiến trúc đã được Human phê duyệt | ChatGPT/Codex | AI-001 |
+| 18/09/2026 | `tests/schema/test_invention_output_schema_v1.py` | 1.0.0 | Thêm automated schema validation | ChatGPT/Codex | AI-001 |
 
 ## 17. Prompt and Schema Versions
 
@@ -215,7 +225,7 @@ Recommended next action: Gemini đọc AGENTS.md, PROJECT_CONTEXT.md và docs/sy
 |---|---|---|---|---|---|
 | Extraction prompt | Chưa có | `[FILE CHƯA TỒN TẠI]` | ChatGPT/Codex | Gemini Pro | Chưa có |
 | Draft generation prompt | Chưa có | `[FILE CHƯA TỒN TẠI]` | ChatGPT/Codex | Gemini Pro | Chưa có |
-| Invention JSON Schema | Chưa có | `[FILE CHƯA TỒN TẠI]` | ChatGPT/Codex | Gemini Pro | Chưa có |
+| Invention JSON Schema | 1.0.0 | Gemini Review Passed — Awaiting Human Merge Approval | ChatGPT/Codex | Gemini 3.1 Pro | 18/09/2026 |
 | DOCX template | Chưa có | `[FILE CHƯA TỒN TẠI]` | ChatGPT/Codex | Gemini Pro + Human | Chưa có |
 | API contract | Concept trong SPEC-001 | Draft only | ChatGPT/Codex | Gemini Pro | 18/09/2026 |
 
@@ -239,7 +249,7 @@ Recommended next action: Gemini đọc AGENTS.md, PROJECT_CONTEXT.md và docs/sy
 | Q-003 | Auth và private storage dùng phương án nào? | Dữ liệu mật | Phương án trong tech stack được duyệt | Chặn real-data use | `[CẦN XÁC NHẬN]` | `[CẦN XÁC NHẬN]` |
 | Q-004 | Retention/deletion/backup policy là gì? | Privacy/operations | Thời hạn và SLA do Human xác nhận | Chặn security acceptance | `[CẦN XÁC NHẬN]` | `[CẦN XÁC NHẬN]` |
 | Q-005 | Model/retrieval/retry/timeout/cost limit là gì? | AI runtime | Cấu hình được Human phê duyệt | Schema/prompt/runtime tests | `[CẦN XÁC NHẬN]` | `[CẦN XÁC NHẬN]` |
-| Q-006 | Draft Claims gồm loại/số lượng nào? | Patent output | `[CẦN XÁC NHẬN]` | Chặn schema/prompt/template | `[CẦN XÁC NHẬN]` | `[CẦN XÁC NHẬN]` |
+| Q-006 | Draft Claims gồm loại/số lượng nào? | Patent output tương lai; claims không thuộc Output Schema v1.0.0 | `[CẦN XÁC NHẬN]` | Không chặn AI-001; ảnh hưởng prompt/template/schema tương lai | `[CẦN XÁC NHẬN]` | AI-001: EXCLUDED; phạm vi tương lai chưa quyết định |
 | Q-007 | PDF/QA report/claim mapping có thuộc MVP? | Optional output | Include / Exclude / Post-MVP | Workload trước deadline | `[CẦN XÁC NHẬN]` | `[CẦN XÁC NHẬN]` |
 
 ## 20. Pending Reviews
@@ -248,23 +258,22 @@ Recommended next action: Gemini đọc AGENTS.md, PROJECT_CONTEXT.md và docs/sy
 |---|---|---|---|---|---|
 | REV-001 | `docs/system-specification.md` | 0.1.0 | Gemini Pro | Not started | Yes |
 | REV-002 | `AGENTS.md` | 0.1.1 | Gemini Pro | Not started | Yes |
-| REV-003 | `PROJECT_CONTEXT.md` | 0.1.1 | Gemini Pro | Not started | Yes |
-| REV-004 | Hai operational templates | Project Control Center 0.1.1; Review Log 0.1.0 | Gemini Pro + Human | Not started | No |
+| REV-003 | `PROJECT_CONTEXT.md` | 0.2.1 | Gemini Pro | Not started | Yes |
+| REV-004 | Hai operational documents | Project Control Center 0.2.1; Review Log 0.2.0 | Gemini Pro + Human | Not started | No |
+| REV-AI-001 | Output Schema v1.0.0 và ADR-006 | 1.0.0 / ADR-006 | Gemini 3.1 Pro | Gemini Review Passed — Awaiting Human Merge Approval | Yes — merge approval |
 
 ## 21. Recent Decisions
 
-**Chưa có quyết định chính thức được Human phê duyệt và ghi nhận trong repository.**
-
-Các ADR-001 đến ADR-005 chỉ là `PROPOSED`.
+Human đã phê duyệt ADR-006 và Output Schema v1.0.0 cho AI-001. Các ADR-001 đến ADR-005 vẫn chỉ là `PROPOSED`.
 
 ## 22. Next Recommended Action
 
-1. Human đọc mục 19 và ưu tiên trả lời Q-003, Q-004, Q-006 vì liên quan dữ liệu và cấu trúc output.
-2. Gửi ba artefact kỹ thuật hiện hành cho Gemini review và ghi REV-001 đến REV-003 thật.
-3. ChatGPT/Codex xử lý từng finding, tạo phiên bản mới khi cần.
-4. Đồng bộ hai tài liệu vận hành sang Google Docs và ghi link sau khi xác minh.
-5. Sau khi Human phê duyệt ADR/phạm vi, bắt đầu AI-001 (schema), AI-002 (prompt) và DOC-001 (template).
+1. Targeted review governance update và xác nhận không có regression trạng thái.
+2. Human xem xét merge approval cho PR #1.
+3. Sau merge, cập nhật bằng chứng merge trước khi xem xét trạng thái `Completed` của AI-001.
+4. Chỉ bắt đầu AI-002/DOC-001 sau task approval riêng và dependency phù hợp.
+5. Tiếp tục xử lý các blocker dữ liệu, runtime và claims tương lai; chúng không làm AI-001 thành `Completed`.
 
 ## 23. Last Updated
 
-**18/09/2026 10:49 GMT+7**
+**18/09/2026 21:53 GMT+7**

@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | SPEC-001 |
 | Document title | Đặc tả hệ thống — AI Intellectual Property Description Generator |
-| Version | 0.1.0 |
+| Version | 0.2.0 |
 | Status | Draft |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -26,6 +26,7 @@
 | Phiên bản cũ | Phiên bản mới | Ngày | Người thực hiện | Thay đổi | Lý do | Finding/Decision liên quan | Breaking change |
 |---|---|---|---|---|---|---|---|
 | Chưa có | 0.1.0 | 18/09/2026 | ChatGPT/Codex | Tạo bản đặc tả hệ thống đầu tiên | Khởi tạo Phase 1 | SPEC-001 | No |
+| 0.1.0 | 0.2.0 | 18/09/2026 | ChatGPT/Codex | Liên kết Output Schema v1.0.0 và ghi rõ ranh giới contract | Đồng bộ quyết định Human cho AI-001 | AI-001, ADR-006 | No |
 
 ## 3. Tổng quan
 
@@ -159,7 +160,7 @@ Phạm vi tổng thể gồm giao diện upload và review, API điều phối, 
 - **Luồng thay thế:** Phần chưa đủ căn cứ giữ trạng thái cần xác nhận.
 - **Lỗi có thể xảy ra:** Xung đột phiên bản, mất quyền, dữ liệu không hợp lệ.
 - **Kết quả:** Analysis đã chỉnh sửa có lịch sử và attribution.
-- **Acceptance criteria:** Không ghi đè im lặng; lưu người/tác nhân, thời điểm và phiên bản; nội dung Human xác nhận được gắn `HUMAN_CONFIRMED` cùng audit event.
+- **Acceptance criteria:** Không ghi đè im lặng; lưu người/tác nhân, thời điểm và phiên bản. Canonical Human confirmation/audit model `[CẦN XÁC NHẬN]` và không thuộc Output Schema v1.0.0.
 
 ### UC-004 — Tạo và kiểm tra bản dự thảo
 
@@ -213,7 +214,7 @@ Trạng thái `Draft — cần xác nhận` nghĩa là requirement được đ�
 | FR-011 | Dữ liệu thí nghiệm | Trích bảng, điều kiện, số liệu có định vị nguồn | AI, Human | Tables/text | Experimental data | Must | FR-005 | Giá trị và đơn vị truy vết được | Draft — cần xác nhận |
 | FR-012 | Phát hiện thông tin thiếu | So sánh dữ liệu với yêu cầu draft | System, AI | Structured JSON | Missing list | Must | FR-005 | Mục thiếu không được tự điền | Draft — cần xác nhận |
 | FR-013 | Source evidence | Lưu file, trang, mục, đoạn, bảng/hình, excerpt và trạng thái | System, AI | Parsed content | Evidence records | Must | FR-004 | Nội dung quan trọng liên kết evidence khi có thể | Draft — cần xác nhận |
-| FR-014 | Phân loại grounding | Gán `SOURCE_FACT`, `PARAPHRASE`, `INFERENCE`, `MISSING`, `HUMAN_CONFIRMED` | System, AI, Human | Content/evidence | Grounding label | Must | FR-013 | Không tự nâng cấp `INFERENCE` | Draft — cần xác nhận |
+| FR-014 | Phân loại grounding | Output Schema v1.0.0 dùng `SOURCE_FACT`, `PARAPHRASE`, `INFERENCE`; dữ liệu thiếu dùng collection `missing_information` | System, AI | Content/evidence | Grounding label hoặc missing item | Must | FR-013 | Mọi grounding label có evidence; không tự nâng cấp `INFERENCE` | Human-approved for AI-001 contract |
 | FR-015 | Câu hỏi tác giả | Tạo câu hỏi cụ thể cho dữ liệu thiếu/mơ hồ | AI, Human | Missing list | Author questions | Must | FR-012 | Câu hỏi gắn section và lý do | Draft — cần xác nhận |
 | FR-016 | Draft generation | Tạo các section patent specification theo dữ liệu đã kiểm tra | System, AI | Structured JSON | Draft sections | Must | FR-005, FR-014 | Phần thiếu gắn nhãn xác nhận | Draft — cần xác nhận |
 | FR-017 | Draft Claims | Tạo claim nháp trong phạm vi Human phê duyệt | AI, Human | Validated analysis | Draft Claims | Must | FR-016 | Loại/số lượng claim `[CẦN XÁC NHẬN]`; claim có support check | Draft — cần xác nhận |
@@ -299,6 +300,10 @@ Luồng kiến trúc định hướng:
 
 ## 20. Structured Output concept
 
+Contract đã triển khai cho AI-001 là JSON Schema Draft 2020-12 tại `schemas/invention-output/v1.0.0/invention-output.schema.json`. Version `1.0.0` chỉ bao phủ structured invention analysis, evidence, missing information và author questions. Claims, draft sections, validation results, Human approval/audit state và các kết luận pháp lý không thuộc contract này.
+
+Mọi object trong v1.0.0 là strict (`additionalProperties: false`). Grounding object chỉ dùng `SOURCE_FACT`, `PARAPHRASE`, `INFERENCE`, và cả ba đều phải có ít nhất một `evidence_id`. `output_notice` bắt buộc thể hiện draft cần Human review, `is_legal_advice: false`, `filing_ready: false` và `includes_patentability_assessment: false`.
+
 | Object | Mục đích và quan hệ chính |
 |---|---|
 | `document_metadata` | File ID, tên, loại, checksum, parser metadata và locator conventions |
@@ -320,7 +325,7 @@ Luồng kiến trúc định hướng:
 | `draft_sections` | Section text, version, used evidence IDs, warnings và approval status |
 | `validation_results` | Rule, severity, location, evidence, trạng thái và resolution |
 
-Nguyên tắc validation: ID duy nhất trong phạm vi document version; reference phải tồn tại; enum grounding cố định; Abstract không quá 150 từ; field quan trọng phải có evidence hoặc trạng thái thiếu; claim element phải map tới description/evidence hoặc tạo finding; schema không thay thế business-rule validation.
+Nguyên tắc validation: JSON Schema kiểm tra shape, type, enum và constraint cục bộ. `uniqueItems` không bảo đảm uniqueness của logical ID bên trong object; ID uniqueness và cross-reference existence phải được kiểm tra bởi downstream business validation. Các quy tắc Abstract/claims/draft chỉ áp dụng cho artefact tương lai đã được phê duyệt, không thuộc Output Schema v1.0.0.
 
 ## 21. API dự kiến
 
