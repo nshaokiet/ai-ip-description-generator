@@ -8,13 +8,13 @@
 |---|---|
 | Document ID | SPEC-003 |
 | Document title | AGENTS.md — Quy tắc phối hợp AI của dự án |
-| Version | 0.1.1 |
-| Status | Draft |
+| Version | 0.2.0 |
+| Status | Approved baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
-| Reviewer | Gemini Pro |
+| Reviewer | Gemini 3.1 Pro High |
 | Created date | 18/09/2026 |
-| Last updated | 18/09/2026 |
+| Last updated | 20/09/2026 |
 | Related task ID | SPEC-003 |
 | Source of Truth | GitHub — `AGENTS.md` |
 | Confidentiality level | Internal |
@@ -25,6 +25,7 @@
 |---|---|---|---|---|---|---|---|
 | Chưa có | 0.1.0 | 18/09/2026 | ChatGPT/Codex | Tạo quy tắc phối hợp AI ban đầu | Khởi tạo Phase 1 | SPEC-003 | No |
 | 0.1.0 | 0.1.1 | 18/09/2026 | ChatGPT/Codex | Ghi nhận repository GitHub Private đã được xác minh | Đồng bộ trạng thái thực tế trước khi publish | Yêu cầu Human đưa artefact lên GitHub | No |
+| 0.1.1 | 0.2.0 | 20/09/2026 | ChatGPT/Codex | Ghi nhận SPEC-003 là approved baseline sau independent review và Human decisions | Khóa quy tắc phối hợp trước APP-001 | SPEC-003, REV-002, DEC-001/002/003 | No |
 
 ## 1. Project identity
 
@@ -33,7 +34,7 @@
 - **GitHub:** `https://github.com/nshaokiet/ai-ip-description-generator` — Private, đã xác minh ngày 18/09/2026.
 - **Mục tiêu MVP:** nhận một bài báo khoa học PDF/DOCX, tạo Structured JSON có source evidence, bản dự thảo patent specification cần Human review và DOCX.
 - **Deadline MVP:** 02/10/2026.
-- **Trạng thái dự án:** Phase 1 — Specification & Architecture; trạng thái phê duyệt thực tế `[CẦN XÁC NHẬN TRẠNG THÁI]`.
+- **Trạng thái dự án:** Phase 1 — Specification & Architecture; SPEC-001/002/003 là approved baseline. Phase 1 chưa được tuyên bố hoàn tất và Phase 2 chưa bắt đầu.
 - **Nguyên tắc pháp lý:** output là bản dự thảo, không phải bằng sáng chế, kết luận patentability, tư vấn pháp lý hoặc hồ sơ được bảo đảm chấp thuận.
 
 ## 2. Mục tiêu của AGENTS.md
@@ -142,12 +143,12 @@ Trước khi hành động, đọc theo thứ tự:
 5. Project Control Center, nếu có quyền truy cập.
 6. Gemini Review Log, nếu task liên quan review.
 
-Trạng thái tại phiên bản 0.1.1:
+Trạng thái tại phiên bản 0.2.0:
 
 - `AGENTS.md`: tồn tại.
 - `PROJECT_CONTEXT.md`: tồn tại trong cùng commit khởi tạo; nếu checkout riêng không thấy thì ghi `[FILE CHƯA TỒN TẠI]`.
 - `docs/system-specification.md`: tồn tại.
-- ADR trong `docs/decisions/`: `[FILE CHƯA TỒN TẠI]` tại thời điểm tạo tài liệu này.
+- ADR-001…ADR-005 trong `docs/decisions/`: tồn tại và `Accepted` theo Human decisions ngày 20/09/2026; các ADR runtime artefact khác tiếp tục theo history riêng.
 - Bản nguồn Git của Project Control Center: `docs/operations/01_PROJECT_CONTROL_CENTER.md`.
 - Bản nguồn Git của Gemini Review Log: `docs/operations/02_GEMINI_REVIEW_LOG.md`.
 - Trạng thái đồng bộ hai bản nguồn sang Google Docs: `[CẦN XÁC NHẬN TRẠNG THÁI]`.

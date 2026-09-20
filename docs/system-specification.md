@@ -8,18 +8,18 @@
 |---|---|
 | Document ID | SPEC-001 |
 | Document title | Đặc tả hệ thống — AI Intellectual Property Description Generator |
-| Version | 0.2.7 |
-| Status | Draft |
+| Version | 0.3.0 |
+| Status | Approved baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
-| Reviewer | Gemini Pro |
+| Reviewer | Gemini 3.1 Pro High |
 | Created date | 18/09/2026 |
 | Last updated | 20/09/2026 |
 | Related task ID | SPEC-001 |
 | Source of Truth | GitHub — `docs/system-specification.md` |
 | Confidentiality level | Internal; tài liệu nghiên cứu đầu vào phải được xử lý như Confidential |
 
-> Tài liệu này là đặc tả dự thảo. Các mục có nhãn `[CẦN XÁC NHẬN]` cần Human / Product Owner quyết định trước khi triển khai hoặc phát hành.
+> Tài liệu này là approved baseline sau Gemini 3.1 Pro High review và Human decisions ngày 20/09/2026. Các mục còn nhãn `[CẦN XÁC NHẬN]` vẫn cần quyết định riêng trước phần implementation/release liên quan.
 
 ## 2. Lịch sử phiên bản
 
@@ -34,6 +34,7 @@
 | 0.2.4 | 0.2.5 | 20/09/2026 | ChatGPT/Codex | Liên kết Patent DOCX Template v1.0.0, mapping và offline renderer | Đồng bộ quyết định Human cho DOC-001 | DOC-001, ADR-009 | No |
 | 0.2.5 | 0.2.6 | 20/09/2026 | ChatGPT/Codex | Ghi nhận Human Visual QA và Gemini independent review DOC-001 đều PASS | Đồng bộ governance state, không đổi technical specification | DOC-001, ADR-009, REV-DOC-001 | No |
 | 0.2.6 | 0.2.7 | 20/09/2026 | ChatGPT/Codex | Ghi nhận DOC-001 Completed sau khi Human merge PR #7 | Post-merge governance closeout, không đổi technical specification | DOC-001, ADR-009, REV-DOC-001, PR #7 | No |
+| 0.2.7 | 0.3.0 | 20/09/2026 | ChatGPT/Codex | Phê duyệt SPEC-001 baseline và khóa FastAPI/upload scope để chuẩn bị APP-001 | Đồng bộ independent review và Human decisions | SPEC-001/002/003, ADR-001…005, APP-001, DEC-001/002/003 | No |
 
 ## 3. Tổng quan
 
@@ -66,7 +67,7 @@ Hệ thống không thay thế luật sư, đại diện sáng chế hoặc chuy
 3. Sinh Structured JSON tuân thủ schema có version.
 4. Xác định vấn đề kỹ thuật, giải pháp, thành phần, bước, đặc trưng khác biệt tiềm năng, hiệu quả và dữ liệu thí nghiệm.
 5. Phát hiện thông tin thiếu và tạo câu hỏi cho tác giả.
-6. Sinh bản dự thảo patent specification, Draft Claims và Abstract tối đa 150 từ.
+6. Sinh bản dự thảo patent specification và Abstract tối đa 150 từ; Claims nằm ngoài MVP hiện hành.
 7. Cho phép Human rà soát, chỉnh sửa và theo dõi trạng thái từng phần.
 8. Kiểm tra grounding và tính nhất quán trước khi xuất DOCX.
 
@@ -77,10 +78,10 @@ Phạm vi tổng thể gồm giao diện upload và review, API điều phối, 
 ## 9. Phạm vi MVP
 
 - Một bài báo cho một hồ sơ xử lý.
-- Đầu vào PDF có text hoặc DOCX; scanned PDF/OCR `[CẦN XÁC NHẬN]`.
+- MVP/APP-001 đầu vào PDF có text hoặc DOCX, tối đa 10 MiB; PDF tối đa 50 trang; scanned PDF/OCR bị loại. Exact DOCX page count không được tuyên bố nếu chưa render.
 - Kiểm tra file, phân tích AI, Structured JSON, grounding, missing information và author questions.
 - Draft patent specification gồm các phần có căn cứ; phần thiếu gắn `[CẦN TÁC GIẢ XÁC NHẬN]`.
-- Draft Claims với số lượng và loại claim `[CẦN XÁC NHẬN]`.
+- Không tạo Claims/Draft Claims trong MVP hiện hành.
 - Abstract không quá 150 từ.
 - Giao diện Human review, chỉnh sửa và trạng thái phê duyệt từng section.
 - Xuất DOCX bằng `docxtpl`.
@@ -100,6 +101,7 @@ Phạm vi tổng thể gồm giao diện upload và review, API điều phối, 
 - Hỗ trợ đầy đủ mọi loại hồ sơ SHTT và mọi khu vực pháp lý.
 - Tạo dữ liệu kỹ thuật, kết quả thí nghiệm, hiệu quả hoặc biến thể không có căn cứ.
 - Tự động phê duyệt nội dung thay Human.
+- Claims/Draft Claims trong MVP hiện hành; mở lại cần scope-change approval riêng.
 
 ## 11. Stakeholder và đối tượng sử dụng
 
@@ -140,10 +142,10 @@ Phạm vi tổng thể gồm giao diện upload và review, API điều phối, 
 
 - **Actor:** End User.
 - **Mục tiêu:** Tạo hồ sơ từ một PDF hoặc DOCX hợp lệ.
-- **Tiền điều kiện:** Người dùng có quyền truy cập; cơ chế authentication `[CẦN XÁC NHẬN]`.
-- **Luồng chính:** Chọn file → gửi upload → backend kiểm tra → tạo document ID → lưu private → trả metadata.
+- **Tiền điều kiện:** APP-001 chỉ chạy local single-tenant bằng synthetic data; authentication cho production `[CẦN XÁC NHẬN]`.
+- **Luồng chính:** Chọn một file → gửi multipart upload → backend kiểm tra size/MIME/signature/parser → tạo opaque document ID → lưu ephemeral cục bộ → trả safe metadata.
 - **Luồng thay thế:** File trùng được xử lý theo quy tắc duplicate `[CẦN XÁC NHẬN]`.
-- **Lỗi có thể xảy ra:** Sai loại, file hỏng, vượt giới hạn, malware scan không đạt nếu chức năng được phê duyệt, mất kết nối.
+- **Lỗi có thể xảy ra:** Sai/mismatch loại, file rỗng/hỏng/encrypted, PDF scanned hoặc trên 50 trang, DOCX unsafe package, vượt 10 MiB; malware scanning service không thuộc APP-001.
 - **Kết quả:** Hồ sơ ở trạng thái sẵn sàng phân tích hoặc lỗi có hướng xử lý.
 - **Acceptance criteria:** Không nhận file ngoài PDF/DOCX; không lộ file qua public URL; lỗi trả mã và thông điệp có correlation ID; không log toàn văn tài liệu.
 
@@ -174,11 +176,11 @@ Phạm vi tổng thể gồm giao diện upload và review, API điều phối, 
 - **Actor:** End User, System, OpenAI Responses API, Human Reviewer.
 - **Mục tiêu:** Sinh patent specification draft có grounding.
 - **Tiền điều kiện:** Có Structured JSON hợp lệ.
-- **Luồng chính:** Tạo draft sections → tạo Draft Claims theo phạm vi được xác nhận → tạo Abstract → validation grounding/consistency → Human review.
+- **Luồng chính:** Tạo claim-free draft sections → tạo Abstract → validation grounding/consistency → Human review.
 - **Luồng thay thế:** Phần không đủ dữ liệu được tạo với `[CẦN TÁC GIẢ XÁC NHẬN]` hoặc bỏ theo quy tắc template đã phê duyệt.
-- **Lỗi có thể xảy ra:** Claim không được description hỗ trợ, nội dung mới không có nguồn, thuật ngữ không nhất quán, AI timeout.
+- **Lỗi có thể xảy ra:** Nội dung mới không có nguồn, thuật ngữ không nhất quán, AI timeout; Claims không được tạo trong MVP hiện hành.
 - **Kết quả:** Draft version và validation report.
-- **Acceptance criteria:** Abstract tối đa 150 từ; claim unsupported bị cảnh báo; các phần bắt buộc không bị âm thầm bỏ qua; draft mang disclaimer rõ ràng.
+- **Acceptance criteria:** Abstract tối đa 150 từ; không sinh Claims; các phần bắt buộc không bị âm thầm bỏ qua; draft mang disclaimer rõ ràng.
 
 ### UC-005 — Xuất DOCX
 
@@ -208,9 +210,9 @@ Trạng thái `Draft — cần xác nhận` nghĩa là requirement được đ�
 
 | ID | Tên | Mô tả | Actor | Input | Output | Priority | Dependency | Acceptance criteria | Trạng thái xác nhận |
 |---|---|---|---|---|---|---|---|---|---|
-| FR-001 | Upload PDF/DOCX | Nhận một bài báo PDF hoặc DOCX cho mỗi hồ sơ MVP | End User | File | Document metadata | Must | Auth `[CẦN XÁC NHẬN]` | Chỉ định dạng được phép được nhận | Draft — cần xác nhận |
-| FR-002 | File validation | Xác minh extension, MIME, signature và khả năng đọc | System | File | Validation result | Must | FR-001 | File giả định dạng hoặc hỏng bị từ chối | Draft — cần xác nhận |
-| FR-003 | Kiểm tra kích thước | Áp giới hạn upload do Human phê duyệt | System | File size | Pass/fail | Must | FR-001 | Giới hạn và thông báo lỗi là `[CẦN XÁC NHẬN]` | Draft — cần xác nhận |
+| FR-001 | Upload PDF/DOCX | Nhận đúng một PDF có text hoặc DOCX cho local single-tenant APP-001 | End User | Multipart file | Safe document metadata | Must | ADR-001, APP-001 | Từ chối zero/multiple/unsupported file; không lộ local path | Human-approved baseline; implementation pending |
+| FR-002 | File validation | Xác minh extension, MIME, signature, parser readability, encryption và unsafe package content | System | File | Validation result | Must | FR-001 | File giả định dạng, hỏng, encrypted, scanned PDF hoặc unsafe DOCX bị từ chối | Human-approved baseline; implementation pending |
+| FR-003 | Kiểm tra giới hạn | Áp 10 MiB cho PDF/DOCX và 50 trang cho PDF | System | File bytes/pages | Pass/fail | Must | FR-001 | File `>10 MiB` hoặc PDF `>50` trang bị từ chối; DOCX exact pagination nằm ngoài APP-001 | Human-approved baseline; implementation pending |
 | FR-004 | Phân tích tài liệu | Điều phối parsing và AI analysis | System | Valid document | Analysis job/result | Must | FR-002, AI-002 | Có trạng thái job, lỗi và correlation ID | Draft — cần xác nhận |
 | FR-005 | Structured extraction | Sinh JSON theo schema có version | System, AI | Parsed content | Structured JSON | Must | FR-004, AI-001 | JSON hợp lệ theo đúng schema version | Draft — cần xác nhận |
 | FR-006 | Trích xuất vấn đề kỹ thuật | Nhận diện vấn đề có evidence | AI, Human | Evidence chunks | Technical problems | Must | FR-005 | Mỗi mục có evidence hoặc nhãn phù hợp | Draft — cần xác nhận |
@@ -224,7 +226,7 @@ Trạng thái `Draft — cần xác nhận` nghĩa là requirement được đ�
 | FR-014 | Phân loại grounding | Output Schema v1.0.0 dùng `SOURCE_FACT`, `PARAPHRASE`, `INFERENCE`; dữ liệu thiếu dùng collection `missing_information` | System, AI | Content/evidence | Grounding label hoặc missing item | Must | FR-013 | Mọi grounding label có evidence; không tự nâng cấp `INFERENCE` | Human-approved for AI-001 contract |
 | FR-015 | Câu hỏi tác giả | Tạo câu hỏi cụ thể cho dữ liệu thiếu/mơ hồ | AI, Human | Missing list | Author questions | Must | FR-012 | Câu hỏi gắn section và lý do | Draft — cần xác nhận |
 | FR-016 | Draft generation | Tạo các section patent specification theo dữ liệu đã kiểm tra | System, AI | Structured JSON | Draft sections | Must | FR-005, FR-014 | Phần thiếu gắn nhãn xác nhận | Draft — cần xác nhận |
-| FR-017 | Draft Claims | Tạo claim nháp trong phạm vi Human phê duyệt | AI, Human | Validated analysis | Draft Claims | Must | FR-016 | Loại/số lượng claim `[CẦN XÁC NHẬN]`; claim có support check | Draft — cần xác nhận |
+| FR-017 | Draft Claims | Tính năng tương lai; không thuộc MVP hiện hành | AI, Human | Validated analysis | Draft Claims | Won't for current MVP | Scope-change approval | Không endpoint/prompt/schema/runtime hiện hành nào được tạo Claims | Human decision: excluded from current MVP |
 | FR-018 | Abstract | Tạo Abstract tối đa 150 từ | AI, Human | Draft | Abstract | Must | FR-016 | Bộ đếm xác nhận không quá 150 từ | Draft — cần xác nhận |
 | FR-019 | Human review | Hiển thị content cùng evidence và cảnh báo | Human | Analysis/draft | Review decisions | Must | FR-013, FR-016 | Human có thể chấp nhận, trả sửa hoặc giữ cần xác nhận | Draft — cần xác nhận |
 | FR-020 | Chỉnh sửa nội dung | Cho phép sửa field/section có attribution | Human | User edits | New content version | Must | FR-019 | Không ghi đè version trước | Draft — cần xác nhận |
@@ -289,12 +291,12 @@ Luồng kiến trúc định hướng:
 | User edits | Human | Validate + version | Analysis/draft history | Attribution và không ghi đè im lặng |
 | Export file | Selected draft | `docxtpl` render | Private download/storage | Gắn template/content version |
 | Logs | Components | Redact | Logging platform `[CẦN XÁC NHẬN]` | Không chứa full paper, secret hoặc prompt payload nhạy cảm |
-| Temporary data | Pipeline | Dùng trong job | Ephemeral storage | Cách xóa và TTL `[CẦN XÁC NHẬN]` |
+| Temporary data | Upload/pipeline | Dùng trong local job | Ephemeral local storage | APP-001 xóa ngay khi validation fail, sau downstream completion, hoặc muộn nhất sau 1 giờ; production policy cần approval riêng |
 
 ## 19. AI processing flow
 
 1. **Ingestion:** xác nhận quyền, file metadata và checksum phù hợp.
-2. **Parsing:** trích text, heading, bảng và hình tham chiếu; scanned PDF đi theo quyết định OCR `[CẦN XÁC NHẬN]`.
+2. **Parsing:** trích text, heading, bảng và hình tham chiếu; MVP từ chối scanned PDF và không OCR.
 3. **Chunking/file retrieval:** giữ context và locator; chiến lược dùng OpenAI File Search hoặc chunking backend `[CẦN XÁC NHẬN]`.
 4. **Extraction:** runtime tương lai gọi model bằng extraction prompt và schema version cụ thể; AI-002 mới chỉ kiểm tra canonical prompt contract offline.
 5. **Normalization:** chuẩn hóa thuật ngữ, đơn vị và quan hệ nhưng không sửa giá trị nguồn.
@@ -348,11 +350,12 @@ DOC-001 triển khai `templates/patent-docx/v1.0.0/patent-description-template.d
 
 ## 21. API dự kiến
 
-Các endpoint dưới đây là contract đề xuất, chưa được khẳng định đã triển khai. Authentication/authorization cụ thể `[CẦN XÁC NHẬN]`; mặc định thiết kế phải từ chối truy cập tài nguyên không thuộc quyền người dùng.
+Các endpoint dưới đây là contract đề xuất, chưa được khẳng định đã triển khai. APP-001 chỉ xin approval cho `GET /health` và local single-tenant `POST /api/documents`; authentication/authorization production vẫn `[CẦN XÁC NHẬN]`.
 
 | Endpoint | Mục đích | Input | Output | Authentication | Error responses | Idempotency |
 |---|---|---|---|---|---|---|
-| `POST /api/documents` | Upload/tạo document | Multipart PDF/DOCX, metadata cho phép | Document metadata, validation status | Required; cơ chế `[CẦN XÁC NHẬN]` | 400, 401, 403, 413, 415, 422, 500 | Idempotency key/checksum policy `[CẦN XÁC NHẬN]` |
+| `GET /health` | Health check tối thiểu | Không có | `{"status":"ok"}` | Không có trong local APP-001 | 500 | Safe/idempotent |
+| `POST /api/documents` | Upload/tạo ephemeral document | Chính xác một multipart PDF/DOCX, tối đa 10 MiB | Safe metadata, validation status, PDF page count | Không có trong local APP-001; production `[CẦN XÁC NHẬN]` | 400, 413, 415, 422, 500 | Idempotency/checksum dedup ngoài APP-001 |
 | `GET /api/documents/{id}` | Lấy metadata/trạng thái | Document ID | Document view | Required | 401, 403, 404, 500 | Safe/idempotent |
 | `POST /api/documents/{id}/analyze` | Khởi chạy analysis | Document ID, prompt/schema version tùy chọn được phép | Job/status | Required | 400, 403, 404, 409, 422, 429, 500, 502, 504 | Idempotency key cần hỗ trợ |
 | `GET /api/documents/{id}/analysis` | Lấy analysis version | Document ID, version query | Structured analysis | Required | 403, 404, 500 | Safe/idempotent |
@@ -371,8 +374,8 @@ Mọi lỗi API phải có mã máy đọc được, thông điệp an toàn, co
 | Tình huống | Hành vi yêu cầu |
 |---|---|
 | File không hợp lệ/hỏng | Từ chối trước AI; nêu lý do an toàn và cách chọn lại file |
-| PDF không trích xuất được text | Không tiếp tục như thành công; báo lỗi hoặc chuyển OCR nếu được phê duyệt |
-| Scanned PDF | Gắn trạng thái cần OCR; OCR `[CẦN XÁC NHẬN]` |
+| PDF không trích xuất được text | Không tiếp tục như thành công; MVP trả safe unsupported/no-text error và không OCR |
+| Scanned PDF | APP-001 từ chối là unsupported/no text layer; không OCR |
 | DOCX không đọc được | Từ chối hoặc yêu cầu file khác; không gửi bytes hỏng tới AI |
 | AI timeout/rate limit | Job ở trạng thái retryable/failed; retry policy `[CẦN XÁC NHẬN]` |
 | AI trả sai schema | Không publish output; validate, retry có giới hạn hoặc yêu cầu xử lý |
@@ -380,7 +383,7 @@ Mọi lỗi API phải có mã máy đọc được, thông điệp an toàn, co
 | Export DOCX thất bại | Không tạo link giả; giữ draft, ghi error event và cho thử lại |
 | Mất kết nối | Client hiển thị trạng thái chưa xác định và kiểm tra lại job bằng ID |
 | Không có quyền | Trả 401/403 mà không tiết lộ document có tồn tại hay không theo policy |
-| File quá lớn | Trả 413 theo giới hạn `[CẦN XÁC NHẬN]` trước xử lý tốn kém |
+| File quá lớn | APP-001 trả 413 khi vượt 10 MiB, trước parser/AI processing |
 | Lỗi không xác định | Trả generic message + correlation ID; chi tiết chỉ ở log đã redaction |
 
 ## 23. Logging và monitoring
@@ -398,6 +401,8 @@ Mọi lỗi API phải có mã máy đọc được, thông điệp an toàn, co
 - Authentication/authorization model và tenant isolation: `[CẦN XÁC NHẬN]` trước khi triển khai dữ liệu thật.
 - File nguồn và export ở private storage; download dùng kiểm tra quyền và URL hết hạn nếu áp dụng.
 - Validation extension, MIME, magic bytes, parser isolation và tên file an toàn.
+- APP-001 reject encrypted PDF/DOCX, PDF không có text layer, macro/embedded/external-relationship DOCX; original filename không bao giờ được dùng làm storage path.
+- APP-001 local ephemeral storage chỉ dùng synthetic data; cleanup ngay khi lỗi, sau downstream completion hoặc TTL tối đa 1 giờ.
 - Malware scanning: `[CẦN XÁC NHẬN]`; nếu chưa có, không được tuyên bố file đã scan.
 - Encryption in transit bắt buộc; encryption at rest và nhà cung cấp storage `[CẦN XÁC NHẬN]`.
 - Có data deletion workflow; backup retention và legal hold `[CẦN XÁC NHẬN]`.
@@ -455,7 +460,7 @@ MVP chỉ đạt khi có bằng chứng cho toàn bộ tiêu chí sau:
 - Structured JSON qua schema và business-rule validation.
 - Nội dung kỹ thuật quan trọng có evidence hoặc nhãn `INFERENCE`/`MISSING` rõ ràng.
 - Human có thể review, edit và xác nhận section mà không mất version cũ.
-- Draft có các phần đã phê duyệt về phạm vi, Draft Claims và Abstract tối đa 150 từ.
+- Draft có các phần đã phê duyệt và Abstract tối đa 150 từ; không có Claims.
 - Grounding/consistency validation phát hiện test cases unsupported và mâu thuẫn đã định nghĩa.
 - DOCX mở được, đúng content/template version và giữ disclaimer/nhãn xác nhận.
 - Security, deletion, secret scan và access-control acceptance tests đạt theo tiêu chí đã phê duyệt.
@@ -504,21 +509,19 @@ Ngày hoàn thành từng phase: `[CẦN XÁC NHẬN]`. Mục tiêu hoàn thành
 - Tài liệu nghiên cứu được cấp quyền và test fixtures không nhạy cảm.
 - Quyết định storage, authentication/authorization và retention.
 - Prompt, schema, API contract và DOCX template có version.
-- Human/chuyên gia SHTT review scope Draft Claims và cấu trúc draft.
+- Human/chuyên gia SHTT review cấu trúc draft; Claims tương lai cần scope-change approval riêng.
 - Vercel/Railway account/config khi đến Phase 5.
 - Google Drive/NotebookLM chỉ phục vụ phối hợp và research, không thay GitHub Technical Source of Truth.
 
 ## 33. Open questions
 
-1. Giới hạn file và số trang của MVP là bao nhiêu?
-2. Có hỗ trợ scanned PDF/OCR trong MVP không?
-3. Cơ chế authentication, organization/tenant và vai trò người dùng là gì?
-4. Private storage nào được dùng trước khi Supabase/PostgreSQL được phê duyệt?
-5. Retention cho source, derived data, export, logs và backup là bao lâu?
+1. Cơ chế authentication, organization/tenant và vai trò người dùng production là gì?
+2. Private production storage nào được dùng trước khi Supabase/PostgreSQL được phê duyệt?
+3. Retention cho source, derived data, export, logs và backup production là bao lâu? APP-001 local TTL đã khóa tối đa 1 giờ.
 6. Có malware scanning trong MVP không?
 7. Model OpenAI, giới hạn chi phí, timeout và retry policy là gì?
 8. Sử dụng File Search hay backend parsing/chunking cho từng loại tài liệu?
-9. Số lượng, loại và cấu trúc Draft Claims được phép tạo là gì?
+9. Nếu Human mở lại Claims sau MVP/scope change, số lượng, loại và cấu trúc được phép là gì?
 10. Có bắt buộc mọi section được Human approve trước export không?
 11. PDF, QA report và claim mapping có thuộc MVP không?
 12. Bộ test/golden set dùng tài liệu nào, ai annotation và pass threshold là gì?
@@ -528,12 +531,12 @@ Ngày hoàn thành từng phase: `[CẦN XÁC NHẬN]`. Mục tiêu hoàn thành
 | ID | Quyết định cần xác nhận | Ảnh hưởng nếu chưa quyết định | Người quyết định |
 |---|---|---|---|
 | HD-001 | Phê duyệt phạm vi MVP và ngoài phạm vi | Không thể khóa acceptance criteria | Human / Product Owner |
-| HD-002 | OCR/scanned PDF | Ảnh hưởng parser, chi phí và timeline | Human / Product Owner |
-| HD-003 | File size/page limits | Không thể cấu hình upload và performance test | Human / Product Owner |
+| HD-002 | OCR/scanned PDF | Human đã loại khỏi MVP/APP-001; chỉ mở lại qua scope-change approval riêng | Human / Product Owner |
+| HD-003 | File size/page limits | Human đã chốt 10 MiB cho PDF/DOCX và 50 trang cho PDF; exact DOCX pagination hoãn sang parser/rendering task | Human / Product Owner |
 | HD-004 | Auth, authorization và private storage | Chặn xử lý dữ liệu thật an toàn | Human / Product Owner |
 | HD-005 | Retention/deletion/backup | Chặn phê duyệt privacy và vận hành | Human / Product Owner |
 | HD-006 | Model, File Search/chunking, timeout, retry và cost limit | Chặn khóa AI architecture/runtime | Human / Product Owner |
-| HD-007 | Phạm vi Draft Claims và người review chuyên môn | Chặn tiêu chí export/release | Human / chuyên gia SHTT |
+| HD-007 | Phạm vi Draft Claims và người review chuyên môn | Human đã loại Claims khỏi MVP hiện hành; chỉ ảnh hưởng scope-change task tương lai | Human / chuyên gia SHTT |
 | HD-008 | DOCX template và các section áp dụng | Đã được Human quyết định cho DOC-001 v1.0.0; Human Visual QA/Gemini reviews PASS; Completed — Merged via PR #7 | Human / chuyên gia SHTT |
 | HD-009 | Optional PDF/QA/claim mapping | Ảnh hưởng workload trước deadline | Human / Product Owner |
 | HD-010 | Golden set, metrics và threshold | Không thể kết luận chất lượng AI đạt | Human / Product Owner |

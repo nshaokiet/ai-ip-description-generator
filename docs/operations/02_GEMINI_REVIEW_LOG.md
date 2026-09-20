@@ -10,14 +10,14 @@
 | Document title | Gemini Review Log |
 | Project | AI Intellectual Property Description Generator |
 | Project deadline | 02/10/2026 |
-| Version | 0.2.7 |
+| Version | 0.3.0 |
 | Status | Active review log |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
-| Reviewer | Gemini Pro |
+| Reviewer | Gemini 3.1 Pro High |
 | Created date | 18/09/2026 |
 | Last updated | 20/09/2026 GMT+7 |
-| Related task ID | REVIEW-001; AI-001; AI-002; AI-003; DOC-001 |
+| Related task ID | REVIEW-001; SPEC-001; SPEC-002; SPEC-003; AI-001; AI-002; AI-003; DOC-001; APP-001 |
 | Source of Truth | Review history; bản nguồn Git tại `docs/operations/02_GEMINI_REVIEW_LOG.md` |
 | Confidentiality level | Internal; findings về research input có thể là Confidential |
 
@@ -34,6 +34,7 @@
 | 0.2.4 | 0.2.5 | 20/09/2026 | ChatGPT/Codex | Ghi Human decision, merge resolution và đóng REV-AI-003 | Governance closeout sau merge | REV-AI-003, AI-003, PR #5, merge commit `fb522bc5ecbb5ad66bab6226fa88ae51020cef52` | No |
 | 0.2.5 | 0.2.6 | 20/09/2026 | ChatGPT/Codex | Ghi Human Visual QA và Gemini independent review PASS cho Patent DOCX Template v1.0.0 trên branch snapshot chưa commit | Đồng bộ review evidence được Human xác nhận trước commit, Pull Request và merge | REV-DOC-001, DOC-001, ADR-009 | No |
 | 0.2.6 | 0.2.7 | 20/09/2026 | ChatGPT/Codex | Ghi Human merge decision, merge resolution và đóng REV-DOC-001 | Post-merge governance closeout | REV-DOC-001, DOC-001, PR #7, merge commit `d208a7925da844c5b43578bac8ebdbb1c5c6b5b8` | No |
+| 0.2.7 | 0.3.0 | 20/09/2026 | ChatGPT/Codex | Ghi kết quả review SPEC-001/002/003, Human decisions và đóng REV-001/002/003 | Khóa approved baseline trước APP-001 approval | REV-001, REV-002, REV-003, DEC-001/002/003 | No |
 
 ## 2. Review Rules
 
@@ -82,8 +83,11 @@
 | REV-AI-002 | 19/09/2026 | AI-002 | Extraction Prompt v1.0.0 | Commit `f8772b228a23bf7cdec10fa0c463e6d1f672c341`; resolved by merge commit `8f2b7082881961cc1a2cf7fa56ece81976759c7f` | APPROVE | CLOSED |
 | REV-AI-003 | 20/09/2026 | AI-003 | Patent Draft Generation Contract v1.0.0, Draft Generation Prompt v1.0.0 và supporting artefacts | Implementation `ae7e8fb573ea4681a9db1bafa711d19a3c598666`; resolved by merge commit `fb522bc5ecbb5ad66bab6226fa88ae51020cef52` | APPROVE | CLOSED |
 | REV-DOC-001 | 20/09/2026 | DOC-001 | Patent DOCX Template v1.0.0, renderer, mapping, fixtures, tests và supporting governance | Implementation `d3f7c7d9596b77a39e9a56fcdf97c76cb972612a`; resolved by merge commit `d208a7925da844c5b43578bac8ebdbb1c5c6b5b8` | APPROVE | CLOSED |
+| REV-001 | 20/09/2026 | SPEC-001 | `docs/system-specification.md` | Reviewed repository HEAD `595113a6c5337a78b72ff4887383ef4a2b2ef49e`; resolved as baseline 0.3.0 | NEEDS HUMAN DECISION | CLOSED |
+| REV-002 | 20/09/2026 | SPEC-003 | `AGENTS.md` | Reviewed repository HEAD `595113a6c5337a78b72ff4887383ef4a2b2ef49e`; resolved as baseline 0.2.0 | NEEDS HUMAN DECISION | CLOSED |
+| REV-003 | 20/09/2026 | SPEC-002 | `PROJECT_CONTEXT.md` | Reviewed repository HEAD `595113a6c5337a78b72ff4887383ef4a2b2ef49e`; resolved as baseline 0.3.0 | NEEDS HUMAN DECISION | CLOSED |
 
-Các entry `REV-AI-001`, `REV-AI-002`, `REV-AI-003` và `REV-DOC-001` được ChatGPT/Codex ghi lại từ kết quả Gemini do Human / Product Owner xác nhận; Gemini không sửa production artefact. `REV-DOC-001` đã `CLOSED` sau khi Human approve và merge PR #7 ngày 20/09/2026.
+Các entry review được ChatGPT/Codex ghi lại từ kết quả Gemini do Human / Product Owner xác nhận; Gemini không sửa production artefact. REV-001/002/003 ghi verdict `PASS WITH HUMAN DECISIONS REQUIRED`, không có document finding; chúng được đóng sau khi Human phê duyệt baseline và ban hành DEC-001/002/003.
 
 ## 7. Review Entry Template
 
@@ -351,6 +355,108 @@ Không có finding cần resolution. PR #1 đã merge thành công ngày 19/09/2
 #### 19. Closed By
 
 Human / Product Owner.
+
+### REV-001
+
+#### Date
+
+`20/09/2026`
+
+#### Reviewer
+
+Gemini 3.1 Pro High. Review mode: **Read-only**.
+
+#### Task ID / Artefact reviewed
+
+`SPEC-001` — `docs/system-specification.md` at reviewed HEAD `595113a6c5337a78b72ff4887383ef4a2b2ef49e`.
+
+#### Review status
+
+`CLOSED`
+
+#### Verdict and findings
+
+`PASS WITH HUMAN DECISIONS REQUIRED`. Document findings: Không có BLOCKER, MAJOR hoặc MINOR. Regression evidence: 85/85 tests pass. Review này không tuyên bố APP-001 đã implemented.
+
+#### Human Decision
+
+Human / Product Owner approve current baseline và các quyết định `DEC-001/002/003` ngày 20/09/2026: phê duyệt SPEC-001/002/003 là baseline; accept ADR-001…005; chốt upload/local ephemeral scope để chuẩn bị APP-001 specification.
+
+#### Resolution
+
+Approved after Human decisions. SPEC-001 được version thành 0.3.0; các quyết định được ghi trong ADR và APP-001 task specification. Không có document finding cần sửa.
+
+#### Closed Date / Closed By
+
+`20/09/2026` — Human / Product Owner.
+
+### REV-002
+
+#### Date
+
+`20/09/2026`
+
+#### Reviewer
+
+Gemini 3.1 Pro High. Review mode: **Read-only**.
+
+#### Task ID / Artefact reviewed
+
+`SPEC-003` — `AGENTS.md` at reviewed HEAD `595113a6c5337a78b72ff4887383ef4a2b2ef49e`.
+
+#### Review status
+
+`CLOSED`
+
+#### Verdict and findings
+
+`PASS WITH HUMAN DECISIONS REQUIRED`. Document findings: Không có BLOCKER, MAJOR hoặc MINOR. Regression evidence: 85/85 tests pass.
+
+#### Human Decision
+
+Human / Product Owner approve current baseline và các quyết định `DEC-001/002/003` ngày 20/09/2026, bao gồm vai trò reviewer độc lập của Gemini, GitHub Technical Source of Truth và Human review bắt buộc.
+
+#### Resolution
+
+Approved after Human decisions. SPEC-003 được version thành 0.2.0; ADR-003/004/005 ghi các quyết định liên quan. Không có document finding cần sửa.
+
+#### Closed Date / Closed By
+
+`20/09/2026` — Human / Product Owner.
+
+### REV-003
+
+#### Date
+
+`20/09/2026`
+
+#### Reviewer
+
+Gemini 3.1 Pro High. Review mode: **Read-only**.
+
+#### Task ID / Artefact reviewed
+
+`SPEC-002` — `PROJECT_CONTEXT.md` at reviewed HEAD `595113a6c5337a78b72ff4887383ef4a2b2ef49e`.
+
+#### Review status
+
+`CLOSED`
+
+#### Verdict and findings
+
+`PASS WITH HUMAN DECISIONS REQUIRED`. Document findings: Không có BLOCKER, MAJOR hoặc MINOR. Regression evidence: 85/85 tests pass.
+
+#### Human Decision
+
+Human / Product Owner approve current baseline và các quyết định `DEC-001/002/003` ngày 20/09/2026, bao gồm FastAPI/Responses API direction và upload/local ephemeral scope cho APP-001 specification.
+
+#### Resolution
+
+Approved after Human decisions. SPEC-002 được version thành 0.3.0 và đồng bộ với ADR-001…005/APP-001. Không có document finding cần sửa.
+
+#### Closed Date / Closed By
+
+`20/09/2026` — Human / Product Owner.
 
 ### REV-DOC-001
 

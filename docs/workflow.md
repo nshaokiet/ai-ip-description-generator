@@ -4,12 +4,18 @@
 
 Accepted initial formats:
 
-- PDF
-- DOCX
+- Text-based PDF, tối đa 10 MiB và 50 trang.
+- DOCX OOXML, tối đa 10 MiB.
+
+MVP/APP-001 không hỗ trợ scanned PDF/OCR. Exact DOCX page count không thể xác minh đáng tin cậy nếu không render, vì vậy không có exact 50-page enforcement cho DOCX trong APP-001; metadata nếu có chỉ được dùng để early reject trường hợp rõ ràng.
+
+Validation phải đối chiếu extension, declared MIME, signature/package và parser readability; reject empty/multiple file, mismatch, corrupt/encrypted input, unsafe DOCX package và PDF không có text layer. Original filename không được dùng làm storage path.
+
+APP-001 chỉ dùng local ephemeral storage trong single-tenant synthetic development. Temporary bytes bị xóa ngay khi validation thất bại, sau downstream processing, hoặc muộn nhất sau 1 giờ. Không dùng dữ liệu nghiên cứu thật trước security acceptance.
 
 ## 2. Document Analysis
 
-The backend sends the document through the AI analysis pipeline.
+Backend AI analysis là bước runtime tương lai. APP-001 không gọi OpenAI Responses API, model hoặc canonical prompts.
 
 The system should extract, at minimum:
 
