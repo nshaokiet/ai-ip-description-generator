@@ -4,7 +4,7 @@ Canonical schema: `schemas/patent-draft/v1.0.0/patent-draft.schema.json`
 
 JSON Schema dialect: Draft 2020-12
 
-Status: **Gemini Review Passed — Awaiting Human Merge Approval**
+Status: **Completed — Merged via PR #5**
 
 ## Purpose and boundary
 

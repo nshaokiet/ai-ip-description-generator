@@ -93,7 +93,7 @@ Canonical artefacts:
 - Schema: `schemas/patent-draft/v1.0.0/patent-draft.schema.json`.
 - Prompt: `prompts/draft-generation/v1.0.0/draft-generation-prompt.md`.
 - Version: `1.0.0`.
-- Status: **Gemini Review Passed — Awaiting Human Merge Approval**.
+- Status: **Completed — Merged via PR #5**.
 
 The caller/Human selects an existing title candidate. The draft prompt does not invent a title. The output uses the exact eleven-part document order approved for DOC-001, while technical prose is represented in six ordered sections and seven canonical subsections.
 
@@ -122,7 +122,7 @@ The user reviews and edits generated sections before export.
 
 Validated content is mapped into the configured DOCX template using `docxtpl`.
 
-DOC-001 must not start until AI-003 has completed independent review, Human approval and merge.
+AI-003 has completed independent review, Human approval and merge. DOC-001 is eligible for separate implementation preparation and approval; implementation has not started.
 
 ## 8. Output
 

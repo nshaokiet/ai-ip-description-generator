@@ -4,7 +4,7 @@ Canonical prompt: `prompts/draft-generation/v1.0.0/draft-generation-prompt.md`
 
 Output contract: `schemas/patent-draft/v1.0.0/patent-draft.schema.json`
 
-Status: **Gemini Review Passed — Awaiting Human Merge Approval**
+Status: **Completed — Merged via PR #5**
 
 ## Boundary
 
