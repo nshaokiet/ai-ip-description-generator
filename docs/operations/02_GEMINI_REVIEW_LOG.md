@@ -10,7 +10,7 @@
 | Document title | Gemini Review Log |
 | Project | AI Intellectual Property Description Generator |
 | Project deadline | 02/10/2026 |
-| Version | 0.2.6 |
+| Version | 0.2.7 |
 | Status | Active review log |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -33,6 +33,7 @@
 | 0.2.3 | 0.2.4 | 20/09/2026 | ChatGPT/Codex | Ghi independent review PASS cho Patent Draft Generation Contract v1.0.0 và Draft Generation Prompt v1.0.0 trên branch snapshot chưa commit | Đồng bộ review evidence được Human xác nhận trước commit, PR và merge | REV-AI-003, AI-003, ADR-008 | No |
 | 0.2.4 | 0.2.5 | 20/09/2026 | ChatGPT/Codex | Ghi Human decision, merge resolution và đóng REV-AI-003 | Governance closeout sau merge | REV-AI-003, AI-003, PR #5, merge commit `fb522bc5ecbb5ad66bab6226fa88ae51020cef52` | No |
 | 0.2.5 | 0.2.6 | 20/09/2026 | ChatGPT/Codex | Ghi Human Visual QA và Gemini independent review PASS cho Patent DOCX Template v1.0.0 trên branch snapshot chưa commit | Đồng bộ review evidence được Human xác nhận trước commit, Pull Request và merge | REV-DOC-001, DOC-001, ADR-009 | No |
+| 0.2.6 | 0.2.7 | 20/09/2026 | ChatGPT/Codex | Ghi Human merge decision, merge resolution và đóng REV-DOC-001 | Post-merge governance closeout | REV-DOC-001, DOC-001, PR #7, merge commit `d208a7925da844c5b43578bac8ebdbb1c5c6b5b8` | No |
 
 ## 2. Review Rules
 
@@ -80,9 +81,9 @@
 | REV-AI-001 | 18/09/2026 | AI-001 | Output Schema v1.0.0 và supporting artefacts | Commit `69b85be6b55cf2c46fc4f02bbfbf3083d2389299`; resolved by merge commit `49efead593437dfc5c88397ea6f335a2d4ff84d7` | APPROVE | CLOSED |
 | REV-AI-002 | 19/09/2026 | AI-002 | Extraction Prompt v1.0.0 | Commit `f8772b228a23bf7cdec10fa0c463e6d1f672c341`; resolved by merge commit `8f2b7082881961cc1a2cf7fa56ece81976759c7f` | APPROVE | CLOSED |
 | REV-AI-003 | 20/09/2026 | AI-003 | Patent Draft Generation Contract v1.0.0, Draft Generation Prompt v1.0.0 và supporting artefacts | Implementation `ae7e8fb573ea4681a9db1bafa711d19a3c598666`; resolved by merge commit `fb522bc5ecbb5ad66bab6226fa88ae51020cef52` | APPROVE | CLOSED |
-| REV-DOC-001 | 20/09/2026 | DOC-001 | Patent DOCX Template v1.0.0, renderer, mapping, fixtures, tests và supporting governance | Branch `doc/patent-docx-template-v1`; base HEAD `cdc783db047bc89488b261ae0feb529354d86ed7`; implementation commit chưa tạo | APPROVE | MERGE PENDING |
+| REV-DOC-001 | 20/09/2026 | DOC-001 | Patent DOCX Template v1.0.0, renderer, mapping, fixtures, tests và supporting governance | Implementation `d3f7c7d9596b77a39e9a56fcdf97c76cb972612a`; resolved by merge commit `d208a7925da844c5b43578bac8ebdbb1c5c6b5b8` | APPROVE | CLOSED |
 
-Các entry `REV-AI-001`, `REV-AI-002`, `REV-AI-003` và `REV-DOC-001` được ChatGPT/Codex ghi lại từ kết quả Gemini do Human / Product Owner xác nhận; Gemini không sửa production artefact. `REV-AI-003` đã đóng sau khi Human merge PR #5 ngày 20/09/2026. `REV-DOC-001` chưa `CLOSED`; Human merge decision còn chờ.
+Các entry `REV-AI-001`, `REV-AI-002`, `REV-AI-003` và `REV-DOC-001` được ChatGPT/Codex ghi lại từ kết quả Gemini do Human / Product Owner xác nhận; Gemini không sửa production artefact. `REV-DOC-001` đã `CLOSED` sau khi Human approve và merge PR #7 ngày 20/09/2026.
 
 ## 7. Review Entry Template
 
@@ -371,13 +372,13 @@ Patent DOCX Template v1.0.0, template package/manifest, renderer/mapping, synthe
 
 #### Version reviewed
 
-Patent DOCX Template `1.0.0`; branch `doc/patent-docx-template-v1`; base HEAD `cdc783db047bc89488b261ae0feb529354d86ed7`; implementation commit: `Chưa tạo`; Pull Request: `Chưa tạo`; merge commit: `Chưa có`.
+Patent DOCX Template `1.0.0`; implementation commit `d3f7c7d9596b77a39e9a56fcdf97c76cb972612a`; Pull Request [#7](https://github.com/nshaokiet/ai-ip-description-generator/pull/7); resolved by merge commit `d208a7925da844c5b43578bac8ebdbb1c5c6b5b8`.
 
 #### Review status
 
-`MERGE PENDING`
+`CLOSED`
 
-Current state: `Gemini Review Passed — Awaiting Human Merge Approval`. Review chưa `CLOSED`.
+Current state: `Completed — Merged via PR #7`.
 
 #### 1. Review Objective
 
@@ -385,7 +386,8 @@ Review độc lập Patent DOCX Template v1.0.0, template package, deterministic
 
 #### 2. Sources Reviewed
 
-- Branch `doc/patent-docx-template-v1` tại base HEAD `cdc783db047bc89488b261ae0feb529354d86ed7`, với reviewed implementation snapshot chưa commit.
+- Branch `doc/patent-docx-template-v1` tại reviewed implementation commit `d3f7c7d9596b77a39e9a56fcdf97c76cb972612a`.
+- Pull Request [#7](https://github.com/nshaokiet/ai-ip-description-generator/pull/7), Human merge ngày 20/09/2026; merge commit `d208a7925da844c5b43578bac8ebdbb1c5c6b5b8`.
 - Canonical template `templates/patent-docx/v1.0.0/patent-description-template.docx`, manifest, mapping và template README.
 - Renderer `tests/docx/render_patent_docx_v1.py`, automated tests và ba synthetic fixtures.
 - ADR-009, DOC-001 task specification và supporting documentation.
@@ -396,7 +398,7 @@ Review độc lập Patent DOCX Template v1.0.0, template package, deterministic
 
 #### 3. Summary
 
-Human Microsoft Word Visual QA: `PASS`. Gemini 3.1 Pro High independent review verdict: `PASS`. Template/package, renderer/mapping, contract compatibility, layout, fixtures, scope và security đều `PASS`. Không có finding và không có required change. Recommendation là `APPROVE`. DOC-001 chưa `Completed`, chưa commit, chưa có Pull Request và chưa merge.
+Human Microsoft Word Visual QA: `PASS`. Gemini 3.1 Pro High independent và targeted governance reviews: `PASS`. Template/package, renderer/mapping, contract compatibility, layout, fixtures, scope và security đều `PASS`. Không có finding và không có required change. Recommendation là `APPROVE`. Human / Product Owner đã approve và merge PR #7 ngày 20/09/2026; DOC-001 `Completed — Merged via PR #7`.
 
 #### 4. Findings
 
@@ -414,7 +416,7 @@ Không có finding. DOC-001 chỉ render payload đã validate, không gọi mod
 
 #### 7. Missing Information
 
-Không có missing information chặn review. Human merge approval chưa được thực hiện; implementation commit, Pull Request URL và merge commit chưa tồn tại.
+Không có missing information chặn closeout. Human merge approval đã được thực hiện qua PR #7.
 
 #### 8. Technical Concerns
 
@@ -430,7 +432,7 @@ Không có finding. Template vẫn ở version `1.0.0`; exact eleven-part order,
 
 #### 11. Suggested Changes
 
-Không có thay đổi kỹ thuật bắt buộc. Required changes: không có. Chỉ đồng bộ governance state và chờ Human merge approval.
+Không có thay đổi kỹ thuật bắt buộc. Required changes: không có. Governance state được đóng theo merge evidence.
 
 #### 12. Recommendation
 
@@ -442,16 +444,16 @@ Không có thay đổi kỹ thuật bắt buộc. Required changes: không có. 
 Task ID: DOC-001
 Agent: Gemini 3.1 Pro High
 Reviewer: Human / Product Owner
-Status: MERGE PENDING — Gemini Review Passed — Awaiting Human Merge Approval
-Version: Patent DOCX Template 1.0.0; branch doc/patent-docx-template-v1; base HEAD cdc783db047bc89488b261ae0feb529354d86ed7; implementation commit chưa tạo
-Work completed: Independent read-only review hoàn tất với verdict PASS; Human Microsoft Word Visual QA PASS; không có finding hoặc required change.
+Status: CLOSED — DOC-001 Completed — Merged via PR #7
+Version: Patent DOCX Template 1.0.0; implementation d3f7c7d9596b77a39e9a56fcdf97c76cb972612a; resolved by merge d208a7925da844c5b43578bac8ebdbb1c5c6b5b8
+Work completed: Human Microsoft Word Visual QA, independent review và targeted governance review hoàn tất với PASS; Human / Product Owner approved and merged PR #7.
 Files affected: Review log only; production artefact not overwritten
 Evidence checked: Python 3.12.10; jsonschema 4.26.0; docxtpl 0.20.2; python-docx 1.2.0; AI-001 15/15, AI-002 17/17, AI-003 25/25, DOC-001 28/28; total 85/85; git diff --check pass.
 Findings: Không có.
-Decisions: Recommendation APPROVE; Human merge decision chưa thực hiện.
-Issues: Implementation commit, Pull Request và merge commit chưa tồn tại; review chưa CLOSED.
+Decisions: Recommendation APPROVE; Human / Product Owner approved and merged PR #7 on 20/09/2026.
+Issues: Không có finding hoặc required change; runtime/application integration ngoài phạm vi DOC-001.
 Security impact: PASS; không phát hiện secret, PII, cache hoặc dữ liệu nghiên cứu thật; renderer offline.
-Recommended next action: Targeted governance review; sau đó Human / Product Owner quyết định commit, Pull Request và merge theo task riêng.
+Recommended next action: Targeted review post-merge governance closeout; bước tiếp theo chỉ qua specification/approval riêng.
 ```
 
 #### 14. ChatGPT/Codex Response
@@ -460,23 +462,23 @@ Không có finding cần `ACCEPT`, `PARTIALLY ACCEPT`, `REJECT WITH REASON` ho�
 
 #### 15. Human Decision
 
-Human / Product Owner xác nhận Human Microsoft Word Visual QA `PASS`, Gemini independent review `PASS`, findings `Không có`, required changes `Không có`, recommendation `APPROVE`. Human merge decision: `[CẦN XÁC NHẬN]`.
+Human Decision: Approve and merge PR #7. Human / Product Owner xác nhận Human Microsoft Word Visual QA `PASS`, Gemini independent và targeted governance reviews `PASS`, findings `Không có`, required changes `Không có`; merge được thực hiện ngày 20/09/2026.
 
 #### 16. Resolution
 
-Không có finding cần resolution. Governance state được ghi nhận trước commit, Pull Request và merge. Review vẫn `MERGE PENDING` và chưa `CLOSED`.
+Merged successfully. Review evidence gắn với implementation commit `d3f7c7d9596b77a39e9a56fcdf97c76cb972612a`, PR #7 và merge commit `d208a7925da844c5b43578bac8ebdbb1c5c6b5b8`. Không có finding cần xử lý.
 
 #### 17. Resolved Version
 
-`Chưa có — implementation commit chưa tạo`
+`d208a7925da844c5b43578bac8ebdbb1c5c6b5b8`
 
 #### 18. Closed Date
 
-`Chưa đóng`
+`20/09/2026`
 
 #### 19. Closed By
 
-`Chưa đóng`
+Human / Product Owner.
 
 ### REV-AI-002
 

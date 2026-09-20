@@ -124,7 +124,7 @@ Validated content is mapped into the configured DOCX template using `docxtpl`.
 
 DOC-001 implements the canonical template at `templates/patent-docx/v1.0.0/patent-description-template.docx` and the deterministic offline renderer at `tests/docx/render_patent_docx_v1.py`. The renderer validates Patent Draft Generation Contract v1.0.0 before rendering, uses automatic XML escaping, preserves missing/conflict/inference/evidence state, and writes generated review output only below the Git-ignored `generated/patent-docx/v1.0.0/` path.
 
-Status: **Gemini Review Passed — Awaiting Human Merge Approval**. Human Microsoft Word Visual QA and Gemini 3.1 Pro High independent review both passed with no findings or required changes; 85/85 tests passed. The implementation has no commit, Pull Request, or merge commit yet. DOC-001 does not create Claims, PDF, figures, API/model integration, backend, or frontend.
+Status: **Completed — Merged via PR #7**. Human Microsoft Word Visual QA, Gemini 3.1 Pro High independent review, and targeted governance review passed with no findings or required changes; 85/85 tests passed. Human / Product Owner merged PR #7 on 20/09/2026; implementation commit `d3f7c7d9596b77a39e9a56fcdf97c76cb972612a`, merge commit `d208a7925da844c5b43578bac8ebdbb1c5c6b5b8`. DOC-001 does not create Claims, PDF, figures, API/model integration, backend, or frontend.
 
 ## 8. Output
 
