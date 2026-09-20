@@ -17,7 +17,7 @@ Canonical extraction prompt:
 
 Canonical draft-generation prompt:
 
-- `draft-generation/v1.0.0/draft-generation-prompt.md` — AI-003, Gemini Review Passed — Awaiting Human Merge Approval.
+- `draft-generation/v1.0.0/draft-generation-prompt.md` — AI-003, Completed — Merged via PR #5.
 - `draft-generation/v1.0.0/README.md` — input/output boundary, grounding and integration limits.
 
 Recommended versioning:

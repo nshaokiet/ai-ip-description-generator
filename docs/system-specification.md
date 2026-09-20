@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | SPEC-001 |
 | Document title | Đặc tả hệ thống — AI Intellectual Property Description Generator |
-| Version | 0.2.3 |
+| Version | 0.2.4 |
 | Status | Draft |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -30,6 +30,7 @@
 | 0.2.0 | 0.2.1 | 19/09/2026 | ChatGPT/Codex | Liên kết Extraction Prompt v1.0.0, input envelope và giới hạn provider integration | Đồng bộ quyết định Human cho AI-002 | AI-002, ADR-007 | No |
 | 0.2.1 | 0.2.2 | 19/09/2026 | ChatGPT/Codex | Liên kết Patent Draft Generation Contract v1.0.0, Draft Generation Prompt và validation boundary | Đồng bộ quyết định Human cho AI-003 | AI-003, ADR-008 | No |
 | 0.2.2 | 0.2.3 | 20/09/2026 | ChatGPT/Codex | Đồng bộ trạng thái AI-003 sau Gemini review PASS | Ghi nhận review evidence trước Human merge approval | AI-003, REV-AI-003 | No |
+| 0.2.3 | 0.2.4 | 20/09/2026 | ChatGPT/Codex | Ghi nhận AI-003 hoàn tất sau khi Human merge PR #5 | Đồng bộ governance state sau merge, không đổi technical specification | AI-003, REV-AI-003, PR #5 | No |
 
 ## 3. Tổng quan
 
@@ -338,7 +339,7 @@ Patent Draft Generation Contract v1.0.0 được triển khai cho AI-003 tại `
 
 Contract cố định 11 phần cho future DOCX, sáu technical draft sections và bảy subsection. Mỗi technical paragraph bắt buộc có JSON Pointer source paths tương đối với `source_analysis` và evidence IDs. Missing content giữ heading với `[AUTHOR CONFIRMATION REQUIRED]`; conflict có ít nhất hai evidence IDs, giữ `UNRESOLVED` và không tự chọn phía đúng. Evidence appendix chỉ chứa evidence thực sự được dùng và có reverse usage references.
 
-AI-003 tách JSON Schema validation khỏi downstream business validation. Business rules kiểm tra logical-ID uniqueness, cross-reference existence, source-pointer resolution, paragraph ordering, Abstract word count, evidence closure/reverse usage và minimal legal-assertion patterns. Claims, Draft Claims, legal/patentability conclusions, Human approval state, DOCX rendering, provider adapter và live-model evaluation đều ngoài phạm vi AI-003. Trạng thái artefact hiện tại là **Gemini Review Passed — Awaiting Human Merge Approval**; chưa được ghi `Completed`.
+AI-003 tách JSON Schema validation khỏi downstream business validation. Business rules kiểm tra logical-ID uniqueness, cross-reference existence, source-pointer resolution, paragraph ordering, Abstract word count, evidence closure/reverse usage và minimal legal-assertion patterns. Claims, Draft Claims, legal/patentability conclusions, Human approval state, DOCX rendering, provider adapter và live-model evaluation đều ngoài phạm vi AI-003. Human / Product Owner đã merge PR #5 tại `fb522bc5ecbb5ad66bab6226fa88ae51020cef52`; trạng thái artefact hiện tại là **Completed — Merged via PR #5**.
 
 ## 21. API dự kiến
 

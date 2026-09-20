@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | SPEC-002 |
 | Document title | Project Context — AI Intellectual Property Description Generator |
-| Version | 0.2.7 |
+| Version | 0.2.8 |
 | Status | Draft |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -33,6 +33,7 @@
 | 0.2.4 | 0.2.5 | 19/09/2026 | ChatGPT/Codex | Chuyển AI-002 sang Completed sau khi Human merge PR #3 | Đồng bộ governance state sau merge | AI-002, REV-AI-002, PR #3, merge commit `8f2b7082881961cc1a2cf7fa56ece81976759c7f` | No |
 | 0.2.5 | 0.2.6 | 19/09/2026 | ChatGPT/Codex | Ghi nhận Patent Draft Generation Contract v1.0.0 và Draft Generation Prompt v1.0.0 đã triển khai, chờ Gemini review | Đồng bộ quyết định Human và bằng chứng AI-003 | AI-003, ADR-008 | No |
 | 0.2.6 | 0.2.7 | 20/09/2026 | ChatGPT/Codex | Ghi nhận Gemini 3.1 Pro High independent review AI-003 PASS, không có finding hoặc required change | Đồng bộ review evidence thực tế trước commit, PR và merge | AI-003, ADR-008, REV-AI-003 | No |
+| 0.2.7 | 0.2.8 | 20/09/2026 | ChatGPT/Codex | Chuyển AI-003 sang Completed sau khi Human merge PR #5 | Đồng bộ governance state sau merge | AI-003, REV-AI-003, PR #5, merge commit `fb522bc5ecbb5ad66bab6226fa88ae51020cef52` | No |
 
 ## 2. Project name
 
@@ -111,8 +112,8 @@ Pipeline MVP ưu tiên một paper cho một hồ sơ. Nội dung thiếu không
 | Production AI | OpenAI Responses API | Requirement; model `[CẦN XÁC NHẬN]` |
 | Structured data | JSON Schema Draft 2020-12 | Output Schema v1.0.0 — Completed — Merged via PR #1 |
 | Extraction prompt | Markdown prompt contract | v1.0.0 — Completed — Merged via PR #3 |
-| Patent draft contract | JSON Schema Draft 2020-12 | v1.0.0 — Gemini Review Passed — Awaiting Human Merge Approval |
-| Draft generation prompt | Markdown prompt contract | v1.0.0 — Gemini Review Passed — Awaiting Human Merge Approval |
+| Patent draft contract | JSON Schema Draft 2020-12 | v1.0.0 — Completed — Merged via PR #5 |
+| Draft generation prompt | Markdown prompt contract | v1.0.0 — Completed — Merged via PR #5 |
 | Retrieval | OpenAI File Search nếu cần | Quyết định `[CẦN XÁC NHẬN]` |
 | Database | Supabase/PostgreSQL | Optional/MVP+ hoặc khi được phê duyệt |
 | DOCX | `docxtpl` | Requirement; template `[FILE CHƯA TỒN TẠI]` |
@@ -276,18 +277,18 @@ NotebookLM lưu và tra cứu nguồn được cấp quyền, hỗ trợ groundi
 
 | Artefact | Location | Version | Status có bằng chứng |
 |---|---|---|---|
-| System Specification | `docs/system-specification.md` | 0.2.2 | Draft file cập nhật cho AI-003 |
+| System Specification | `docs/system-specification.md` | 0.2.4 | Draft file cập nhật governance sau merge AI-003 |
 | AI Collaboration Rules | `AGENTS.md` | 0.1.1 | Draft file tồn tại |
-| Project Context | `PROJECT_CONTEXT.md` | 0.2.7 | Ghi nhận AI-003 Gemini Review Passed — Awaiting Human Merge Approval |
-| Project Control Center source | `docs/operations/01_PROJECT_CONTROL_CENTER.md` | 0.2.7 | Theo dõi AI-003 đang chờ Human merge approval; Phase 1 chưa hoàn tất |
-| Gemini Review Log source | `docs/operations/02_GEMINI_REVIEW_LOG.md` | 0.2.4 | REV-AI-001 và REV-AI-002 đã `CLOSED`; REV-AI-003 đang `MERGE PENDING` |
+| Project Context | `PROJECT_CONTEXT.md` | 0.2.8 | Ghi nhận AI-003 Completed — Merged via PR #5 |
+| Project Control Center source | `docs/operations/01_PROJECT_CONTROL_CENTER.md` | 0.2.8 | Theo dõi AI-003 đã hoàn tất; Phase 1 chưa hoàn tất |
+| Gemini Review Log source | `docs/operations/02_GEMINI_REVIEW_LOG.md` | 0.2.5 | REV-AI-001, REV-AI-002 và REV-AI-003 đã `CLOSED` |
 | ADR | `docs/decisions/ADR-006-output-schema-v1.md` | ADR-006 | Accepted; Completed — Merged via PR #1 |
 | Production JSON Schema | `schemas/invention-output/v1.0.0/invention-output.schema.json` | 1.0.0 | Completed — Merged via PR #1; Gemini review PASS; 15/15 tests pass |
 | Production extraction prompt | `prompts/extraction/v1.0.0/extraction-prompt.md` | 1.0.0 | Completed — Merged via PR #3; canonical offline validation only |
 | Extraction prompt ADR | `docs/decisions/ADR-007-extraction-prompt-v1.md` | ADR-007 | Accepted — Completed — Merged via PR #3 |
-| Patent Draft Schema | `schemas/patent-draft/v1.0.0/patent-draft.schema.json` | 1.0.0 | Gemini Review Passed — Awaiting Human Merge Approval |
-| Draft generation prompt | `prompts/draft-generation/v1.0.0/draft-generation-prompt.md` | 1.0.0 | Gemini Review Passed — Awaiting Human Merge Approval; offline only |
-| Patent draft ADR | `docs/decisions/ADR-008-patent-draft-contract-v1.md` | ADR-008 | Accepted — Gemini Review Passed — Awaiting Human Merge Approval |
+| Patent Draft Schema | `schemas/patent-draft/v1.0.0/patent-draft.schema.json` | 1.0.0 | Completed — Merged via PR #5 |
+| Draft generation prompt | `prompts/draft-generation/v1.0.0/draft-generation-prompt.md` | 1.0.0 | Completed — Merged via PR #5; offline only |
+| Patent draft ADR | `docs/decisions/ADR-008-patent-draft-contract-v1.md` | ADR-008 | Accepted — Completed — Merged via PR #5 |
 | DOCX template | Chưa xác định | Chưa có | `[FILE CHƯA TỒN TẠI]` |
 | Application code | Chưa khởi tạo | Chưa có | `[FILE CHƯA TỒN TẠI]` |
 
@@ -317,8 +318,8 @@ NotebookLM lưu và tra cứu nguồn được cấp quyền, hỗ trợ groundi
 1. Human review/phê duyệt hoặc chỉnh sửa phạm vi trong system specification.
 2. Gemini review độc lập ba tài liệu kỹ thuật hiện hành và ghi review entry thật.
 3. Human xử lý các câu hỏi chặn về OCR, auth/storage, retention, AI runtime, Draft Claims và optional outputs.
-4. Human quyết định merge AI-003; DOC-001 chỉ bắt đầu sau khi AI-003 được Human phê duyệt và merge.
+4. Chuẩn bị specification/approval riêng cho DOC-001; chưa bắt đầu implementation.
 
 AI-002 được merge với implementation commit `f8772b228a23bf7cdec10fa0c463e6d1f672c341` và governance commit `9f2a78b1396cdadb747c263a2bbbbacb8d7f4292`; Gemini review `PASS`, không có finding, AI-001 regression 15/15 và AI-002 tests 17/17 pass. AI-002 không chứng minh Responses API hoặc live-model integration. Canonical Output Schema v1.0.0 không được gửi nguyên trạng vào Structured Outputs strict mode; provider-specific generation schema/adapter cần task runtime và approval riêng. Claims vẫn nằm ngoài Output Schema và Extraction Prompt v1.0.0.
 
-AI-003 triển khai contract trung gian `Validated Output Schema v1.0.0 → Patent Draft Generation Contract v1.0.0 → DOCX template`. Contract giữ exact 11-part order cho DOC-001, paragraph-level source paths/evidence, explicit missing/conflict state và loại hoàn toàn Claims, legal advice, patentability conclusions cùng Human approval state. Fixtures chỉ là synthetic offline oracles; chưa có live-model hoặc provider integration. Gemini 3.1 Pro High đã independent review ở chế độ read-only với verdict `PASS`, không có finding hoặc required change; trạng thái hiện tại: **Gemini Review Passed — Awaiting Human Merge Approval**.
+AI-003 triển khai contract trung gian `Validated Output Schema v1.0.0 → Patent Draft Generation Contract v1.0.0 → DOCX template`. Contract giữ exact 11-part order cho DOC-001, paragraph-level source paths/evidence, explicit missing/conflict state và loại hoàn toàn Claims, legal advice, patentability conclusions cùng Human approval state. Fixtures chỉ là synthetic offline oracles; chưa có live-model hoặc provider integration. Gemini 3.1 Pro High review `PASS`, không có finding hoặc required change. Human / Product Owner đã approve và merge PR #5 ngày 20/09/2026; implementation commit `ae7e8fb573ea4681a9db1bafa711d19a3c598666`, merge commit `fb522bc5ecbb5ad66bab6226fa88ae51020cef52`. Trạng thái hiện tại: **Completed — Merged via PR #5**.

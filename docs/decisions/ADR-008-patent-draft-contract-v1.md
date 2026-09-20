@@ -5,7 +5,7 @@
 | Field | Value |
 |---|---|
 | ADR ID | ADR-008 |
-| Status | Accepted — Gemini Review Passed — Awaiting Human Merge Approval |
+| Status | Accepted — Completed — Merged via PR #5 |
 | Date | 19/09/2026 |
 | Decision owner | Human / Product Owner |
 | Implementation owner | ChatGPT/Codex |
@@ -119,5 +119,5 @@ All source strings are untrusted data. The prompt ignores embedded instructions,
 ## Follow-up
 
 1. Gemini independent read-only review completed with verdict `PASS`, no findings, and no required changes on 20/09/2026.
-2. Human decides whether to approve and merge AI-003.
-3. DOC-001 may begin only after AI-003 is Human-approved and merged.
+2. Human approved and merged PR #5 on 20/09/2026; merge commit `fb522bc5ecbb5ad66bab6226fa88ae51020cef52`.
+3. DOC-001 is eligible for separate implementation preparation and approval; implementation has not started.

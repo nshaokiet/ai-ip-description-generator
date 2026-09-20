@@ -5,7 +5,7 @@ Các schema production của dự án được lưu theo artefact và semantic v
 | Artefact | Version | Canonical path | Status |
 |---|---|---|---|
 | Invention Output | 1.0.0 | `schemas/invention-output/v1.0.0/invention-output.schema.json` | Completed — Merged via PR #1 |
-| Patent Draft | 1.0.0 | `schemas/patent-draft/v1.0.0/patent-draft.schema.json` | Gemini Review Passed — Awaiting Human Merge Approval |
+| Patent Draft | 1.0.0 | `schemas/patent-draft/v1.0.0/patent-draft.schema.json` | Completed — Merged via PR #5 |
 
 Hướng dẫn và field contract:
 

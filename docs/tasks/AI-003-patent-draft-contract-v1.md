@@ -8,10 +8,14 @@
 | Owner | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High |
 | Approver | Human / Product Owner |
-| Status | Gemini Review Passed — Awaiting Human Merge Approval |
+| Status | Completed — Merged via PR #5 |
 | Contract version | 1.0.0 |
 | Base commit | `649b632bd9def72f29ad5bfbe60f9e4f5766448a` |
 | Implementation branch | `ai/patent-draft-contract-v1` |
+| Implementation commit | `ae7e8fb573ea4681a9db1bafa711d19a3c598666` |
+| Pull Request | [#5](https://github.com/nshaokiet/ai-ip-description-generator/pull/5) |
+| Merge commit | `fb522bc5ecbb5ad66bab6226fa88ae51020cef52` |
+| Merge date | 20/09/2026 |
 | Related ADR | ADR-008 |
 
 ## Objective
@@ -89,11 +93,11 @@ Create the strict, versioned contract and offline drafting prompt that transform
 - [x] AI-001 regression is 15/15 pass.
 - [x] AI-002 regression is 17/17 pass.
 - [x] AI-003 automated tests pass: 25/25, zero failures/errors.
-- [x] `git diff --check` passes and diff contains exactly 23 approved files.
+- [x] `git diff --check` passes; final merged implementation commit contains exactly 24 reviewed files.
 - [x] Gemini independent read-only review is complete: `PASS`, no findings, no required changes.
-- [ ] Human has decided review findings and merge.
+- [x] Human approved and merged PR #5; no findings or required changes remained.
 
-The Gemini review criterion is satisfied by the Human-authorized review evidence dated 20/09/2026. Human merge remains unchecked. AI-003 must not be marked `Completed` before Human merge approval and post-merge governance closeout.
+Gemini review and Human merge criteria are satisfied by the evidence dated 20/09/2026. AI-003 is `Completed — Merged via PR #5`; this does not start DOC-001 or expand the approved technical scope.
 
 ## Test commands
 
@@ -113,4 +117,4 @@ Fixtures are synthetic. Tests make no network calls. No secret, PII, unpublished
 
 ## Handoff state
 
-Gemini 3.1 Pro High completed independent read-only review with verdict `PASS`, no findings, and no required changes. This recommendation does not replace Human merge approval. DOC-001 must not start before AI-003 is Human-approved and merged.
+Gemini 3.1 Pro High completed independent read-only review with verdict `PASS`, no findings, and no required changes. Human / Product Owner approved and merged PR #5 at merge commit `fb522bc5ecbb5ad66bab6226fa88ae51020cef52`. DOC-001 is eligible for separate implementation preparation and approval; implementation has not started.

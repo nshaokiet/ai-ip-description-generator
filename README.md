@@ -2,7 +2,7 @@
 
 Nền tảng AI hỗ trợ chuyển bài báo nghiên cứu khoa học thành dữ liệu sáng chế có cấu trúc và bản dự thảo patent specification để con người rà soát.
 
-> **Trạng thái hiện tại:** Phase 1 — Specification & Architecture. Output Schema v1.0.0 và Extraction Prompt v1.0.0 đã merge. Patent Draft Generation Contract v1.0.0 cùng Draft Generation Prompt v1.0.0 đang ở trạng thái **Gemini Review Passed — Awaiting Human Merge Approval** trong AI-003. Frontend, backend, DOCX template và AI pipeline runtime chưa được triển khai.
+> **Trạng thái hiện tại:** Phase 1 — Specification & Architecture. AI-001, AI-002 và AI-003 đã merge; Patent Draft Generation Contract v1.0.0 cùng Draft Generation Prompt v1.0.0 có trạng thái **Completed — Merged via PR #5**. Frontend, backend, DOCX template và AI pipeline runtime chưa được triển khai.
 >
 > **Deadline MVP:** bàn giao chính thức 02/10/2026; mục tiêu hoàn thành nội bộ 30/09/2026, ngày 01–02/10 dành cho buffer/test/handover.
 
@@ -206,14 +206,14 @@ GitHub là **Technical Source of Truth**. Gemini không ghi đè production arte
 
 - [x] Repository Private đã được khởi tạo.
 - [x] Cấu trúc `frontend`, `backend`, `prompts`, `templates`, `tests` và `.github`.
-- [x] System Specification 0.2.1.
+- [x] System Specification 0.2.4.
 - [x] AGENTS.md 0.1.1.
-- [x] Project Context 0.2.7.
-- [x] Project Control Center 0.2.7.
-- [x] Gemini Review Log 0.2.4 với `REV-AI-001` và `REV-AI-002` đã đóng; `REV-AI-003` đang `MERGE PENDING`.
+- [x] Project Context 0.2.8.
+- [x] Project Control Center 0.2.8.
+- [x] Gemini Review Log 0.2.5 với `REV-AI-001`, `REV-AI-002` và `REV-AI-003` đã đóng.
 - [x] Output Schema v1.0.0, fixtures và automated validation tests — Completed — Merged via PR #1; Gemini review `PASS`, 15/15 tests pass, không có finding.
 - [x] Extraction Prompt v1.0.0, ADR-007 và synthetic offline tests — Completed — Merged via PR #3; Gemini review `PASS`, AI-001 regression 15/15 và AI-002 tests 17/17 pass, không có finding; chưa tích hợp model/API thật.
-- [x] Patent Draft Generation Contract v1.0.0, Draft Generation Prompt v1.0.0, ADR-008, synthetic fixtures và automated offline tests — Gemini Review Passed — Awaiting Human Merge Approval; không có live-model/provider integration và chưa bắt đầu DOC-001.
+- [x] Patent Draft Generation Contract v1.0.0, Draft Generation Prompt v1.0.0, ADR-008, synthetic fixtures và automated offline tests — Completed — Merged via PR #5; implementation commit `ae7e8fb573ea4681a9db1bafa711d19a3c598666`, merge commit `fb522bc5ecbb5ad66bab6226fa88ae51020cef52`, 57/57 tests pass và không có finding.
 
 ### Chưa hoàn thành
 
@@ -243,7 +243,7 @@ Không đánh dấu application đã hoạt động khi mới chỉ có folder/R
 |---|---|---|
 | Phase 1 | Specification & Architecture | Đang review |
 | Phase 2 | Core pipeline | Chưa bắt đầu |
-| Phase 3 | Draft generation & DOCX | AI-003 Gemini review passed — awaiting Human merge approval; DOCX chưa bắt đầu |
+| Phase 3 | Draft generation & DOCX | AI-003 Completed — Merged via PR #5; DOCX chưa bắt đầu |
 | Phase 4 | Evaluation & stabilization | Chưa bắt đầu |
 | Phase 5 | Deployment & handover | Chưa bắt đầu |
 | Post-MVP | Tính năng mở rộng được phê duyệt riêng | Chưa xác định |
@@ -265,12 +265,11 @@ Danh sách chi tiết nằm trong [`docs/system-specification.md`](docs/system-s
 
 Repository hiện chưa có application code. AI-001 bổ sung test dependency manifest tại `tests/requirements.txt`; AI-002 và AI-003 dùng lại dependency đó cho validation offline và không gọi OpenAI API.
 
-AI-001 đã `Completed` sau khi Human merge PR #1. AI-002 đã `Completed — Merged via PR #3`; implementation commit là `f8772b228a23bf7cdec10fa0c463e6d1f672c341`, governance commit là `9f2a78b1396cdadb747c263a2bbbbacb8d7f4292` và merge commit là `8f2b7082881961cc1a2cf7fa56ece81976759c7f`. Bước tiếp theo:
+AI-001 đã `Completed` sau khi Human merge PR #1. AI-002 đã `Completed — Merged via PR #3`. AI-003 đã `Completed — Merged via PR #5` ngày 20/09/2026 tại merge commit `fb522bc5ecbb5ad66bab6226fa88ae51020cef52`. Bước tiếp theo:
 
-1. Human quyết định merge AI-003 sau khi xem review evidence `PASS`, không có finding hoặc required change.
-2. Chỉ bắt đầu DOC-001 sau khi AI-003 được Human phê duyệt và merge.
-3. Không coi offline tests là live-model evaluation.
-4. Chỉ khởi tạo provider adapter, FastAPI và Next.js theo các task được phê duyệt riêng.
+1. Chuẩn bị specification/approval riêng cho DOC-001; implementation chưa bắt đầu.
+2. Không coi offline tests là live-model evaluation.
+3. Chỉ khởi tạo provider adapter, FastAPI và Next.js theo các task được phê duyệt riêng.
 
 ## 16. License
 
