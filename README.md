@@ -2,7 +2,7 @@
 
 Nền tảng AI hỗ trợ chuyển bài báo nghiên cứu khoa học thành dữ liệu sáng chế có cấu trúc và bản dự thảo patent specification để con người rà soát.
 
-> **Trạng thái hiện tại:** Phase 1 — Specification & Architecture. AI-001, AI-002 và AI-003 đã merge; Patent Draft Generation Contract v1.0.0 cùng Draft Generation Prompt v1.0.0 có trạng thái **Completed — Merged via PR #5**. Frontend, backend, DOCX template và AI pipeline runtime chưa được triển khai.
+> **Trạng thái hiện tại:** Phase 1 — Specification & Architecture. AI-001, AI-002 và AI-003 đã merge. Patent DOCX Template v1.0.0 và deterministic offline renderer đã được triển khai trong DOC-001 với trạng thái **Gemini Review Passed — Awaiting Human Merge Approval**. Human Visual QA và Gemini independent review đều `PASS`, không có finding hoặc required change; implementation commit, Pull Request và merge commit chưa tồn tại. Frontend, backend và AI pipeline runtime chưa được triển khai.
 >
 > **Deadline MVP:** bàn giao chính thức 02/10/2026; mục tiêu hoàn thành nội bộ 30/09/2026, ngày 01–02/10 dành cho buffer/test/handover.
 
@@ -206,19 +206,20 @@ GitHub là **Technical Source of Truth**. Gemini không ghi đè production arte
 
 - [x] Repository Private đã được khởi tạo.
 - [x] Cấu trúc `frontend`, `backend`, `prompts`, `templates`, `tests` và `.github`.
-- [x] System Specification 0.2.4.
+- [x] System Specification 0.2.6.
 - [x] AGENTS.md 0.1.1.
-- [x] Project Context 0.2.8.
-- [x] Project Control Center 0.2.8.
-- [x] Gemini Review Log 0.2.5 với `REV-AI-001`, `REV-AI-002` và `REV-AI-003` đã đóng.
+- [x] Project Context 0.2.10.
+- [x] Project Control Center 0.2.10.
+- [x] Gemini Review Log 0.2.6 với `REV-AI-001`, `REV-AI-002` và `REV-AI-003` đã đóng; `REV-DOC-001` đang `MERGE PENDING`.
 - [x] Output Schema v1.0.0, fixtures và automated validation tests — Completed — Merged via PR #1; Gemini review `PASS`, 15/15 tests pass, không có finding.
 - [x] Extraction Prompt v1.0.0, ADR-007 và synthetic offline tests — Completed — Merged via PR #3; Gemini review `PASS`, AI-001 regression 15/15 và AI-002 tests 17/17 pass, không có finding; chưa tích hợp model/API thật.
 - [x] Patent Draft Generation Contract v1.0.0, Draft Generation Prompt v1.0.0, ADR-008, synthetic fixtures và automated offline tests — Completed — Merged via PR #5; implementation commit `ae7e8fb573ea4681a9db1bafa711d19a3c598666`, merge commit `fb522bc5ecbb5ad66bab6226fa88ae51020cef52`, 57/57 tests pass và không có finding.
+- [x] Patent DOCX Template v1.0.0, manifest, mapping, offline renderer, synthetic fixtures và automated tests — Gemini Review Passed — Awaiting Human Merge Approval; Human Visual QA `PASS`, Gemini review `PASS`, 85/85 tests pass; chưa commit, Pull Request hoặc merge.
 
 ### Chưa hoàn thành
 
 - [ ] Human/Gemini review bộ tài liệu Draft.
-- [ ] DOCX Template v1.
+- [ ] DOCX Template v1 hoàn tất review và Human acceptance.
 - [ ] Next.js application.
 - [ ] FastAPI application.
 - [ ] Core pipeline end-to-end.
@@ -243,7 +244,7 @@ Không đánh dấu application đã hoạt động khi mới chỉ có folder/R
 |---|---|---|
 | Phase 1 | Specification & Architecture | Đang review |
 | Phase 2 | Core pipeline | Chưa bắt đầu |
-| Phase 3 | Draft generation & DOCX | AI-003 Completed — Merged via PR #5; DOCX chưa bắt đầu |
+| Phase 3 | Draft generation & DOCX | AI-003 Completed — Merged via PR #5; DOC-001 Gemini Review Passed — Awaiting Human Merge Approval |
 | Phase 4 | Evaluation & stabilization | Chưa bắt đầu |
 | Phase 5 | Deployment & handover | Chưa bắt đầu |
 | Post-MVP | Tính năng mở rộng được phê duyệt riêng | Chưa xác định |
@@ -267,8 +268,8 @@ Repository hiện chưa có application code. AI-001 bổ sung test dependency m
 
 AI-001 đã `Completed` sau khi Human merge PR #1. AI-002 đã `Completed — Merged via PR #3`. AI-003 đã `Completed — Merged via PR #5` ngày 20/09/2026 tại merge commit `fb522bc5ecbb5ad66bab6226fa88ae51020cef52`. Bước tiếp theo:
 
-1. Chuẩn bị specification/approval riêng cho DOC-001; implementation chưa bắt đầu.
-2. Không coi offline tests là live-model evaluation.
+1. Gemini thực hiện targeted governance review cho thay đổi trạng thái DOC-001 và entry `REV-DOC-001`.
+2. Sau targeted review, Human / Product Owner quyết định commit, Pull Request và merge theo task riêng; DOC-001 chưa `Completed`.
 3. Chỉ khởi tạo provider adapter, FastAPI và Next.js theo các task được phê duyệt riêng.
 
 ## 16. License

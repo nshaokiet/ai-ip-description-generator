@@ -1,0 +1,32 @@
+{
+  "template_id": "patent-description-template-v1",
+  "template_version": "1.0.0",
+  "compatible_patent_draft_contract_version": "1.0.0",
+  "canonical_template_path": "templates/patent-docx/v1.0.0/patent-description-template.docx",
+  "renderer_path": "tests/docx/render_patent_docx_v1.py",
+  "output_mime_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  "language": "en",
+  "page_setup": {
+    "size": "A4",
+    "orientation": "portrait",
+    "margins_cm": {
+      "top": 2.54,
+      "right": 2.54,
+      "bottom": 2.54,
+      "left": 2.54
+    }
+  },
+  "typography": {
+    "body": { "font": "Times New Roman", "size_pt": 12 },
+    "title": { "font": "Times New Roman", "size_pt": 16, "bold": true, "alignment": "center" },
+    "heading_1": { "font": "Times New Roman", "size_pt": 14, "bold": true },
+    "heading_2": { "font": "Times New Roman", "size_pt": 12, "bold": true },
+    "line_spacing": 1.15,
+    "paragraph_spacing_after_pt": 6
+  },
+  "header_text": "AI-Generated Patent Description Draft",
+  "footer_notice": "AI-generated draft — requires human review.",
+  "footer_fields": ["PAGE", "NUMPAGES"],
+  "claims_excluded": true,
+  "human_review_required": true
+}

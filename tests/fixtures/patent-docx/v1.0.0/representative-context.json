@@ -1,0 +1,314 @@
+{
+  "schema_version": "1.0.0",
+  "output_type": "PATENT_DESCRIPTION_DRAFT",
+  "document_metadata": {
+    "draft_id": "docx-draft-representative",
+    "language": "en",
+    "source_schema_id": "urn:ai-ip-description-generator:invention-output:1.0.0",
+    "source_schema_version": "1.0.0",
+    "source_output_type": "STRUCTURED_INVENTION_ANALYSIS",
+    "source_document": {
+      "document_id": "doc-docx-representative",
+      "file_name": "synthetic-optical-calibration-study.pdf",
+      "media_type": "application/pdf",
+      "sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+    }
+  },
+  "output_notice": {
+    "status": "DRAFT",
+    "notice": "AI-generated draft — requires human review.",
+    "human_review_required": true,
+    "is_legal_advice": false,
+    "filing_ready": false,
+    "includes_patentability_assessment": false,
+    "includes_claims": false
+  },
+  "section_order": [
+    "COVER_AND_DRAFT_NOTICE",
+    "TITLE",
+    "ABSTRACT",
+    "TECHNICAL_FIELD",
+    "BACKGROUND",
+    "SUMMARY_OF_TECHNICAL_DISCLOSURE",
+    "BRIEF_DESCRIPTION_OF_DRAWINGS",
+    "DETAILED_DESCRIPTION",
+    "EXPERIMENTAL_EXAMPLES_AND_RESULTS",
+    "MISSING_INFORMATION_AND_AUTHOR_QUESTIONS",
+    "EVIDENCE_AND_REFERENCE_APPENDIX"
+  ],
+  "selected_title": {
+    "status": "PRESENT",
+    "text": "Temperature-Aware Calibration of an Optical Sensor",
+    "source_title_candidate_id": "title-calibration",
+    "source_paths": ["/title_candidates/0"],
+    "grounding": { "label": "PARAPHRASE", "evidence_ids": ["ev-core"] }
+  },
+  "abstract": {
+    "status": "PRESENT",
+    "text": "An optical sensor is calibrated by measuring temperature and applying a coefficient associated with the measured temperature band. A synthetic comparison reports improved measurement repeatability.",
+    "word_count": 25,
+    "source_paths": ["/technical_field/item", "/technical_solutions/0", "/technical_effects/0"],
+    "grounding": { "label": "PARAPHRASE", "evidence_ids": ["ev-core", "ev-result"] }
+  },
+  "draft_sections": [
+    {
+      "section_id": "TECHNICAL_FIELD",
+      "sequence": 4,
+      "heading": "Technical Field",
+      "status": "PRESENT",
+      "paragraphs": [
+        {
+          "paragraph_id": "docx-paragraph-field",
+          "sequence": 1,
+          "text": "The disclosure relates to calibration of an optical sensor across temperature bands.",
+          "source_paths": ["/technical_field/item"],
+          "grounding": { "label": "PARAPHRASE", "evidence_ids": ["ev-core"] }
+        }
+      ],
+      "subsections": [],
+      "missing_information_ids": []
+    },
+    {
+      "section_id": "BACKGROUND",
+      "sequence": 5,
+      "heading": "Background",
+      "status": "PRESENT",
+      "paragraphs": [
+        {
+          "paragraph_id": "docx-paragraph-background",
+          "sequence": 1,
+          "text": "The synthetic sensor response changes with ambient temperature, which can reduce repeatability.",
+          "source_paths": ["/background/0", "/technical_problems/0"],
+          "grounding": { "label": "PARAPHRASE", "evidence_ids": ["ev-core"] }
+        }
+      ],
+      "subsections": [],
+      "missing_information_ids": []
+    },
+    {
+      "section_id": "SUMMARY_OF_TECHNICAL_DISCLOSURE",
+      "sequence": 6,
+      "heading": "Summary of Technical Disclosure",
+      "status": "PRESENT",
+      "paragraphs": [],
+      "subsections": [
+        {
+          "subsection_id": "TECHNICAL_PROBLEMS",
+          "sequence": 1,
+          "heading": "Technical Problems",
+          "status": "PRESENT",
+          "paragraphs": [
+            {
+              "paragraph_id": "docx-paragraph-problem",
+              "sequence": 1,
+              "text": "Temperature-dependent drift can reduce measurement repeatability.",
+              "source_paths": ["/technical_problems/0"],
+              "grounding": { "label": "PARAPHRASE", "evidence_ids": ["ev-core"] }
+            }
+          ],
+          "missing_information_ids": []
+        },
+        {
+          "subsection_id": "TECHNICAL_SOLUTIONS",
+          "sequence": 2,
+          "heading": "Technical Solutions",
+          "status": "PRESENT",
+          "paragraphs": [
+            {
+              "paragraph_id": "docx-paragraph-solution",
+              "sequence": 1,
+              "text": "A controller applies a calibration coefficient associated with the measured temperature band.",
+              "source_paths": ["/technical_solutions/0"],
+              "grounding": { "label": "PARAPHRASE", "evidence_ids": ["ev-core"] }
+            }
+          ],
+          "missing_information_ids": []
+        },
+        {
+          "subsection_id": "POTENTIAL_DISTINGUISHING_FEATURES",
+          "sequence": 3,
+          "heading": "Potential Distinguishing Features",
+          "status": "PRESENT",
+          "paragraphs": [
+            {
+              "paragraph_id": "docx-paragraph-feature",
+              "sequence": 1,
+              "text": "A candidate technical feature is selection of the coefficient according to a measured temperature band.",
+              "source_paths": ["/potential_distinguishing_features/0"],
+              "grounding": { "label": "INFERENCE", "evidence_ids": ["ev-core"] }
+            }
+          ],
+          "missing_information_ids": []
+        },
+        {
+          "subsection_id": "TECHNICAL_EFFECTS",
+          "sequence": 4,
+          "heading": "Technical Effects",
+          "status": "PRESENT",
+          "paragraphs": [
+            {
+              "paragraph_id": "docx-paragraph-effect",
+              "sequence": 1,
+              "text": "The synthetic comparison reports improved measurement repeatability under the stated condition.",
+              "source_paths": ["/technical_effects/0"],
+              "grounding": { "label": "PARAPHRASE", "evidence_ids": ["ev-result"] }
+            }
+          ],
+          "missing_information_ids": []
+        }
+      ],
+      "missing_information_ids": []
+    },
+    {
+      "section_id": "BRIEF_DESCRIPTION_OF_DRAWINGS",
+      "sequence": 7,
+      "heading": "Brief Description of Drawings",
+      "status": "PRESENT",
+      "paragraphs": [
+        {
+          "paragraph_id": "docx-paragraph-drawing",
+          "sequence": 1,
+          "text": "The available source figure depicts the synthetic sensor and controller arrangement.",
+          "source_paths": ["/drawing_requirements/0"],
+          "grounding": { "label": "PARAPHRASE", "evidence_ids": ["ev-figure"] }
+        }
+      ],
+      "subsections": [],
+      "missing_information_ids": []
+    },
+    {
+      "section_id": "DETAILED_DESCRIPTION",
+      "sequence": 8,
+      "heading": "Detailed Description",
+      "status": "PRESENT",
+      "paragraphs": [],
+      "subsections": [
+        {
+          "subsection_id": "COMPONENTS_OR_SYSTEM",
+          "sequence": 1,
+          "heading": "Components or System",
+          "status": "PRESENT",
+          "paragraphs": [
+            {
+              "paragraph_id": "docx-paragraph-components",
+              "sequence": 1,
+              "text": "The synthetic system includes an optical sensor and a calibration controller.",
+              "source_paths": ["/components/0", "/components/1"],
+              "grounding": { "label": "PARAPHRASE", "evidence_ids": ["ev-core"] }
+            }
+          ],
+          "missing_information_ids": []
+        },
+        {
+          "subsection_id": "PROCESS_OR_METHOD_STEPS",
+          "sequence": 2,
+          "heading": "Process or Method Steps",
+          "status": "PRESENT",
+          "paragraphs": [
+            {
+              "paragraph_id": "docx-paragraph-process",
+              "sequence": 1,
+              "text": "The process measures temperature and applies the coefficient associated with the measured band.",
+              "source_paths": ["/process_steps/0"],
+              "grounding": { "label": "PARAPHRASE", "evidence_ids": ["ev-core"] }
+            }
+          ],
+          "missing_information_ids": []
+        },
+        {
+          "subsection_id": "EMBODIMENTS",
+          "sequence": 3,
+          "heading": "Embodiments",
+          "status": "PRESENT",
+          "paragraphs": [
+            {
+              "paragraph_id": "docx-paragraph-embodiment",
+              "sequence": 1,
+              "text": "In the documented example, the sensor and controller perform the calibration step together.",
+              "source_paths": ["/embodiments/0"],
+              "grounding": { "label": "PARAPHRASE", "evidence_ids": ["ev-core"] }
+            }
+          ],
+          "missing_information_ids": []
+        }
+      ],
+      "missing_information_ids": []
+    },
+    {
+      "section_id": "EXPERIMENTAL_EXAMPLES_AND_RESULTS",
+      "sequence": 9,
+      "heading": "Experimental Examples and Results",
+      "status": "PRESENT",
+      "paragraphs": [
+        {
+          "paragraph_id": "docx-paragraph-experiment",
+          "sequence": 1,
+          "text": "At 25 degC, the synthetic comparison reports a 12 percent repeatability improvement.",
+          "source_paths": ["/experimental_data/0"],
+          "grounding": { "label": "SOURCE_FACT", "evidence_ids": ["ev-result"] }
+        }
+      ],
+      "subsections": [],
+      "missing_information_ids": []
+    }
+  ],
+  "drawings": [
+    {
+      "drawing_id": "docx-drawing-one",
+      "source_drawing_id": "source-figure-one",
+      "kind": "SOURCE_FIGURE",
+      "title": "Synthetic sensor and controller arrangement",
+      "status": "AVAILABLE",
+      "source_paths": ["/drawing_requirements/0"],
+      "evidence_ids": ["ev-figure"],
+      "human_confirmation_required": false
+    }
+  ],
+  "missing_information": [],
+  "conflicts": [],
+  "author_questions": [],
+  "evidence_appendix": [
+    {
+      "evidence_id": "ev-core",
+      "document_id": "doc-docx-representative",
+      "evidence_type": "TEXT",
+      "locator": { "page": 2, "section": "Synthetic system" },
+      "excerpt": "A synthetic optical sensor is calibrated using a coefficient selected for the measured temperature band.",
+      "usage_references": [
+        { "target_type": "SELECTED_TITLE", "target_id": "title-calibration" },
+        { "target_type": "ABSTRACT", "target_id": "abstract" },
+        { "target_type": "PARAGRAPH", "target_id": "docx-paragraph-field" },
+        { "target_type": "PARAGRAPH", "target_id": "docx-paragraph-background" },
+        { "target_type": "PARAGRAPH", "target_id": "docx-paragraph-problem" },
+        { "target_type": "PARAGRAPH", "target_id": "docx-paragraph-solution" },
+        { "target_type": "PARAGRAPH", "target_id": "docx-paragraph-feature" },
+        { "target_type": "PARAGRAPH", "target_id": "docx-paragraph-components" },
+        { "target_type": "PARAGRAPH", "target_id": "docx-paragraph-process" },
+        { "target_type": "PARAGRAPH", "target_id": "docx-paragraph-embodiment" }
+      ]
+    },
+    {
+      "evidence_id": "ev-result",
+      "document_id": "doc-docx-representative",
+      "evidence_type": "TABLE",
+      "locator": { "page": 4, "table_id": "table-synthetic-result" },
+      "excerpt": "The synthetic example reports a 12 percent repeatability improvement at 25 degC.",
+      "usage_references": [
+        { "target_type": "ABSTRACT", "target_id": "abstract" },
+        { "target_type": "PARAGRAPH", "target_id": "docx-paragraph-effect" },
+        { "target_type": "PARAGRAPH", "target_id": "docx-paragraph-experiment" }
+      ]
+    },
+    {
+      "evidence_id": "ev-figure",
+      "document_id": "doc-docx-representative",
+      "evidence_type": "FIGURE",
+      "locator": { "page": 3, "figure_id": "figure-synthetic-one" },
+      "excerpt": "Synthetic sensor and controller arrangement.",
+      "usage_references": [
+        { "target_type": "PARAGRAPH", "target_id": "docx-paragraph-drawing" },
+        { "target_type": "DRAWING", "target_id": "docx-drawing-one" }
+      ]
+    }
+  ]
+}
