@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | SPEC-002 |
 | Document title | Project Context — AI Intellectual Property Description Generator |
-| Version | 0.2.10 |
+| Version | 0.2.11 |
 | Status | Draft |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -36,6 +36,7 @@
 | 0.2.7 | 0.2.8 | 20/09/2026 | ChatGPT/Codex | Chuyển AI-003 sang Completed sau khi Human merge PR #5 | Đồng bộ governance state sau merge | AI-003, REV-AI-003, PR #5, merge commit `fb522bc5ecbb5ad66bab6226fa88ae51020cef52` | No |
 | 0.2.8 | 0.2.9 | 20/09/2026 | ChatGPT/Codex | Ghi nhận Patent DOCX Template v1.0.0, offline renderer và automated validation đã triển khai | Đồng bộ quyết định Human và bằng chứng DOC-001 trước visual QA/review | DOC-001, ADR-009 | No |
 | 0.2.9 | 0.2.10 | 20/09/2026 | ChatGPT/Codex | Ghi nhận Human Visual QA và Gemini independent review DOC-001 đều PASS, không có finding | Đồng bộ governance state trước Human merge approval | DOC-001, ADR-009, REV-DOC-001 | No |
+| 0.2.10 | 0.2.11 | 20/09/2026 | ChatGPT/Codex | Chuyển DOC-001 sang Completed sau khi Human merge PR #7 | Đồng bộ governance state sau merge | DOC-001, ADR-009, REV-DOC-001, PR #7, merge commit `d208a7925da844c5b43578bac8ebdbb1c5c6b5b8` | No |
 
 ## 2. Project name
 
@@ -118,7 +119,7 @@ Pipeline MVP ưu tiên một paper cho một hồ sơ. Nội dung thiếu không
 | Draft generation prompt | Markdown prompt contract | v1.0.0 — Completed — Merged via PR #5 |
 | Retrieval | OpenAI File Search nếu cần | Quyết định `[CẦN XÁC NHẬN]` |
 | Database | Supabase/PostgreSQL | Optional/MVP+ hoặc khi được phê duyệt |
-| DOCX | `docxtpl==0.20.2`, `python-docx==1.2.0` | Patent DOCX Template v1.0.0 — Gemini Review Passed — Awaiting Human Merge Approval |
+| DOCX | `docxtpl==0.20.2`, `python-docx==1.2.0` | Patent DOCX Template v1.0.0 — Completed — Merged via PR #7 |
 | Frontend deployment | Vercel | Định hướng; config `[FILE CHƯA TỒN TẠI]` |
 | Backend deployment | Railway | Định hướng; config `[FILE CHƯA TỒN TẠI]` |
 | Version control | GitHub | Technical Source of Truth |
@@ -279,11 +280,11 @@ NotebookLM lưu và tra cứu nguồn được cấp quyền, hỗ trợ groundi
 
 | Artefact | Location | Version | Status có bằng chứng |
 |---|---|---|---|
-| System Specification | `docs/system-specification.md` | 0.2.6 | Draft file liên kết quyết định và review evidence DOC-001 |
+| System Specification | `docs/system-specification.md` | 0.2.7 | Draft file ghi nhận DOC-001 post-merge closeout |
 | AI Collaboration Rules | `AGENTS.md` | 0.1.1 | Draft file tồn tại |
-| Project Context | `PROJECT_CONTEXT.md` | 0.2.10 | Ghi nhận DOC-001 review PASS, chờ Human merge approval |
-| Project Control Center source | `docs/operations/01_PROJECT_CONTROL_CENTER.md` | 0.2.10 | Theo dõi DOC-001 chờ Human merge approval; Phase 1 chưa hoàn tất |
-| Gemini Review Log source | `docs/operations/02_GEMINI_REVIEW_LOG.md` | 0.2.6 | REV-AI-001, REV-AI-002 và REV-AI-003 đã `CLOSED`; REV-DOC-001 `MERGE PENDING` |
+| Project Context | `PROJECT_CONTEXT.md` | 0.2.11 | Ghi nhận DOC-001 Completed sau merge PR #7 |
+| Project Control Center source | `docs/operations/01_PROJECT_CONTROL_CENTER.md` | 0.2.11 | Theo dõi DOC-001 Completed; Phase 1 chưa được tuyên bố hoàn tất |
+| Gemini Review Log source | `docs/operations/02_GEMINI_REVIEW_LOG.md` | 0.2.7 | REV-AI-001, REV-AI-002, REV-AI-003 và REV-DOC-001 đã `CLOSED` |
 | ADR | `docs/decisions/ADR-006-output-schema-v1.md` | ADR-006 | Accepted; Completed — Merged via PR #1 |
 | Production JSON Schema | `schemas/invention-output/v1.0.0/invention-output.schema.json` | 1.0.0 | Completed — Merged via PR #1; Gemini review PASS; 15/15 tests pass |
 | Production extraction prompt | `prompts/extraction/v1.0.0/extraction-prompt.md` | 1.0.0 | Completed — Merged via PR #3; canonical offline validation only |
@@ -291,7 +292,7 @@ NotebookLM lưu và tra cứu nguồn được cấp quyền, hỗ trợ groundi
 | Patent Draft Schema | `schemas/patent-draft/v1.0.0/patent-draft.schema.json` | 1.0.0 | Completed — Merged via PR #5 |
 | Draft generation prompt | `prompts/draft-generation/v1.0.0/draft-generation-prompt.md` | 1.0.0 | Completed — Merged via PR #5; offline only |
 | Patent draft ADR | `docs/decisions/ADR-008-patent-draft-contract-v1.md` | ADR-008 | Accepted — Completed — Merged via PR #5 |
-| DOCX template | `templates/patent-docx/v1.0.0/patent-description-template.docx` | 1.0.0 | Gemini Review Passed — Awaiting Human Merge Approval |
+| DOCX template | `templates/patent-docx/v1.0.0/patent-description-template.docx` | 1.0.0 | Completed — Merged via PR #7 |
 | Application code | Chưa khởi tạo | Chưa có | `[FILE CHƯA TỒN TẠI]` |
 
 ## 26. Open questions
@@ -320,10 +321,10 @@ NotebookLM lưu và tra cứu nguồn được cấp quyền, hỗ trợ groundi
 1. Human review/phê duyệt hoặc chỉnh sửa phạm vi trong system specification.
 2. Gemini review độc lập ba tài liệu kỹ thuật hiện hành và ghi review entry thật.
 3. Human xử lý các câu hỏi chặn về OCR, auth/storage, retention, AI runtime, Draft Claims và optional outputs.
-4. Gemini targeted review thay đổi governance DOC-001; sau đó Human / Product Owner quyết định commit, Pull Request và merge. Chưa đánh dấu task `Completed`.
+4. Chuẩn bị specification/approval riêng cho bước tiếp theo; không tự đặt task ID hoặc bắt đầu implementation.
 
 AI-002 được merge với implementation commit `f8772b228a23bf7cdec10fa0c463e6d1f672c341` và governance commit `9f2a78b1396cdadb747c263a2bbbbacb8d7f4292`; Gemini review `PASS`, không có finding, AI-001 regression 15/15 và AI-002 tests 17/17 pass. AI-002 không chứng minh Responses API hoặc live-model integration. Canonical Output Schema v1.0.0 không được gửi nguyên trạng vào Structured Outputs strict mode; provider-specific generation schema/adapter cần task runtime và approval riêng. Claims vẫn nằm ngoài Output Schema và Extraction Prompt v1.0.0.
 
 AI-003 triển khai contract trung gian `Validated Output Schema v1.0.0 → Patent Draft Generation Contract v1.0.0 → DOCX template`. Contract giữ exact 11-part order cho DOC-001, paragraph-level source paths/evidence, explicit missing/conflict state và loại hoàn toàn Claims, legal advice, patentability conclusions cùng Human approval state. Fixtures chỉ là synthetic offline oracles; chưa có live-model hoặc provider integration. Gemini 3.1 Pro High review `PASS`, không có finding hoặc required change. Human / Product Owner đã approve và merge PR #5 ngày 20/09/2026; implementation commit `ae7e8fb573ea4681a9db1bafa711d19a3c598666`, merge commit `fb522bc5ecbb5ad66bab6226fa88ae51020cef52`. Trạng thái hiện tại: **Completed — Merged via PR #5**.
 
-DOC-001 triển khai Patent DOCX Template v1.0.0 và deterministic offline renderer từ payload Patent Draft Generation Contract v1.0.0. Template dùng A4, lề 2.54 cm, Times New Roman, exact eleven-part order, header/footer và PAGE/NUMPAGES fields. Renderer validate schema trước khi dùng `docxtpl`, không gọi API/model/mạng, giữ missing/conflict/inference/evidence và loại Claims khỏi mapping. Fixtures hoàn toàn synthetic. Human Microsoft Word Visual QA `PASS`; Gemini 3.1 Pro High independent review `PASS`; không có finding hoặc required change; 85/85 tests pass. Trạng thái hiện tại: **Gemini Review Passed — Awaiting Human Merge Approval**. Implementation commit, Pull Request và merge commit chưa tồn tại.
+DOC-001 triển khai Patent DOCX Template v1.0.0 và deterministic offline renderer từ payload Patent Draft Generation Contract v1.0.0. Template dùng A4, lề 2.54 cm, Times New Roman, exact eleven-part order, header/footer và PAGE/NUMPAGES fields. Renderer validate schema trước khi dùng `docxtpl`, không gọi API/model/mạng, giữ missing/conflict/inference/evidence và loại Claims khỏi mapping. Fixtures hoàn toàn synthetic. Human Microsoft Word Visual QA, Gemini 3.1 Pro High independent review và targeted governance review đều `PASS`; không có finding hoặc required change; 85/85 tests pass. Human / Product Owner đã approve và merge [PR #7](https://github.com/nshaokiet/ai-ip-description-generator/pull/7) ngày 20/09/2026; implementation commit `d3f7c7d9596b77a39e9a56fcdf97c76cb972612a`, merge commit `d208a7925da844c5b43578bac8ebdbb1c5c6b5b8`. Trạng thái hiện tại: **Completed — Merged via PR #7**.

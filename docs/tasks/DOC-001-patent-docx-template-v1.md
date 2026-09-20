@@ -5,7 +5,7 @@
 | Field | Value |
 |---|---|
 | Task ID | DOC-001 |
-| Status | Gemini Review Passed — Awaiting Human Merge Approval |
+| Status | Completed — Merged via PR #7 |
 | Owner | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High + Human / Product Owner |
 | Version | 1.0.0 |
@@ -49,10 +49,11 @@ The output is an AI-generated technical draft requiring Human review. It is not 
 - [x] AI-001, AI-002, and AI-003 regressions pass.
 - [x] DOC-001 automated tests pass and `git diff --check` succeeds.
 - [x] Human visual QA in Microsoft Word is complete: page fields/layout, pagination/typography, header/footer, section order, evidence appendix, placeholder/overflow, and claims exclusion all `PASS`; no findings.
-- [x] Gemini 3.1 Pro High independent review is complete with verdict `PASS`, no findings, no required changes, and recommendation `APPROVE`; DOC-001 remains pending Human merge approval.
+- [x] Gemini 3.1 Pro High independent and targeted governance reviews are complete with verdict `PASS`, no findings, no required changes, and recommendation `APPROVE`.
+- [x] Human / Product Owner approved and merged PR #7 on 20/09/2026; implementation commit `d3f7c7d9596b77a39e9a56fcdf97c76cb972612a`, merge commit `d208a7925da844c5b43578bac8ebdbb1c5c6b5b8`.
 
 ## Manual visual QA
 
 Open `generated/patent-docx/v1.0.0/representative-patent-draft.docx` in Microsoft Word. Check A4 layout, margins, font hierarchy, header/footer, page fields, section order, lists, evidence appendix, clipping, broken placeholders, and absence of Claims. If required, press `Ctrl+A`, then `F9` to refresh PAGE/NUMPAGES.
 
-Human Visual QA and Gemini independent review are recorded as `PASS`; 85/85 tests passed. Implementation commit, Pull Request, and merge commit have not been created. Do not mark DOC-001 `Completed` until the subsequent Human merge decision is recorded.
+Human Visual QA, Gemini independent review, and targeted governance review are recorded as `PASS`; 85/85 tests passed. Human / Product Owner approved and merged PR #7 on 20/09/2026. DOC-001 is `Completed — Merged via PR #7`; this does not start any subsequent task or expand the approved technical scope.

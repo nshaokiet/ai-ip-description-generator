@@ -5,7 +5,7 @@
 | Field | Value |
 |---|---|
 | ADR ID | ADR-009 |
-| Status | Accepted — Gemini Review Passed — Awaiting Human Merge Approval |
+| Status | Accepted — Completed — Merged via PR #7 |
 | Date | 20/09/2026 |
 | Decision owner | Human / Product Owner |
 | Implementation owner | ChatGPT/Codex |
@@ -54,7 +54,7 @@ Rejected because DOC-001 has no approved figure-generation or trusted binary-ima
 
 Positive consequences include deterministic offline rendering, a reviewable mapping, strict schema rejection before output, editable DOCX delivery, and mechanical exclusion of Claims. Trade-offs include dependence on Word-compatible field refresh for PAGE/NUMPAGES display and the need for Human visual QA across Microsoft Word environments.
 
-Automated XML/package tests do not replace visual inspection. Human Microsoft Word Visual QA and Gemini 3.1 Pro High independent review both passed with no findings or required changes; 85/85 tests passed. The implementation status is `Gemini Review Passed — Awaiting Human Merge Approval`; implementation commit, Pull Request, and merge commit do not yet exist.
+Automated XML/package tests do not replace visual inspection. Human Microsoft Word Visual QA, Gemini 3.1 Pro High independent review, and targeted governance review passed with no findings or required changes; 85/85 tests passed. Human / Product Owner approved and merged PR #7 on 20/09/2026. The implementation status is `Completed — Merged via PR #7`; implementation commit `d3f7c7d9596b77a39e9a56fcdf97c76cb972612a`, merge commit `d208a7925da844c5b43578bac8ebdbb1c5c6b5b8`.
 
 ## Compatibility and evolution
 
