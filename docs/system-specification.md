@@ -8,13 +8,13 @@
 |---|---|
 | Document ID | SPEC-001 |
 | Document title | Đặc tả hệ thống — AI Intellectual Property Description Generator |
-| Version | 0.2.1 |
+| Version | 0.2.3 |
 | Status | Draft |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini Pro |
 | Created date | 18/09/2026 |
-| Last updated | 19/09/2026 |
+| Last updated | 20/09/2026 |
 | Related task ID | SPEC-001 |
 | Source of Truth | GitHub — `docs/system-specification.md` |
 | Confidentiality level | Internal; tài liệu nghiên cứu đầu vào phải được xử lý như Confidential |
@@ -28,6 +28,8 @@
 | Chưa có | 0.1.0 | 18/09/2026 | ChatGPT/Codex | Tạo bản đặc tả hệ thống đầu tiên | Khởi tạo Phase 1 | SPEC-001 | No |
 | 0.1.0 | 0.2.0 | 18/09/2026 | ChatGPT/Codex | Liên kết Output Schema v1.0.0 và ghi rõ ranh giới contract | Đồng bộ quyết định Human cho AI-001 | AI-001, ADR-006 | No |
 | 0.2.0 | 0.2.1 | 19/09/2026 | ChatGPT/Codex | Liên kết Extraction Prompt v1.0.0, input envelope và giới hạn provider integration | Đồng bộ quyết định Human cho AI-002 | AI-002, ADR-007 | No |
+| 0.2.1 | 0.2.2 | 19/09/2026 | ChatGPT/Codex | Liên kết Patent Draft Generation Contract v1.0.0, Draft Generation Prompt và validation boundary | Đồng bộ quyết định Human cho AI-003 | AI-003, ADR-008 | No |
+| 0.2.2 | 0.2.3 | 20/09/2026 | ChatGPT/Codex | Đồng bộ trạng thái AI-003 sau Gemini review PASS | Ghi nhận review evidence trước Human merge approval | AI-003, REV-AI-003 | No |
 
 ## 3. Tổng quan
 
@@ -279,7 +281,7 @@ Luồng kiến trúc định hướng:
 | Parsed content | Parser | Chuẩn hóa text/structure | Temporary/private processing store | Retention `[CẦN XÁC NHẬN]` |
 | Evidence chunks | Parsed content | Gắn page/section/paragraph/table/figure IDs | Analysis store | Không làm mất định vị nguồn |
 | Structured JSON | AI + validator | Schema/business validation | Versioned analysis | Ghi prompt/schema/model metadata phù hợp |
-| Draft sections | Structured JSON | Generation + grounding check | Versioned draft | Nội dung thiếu gắn nhãn |
+| Patent Draft Contract | Validated Structured JSON | Draft generation + schema/business validation | Versioned grounded draft | Nội dung thiếu giữ heading và `[AUTHOR CONFIRMATION REQUIRED]`; conflict không tự giải quyết |
 | User edits | Human | Validate + version | Analysis/draft history | Attribution và không ghi đè im lặng |
 | Export file | Selected draft | `docxtpl` render | Private download/storage | Gắn template/content version |
 | Logs | Components | Redact | Logging platform `[CẦN XÁC NHẬN]` | Không chứa full paper, secret hoặc prompt payload nhạy cảm |
@@ -294,7 +296,7 @@ Luồng kiến trúc định hướng:
 5. **Normalization:** chuẩn hóa thuật ngữ, đơn vị và quan hệ nhưng không sửa giá trị nguồn.
 6. **Validation:** kiểm tra schema, kiểu, business rules và tham chiếu evidence.
 7. **Missing-information detection:** gắn `MISSING`, lý do và author question.
-8. **Draft generation:** chỉ dùng dữ liệu đã phân loại; inference phải hiển thị rõ.
+8. **Draft generation:** dùng Patent Draft Generation Contract v1.0.0; chỉ dùng dữ liệu đã phân loại, mọi technical paragraph có source path/evidence và inference phải hiển thị rõ.
 9. **Grounding check:** so nội dung dự thảo với evidence; tạo finding cho unsupported content.
 10. **Human review:** chỉnh sửa, xác nhận hoặc yêu cầu làm lại.
 11. **Export:** render version đã chọn và lưu audit event.
@@ -323,7 +325,7 @@ Mọi object trong v1.0.0 là strict (`additionalProperties: false`). Grounding 
 | `missing_information` | Field/section thiếu, lý do, impact và owner trả lời |
 | `author_questions` | Câu hỏi liên kết tới missing item |
 | `evidence` | Evidence ID, file, page, section, paragraph, table/figure, excerpt, type, status |
-| `draft_sections` | Section text, version, used evidence IDs, warnings và approval status |
+| `draft_sections` | Sáu technical sections có thứ tự, status `PRESENT`/`MISSING`, paragraphs, source paths và evidence IDs theo Patent Draft Contract v1.0.0 |
 | `validation_results` | Rule, severity, location, evidence, trạng thái và resolution |
 
 Nguyên tắc validation: JSON Schema kiểm tra shape, type, enum và constraint cục bộ. `uniqueItems` không bảo đảm uniqueness của logical ID bên trong object; ID uniqueness và cross-reference existence phải được kiểm tra bởi downstream business validation. Các quy tắc Abstract/claims/draft chỉ áp dụng cho artefact tương lai đã được phê duyệt, không thuộc Output Schema v1.0.0.
@@ -331,6 +333,12 @@ Nguyên tắc validation: JSON Schema kiểm tra shape, type, enum và constrain
 Extraction Prompt v1.0.0 được triển khai tại `prompts/extraction/v1.0.0/extraction-prompt.md`. Caller cung cấp JSON input envelope đã chuẩn hóa, document metadata và source units có evidence ID/type/locator; caller phải từ chối nội dung rỗng hoặc chỉ có khoảng trắng trước model invocation. Prompt dùng nguồn English/Vietnamese, giữ ngôn ngữ kỹ thuật chính và evidence excerpt nguyên văn. Claims và kết luận pháp lý không thuộc prompt này.
 
 AI-002 chỉ bảo đảm canonical offline validation bằng fixtures synthetic. Canonical schema dùng keyword/conditional và optional properties không tương thích nguyên trạng với OpenAI Structured Outputs strict subset. Vì vậy AI-002 không sửa schema, không tạo provider-specific generation schema/adapter, không gọi model thật và không tuyên bố đã tích hợp Responses API. Adapter và live evaluation phải thuộc task runtime riêng được Human phê duyệt.
+
+Patent Draft Generation Contract v1.0.0 được triển khai cho AI-003 tại `schemas/patent-draft/v1.0.0/patent-draft.schema.json`; canonical drafting prompt nằm tại `prompts/draft-generation/v1.0.0/draft-generation-prompt.md`. Contract nhận Output Schema v1.0.0 đã qua schema/business validation và tạo `PATENT_DESCRIPTION_DRAFT` bằng English. Caller/Human chọn một title candidate; prompt không tự tạo title mới. Abstract hỗ trợ `PRESENT`/`MISSING`, tối đa 150 từ theo NFKC và Unicode word-count rule.
+
+Contract cố định 11 phần cho future DOCX, sáu technical draft sections và bảy subsection. Mỗi technical paragraph bắt buộc có JSON Pointer source paths tương đối với `source_analysis` và evidence IDs. Missing content giữ heading với `[AUTHOR CONFIRMATION REQUIRED]`; conflict có ít nhất hai evidence IDs, giữ `UNRESOLVED` và không tự chọn phía đúng. Evidence appendix chỉ chứa evidence thực sự được dùng và có reverse usage references.
+
+AI-003 tách JSON Schema validation khỏi downstream business validation. Business rules kiểm tra logical-ID uniqueness, cross-reference existence, source-pointer resolution, paragraph ordering, Abstract word count, evidence closure/reverse usage và minimal legal-assertion patterns. Claims, Draft Claims, legal/patentability conclusions, Human approval state, DOCX rendering, provider adapter và live-model evaluation đều ngoài phạm vi AI-003. Trạng thái artefact hiện tại là **Gemini Review Passed — Awaiting Human Merge Approval**; chưa được ghi `Completed`.
 
 ## 21. API dự kiến
 

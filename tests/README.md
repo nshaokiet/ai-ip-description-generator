@@ -43,3 +43,16 @@ $env:PYTHONDONTWRITEBYTECODE="1"
 ```
 
 Test AI-002 kiểm tra prompt metadata, required sections, security constraints, sáu fixture synthetic, canonical schema validation của expected outputs, evidence traceability, logical-ID uniqueness và cross-reference existence. Fixture có expected output là oracle offline, không phải bằng chứng về hành vi của model thật.
+
+## AI-003 patent draft contract
+
+AI-003 dùng lại Python 3.12 và `jsonschema==4.26.0`; không thêm dependency. Chạy:
+
+```powershell
+$env:PYTHONDONTWRITEBYTECODE="1"
+.\.venv\Scripts\python.exe -m unittest discover -s tests/draft -p "test_*.py" -v
+```
+
+Test AI-003 kiểm tra Patent Draft Schema Draft 2020-12, strict objects, fixed section/subsection order, title/Abstract missing behavior, Abstract word count, paragraph grounding, JSON Pointer source paths, logical-ID uniqueness, cross-references, evidence closure, reverse usage, unresolved conflicts, prompt-injection resistance và claims/legal-assertion exclusion.
+
+Fixtures tại `tests/fixtures/patent-draft/v1.0.0/` hoàn toàn synthetic. Expected outputs là offline oracle; chúng không chứng minh live-model compliance hoặc provider integration.
