@@ -78,7 +78,30 @@ Root structure:
 
 Đoạn trên chỉ minh họa root fields, không phải fixture hợp lệ vì các object bắt buộc chưa được điền. Claims và Human approval/audit state không thuộc v1.0.0.
 
-## 4. Validation
+## 4. Patent Draft Generation
+
+AI-003 introduces the controlled intermediate contract between structured analysis and DOCX rendering:
+
+```text
+Validated Invention Output Schema v1.0.0
+→ Patent Draft Generation Contract v1.0.0
+→ Patent DOCX Template v1.0.0
+```
+
+Canonical artefacts:
+
+- Schema: `schemas/patent-draft/v1.0.0/patent-draft.schema.json`.
+- Prompt: `prompts/draft-generation/v1.0.0/draft-generation-prompt.md`.
+- Version: `1.0.0`.
+- Status: **Gemini Review Passed — Awaiting Human Merge Approval**.
+
+The caller/Human selects an existing title candidate. The draft prompt does not invent a title. The output uses the exact eleven-part document order approved for DOC-001, while technical prose is represented in six ordered sections and seven canonical subsections.
+
+Every technical paragraph has one or more JSON Pointer source paths relative to `source_analysis` and at least one evidence ID. Missing required content retains its heading and uses `[AUTHOR CONFIRMATION REQUIRED]`. Conflicting evidence remains `UNRESOLVED`; the drafting step does not choose a preferred value.
+
+Claims, Draft Claims, Human approval state, legal advice, patentability conclusions, DOCX rendering, provider integration and live-model evaluation are outside AI-003.
+
+## 5. Validation
 
 The backend validates:
 
@@ -89,14 +112,18 @@ The backend validates:
 
 JSON Schema không kiểm tra uniqueness của logical ID hoặc sự tồn tại của cross-reference; các quy tắc đó thuộc downstream business validation.
 
-## 5. Human Review
+For Patent Draft Contract v1.0.0, business validation additionally resolves source paths, checks paragraph ordering and Abstract word count, enforces evidence closure and reverse usage, and applies the approved minimal legal-assertion scanner.
+
+## 6. Human Review
 
 The user reviews and edits generated sections before export.
 
-## 6. DOCX Generation
+## 7. DOCX Generation
 
 Validated content is mapped into the configured DOCX template using `docxtpl`.
 
-## 7. Output
+DOC-001 must not start until AI-003 has completed independent review, Human approval and merge.
+
+## 8. Output
 
 The user receives an editable DOCX draft for further technical / legal review.

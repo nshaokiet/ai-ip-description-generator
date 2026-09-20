@@ -1,0 +1,681 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ai-ip-description-generator:patent-draft:1.0.0",
+  "title": "Patent Draft Generation Contract v1.0.0",
+  "description": "Machine-validatable English patent-description draft contract. It excludes claims, legal advice, patentability conclusions, and filing-ready assertions.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "output_type",
+    "document_metadata",
+    "output_notice",
+    "section_order",
+    "selected_title",
+    "abstract",
+    "draft_sections",
+    "drawings",
+    "missing_information",
+    "conflicts",
+    "author_questions",
+    "evidence_appendix"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "output_type": { "const": "PATENT_DESCRIPTION_DRAFT" },
+    "document_metadata": { "$ref": "#/$defs/document_metadata" },
+    "output_notice": { "$ref": "#/$defs/output_notice" },
+    "section_order": {
+      "const": [
+        "COVER_AND_DRAFT_NOTICE",
+        "TITLE",
+        "ABSTRACT",
+        "TECHNICAL_FIELD",
+        "BACKGROUND",
+        "SUMMARY_OF_TECHNICAL_DISCLOSURE",
+        "BRIEF_DESCRIPTION_OF_DRAWINGS",
+        "DETAILED_DESCRIPTION",
+        "EXPERIMENTAL_EXAMPLES_AND_RESULTS",
+        "MISSING_INFORMATION_AND_AUTHOR_QUESTIONS",
+        "EVIDENCE_AND_REFERENCE_APPENDIX"
+      ]
+    },
+    "selected_title": { "$ref": "#/$defs/selected_title" },
+    "abstract": { "$ref": "#/$defs/abstract" },
+    "draft_sections": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "prefixItems": [
+        { "$ref": "#/$defs/technical_field_section" },
+        { "$ref": "#/$defs/background_section" },
+        { "$ref": "#/$defs/summary_section" },
+        { "$ref": "#/$defs/drawings_section" },
+        { "$ref": "#/$defs/detailed_description_section" },
+        { "$ref": "#/$defs/experimental_section" }
+      ],
+      "items": false
+    },
+    "drawings": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/drawing" }
+    },
+    "missing_information": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/missing_information" }
+    },
+    "conflicts": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/conflict" }
+    },
+    "author_questions": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/author_question" }
+    },
+    "evidence_appendix": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/evidence_appendix_item" }
+    }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9._:-]{0,127}$"
+    },
+    "identifier_array": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/identifier" }
+    },
+    "non_empty_text": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "short_text": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500,
+      "pattern": "\\S"
+    },
+    "json_pointer": {
+      "type": "string",
+      "pattern": "^/"
+    },
+    "source_paths": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/json_pointer" }
+    },
+    "section_id": {
+      "enum": [
+        "COVER_AND_DRAFT_NOTICE",
+        "TITLE",
+        "ABSTRACT",
+        "TECHNICAL_FIELD",
+        "BACKGROUND",
+        "SUMMARY_OF_TECHNICAL_DISCLOSURE",
+        "BRIEF_DESCRIPTION_OF_DRAWINGS",
+        "DETAILED_DESCRIPTION",
+        "EXPERIMENTAL_EXAMPLES_AND_RESULTS",
+        "MISSING_INFORMATION_AND_AUTHOR_QUESTIONS",
+        "EVIDENCE_AND_REFERENCE_APPENDIX"
+      ]
+    },
+    "section_id_array": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/section_id" }
+    },
+    "grounding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label", "evidence_ids"],
+      "properties": {
+        "label": { "enum": ["SOURCE_FACT", "PARAPHRASE", "INFERENCE"] },
+        "evidence_ids": {
+          "allOf": [
+            { "$ref": "#/$defs/identifier_array" },
+            { "minItems": 1 }
+          ]
+        }
+      }
+    },
+    "source_document": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["document_id", "file_name", "media_type"],
+      "properties": {
+        "document_id": { "$ref": "#/$defs/identifier" },
+        "file_name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255,
+          "pattern": "\\S"
+        },
+        "media_type": {
+          "enum": [
+            "application/pdf",
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+          ]
+        },
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+      }
+    },
+    "document_metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "draft_id",
+        "language",
+        "source_schema_id",
+        "source_schema_version",
+        "source_output_type",
+        "source_document"
+      ],
+      "properties": {
+        "draft_id": { "$ref": "#/$defs/identifier" },
+        "language": { "const": "en" },
+        "source_schema_id": { "const": "urn:ai-ip-description-generator:invention-output:1.0.0" },
+        "source_schema_version": { "const": "1.0.0" },
+        "source_output_type": { "const": "STRUCTURED_INVENTION_ANALYSIS" },
+        "source_document": { "$ref": "#/$defs/source_document" }
+      }
+    },
+    "output_notice": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "notice",
+        "human_review_required",
+        "is_legal_advice",
+        "filing_ready",
+        "includes_patentability_assessment",
+        "includes_claims"
+      ],
+      "properties": {
+        "status": { "const": "DRAFT" },
+        "notice": { "const": "AI-generated draft — requires human review." },
+        "human_review_required": { "const": true },
+        "is_legal_advice": { "const": false },
+        "filing_ready": { "const": false },
+        "includes_patentability_assessment": { "const": false },
+        "includes_claims": { "const": false }
+      }
+    },
+    "selected_title": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status"],
+      "properties": {
+        "status": { "enum": ["PRESENT", "MISSING"] },
+        "text": { "$ref": "#/$defs/short_text" },
+        "source_title_candidate_id": { "$ref": "#/$defs/identifier" },
+        "source_paths": { "$ref": "#/$defs/source_paths" },
+        "grounding": { "$ref": "#/$defs/grounding" },
+        "marker": { "const": "[AUTHOR CONFIRMATION REQUIRED]" },
+        "missing_information_ids": {
+          "allOf": [
+            { "$ref": "#/$defs/identifier_array" },
+            { "minItems": 1 }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "status": { "const": "PRESENT" } }, "required": ["status"] },
+          "then": {
+            "required": ["text", "source_title_candidate_id", "source_paths", "grounding"],
+            "not": { "anyOf": [{ "required": ["marker"] }, { "required": ["missing_information_ids"] }] }
+          }
+        },
+        {
+          "if": { "properties": { "status": { "const": "MISSING" } }, "required": ["status"] },
+          "then": {
+            "required": ["marker", "missing_information_ids"],
+            "not": {
+              "anyOf": [
+                { "required": ["text"] },
+                { "required": ["source_title_candidate_id"] },
+                { "required": ["source_paths"] },
+                { "required": ["grounding"] }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "abstract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status"],
+      "properties": {
+        "status": { "enum": ["PRESENT", "MISSING"] },
+        "text": { "$ref": "#/$defs/non_empty_text" },
+        "word_count": { "type": "integer", "minimum": 1, "maximum": 150 },
+        "source_paths": { "$ref": "#/$defs/source_paths" },
+        "grounding": { "$ref": "#/$defs/grounding" },
+        "marker": { "const": "[AUTHOR CONFIRMATION REQUIRED]" },
+        "missing_information_ids": {
+          "allOf": [
+            { "$ref": "#/$defs/identifier_array" },
+            { "minItems": 1 }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "status": { "const": "PRESENT" } }, "required": ["status"] },
+          "then": {
+            "required": ["text", "word_count", "source_paths", "grounding"],
+            "not": { "anyOf": [{ "required": ["marker"] }, { "required": ["missing_information_ids"] }] }
+          }
+        },
+        {
+          "if": { "properties": { "status": { "const": "MISSING" } }, "required": ["status"] },
+          "then": {
+            "required": ["marker", "missing_information_ids"],
+            "not": {
+              "anyOf": [
+                { "required": ["text"] },
+                { "required": ["word_count"] },
+                { "required": ["source_paths"] },
+                { "required": ["grounding"] }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "paragraph": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["paragraph_id", "sequence", "text", "source_paths", "grounding"],
+      "properties": {
+        "paragraph_id": { "$ref": "#/$defs/identifier" },
+        "sequence": { "type": "integer", "minimum": 1 },
+        "text": { "$ref": "#/$defs/non_empty_text" },
+        "source_paths": { "$ref": "#/$defs/source_paths" },
+        "grounding": { "$ref": "#/$defs/grounding" }
+      }
+    },
+    "subsection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["subsection_id", "sequence", "heading", "status", "paragraphs", "missing_information_ids"],
+      "properties": {
+        "subsection_id": {
+          "enum": [
+            "TECHNICAL_PROBLEMS",
+            "TECHNICAL_SOLUTIONS",
+            "POTENTIAL_DISTINGUISHING_FEATURES",
+            "TECHNICAL_EFFECTS",
+            "COMPONENTS_OR_SYSTEM",
+            "PROCESS_OR_METHOD_STEPS",
+            "EMBODIMENTS"
+          ]
+        },
+        "sequence": { "type": "integer", "minimum": 1 },
+        "heading": { "$ref": "#/$defs/short_text" },
+        "status": { "enum": ["PRESENT", "MISSING"] },
+        "paragraphs": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/paragraph" }
+        },
+        "missing_information_ids": { "$ref": "#/$defs/identifier_array" },
+        "marker": { "const": "[AUTHOR CONFIRMATION REQUIRED]" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "status": { "const": "PRESENT" } }, "required": ["status"] },
+          "then": {
+            "properties": { "paragraphs": { "minItems": 1 } },
+            "not": { "required": ["marker"] }
+          }
+        },
+        {
+          "if": { "properties": { "status": { "const": "MISSING" } }, "required": ["status"] },
+          "then": {
+            "required": ["marker"],
+            "properties": {
+              "paragraphs": { "maxItems": 0 },
+              "missing_information_ids": { "minItems": 1 }
+            }
+          }
+        }
+      ]
+    },
+    "technical_problems_subsection": {
+      "allOf": [
+        { "$ref": "#/$defs/subsection" },
+        { "properties": { "subsection_id": { "const": "TECHNICAL_PROBLEMS" }, "sequence": { "const": 1 }, "heading": { "const": "Technical Problems" } } }
+      ]
+    },
+    "technical_solutions_subsection": {
+      "allOf": [
+        { "$ref": "#/$defs/subsection" },
+        { "properties": { "subsection_id": { "const": "TECHNICAL_SOLUTIONS" }, "sequence": { "const": 2 }, "heading": { "const": "Technical Solutions" } } }
+      ]
+    },
+    "distinguishing_features_subsection": {
+      "allOf": [
+        { "$ref": "#/$defs/subsection" },
+        { "properties": { "subsection_id": { "const": "POTENTIAL_DISTINGUISHING_FEATURES" }, "sequence": { "const": 3 }, "heading": { "const": "Potential Distinguishing Features" } } }
+      ]
+    },
+    "technical_effects_subsection": {
+      "allOf": [
+        { "$ref": "#/$defs/subsection" },
+        { "properties": { "subsection_id": { "const": "TECHNICAL_EFFECTS" }, "sequence": { "const": 4 }, "heading": { "const": "Technical Effects" } } }
+      ]
+    },
+    "components_subsection": {
+      "allOf": [
+        { "$ref": "#/$defs/subsection" },
+        { "properties": { "subsection_id": { "const": "COMPONENTS_OR_SYSTEM" }, "sequence": { "const": 1 }, "heading": { "const": "Components or System" } } }
+      ]
+    },
+    "process_steps_subsection": {
+      "allOf": [
+        { "$ref": "#/$defs/subsection" },
+        { "properties": { "subsection_id": { "const": "PROCESS_OR_METHOD_STEPS" }, "sequence": { "const": 2 }, "heading": { "const": "Process or Method Steps" } } }
+      ]
+    },
+    "embodiments_subsection": {
+      "allOf": [
+        { "$ref": "#/$defs/subsection" },
+        { "properties": { "subsection_id": { "const": "EMBODIMENTS" }, "sequence": { "const": 3 }, "heading": { "const": "Embodiments" } } }
+      ]
+    },
+    "draft_section": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["section_id", "sequence", "heading", "status", "paragraphs", "subsections", "missing_information_ids"],
+      "properties": {
+        "section_id": { "$ref": "#/$defs/section_id" },
+        "sequence": { "type": "integer", "minimum": 4, "maximum": 9 },
+        "heading": { "$ref": "#/$defs/short_text" },
+        "status": { "enum": ["PRESENT", "MISSING"] },
+        "paragraphs": { "type": "array", "items": { "$ref": "#/$defs/paragraph" } },
+        "subsections": { "type": "array", "items": { "$ref": "#/$defs/subsection" } },
+        "missing_information_ids": { "$ref": "#/$defs/identifier_array" },
+        "marker": { "const": "[AUTHOR CONFIRMATION REQUIRED]" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "status": { "const": "PRESENT" } }, "required": ["status"] },
+          "then": {
+            "anyOf": [
+              { "properties": { "paragraphs": { "minItems": 1 } } },
+              { "properties": { "subsections": { "contains": { "properties": { "status": { "const": "PRESENT" } }, "required": ["status"] } } } }
+            ],
+            "not": { "required": ["marker"] }
+          }
+        },
+        {
+          "if": { "properties": { "status": { "const": "MISSING" } }, "required": ["status"] },
+          "then": {
+            "required": ["marker"],
+            "properties": {
+              "paragraphs": { "maxItems": 0 },
+              "subsections": { "not": { "contains": { "properties": { "status": { "const": "PRESENT" } }, "required": ["status"] } } },
+              "missing_information_ids": { "minItems": 1 }
+            }
+          }
+        }
+      ]
+    },
+    "technical_field_section": {
+      "allOf": [
+        { "$ref": "#/$defs/draft_section" },
+        { "properties": { "section_id": { "const": "TECHNICAL_FIELD" }, "sequence": { "const": 4 }, "heading": { "const": "Technical Field" }, "subsections": { "maxItems": 0 } } }
+      ]
+    },
+    "background_section": {
+      "allOf": [
+        { "$ref": "#/$defs/draft_section" },
+        { "properties": { "section_id": { "const": "BACKGROUND" }, "sequence": { "const": 5 }, "heading": { "const": "Background" }, "subsections": { "maxItems": 0 } } }
+      ]
+    },
+    "summary_section": {
+      "allOf": [
+        { "$ref": "#/$defs/draft_section" },
+        {
+          "properties": {
+            "section_id": { "const": "SUMMARY_OF_TECHNICAL_DISCLOSURE" },
+            "sequence": { "const": 6 },
+            "heading": { "const": "Summary of Technical Disclosure" },
+            "subsections": {
+              "type": "array",
+              "minItems": 4,
+              "maxItems": 4,
+              "prefixItems": [
+                { "$ref": "#/$defs/technical_problems_subsection" },
+                { "$ref": "#/$defs/technical_solutions_subsection" },
+                { "$ref": "#/$defs/distinguishing_features_subsection" },
+                { "$ref": "#/$defs/technical_effects_subsection" }
+              ],
+              "items": false
+            }
+          }
+        }
+      ]
+    },
+    "drawings_section": {
+      "allOf": [
+        { "$ref": "#/$defs/draft_section" },
+        { "properties": { "section_id": { "const": "BRIEF_DESCRIPTION_OF_DRAWINGS" }, "sequence": { "const": 7 }, "heading": { "const": "Brief Description of Drawings" }, "subsections": { "maxItems": 0 } } }
+      ]
+    },
+    "detailed_description_section": {
+      "allOf": [
+        { "$ref": "#/$defs/draft_section" },
+        {
+          "properties": {
+            "section_id": { "const": "DETAILED_DESCRIPTION" },
+            "sequence": { "const": 8 },
+            "heading": { "const": "Detailed Description" },
+            "subsections": {
+              "type": "array",
+              "minItems": 3,
+              "maxItems": 3,
+              "prefixItems": [
+                { "$ref": "#/$defs/components_subsection" },
+                { "$ref": "#/$defs/process_steps_subsection" },
+                { "$ref": "#/$defs/embodiments_subsection" }
+              ],
+              "items": false
+            }
+          }
+        }
+      ]
+    },
+    "experimental_section": {
+      "allOf": [
+        { "$ref": "#/$defs/draft_section" },
+        { "properties": { "section_id": { "const": "EXPERIMENTAL_EXAMPLES_AND_RESULTS" }, "sequence": { "const": 9 }, "heading": { "const": "Experimental Examples and Results" }, "subsections": { "maxItems": 0 } } }
+      ]
+    },
+    "drawing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["drawing_id", "source_drawing_id", "kind", "title", "status", "source_paths", "evidence_ids", "human_confirmation_required"],
+      "properties": {
+        "drawing_id": { "$ref": "#/$defs/identifier" },
+        "source_drawing_id": { "$ref": "#/$defs/identifier" },
+        "kind": { "enum": ["SOURCE_FIGURE", "PROPOSED_DRAWING"] },
+        "title": { "$ref": "#/$defs/short_text" },
+        "status": { "enum": ["AVAILABLE", "PROPOSED", "MISSING"] },
+        "source_paths": { "$ref": "#/$defs/source_paths" },
+        "evidence_ids": { "$ref": "#/$defs/identifier_array" },
+        "human_confirmation_required": { "type": "boolean" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "kind": { "const": "SOURCE_FIGURE" } }, "required": ["kind"] },
+          "then": { "properties": { "evidence_ids": { "minItems": 1 } } }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "PROPOSED_DRAWING" } }, "required": ["kind"] },
+          "then": { "properties": { "human_confirmation_required": { "const": true } } }
+        },
+        {
+          "if": { "properties": { "status": { "const": "MISSING" } }, "required": ["status"] },
+          "then": { "properties": { "human_confirmation_required": { "const": true } } }
+        }
+      ]
+    },
+    "missing_information": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["missing_id", "origin", "target_path", "description", "reason", "impact", "owner", "grounding_label", "affected_section_ids", "marker"],
+      "properties": {
+        "missing_id": { "$ref": "#/$defs/identifier" },
+        "origin": { "enum": ["SOURCE_ANALYSIS", "DRAFT_VALIDATION"] },
+        "source_missing_information_id": { "$ref": "#/$defs/identifier" },
+        "rule_id": {
+          "enum": [
+            "TITLE_SELECTION_REQUIRED",
+            "ABSTRACT_SOURCE_INSUFFICIENT",
+            "SECTION_SOURCE_INSUFFICIENT",
+            "CONFLICT_REQUIRES_RESOLUTION"
+          ]
+        },
+        "target_path": { "$ref": "#/$defs/json_pointer" },
+        "description": { "$ref": "#/$defs/non_empty_text" },
+        "reason": { "enum": ["NOT_FOUND", "AMBIGUOUS", "CONFLICTING", "INSUFFICIENT_DETAIL"] },
+        "impact": { "enum": ["BLOCKING", "HIGH", "MEDIUM", "LOW"] },
+        "owner": { "enum": ["AUTHOR", "HUMAN_REVIEWER", "IP_SPECIALIST"] },
+        "grounding_label": { "const": "MISSING" },
+        "affected_section_ids": { "$ref": "#/$defs/section_id_array" },
+        "marker": { "const": "[AUTHOR CONFIRMATION REQUIRED]" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "origin": { "const": "SOURCE_ANALYSIS" } }, "required": ["origin"] },
+          "then": { "required": ["source_missing_information_id"], "not": { "required": ["rule_id"] } }
+        },
+        {
+          "if": { "properties": { "origin": { "const": "DRAFT_VALIDATION" } }, "required": ["origin"] },
+          "then": { "required": ["rule_id"], "not": { "required": ["source_missing_information_id"] } }
+        }
+      ]
+    },
+    "conflict": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["conflict_id", "summary", "source_paths", "evidence_ids", "affected_section_ids", "resolution_status", "author_question_ids", "marker"],
+      "properties": {
+        "conflict_id": { "$ref": "#/$defs/identifier" },
+        "summary": { "$ref": "#/$defs/non_empty_text" },
+        "source_paths": { "$ref": "#/$defs/source_paths" },
+        "evidence_ids": {
+          "allOf": [
+            { "$ref": "#/$defs/identifier_array" },
+            { "minItems": 2 }
+          ]
+        },
+        "affected_section_ids": { "$ref": "#/$defs/section_id_array" },
+        "resolution_status": { "const": "UNRESOLVED" },
+        "author_question_ids": {
+          "allOf": [
+            { "$ref": "#/$defs/identifier_array" },
+            { "minItems": 1 }
+          ]
+        },
+        "marker": { "const": "[AUTHOR CONFIRMATION REQUIRED]" }
+      }
+    },
+    "author_question": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["question_id", "origin", "question", "priority", "source_paths", "related_missing_information_ids", "related_conflict_ids", "affected_section_ids"],
+      "properties": {
+        "question_id": { "$ref": "#/$defs/identifier" },
+        "origin": { "enum": ["SOURCE_ANALYSIS", "DRAFT_VALIDATION"] },
+        "source_question_id": { "$ref": "#/$defs/identifier" },
+        "question": { "$ref": "#/$defs/non_empty_text" },
+        "priority": { "enum": ["HIGH", "MEDIUM", "LOW"] },
+        "source_paths": { "$ref": "#/$defs/source_paths" },
+        "related_missing_information_ids": {
+          "allOf": [
+            { "$ref": "#/$defs/identifier_array" },
+            { "minItems": 1 }
+          ]
+        },
+        "related_conflict_ids": { "$ref": "#/$defs/identifier_array" },
+        "affected_section_ids": { "$ref": "#/$defs/section_id_array" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "origin": { "const": "SOURCE_ANALYSIS" } }, "required": ["origin"] },
+          "then": { "required": ["source_question_id"] }
+        },
+        {
+          "if": { "properties": { "origin": { "const": "DRAFT_VALIDATION" } }, "required": ["origin"] },
+          "then": { "not": { "required": ["source_question_id"] } }
+        }
+      ]
+    },
+    "evidence_locator": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "page": { "type": "integer", "minimum": 1 },
+        "section": { "$ref": "#/$defs/short_text" },
+        "paragraph_id": { "$ref": "#/$defs/identifier" },
+        "chunk_id": { "$ref": "#/$defs/identifier" },
+        "table_id": { "$ref": "#/$defs/identifier" },
+        "figure_id": { "$ref": "#/$defs/identifier" }
+      },
+      "anyOf": [
+        { "required": ["page"] },
+        { "required": ["section"] },
+        { "required": ["paragraph_id"] },
+        { "required": ["chunk_id"] },
+        { "required": ["table_id"] },
+        { "required": ["figure_id"] }
+      ]
+    },
+    "usage_reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["target_type", "target_id"],
+      "properties": {
+        "target_type": { "enum": ["SELECTED_TITLE", "ABSTRACT", "PARAGRAPH", "DRAWING", "CONFLICT"] },
+        "target_id": { "$ref": "#/$defs/identifier" }
+      }
+    },
+    "evidence_appendix_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evidence_id", "document_id", "evidence_type", "locator", "excerpt", "usage_references"],
+      "properties": {
+        "evidence_id": { "$ref": "#/$defs/identifier" },
+        "document_id": { "$ref": "#/$defs/identifier" },
+        "evidence_type": { "enum": ["TEXT", "TABLE", "FIGURE", "METADATA"] },
+        "locator": { "$ref": "#/$defs/evidence_locator" },
+        "excerpt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "pattern": "\\S"
+        },
+        "usage_references": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/usage_reference" }
+        }
+      }
+    }
+  }
+}

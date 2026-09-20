@@ -1,0 +1,148 @@
+{
+  "case_id": "conflicting-evidence",
+  "description": "Synthetic source contains two contradictory operating-temperature statements that remain unresolved.",
+  "expected_outcome": "VALID_DRAFT",
+  "input": {
+    "input_contract_version": "1.0.0",
+    "task": "GENERATE_PATENT_DESCRIPTION_DRAFT",
+    "source_analysis": {
+      "schema_version": "1.0.0",
+      "output_type": "STRUCTURED_INVENTION_ANALYSIS",
+      "output_notice": { "status": "DRAFT", "human_review_required": true, "is_legal_advice": false, "filing_ready": false, "includes_patentability_assessment": false },
+      "document_metadata": { "document_id": "doc-conflict", "file_name": "synthetic-conflict.pdf", "media_type": "application/pdf" },
+      "title_candidates": [],
+      "technical_field": {
+        "status": "PRESENT",
+        "item": { "field_id": "field-control", "name": "Thermal control", "description": "Control of a synthetic chamber temperature.", "grounding": { "label": "SOURCE_FACT", "evidence_ids": ["ev-conflict-a"] } }
+      },
+      "background": [
+        { "statement_id": "statement-a", "text": "The operating temperature is 20 degC.", "grounding": { "label": "SOURCE_FACT", "evidence_ids": ["ev-conflict-a"] } },
+        { "statement_id": "statement-b", "text": "The operating temperature is 30 degC.", "grounding": { "label": "SOURCE_FACT", "evidence_ids": ["ev-conflict-b"] } }
+      ],
+      "technical_problems": [],
+      "technical_solutions": [],
+      "components": [],
+      "process_steps": [],
+      "potential_distinguishing_features": [],
+      "technical_effects": [],
+      "embodiments": [],
+      "experimental_data": [],
+      "drawing_requirements": [],
+      "missing_information": [{
+        "missing_id": "source-missing-temperature", "target_path": "/background", "description": "Two synthetic passages give different operating temperatures.",
+        "reason": "CONFLICTING", "impact": "HIGH", "owner": "AUTHOR", "grounding_label": "MISSING"
+      }],
+      "author_questions": [{
+        "question_id": "source-question-temperature", "missing_information_id": "source-missing-temperature",
+        "question": "Which operating temperature is intended?", "priority": "HIGH"
+      }],
+      "evidence": [
+        { "evidence_id": "ev-conflict-a", "document_id": "doc-conflict", "evidence_type": "TEXT", "locator": { "page": 2, "paragraph_id": "source-a" }, "excerpt": "The operating temperature is 20 degC." },
+        { "evidence_id": "ev-conflict-b", "document_id": "doc-conflict", "evidence_type": "TEXT", "locator": { "page": 4, "paragraph_id": "source-b" }, "excerpt": "The operating temperature is 30 degC." }
+      ]
+    },
+    "generation_config": {
+      "language": "en", "abstract_max_words": 150, "missing_marker": "[AUTHOR CONFIRMATION REQUIRED]",
+      "include_claims": false, "include_legal_advice": false, "include_patentability_assessment": false
+    }
+  },
+  "expected_output": {
+    "schema_version": "1.0.0",
+    "output_type": "PATENT_DESCRIPTION_DRAFT",
+    "document_metadata": {
+      "draft_id": "draft-conflict", "language": "en",
+      "source_schema_id": "urn:ai-ip-description-generator:invention-output:1.0.0", "source_schema_version": "1.0.0", "source_output_type": "STRUCTURED_INVENTION_ANALYSIS",
+      "source_document": { "document_id": "doc-conflict", "file_name": "synthetic-conflict.pdf", "media_type": "application/pdf" }
+    },
+    "output_notice": {
+      "status": "DRAFT", "notice": "AI-generated draft — requires human review.", "human_review_required": true,
+      "is_legal_advice": false, "filing_ready": false, "includes_patentability_assessment": false, "includes_claims": false
+    },
+    "section_order": [
+      "COVER_AND_DRAFT_NOTICE", "TITLE", "ABSTRACT", "TECHNICAL_FIELD", "BACKGROUND",
+      "SUMMARY_OF_TECHNICAL_DISCLOSURE", "BRIEF_DESCRIPTION_OF_DRAWINGS", "DETAILED_DESCRIPTION",
+      "EXPERIMENTAL_EXAMPLES_AND_RESULTS", "MISSING_INFORMATION_AND_AUTHOR_QUESTIONS", "EVIDENCE_AND_REFERENCE_APPENDIX"
+    ],
+    "selected_title": { "status": "MISSING", "marker": "[AUTHOR CONFIRMATION REQUIRED]", "missing_information_ids": ["missing-title"] },
+    "abstract": { "status": "MISSING", "marker": "[AUTHOR CONFIRMATION REQUIRED]", "missing_information_ids": ["missing-conflict"] },
+    "draft_sections": [
+      {
+        "section_id": "TECHNICAL_FIELD", "sequence": 4, "heading": "Technical Field", "status": "PRESENT",
+        "paragraphs": [{ "paragraph_id": "paragraph-conflict-field", "sequence": 1, "text": "The disclosure relates to control of a synthetic chamber temperature.", "source_paths": ["/technical_field/item"], "grounding": { "label": "PARAPHRASE", "evidence_ids": ["ev-conflict-a"] } }],
+        "subsections": [], "missing_information_ids": []
+      },
+      {
+        "section_id": "BACKGROUND", "sequence": 5, "heading": "Background", "status": "MISSING", "paragraphs": [], "subsections": [],
+        "missing_information_ids": ["missing-conflict"], "marker": "[AUTHOR CONFIRMATION REQUIRED]"
+      },
+      {
+        "section_id": "SUMMARY_OF_TECHNICAL_DISCLOSURE", "sequence": 6, "heading": "Summary of Technical Disclosure", "status": "MISSING", "paragraphs": [],
+        "subsections": [
+          { "subsection_id": "TECHNICAL_PROBLEMS", "sequence": 1, "heading": "Technical Problems", "status": "MISSING", "paragraphs": [], "missing_information_ids": ["missing-sections"], "marker": "[AUTHOR CONFIRMATION REQUIRED]" },
+          { "subsection_id": "TECHNICAL_SOLUTIONS", "sequence": 2, "heading": "Technical Solutions", "status": "MISSING", "paragraphs": [], "missing_information_ids": ["missing-sections"], "marker": "[AUTHOR CONFIRMATION REQUIRED]" },
+          { "subsection_id": "POTENTIAL_DISTINGUISHING_FEATURES", "sequence": 3, "heading": "Potential Distinguishing Features", "status": "MISSING", "paragraphs": [], "missing_information_ids": ["missing-sections"], "marker": "[AUTHOR CONFIRMATION REQUIRED]" },
+          { "subsection_id": "TECHNICAL_EFFECTS", "sequence": 4, "heading": "Technical Effects", "status": "MISSING", "paragraphs": [], "missing_information_ids": ["missing-sections"], "marker": "[AUTHOR CONFIRMATION REQUIRED]" }
+        ],
+        "missing_information_ids": ["missing-sections"], "marker": "[AUTHOR CONFIRMATION REQUIRED]"
+      },
+      {
+        "section_id": "BRIEF_DESCRIPTION_OF_DRAWINGS", "sequence": 7, "heading": "Brief Description of Drawings", "status": "MISSING", "paragraphs": [], "subsections": [],
+        "missing_information_ids": ["missing-sections"], "marker": "[AUTHOR CONFIRMATION REQUIRED]"
+      },
+      {
+        "section_id": "DETAILED_DESCRIPTION", "sequence": 8, "heading": "Detailed Description", "status": "MISSING", "paragraphs": [],
+        "subsections": [
+          { "subsection_id": "COMPONENTS_OR_SYSTEM", "sequence": 1, "heading": "Components or System", "status": "MISSING", "paragraphs": [], "missing_information_ids": ["missing-sections"], "marker": "[AUTHOR CONFIRMATION REQUIRED]" },
+          { "subsection_id": "PROCESS_OR_METHOD_STEPS", "sequence": 2, "heading": "Process or Method Steps", "status": "MISSING", "paragraphs": [], "missing_information_ids": ["missing-sections"], "marker": "[AUTHOR CONFIRMATION REQUIRED]" },
+          { "subsection_id": "EMBODIMENTS", "sequence": 3, "heading": "Embodiments", "status": "MISSING", "paragraphs": [], "missing_information_ids": ["missing-sections"], "marker": "[AUTHOR CONFIRMATION REQUIRED]" }
+        ],
+        "missing_information_ids": ["missing-sections"], "marker": "[AUTHOR CONFIRMATION REQUIRED]"
+      },
+      {
+        "section_id": "EXPERIMENTAL_EXAMPLES_AND_RESULTS", "sequence": 9, "heading": "Experimental Examples and Results", "status": "MISSING", "paragraphs": [], "subsections": [],
+        "missing_information_ids": ["missing-sections"], "marker": "[AUTHOR CONFIRMATION REQUIRED]"
+      }
+    ],
+    "drawings": [],
+    "missing_information": [
+      {
+        "missing_id": "missing-title", "origin": "DRAFT_VALIDATION", "rule_id": "TITLE_SELECTION_REQUIRED", "target_path": "/title_candidates",
+        "description": "No title candidate was selected by the caller.", "reason": "NOT_FOUND", "impact": "HIGH", "owner": "HUMAN_REVIEWER", "grounding_label": "MISSING",
+        "affected_section_ids": ["TITLE"], "marker": "[AUTHOR CONFIRMATION REQUIRED]"
+      },
+      {
+        "missing_id": "missing-conflict", "origin": "SOURCE_ANALYSIS", "source_missing_information_id": "source-missing-temperature", "target_path": "/background",
+        "description": "Two synthetic passages give different operating temperatures.", "reason": "CONFLICTING", "impact": "HIGH", "owner": "AUTHOR", "grounding_label": "MISSING",
+        "affected_section_ids": ["ABSTRACT", "BACKGROUND"], "marker": "[AUTHOR CONFIRMATION REQUIRED]"
+      },
+      {
+        "missing_id": "missing-sections", "origin": "DRAFT_VALIDATION", "rule_id": "SECTION_SOURCE_INSUFFICIENT", "target_path": "/technical_problems",
+        "description": "The structured analysis does not contain supported content for the remaining technical sections.", "reason": "INSUFFICIENT_DETAIL", "impact": "HIGH", "owner": "AUTHOR", "grounding_label": "MISSING",
+        "affected_section_ids": ["SUMMARY_OF_TECHNICAL_DISCLOSURE", "BRIEF_DESCRIPTION_OF_DRAWINGS", "DETAILED_DESCRIPTION", "EXPERIMENTAL_EXAMPLES_AND_RESULTS"],
+        "marker": "[AUTHOR CONFIRMATION REQUIRED]"
+      }
+    ],
+    "conflicts": [{
+      "conflict_id": "conflict-temperature", "summary": "The source reports both 20 degC and 30 degC as the operating temperature without resolving the difference.",
+      "source_paths": ["/background/0", "/background/1"], "evidence_ids": ["ev-conflict-a", "ev-conflict-b"],
+      "affected_section_ids": ["ABSTRACT", "BACKGROUND"], "resolution_status": "UNRESOLVED", "author_question_ids": ["question-temperature"],
+      "marker": "[AUTHOR CONFIRMATION REQUIRED]"
+    }],
+    "author_questions": [{
+      "question_id": "question-temperature", "origin": "SOURCE_ANALYSIS", "source_question_id": "source-question-temperature", "question": "Which operating temperature is intended?", "priority": "HIGH",
+      "source_paths": ["/author_questions/0"], "related_missing_information_ids": ["missing-conflict"], "related_conflict_ids": ["conflict-temperature"], "affected_section_ids": ["ABSTRACT", "BACKGROUND"]
+    }],
+    "evidence_appendix": [
+      {
+        "evidence_id": "ev-conflict-a", "document_id": "doc-conflict", "evidence_type": "TEXT", "locator": { "page": 2, "paragraph_id": "source-a" },
+        "excerpt": "The operating temperature is 20 degC.",
+        "usage_references": [{ "target_type": "PARAGRAPH", "target_id": "paragraph-conflict-field" }, { "target_type": "CONFLICT", "target_id": "conflict-temperature" }]
+      },
+      {
+        "evidence_id": "ev-conflict-b", "document_id": "doc-conflict", "evidence_type": "TEXT", "locator": { "page": 4, "paragraph_id": "source-b" },
+        "excerpt": "The operating temperature is 30 degC.",
+        "usage_references": [{ "target_type": "CONFLICT", "target_id": "conflict-temperature" }]
+      }
+    ]
+  }
+}
