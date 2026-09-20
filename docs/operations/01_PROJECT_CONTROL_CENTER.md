@@ -8,11 +8,11 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.2.11 |
-| Status | Draft |
+| Version | 0.3.0 |
+| Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
-| Reviewer | Gemini Pro |
+| Reviewer | Gemini 3.1 Pro High |
 | Created date | 18/09/2026 |
 | Last updated | 20/09/2026 GMT+7 |
 | Related task ID | SPEC-004 |
@@ -37,6 +37,7 @@
 | 0.2.8 | 0.2.9 | 20/09/2026 | ChatGPT/Codex | Ghi nhận DOC-001 implementation và automated validation, chờ Human visual QA/Gemini review | Đồng bộ bằng chứng task được Human phê duyệt | DOC-001, ADR-009 | No |
 | 0.2.9 | 0.2.10 | 20/09/2026 | ChatGPT/Codex | Ghi nhận Human Visual QA và Gemini independent review DOC-001 đều PASS, không có finding | Đồng bộ governance state trước Human merge approval | DOC-001, ADR-009, REV-DOC-001 | No |
 | 0.2.10 | 0.2.11 | 20/09/2026 | ChatGPT/Codex | Chuyển DOC-001 sang Completed sau khi Human merge PR #7 | Post-merge governance closeout với bằng chứng repository | DOC-001, ADR-009, REV-DOC-001, PR #7, merge commit `d208a7925da844c5b43578bac8ebdbb1c5c6b5b8` | No |
+| 0.2.11 | 0.3.0 | 20/09/2026 | ChatGPT/Codex | Ghi approved baseline SPEC-001/002/003, accept ADR-001…005 và chuẩn bị APP-001 specification | Đồng bộ Gemini review và Human decisions | REV-001/002/003, DEC-001/002/003, APP-001 | No |
 
 ## 2. Project
 
@@ -60,7 +61,7 @@ Mục tiêu: chuyển một bài báo PDF/DOCX thành Structured JSON có eviden
 
 Giá trị đề xuất: **Phase 1 — Specification & Architecture**.
 
-Trạng thái Human phê duyệt phase: **[CẦN XÁC NHẬN TRẠNG THÁI]**.
+SPEC-001/002/003 là approved baseline. Toàn bộ Phase 1 chưa được tuyên bố hoàn tất; Phase 2 chưa bắt đầu.
 
 ## 6. Current Objective
 
@@ -69,7 +70,7 @@ Trạng thái Human phê duyệt phase: **[CẦN XÁC NHẬN TRẠNG THÁI]**.
 - Chốt AI collaboration protocol.
 - Chốt output schema.
 - Chốt prompt specification.
-- Chốt phạm vi Draft Claims.
+- Giữ Claims ngoài MVP hiện hành; chỉ mở lại qua scope-change approval.
 - Chốt template DOCX.
 
 Các mục trên chưa được coi là đã chốt chỉ vì có tài liệu Draft.
@@ -79,13 +80,14 @@ Các mục trên chưa được coi là đã chốt chỉ vì có tài liệu Dr
 - [x] Khởi tạo local Git repository.
 - [x] Xác minh GitHub repository và Private visibility.
 - [x] Publish bộ 5 artefact cùng README lên nhánh `main` trong commit đồng bộ này.
-- [x] Tạo và cập nhật bản Draft `docs/system-specification.md` 0.2.6.
-- [x] Tạo và cập nhật bản Draft `AGENTS.md` 0.1.1.
-- [x] Tạo và cập nhật bản Draft `PROJECT_CONTEXT.md` 0.2.10.
-- [x] Tạo và cập nhật bản nguồn Draft Project Control Center 0.2.10.
-- [x] Tạo và cập nhật bản nguồn Gemini Review Log 0.2.6.
-- [ ] Human review/phê duyệt specification và context.
-- [ ] Gemini review chính thức các artefact hiện hành.
+- [x] SPEC-001 `docs/system-specification.md` 0.3.0 — Approved baseline.
+- [x] SPEC-003 `AGENTS.md` 0.2.0 — Approved baseline.
+- [x] SPEC-002 `PROJECT_CONTEXT.md` 0.3.0 — Approved baseline.
+- [x] Project Control Center 0.3.0 và Gemini Review Log 0.3.0 được cập nhật cho gói APP-001.
+- [x] Gemini 3.1 Pro High review SPEC-001/002/003: `PASS WITH HUMAN DECISIONS REQUIRED`; không có document finding.
+- [x] Human phê duyệt SPEC-001/002/003 là baseline và chốt DEC-001/002/003.
+- [x] ADR-001…ADR-005 đã được tạo với trạng thái `Accepted`.
+- [x] APP-001 specification đã được chuẩn bị; implementation chưa bắt đầu.
 - [x] Human phê duyệt ADR-006 và contract Output Schema v1.0.0.
 - [x] Implement Output Schema v1.0.0, fixtures và automated tests.
 - [x] Gemini 3.1 Pro full review và targeted whitespace re-review cho AI-001: PASS, không có finding.
@@ -96,7 +98,7 @@ Các mục trên chưa được coi là đã chốt chỉ vì có tài liệu Dr
 - [x] Human phê duyệt AI-003 và ADR-008; Patent Draft Contract v1.0.0, Draft Generation Prompt v1.0.0 cùng synthetic fixtures/tests đã được triển khai.
 - [x] Gemini 3.1 Pro High independent read-only review AI-003: PASS, không có finding hoặc required change.
 - [x] Human đã phê duyệt và merge PR #5 ngày 20/09/2026; AI-003 `Completed` tại merge commit `fb522bc5ecbb5ad66bab6226fa88ae51020cef52`.
-- [ ] Chốt phạm vi Draft Claims.
+- [x] Human loại Claims/Draft Claims khỏi MVP hiện hành; task tương lai cần approval riêng.
 - [x] Triển khai Patent DOCX Template v1.0.0, mapping, renderer, synthetic fixtures và automated tests.
 - [x] Human Microsoft Word Visual QA DOC-001: PASS, không có finding.
 - [x] Gemini 3.1 Pro High independent review DOC-001: PASS, không có finding hoặc required change; recommendation `APPROVE`.
@@ -109,17 +111,17 @@ Các ô `[x]` chỉ xác nhận bằng chứng được nêu ngay trên từng d
 
 ## 8. Completed
 
-AI-001, AI-002, AI-003 và DOC-001 là các hạng mục đã được Human xác nhận `Completed`. Không có bằng chứng để đánh dấu toàn bộ Phase 1 hoặc các SPEC-001/002/003 là đã review/hoàn thành.
+AI-001, AI-002, AI-003 và DOC-001 là các hạng mục đã được Human xác nhận `Completed`. SPEC-001/002/003 là approved baseline, nhưng điều này không đánh dấu toàn bộ Phase 1 `Completed`.
 
 Các deliverable Draft đã tạo, có bằng chứng file:
 
 | Task ID | Deliverable | Evidence | Kết luận được phép |
 |---|---|---|---|
-| SPEC-001 | System Specification 0.2.7 | `docs/system-specification.md` trên branch closeout DOC-001 | Draft updated; pending SPEC review |
-| SPEC-002 | Project Context 0.2.11 | `PROJECT_CONTEXT.md` trên branch closeout DOC-001 | Draft updated; pending SPEC review |
-| SPEC-003 | AI Collaboration Rules 0.1.1 | `AGENTS.md` trên GitHub `main` | Draft produced; pending review |
-| SPEC-004 | Project Control Center source 0.2.11 | File hiện tại trên branch closeout DOC-001 | Draft updated; Google Doc sync pending confirmation |
-| REVIEW-001 | Gemini Review Log source 0.2.7 | `docs/operations/02_GEMINI_REVIEW_LOG.md` | `REV-AI-001`, `REV-AI-002`, `REV-AI-003` và `REV-DOC-001` CLOSED; SPEC-001/002/003 vẫn pending |
+| SPEC-001 | System Specification 0.3.0 | Gemini 3.1 Pro High review + Human decisions ngày 20/09/2026 | Approved baseline |
+| SPEC-002 | Project Context 0.3.0 | Gemini 3.1 Pro High review + Human decisions ngày 20/09/2026 | Approved baseline |
+| SPEC-003 | AI Collaboration Rules 0.2.0 | Gemini 3.1 Pro High review + Human decisions ngày 20/09/2026 | Approved baseline |
+| SPEC-004 | Project Control Center source 0.3.0 | File hiện tại | Active; Google Doc sync pending confirmation |
+| REVIEW-001 | Gemini Review Log source 0.3.0 | `REV-001/002/003` và các review task có bằng chứng | Active log; listed reviews CLOSED |
 | AI-001 | Output Schema v1.0.0 | PR [#1](https://github.com/nshaokiet/ai-ip-description-generator/pull/1), merge commit `49efead593437dfc5c88397ea6f335a2d4ff84d7`, 19/09/2026; Gemini review PASS; 15/15 tests pass; không có finding | Completed — Merged via PR #1 |
 | AI-002 | Extraction Prompt v1.0.0 | PR [#3](https://github.com/nshaokiet/ai-ip-description-generator/pull/3), merge commit `8f2b7082881961cc1a2cf7fa56ece81976759c7f`, 19/09/2026; implementation `f8772b228a23bf7cdec10fa0c463e6d1f672c341`; governance `9f2a78b1396cdadb747c263a2bbbbacb8d7f4292`; Gemini review PASS; AI-001 15/15 và AI-002 17/17 tests pass; không có finding | Completed — Merged via PR #3 |
 | AI-003 | Patent Draft Generation Contract v1.0.0 | PR [#5](https://github.com/nshaokiet/ai-ip-description-generator/pull/5), implementation `ae7e8fb573ea4681a9db1bafa711d19a3c598666`, merge commit `fb522bc5ecbb5ad66bab6226fa88ae51020cef52`, 20/09/2026; Gemini reviews PASS; 57/57 tests pass; không có finding hoặc required change | Completed — Merged via PR #5 |
@@ -129,22 +131,14 @@ Các deliverable Draft đã tạo, có bằng chứng file:
 
 | Task ID | Công việc | Owner | Reviewer | Status | Evidence/Blocker |
 |---|---|---|---|---|---|
-| SPEC-001 | Review và chốt system specification | Human / Product Owner | Gemini Pro | Pending review | Draft 0.1.0 tồn tại |
-| SPEC-002 | Review và chốt project context | Human / Product Owner | Gemini Pro | Pending review | Draft 0.1.1 tồn tại |
-| SPEC-003 | Review và chốt AGENTS.md | Human / Product Owner | Gemini Pro | Pending review | Draft 0.1.1 tồn tại |
 | SPEC-004 | Đồng bộ Project Control Center sang Google Docs | Human / Product Owner | ChatGPT/Codex | `[CẦN XÁC NHẬN TRẠNG THÁI]` | Chưa có bằng chứng Google Doc/link |
-| REVIEW-001 | Đồng bộ Gemini Review Log và thực hiện review cho các SPEC còn lại | Gemini Pro | Human / Product Owner | Pending | `REV-AI-001`, `REV-AI-002`, `REV-AI-003` và `REV-DOC-001` đã đóng; SPEC-001/002/003 chưa có review evidence |
+| APP-001 | FastAPI Backend Skeleton and Secure Document Upload | ChatGPT/Codex | Gemini Pro + Human | Ready for Human approval — Implementation not started | `docs/tasks/APP-001-fastapi-backend-upload.md` |
 
 ## 10. Next Tasks
 
 | Task ID | Task | Owner | Reviewer | Priority | Status | Dependency | Target date |
 |---|---|---|---|---|---|---|---|
-| REVIEW-001 | Review 3 artefact kỹ thuật hiện hành | Gemini Pro | Human / Product Owner | High | Not started | SPEC-001/002/003 Draft | `[CẦN XÁC NHẬN]` |
-| ADR-001 | Quyết định FastAPI backend | ChatGPT/Codex đề xuất; Human phê duyệt | Gemini Pro | High | Proposed | System spec review | `[CẦN XÁC NHẬN]` |
-| ADR-002 | Quyết định OpenAI Responses API cho MVP | ChatGPT/Codex đề xuất; Human phê duyệt | Gemini Pro | High | Proposed | Data/vendor review | `[CẦN XÁC NHẬN]` |
-| ADR-003 | Ghi nhận Gemini chỉ là reviewer | ChatGPT/Codex đề xuất; Human phê duyệt | Gemini Pro | Medium | Proposed | AGENTS review | `[CẦN XÁC NHẬN]` |
-| ADR-004 | Ghi nhận GitHub là Technical Source of Truth | ChatGPT/Codex đề xuất; Human phê duyệt | Gemini Pro | High | Proposed | AGENTS review | `[CẦN XÁC NHẬN]` |
-| ADR-005 | Ghi nhận Human review bắt buộc | ChatGPT/Codex đề xuất; Human phê duyệt | Gemini Pro | Critical | Proposed | Legal/product review | `[CẦN XÁC NHẬN]` |
+| APP-001 | Review và phê duyệt FastAPI skeleton/secure upload specification | Human / Product Owner | Gemini Pro | High | Ready for approval; implementation not started | SPEC approved baseline, ADR-001 | Trước 02/10/2026 |
 
 Mọi target date cụ thể cần được xếp trước deadline chung 02/10/2026 và do Human xác nhận.
 
@@ -152,38 +146,37 @@ Mọi target date cụ thể cần được xếp trước deadline chung 02/10/
 
 | Blocker ID | Blocker | Ảnh hưởng | Owner quyết định | Status |
 |---|---|---|---|---|
-| BLK-002 | Chưa xác nhận OCR/scanned PDF | Chưa khóa parser scope | Human / Product Owner | Open |
-| BLK-003 | Chưa chốt auth/private storage/retention | Không nên dùng dữ liệu nghiên cứu thật | Human / Product Owner | Open |
+| BLK-003 | Chưa chốt auth/private production storage/retention | Không được dùng dữ liệu nghiên cứu thật; không chặn local synthetic APP-001 sau approval | Human / Product Owner | Open — production/real-data blocker |
 | BLK-004 | Chưa chốt model, retrieval, retry, timeout, cost | Chưa khóa AI runtime design | Human / Product Owner | Open |
 | BLK-005 | Chưa chốt phạm vi Draft Claims tương lai | Không chặn AI-001, AI-002, claim-free AI-003 hoặc claim-free DOC-001; chỉ ảnh hưởng task claims riêng nếu được phê duyệt sau | Human + chuyên gia SHTT | Open — non-blocker for AI-001/AI-002/AI-003/DOC-001 |
-| BLK-006 | Chưa có review chính thức cho SPEC-001/002/003 | Các SPEC Draft này chưa có independent QA; không ảnh hưởng kết luận review riêng của AI-001 | Gemini Pro | Open |
 | BLK-007 | Chưa có bằng chứng Google Docs được tạo/đồng bộ | Operational bridge chưa sẵn sàng trên Drive | Human / Product Owner | Open |
 
 ## 12. Architecture Decisions
 
 | ID | Date | Decision | Reason | Alternatives | Approver | Status | Related artefact |
 |---|---|---|---|---|---|---|---|
-| ADR-001 | 18/09/2026 | Use FastAPI backend | Phù hợp tech stack đã định hướng và Python AI/document pipeline | `[CẦN XÁC NHẬN]` | Human / Product Owner | PROPOSED | `docs/system-specification.md` |
-| ADR-002 | 18/09/2026 | Use OpenAI Responses API for MVP | Production AI đã định hướng, hỗ trợ Structured Outputs | `[CẦN XÁC NHẬN]` | Human / Product Owner | PROPOSED | `docs/system-specification.md` |
-| ADR-003 | 18/09/2026 | Gemini acts as reviewer, not production AI dependency | Tách implementation và independent review | Gemini runtime dependency | Human / Product Owner | PROPOSED | `AGENTS.md` |
-| ADR-004 | 18/09/2026 | GitHub is Technical Source of Truth | Version control và traceability | Google Drive làm technical source | Human / Product Owner | PROPOSED | `AGENTS.md` |
-| ADR-005 | 18/09/2026 | Human review is mandatory | Giảm hallucination/rủi ro pháp lý và kỹ thuật | Fully automated approval | Human / Product Owner | PROPOSED | Tất cả artefact |
+| ADR-001 | 20/09/2026 | Use FastAPI backend | Phù hợp Python AI/document pipeline và typed API | Flask, Django/DRF, Node.js | Human / Product Owner | ACCEPTED | `docs/decisions/ADR-001-fastapi-backend.md` |
+| ADR-002 | 20/09/2026 | Use OpenAI Responses API for production AI MVP | Khóa provider direction; tích hợp/model/data policy theo task riêng | Chat Completions, Gemini runtime, self-hosted model | Human / Product Owner | ACCEPTED | `docs/decisions/ADR-002-openai-responses-api-mvp.md` |
+| ADR-003 | 20/09/2026 | Gemini acts as reviewer, not production AI dependency | Tách implementation và independent review | Gemini runtime/implementation owner | Human / Product Owner | ACCEPTED | `docs/decisions/ADR-003-gemini-reviewer-role.md` |
+| ADR-004 | 20/09/2026 | GitHub is Technical Source of Truth | Version control và traceability | Google Drive/NotebookLM làm technical source | Human / Product Owner | ACCEPTED | `docs/decisions/ADR-004-github-technical-source-of-truth.md` |
+| ADR-005 | 20/09/2026 | Human review is mandatory | Giảm hallucination/rủi ro pháp lý và kỹ thuật | Fully automated approval | Human / Product Owner | ACCEPTED | `docs/decisions/ADR-005-human-review-required.md` |
 | ADR-006 | 18/09/2026 | JSON Schema Draft 2020-12, strict Output Schema v1.0.0; loại claims và Human confirmation state | Tạo contract kiểm thử được, đúng phạm vi AI-001 | Schema lỏng; claims optional; Human confirmation trong payload | Human / Product Owner | ACCEPTED | `docs/decisions/ADR-006-output-schema-v1.md` |
 | ADR-007 | 19/09/2026 | Extraction Prompt v1.0.0 dùng normalized JSON envelope và canonical offline validation; hoãn provider adapter/live evaluation | Tách prompt contract khỏi runtime/provider concerns và giữ schema hiện hành | Truyền schema nguyên trạng; sửa schema; tạo adapter ngay | Human / Product Owner | ACCEPTED — COMPLETED — MERGED VIA PR #3 | `docs/decisions/ADR-007-extraction-prompt-v1.md` |
 | ADR-008 | 19/09/2026 | Thêm strict Patent Draft Generation Contract v1.0.0 giữa validated analysis và DOCX; không claims; offline-only validation | Tách extraction, technical drafting và presentation; giữ paragraph-level evidence traceability | Render Output Schema trực tiếp; sửa Output Schema; free-form draft | Human / Product Owner | ACCEPTED — COMPLETED — MERGED VIA PR #5 | `docs/decisions/ADR-008-patent-draft-contract-v1.md` |
-| ADR-009 | 20/09/2026 | Dùng versioned `docxtpl` template và deterministic offline renderer cho DOCX claim-free | Tách presentation khỏi drafting contract; giữ mapping, escaping, evidence và visual-review gate | Procedural-only DOCX; render trực tiếp Output Schema; PDF; auto-generated figures | Human / Product Owner | ACCEPTED — IMPLEMENTED — AWAITING REVIEW | `docs/decisions/ADR-009-patent-docx-template-v1.md` |
+| ADR-009 | 20/09/2026 | Dùng versioned `docxtpl` template và deterministic offline renderer cho DOCX claim-free | Tách presentation khỏi drafting contract; giữ mapping, escaping, evidence và visual-review gate | Procedural-only DOCX; render trực tiếp Output Schema; PDF; auto-generated figures | Human / Product Owner | ACCEPTED — COMPLETED — MERGED VIA PR #7 | `docs/decisions/ADR-009-patent-docx-template-v1.md` |
 
-ADR-006, ADR-007, ADR-008 và ADR-009 đã được Human phê duyệt; ADR-001 đến ADR-005 vẫn chỉ là `PROPOSED`.
+ADR-001 đến ADR-009 đã được Human phê duyệt trong phạm vi từng decision record. `Accepted` không tự động cho phép implementation ngoài task được duyệt.
 
 ## 13. Current AI Assignments
 
 | Task ID | Task | Owner | Reviewer | Status | Expected output |
 |---|---|---|---|---|---|
-| SPEC-001 | System Specification Draft | ChatGPT/Codex | Gemini Pro + Human | Ready for review | `docs/system-specification.md` 0.2.7 |
-| SPEC-002 | Project Context Draft | ChatGPT/Codex | Gemini Pro + Human | Ready for review | `PROJECT_CONTEXT.md` 0.2.11 |
-| SPEC-003 | AGENTS.md Draft | ChatGPT/Codex | Gemini Pro + Human | Ready for review | `AGENTS.md` 0.1.1 |
-| SPEC-004 | Control Center source | ChatGPT/Codex | Human | Ready for review | File hiện tại 0.2.11 |
-| REVIEW-001 | Review Log | ChatGPT/Codex | Gemini Pro + Human | Active | `02_GEMINI_REVIEW_LOG.md` 0.2.7; `REV-AI-001`, `REV-AI-002`, `REV-AI-003` và `REV-DOC-001` CLOSED |
+| SPEC-001 | System Specification | ChatGPT/Codex | Gemini Pro + Human | Approved baseline | `docs/system-specification.md` 0.3.0; REV-001 CLOSED |
+| SPEC-002 | Project Context | ChatGPT/Codex | Gemini Pro + Human | Approved baseline | `PROJECT_CONTEXT.md` 0.3.0; REV-003 CLOSED |
+| SPEC-003 | AGENTS.md | ChatGPT/Codex | Gemini Pro + Human | Approved baseline | `AGENTS.md` 0.2.0; REV-002 CLOSED |
+| SPEC-004 | Control Center source | ChatGPT/Codex | Human | Active | File hiện tại 0.3.0 |
+| REVIEW-001 | Review Log | ChatGPT/Codex | Gemini Pro + Human | Active | `02_GEMINI_REVIEW_LOG.md` 0.3.0; REV-001/002/003 và prior task reviews CLOSED |
+| APP-001 | FastAPI Backend Skeleton and Secure Document Upload specification | ChatGPT/Codex | Gemini Pro + Human | Ready for Human approval — Implementation not started | `docs/tasks/APP-001-fastapi-backend-upload.md` |
 | AI-001 | Output Schema v1.0.0 | ChatGPT/Codex | Gemini 3.1 Pro | Completed — Merged via PR #1 | Merge commit `49efead593437dfc5c88397ea6f335a2d4ff84d7`; Gemini review PASS; 15/15 tests pass; không có finding |
 | AI-002 | Extraction Prompt v1.0.0 | ChatGPT/Codex | Gemini 3.1 Pro High | Completed — Merged via PR #3 | Merge commit `8f2b7082881961cc1a2cf7fa56ece81976759c7f`; implementation `f8772b228a23bf7cdec10fa0c463e6d1f672c341`; governance `9f2a78b1396cdadb747c263a2bbbbacb8d7f4292`; 15/15 regression và 17/17 AI-002 tests pass |
 | AI-003 | Patent Draft Generation Contract v1.0.0 | ChatGPT/Codex | Gemini 3.1 Pro High | Completed — Merged via PR #5 | Implementation `ae7e8fb573ea4681a9db1bafa711d19a3c598666`; merge `fb522bc5ecbb5ad66bab6226fa88ae51020cef52`; 57/57 tests pass |
@@ -274,6 +267,10 @@ Recommended next action: Targeted review post-merge governance closeout; DOC-001
 | 20/09/2026 | `docs/system-specification.md` | 0.2.7 | Ghi nhận DOC-001 post-merge closeout, không đổi technical specification | ChatGPT/Codex | DOC-001, REV-DOC-001 |
 | 20/09/2026 | `docs/operations/01_PROJECT_CONTROL_CENTER.md` | 0.2.11 | Chuyển DOC-001 sang Completed sau merge PR #7 | ChatGPT/Codex | DOC-001, REV-DOC-001 |
 | 20/09/2026 | `docs/operations/02_GEMINI_REVIEW_LOG.md` | 0.2.7 | Ghi Human merge decision và đóng `REV-DOC-001` | ChatGPT/Codex | DOC-001, REV-DOC-001 |
+| 20/09/2026 | `docs/system-specification.md` / `PROJECT_CONTEXT.md` / `AGENTS.md` | 0.3.0 / 0.3.0 / 0.2.0 | Ghi approved baseline sau review và Human decisions | ChatGPT/Codex | SPEC-001/002/003, REV-001/002/003 |
+| 20/09/2026 | `docs/decisions/ADR-001…005-*.md` | ADR-001…ADR-005 | Tạo năm decision records `Accepted` | ChatGPT/Codex | DEC-002, APP-001 |
+| 20/09/2026 | `docs/tasks/APP-001-fastapi-backend-upload.md` | Specification | Chuẩn bị scope, API, security, dependencies và 22 acceptance criteria; không implementation | ChatGPT/Codex | APP-001 |
+| 20/09/2026 | `docs/operations/01_PROJECT_CONTROL_CENTER.md` / `docs/operations/02_GEMINI_REVIEW_LOG.md` | 0.3.0 / 0.3.0 | Đồng bộ baseline/ADR/APP-001 và đóng REV-001/002/003 | ChatGPT/Codex | REVIEW-001, APP-001 |
 
 ## 17. Prompt and Schema Versions
 
@@ -284,7 +281,7 @@ Recommended next action: Targeted review post-merge governance closeout; DOC-001
 | Invention JSON Schema | 1.0.0 | Completed — Merged via PR #1 | ChatGPT/Codex | Gemini 3.1 Pro | 19/09/2026 |
 | Patent Draft JSON Schema | 1.0.0 | Completed — Merged via PR #5 | ChatGPT/Codex | Gemini 3.1 Pro High | 20/09/2026 |
 | DOCX template | 1.0.0 | Completed — Merged via PR #7 | ChatGPT/Codex | Gemini 3.1 Pro High + Human | 20/09/2026 |
-| API contract | Concept trong SPEC-001 | Draft only | ChatGPT/Codex | Gemini Pro | 18/09/2026 |
+| API contract | APP-001 specification | Ready for Human approval — Implementation not started | ChatGPT/Codex | Gemini Pro + Human | 20/09/2026 |
 
 ## 18. Risks
 
@@ -301,21 +298,21 @@ Recommended next action: Targeted review post-merge governance closeout; DOC-001
 
 | Question ID | Question | Context | Options | Impact | Deadline | Decision |
 |---|---|---|---|---|---|---|
-| Q-001 | Có OCR/scanned PDF trong MVP không? | Parser scope | Có / Không / Post-MVP | Timeline, dependency, quality | `[CẦN XÁC NHẬN]` | `[CẦN XÁC NHẬN]` |
-| Q-002 | Giới hạn file/page là bao nhiêu? | Upload/performance | Giá trị do Human xác nhận | Validation và cost | `[CẦN XÁC NHẬN]` | `[CẦN XÁC NHẬN]` |
+| Q-001 | Có OCR/scanned PDF trong APP-001 không? | Parser scope | Human decision | Scanned input bị từ chối; không OCR | 20/09/2026 | Không; scope rộng hơn cần approval riêng |
+| Q-002 | Giới hạn file/page APP-001 là bao nhiêu? | Upload/performance | Human decision | Validation và cost | 20/09/2026 | 10 MiB cho PDF/DOCX; PDF 50 trang; DOCX exact pagination hoãn |
 | Q-003 | Auth và private storage dùng phương án nào? | Dữ liệu mật | Phương án trong tech stack được duyệt | Chặn real-data use | `[CẦN XÁC NHẬN]` | `[CẦN XÁC NHẬN]` |
 | Q-004 | Retention/deletion/backup policy là gì? | Privacy/operations | Thời hạn và SLA do Human xác nhận | Chặn security acceptance | `[CẦN XÁC NHẬN]` | `[CẦN XÁC NHẬN]` |
 | Q-005 | Model/retrieval/retry/timeout/cost limit là gì? | AI runtime | Cấu hình được Human phê duyệt | Schema/prompt/runtime tests | `[CẦN XÁC NHẬN]` | `[CẦN XÁC NHẬN]` |
-| Q-006 | Draft Claims gồm loại/số lượng nào? | Patent output tương lai; claims không thuộc Output Schema v1.0.0 | `[CẦN XÁC NHẬN]` | Không chặn AI-001; ảnh hưởng prompt/template/schema tương lai | `[CẦN XÁC NHẬN]` | AI-001: EXCLUDED; phạm vi tương lai chưa quyết định |
+| Q-006 | Nếu mở lại Claims sau MVP/scope change, loại/số lượng nào? | Claims ngoài MVP và canonical contracts hiện hành | `[CẦN XÁC NHẬN]` trong task tương lai | Không chặn APP-001; ảnh hưởng prompt/template/schema tương lai | `[CẦN XÁC NHẬN]` | Current MVP: EXCLUDED; phạm vi tương lai chưa quyết định |
 | Q-007 | PDF/QA report/claim mapping có thuộc MVP? | Optional output | Include / Exclude / Post-MVP | Workload trước deadline | `[CẦN XÁC NHẬN]` | `[CẦN XÁC NHẬN]` |
 
 ## 20. Pending Reviews
 
 | Review ID | Artefact | Version | Reviewer | Status | Blocking |
 |---|---|---|---|---|---|
-| REV-001 | `docs/system-specification.md` | 0.2.1 | Gemini Pro | Not started | Yes |
-| REV-002 | `AGENTS.md` | 0.1.1 | Gemini Pro | Not started | Yes |
-| REV-003 | `PROJECT_CONTEXT.md` | 0.2.5 | Gemini Pro | Not started | Yes |
+| REV-001 | `docs/system-specification.md` | Reviewed baseline at `595113a6c5337a78b72ff4887383ef4a2b2ef49e`; resolved as 0.3.0 | Gemini 3.1 Pro High | CLOSED — PASS WITH HUMAN DECISIONS REQUIRED; decisions recorded | No |
+| REV-002 | `AGENTS.md` | Reviewed baseline at `595113a6c5337a78b72ff4887383ef4a2b2ef49e`; resolved as 0.2.0 | Gemini 3.1 Pro High | CLOSED — PASS WITH HUMAN DECISIONS REQUIRED; decisions recorded | No |
+| REV-003 | `PROJECT_CONTEXT.md` | Reviewed baseline at `595113a6c5337a78b72ff4887383ef4a2b2ef49e`; resolved as 0.3.0 | Gemini 3.1 Pro High | CLOSED — PASS WITH HUMAN DECISIONS REQUIRED; decisions recorded | No |
 | REV-004 | Hai operational documents | Project Control Center 0.2.5; Review Log 0.2.3 | Gemini Pro + Human | Not started | No |
 | REV-AI-001 | Output Schema v1.0.0 và ADR-006 | 1.0.0 / ADR-006 | Gemini 3.1 Pro | CLOSED — merged via PR #1 | No |
 | REV-AI-002 | Extraction Prompt v1.0.0 và ADR-007 | 1.0.0 / ADR-007 | Gemini 3.1 Pro High | CLOSED — merged via PR #3 | No |
@@ -324,14 +321,20 @@ Recommended next action: Targeted review post-merge governance closeout; DOC-001
 
 ## 21. Recent Decisions
 
-Human đã phê duyệt ADR-006 và Output Schema v1.0.0 cho AI-001, sau đó merge PR #1 ngày 19/09/2026. Human cũng đã phê duyệt AI-002 và ADR-007 rồi merge PR #3 ngày 19/09/2026. Với AI-003 và ADR-008, Gemini review `PASS`, không có finding hoặc required change; Human đã approve và merge PR #5 ngày 20/09/2026. Human Microsoft Word Visual QA, Gemini independent review và targeted governance review cho DOC-001 đều `PASS`, không có finding hoặc required change. Human / Product Owner đã approve và merge PR #7 ngày 20/09/2026 tại `d208a7925da844c5b43578bac8ebdbb1c5c6b5b8`; DOC-001 `Completed`. Các ADR-001 đến ADR-005 vẫn chỉ là `PROPOSED`.
+Human đã phê duyệt ADR-006 và Output Schema v1.0.0 cho AI-001, sau đó merge PR #1 ngày 19/09/2026. Human cũng đã phê duyệt AI-002/ADR-007, AI-003/ADR-008 và DOC-001/ADR-009 theo bằng chứng merge hiện có. Ngày 20/09/2026, Human phê duyệt SPEC-001/002/003 là baseline, accept ADR-001…005, chốt FastAPI và Responses API direction, giữ Gemini là reviewer, GitHub là Technical Source of Truth, Human review bắt buộc, và chốt upload APP-001 là PDF/DOCX tối đa 10 MiB, PDF text-based tối đa 50 trang, không OCR. APP-001 implementation chưa được phê duyệt.
+
+| Decision ID | Human decision ngày 20/09/2026 | Trạng thái |
+|---|---|---|
+| DEC-001 | Phê duyệt SPEC-001/002/003 là baseline hiện hành | Recorded |
+| DEC-002 | Accept nguyên trạng ADR-001…005 theo phạm vi từng ADR | Recorded |
+| DEC-003 | Khóa upload/local single-tenant ephemeral scope, synthetic-only và retention tối đa 1 giờ để chuẩn bị APP-001 specification | Recorded; implementation pending Human approval |
 
 ## 22. Next Recommended Action
 
-1. Gemini thực hiện targeted review cho post-merge governance closeout DOC-001.
-2. Chuẩn bị specification/approval riêng cho bước tiếp theo; không tự đặt task ID hoặc bắt đầu implementation.
-3. Không đánh dấu toàn bộ Phase 1 hoặc MVP `Completed` khi chưa có bằng chứng.
-4. Tiếp tục xử lý các blocker dữ liệu, runtime và claims tương lai theo approval riêng.
+1. Gemini review APP-001 specification và gói baseline/ADR governance.
+2. Human phê duyệt hoặc yêu cầu sửa; không bắt đầu APP-001 implementation trước approval riêng.
+3. Không đánh dấu toàn bộ Phase 1, Phase 2 hoặc MVP `Completed` khi chưa có bằng chứng.
+4. Tiếp tục xử lý auth/private storage, production retention, AI runtime và claims theo approval riêng.
 
 ## 23. Last Updated
 
