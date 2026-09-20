@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import asyncio
 import io
 import logging
 import os
@@ -15,6 +16,7 @@ from pypdf.generic import DecodedStreamObject, DictionaryObject, NameObject
 
 from backend.app.core.config import MEBIBYTE, Settings
 from backend.app.main import create_app
+from backend.app.services.document_storage import DocumentStorage
 from backend.app.services.document_validation import DOCX_MEDIA_TYPE, PDF_MEDIA_TYPE
 
 
@@ -278,9 +280,35 @@ class DocumentUploadTests(unittest.TestCase):
         with self.app.state.document_storage.lease(document_id):
             self.assertEqual([], self.app.state.document_storage.sweep_expired())
             self.assertTrue(stored_path.exists())
+            self.assertFalse(self.app.state.document_storage.delete(document_id))
         self.assertEqual([document_id], self.app.state.document_storage.sweep_expired())
         self.assertFalse(stored_path.exists())
         self.assertTrue(self.app.state.document_storage.delete(document_id))
+
+    def test_ttl_timestamp_begins_when_receipt_starts(self) -> None:
+        class DelayedUpload:
+            def __init__(self) -> None:
+                self.calls = 0
+
+            async def read(self, _: int) -> bytes:
+                self.calls += 1
+                if self.calls == 1:
+                    return b"synthetic"
+                await asyncio.sleep(0.03)
+                return b""
+
+        storage = DocumentStorage(
+            self.storage_root,
+            ttl_seconds=60,
+            max_upload_bytes=1024,
+            read_chunk_bytes=64,
+        )
+        document_id = storage.allocate_id()
+        started = time.time()
+        path, _ = asyncio.run(storage.stream_to_disk(DelayedUpload(), document_id))
+        finished = time.time()
+        self.assertGreaterEqual(path.stat().st_mtime, started)
+        self.assertLess(path.stat().st_mtime, finished - 0.01)
 
     def test_success_file_can_be_deleted_immediately_after_downstream_completion(self) -> None:
         response = self.upload("paper.pdf", synthetic_pdf(), PDF_MEDIA_TYPE)

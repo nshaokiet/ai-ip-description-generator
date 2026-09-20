@@ -54,6 +54,7 @@ class DocumentStorage:
         """Copy an UploadFile-like object in bounded chunks using exclusive creation."""
 
         path = self.path_for(document_id)
+        received_at = time.time()
         total = 0
         try:
             descriptor = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
@@ -70,13 +71,17 @@ class DocumentStorage:
                 os.fsync(destination.fileno())
             if total == 0:
                 raise EmptyUploadError
+            os.utime(path, (received_at, received_at))
             return path, total
         except BaseException:
             self._unlink_path(path, document_id)
             raise
 
     def delete(self, document_id: str) -> bool:
-        return self._unlink_path(self.path_for(document_id), document_id)
+        with self._lock:
+            if document_id in self._active_ids:
+                return False
+            return self._unlink_path(self.path_for(document_id), document_id)
 
     def _unlink_path(self, path: Path, document_id: str) -> bool:
         try:
@@ -115,11 +120,10 @@ class DocumentStorage:
             with self._lock:
                 if document_id in self._active_ids:
                     continue
-            try:
-                expired = current_time - path.stat().st_mtime >= self.ttl_seconds
-            except OSError:
-                continue
-            if expired and self._unlink_path(path, document_id):
-                removed.append(document_id)
+                try:
+                    expired = current_time - path.stat().st_mtime >= self.ttl_seconds
+                except OSError:
+                    continue
+                if expired and self._unlink_path(path, document_id):
+                    removed.append(document_id)
         return removed
-
