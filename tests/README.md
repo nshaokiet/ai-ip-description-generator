@@ -56,3 +56,33 @@ $env:PYTHONDONTWRITEBYTECODE="1"
 Test AI-003 kiểm tra Patent Draft Schema Draft 2020-12, strict objects, fixed section/subsection order, title/Abstract missing behavior, Abstract word count, paragraph grounding, JSON Pointer source paths, logical-ID uniqueness, cross-references, evidence closure, reverse usage, unresolved conflicts, prompt-injection resistance và claims/legal-assertion exclusion.
 
 Fixtures tại `tests/fixtures/patent-draft/v1.0.0/` hoàn toàn synthetic. Expected outputs là offline oracle; chúng không chứng minh live-model compliance hoặc provider integration.
+
+## DOC-001 Patent DOCX Template v1.0.0
+
+DOC-001 uses Python 3.12 with pinned dependencies in `tests/docx/requirements.txt`:
+
+```text
+-r ../requirements.txt
+docxtpl==0.20.2
+python-docx==1.2.0
+```
+
+Setup and test:
+
+```powershell
+$env:PYTHONDONTWRITEBYTECODE="1"
+.\.venv\Scripts\python.exe -m pip install -r tests/docx/requirements.txt
+.\.venv\Scripts\python.exe -m unittest discover -s tests/docx -p "test_*.py" -v
+```
+
+The DOCX tests validate the canonical template package, manifest, schema-valid synthetic contexts, safe rendering, A4 page setup, approved typography, header/footer fields, exact section order, missing/conflict/inference handling, evidence traceability, Jinja/XML escaping, rejected invalid input, Git-ignore behavior, and scope integrity.
+
+Render the representative Human-review output with:
+
+```powershell
+.\.venv\Scripts\python.exe tests/docx/render_patent_docx_v1.py `
+  tests/fixtures/patent-docx/v1.0.0/representative-context.json `
+  generated/patent-docx/v1.0.0/representative-patent-draft.docx
+```
+
+Fixtures are synthetic. Generated DOCX files stay outside Git. Automated checks do not establish Human visual QA or live-model compliance.

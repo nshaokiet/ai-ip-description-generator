@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0.0",
+  "output_type": "PATENT_DESCRIPTION_DRAFT",
+  "document_metadata": {
+    "draft_id": "docx-draft-special",
+    "language": "en",
+    "source_schema_id": "urn:ai-ip-description-generator:invention-output:1.0.0",
+    "source_schema_version": "1.0.0",
+    "source_output_type": "STRUCTURED_INVENTION_ANALYSIS",
+    "source_document": {
+      "document_id": "doc-docx-special",
+      "file_name": "synthetic-special-characters.docx",
+      "media_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    }
+  },
+  "output_notice": {
+    "status": "DRAFT",
+    "notice": "AI-generated draft — requires human review.",
+    "human_review_required": true,
+    "is_legal_advice": false,
+    "filing_ready": false,
+    "includes_patentability_assessment": false,
+    "includes_claims": false
+  },
+  "section_order": [
+    "COVER_AND_DRAFT_NOTICE", "TITLE", "ABSTRACT", "TECHNICAL_FIELD", "BACKGROUND",
+    "SUMMARY_OF_TECHNICAL_DISCLOSURE", "BRIEF_DESCRIPTION_OF_DRAWINGS", "DETAILED_DESCRIPTION",
+    "EXPERIMENTAL_EXAMPLES_AND_RESULTS", "MISSING_INFORMATION_AND_AUTHOR_QUESTIONS", "EVIDENCE_AND_REFERENCE_APPENDIX"
+  ],
+  "selected_title": {
+    "status": "MISSING", "marker": "[AUTHOR CONFIRMATION REQUIRED]", "missing_information_ids": ["special-missing-title"]
+  },
+  "abstract": {
+    "status": "MISSING", "marker": "[AUTHOR CONFIRMATION REQUIRED]", "missing_information_ids": ["special-missing-content"]
+  },
+  "draft_sections": [
+    { "section_id": "TECHNICAL_FIELD", "sequence": 4, "heading": "Technical Field", "status": "MISSING", "paragraphs": [], "subsections": [], "missing_information_ids": ["special-missing-content"], "marker": "[AUTHOR CONFIRMATION REQUIRED]" },
+    { "section_id": "BACKGROUND", "sequence": 5, "heading": "Background", "status": "MISSING", "paragraphs": [], "subsections": [], "missing_information_ids": ["special-missing-content"], "marker": "[AUTHOR CONFIRMATION REQUIRED]" },
+    {
+      "section_id": "SUMMARY_OF_TECHNICAL_DISCLOSURE", "sequence": 6, "heading": "Summary of Technical Disclosure", "status": "MISSING", "paragraphs": [],
+      "subsections": [
+        { "subsection_id": "TECHNICAL_PROBLEMS", "sequence": 1, "heading": "Technical Problems", "status": "MISSING", "paragraphs": [], "missing_information_ids": ["special-missing-content"], "marker": "[AUTHOR CONFIRMATION REQUIRED]" },
+        { "subsection_id": "TECHNICAL_SOLUTIONS", "sequence": 2, "heading": "Technical Solutions", "status": "MISSING", "paragraphs": [], "missing_information_ids": ["special-missing-content"], "marker": "[AUTHOR CONFIRMATION REQUIRED]" },
+        { "subsection_id": "POTENTIAL_DISTINGUISHING_FEATURES", "sequence": 3, "heading": "Potential Distinguishing Features", "status": "MISSING", "paragraphs": [], "missing_information_ids": ["special-missing-content"], "marker": "[AUTHOR CONFIRMATION REQUIRED]" },
+        { "subsection_id": "TECHNICAL_EFFECTS", "sequence": 4, "heading": "Technical Effects", "status": "MISSING", "paragraphs": [], "missing_information_ids": ["special-missing-content"], "marker": "[AUTHOR CONFIRMATION REQUIRED]" }
+      ],
+      "missing_information_ids": ["special-missing-content"], "marker": "[AUTHOR CONFIRMATION REQUIRED]"
+    },
+    { "section_id": "BRIEF_DESCRIPTION_OF_DRAWINGS", "sequence": 7, "heading": "Brief Description of Drawings", "status": "MISSING", "paragraphs": [], "subsections": [], "missing_information_ids": ["special-missing-content"], "marker": "[AUTHOR CONFIRMATION REQUIRED]" },
+    {
+      "section_id": "DETAILED_DESCRIPTION", "sequence": 8, "heading": "Detailed Description", "status": "MISSING", "paragraphs": [],
+      "subsections": [
+        { "subsection_id": "COMPONENTS_OR_SYSTEM", "sequence": 1, "heading": "Components or System", "status": "MISSING", "paragraphs": [], "missing_information_ids": ["special-missing-content"], "marker": "[AUTHOR CONFIRMATION REQUIRED]" },
+        { "subsection_id": "PROCESS_OR_METHOD_STEPS", "sequence": 2, "heading": "Process or Method Steps", "status": "MISSING", "paragraphs": [], "missing_information_ids": ["special-missing-content"], "marker": "[AUTHOR CONFIRMATION REQUIRED]" },
+        { "subsection_id": "EMBODIMENTS", "sequence": 3, "heading": "Embodiments", "status": "MISSING", "paragraphs": [], "missing_information_ids": ["special-missing-content"], "marker": "[AUTHOR CONFIRMATION REQUIRED]" }
+      ],
+      "missing_information_ids": ["special-missing-content"], "marker": "[AUTHOR CONFIRMATION REQUIRED]"
+    },
+    { "section_id": "EXPERIMENTAL_EXAMPLES_AND_RESULTS", "sequence": 9, "heading": "Experimental Examples and Results", "status": "MISSING", "paragraphs": [], "subsections": [], "missing_information_ids": ["special-missing-content"], "marker": "[AUTHOR CONFIRMATION REQUIRED]" }
+  ],
+  "drawings": [],
+  "missing_information": [
+    {
+      "missing_id": "special-missing-title", "origin": "DRAFT_VALIDATION", "rule_id": "TITLE_SELECTION_REQUIRED", "target_path": "/title_candidates",
+      "description": "No synthetic title is available.", "reason": "NOT_FOUND", "impact": "HIGH", "owner": "HUMAN_REVIEWER", "grounding_label": "MISSING",
+      "affected_section_ids": ["TITLE"], "marker": "[AUTHOR CONFIRMATION REQUIRED]"
+    },
+    {
+      "missing_id": "special-missing-content", "origin": "DRAFT_VALIDATION", "rule_id": "SECTION_SOURCE_INSUFFICIENT", "target_path": "/technical_field",
+      "description": "Synthetic literals must remain data: <sensor & controller> {{ do_not_execute }} {% raw_instruction %} {# literal_comment #}.",
+      "reason": "INSUFFICIENT_DETAIL", "impact": "HIGH", "owner": "AUTHOR", "grounding_label": "MISSING",
+      "affected_section_ids": ["ABSTRACT", "TECHNICAL_FIELD", "BACKGROUND", "SUMMARY_OF_TECHNICAL_DISCLOSURE", "BRIEF_DESCRIPTION_OF_DRAWINGS", "DETAILED_DESCRIPTION", "EXPERIMENTAL_EXAMPLES_AND_RESULTS"],
+      "marker": "[AUTHOR CONFIRMATION REQUIRED]"
+    }
+  ],
+  "conflicts": [],
+  "author_questions": [
+    {
+      "question_id": "special-question", "origin": "DRAFT_VALIDATION", "question": "Should A < B & C > D remain literal with {{ braces }}?", "priority": "HIGH",
+      "source_paths": ["/technical_field"], "related_missing_information_ids": ["special-missing-content"], "related_conflict_ids": [],
+      "affected_section_ids": ["ABSTRACT", "TECHNICAL_FIELD"]
+    }
+  ],
+  "evidence_appendix": []
+}

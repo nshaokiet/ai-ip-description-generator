@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | SPEC-001 |
 | Document title | Đặc tả hệ thống — AI Intellectual Property Description Generator |
-| Version | 0.2.4 |
+| Version | 0.2.6 |
 | Status | Draft |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -31,6 +31,8 @@
 | 0.2.1 | 0.2.2 | 19/09/2026 | ChatGPT/Codex | Liên kết Patent Draft Generation Contract v1.0.0, Draft Generation Prompt và validation boundary | Đồng bộ quyết định Human cho AI-003 | AI-003, ADR-008 | No |
 | 0.2.2 | 0.2.3 | 20/09/2026 | ChatGPT/Codex | Đồng bộ trạng thái AI-003 sau Gemini review PASS | Ghi nhận review evidence trước Human merge approval | AI-003, REV-AI-003 | No |
 | 0.2.3 | 0.2.4 | 20/09/2026 | ChatGPT/Codex | Ghi nhận AI-003 hoàn tất sau khi Human merge PR #5 | Đồng bộ governance state sau merge, không đổi technical specification | AI-003, REV-AI-003, PR #5 | No |
+| 0.2.4 | 0.2.5 | 20/09/2026 | ChatGPT/Codex | Liên kết Patent DOCX Template v1.0.0, mapping và offline renderer | Đồng bộ quyết định Human cho DOC-001 | DOC-001, ADR-009 | No |
+| 0.2.5 | 0.2.6 | 20/09/2026 | ChatGPT/Codex | Ghi nhận Human Visual QA và Gemini independent review DOC-001 đều PASS | Đồng bộ governance state, không đổi technical specification | DOC-001, ADR-009, REV-DOC-001 | No |
 
 ## 3. Tổng quan
 
@@ -226,7 +228,7 @@ Trạng thái `Draft — cần xác nhận` nghĩa là requirement được đ�
 | FR-019 | Human review | Hiển thị content cùng evidence và cảnh báo | Human | Analysis/draft | Review decisions | Must | FR-013, FR-016 | Human có thể chấp nhận, trả sửa hoặc giữ cần xác nhận | Draft — cần xác nhận |
 | FR-020 | Chỉnh sửa nội dung | Cho phép sửa field/section có attribution | Human | User edits | New content version | Must | FR-019 | Không ghi đè version trước | Draft — cần xác nhận |
 | FR-021 | Section approval | Theo dõi trạng thái từng section | Human | Review action | Section status | Must | FR-019 | Danh sách trạng thái `[CẦN XÁC NHẬN]`; audit được lưu | Draft — cần xác nhận |
-| FR-022 | DOCX generation | Render draft bằng template có version | System | Approved/selected draft | DOCX | Must | FR-016, DOC-001 | File mở được, đúng version và disclaimer | Draft — cần xác nhận |
+| FR-022 | DOCX generation | Render draft bằng template có version | System | Valid Patent Draft Contract v1.0.0 payload | DOCX | Must | FR-016, DOC-001 | File mở được, đúng version, disclaimer, fixed order và evidence appendix | Human-approved for DOC-001 template contract |
 | FR-023 | Error handling | Trả lỗi nhất quán, không lộ dữ liệu | System | Failure | Error response | Must | API contract | Có error code, safe message, correlation ID | Draft — cần xác nhận |
 | FR-024 | Version tracking | Quản lý version prompt, schema, template, analysis và draft | System | Artefact change | Version metadata | Must | Version policy | Xác định được artefact nào tạo mỗi output | Draft — cần xác nhận |
 | FR-025 | Activity history | Ghi sự kiện upload, analyze, edit, approve, export, delete | System | User/system actions | Audit events | Must | Auth `[CẦN XÁC NHẬN]` | Có actor, action, time, object/version; không ghi toàn văn | Draft — cần xác nhận |
@@ -340,6 +342,8 @@ Patent Draft Generation Contract v1.0.0 được triển khai cho AI-003 tại `
 Contract cố định 11 phần cho future DOCX, sáu technical draft sections và bảy subsection. Mỗi technical paragraph bắt buộc có JSON Pointer source paths tương đối với `source_analysis` và evidence IDs. Missing content giữ heading với `[AUTHOR CONFIRMATION REQUIRED]`; conflict có ít nhất hai evidence IDs, giữ `UNRESOLVED` và không tự chọn phía đúng. Evidence appendix chỉ chứa evidence thực sự được dùng và có reverse usage references.
 
 AI-003 tách JSON Schema validation khỏi downstream business validation. Business rules kiểm tra logical-ID uniqueness, cross-reference existence, source-pointer resolution, paragraph ordering, Abstract word count, evidence closure/reverse usage và minimal legal-assertion patterns. Claims, Draft Claims, legal/patentability conclusions, Human approval state, DOCX rendering, provider adapter và live-model evaluation đều ngoài phạm vi AI-003. Human / Product Owner đã merge PR #5 tại `fb522bc5ecbb5ad66bab6226fa88ae51020cef52`; trạng thái artefact hiện tại là **Completed — Merged via PR #5**.
+
+DOC-001 triển khai `templates/patent-docx/v1.0.0/patent-description-template.docx` và `tests/docx/render_patent_docx_v1.py`. Renderer validate payload bằng canonical Patent Draft Generation Contract v1.0.0 trước khi dùng `docxtpl` với automatic XML escaping. DOCX giữ exact eleven-part order, section headings khi thiếu, marker `[AUTHOR CONFIRMATION REQUIRED]`, conflict `UNRESOLVED`, explicit `INFERENCE`, author questions và evidence appendix. Template dùng A4, lề 2.54 cm, Times New Roman và notice Human review trong footer. Claims, legal/patentability conclusions, PDF, model/API calls và technical-image generation không thuộc DOC-001. Human Microsoft Word Visual QA và Gemini 3.1 Pro High independent review đều `PASS`, không có finding hoặc required change; regression và DOCX tests đạt 85/85. Trạng thái: **Gemini Review Passed — Awaiting Human Merge Approval**; implementation commit, Pull Request và merge commit chưa tồn tại.
 
 ## 21. API dự kiến
 
@@ -529,6 +533,6 @@ Ngày hoàn thành từng phase: `[CẦN XÁC NHẬN]`. Mục tiêu hoàn thành
 | HD-005 | Retention/deletion/backup | Chặn phê duyệt privacy và vận hành | Human / Product Owner |
 | HD-006 | Model, File Search/chunking, timeout, retry và cost limit | Chặn khóa AI architecture/runtime | Human / Product Owner |
 | HD-007 | Phạm vi Draft Claims và người review chuyên môn | Chặn tiêu chí export/release | Human / chuyên gia SHTT |
-| HD-008 | DOCX template và các section áp dụng | Chặn DOC-001 | Human / chuyên gia SHTT |
+| HD-008 | DOCX template và các section áp dụng | Đã được Human quyết định cho DOC-001 v1.0.0; Human Visual QA và Gemini independent review đã PASS; chờ Human merge approval | Human / chuyên gia SHTT |
 | HD-009 | Optional PDF/QA/claim mapping | Ảnh hưởng workload trước deadline | Human / Product Owner |
 | HD-010 | Golden set, metrics và threshold | Không thể kết luận chất lượng AI đạt | Human / Product Owner |
