@@ -71,10 +71,23 @@ def paragraph_xml(text: str) -> str:
     return '<w:p><w:r><w:t xml:space="preserve">%s</w:t></w:r></w:p>' % escape(text)
 
 
-def table_xml(rows: list[list[str]]) -> str:
+def table_blocks_xml(rows: list[list[list[str]]]) -> str:
     return "<w:tbl>%s</w:tbl>" % "".join(
-        "<w:tr>%s</w:tr>" % "".join("<w:tc>%s</w:tc>" % paragraph_xml(cell) for cell in row)
+        "<w:tr>%s</w:tr>" % "".join("<w:tc>%s</w:tc>" % "".join(cell) for cell in row)
         for row in rows
+    )
+
+
+def table_xml(rows: list[list[str]]) -> str:
+    return table_blocks_xml(
+        [[[paragraph_xml(cell)] for cell in row] for row in rows]
+    )
+
+
+def sdt_xml(blocks: list[str]) -> str:
+    return (
+        '<w:sdt><w:sdtPr><w:alias w:val="Synthetic control"/></w:sdtPr>'
+        "<w:sdtContent>%s</w:sdtContent></w:sdt>" % "".join(blocks)
     )
 
 
@@ -190,6 +203,114 @@ class DocumentParsingTests(unittest.TestCase):
         units = self.prepare(response.json()["document_id"]).source_units
         self.assertEqual(["TEXT", "TABLE", "TEXT"], [unit.evidence_type for unit in units])
         self.assertEqual(["Before", "A\tB", "After"], [unit.content for unit in units])
+
+    def test_docx_root_sdt_paragraph_preserves_order(self) -> None:
+        payload = synthetic_docx(
+            [paragraph_xml("Before"), sdt_xml([paragraph_xml("Inside")]), paragraph_xml("After")]
+        )
+        response = self.upload("sdt-paragraph.docx", payload, DOCX_MEDIA_TYPE)
+        units = self.prepare(response.json()["document_id"]).source_units
+        self.assertEqual(["Before", "Inside", "After"], [unit.content for unit in units])
+        self.assertEqual(
+            ["EV-P0001-C001", "EV-P0002-C001", "EV-P0003-C001"],
+            [unit.evidence_id for unit in units],
+        )
+
+    def test_docx_root_sdt_table_preserves_interleaving(self) -> None:
+        payload = synthetic_docx(
+            [paragraph_xml("Before"), sdt_xml([table_xml([["A", "B"]])]), paragraph_xml("After")]
+        )
+        response = self.upload("sdt-table.docx", payload, DOCX_MEDIA_TYPE)
+        units = self.prepare(response.json()["document_id"]).source_units
+        self.assertEqual(["TEXT", "TABLE", "TEXT"], [unit.evidence_type for unit in units])
+        self.assertEqual(["Before", "A\tB", "After"], [unit.content for unit in units])
+        self.assertEqual("T0001", units[1].locator.table_id)
+
+    def test_docx_root_sdt_mixed_blocks_preserve_order(self) -> None:
+        payload = synthetic_docx(
+            [
+                paragraph_xml("Start"),
+                sdt_xml(
+                    [
+                        paragraph_xml("Inside before"),
+                        table_xml([["Cell"]]),
+                        paragraph_xml("Inside after"),
+                    ]
+                ),
+                paragraph_xml("End"),
+            ]
+        )
+        response = self.upload("sdt-mixed.docx", payload, DOCX_MEDIA_TYPE)
+        units = self.prepare(response.json()["document_id"]).source_units
+        self.assertEqual(
+            ["TEXT", "TEXT", "TABLE", "TEXT", "TEXT"],
+            [unit.evidence_type for unit in units],
+        )
+        self.assertEqual(
+            ["Start", "Inside before", "Cell", "Inside after", "End"],
+            [unit.content for unit in units],
+        )
+
+    def test_docx_nested_table_preserves_cell_block_order(self) -> None:
+        nested = table_xml([["A", "B"]])
+        outer = table_blocks_xml(
+            [[[paragraph_xml("Before nested"), nested, paragraph_xml("After nested")]]]
+        )
+        response = self.upload("nested-table.docx", synthetic_docx([outer]), DOCX_MEDIA_TYPE)
+        units = self.prepare(response.json()["document_id"]).source_units
+        self.assertEqual(1, len(units))
+        self.assertEqual("TABLE", units[0].evidence_type)
+        self.assertEqual("Before nested\nA\tB\nAfter nested", units[0].content)
+
+    def test_docx_nested_table_preserves_rows_and_cells(self) -> None:
+        nested = table_xml([["A", "B"], ["C", "D"]])
+        outer = table_blocks_xml(
+            [
+                [[paragraph_xml("Outer before"), nested, paragraph_xml("Outer after")], [paragraph_xml("Right")]],
+                [[paragraph_xml("Bottom left")], [paragraph_xml("Bottom right")]],
+            ]
+        )
+        response = self.upload("nested-order.docx", synthetic_docx([outer]), DOCX_MEDIA_TYPE)
+        units = self.prepare(response.json()["document_id"]).source_units
+        self.assertTrue(all(unit.evidence_type == "TABLE" for unit in units))
+        content = "\n".join(unit.content for unit in units)
+        self.assertEqual(
+            "Outer before\nA\tB\nC\tD\nOuter after\tRight\nBottom left\tBottom right",
+            content,
+        )
+
+    def test_docx_nested_sdt_in_table_cell_is_preserved(self) -> None:
+        outer = table_blocks_xml(
+            [
+                [
+                    [
+                        paragraph_xml("Before"),
+                        sdt_xml([paragraph_xml("Inside"), table_xml([["Nested"]])]),
+                        paragraph_xml("After"),
+                    ]
+                ]
+            ]
+        )
+        response = self.upload("cell-sdt.docx", synthetic_docx([outer]), DOCX_MEDIA_TYPE)
+        unit = self.prepare(response.json()["document_id"]).source_units[0]
+        self.assertEqual("Before\nInside\nNested\nAfter", unit.content)
+
+    def test_docx_sdt_and_nested_table_output_is_deterministic(self) -> None:
+        nested = table_blocks_xml(
+            [[[paragraph_xml("Before"), table_xml([["A", "B"]]), paragraph_xml("After")]]]
+        )
+        payload = synthetic_docx(
+            [paragraph_xml("Start"), sdt_xml([paragraph_xml("Inside"), nested])]
+        )
+        response = self.upload("deterministic-sdt.docx", payload, DOCX_MEDIA_TYPE)
+        document_id = response.json()["document_id"]
+        first = self.prepare(document_id)
+        second = self.prepare(document_id)
+        self.assertEqual(first, second)
+        self.assertEqual(
+            ["EV-P0001-C001", "EV-P0002-C001", "EV-T0001-C001"],
+            [unit.evidence_id for unit in first.source_units],
+        )
 
     def test_docx_table_preserves_row_and_cell_order(self) -> None:
         payload = synthetic_docx([table_xml([["r1c1", "r1c2"], ["r2c1", "r2c2"]])])

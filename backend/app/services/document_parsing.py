@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import zipfile
+from collections.abc import Iterator
 from pathlib import Path
 from xml.etree import ElementTree
 
@@ -156,7 +157,7 @@ class DocumentPreparationService:
         units: list[SourceUnit] = []
         paragraph_number = 0
         table_number = 0
-        for element in body:
+        for element in self._iter_docx_blocks(body):
             if element.tag == f"{WORD}p":
                 paragraph_number += 1
                 content = self._paragraph_text(element)
@@ -168,6 +169,19 @@ class DocumentPreparationService:
                 table_id = f"T{table_number:04d}"
                 self._append_docx_chunks(units, content, "TABLE", table_id=table_id)
         return units
+
+    @classmethod
+    def _iter_docx_blocks(
+        cls, container: ElementTree.Element
+    ) -> Iterator[ElementTree.Element]:
+        """Yield supported content blocks without walking unrelated descendants."""
+
+        for child in container:
+            if child.tag in {f"{WORD}p", f"{WORD}tbl"}:
+                yield child
+            elif child.tag == f"{WORD}sdt":
+                for content in child.findall(f"./{WORD}sdtContent"):
+                    yield from cls._iter_docx_blocks(content)
 
     def _append_docx_chunks(
         self,
@@ -215,7 +229,14 @@ class DocumentPreparationService:
         for row in table.findall(f"./{WORD}tr"):
             cells: list[str] = []
             for cell in row.findall(f"./{WORD}tc"):
-                paragraphs = [cls._paragraph_text(item) for item in cell.findall(f"./{WORD}p")]
-                cells.append("\n".join(item for item in paragraphs if item))
+                blocks: list[str] = []
+                for item in cls._iter_docx_blocks(cell):
+                    if item.tag == f"{WORD}p":
+                        content = cls._paragraph_text(item)
+                    else:
+                        content = cls._table_text(item)
+                    if content:
+                        blocks.append(content)
+                cells.append("\n".join(blocks))
             rows.append("\t".join(cells))
         return normalize_source_text("\n".join(rows))

@@ -5,7 +5,7 @@
 | Thuộc tính | Giá trị |
 |---|---|
 | Task ID | APP-002 |
-| Status | Implemented — Awaiting Gemini Review |
+| Status | Remediation Implemented — Awaiting Gemini Targeted Re-review |
 | Owner | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High + Human / Product Owner |
 | Contract version | 1.0.0 |
@@ -130,7 +130,7 @@ No dependency was added or changed. APP-002 uses Python standard library, `pypdf
 - [x] AC-06 PDF page locators are 1-based.
 - [x] AC-07 Chunking is deterministic.
 - [x] AC-08 DOCX paragraph order is preserved.
-- [x] AC-09 DOCX paragraph/table interleaving is preserved.
+- [x] AC-09 DOCX paragraph/table interleaving is preserved, including approved block-level `w:sdt` traversal.
 - [x] AC-10 Tables preserve row/cell order.
 - [x] AC-11 Whitespace-only units are omitted.
 - [x] AC-12 No extractable content returns a safe failure.
@@ -166,6 +166,12 @@ $env:PYTHONDONTWRITEBYTECODE="1"
 git diff --check
 ```
 
-## 13. Completion boundary
+## 13. Gemini remediation F-001/F-002
 
-Implementation and automated validation are ready for independent Gemini review. APP-002 is not `Completed`, no public analysis endpoint exists, and no OpenAI runtime task has started. Human merge approval remains required.
+- F-001 (`HIGH`): block-level `w:sdt/w:sdtContent` traversal implemented with deterministic paragraph/table ordering. Technical remediation is implemented and awaits Gemini targeted verification.
+- F-002 (`MEDIUM`): nested tables inside `w:tc` are serialized recursively at their original cell position without creating standalone source units. Technical remediation is implemented and awaits Gemini targeted verification.
+- Targeted coverage includes root-level SDT paragraphs/tables/mixed blocks, nested tables, nested SDT in table cells, ordering and repeated-run determinism.
+
+## 14. Completion boundary
+
+Implementation remediation and automated validation are ready for Gemini targeted re-review. APP-002 is not `Completed`, no public analysis endpoint exists, and no OpenAI runtime task has started. Human merge approval remains required.
