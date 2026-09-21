@@ -99,6 +99,16 @@ class GroundingBusinessValidationTests(unittest.TestCase):
         self.assertEqual("grounding_validation_failed", captured.exception.code)
         self.assertIn(expected_path, captured.exception.paths)
 
+    def envelope_without_sha256(self) -> ExtractionInputEnvelope:
+        metadata = self.envelope.document_metadata.model_dump(exclude={"sha256"})
+        return self.envelope.model_copy(
+            update={
+                "document_metadata": type(self.envelope.document_metadata).model_construct(
+                    **metadata
+                )
+            }
+        )
+
     def test_valid_evidence_and_relationships_are_accepted(self) -> None:
         validate_grounding_and_business_rules(self.analysis, self.envelope)
 
@@ -147,6 +157,22 @@ class GroundingBusinessValidationTests(unittest.TestCase):
     def test_document_metadata_mismatch_is_rejected(self) -> None:
         self.analysis["document_metadata"]["file_name"] = "other.pdf"
         self.assert_grounding_failure(self.analysis, "/document_metadata/file_name")
+
+    def test_input_without_sha_output_with_sha_is_controlled_failure(self) -> None:
+        self.envelope = self.envelope_without_sha256()
+        self.assert_grounding_failure(self.analysis, "/document_metadata/sha256")
+
+    def test_input_and_output_without_sha_do_not_fail_sha_check(self) -> None:
+        self.envelope = self.envelope_without_sha256()
+        self.analysis["document_metadata"].pop("sha256")
+        validate_grounding_and_business_rules(self.analysis, self.envelope)
+
+    def test_matching_sha_is_accepted(self) -> None:
+        validate_grounding_and_business_rules(self.analysis, self.envelope)
+
+    def test_mismatching_sha_is_rejected(self) -> None:
+        self.analysis["document_metadata"]["sha256"] = "c" * 64
+        self.assert_grounding_failure(self.analysis, "/document_metadata/sha256")
 
     def test_duplicate_logical_ids_are_rejected(self) -> None:
         problem = copy.deepcopy(self.analysis["technical_problems"][0])

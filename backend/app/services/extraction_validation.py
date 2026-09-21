@@ -69,7 +69,10 @@ def validate_grounding_and_business_rules(
     for field in ("document_id", "file_name", "media_type"):
         if output_metadata.get(field) != input_metadata[field]:
             failures.append(f"/document_metadata/{field}")
-    if "sha256" in output_metadata and output_metadata["sha256"] != input_metadata["sha256"]:
+    if (
+        "sha256" in output_metadata
+        and output_metadata["sha256"] != input_metadata.get("sha256")
+    ):
         failures.append("/document_metadata/sha256")
 
     source_units = {unit.evidence_id: unit for unit in envelope.source_units}

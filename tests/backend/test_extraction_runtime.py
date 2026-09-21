@@ -227,6 +227,19 @@ class OpenAIExtractionRuntimeTests(unittest.TestCase):
         self.assert_runtime_error(runtime, "grounding_validation_failed")
         self.assertEqual(1, len(client.responses.calls))
 
+    def test_optional_input_sha_failure_is_mapped_without_second_call(self) -> None:
+        metadata = self.envelope.document_metadata.model_dump(exclude={"sha256"})
+        self.envelope = self.envelope.model_copy(
+            update={
+                "document_metadata": type(self.envelope.document_metadata).model_construct(
+                    **metadata
+                )
+            }
+        )
+        runtime, client = self.runtime(response=fake_response(minimal_analysis()))
+        self.assert_runtime_error(runtime, "grounding_validation_failed")
+        self.assertEqual(1, len(client.responses.calls))
+
     def test_logs_exclude_source_prompt_provider_output_and_secret(self) -> None:
         analysis = minimal_analysis(with_evidence=True)
         runtime, _ = self.runtime(response=fake_response(analysis))

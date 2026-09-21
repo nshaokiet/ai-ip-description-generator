@@ -6,12 +6,13 @@
 |---|---|
 | Task ID | AI-RUNTIME-001 |
 | Specification version | 1.0.0 |
-| Status | Implementation — Awaiting Independent Review |
+| Status | F-001 Remediated — Awaiting Targeted Re-review |
 | Owner | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High + Human / Product Owner |
 | Human decision | APPROVED — 21/09/2026 |
 | Approved baseline | `f8070a5c94290ff44c65bc1b0831458662e14e11` |
 | Specification review | Initial `REQUEST CHANGES`; targeted re-review `PASS`; no remaining blocker |
+| Implementation review | `PASS WITH NON-BLOCKING NOTES`; F-001 `MEDIUM` remediated; F-002 `NOTE` live smoke remains not run |
 
 ## Objective
 
@@ -148,8 +149,8 @@ $env:RUN_OPENAI_LIVE_TESTS="1"
 ## Implementation evidence
 
 - Python 3.12.10; `openai==3.16.2`; `jsonschema==4.26.0`; `pip check` PASS.
-- New AI-RUNTIME-001 offline tests: 61/61 pass.
-- Full suites: AI-001 15/15, AI-002 17/17, AI-003 25/25, DOC-001 28/28, backend 111 executed / 110 pass / 1 intentional Windows POSIX skip.
-- Aggregate: 196 executed / 195 pass / 1 skip / 0 failure/error.
+- New AI-RUNTIME-001 offline tests: 66/66 pass, including optional-SHA F-001 regression coverage.
+- Full suites: AI-001 15/15, AI-002 17/17, AI-003 25/25, DOC-001 28/28, backend 116 executed / 115 pass / 1 intentional Windows POSIX skip.
+- Aggregate: 201 executed / 200 pass / 1 skip / 0 failure/error.
 - Live provider smoke: `NOT RUN — OPENAI_API_KEY not available`.
 - Canonical AI-001 schema and AI-002 prompt have no diff.
