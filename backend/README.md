@@ -1,4 +1,4 @@
-# APP-001 FastAPI backend
+# APP-001/APP-002 FastAPI backend
 
 Local, single-tenant skeleton for secure synthetic PDF/DOCX upload validation.
 It does not call a model, OCR service, database, cloud storage, or network API.
@@ -41,6 +41,25 @@ accepted when at least one page has non-whitespace extractable text, blank pages
 allowed, and a document is rejected as scanned-only only when no page has extractable
 text. No OCR is performed. DOCX pagination is not exact in APP-001; only the 10 MiB
 upload limit is exact.
+
+## Internal document preparation
+
+APP-002 adds the internal `DocumentPreparationService.prepare_extraction_input(document_id)`
+flow. Successful uploads are registered in a thread-safe in-memory metadata registry
+with a SHA-256 digest. The service reads the backing file under a storage lease and
+returns a strict AI-002-compatible envelope containing ordered `TEXT`/`TABLE` source
+units, deterministic evidence IDs, and source locators.
+
+PDF units preserve 1-based page order and use `pypdf`; no OCR or image extraction is
+performed. DOCX units preserve direct paragraph/table body order using only `zipfile`
+and `xml.etree.ElementTree`; table cells use TAB and rows use LF. Chunking defaults to
+4,000 characters and does not rewrite, summarize, translate, or interpret source text.
+Prompt-injection-like content remains data.
+
+No public analysis endpoint is added. The registry stores metadata only, may be lost
+on process restart, and is cleaned when storage deletion or TTL sweep removes a file.
+Missing backing files and parsing failures return safe internal errors without source
+content, bytes, tracebacks, or absolute paths.
 
 ## Tests
 

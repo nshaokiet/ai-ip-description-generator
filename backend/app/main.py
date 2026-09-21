@@ -1,4 +1,4 @@
-"""FastAPI application factory for APP-001."""
+"""FastAPI application factory for APP-001 and APP-002 local services."""
 
 from __future__ import annotations
 
@@ -13,6 +13,8 @@ from fastapi.responses import JSONResponse
 from backend.app.api.routes.documents import APIError, router as documents_router
 from backend.app.api.routes.health import router as health_router
 from backend.app.core.config import Settings
+from backend.app.services.document_parsing import DocumentPreparationService
+from backend.app.services.document_registry import DocumentRegistry
 from backend.app.services.document_storage import DocumentStorage
 from backend.app.services.document_validation import DocumentValidator
 
@@ -31,13 +33,20 @@ def _correlation_id(request: Request) -> str:
 
 def create_app(settings: Settings | None = None) -> FastAPI:
     runtime_settings = settings or Settings.from_environment()
+    registry = DocumentRegistry()
     storage = DocumentStorage(
         runtime_settings.storage_root,
         ttl_seconds=runtime_settings.upload_ttl_seconds,
         max_upload_bytes=runtime_settings.max_upload_bytes,
         read_chunk_bytes=runtime_settings.read_chunk_bytes,
+        on_removed=registry.remove,
     )
     validator = DocumentValidator(runtime_settings)
+    preparation_service = DocumentPreparationService(
+        storage,
+        registry,
+        max_source_unit_chars=runtime_settings.max_source_unit_chars,
+    )
 
     @asynccontextmanager
     async def lifespan(_: FastAPI) -> AsyncIterator[None]:
@@ -48,6 +57,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     application.state.settings = runtime_settings
     application.state.document_storage = storage
     application.state.document_validator = validator
+    application.state.document_registry = registry
+    application.state.document_preparation_service = preparation_service
     application.include_router(health_router)
     application.include_router(documents_router)
 

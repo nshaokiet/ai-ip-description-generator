@@ -6,6 +6,8 @@ from fastapi import APIRouter, Request
 from starlette.datastructures import UploadFile
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
+from backend.app.services.document_parsing import compute_sha256
+from backend.app.services.document_registry import DocumentRecord
 from backend.app.services.document_storage import EmptyUploadError, UploadTooLargeError
 from backend.app.services.document_validation import DocumentValidationError, sanitize_filename
 
@@ -32,6 +34,7 @@ async def upload_document(request: Request) -> dict[str, object]:
     settings = request.app.state.settings
     storage = request.app.state.document_storage
     validator = request.app.state.document_validator
+    registry = request.app.state.document_registry
     storage.sweep_expired()
 
     try:
@@ -56,6 +59,17 @@ async def upload_document(request: Request) -> dict[str, object]:
                     filename=upload.filename,
                     declared_mime=upload.content_type,
                 )
+                safe_filename = sanitize_filename(upload.filename)
+                registry.register(
+                    DocumentRecord(
+                        document_id=document_id,
+                        file_name=safe_filename,
+                        media_type=result.media_type,
+                        size_bytes=size_bytes,
+                        page_count=result.page_count,
+                        sha256=compute_sha256(path),
+                    )
+                )
             except UploadTooLargeError as exc:
                 raise APIError(413, "file_too_large", "The file exceeds the 10 MiB limit.") from exc
             except EmptyUploadError as exc:
@@ -69,7 +83,7 @@ async def upload_document(request: Request) -> dict[str, object]:
 
             response: dict[str, object] = {
                 "document_id": document_id,
-                "original_filename": sanitize_filename(upload.filename),
+                "original_filename": safe_filename,
                 "media_type": result.media_type,
                 "size_bytes": size_bytes,
                 "validation_status": "validated",

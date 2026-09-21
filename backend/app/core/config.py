@@ -24,6 +24,7 @@ class Settings:
     max_docx_uncompressed_bytes: int = 100 * MEBIBYTE
     max_docx_entry_bytes: int = 50 * MEBIBYTE
     max_docx_compression_ratio: int = 1_000
+    max_source_unit_chars: int = 4_000
 
     @classmethod
     def from_environment(cls) -> "Settings":
