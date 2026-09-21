@@ -21,7 +21,11 @@ APP-002 triển khai deterministic preparation nội bộ từ validated PDF/DOC
 
 Normalization chỉ đổi CRLF/CR thành LF, trim unit boundaries và bỏ unit whitespace-only. Nội dung không được summarize, paraphrase, translate hoặc semantic-deduplicate; prompt-injection-like text được giữ nguyên như data. APP-002 không thêm public endpoint, không gọi OpenAI Responses API/model/mạng, không OCR và không dùng database/authentication.
 
-Implementation `477b8fda6afbae0049d8d691c213dc6355ba67da`, remediation F-001/F-002 `8b6f909a0f5787d72c002e163395656a666c9b78` và merge commit `4a001d116cbf002bdd42a9151efbf3f308fce3e6` đã được Gemini targeted re-review `PASS` và Human merge qua PR #12. Pipeline nội bộ hiện dừng tại `PDF/DOCX → validation → parsing → source units/evidence envelope`. OpenAI Responses API, Structured Outputs provider adapter, model invocation, draft runtime, DOCX export API và frontend/E2E vẫn là các bước tương lai cần task/approval riêng.
+Implementation `477b8fda6afbae0049d8d691c213dc6355ba67da`, remediation F-001/F-002 `8b6f909a0f5787d72c002e163395656a666c9b78` và merge commit `4a001d116cbf002bdd42a9151efbf3f308fce3e6` đã được Gemini targeted re-review `PASS` và Human merge qua PR #12.
+
+AI-RUNTIME-001 nối envelope này với internal OpenAI Responses API extraction: canonical prompt ở instruction authority, serialized envelope là untrusted input, strict provider schema được dẫn xuất từ AI-001, rồi output đi qua nullable normalization, canonical Draft 2020-12 validation và deterministic grounding/business validation. Runtime dùng `gpt-5.6-sol`, reasoning high, `store=false`, không tools/retrieval và đang `Implementation — Awaiting Independent Review`.
+
+Pipeline nội bộ hiện đạt `PDF/DOCX → validation → parsing → source units/evidence envelope → Structured Output → canonical/grounding validation → validated analysis`. Public analyze endpoint, draft runtime, DOCX export API và frontend/E2E vẫn cần task/approval riêng.
 
 The system should extract, at minimum:
 
@@ -47,7 +51,7 @@ Canonical extraction prompt cho AI-002:
 - Source content là untrusted data; prompt không truy cập URL, external reference hoặc external knowledge.
 - Claims, legal advice và patentability/novelty/inventive-step assessment bị loại.
 
-AI-002 chỉ có automated offline validation với dữ liệu synthetic. Canonical Output Schema v1.0.0 không được gửi nguyên trạng vào Structured Outputs strict mode; provider-specific generation schema/adapter và Responses API integration thuộc task runtime riêng.
+AI-002 vẫn là canonical prompt contract. AI-RUNTIME-001 triển khai provider-specific generation adapter/runtime mà không sửa prompt hoặc Output Schema v1.0.0; live provider smoke là opt-in và chỉ dùng synthetic data.
 
 Canonical contract cho AI-001:
 

@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | SPEC-002 |
 | Document title | Project Context — AI Intellectual Property Description Generator |
-| Version | 0.3.2 |
+| Version | 0.3.3 |
 | Status | Approved baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -40,6 +40,7 @@
 | 0.2.11 | 0.3.0 | 20/09/2026 | ChatGPT/Codex | Phê duyệt baseline SPEC-002, ghi nhận ADR-001…005 và khóa scope upload APP-001 | Đồng bộ Gemini review và Human decisions trước backend implementation | SPEC-001/002/003, REV-001/002/003, DEC-001/002/003, APP-001 | No |
 | 0.3.0 | 0.3.1 | 20/09/2026 | ChatGPT/Codex | Ghi APP-001 hoàn tất sau Gemini PASS và Human merge PR #10 | Đồng bộ post-merge governance evidence, không đổi contract kỹ thuật | APP-001, REV-APP-001, PR #10, merge commit `0df4814ff1eb8cd576566ac3dd403131feca3759` | No |
 | 0.3.1 | 0.3.2 | 21/09/2026 | ChatGPT/Codex | Ghi APP-002 hoàn tất sau remediation, Gemini targeted PASS và Human merge PR #12 | Đồng bộ post-merge governance evidence, không đổi contract kỹ thuật | APP-002, REV-APP-002, PR #12, merge commit `4a001d116cbf002bdd42a9151efbf3f308fce3e6` | No |
+| 0.3.2 | 0.3.3 | 21/09/2026 | ChatGPT/Codex | Ghi AI-RUNTIME-001 internal extraction runtime đã triển khai và chờ independent review | Đồng bộ runtime configuration, validation boundary và blocker disposition đã được Human phê duyệt | AI-RUNTIME-001, ADR-010 | No |
 
 ## 2. Project name
 
@@ -115,13 +116,13 @@ Pipeline MVP ưu tiên một paper cho một hồ sơ. Nội dung thiếu không
 | Lớp | Công nghệ đã định hướng | Trạng thái |
 |---|---|---|
 | Frontend | Next.js + TypeScript | Requirement; chưa có bằng chứng triển khai |
-| Backend | FastAPI + Python 3.12 | APP-001 và APP-002 Completed; local health/upload, secure validation, ephemeral cleanup, deterministic PDF/DOCX parsing, safe metadata/SHA-256 registry và AI-002 evidence envelope đã triển khai |
-| Production AI | OpenAI Responses API | ADR-002 Accepted; model/runtime integration `[CẦN XÁC NHẬN]`, không thuộc APP-001/APP-002 |
+| Backend | FastAPI + Python 3.12 | APP-001/APP-002 Completed; AI-RUNTIME-001 internal extraction đã triển khai và chờ independent review; public surface chưa đổi |
+| Production AI | OpenAI Responses API | AI-RUNTIME-001: `gpt-5.6-sol`, reasoning high, `store=false`, strict provider schema + canonical/grounding validation; internal only, awaiting review |
 | Structured data | JSON Schema Draft 2020-12 | Output Schema v1.0.0 — Completed — Merged via PR #1 |
 | Extraction prompt | Markdown prompt contract | v1.0.0 — Completed — Merged via PR #3 |
 | Patent draft contract | JSON Schema Draft 2020-12 | v1.0.0 — Completed — Merged via PR #5 |
 | Draft generation prompt | Markdown prompt contract | v1.0.0 — Completed — Merged via PR #5 |
-| Retrieval | OpenAI File Search nếu cần | Quyết định `[CẦN XÁC NHẬN]` |
+| Retrieval | Không dùng trong Extraction Runtime v1 | AI-RUNTIME-001 chỉ dùng APP-002 envelope; task tương lai cần approval riêng |
 | Database | Supabase/PostgreSQL | Optional/MVP+ hoặc khi được phê duyệt |
 | DOCX | `docxtpl==0.20.2`, `python-docx==1.2.0` | Patent DOCX Template v1.0.0 — Completed — Merged via PR #7 |
 | Frontend deployment | Vercel | Định hướng; config `[FILE CHƯA TỒN TẠI]` |
@@ -133,9 +134,9 @@ Không tự ý thêm framework, dịch vụ hoặc dependency.
 ## 11. AI Architecture
 
 1. Parse paper và giữ locator.
-2. Tạo evidence chunks hoặc dùng File Search theo quyết định được duyệt.
-3. Extraction bằng prompt/schema version cụ thể.
-4. Validate JSON và reference.
+2. APP-002 tạo deterministic evidence source units; Extraction Runtime v1 không dùng File Search hoặc external retrieval.
+3. AI-RUNTIME-001 extraction bằng prompt/schema version cụ thể và provider schema được dẫn xuất.
+4. Validate canonical JSON, provenance và logical reference.
 5. Detect missing information, tạo author questions.
 6. Generate draft từ dữ liệu đã phân loại.
 7. Grounding/consistency validation.
@@ -283,14 +284,15 @@ NotebookLM lưu và tra cứu nguồn được cấp quyền, hỗ trợ groundi
 
 | Artefact | Location | Version | Status có bằng chứng |
 |---|---|---|---|
-| System Specification | `docs/system-specification.md` | 0.3.2 | SPEC-001 Approved baseline; APP-001/APP-002 merge evidence đã đồng bộ |
+| System Specification | `docs/system-specification.md` | 0.3.3 | SPEC-001 Approved baseline; AI-RUNTIME-001 implementation state đã đồng bộ |
 | AI Collaboration Rules | `AGENTS.md` | 0.2.0 | SPEC-003 Approved baseline |
-| Project Context | `PROJECT_CONTEXT.md` | 0.3.2 | SPEC-002 Approved baseline; APP-001/APP-002 merge evidence đã đồng bộ |
-| Project Control Center source | `docs/operations/01_PROJECT_CONTROL_CENTER.md` | 0.3.2 | APP-002 Completed — Merged via PR #12; Phase 1/Phase 2/MVP chưa được tuyên bố hoàn tất |
+| Project Context | `PROJECT_CONTEXT.md` | 0.3.3 | SPEC-002 Approved baseline; AI-RUNTIME-001 implementation state đã đồng bộ |
+| Project Control Center source | `docs/operations/01_PROJECT_CONTROL_CENTER.md` | 0.3.3 | AI-RUNTIME-001 implementation đang chờ independent review; Phase 1/Phase 2/MVP chưa được tuyên bố hoàn tất |
 | Gemini Review Log source | `docs/operations/02_GEMINI_REVIEW_LOG.md` | 0.3.2 | `REV-APP-002` và các task review có bằng chứng đều `CLOSED` |
 | Foundational ADRs | `docs/decisions/ADR-001…005-*.md` | ADR-001…ADR-005 | Accepted theo Human decisions ngày 20/09/2026 |
 | APP-001 backend | `backend/app/`, `backend/requirements.txt`, `tests/backend/` | Implementation head `bd39b9f7bdd9f7a1796d9a405e7998070e124e07` | Completed — Merged via PR #10; 24/24 APP-001 tests và 109/109 tổng tests pass |
 | APP-002 document preparation | `backend/app/`, `tests/backend/test_document_parsing.py` | Implementation `477b8fda6afbae0049d8d691c213dc6355ba67da`; remediation `8b6f909a0f5787d72c002e163395656a666c9b78` | Completed — Merged via PR #12 at `4a001d116cbf002bdd42a9151efbf3f308fce3e6`; Gemini final PASS; 30/30 AC; 135 executed, 134 pass, 1 Windows skip, 0 failure/error |
+| AI extraction runtime | `backend/app/services/extraction_runtime.py`, `provider_schema.py`, `extraction_validation.py` | AI-RUNTIME-001 / ADR-010 | Implementation — Awaiting Independent Review; internal only, synthetic offline tests; live provider smoke pending credential-backed execution |
 | ADR | `docs/decisions/ADR-006-output-schema-v1.md` | ADR-006 | Accepted; Completed — Merged via PR #1 |
 | Production JSON Schema | `schemas/invention-output/v1.0.0/invention-output.schema.json` | 1.0.0 | Completed — Merged via PR #1; Gemini review PASS; 15/15 tests pass |
 | Production extraction prompt | `prompts/extraction/v1.0.0/extraction-prompt.md` | 1.0.0 | Completed — Merged via PR #3; canonical offline validation only |
@@ -299,13 +301,13 @@ NotebookLM lưu và tra cứu nguồn được cấp quyền, hỗ trợ groundi
 | Draft generation prompt | `prompts/draft-generation/v1.0.0/draft-generation-prompt.md` | 1.0.0 | Completed — Merged via PR #5; offline only |
 | Patent draft ADR | `docs/decisions/ADR-008-patent-draft-contract-v1.md` | ADR-008 | Accepted — Completed — Merged via PR #5 |
 | DOCX template | `templates/patent-docx/v1.0.0/patent-description-template.docx` | 1.0.0 | Completed — Merged via PR #7 |
-| Application code | `backend/app/` | APP-001 + APP-002 | FastAPI local skeleton, secure upload và deterministic internal document/evidence preparation đã merge; public analyze endpoint, frontend, AI runtime, database/auth và deployment chưa triển khai |
+| Application code | `backend/app/` | APP-001 + APP-002 + AI-RUNTIME-001 | FastAPI local upload/preparation cùng internal extraction runtime; public analyze endpoint, frontend, draft runtime, database/auth và deployment chưa triển khai |
 
 ## 26. Open questions
 
 1. Auth, user roles, tenant model và private production storage nào được dùng?
 2. Data/log/backup retention và deletion SLA production là gì? APP-001 chỉ khóa local ephemeral TTL tối đa 1 giờ.
-5. Model OpenAI, File Search/chunking, retry, timeout và cost limit là gì?
+5. Model/cost policy cho draft runtime hoặc task AI tương lai là gì? Extraction Runtime v1 đã khóa `gpt-5.6-sol`, timeout 180, SDK retries 2, 48.000 output tokens và không retrieval.
 6. Nếu Human mở lại Claims sau MVP/scope change, loại/số lượng và reviewer chuyên môn là ai?
 7. PDF/QA report/claim mapping có thuộc MVP không?
 8. Golden set, metrics, threshold và tài liệu test được cấp quyền là gì?
@@ -322,11 +324,11 @@ NotebookLM lưu và tra cứu nguồn được cấp quyền, hỗ trợ groundi
 
 ## 28. Recommended next action
 
-1. Gemini targeted review gói post-merge governance closeout APP-001 này.
-2. Human review/merge Pull Request closeout; task kế tiếp vẫn `NOT STARTED — Awaiting Human assignment`.
-3. Chỉ tiếp tục auth/private storage, production retention, AI runtime, frontend, Draft Claims hoặc optional outputs bằng task/approval riêng.
+1. Gemini 3.1 Pro High independent implementation review AI-RUNTIME-001.
+2. Human xem xét finding và merge decision sau review; không tự đánh dấu task Completed.
+3. Chỉ tiếp tục public orchestration, auth/private storage, production retention, draft runtime, frontend, Draft Claims hoặc optional outputs bằng task/approval riêng.
 
-AI-002 được merge với implementation commit `f8772b228a23bf7cdec10fa0c463e6d1f672c341` và governance commit `9f2a78b1396cdadb747c263a2bbbbacb8d7f4292`; Gemini review `PASS`, không có finding, AI-001 regression 15/15 và AI-002 tests 17/17 pass. AI-002 không chứng minh Responses API hoặc live-model integration. Canonical Output Schema v1.0.0 không được gửi nguyên trạng vào Structured Outputs strict mode; provider-specific generation schema/adapter cần task runtime và approval riêng. Claims vẫn nằm ngoài Output Schema và Extraction Prompt v1.0.0.
+AI-002 được merge với implementation commit `f8772b228a23bf7cdec10fa0c463e6d1f672c341` và governance commit `9f2a78b1396cdadb747c263a2bbbbacb8d7f4292`; Gemini review `PASS`, không có finding, AI-001 regression 15/15 và AI-002 tests 17/17 pass. AI-002 tự thân không chứng minh Responses API hoặc live-model integration; provider adapter/runtime sau đó được Human phê duyệt riêng trong AI-RUNTIME-001. Claims vẫn nằm ngoài Output Schema và Extraction Prompt v1.0.0.
 
 AI-003 triển khai contract trung gian `Validated Output Schema v1.0.0 → Patent Draft Generation Contract v1.0.0 → DOCX template`. Contract giữ exact 11-part order cho DOC-001, paragraph-level source paths/evidence, explicit missing/conflict state và loại hoàn toàn Claims, legal advice, patentability conclusions cùng Human approval state. Fixtures chỉ là synthetic offline oracles; chưa có live-model hoặc provider integration. Gemini 3.1 Pro High review `PASS`, không có finding hoặc required change. Human / Product Owner đã approve và merge PR #5 ngày 20/09/2026; implementation commit `ae7e8fb573ea4681a9db1bafa711d19a3c598666`, merge commit `fb522bc5ecbb5ad66bab6226fa88ae51020cef52`. Trạng thái hiện tại: **Completed — Merged via PR #5**.
 

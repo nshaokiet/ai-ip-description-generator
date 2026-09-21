@@ -33,6 +33,28 @@ Fixtures là dữ liệu synthetic. Không đưa paper nghiên cứu, PII, secre
 
 Golden set dùng research paper chỉ được tạo sau khi có quyền sử dụng và data policy được Human phê duyệt.
 
+## AI-RUNTIME-001 OpenAI extraction runtime
+
+Offline backend discovery includes deterministic tests for the provider-schema adapter,
+nullable normalization, canonical Draft 2020-12 validation, grounding/business rules,
+mocked Responses API requests, safe error mapping, logging/privacy, and configuration.
+Mocked tests never make a network request and use synthetic content only.
+
+```powershell
+$env:PYTHONDONTWRITEBYTECODE="1"
+.\.venv\Scripts\python.exe -m unittest discover -s tests/backend -p "test_*.py" -v
+```
+
+The provider smoke test is separate and disabled unless explicitly enabled:
+
+```powershell
+$env:RUN_OPENAI_LIVE_TESTS="1"
+.\.venv\Scripts\python.exe -m unittest tests.live.test_openai_extraction_runtime_live -v
+```
+
+It requires `OPENAI_API_KEY`, uses one small synthetic envelope, and must be reported as
+`NOT RUN — OPENAI_API_KEY not available` when no credential is configured.
+
 ## AI-002 extraction prompt contract
 
 Chạy test offline bằng Python 3.12 và dependency `jsonschema==4.26.0` đã khóa cho AI-001:

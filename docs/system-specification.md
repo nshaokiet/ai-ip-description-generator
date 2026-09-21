@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | SPEC-001 |
 | Document title | Đặc tả hệ thống — AI Intellectual Property Description Generator |
-| Version | 0.3.2 |
+| Version | 0.3.3 |
 | Status | Approved baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -37,6 +37,7 @@
 | 0.2.7 | 0.3.0 | 20/09/2026 | ChatGPT/Codex | Phê duyệt SPEC-001 baseline và khóa FastAPI/upload scope để chuẩn bị APP-001 | Đồng bộ independent review và Human decisions | SPEC-001/002/003, ADR-001…005, APP-001, DEC-001/002/003 | No |
 | 0.3.0 | 0.3.1 | 20/09/2026 | ChatGPT/Codex | Đồng bộ trạng thái APP-001 sau Gemini PASS và Human merge PR #10 | Post-merge governance closeout; không thay đổi requirement hoặc API contract đã duyệt | APP-001, REV-APP-001, PR #10, merge commit `0df4814ff1eb8cd576566ac3dd403131feca3759` | No |
 | 0.3.1 | 0.3.2 | 21/09/2026 | ChatGPT/Codex | Đồng bộ trạng thái APP-002 sau remediation, Gemini targeted PASS và Human merge PR #12 | Post-merge governance closeout; không thay đổi requirement hoặc API contract đã duyệt | APP-002, REV-APP-002, PR #12, merge commit `4a001d116cbf002bdd42a9151efbf3f308fce3e6` | No |
+| 0.3.2 | 0.3.3 | 21/09/2026 | ChatGPT/Codex | Ghi AI-RUNTIME-001 internal OpenAI extraction runtime, provider adapter và validation boundary đã triển khai, chờ independent review | Đồng bộ Human-approved runtime specification và ADR-010 | AI-RUNTIME-001, ADR-010 | No |
 
 ## 3. Tổng quan
 
@@ -215,7 +216,7 @@ Trạng thái `Draft — cần xác nhận` nghĩa là requirement được đ�
 | FR-001 | Upload PDF/DOCX | Nhận đúng một PDF có text hoặc DOCX cho local single-tenant APP-001 | End User | Multipart file | Safe document metadata | Must | ADR-001, APP-001 | Từ chối zero/multiple/unsupported file; không lộ local path | Implemented and verified in APP-001; merged via PR #10 |
 | FR-002 | File validation | Xác minh extension, MIME, signature, parser readability, encryption và unsafe package content | System | File | Validation result | Must | FR-001 | File giả định dạng, hỏng, encrypted, scanned PDF hoặc unsafe DOCX bị từ chối | Implemented and verified in APP-001; merged via PR #10 |
 | FR-003 | Kiểm tra giới hạn | Áp 10 MiB cho PDF/DOCX và 50 trang cho PDF | System | File bytes/pages | Pass/fail | Must | FR-001 | File `>10 MiB` hoặc PDF `>50` trang bị từ chối; DOCX exact pagination nằm ngoài APP-001 | Implemented and verified in APP-001; merged via PR #10 |
-| FR-004 | Phân tích tài liệu | Điều phối deterministic parsing/evidence preparation rồi AI analysis | System | Valid document | Evidence envelope rồi analysis job/result | Must | FR-002, AI-002 | Parsing giữ source order, evidence IDs/locators; AI job có trạng thái, lỗi và correlation ID | APP-002 parsing/evidence preparation implemented and verified; AI runtime/orchestration remains Draft — cần xác nhận |
+| FR-004 | Phân tích tài liệu | Điều phối deterministic parsing/evidence preparation rồi internal AI extraction | System | Valid document | Evidence envelope rồi validated analysis | Must | FR-002, AI-002, AI-RUNTIME-001 | Parsing giữ source order; runtime fail-closed qua provider, canonical và grounding validation | Internal extraction implemented — awaiting independent review; public orchestration remains Draft |
 | FR-005 | Structured extraction | Sinh JSON theo schema có version | System, AI | Parsed content | Structured JSON | Must | FR-004, AI-001 | JSON hợp lệ theo đúng schema version | Draft — cần xác nhận |
 | FR-006 | Trích xuất vấn đề kỹ thuật | Nhận diện vấn đề có evidence | AI, Human | Evidence chunks | Technical problems | Must | FR-005 | Mỗi mục có evidence hoặc nhãn phù hợp | Draft — cần xác nhận |
 | FR-007 | Trích xuất giải pháp kỹ thuật | Nhận diện giải pháp và quan hệ với vấn đề | AI, Human | Evidence chunks | Technical solutions | Must | FR-005 | Không tạo giải pháp không có căn cứ | Draft — cần xác nhận |
@@ -299,17 +300,19 @@ Luồng kiến trúc định hướng:
 
 1. **Ingestion:** xác nhận quyền, file metadata và checksum phù hợp.
 2. **Parsing:** trích text, heading, bảng và hình tham chiếu; MVP từ chối scanned PDF và không OCR.
-3. **Chunking/file retrieval:** giữ context và locator; chiến lược dùng OpenAI File Search hoặc chunking backend `[CẦN XÁC NHẬN]`.
-4. **Extraction:** runtime tương lai gọi model bằng extraction prompt và schema version cụ thể; AI-002 mới chỉ kiểm tra canonical prompt contract offline.
-5. **Normalization:** chuẩn hóa thuật ngữ, đơn vị và quan hệ nhưng không sửa giá trị nguồn.
-6. **Validation:** kiểm tra schema, kiểu, business rules và tham chiếu evidence.
+3. **Chunking/retrieval:** APP-002 cung cấp source units có locator; Extraction Runtime v1 không dùng File Search/Web Search hoặc external retrieval.
+4. **Extraction:** AI-RUNTIME-001 gọi Responses API bằng canonical prompt, APP-002 envelope riêng biệt và strict provider schema dẫn xuất từ AI-001.
+5. **Normalization:** chỉ loại provider `null` tương ứng canonical optional properties; không sửa nội dung, số, đơn vị hoặc ý nghĩa.
+6. **Validation:** bắt buộc canonical Draft 2020-12 validation rồi deterministic grounding/business validation.
 7. **Missing-information detection:** gắn `MISSING`, lý do và author question.
 8. **Draft generation:** dùng Patent Draft Generation Contract v1.0.0; chỉ dùng dữ liệu đã phân loại, mọi technical paragraph có source path/evidence và inference phải hiển thị rõ.
 9. **Grounding check:** so nội dung dự thảo với evidence; tạo finding cho unsupported content.
 10. **Human review:** chỉnh sửa, xác nhận hoặc yêu cầu làm lại.
 11. **Export:** render version đã chọn và lưu audit event.
 
-Trạng thái triển khai hiện hành dừng tại `PDF/DOCX → APP-001 validation → APP-002 deterministic text/table parsing → source units/evidence IDs/locators → AI-002 Extraction Input Envelope`. APP-002 đã `Completed — Merged via PR #12` tại merge commit `4a001d116cbf002bdd42a9151efbf3f308fce3e6`. OpenAI Responses API, Structured Outputs provider adapter, model invocation, draft runtime integration, DOCX export API, frontend và end-to-end pipeline chưa được triển khai.
+Trạng thái triển khai hiện hành đạt `PDF/DOCX → APP-001 validation → APP-002 parsing/evidence envelope → AI-RUNTIME-001 OpenAI Structured Output → nullable normalization → canonical/grounding validation → validated Structured Invention Analysis`. AI-RUNTIME-001 là internal service đang chờ independent review; public analyze endpoint/orchestration, draft runtime integration, DOCX export API, frontend và end-to-end workflow chưa được triển khai.
+
+AI-RUNTIME-001 dùng OpenAI Responses API, `gpt-5.6-sol`, reasoning `high`, `openai==3.16.2`, `store=false`, timeout mặc định 180 giây, SDK retries 2 và `max_output_tokens=48000`. Canonical AI-001 schema không đổi; provider schema được sinh deterministically và canonical/business post-validation là authority cuối cùng. Runtime không có tools, retrieval, conversation, background mode hoặc repair model call.
 
 ## 20. Structured Output concept
 
@@ -354,7 +357,7 @@ DOC-001 triển khai `templates/patent-docx/v1.0.0/patent-description-template.d
 
 ## 21. API dự kiến
 
-`GET /health` và local single-tenant `POST /api/documents` đã được triển khai và merge qua PR #10 trong phạm vi APP-001. APP-002 chỉ thêm internal document/evidence preparation và không thêm public parsing/analyze endpoint. Các endpoint còn lại trong bảng vẫn là contract đề xuất, chưa được khẳng định đã triển khai; authentication/authorization production vẫn `[CẦN XÁC NHẬN]`.
+`GET /health` và local single-tenant `POST /api/documents` đã được triển khai và merge qua PR #10. APP-002 và AI-RUNTIME-001 chỉ thêm internal services; không có public parsing/analyze endpoint. Các endpoint còn lại trong bảng vẫn là contract đề xuất, chưa được khẳng định đã triển khai; authentication/authorization production vẫn `[CẦN XÁC NHẬN]`.
 
 | Endpoint | Mục đích | Input | Output | Authentication | Error responses | Idempotency |
 |---|---|---|---|---|---|---|
@@ -504,7 +507,7 @@ Ngày hoàn thành từng phase: `[CẦN XÁC NHẬN]`. Mục tiêu hoàn thành
 - Mỗi lần xử lý MVP có một bài báo PDF hoặc DOCX.
 - Người dùng có quyền hợp pháp để cung cấp và xử lý tài liệu.
 - Human/chuyên gia SHTT sẵn sàng review trước khi dùng đầu ra.
-- OpenAI Responses API và Structured Outputs là production AI đã định hướng, nhưng model cụ thể `[CẦN XÁC NHẬN]`.
+- OpenAI Responses API và Structured Outputs là production AI; Extraction Runtime v1 đã khóa `gpt-5.6-sol`/reasoning high, còn draft runtime hoặc model policy tương lai cần approval riêng.
 - Supabase/PostgreSQL chưa mặc định thuộc MVP nếu chưa được phê duyệt.
 - Hai bằng sáng chế B2 là tài liệu tham chiếu cấu trúc, không phải “mẫu B” chính thức.
 
@@ -540,7 +543,7 @@ Ngày hoàn thành từng phase: `[CẦN XÁC NHẬN]`. Mục tiêu hoàn thành
 | HD-003 | File size/page limits | Human đã chốt 10 MiB cho PDF/DOCX và 50 trang cho PDF; exact DOCX pagination hoãn sang parser/rendering task | Human / Product Owner |
 | HD-004 | Auth, authorization và private storage | Chặn xử lý dữ liệu thật an toàn | Human / Product Owner |
 | HD-005 | Retention/deletion/backup | Chặn phê duyệt privacy và vận hành | Human / Product Owner |
-| HD-006 | Model, File Search/chunking, timeout, retry và cost limit | Chặn khóa AI architecture/runtime | Human / Product Owner |
+| HD-006 | Model, retrieval, timeout, retry và output budget | Resolved cho Extraction Runtime v1 qua AI-RUNTIME-001/ADR-010; không phê duyệt draft runtime hoặc task AI tương lai | Human / Product Owner |
 | HD-007 | Phạm vi Draft Claims và người review chuyên môn | Human đã loại Claims khỏi MVP hiện hành; chỉ ảnh hưởng scope-change task tương lai | Human / chuyên gia SHTT |
 | HD-008 | DOCX template và các section áp dụng | Đã được Human quyết định cho DOC-001 v1.0.0; Human Visual QA/Gemini reviews PASS; Completed — Merged via PR #7 | Human / chuyên gia SHTT |
 | HD-009 | Optional PDF/QA/claim mapping | Ảnh hưởng workload trước deadline | Human / Product Owner |
