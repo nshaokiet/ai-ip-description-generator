@@ -8,13 +8,13 @@
 |---|---|
 | Document ID | SPEC-001 |
 | Document title | Đặc tả hệ thống — AI Intellectual Property Description Generator |
-| Version | 0.3.1 |
+| Version | 0.3.2 |
 | Status | Approved baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High |
 | Created date | 18/09/2026 |
-| Last updated | 20/09/2026 |
+| Last updated | 21/09/2026 |
 | Related task ID | SPEC-001 |
 | Source of Truth | GitHub — `docs/system-specification.md` |
 | Confidentiality level | Internal; tài liệu nghiên cứu đầu vào phải được xử lý như Confidential |
@@ -36,6 +36,7 @@
 | 0.2.6 | 0.2.7 | 20/09/2026 | ChatGPT/Codex | Ghi nhận DOC-001 Completed sau khi Human merge PR #7 | Post-merge governance closeout, không đổi technical specification | DOC-001, ADR-009, REV-DOC-001, PR #7 | No |
 | 0.2.7 | 0.3.0 | 20/09/2026 | ChatGPT/Codex | Phê duyệt SPEC-001 baseline và khóa FastAPI/upload scope để chuẩn bị APP-001 | Đồng bộ independent review và Human decisions | SPEC-001/002/003, ADR-001…005, APP-001, DEC-001/002/003 | No |
 | 0.3.0 | 0.3.1 | 20/09/2026 | ChatGPT/Codex | Đồng bộ trạng thái APP-001 sau Gemini PASS và Human merge PR #10 | Post-merge governance closeout; không thay đổi requirement hoặc API contract đã duyệt | APP-001, REV-APP-001, PR #10, merge commit `0df4814ff1eb8cd576566ac3dd403131feca3759` | No |
+| 0.3.1 | 0.3.2 | 21/09/2026 | ChatGPT/Codex | Đồng bộ trạng thái APP-002 sau remediation, Gemini targeted PASS và Human merge PR #12 | Post-merge governance closeout; không thay đổi requirement hoặc API contract đã duyệt | APP-002, REV-APP-002, PR #12, merge commit `4a001d116cbf002bdd42a9151efbf3f308fce3e6` | No |
 
 ## 3. Tổng quan
 
@@ -214,7 +215,7 @@ Trạng thái `Draft — cần xác nhận` nghĩa là requirement được đ�
 | FR-001 | Upload PDF/DOCX | Nhận đúng một PDF có text hoặc DOCX cho local single-tenant APP-001 | End User | Multipart file | Safe document metadata | Must | ADR-001, APP-001 | Từ chối zero/multiple/unsupported file; không lộ local path | Implemented and verified in APP-001; merged via PR #10 |
 | FR-002 | File validation | Xác minh extension, MIME, signature, parser readability, encryption và unsafe package content | System | File | Validation result | Must | FR-001 | File giả định dạng, hỏng, encrypted, scanned PDF hoặc unsafe DOCX bị từ chối | Implemented and verified in APP-001; merged via PR #10 |
 | FR-003 | Kiểm tra giới hạn | Áp 10 MiB cho PDF/DOCX và 50 trang cho PDF | System | File bytes/pages | Pass/fail | Must | FR-001 | File `>10 MiB` hoặc PDF `>50` trang bị từ chối; DOCX exact pagination nằm ngoài APP-001 | Implemented and verified in APP-001; merged via PR #10 |
-| FR-004 | Phân tích tài liệu | Điều phối parsing và AI analysis | System | Valid document | Analysis job/result | Must | FR-002, AI-002 | Có trạng thái job, lỗi và correlation ID | Draft — cần xác nhận |
+| FR-004 | Phân tích tài liệu | Điều phối deterministic parsing/evidence preparation rồi AI analysis | System | Valid document | Evidence envelope rồi analysis job/result | Must | FR-002, AI-002 | Parsing giữ source order, evidence IDs/locators; AI job có trạng thái, lỗi và correlation ID | APP-002 parsing/evidence preparation implemented and verified; AI runtime/orchestration remains Draft — cần xác nhận |
 | FR-005 | Structured extraction | Sinh JSON theo schema có version | System, AI | Parsed content | Structured JSON | Must | FR-004, AI-001 | JSON hợp lệ theo đúng schema version | Draft — cần xác nhận |
 | FR-006 | Trích xuất vấn đề kỹ thuật | Nhận diện vấn đề có evidence | AI, Human | Evidence chunks | Technical problems | Must | FR-005 | Mỗi mục có evidence hoặc nhãn phù hợp | Draft — cần xác nhận |
 | FR-007 | Trích xuất giải pháp kỹ thuật | Nhận diện giải pháp và quan hệ với vấn đề | AI, Human | Evidence chunks | Technical solutions | Must | FR-005 | Không tạo giải pháp không có căn cứ | Draft — cần xác nhận |
@@ -308,6 +309,8 @@ Luồng kiến trúc định hướng:
 10. **Human review:** chỉnh sửa, xác nhận hoặc yêu cầu làm lại.
 11. **Export:** render version đã chọn và lưu audit event.
 
+Trạng thái triển khai hiện hành dừng tại `PDF/DOCX → APP-001 validation → APP-002 deterministic text/table parsing → source units/evidence IDs/locators → AI-002 Extraction Input Envelope`. APP-002 đã `Completed — Merged via PR #12` tại merge commit `4a001d116cbf002bdd42a9151efbf3f308fce3e6`. OpenAI Responses API, Structured Outputs provider adapter, model invocation, draft runtime integration, DOCX export API, frontend và end-to-end pipeline chưa được triển khai.
+
 ## 20. Structured Output concept
 
 Contract đã triển khai cho AI-001 là JSON Schema Draft 2020-12 tại `schemas/invention-output/v1.0.0/invention-output.schema.json`. Version `1.0.0` chỉ bao phủ structured invention analysis, evidence, missing information và author questions. Claims, draft sections, validation results, Human approval/audit state và các kết luận pháp lý không thuộc contract này.
@@ -351,7 +354,7 @@ DOC-001 triển khai `templates/patent-docx/v1.0.0/patent-description-template.d
 
 ## 21. API dự kiến
 
-`GET /health` và local single-tenant `POST /api/documents` đã được triển khai và merge qua PR #10 trong phạm vi APP-001. Các endpoint còn lại trong bảng vẫn là contract đề xuất, chưa được khẳng định đã triển khai; authentication/authorization production vẫn `[CẦN XÁC NHẬN]`.
+`GET /health` và local single-tenant `POST /api/documents` đã được triển khai và merge qua PR #10 trong phạm vi APP-001. APP-002 chỉ thêm internal document/evidence preparation và không thêm public parsing/analyze endpoint. Các endpoint còn lại trong bảng vẫn là contract đề xuất, chưa được khẳng định đã triển khai; authentication/authorization production vẫn `[CẦN XÁC NHẬN]`.
 
 | Endpoint | Mục đích | Input | Output | Authentication | Error responses | Idempotency |
 |---|---|---|---|---|---|---|
@@ -404,6 +407,7 @@ Mọi lỗi API phải có mã máy đọc được, thông điệp an toàn, co
 - Validation extension, MIME, magic bytes, parser isolation và tên file an toàn.
 - APP-001 reject encrypted PDF/DOCX, PDF không có text layer, macro/embedded/external-relationship DOCX; original filename không bao giờ được dùng làm storage path.
 - APP-001 local ephemeral storage chỉ dùng synthetic data; cleanup ngay khi lỗi, sau downstream completion hoặc TTL tối đa 1 giờ.
+- APP-002 giữ nguyên APP-001 security boundary: verify SHA-256, parse dưới storage lease, registry chỉ giữ safe metadata, không network/model call và chỉ được xác minh bằng synthetic/offline tests.
 - Malware scanning: `[CẦN XÁC NHẬN]`; nếu chưa có, không được tuyên bố file đã scan.
 - Encryption in transit bắt buộc; encryption at rest và nhà cung cấp storage `[CẦN XÁC NHẬN]`.
 - Có data deletion workflow; backup retention và legal hold `[CẦN XÁC NHẬN]`.
