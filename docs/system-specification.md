@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | SPEC-001 |
 | Document title | Đặc tả hệ thống — AI Intellectual Property Description Generator |
-| Version | 0.3.0 |
+| Version | 0.3.1 |
 | Status | Approved baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -35,6 +35,7 @@
 | 0.2.5 | 0.2.6 | 20/09/2026 | ChatGPT/Codex | Ghi nhận Human Visual QA và Gemini independent review DOC-001 đều PASS | Đồng bộ governance state, không đổi technical specification | DOC-001, ADR-009, REV-DOC-001 | No |
 | 0.2.6 | 0.2.7 | 20/09/2026 | ChatGPT/Codex | Ghi nhận DOC-001 Completed sau khi Human merge PR #7 | Post-merge governance closeout, không đổi technical specification | DOC-001, ADR-009, REV-DOC-001, PR #7 | No |
 | 0.2.7 | 0.3.0 | 20/09/2026 | ChatGPT/Codex | Phê duyệt SPEC-001 baseline và khóa FastAPI/upload scope để chuẩn bị APP-001 | Đồng bộ independent review và Human decisions | SPEC-001/002/003, ADR-001…005, APP-001, DEC-001/002/003 | No |
+| 0.3.0 | 0.3.1 | 20/09/2026 | ChatGPT/Codex | Đồng bộ trạng thái APP-001 sau Gemini PASS và Human merge PR #10 | Post-merge governance closeout; không thay đổi requirement hoặc API contract đã duyệt | APP-001, REV-APP-001, PR #10, merge commit `0df4814ff1eb8cd576566ac3dd403131feca3759` | No |
 
 ## 3. Tổng quan
 
@@ -210,9 +211,9 @@ Trạng thái `Draft — cần xác nhận` nghĩa là requirement được đ�
 
 | ID | Tên | Mô tả | Actor | Input | Output | Priority | Dependency | Acceptance criteria | Trạng thái xác nhận |
 |---|---|---|---|---|---|---|---|---|---|
-| FR-001 | Upload PDF/DOCX | Nhận đúng một PDF có text hoặc DOCX cho local single-tenant APP-001 | End User | Multipart file | Safe document metadata | Must | ADR-001, APP-001 | Từ chối zero/multiple/unsupported file; không lộ local path | Human-approved baseline; implementation pending |
-| FR-002 | File validation | Xác minh extension, MIME, signature, parser readability, encryption và unsafe package content | System | File | Validation result | Must | FR-001 | File giả định dạng, hỏng, encrypted, scanned PDF hoặc unsafe DOCX bị từ chối | Human-approved baseline; implementation pending |
-| FR-003 | Kiểm tra giới hạn | Áp 10 MiB cho PDF/DOCX và 50 trang cho PDF | System | File bytes/pages | Pass/fail | Must | FR-001 | File `>10 MiB` hoặc PDF `>50` trang bị từ chối; DOCX exact pagination nằm ngoài APP-001 | Human-approved baseline; implementation pending |
+| FR-001 | Upload PDF/DOCX | Nhận đúng một PDF có text hoặc DOCX cho local single-tenant APP-001 | End User | Multipart file | Safe document metadata | Must | ADR-001, APP-001 | Từ chối zero/multiple/unsupported file; không lộ local path | Implemented and verified in APP-001; merged via PR #10 |
+| FR-002 | File validation | Xác minh extension, MIME, signature, parser readability, encryption và unsafe package content | System | File | Validation result | Must | FR-001 | File giả định dạng, hỏng, encrypted, scanned PDF hoặc unsafe DOCX bị từ chối | Implemented and verified in APP-001; merged via PR #10 |
+| FR-003 | Kiểm tra giới hạn | Áp 10 MiB cho PDF/DOCX và 50 trang cho PDF | System | File bytes/pages | Pass/fail | Must | FR-001 | File `>10 MiB` hoặc PDF `>50` trang bị từ chối; DOCX exact pagination nằm ngoài APP-001 | Implemented and verified in APP-001; merged via PR #10 |
 | FR-004 | Phân tích tài liệu | Điều phối parsing và AI analysis | System | Valid document | Analysis job/result | Must | FR-002, AI-002 | Có trạng thái job, lỗi và correlation ID | Draft — cần xác nhận |
 | FR-005 | Structured extraction | Sinh JSON theo schema có version | System, AI | Parsed content | Structured JSON | Must | FR-004, AI-001 | JSON hợp lệ theo đúng schema version | Draft — cần xác nhận |
 | FR-006 | Trích xuất vấn đề kỹ thuật | Nhận diện vấn đề có evidence | AI, Human | Evidence chunks | Technical problems | Must | FR-005 | Mỗi mục có evidence hoặc nhãn phù hợp | Draft — cần xác nhận |
@@ -350,7 +351,7 @@ DOC-001 triển khai `templates/patent-docx/v1.0.0/patent-description-template.d
 
 ## 21. API dự kiến
 
-Các endpoint dưới đây là contract đề xuất, chưa được khẳng định đã triển khai. APP-001 chỉ xin approval cho `GET /health` và local single-tenant `POST /api/documents`; authentication/authorization production vẫn `[CẦN XÁC NHẬN]`.
+`GET /health` và local single-tenant `POST /api/documents` đã được triển khai và merge qua PR #10 trong phạm vi APP-001. Các endpoint còn lại trong bảng vẫn là contract đề xuất, chưa được khẳng định đã triển khai; authentication/authorization production vẫn `[CẦN XÁC NHẬN]`.
 
 | Endpoint | Mục đích | Input | Output | Authentication | Error responses | Idempotency |
 |---|---|---|---|---|---|---|

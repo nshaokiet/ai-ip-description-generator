@@ -2,7 +2,7 @@
 
 Nền tảng AI hỗ trợ chuyển bài báo nghiên cứu khoa học thành dữ liệu sáng chế có cấu trúc và bản dự thảo patent specification để con người rà soát.
 
-> **Trạng thái hiện tại:** Phase 1 — Specification & Architecture. SPEC-001/002/003 là approved baseline; ADR-001…005 đã `Accepted`. AI-001, AI-002, AI-003 và DOC-001 đã merge. APP-001 specification đã được chuẩn bị và đang chờ Gemini review/Human approval; implementation chưa bắt đầu. Phase 1 chưa được tuyên bố hoàn tất và Phase 2 chưa bắt đầu.
+> **Trạng thái hiện tại:** APP-001 `Completed — Merged via PR #10`. Backend FastAPI local single-tenant hiện có `GET /health` và secure `POST /api/documents`; Gemini 3.1 Pro High review `PASS`, Human đã merge ngày 20/09/2026. SPEC-001/002/003 vẫn là approved baseline; toàn bộ Phase 1, Phase 2 và MVP chưa được tuyên bố hoàn tất.
 >
 > **Deadline MVP:** bàn giao chính thức 02/10/2026; mục tiêu hoàn thành nội bộ 30/09/2026, ngày 01–02/10 dành cho buffer/test/handover.
 
@@ -159,7 +159,7 @@ ai-ip-description-generator/
 ├── PROJECT_CONTEXT.md
 ├── README.md
 ├── frontend/                         # Next.js — chưa khởi tạo mã ứng dụng
-├── backend/                          # FastAPI — chưa khởi tạo mã ứng dụng
+├── backend/                          # FastAPI local skeleton + secure upload đã triển khai trong APP-001
 ├── prompts/                          # Prompt có version
 ├── templates/                        # DOCX template có version
 ├── tests/                            # Test cases và AI evaluation
@@ -207,23 +207,21 @@ GitHub là **Technical Source of Truth**. Gemini không ghi đè production arte
 
 - [x] Repository Private đã được khởi tạo.
 - [x] Cấu trúc `frontend`, `backend`, `prompts`, `templates`, `tests` và `.github`.
-- [x] SPEC-001 System Specification 0.3.0 — Approved baseline.
-- [x] SPEC-002 Project Context 0.3.0 — Approved baseline.
+- [x] SPEC-001 System Specification 0.3.1 — Approved baseline; APP-001 merge evidence đã đồng bộ.
+- [x] SPEC-002 Project Context 0.3.1 — Approved baseline; APP-001 merge evidence đã đồng bộ.
 - [x] SPEC-003 AGENTS.md 0.2.0 — Approved baseline.
-- [x] Project Control Center 0.3.0.
-- [x] Gemini Review Log 0.3.0 với `REV-001`, `REV-002`, `REV-003` và các review task có bằng chứng đều `CLOSED`.
+- [x] Project Control Center 0.3.1.
+- [x] Gemini Review Log 0.3.1 với `REV-APP-001` và các review task có bằng chứng đều `CLOSED`.
 - [x] ADR-001…ADR-005 — Accepted theo Human decisions ngày 20/09/2026.
 - [x] Output Schema v1.0.0, fixtures và automated validation tests — Completed — Merged via PR #1; Gemini review `PASS`, 15/15 tests pass, không có finding.
 - [x] Extraction Prompt v1.0.0, ADR-007 và synthetic offline tests — Completed — Merged via PR #3; Gemini review `PASS`, AI-001 regression 15/15 và AI-002 tests 17/17 pass, không có finding; chưa tích hợp model/API thật.
 - [x] Patent Draft Generation Contract v1.0.0, Draft Generation Prompt v1.0.0, ADR-008, synthetic fixtures và automated offline tests — Completed — Merged via PR #5; implementation commit `ae7e8fb573ea4681a9db1bafa711d19a3c598666`, merge commit `fb522bc5ecbb5ad66bab6226fa88ae51020cef52`, 57/57 tests pass và không có finding.
 - [x] Patent DOCX Template v1.0.0, manifest, mapping, offline renderer, synthetic fixtures và automated tests — Completed — Merged via PR #7; implementation `d3f7c7d9596b77a39e9a56fcdf97c76cb972612a`, merge `d208a7925da844c5b43578bac8ebdbb1c5c6b5b8`; Human Visual QA và Gemini reviews `PASS`; 85/85 tests pass; không có finding.
+- [x] APP-001 FastAPI skeleton và secure upload — Completed — Merged via PR #10; implementation head `bd39b9f7bdd9f7a1796d9a405e7998070e124e07`, merge `0df4814ff1eb8cd576566ac3dd403131feca3759`; Gemini review `PASS`, 22/22 acceptance criteria và 109/109 tests pass, không có finding.
 
 ### Chưa hoàn thành
 
-- [ ] Gemini review và Human approval gói APP-001 specification.
-- [ ] APP-001 FastAPI skeleton/secure upload implementation.
 - [ ] Next.js application.
-- [ ] FastAPI application.
 - [ ] Core pipeline end-to-end.
 - [ ] AI evaluation và golden set.
 - [ ] Deployment Vercel/Railway.
@@ -244,8 +242,8 @@ Không đánh dấu application đã hoạt động khi mới chỉ có folder/R
 
 | Phase | Nội dung | Trạng thái |
 |---|---|---|
-| Phase 1 | Specification & Architecture | SPEC-001/002/003 approved baseline; APP-001 spec chờ review/approval; chưa hoàn tất phase |
-| Phase 2 | Core pipeline | Chưa bắt đầu; APP-001 implementation chưa được phê duyệt |
+| Phase 1 | Specification & Architecture | SPEC-001/002/003 approved baseline; chưa có tuyên bố Human hoàn tất toàn bộ phase |
+| Phase 2 | Core pipeline | APP-001 đã merge nhưng không tự động bắt đầu hoặc hoàn tất toàn bộ Core pipeline |
 | Phase 3 | Draft generation & DOCX | AI-003 Completed — Merged via PR #5; DOC-001 Completed — Merged via PR #7 |
 | Phase 4 | Evaluation & stabilization | Chưa bắt đầu |
 | Phase 5 | Deployment & handover | Chưa bắt đầu |
@@ -264,13 +262,13 @@ Danh sách chi tiết nằm trong [`docs/system-specification.md`](docs/system-s
 
 ## 15. Bắt đầu phát triển
 
-Repository hiện chưa có application code. AI-001 bổ sung test dependency manifest tại `tests/requirements.txt`; AI-002 và AI-003 dùng lại dependency đó cho validation offline và không gọi OpenAI API.
+Repository hiện có backend FastAPI local skeleton và secure upload từ APP-001. Phạm vi đã triển khai chỉ gồm `GET /health`, `POST /api/documents`, validation PDF/DOCX, local ephemeral storage/cleanup và automated offline tests; chưa có frontend, AI runtime, database, authentication, production storage hoặc deployment.
 
-AI-001 đã `Completed` sau khi Human merge PR #1. AI-002 đã `Completed — Merged via PR #3`. AI-003 đã `Completed — Merged via PR #5` ngày 20/09/2026 tại merge commit `fb522bc5ecbb5ad66bab6226fa88ae51020cef52`. Bước tiếp theo:
+APP-001 đã `Completed — Merged via PR #10` ngày 20/09/2026 tại merge commit `0df4814ff1eb8cd576566ac3dd403131feca3759`. Bước tiếp theo chưa được bắt đầu:
 
-1. Gemini review APP-001 specification và các ADR/baseline updates.
-2. Human phê duyệt hoặc yêu cầu sửa APP-001; chỉ sau approval riêng mới được khởi tạo FastAPI/upload implementation.
-3. Provider adapter, OpenAI runtime, Next.js, database và deployment vẫn cần task/approval riêng.
+1. Gemini targeted review gói post-merge governance closeout này.
+2. Human review/merge Pull Request closeout; không tự động khởi động task kế tiếp.
+3. Provider adapter, OpenAI runtime, Next.js, database, authentication, production storage và deployment vẫn cần task/approval riêng.
 
 ## 16. License
 

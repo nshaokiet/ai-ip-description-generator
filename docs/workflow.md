@@ -13,6 +13,8 @@ Validation phải đối chiếu extension, declared MIME, signature/package và
 
 APP-001 chỉ dùng local ephemeral storage trong single-tenant synthetic development. Temporary bytes bị xóa ngay khi validation thất bại, sau downstream processing, hoặc muộn nhất sau 1 giờ. Không dùng dữ liệu nghiên cứu thật trước security acceptance.
 
+Trạng thái hiện hành: APP-001 `Completed — Merged via PR #10` ngày 20/09/2026. Backend đã triển khai `GET /health`, secure `POST /api/documents` và validation/cleanup tương ứng; frontend, AI runtime, database, authentication, production storage và deployment vẫn ngoài phạm vi đã hoàn thành.
+
 ## 2. Document Analysis
 
 Backend AI analysis là bước runtime tương lai. APP-001 không gọi OpenAI Responses API, model hoặc canonical prompts.

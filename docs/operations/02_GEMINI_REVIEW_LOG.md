@@ -10,7 +10,7 @@
 | Document title | Gemini Review Log |
 | Project | AI Intellectual Property Description Generator |
 | Project deadline | 02/10/2026 |
-| Version | 0.3.0 |
+| Version | 0.3.1 |
 | Status | Active review log |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -35,6 +35,7 @@
 | 0.2.5 | 0.2.6 | 20/09/2026 | ChatGPT/Codex | Ghi Human Visual QA và Gemini independent review PASS cho Patent DOCX Template v1.0.0 trên branch snapshot chưa commit | Đồng bộ review evidence được Human xác nhận trước commit, Pull Request và merge | REV-DOC-001, DOC-001, ADR-009 | No |
 | 0.2.6 | 0.2.7 | 20/09/2026 | ChatGPT/Codex | Ghi Human merge decision, merge resolution và đóng REV-DOC-001 | Post-merge governance closeout | REV-DOC-001, DOC-001, PR #7, merge commit `d208a7925da844c5b43578bac8ebdbb1c5c6b5b8` | No |
 | 0.2.7 | 0.3.0 | 20/09/2026 | ChatGPT/Codex | Ghi kết quả review SPEC-001/002/003, Human decisions và đóng REV-001/002/003 | Khóa approved baseline trước APP-001 approval | REV-001, REV-002, REV-003, DEC-001/002/003 | No |
+| 0.3.0 | 0.3.1 | 20/09/2026 | ChatGPT/Codex | Ghi Gemini review APP-001 PASS, Human merge decision và đóng REV-APP-001 | Post-merge governance closeout | APP-001, REV-APP-001, PR #10, merge commit `0df4814ff1eb8cd576566ac3dd403131feca3759` | No |
 
 ## 2. Review Rules
 
@@ -86,8 +87,9 @@
 | REV-001 | 20/09/2026 | SPEC-001 | `docs/system-specification.md` | Reviewed repository HEAD `595113a6c5337a78b72ff4887383ef4a2b2ef49e`; resolved as baseline 0.3.0 | NEEDS HUMAN DECISION | CLOSED |
 | REV-002 | 20/09/2026 | SPEC-003 | `AGENTS.md` | Reviewed repository HEAD `595113a6c5337a78b72ff4887383ef4a2b2ef49e`; resolved as baseline 0.2.0 | NEEDS HUMAN DECISION | CLOSED |
 | REV-003 | 20/09/2026 | SPEC-002 | `PROJECT_CONTEXT.md` | Reviewed repository HEAD `595113a6c5337a78b72ff4887383ef4a2b2ef49e`; resolved as baseline 0.3.0 | NEEDS HUMAN DECISION | CLOSED |
+| REV-APP-001 | 20/09/2026 | APP-001 | FastAPI Backend Skeleton and Secure Document Upload | Implementation head `bd39b9f7bdd9f7a1796d9a405e7998070e124e07`; resolved by merge commit `0df4814ff1eb8cd576566ac3dd403131feca3759` | APPROVE | CLOSED |
 
-Các entry review được ChatGPT/Codex ghi lại từ kết quả Gemini do Human / Product Owner xác nhận; Gemini không sửa production artefact. REV-001/002/003 ghi verdict `PASS WITH HUMAN DECISIONS REQUIRED`, không có document finding; chúng được đóng sau khi Human phê duyệt baseline và ban hành DEC-001/002/003.
+Các entry review được ChatGPT/Codex ghi lại từ kết quả Gemini do Human / Product Owner xác nhận; Gemini không sửa production artefact. REV-001/002/003 ghi verdict `PASS WITH HUMAN DECISIONS REQUIRED`, không có document finding; chúng được đóng sau khi Human phê duyệt baseline và ban hành DEC-001/002/003. REV-APP-001 đã `CLOSED` sau khi Human approve và merge PR #10 ngày 20/09/2026.
 
 ## 7. Review Entry Template
 
@@ -351,6 +353,128 @@ Không có finding cần resolution. PR #1 đã merge thành công ngày 19/09/2
 #### 18. Closed Date
 
 `19/09/2026`
+
+#### 19. Closed By
+
+Human / Product Owner.
+
+### REV-APP-001
+
+#### Date
+
+20/09/2026.
+
+#### Reviewer
+
+Gemini 3.1 Pro High.
+
+#### Task ID
+
+APP-001.
+
+#### Artefact reviewed
+
+FastAPI Backend Skeleton and Secure Document Upload: application skeleton, `GET /health`, `POST /api/documents`, PDF/DOCX validation, local ephemeral storage/cleanup, backend dependencies, documentation và automated synthetic tests.
+
+#### Version reviewed
+
+Specification PR [#9](https://github.com/nshaokiet/ai-ip-description-generator/pull/9), specification merge commit `1bf957162eba78c069d3ba976af7fe1d174cab30`; implementation PR [#10](https://github.com/nshaokiet/ai-ip-description-generator/pull/10), implementation head `bd39b9f7bdd9f7a1796d9a405e7998070e124e07`; resolved by merge commit `0df4814ff1eb8cd576566ac3dd403131feca3759`.
+
+#### Review status
+
+`CLOSED`
+
+Current state: `Completed — Merged via PR #10`.
+
+#### 1. Review Objective
+
+Review độc lập implementation APP-001 theo 22 acceptance criteria đã được Human phê duyệt, bao gồm functional behavior, upload validation, cleanup lifecycle, security, scope và regression safety.
+
+#### 2. Sources Reviewed
+
+- APP-001 specification và ADR-001.
+- Backend application, exact dependency pins, backend README và automated tests trong PR #10.
+- Specification merge `1bf957162eba78c069d3ba976af7fe1d174cab30` và implementation head `bd39b9f7bdd9f7a1796d9a405e7998070e124e07`.
+- Regression suites AI-001, AI-002, AI-003, DOC-001 và APP-001.
+- Human-provided merge evidence cho PR #10 và merge commit `0df4814ff1eb8cd576566ac3dd403131feca3759`.
+
+#### 3. Summary
+
+Gemini 3.1 Pro High verdict: `PASS`. Tất cả 22 acceptance criteria pass; 0 failed; 0 unverifiable. Security review `PASS`; scope review `PASS`; không có blocker, finding hoặc required remediation. Human / Product Owner đã approve và merge PR #10 ngày 20/09/2026.
+
+#### 4. Findings
+
+Không có.
+
+#### 5. Source-Grounding Issues
+
+Không áp dụng cho local upload skeleton; implementation không gọi model hoặc sinh nội dung nghiên cứu.
+
+#### 6. Hallucination Risks
+
+Không phát hiện. Review dựa trên repository artefacts, automated tests và merge evidence cụ thể; không tuyên bố frontend, AI runtime, database, authentication, production storage hoặc deployment đã triển khai.
+
+#### 7. Missing Information
+
+Không có missing information chặn closeout. Các quyết định production về auth, private storage, retention, AI runtime và deployment vẫn thuộc task/approval riêng.
+
+#### 8. Technical Concerns
+
+Test run phát sinh non-blocking `NOTE`: `StarletteDeprecationWarning` với thông báo `Using 'httpx' with 'starlette.testclient' is deprecated; install 'httpx2' instead.` Warning không làm fail test và không yêu cầu remediation trong APP-001. Không thay đổi dependency và không thêm `httpx2` trong closeout.
+
+#### 9. Security and Privacy Concerns
+
+`PASS`. Không phát hiện secret, PII, dữ liệu nghiên cứu thật, cache hoặc generated artefact trong phạm vi được review. Tests dùng synthetic data; APP-001 tiếp tục cấm dữ liệu nghiên cứu thật trước security acceptance riêng.
+
+#### 10. Consistency Issues
+
+Không có. Implementation phù hợp APP-001 specification/ADR-001 và không thay đổi canonical schemas, prompts hoặc DOCX template.
+
+#### 11. Suggested Changes
+
+Không có required change hoặc remediation. Warning `httpx`/`httpx2` được ghi nhận là non-blocking `NOTE` để cân nhắc trong task dependency tương lai nếu Human phê duyệt.
+
+#### 12. Recommendation
+
+`APPROVE`.
+
+#### 13. Handoff to ChatGPT/Codex
+
+```text
+Task ID: APP-001
+Agent: Gemini 3.1 Pro High
+Reviewer: Human / Product Owner
+Status: CLOSED — APP-001 Completed — Merged via PR #10
+Version: Specification merge 1bf957162eba78c069d3ba976af7fe1d174cab30; implementation head bd39b9f7bdd9f7a1796d9a405e7998070e124e07; resolved by merge 0df4814ff1eb8cd576566ac3dd403131feca3759
+Work completed: Independent implementation review completed with PASS; 22/22 acceptance criteria, Security and Scope passed; Human approved and merged PR #10.
+Files affected: Review log only; Gemini did not overwrite production artefacts.
+Evidence checked: Python 3.12.10; AI-001 15/15, AI-002 17/17, AI-003 25/25, DOC-001 28/28, APP-001 24/24; total 109/109; pip check PASS; diff check PASS.
+Findings: Không có.
+Decisions: Recommendation APPROVE; Human / Product Owner approved and merged PR #10 on 20/09/2026.
+Issues: Non-blocking StarletteDeprecationWarning about httpx/httpx2; no required remediation.
+Security impact: PASS; no secret, PII, real research data, cache or generated artefact found.
+Recommended next action: Targeted review post-merge governance closeout; next task NOT STARTED — Awaiting Human assignment.
+```
+
+#### 14. ChatGPT/Codex Response
+
+Không có finding cần `ACCEPT`, `PARTIALLY ACCEPT`, `REJECT WITH REASON` hoặc `ESCALATE TO HUMAN`. ChatGPT/Codex chỉ đồng bộ governance/status theo evidence được Human xác nhận, không sửa technical artefact và không thay dependency.
+
+#### 15. Human Decision
+
+Human Decision: Approve and merge PR #10. Human / Product Owner xác nhận Gemini 3.1 Pro High review `PASS`, findings `Không có`, required remediation `Không có`; merge được thực hiện ngày 20/09/2026.
+
+#### 16. Resolution
+
+Merged successfully. Review evidence gắn với specification PR #9/merge `1bf957162eba78c069d3ba976af7fe1d174cab30`, implementation PR #10/head `bd39b9f7bdd9f7a1796d9a405e7998070e124e07` và merge commit `0df4814ff1eb8cd576566ac3dd403131feca3759`. Không có finding cần xử lý.
+
+#### 17. Resolved Version
+
+`0df4814ff1eb8cd576566ac3dd403131feca3759`
+
+#### 18. Closed Date
+
+`20/09/2026`
 
 #### 19. Closed By
 
