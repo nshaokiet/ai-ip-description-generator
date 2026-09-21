@@ -2,7 +2,7 @@
 
 Nền tảng AI hỗ trợ chuyển bài báo nghiên cứu khoa học thành dữ liệu sáng chế có cấu trúc và bản dự thảo patent specification để con người rà soát.
 
-> **Trạng thái hiện tại:** APP-001 và APP-002 đã hoàn tất; AI-RUNTIME-001 đã triển khai internal OpenAI Responses API extraction boundary và đang `Implementation — Awaiting Independent Review`. Runtime dùng `gpt-5.6-sol`, strict provider schema được sinh từ AI-001, canonical post-validation và grounding/business validation. Không có public analyze endpoint và không được dùng dữ liệu nghiên cứu thật khi BLK-003 còn mở. Toàn bộ Phase 1, Phase 2, core pipeline end-to-end và MVP chưa được tuyên bố hoàn tất.
+> **Trạng thái hiện tại:** APP-001, APP-002 và AI-RUNTIME-001 đã hoàn tất; AI-RUNTIME-001 là internal OpenAI Responses API extraction boundary đã merge qua PR #14. Runtime dùng `gpt-5.6-sol`, strict provider schema được sinh từ AI-001, canonical post-validation và grounding/business validation. Live provider smoke chưa chạy; không có public analyze endpoint và không được dùng dữ liệu nghiên cứu thật khi BLK-003 còn mở. Toàn bộ Phase 1, Phase 2, core pipeline end-to-end và MVP chưa được tuyên bố hoàn tất.
 >
 > **Deadline MVP:** bàn giao chính thức 02/10/2026; mục tiêu hoàn thành nội bộ 30/09/2026, ngày 01–02/10 dành cho buffer/test/handover.
 
@@ -207,10 +207,10 @@ GitHub là **Technical Source of Truth**. Gemini không ghi đè production arte
 
 - [x] Repository Private đã được khởi tạo.
 - [x] Cấu trúc `frontend`, `backend`, `prompts`, `templates`, `tests` và `.github`.
-- [x] SPEC-001 System Specification 0.3.3 — Approved baseline; AI-RUNTIME-001 implementation state đã đồng bộ.
-- [x] SPEC-002 Project Context 0.3.3 — Approved baseline; AI-RUNTIME-001 implementation state đã đồng bộ.
+- [x] SPEC-001 System Specification 0.3.4 — Approved baseline; AI-RUNTIME-001 post-merge state đã đồng bộ.
+- [x] SPEC-002 Project Context 0.3.4 — Approved baseline; AI-RUNTIME-001 post-merge state đã đồng bộ.
 - [x] SPEC-003 AGENTS.md 0.2.0 — Approved baseline.
-- [x] Project Control Center 0.3.3.
+- [x] Project Control Center 0.3.4 và Gemini Review Log 0.3.3.
 - [x] Gemini Review Log 0.3.2 với `REV-APP-002` và các review task có bằng chứng đều `CLOSED`.
 - [x] ADR-001…ADR-005 — Accepted theo Human decisions ngày 20/09/2026.
 - [x] Output Schema v1.0.0, fixtures và automated validation tests — Completed — Merged via PR #1; Gemini review `PASS`, 15/15 tests pass, không có finding.
@@ -219,7 +219,7 @@ GitHub là **Technical Source of Truth**. Gemini không ghi đè production arte
 - [x] Patent DOCX Template v1.0.0, manifest, mapping, offline renderer, synthetic fixtures và automated tests — Completed — Merged via PR #7; implementation `d3f7c7d9596b77a39e9a56fcdf97c76cb972612a`, merge `d208a7925da844c5b43578bac8ebdbb1c5c6b5b8`; Human Visual QA và Gemini reviews `PASS`; 85/85 tests pass; không có finding.
 - [x] APP-001 FastAPI skeleton và secure upload — Completed — Merged via PR #10; implementation head `bd39b9f7bdd9f7a1796d9a405e7998070e124e07`, merge `0df4814ff1eb8cd576566ac3dd403131feca3759`; Gemini review `PASS`, 22/22 acceptance criteria và 109/109 tests pass, không có finding.
 - [x] APP-002 document parsing và evidence source units — Completed — Merged via PR #12; initial `477b8fda6afbae0049d8d691c213dc6355ba67da`, remediation `8b6f909a0f5787d72c002e163395656a666c9b78`, merge `4a001d116cbf002bdd42a9151efbf3f308fce3e6`; initial Gemini `REQUEST CHANGES`, F-001/F-002 `RESOLVED`, final `PASS`; 30/30 AC; 135 executed, 134 pass, 1 Windows skip, 0 failure/error.
-- [x] AI-RUNTIME-001 implementation — internal Responses API extraction, provider-schema adapter, normalization, canonical validation, deterministic grounding/business validation, safe errors và synthetic tests; trạng thái `Implementation — Awaiting Independent Review`, chưa được đánh dấu Completed.
+- [x] AI-RUNTIME-001 — Completed — Merged via PR #14 tại `597f6c7b074eb2c5e445790b8c4f48f336f04da5`; implementation review `PASS WITH NON-BLOCKING NOTES`, F-001 `MEDIUM` resolved tại `5247cbcbe591d8b29917d9982b9066e393901c7e`, targeted remediation `PASS`, 32/32 AC và 201 executed / 200 pass / 1 skip.
 
 ### Chưa hoàn thành
 
@@ -245,7 +245,7 @@ Không đánh dấu application đã hoạt động khi mới chỉ có folder/R
 | Phase | Nội dung | Trạng thái |
 |---|---|---|
 | Phase 1 | Specification & Architecture | SPEC-001/002/003 approved baseline; chưa có tuyên bố Human hoàn tất toàn bộ phase |
-| Phase 2 | Core pipeline | APP-001/APP-002 đã merge; AI-RUNTIME-001 internal extraction đã triển khai và chờ independent review; chưa có public orchestration và chưa hoàn tất end-to-end |
+| Phase 2 | Core pipeline | APP-001/APP-002 và AI-RUNTIME-001 đã merge; chưa có public orchestration, draft runtime hoặc end-to-end completion |
 | Phase 3 | Draft generation & DOCX | AI-003 Completed — Merged via PR #5; DOC-001 Completed — Merged via PR #7 |
 | Phase 4 | Evaluation & stabilization | Chưa bắt đầu |
 | Phase 5 | Deployment & handover | Chưa bắt đầu |
@@ -265,7 +265,7 @@ Danh sách chi tiết nằm trong [`docs/system-specification.md`](docs/system-s
 
 Repository hiện có APP-001 secure upload, APP-002 deterministic evidence preparation và AI-RUNTIME-001 internal extraction runtime. Phạm vi triển khai đạt `PDF/DOCX → validation → parsing → AI-002 envelope → OpenAI Structured Output → canonical/grounding validation → validated Structured Invention Analysis`. Public surface vẫn chỉ gồm `GET /health` và `POST /api/documents`; runtime chưa được nối vào public endpoint.
 
-AI-RUNTIME-001 đang `Implementation — Awaiting Independent Review`. Bước tiếp theo được phép là Gemini 3.1 Pro High independent implementation review và Human merge decision. Không tự động triển khai public orchestration, draft runtime, frontend, database/auth, production storage hoặc deployment.
+AI-RUNTIME-001 đã `Completed — Merged via PR #14`. Live provider smoke vẫn `NOT RUN — OPENAI_API_KEY not available`, BLK-003 vẫn mở và core E2E chưa hoàn tất. AI-RUNTIME-002 chỉ có thể đi tới bước specification/Human approval tiếp theo; chưa được phê duyệt hoặc bắt đầu. Không tự động triển khai public orchestration, draft runtime, frontend, database/auth, production storage hoặc deployment.
 
 ## 16. License
 

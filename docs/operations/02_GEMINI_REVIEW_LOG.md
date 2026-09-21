@@ -10,14 +10,14 @@
 | Document title | Gemini Review Log |
 | Project | AI Intellectual Property Description Generator |
 | Project deadline | 02/10/2026 |
-| Version | 0.3.2 |
+| Version | 0.3.3 |
 | Status | Active review log |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High |
 | Created date | 18/09/2026 |
 | Last updated | 21/09/2026 GMT+7 |
-| Related task ID | REVIEW-001; SPEC-001; SPEC-002; SPEC-003; AI-001; AI-002; AI-003; DOC-001; APP-001; APP-002 |
+| Related task ID | REVIEW-001; SPEC-001; SPEC-002; SPEC-003; AI-001; AI-002; AI-003; DOC-001; APP-001; APP-002; AI-RUNTIME-001 |
 | Source of Truth | Review history; bản nguồn Git tại `docs/operations/02_GEMINI_REVIEW_LOG.md` |
 | Confidentiality level | Internal; findings về research input có thể là Confidential |
 
@@ -37,6 +37,7 @@
 | 0.2.7 | 0.3.0 | 20/09/2026 | ChatGPT/Codex | Ghi kết quả review SPEC-001/002/003, Human decisions và đóng REV-001/002/003 | Khóa approved baseline trước APP-001 approval | REV-001, REV-002, REV-003, DEC-001/002/003 | No |
 | 0.3.0 | 0.3.1 | 20/09/2026 | ChatGPT/Codex | Ghi Gemini review APP-001 PASS, Human merge decision và đóng REV-APP-001 | Post-merge governance closeout | APP-001, REV-APP-001, PR #10, merge commit `0df4814ff1eb8cd576566ac3dd403131feca3759` | No |
 | 0.3.1 | 0.3.2 | 21/09/2026 | ChatGPT/Codex | Bảo toàn APP-002 initial REQUEST CHANGES/F-001/F-002, ghi remediation, targeted PASS, Human merge decision và đóng REV-APP-002 | Post-merge governance closeout | APP-002, REV-APP-002, PR #12, merge commit `4a001d116cbf002bdd42a9151efbf3f308fce3e6` | No |
+| 0.3.2 | 0.3.3 | 21/09/2026 | ChatGPT/Codex | Bảo toàn lifecycle review AI-RUNTIME-001, ghi F-001 remediation, targeted PASS, Human merge decision và đóng REV-AI-RUNTIME-001 | Post-merge governance closeout | AI-RUNTIME-001, REV-AI-RUNTIME-001, PR #14, merge commit `597f6c7b074eb2c5e445790b8c4f48f336f04da5` | No |
 
 ## 2. Review Rules
 
@@ -90,8 +91,9 @@
 | REV-003 | 20/09/2026 | SPEC-002 | `PROJECT_CONTEXT.md` | Reviewed repository HEAD `595113a6c5337a78b72ff4887383ef4a2b2ef49e`; resolved as baseline 0.3.0 | NEEDS HUMAN DECISION | CLOSED |
 | REV-APP-001 | 20/09/2026 | APP-001 | FastAPI Backend Skeleton and Secure Document Upload | Implementation head `bd39b9f7bdd9f7a1796d9a405e7998070e124e07`; resolved by merge commit `0df4814ff1eb8cd576566ac3dd403131feca3759` | APPROVE | CLOSED |
 | REV-APP-002 | 21/09/2026 | APP-002 | Document Parsing & Evidence Source Units | Initial `477b8fda6afbae0049d8d691c213dc6355ba67da`; remediation `8b6f909a0f5787d72c002e163395656a666c9b78`; resolved by merge `4a001d116cbf002bdd42a9151efbf3f308fce3e6` | APPROVE | CLOSED |
+| REV-AI-RUNTIME-001 | 21/09/2026 | AI-RUNTIME-001 | OpenAI Responses API + Structured Outputs Extraction Runtime | Initial implementation `e430584a0cc31d0ccc821eb2d21ad7a14548329a`; remediation `5247cbcbe591d8b29917d9982b9066e393901c7e`; resolved by merge `597f6c7b074eb2c5e445790b8c4f48f336f04da5` | APPROVE | CLOSED |
 
-Các entry review được ChatGPT/Codex ghi lại từ kết quả Gemini do Human / Product Owner xác nhận; Gemini không sửa production artefact. REV-001/002/003 ghi verdict `PASS WITH HUMAN DECISIONS REQUIRED`, không có document finding; chúng được đóng sau khi Human phê duyệt baseline và ban hành DEC-001/002/003. REV-APP-001 đã `CLOSED` sau khi Human approve và merge PR #10 ngày 20/09/2026. REV-APP-002 bảo toàn initial `REQUEST CHANGES`, F-001/F-002 và remediation evidence; lifecycle được `CLOSED` sau targeted `PASS` và Human merge PR #12 ngày 21/09/2026.
+Các entry review được ChatGPT/Codex ghi lại từ kết quả Gemini do Human / Product Owner xác nhận; Gemini không sửa production artefact. REV-001/002/003 ghi verdict `PASS WITH HUMAN DECISIONS REQUIRED`, không có document finding; chúng được đóng sau khi Human phê duyệt baseline và ban hành DEC-001/002/003. REV-APP-001 đã `CLOSED` sau khi Human approve và merge PR #10 ngày 20/09/2026. REV-APP-002 bảo toàn initial `REQUEST CHANGES`, F-001/F-002 và remediation evidence; lifecycle được `CLOSED` sau targeted `PASS` và Human merge PR #12 ngày 21/09/2026. REV-AI-RUNTIME-001 bảo toàn specification initial `REQUEST CHANGES`, targeted specification `PASS`, implementation `PASS WITH NON-BLOCKING NOTES`, F-001 remediation, targeted remediation `PASS` và Human merge PR #14; F-002 live-provider evidence vẫn là non-blocking `NOTE` chưa chạy.
 
 ## 7. Review Entry Template
 
@@ -1100,6 +1102,145 @@ Merged successfully. Review evidence gắn với implementation commit `ae7e8fb5
 #### 18. Closed Date
 
 `20/09/2026`
+
+#### 19. Closed By
+
+Human / Product Owner.
+
+### REV-AI-RUNTIME-001
+
+#### Date
+
+`21/09/2026`
+
+#### Reviewer
+
+Gemini 3.1 Pro High. Review mode: **Independent, read-only**, followed by targeted remediation re-review.
+
+#### Task ID
+
+`AI-RUNTIME-001`
+
+#### Artefact reviewed
+
+OpenAI Responses API + Structured Outputs Extraction Runtime v1.0.0, provider-schema adapter, canonical/grounding validators, tests, ADR-010 and supporting documentation in Pull Request [#14](https://github.com/nshaokiet/ai-ip-description-generator/pull/14).
+
+#### Version reviewed
+
+Initial implementation head `e430584a0cc31d0ccc821eb2d21ad7a14548329a`; remediation commit `5247cbcbe591d8b29917d9982b9066e393901c7e`; resolved by merge commit `597f6c7b074eb2c5e445790b8c4f48f336f04da5`.
+
+#### Review status
+
+`CLOSED`
+
+Current state: `Completed — Merged via PR #14`.
+
+#### 1. Review Objective
+
+Review AI-RUNTIME-001 against approved Specification v1.0.0 and ADR-010: Responses API request semantics, provider-schema adaptation, nullable normalization, canonical Draft 2020-12 validation, deterministic grounding/business validation, fail-closed behavior, safe errors/logging, synthetic tests, security and scope boundaries.
+
+#### 2. Sources Reviewed
+
+- AI-RUNTIME-001 Specification v1.0.0 and ADR-010.
+- Initial implementation head `e430584a0cc31d0ccc821eb2d21ad7a14548329a`.
+- F-001 remediation commit `5247cbcbe591d8b29917d9982b9066e393901c7e`.
+- PR #14 and merge commit `597f6c7b074eb2c5e445790b8c4f48f336f04da5`.
+- Python 3.12.10; `openai==3.16.2`; `jsonschema==4.26.0`.
+- 32/32 acceptance criteria; 66/66 AI-RUNTIME-001 offline tests; aggregate 201 executed, 200 pass, 1 intentional Windows skip, 0 failure/error.
+- `pip check` and `git diff --check`: `PASS`.
+
+#### 3. Summary
+
+Specification review initially returned `REQUEST CHANGES`; targeted specification re-review returned `PASS`. Independent implementation review returned `PASS WITH NON-BLOCKING NOTES` and identified F-001 `MEDIUM`. Codex applied the targeted remediation; Gemini targeted remediation re-review returned `PASS`, confirmed F-001 `RESOLVED` and AC-19 `PASS`. Human / Product Owner then approved and merged PR #14 on 21/09/2026.
+
+#### 4. Findings
+
+##### F-001 — MEDIUM — Fail-Closed Behavior / Validation
+
+- **Location:** `backend/app/services/extraction_validation.py`.
+- **Issue:** optional input `document_metadata.sha256` combined with an emitted output SHA could access a missing key and raise uncontrolled `KeyError` instead of the stable validation taxonomy.
+- **Response:** `ACCEPT`.
+- **Resolution:** compare emitted SHA against `input_metadata.get("sha256")`; direct and runtime-level regression tests cover absent/present/matching/mismatching SHA and preserve one logical provider call.
+- **Resolution evidence:** remediation commit `5247cbcbe591d8b29917d9982b9066e393901c7e`; targeted re-review `PASS`; AC-19 `PASS`.
+- **Resolution status:** `RESOLVED`.
+
+##### F-002 — NOTE — Live Provider Evidence
+
+- **Issue:** live OpenAI provider smoke was not run because `OPENAI_API_KEY` was unavailable.
+- **Status:** `NOTE / pending evidence`; non-blocking for PR #14 and not represented as a live `PASS`.
+- **Evidence:** `NOT RUN — OPENAI_API_KEY not available`.
+
+#### 5. Source-Grounding Issues
+
+No unresolved source-grounding finding after F-001 remediation. Offline tests verify deterministic evidence identity, type, locator, exact excerpt and cross-reference validation; this does not constitute live-model or semantic-entailment validation.
+
+#### 6. Hallucination Risks
+
+No new blocking finding. Runtime remains fail-closed and Human review remains mandatory. Live provider behavior and evaluation quality are not proven by offline tests.
+
+#### 7. Missing Information
+
+Live synthetic provider smoke remains pending credential-backed execution. BLK-003 remains open for real research data and production use.
+
+#### 8. Technical Concerns
+
+F-001 was resolved without modifying canonical AI-001 schema, AI-002 prompt, provider-schema architecture or public API surface. No draft runtime or public orchestration was added.
+
+#### 9. Security and Privacy Concerns
+
+Offline and live fixtures are synthetic-only. Requests enforce `store=false`; no secret, PII, real research data, source-content logging or provider-output logging was introduced. BLK-003 remains open.
+
+#### 10. Consistency Issues
+
+No unresolved consistency issue. BLK-004 is resolved only for Extraction Runtime v1 and does not approve Draft Runtime v1 or future AI tasks.
+
+#### 11. Suggested Changes
+
+F-001 remediation completed and verified. No further required change after targeted remediation re-review. F-002 remains a clearly labeled pending evidence note.
+
+#### 12. Recommendation
+
+`APPROVE`
+
+Current state: `Completed — Merged via PR #14`.
+
+#### 13. Handoff to ChatGPT/Codex
+
+```text
+Task ID: AI-RUNTIME-001
+Agent: Gemini 3.1 Pro High
+Reviewer: Human / Product Owner
+Status: CLOSED — AI-RUNTIME-001 Completed — Merged via PR #14
+Version: Specification 1.0.0; initial e430584a0cc31d0ccc821eb2d21ad7a14548329a; remediation 5247cbcbe591d8b29917d9982b9066e393901c7e; resolved by merge 597f6c7b074eb2c5e445790b8c4f48f336f04da5
+Work completed: Initial specification REQUEST CHANGES and targeted specification PASS preserved; implementation PASS WITH NON-BLOCKING NOTES; F-001 MEDIUM remediated and targeted PASS; Human approved and merged PR #14.
+Files affected: Review log only; Gemini did not overwrite production artefacts.
+Evidence checked: 32/32 AC; 66/66 AI-RUNTIME-001 offline tests; aggregate 201 executed, 200 pass, 1 skip, 0 failure/error; pip check and diff check PASS.
+Findings: F-001 RESOLVED; F-002 remains NOTE / pending live-provider evidence.
+Decisions: Recommendation APPROVE; Human / Product Owner approved and merged PR #14 on 21/09/2026.
+Issues: Live provider smoke NOT RUN — OPENAI_API_KEY not available; BLK-003 remains open; no public analyze endpoint or draft runtime.
+Security impact: Synthetic-only evidence; store=false; no secret, PII, real research data or sensitive payload logging.
+Recommended next action: Governance-only review of post-merge closeout; AI-RUNTIME-002 remains subject to separate Human approval and assignment.
+```
+
+#### 14. ChatGPT/Codex Response
+
+`ACCEPT` F-001. Codex implemented the narrow optional-SHA remediation in `5247cbcbe591d8b29917d9982b9066e393901c7e`, added direct and runtime-level regression coverage, and did not alter canonical contracts or provider-schema architecture. F-002 is retained as a non-blocking pending-evidence note without fabricating a live PASS.
+
+#### 15. Human Decision
+
+Human Decision: `APPROVED FOR MERGE`. Human / Product Owner confirmed targeted remediation re-review `PASS` and merged PR #14 on 21/09/2026.
+
+#### 16. Resolution
+
+Merged successfully. F-001 is resolved by remediation commit `5247cbcbe591d8b29917d9982b9066e393901c7e`; PR #14 resolved at merge commit `597f6c7b074eb2c5e445790b8c4f48f336f04da5`. F-002 remains `NOTE / pending evidence` and does not block closure.
+
+#### 17. Resolved Version
+
+`597f6c7b074eb2c5e445790b8c4f48f336f04da5`
+
+#### 18. Closed Date
+
+`21/09/2026`
 
 #### 19. Closed By
 
