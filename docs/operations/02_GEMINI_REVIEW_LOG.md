@@ -10,14 +10,14 @@
 | Document title | Gemini Review Log |
 | Project | AI Intellectual Property Description Generator |
 | Project deadline | 02/10/2026 |
-| Version | 0.3.1 |
+| Version | 0.3.2 |
 | Status | Active review log |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High |
 | Created date | 18/09/2026 |
-| Last updated | 20/09/2026 GMT+7 |
-| Related task ID | REVIEW-001; SPEC-001; SPEC-002; SPEC-003; AI-001; AI-002; AI-003; DOC-001; APP-001 |
+| Last updated | 21/09/2026 GMT+7 |
+| Related task ID | REVIEW-001; SPEC-001; SPEC-002; SPEC-003; AI-001; AI-002; AI-003; DOC-001; APP-001; APP-002 |
 | Source of Truth | Review history; bản nguồn Git tại `docs/operations/02_GEMINI_REVIEW_LOG.md` |
 | Confidentiality level | Internal; findings về research input có thể là Confidential |
 
@@ -36,6 +36,7 @@
 | 0.2.6 | 0.2.7 | 20/09/2026 | ChatGPT/Codex | Ghi Human merge decision, merge resolution và đóng REV-DOC-001 | Post-merge governance closeout | REV-DOC-001, DOC-001, PR #7, merge commit `d208a7925da844c5b43578bac8ebdbb1c5c6b5b8` | No |
 | 0.2.7 | 0.3.0 | 20/09/2026 | ChatGPT/Codex | Ghi kết quả review SPEC-001/002/003, Human decisions và đóng REV-001/002/003 | Khóa approved baseline trước APP-001 approval | REV-001, REV-002, REV-003, DEC-001/002/003 | No |
 | 0.3.0 | 0.3.1 | 20/09/2026 | ChatGPT/Codex | Ghi Gemini review APP-001 PASS, Human merge decision và đóng REV-APP-001 | Post-merge governance closeout | APP-001, REV-APP-001, PR #10, merge commit `0df4814ff1eb8cd576566ac3dd403131feca3759` | No |
+| 0.3.1 | 0.3.2 | 21/09/2026 | ChatGPT/Codex | Bảo toàn APP-002 initial REQUEST CHANGES/F-001/F-002, ghi remediation, targeted PASS, Human merge decision và đóng REV-APP-002 | Post-merge governance closeout | APP-002, REV-APP-002, PR #12, merge commit `4a001d116cbf002bdd42a9151efbf3f308fce3e6` | No |
 
 ## 2. Review Rules
 
@@ -88,8 +89,9 @@
 | REV-002 | 20/09/2026 | SPEC-003 | `AGENTS.md` | Reviewed repository HEAD `595113a6c5337a78b72ff4887383ef4a2b2ef49e`; resolved as baseline 0.2.0 | NEEDS HUMAN DECISION | CLOSED |
 | REV-003 | 20/09/2026 | SPEC-002 | `PROJECT_CONTEXT.md` | Reviewed repository HEAD `595113a6c5337a78b72ff4887383ef4a2b2ef49e`; resolved as baseline 0.3.0 | NEEDS HUMAN DECISION | CLOSED |
 | REV-APP-001 | 20/09/2026 | APP-001 | FastAPI Backend Skeleton and Secure Document Upload | Implementation head `bd39b9f7bdd9f7a1796d9a405e7998070e124e07`; resolved by merge commit `0df4814ff1eb8cd576566ac3dd403131feca3759` | APPROVE | CLOSED |
+| REV-APP-002 | 21/09/2026 | APP-002 | Document Parsing & Evidence Source Units | Initial `477b8fda6afbae0049d8d691c213dc6355ba67da`; remediation `8b6f909a0f5787d72c002e163395656a666c9b78`; resolved by merge `4a001d116cbf002bdd42a9151efbf3f308fce3e6` | APPROVE | CLOSED |
 
-Các entry review được ChatGPT/Codex ghi lại từ kết quả Gemini do Human / Product Owner xác nhận; Gemini không sửa production artefact. REV-001/002/003 ghi verdict `PASS WITH HUMAN DECISIONS REQUIRED`, không có document finding; chúng được đóng sau khi Human phê duyệt baseline và ban hành DEC-001/002/003. REV-APP-001 đã `CLOSED` sau khi Human approve và merge PR #10 ngày 20/09/2026.
+Các entry review được ChatGPT/Codex ghi lại từ kết quả Gemini do Human / Product Owner xác nhận; Gemini không sửa production artefact. REV-001/002/003 ghi verdict `PASS WITH HUMAN DECISIONS REQUIRED`, không có document finding; chúng được đóng sau khi Human phê duyệt baseline và ban hành DEC-001/002/003. REV-APP-001 đã `CLOSED` sau khi Human approve và merge PR #10 ngày 20/09/2026. REV-APP-002 bảo toàn initial `REQUEST CHANGES`, F-001/F-002 và remediation evidence; lifecycle được `CLOSED` sau targeted `PASS` và Human merge PR #12 ngày 21/09/2026.
 
 ## 7. Review Entry Template
 
@@ -353,6 +355,146 @@ Không có finding cần resolution. PR #1 đã merge thành công ngày 19/09/2
 #### 18. Closed Date
 
 `19/09/2026`
+
+#### 19. Closed By
+
+Human / Product Owner.
+
+### REV-APP-002
+
+#### Date
+
+`21/09/2026`
+
+#### Reviewer
+
+Gemini 3.1 Pro High. Review mode: **Independent implementation review followed by targeted remediation re-review**.
+
+#### Task ID
+
+`APP-002 — Document Parsing & Evidence Source Units`
+
+#### Artefact reviewed
+
+Deterministic validated PDF/DOCX parsing, safe metadata/SHA-256 registry, source units, evidence IDs/locators, AI-002 Extraction Input Envelope, synthetic tests and APP-002 task specification in Pull Request [#12](https://github.com/nshaokiet/ai-ip-description-generator/pull/12).
+
+#### Version reviewed
+
+Initial implementation `477b8fda6afbae0049d8d691c213dc6355ba67da`; remediation `8b6f909a0f5787d72c002e163395656a666c9b78`; resolved by merge commit `4a001d116cbf002bdd42a9151efbf3f308fce3e6`.
+
+#### Review status
+
+`CLOSED`
+
+Current state: `Completed — Merged via PR #12`.
+
+#### 1. Review Objective
+
+Review APP-002 evidence completeness, deterministic parsing/order/identifiers, AI-002 contract compatibility, APP-001 security boundaries, synthetic tests and scope. OpenAI/model integration, public analysis endpoint, OCR, database, authentication, frontend and deployment were outside scope.
+
+#### 2. Sources Reviewed
+
+- Initial implementation commit `477b8fda6afbae0049d8d691c213dc6355ba67da`.
+- Remediation commit `8b6f909a0f5787d72c002e163395656a666c9b78`.
+- Pull Request [#12](https://github.com/nshaokiet/ai-ip-description-generator/pull/12) and Human-provided merge evidence `4a001d116cbf002bdd42a9151efbf3f308fce3e6`.
+- `backend/app/services/document_parsing.py`, typed source-unit contract, registry/storage integration, APP-002 task specification and automated synthetic backend tests.
+- Acceptance criteria: 30/30 pass, 0 fail, 0 unverifiable.
+- Tests: AI-001 15/15, AI-002 17/17, AI-003 25/25, DOC-001 28/28, existing APP-001 backend 24 executed (23 pass, 1 Windows POSIX skip), APP-002 26/26; total 135 executed, 134 pass, 1 skip, 0 failure/error.
+- `pip check`: PASS; `git diff --check`: PASS.
+
+#### 3. Summary
+
+Initial independent verdict was `REQUEST CHANGES` due to two evidence-completeness findings. Codex remediated both in `8b6f909a0f5787d72c002e163395656a666c9b78`. Gemini targeted re-review marked F-001 and F-002 `RESOLVED`, returned final verdict `PASS`, found no new issue and required no further change. Human / Product Owner approved and merged PR #12 on 21/09/2026.
+
+#### 4. Findings
+
+##### F-001 — HIGH — DOCX Evidence Completeness
+
+- **Location:** DOCX body block traversal in `backend/app/services/document_parsing.py`.
+- **Original problem:** root-level `w:sdt/w:sdtContent` paragraphs or tables could be silently omitted because only direct `w:body` paragraphs/tables were considered.
+- **Impact:** source evidence could be incomplete without an explicit failure.
+- **Resolution:** controlled deterministic block traversal now unwraps only content-bearing `w:sdtContent` and preserves paragraph/table order. Targeted tests cover root SDT paragraph, table, mixed blocks and repeat-run determinism.
+- **Resolution status:** `RESOLVED` by Gemini targeted re-review at remediation commit `8b6f909a0f5787d72c002e163395656a666c9b78`.
+
+##### F-002 — MEDIUM — DOCX Evidence Completeness
+
+- **Location:** DOCX table-cell serialization in `backend/app/services/document_parsing.py`.
+- **Original problem:** nested tables inside `w:tc` could be silently omitted because only direct cell paragraphs were serialized.
+- **Impact:** table evidence could lose nested content and ordering.
+- **Resolution:** cell blocks are traversed deterministically; nested tables are serialized recursively at their original position inside the outer TABLE source unit. Targeted tests cover paragraph/table ordering, multiple rows/cells, nested SDT and determinism.
+- **Resolution status:** `RESOLVED` by Gemini targeted re-review at remediation commit `8b6f909a0f5787d72c002e163395656a666c9b78`.
+
+New findings after remediation: none. Blocking findings after remediation: none. Required changes after targeted review: none.
+
+#### 5. Source-Grounding Issues
+
+The initial findings concerned source-evidence completeness. Both were resolved without changing the AI-002 contract: approved block-level SDT content and nested table content now remain represented in deterministic source units with stable locators/evidence IDs.
+
+#### 6. Hallucination Risks
+
+No new hallucination finding. APP-002 performs deterministic source preparation only, preserves prompt-injection-like text as untrusted data and does not invoke a model or invent technical prose.
+
+#### 7. Missing Information
+
+No missing information blocks closeout. Production model/provider configuration, authentication, private storage and retention remain separate Human decisions and do not alter APP-002 completion evidence.
+
+#### 8. Technical Concerns
+
+Final targeted verdict: `PASS`. The known `StarletteDeprecationWarning` for the current httpx/Starlette test stack remains non-blocking; no dependency remediation was required. The single Windows POSIX-permission skip is platform-specific and accepted in the verified evidence.
+
+#### 9. Security and Privacy Concerns
+
+`PASS`. Validation was synthetic/offline. APP-001 security boundaries, SHA-256 verification, storage lease, safe errors, DTD/ENTITY defense and no-external-fetch behavior remain in effect. No real research data, secret, API key, token, PII, dependency change, network/model call, database/auth or public analyze endpoint was introduced.
+
+#### 10. Consistency Issues
+
+No open inconsistency after remediation. The task remains compatible with AI-002 Extraction Prompt v1.0.0 and does not change AI-001, AI-002, AI-003 or DOC-001 canonical contracts.
+
+#### 11. Suggested Changes
+
+Initial required changes F-001/F-002 were implemented and verified. No further change was required after targeted re-review.
+
+#### 12. Recommendation
+
+`APPROVE`
+
+#### 13. Handoff to ChatGPT/Codex
+
+```text
+Task ID: APP-002
+Agent: Gemini 3.1 Pro High
+Reviewer: Human / Product Owner
+Status: CLOSED — APP-002 Completed — Merged via PR #12
+Version: Initial 477b8fda6afbae0049d8d691c213dc6355ba67da; remediation 8b6f909a0f5787d72c002e163395656a666c9b78; resolved by merge 4a001d116cbf002bdd42a9151efbf3f308fce3e6
+Work completed: Initial REQUEST CHANGES preserved; F-001 HIGH and F-002 MEDIUM remediated and RESOLVED; targeted re-review PASS; Human approved and merged PR #12.
+Files affected: Review log only; Gemini did not overwrite production artefacts.
+Evidence checked: 30/30 AC; 135 tests executed, 134 pass, 1 Windows skip, 0 failure/error; pip check and diff check PASS.
+Findings: F-001 and F-002 RESOLVED; no new findings.
+Decisions: Final recommendation APPROVE; Human / Product Owner approved and merged PR #12 on 21/09/2026.
+Issues: Non-blocking StarletteDeprecationWarning; runtime/provider/E2E stages remain outside APP-002.
+Security impact: PASS; synthetic/offline only; no secret, PII, real research data, dependency change or network/model call.
+Recommended next action: Targeted review of post-merge governance closeout; next task NOT STARTED — Awaiting Human assignment.
+```
+
+#### 14. ChatGPT/Codex Response
+
+`ACCEPT` F-001 and F-002. Codex implemented targeted remediation in `8b6f909a0f5787d72c002e163395656a666c9b78` without redesigning the parser or expanding APP-002 scope. Gemini subsequently verified both findings as `RESOLVED`.
+
+#### 15. Human Decision
+
+Human Decision: `APPROVED / MERGED`. Human / Product Owner approved and merged PR #12 on 21/09/2026 after Gemini targeted verdict `PASS`, no new finding, no remaining blocker and no required change.
+
+#### 16. Resolution
+
+Merged successfully. Initial `REQUEST CHANGES`, original finding severities, remediation evidence and targeted `PASS` are preserved in this append-oriented lifecycle record. APP-002 is `Completed — Merged via PR #12`; this does not mark Phase 1, Phase 2, the MVP or the end-to-end pipeline complete.
+
+#### 17. Resolved Version
+
+`4a001d116cbf002bdd42a9151efbf3f308fce3e6`
+
+#### 18. Closed Date
+
+`21/09/2026`
 
 #### 19. Closed By
 

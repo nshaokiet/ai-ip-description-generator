@@ -8,13 +8,13 @@
 |---|---|
 | Document ID | SPEC-002 |
 | Document title | Project Context — AI Intellectual Property Description Generator |
-| Version | 0.3.1 |
+| Version | 0.3.2 |
 | Status | Approved baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High |
 | Created date | 18/09/2026 |
-| Last updated | 20/09/2026 |
+| Last updated | 21/09/2026 |
 | Related task ID | SPEC-002 |
 | Source of Truth | GitHub — `PROJECT_CONTEXT.md` |
 | Confidentiality level | Internal; research inputs are Confidential by default |
@@ -39,6 +39,7 @@
 | 0.2.10 | 0.2.11 | 20/09/2026 | ChatGPT/Codex | Chuyển DOC-001 sang Completed sau khi Human merge PR #7 | Đồng bộ governance state sau merge | DOC-001, ADR-009, REV-DOC-001, PR #7, merge commit `d208a7925da844c5b43578bac8ebdbb1c5c6b5b8` | No |
 | 0.2.11 | 0.3.0 | 20/09/2026 | ChatGPT/Codex | Phê duyệt baseline SPEC-002, ghi nhận ADR-001…005 và khóa scope upload APP-001 | Đồng bộ Gemini review và Human decisions trước backend implementation | SPEC-001/002/003, REV-001/002/003, DEC-001/002/003, APP-001 | No |
 | 0.3.0 | 0.3.1 | 20/09/2026 | ChatGPT/Codex | Ghi APP-001 hoàn tất sau Gemini PASS và Human merge PR #10 | Đồng bộ post-merge governance evidence, không đổi contract kỹ thuật | APP-001, REV-APP-001, PR #10, merge commit `0df4814ff1eb8cd576566ac3dd403131feca3759` | No |
+| 0.3.1 | 0.3.2 | 21/09/2026 | ChatGPT/Codex | Ghi APP-002 hoàn tất sau remediation, Gemini targeted PASS và Human merge PR #12 | Đồng bộ post-merge governance evidence, không đổi contract kỹ thuật | APP-002, REV-APP-002, PR #12, merge commit `4a001d116cbf002bdd42a9151efbf3f308fce3e6` | No |
 
 ## 2. Project name
 
@@ -114,8 +115,8 @@ Pipeline MVP ưu tiên một paper cho một hồ sơ. Nội dung thiếu không
 | Lớp | Công nghệ đã định hướng | Trạng thái |
 |---|---|---|
 | Frontend | Next.js + TypeScript | Requirement; chưa có bằng chứng triển khai |
-| Backend | FastAPI + Python 3.12 | APP-001 Completed — Merged via PR #10; local skeleton, health check, secure PDF/DOCX upload và ephemeral cleanup đã triển khai |
-| Production AI | OpenAI Responses API | ADR-002 Accepted; model/runtime integration `[CẦN XÁC NHẬN]`, không thuộc APP-001 |
+| Backend | FastAPI + Python 3.12 | APP-001 và APP-002 Completed; local health/upload, secure validation, ephemeral cleanup, deterministic PDF/DOCX parsing, safe metadata/SHA-256 registry và AI-002 evidence envelope đã triển khai |
+| Production AI | OpenAI Responses API | ADR-002 Accepted; model/runtime integration `[CẦN XÁC NHẬN]`, không thuộc APP-001/APP-002 |
 | Structured data | JSON Schema Draft 2020-12 | Output Schema v1.0.0 — Completed — Merged via PR #1 |
 | Extraction prompt | Markdown prompt contract | v1.0.0 — Completed — Merged via PR #3 |
 | Patent draft contract | JSON Schema Draft 2020-12 | v1.0.0 — Completed — Merged via PR #5 |
@@ -282,13 +283,14 @@ NotebookLM lưu và tra cứu nguồn được cấp quyền, hỗ trợ groundi
 
 | Artefact | Location | Version | Status có bằng chứng |
 |---|---|---|---|
-| System Specification | `docs/system-specification.md` | 0.3.1 | SPEC-001 Approved baseline; APP-001 merge evidence đã đồng bộ |
+| System Specification | `docs/system-specification.md` | 0.3.2 | SPEC-001 Approved baseline; APP-001/APP-002 merge evidence đã đồng bộ |
 | AI Collaboration Rules | `AGENTS.md` | 0.2.0 | SPEC-003 Approved baseline |
-| Project Context | `PROJECT_CONTEXT.md` | 0.3.1 | SPEC-002 Approved baseline; APP-001 merge evidence đã đồng bộ |
-| Project Control Center source | `docs/operations/01_PROJECT_CONTROL_CENTER.md` | 0.3.1 | APP-001 Completed — Merged via PR #10; Phase 1 chưa được tuyên bố hoàn tất |
-| Gemini Review Log source | `docs/operations/02_GEMINI_REVIEW_LOG.md` | 0.3.1 | `REV-APP-001` và các task review có bằng chứng đều `CLOSED` |
+| Project Context | `PROJECT_CONTEXT.md` | 0.3.2 | SPEC-002 Approved baseline; APP-001/APP-002 merge evidence đã đồng bộ |
+| Project Control Center source | `docs/operations/01_PROJECT_CONTROL_CENTER.md` | 0.3.2 | APP-002 Completed — Merged via PR #12; Phase 1/Phase 2/MVP chưa được tuyên bố hoàn tất |
+| Gemini Review Log source | `docs/operations/02_GEMINI_REVIEW_LOG.md` | 0.3.2 | `REV-APP-002` và các task review có bằng chứng đều `CLOSED` |
 | Foundational ADRs | `docs/decisions/ADR-001…005-*.md` | ADR-001…ADR-005 | Accepted theo Human decisions ngày 20/09/2026 |
 | APP-001 backend | `backend/app/`, `backend/requirements.txt`, `tests/backend/` | Implementation head `bd39b9f7bdd9f7a1796d9a405e7998070e124e07` | Completed — Merged via PR #10; 24/24 APP-001 tests và 109/109 tổng tests pass |
+| APP-002 document preparation | `backend/app/`, `tests/backend/test_document_parsing.py` | Implementation `477b8fda6afbae0049d8d691c213dc6355ba67da`; remediation `8b6f909a0f5787d72c002e163395656a666c9b78` | Completed — Merged via PR #12 at `4a001d116cbf002bdd42a9151efbf3f308fce3e6`; Gemini final PASS; 30/30 AC; 135 executed, 134 pass, 1 Windows skip, 0 failure/error |
 | ADR | `docs/decisions/ADR-006-output-schema-v1.md` | ADR-006 | Accepted; Completed — Merged via PR #1 |
 | Production JSON Schema | `schemas/invention-output/v1.0.0/invention-output.schema.json` | 1.0.0 | Completed — Merged via PR #1; Gemini review PASS; 15/15 tests pass |
 | Production extraction prompt | `prompts/extraction/v1.0.0/extraction-prompt.md` | 1.0.0 | Completed — Merged via PR #3; canonical offline validation only |
@@ -297,7 +299,7 @@ NotebookLM lưu và tra cứu nguồn được cấp quyền, hỗ trợ groundi
 | Draft generation prompt | `prompts/draft-generation/v1.0.0/draft-generation-prompt.md` | 1.0.0 | Completed — Merged via PR #5; offline only |
 | Patent draft ADR | `docs/decisions/ADR-008-patent-draft-contract-v1.md` | ADR-008 | Accepted — Completed — Merged via PR #5 |
 | DOCX template | `templates/patent-docx/v1.0.0/patent-description-template.docx` | 1.0.0 | Completed — Merged via PR #7 |
-| Application code | `backend/app/` | APP-001 | FastAPI local skeleton và secure upload đã merge; frontend/AI runtime/database/deployment chưa triển khai |
+| Application code | `backend/app/` | APP-001 + APP-002 | FastAPI local skeleton, secure upload và deterministic internal document/evidence preparation đã merge; public analyze endpoint, frontend, AI runtime, database/auth và deployment chưa triển khai |
 
 ## 26. Open questions
 

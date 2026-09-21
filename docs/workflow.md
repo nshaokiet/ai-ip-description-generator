@@ -13,15 +13,15 @@ Validation phải đối chiếu extension, declared MIME, signature/package và
 
 APP-001 chỉ dùng local ephemeral storage trong single-tenant synthetic development. Temporary bytes bị xóa ngay khi validation thất bại, sau downstream processing, hoặc muộn nhất sau 1 giờ. Không dùng dữ liệu nghiên cứu thật trước security acceptance.
 
-Trạng thái hiện hành: APP-001 `Completed — Merged via PR #10` ngày 20/09/2026. Backend đã triển khai `GET /health`, secure `POST /api/documents` và validation/cleanup tương ứng; frontend, AI runtime, database, authentication, production storage và deployment vẫn ngoài phạm vi đã hoàn thành.
+Trạng thái hiện hành: APP-001 `Completed — Merged via PR #10` ngày 20/09/2026. Backend đã triển khai `GET /health`, secure `POST /api/documents` và validation/cleanup tương ứng. APP-002 `Completed — Merged via PR #12` ngày 21/09/2026 và nối validated input với internal evidence preparation; frontend, AI runtime, database, authentication, production storage và deployment vẫn ngoài phạm vi đã hoàn thành.
 
 ## 2. Document Analysis
 
-APP-002 triển khai deterministic preparation nội bộ từ validated PDF/DOCX thành AI-002 Extraction Input Envelope. PDF giữ page order và locator 1-based; DOCX giữ body order giữa paragraph/table; source units chỉ có `TEXT`/`TABLE`, deterministic evidence IDs và locator. Registry chỉ lưu safe metadata/SHA-256, parser đọc file dưới storage lease, và TTL deletion đồng bộ registry cleanup.
+APP-002 triển khai deterministic preparation nội bộ từ validated PDF/DOCX thành AI-002 Extraction Input Envelope. PDF giữ page order và locator 1-based; DOCX giữ block order giữa paragraph/table, gồm approved traversal qua block-level `w:sdt/w:sdtContent` và nested tables trong cell; source units chỉ có `TEXT`/`TABLE`, deterministic evidence IDs và locator. Registry chỉ lưu safe metadata/SHA-256, parser đọc file dưới storage lease, và TTL deletion đồng bộ registry cleanup.
 
 Normalization chỉ đổi CRLF/CR thành LF, trim unit boundaries và bỏ unit whitespace-only. Nội dung không được summarize, paraphrase, translate hoặc semantic-deduplicate; prompt-injection-like text được giữ nguyên như data. APP-002 không thêm public endpoint, không gọi OpenAI Responses API/model/mạng, không OCR và không dùng database/authentication.
 
-Backend AI analysis/model invocation vẫn là bước runtime tương lai và cần task/approval riêng.
+Implementation `477b8fda6afbae0049d8d691c213dc6355ba67da`, remediation F-001/F-002 `8b6f909a0f5787d72c002e163395656a666c9b78` và merge commit `4a001d116cbf002bdd42a9151efbf3f308fce3e6` đã được Gemini targeted re-review `PASS` và Human merge qua PR #12. Pipeline nội bộ hiện dừng tại `PDF/DOCX → validation → parsing → source units/evidence envelope`. OpenAI Responses API, Structured Outputs provider adapter, model invocation, draft runtime, DOCX export API và frontend/E2E vẫn là các bước tương lai cần task/approval riêng.
 
 The system should extract, at minimum:
 

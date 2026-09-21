@@ -5,13 +5,14 @@
 | Thuộc tính | Giá trị |
 |---|---|
 | Task ID | APP-002 |
-| Status | Remediation Implemented — Awaiting Gemini Targeted Re-review |
+| Status | Completed — Merged via PR #12 |
 | Owner | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High + Human / Product Owner |
 | Contract version | 1.0.0 |
 | Compatibility target | AI-002 Extraction Prompt v1.0.0 input contract |
 | Baseline | Python 3.12; APP-001; merge commit `b337c0353627f0df2ee57a4d087b759e82e45a52` |
 | Implementation date | 21/09/2026 |
+| Completion evidence | Implementation `477b8fda6afbae0049d8d691c213dc6355ba67da`; remediation `8b6f909a0f5787d72c002e163395656a666c9b78`; merge `4a001d116cbf002bdd42a9151efbf3f308fce3e6`; PR #12 |
 
 ## 1. Objective
 
@@ -78,8 +79,8 @@ The in-memory `DocumentRegistry` stores only document ID, sanitized filename, ca
 ## 6. Parsing and normalization
 
 - PDF order follows source page order; pages are 1-based. Empty pages create no units. No OCR or image extraction occurs.
-- DOCX order follows direct `w:body` paragraph/table order. Paragraph IDs count body paragraphs, including omitted empty paragraphs; table IDs count body tables.
-- Table cells are joined with TAB and rows with LF, preserving row/cell order without semantic inference.
+- DOCX order follows supported block-level paragraph/table order in `w:body` and approved `w:sdt/w:sdtContent` containers. Paragraph IDs count yielded top-level paragraphs, including omitted empty paragraphs; table IDs count yielded top-level tables.
+- Table cells are joined with TAB and rows with LF. Nested tables inside `w:tc` are serialized recursively at their original block position within the outer TABLE source unit, preserving outer/inner row and cell order without semantic inference.
 - CRLF/CR becomes LF; unit boundaries are trimmed; whitespace-only units are omitted. Terms, numbers, units, language, and meaning are not edited.
 - Chunking prefers newline, then whitespace, then a Unicode code-point boundary. It never summarizes, paraphrases, translates, or semantically deduplicates.
 
@@ -168,10 +169,11 @@ git diff --check
 
 ## 13. Gemini remediation F-001/F-002
 
-- F-001 (`HIGH`): block-level `w:sdt/w:sdtContent` traversal implemented with deterministic paragraph/table ordering. Technical remediation is implemented and awaits Gemini targeted verification.
-- F-002 (`MEDIUM`): nested tables inside `w:tc` are serialized recursively at their original cell position without creating standalone source units. Technical remediation is implemented and awaits Gemini targeted verification.
-- Targeted coverage includes root-level SDT paragraphs/tables/mixed blocks, nested tables, nested SDT in table cells, ordering and repeated-run determinism.
+- Initial Gemini verdict: `REQUEST CHANGES`.
+- F-001 (`HIGH`, DOCX Evidence Completeness): root-level block content inside `w:sdt/w:sdtContent` could be silently omitted. Remediated by controlled deterministic block traversal in `8b6f909a0f5787d72c002e163395656a666c9b78`; targeted Gemini re-review: `RESOLVED`.
+- F-002 (`MEDIUM`, DOCX Evidence Completeness): nested tables inside `w:tc` could be silently omitted. Remediated by recursive in-cell serialization at the original block position in `8b6f909a0f5787d72c002e163395656a666c9b78`; targeted Gemini re-review: `RESOLVED`.
+- Targeted coverage includes root-level SDT paragraphs/tables/mixed blocks, nested tables, nested SDT in table cells, ordering and repeated-run determinism. Final targeted verdict: `PASS`; new findings: none; required changes: none.
 
 ## 14. Completion boundary
 
-Implementation remediation and automated validation are ready for Gemini targeted re-review. APP-002 is not `Completed`, no public analysis endpoint exists, and no OpenAI runtime task has started. Human merge approval remains required.
+Human / Product Owner approved and merged PR #12 on 21/09/2026. APP-002 is `Completed — Merged via PR #12` at merge commit `4a001d116cbf002bdd42a9151efbf3f308fce3e6`. Final evidence: 30/30 acceptance criteria pass; 135 tests executed, 134 pass, 1 platform-specific Windows skip and 0 failure/error; `pip check` and `git diff --check` pass. The task added no public analysis endpoint, OpenAI/model call, OCR, database, authentication, frontend, deployment or dependency change. Core pipeline end-to-end remains incomplete, and the next task is `NOT STARTED — Awaiting Human assignment`.
