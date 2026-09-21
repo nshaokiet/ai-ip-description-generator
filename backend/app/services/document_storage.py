@@ -9,7 +9,7 @@ import time
 import uuid
 from contextlib import contextmanager
 from pathlib import Path
-from typing import Iterator
+from typing import Callable, Iterator
 
 
 LOGGER = logging.getLogger(__name__)
@@ -26,13 +26,22 @@ class EmptyUploadError(ValueError):
 class DocumentStorage:
     """Store uploads under opaque IDs and remove them on failure or expiry."""
 
-    def __init__(self, root: Path, *, ttl_seconds: int, max_upload_bytes: int, read_chunk_bytes: int) -> None:
+    def __init__(
+        self,
+        root: Path,
+        *,
+        ttl_seconds: int,
+        max_upload_bytes: int,
+        read_chunk_bytes: int,
+        on_removed: Callable[[str], object] | None = None,
+    ) -> None:
         self.root = root.resolve()
         self.ttl_seconds = ttl_seconds
         self.max_upload_bytes = max_upload_bytes
         self.read_chunk_bytes = read_chunk_bytes
         self._active_ids: set[str] = set()
         self._lock = threading.RLock()
+        self._on_removed = on_removed
         self.root.mkdir(mode=0o700, parents=True, exist_ok=True)
         try:
             self.root.chmod(0o700)
@@ -86,6 +95,8 @@ class DocumentStorage:
     def _unlink_path(self, path: Path, document_id: str) -> bool:
         try:
             path.unlink(missing_ok=True)
+            if self._on_removed is not None:
+                self._on_removed(document_id)
             return True
         except OSError:
             LOGGER.warning("document_cleanup_failed document_id=%s", document_id)

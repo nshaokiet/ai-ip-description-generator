@@ -17,7 +17,11 @@ Trạng thái hiện hành: APP-001 `Completed — Merged via PR #10` ngày 20/0
 
 ## 2. Document Analysis
 
-Backend AI analysis là bước runtime tương lai. APP-001 không gọi OpenAI Responses API, model hoặc canonical prompts.
+APP-002 triển khai deterministic preparation nội bộ từ validated PDF/DOCX thành AI-002 Extraction Input Envelope. PDF giữ page order và locator 1-based; DOCX giữ body order giữa paragraph/table; source units chỉ có `TEXT`/`TABLE`, deterministic evidence IDs và locator. Registry chỉ lưu safe metadata/SHA-256, parser đọc file dưới storage lease, và TTL deletion đồng bộ registry cleanup.
+
+Normalization chỉ đổi CRLF/CR thành LF, trim unit boundaries và bỏ unit whitespace-only. Nội dung không được summarize, paraphrase, translate hoặc semantic-deduplicate; prompt-injection-like text được giữ nguyên như data. APP-002 không thêm public endpoint, không gọi OpenAI Responses API/model/mạng, không OCR và không dùng database/authentication.
+
+Backend AI analysis/model invocation vẫn là bước runtime tương lai và cần task/approval riêng.
 
 The system should extract, at minimum:
 
