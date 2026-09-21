@@ -4,15 +4,15 @@
 
 | Thuộc tính | Giá trị |
 |---|---|
-| Status | Ready for Human approval — Implementation not started |
+| Status | Completed — Merged via PR #10 |
 | Owner | ChatGPT/Codex |
-| Reviewer | Gemini Pro + Human / Product Owner |
+| Reviewer | Gemini 3.1 Pro High + Human / Product Owner |
 | Baseline | Python 3.12; ADR-001 |
 | Prepared date | 20/09/2026 |
 
 ## 1. Objective
 
-Chuẩn bị backend FastAPI tối thiểu có health check và upload an toàn một tài liệu PDF/DOCX cho local single-tenant MVP. Task này chỉ là specification; implementation chưa được Human phê duyệt.
+Triển khai backend FastAPI tối thiểu có health check và upload an toàn một tài liệu PDF/DOCX cho local single-tenant MVP. Human đã phê duyệt implementation; Gemini review `PASS`; PR #10 đã được Human merge ngày 20/09/2026.
 
 ## 2. In scope
 
@@ -72,9 +72,9 @@ Chuẩn bị backend FastAPI tối thiểu có health check và upload an toàn 
 - Cleanup phải idempotent; lỗi cleanup được log bằng ID an toàn, không log nội dung/tên path tuyệt đối.
 - Không xử lý dữ liệu nghiên cứu thật trước security acceptance riêng.
 
-## 7. Proposed dependencies (implementation approval required)
+## 7. Approved implementation dependencies
 
-Chọn `backend/requirements.txt` với exact pins sau; không cài trong task specification này:
+`backend/requirements.txt` dùng các exact pins đã được phê duyệt và triển khai sau:
 
 ```text
 fastapi==0.141.1
@@ -85,9 +85,9 @@ pypdf==6.19.0
 httpx==0.28.1
 ```
 
-Các pin đề xuất là stable releases được đối chiếu trên PyPI ngày 20/09/2026; implementation review vẫn phải kiểm tra compatibility/lock evidence trước commit. `zipfile`, `pathlib`, `uuid`, `hashlib`, `tempfile`, `logging` và XML/package scanning dùng Python standard library. `httpx` chỉ phục vụ FastAPI/Starlette API tests. Không thêm OpenAI SDK, OCR, database hoặc cloud SDK.
+Các pin được đối chiếu trên PyPI ngày 20/09/2026 và `pip check` đạt sau merge. `zipfile`, `pathlib`, `uuid`, `hashlib`, `tempfile`, `logging` và XML/package scanning dùng Python standard library. `httpx` chỉ phục vụ FastAPI/Starlette API tests. `StarletteDeprecationWarning` về `httpx`/`httpx2` được phân loại non-blocking `NOTE`; không thêm `httpx2`, OpenAI SDK, OCR, database hoặc cloud SDK trong APP-001.
 
-## 8. Planned implementation paths
+## 8. Implemented paths
 
 - `backend/app/__init__.py`
 - `backend/app/main.py`
@@ -104,35 +104,34 @@ Các pin đề xuất là stable releases được đối chiếu trên PyPI ng�
 - `backend/README.md`
 - `tests/backend/test_health.py`
 - `tests/backend/test_document_upload.py`
-- `tests/backend/fixtures/**` chỉ khi cần, toàn bộ synthetic.
-- `.env.example` chỉ khi cần khai báo config không bí mật và phải được Human cho phép trong implementation scope.
+- `.env.example` không cần thay đổi trong APP-001; không có config bí mật được thêm.
 
 ## 9. Acceptance criteria
 
-- [ ] AC-01 FastAPI application import/khởi động thành công bằng Python 3.12 và dependency manifest dùng exact pins được duyệt.
-- [ ] AC-02 `GET /health` trả `200` và chính xác `{"status":"ok"}`.
-- [ ] AC-03 Upload một PDF text-based synthetic hợp lệ trả `201` và safe metadata.
-- [ ] AC-04 Upload một DOCX synthetic hợp lệ trả `201` và safe metadata.
-- [ ] AC-05 Zero-byte, thiếu file hoặc nhiều file bị từ chối bằng safe structured error.
-- [ ] AC-06 File lớn hơn 10 MiB bị từ chối `413` trước parser/AI processing.
-- [ ] AC-07 Unsupported extension/MIME/signature bị từ chối và mismatch giữa ba tín hiệu bị phát hiện.
-- [ ] AC-08 Corrupt PDF/DOCX bị từ chối; không có stack trace hoặc local path trong response.
-- [ ] AC-09 PDF hoặc DOCX encrypted/password-protected bị từ chối.
-- [ ] AC-10 PDF trên 50 trang bị từ chối.
-- [ ] AC-11 PDF không có extractable text layer bị từ chối là scanned/unsupported; không OCR.
-- [ ] AC-12 DOCX macro-enabled/VBA, embedded object hoặc external relationship bị từ chối.
-- [ ] AC-13 DOCX page count không được tuyên bố exact; test/doc ghi rõ giới hạn này.
-- [ ] AC-14 Filename traversal/control characters không thoát storage root và không được dùng làm storage path.
-- [ ] AC-15 Server-generated document/storage ID là opaque, unique trong test run và không lộ absolute path.
-- [ ] AC-16 Temporary bytes của mọi validation failure được xóa ngay.
-- [ ] AC-17 Success-path artefact được xóa sau downstream completion và TTL sweep xóa artefact từ 1 giờ trở lên; cleanup idempotent.
-- [ ] AC-18 Logs không chứa full document text, raw bytes, secret, absolute storage path hoặc unsafe original filename.
-- [ ] AC-19 Tests chỉ dùng synthetic fixtures, chạy offline và không gọi model/API/mạng.
-- [ ] AC-20 Toàn bộ 85 existing AI-001/AI-002/AI-003/DOC-001 regression tests và APP-001 tests đều pass; `git diff --check` pass.
-- [ ] AC-21 Diff implementation chỉ chứa paths được Human phê duyệt; không cache, upload, generated artefact, secret, PII hoặc dữ liệu nghiên cứu thật.
-- [ ] AC-22 Gemini independent review và Human approval/merge phải có bằng chứng trước khi APP-001 được ghi `Completed`.
+- [x] AC-01 FastAPI application import/khởi động thành công bằng Python 3.12 và dependency manifest dùng exact pins được duyệt.
+- [x] AC-02 `GET /health` trả `200` và chính xác `{"status":"ok"}`.
+- [x] AC-03 Upload một PDF text-based synthetic hợp lệ trả `201` và safe metadata.
+- [x] AC-04 Upload một DOCX synthetic hợp lệ trả `201` và safe metadata.
+- [x] AC-05 Zero-byte, thiếu file hoặc nhiều file bị từ chối bằng safe structured error.
+- [x] AC-06 File lớn hơn 10 MiB bị từ chối `413` trước parser/AI processing.
+- [x] AC-07 Unsupported extension/MIME/signature bị từ chối và mismatch giữa ba tín hiệu bị phát hiện.
+- [x] AC-08 Corrupt PDF/DOCX bị từ chối; không có stack trace hoặc local path trong response.
+- [x] AC-09 PDF hoặc DOCX encrypted/password-protected bị từ chối.
+- [x] AC-10 PDF trên 50 trang bị từ chối.
+- [x] AC-11 PDF không có extractable text layer bị từ chối là scanned/unsupported; không OCR.
+- [x] AC-12 DOCX macro-enabled/VBA, embedded object hoặc external relationship bị từ chối.
+- [x] AC-13 DOCX page count không được tuyên bố exact; test/doc ghi rõ giới hạn này.
+- [x] AC-14 Filename traversal/control characters không thoát storage root và không được dùng làm storage path.
+- [x] AC-15 Server-generated document/storage ID là opaque, unique trong test run và không lộ absolute path.
+- [x] AC-16 Temporary bytes của mọi validation failure được xóa ngay.
+- [x] AC-17 Success-path artefact được xóa sau downstream completion và TTL sweep xóa artefact từ 1 giờ trở lên; cleanup idempotent.
+- [x] AC-18 Logs không chứa full document text, raw bytes, secret, absolute storage path hoặc unsafe original filename.
+- [x] AC-19 Tests chỉ dùng synthetic fixtures, chạy offline và không gọi model/API/mạng.
+- [x] AC-20 Toàn bộ 85 existing AI-001/AI-002/AI-003/DOC-001 regression tests và 24 APP-001 tests đều pass (109/109 tổng); `git diff --check` pass.
+- [x] AC-21 Diff implementation chỉ chứa paths được Human phê duyệt; không cache, upload, generated artefact, secret, PII hoặc dữ liệu nghiên cứu thật.
+- [x] AC-22 Gemini independent review `PASS` và Human approval/merge có bằng chứng: PR #10, merge commit `0df4814ff1eb8cd576566ac3dd403131feca3759`.
 
-## 10. Proposed test commands
+## 10. Validation commands
 
 ```powershell
 $env:PYTHONDONTWRITEBYTECODE="1"
@@ -145,12 +144,14 @@ $env:PYTHONDONTWRITEBYTECODE="1"
 git diff --check
 ```
 
-## 11. Open blockers and non-blockers
+## 11. Resolved prerequisites and remaining boundaries
 
-### Blockers before implementation
+### Resolved prerequisites
 
-- Human phê duyệt APP-001 scope, API/error contract, dependency pins và planned file list.
-- Human xác nhận local ephemeral storage chỉ dùng synthetic data cho APP-001; real research data tiếp tục bị cấm trước security acceptance.
+- Human đã phê duyệt APP-001 scope, API/error contract, dependency pins và planned file list.
+- Human đã xác nhận local ephemeral storage chỉ dùng synthetic data cho APP-001; real research data tiếp tục bị cấm trước security acceptance.
+- Gemini 3.1 Pro High review `PASS`: 22 acceptance criteria pass, 0 failed, 0 unverifiable; Security `PASS`; Scope `PASS`; không có blocker hoặc required remediation.
+- Human / Product Owner đã approve và merge PR #10 ngày 20/09/2026.
 
 ### Non-blockers for APP-001
 
@@ -160,4 +161,4 @@ git diff --check
 
 ## 12. Completion rule
 
-Tài liệu này không phải implementation approval. APP-001 chỉ được bắt đầu sau Human approval riêng và chỉ được ghi `Completed` khi AC-01…AC-22 có bằng chứng phù hợp.
+APP-001 đáp ứng AC-01…AC-22 và được ghi `Completed — Merged via PR #10`. Evidence: specification PR #9/merge `1bf957162eba78c069d3ba976af7fe1d174cab30`; implementation PR #10/head `bd39b9f7bdd9f7a1796d9a405e7998070e124e07`; merge commit `0df4814ff1eb8cd576566ac3dd403131feca3759`; Gemini review `PASS`; Python 3.12.10; 109/109 tests pass; `pip check` và `git diff --check` pass. `StarletteDeprecationWarning` về `httpx`/`httpx2` là non-blocking `NOTE`; không có dependency change trong closeout này. Việc hoàn tất APP-001 không phê duyệt hoặc bắt đầu task tiếp theo.
