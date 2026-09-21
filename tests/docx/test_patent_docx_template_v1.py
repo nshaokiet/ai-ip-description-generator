@@ -1,4 +1,5 @@
 import copy
+import hashlib
 import importlib.util
 import json
 import re
@@ -309,17 +310,37 @@ class PatentDocxTemplateV1Tests(unittest.TestCase):
         self.assertNotEqual(0, result.returncode)
 
     def test_ai_technical_artefacts_are_not_modified(self):
-        result = subprocess.run(
-            ["git", "status", "--short"], cwd=ROOT, capture_output=True, text=True, check=True
+        protected_roots = (
+            ROOT / "schemas/invention-output",
+            ROOT / "schemas/patent-draft",
+            ROOT / "prompts/extraction",
+            ROOT / "prompts/draft-generation",
+            ROOT / "tests/schema",
+            ROOT / "tests/prompt",
+            ROOT / "tests/draft",
+            ROOT / "tests/fixtures/invention-output",
+            ROOT / "tests/fixtures/extraction-prompt",
+            ROOT / "tests/fixtures/patent-draft",
         )
-        forbidden_prefixes = (
-            "schemas/invention-output/", "schemas/patent-draft/", "prompts/extraction/",
-            "prompts/draft-generation/", "tests/schema/", "tests/prompt/", "tests/draft/",
-            "tests/fixtures/invention-output/", "tests/fixtures/extraction-prompt/",
-            "tests/fixtures/patent-draft/", "backend/", "frontend/", ".github/",
-        )
-        changed = [line[3:].replace("\\", "/") for line in result.stdout.splitlines() if len(line) > 3]
-        self.assertFalse([path for path in changed if path.startswith(forbidden_prefixes)])
+
+        def snapshot():
+            return {
+                path.relative_to(ROOT).as_posix(): hashlib.sha256(path.read_bytes()).hexdigest()
+                for root in protected_roots
+                for path in root.rglob("*")
+                if path.is_file()
+            }
+
+        before = snapshot()
+        output = self.output_dir / "technical-artefact-mutation-check.docx"
+        try:
+            self.renderer.render_patent_docx(
+                FIXTURE_ROOT / "representative-context.json",
+                output,
+            )
+            self.assertEqual(before, snapshot())
+        finally:
+            output.unlink(missing_ok=True)
 
 
 if __name__ == "__main__":

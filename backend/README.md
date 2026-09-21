@@ -1,4 +1,4 @@
-# APP-001/APP-002 FastAPI backend
+# APP-001/APP-002 backend and AI-RUNTIME-001 internal extraction
 
 Local, single-tenant skeleton for secure synthetic PDF/DOCX upload validation.
 It does not call a model, OCR service, database, cloud storage, or network API.
@@ -61,10 +61,42 @@ on process restart, and is cleaned when storage deletion or TTL sweep removes a 
 Missing backing files and parsing failures return safe internal errors without source
 content, bytes, tracebacks, or absolute paths.
 
+## Internal OpenAI extraction runtime
+
+AI-RUNTIME-001 adds `OpenAIExtractionRuntime.run_extraction(envelope)` as an internal,
+stateless boundary. It loads the canonical AI-002 prompt and AI-001 schema from their
+versioned repository paths, derives a strict OpenAI provider schema, calls the Responses
+API once with `gpt-5.6-sol`, reasoning `high`, `store=False`, no tools/retrieval, and then
+runs nullable normalization, canonical Draft 2020-12 validation, and deterministic
+grounding/business validation.
+
+Production policy fixes SDK retries at 2, timeout default at 180 seconds, and the approved
+maximum output budget at 48,000 tokens. Configure only through backend environment:
+
+```powershell
+$env:OPENAI_API_KEY="<backend-secret>"
+$env:OPENAI_TIMEOUT_SECONDS="180"
+$env:OPENAI_MAX_OUTPUT_TOKENS="48000"
+```
+
+Do not use real research data: auth/private production storage/vendor-data acceptance
+remains open. Runtime logs contain only safe operational identifiers/status/counters and
+never source units, canonical prompt, full provider output, evidence excerpts, secrets,
+authorization headers, or local paths.
+
 ## Tests
 
 ```powershell
 $env:PYTHONDONTWRITEBYTECODE="1"
 .\.venv\Scripts\python.exe -m unittest discover -s tests/backend -p "test_*.py" -v
 ```
+
+The live smoke test is synthetic and opt-in. It is not part of default discovery:
+
+```powershell
+$env:RUN_OPENAI_LIVE_TESTS="1"
+.\.venv\Scripts\python.exe -m unittest tests.live.test_openai_extraction_runtime_live -v
+```
+
+If `OPENAI_API_KEY` is absent, report the live test as not run; never fabricate a PASS.
 
