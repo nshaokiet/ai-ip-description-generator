@@ -6,13 +6,18 @@
 |---|---|
 | Task ID | AI-RUNTIME-001 |
 | Specification version | 1.0.0 |
-| Status | F-001 Remediated — Awaiting Targeted Re-review |
+| Status | Completed — Merged via PR #14 |
 | Owner | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High + Human / Product Owner |
-| Human decision | APPROVED — 21/09/2026 |
+| Human specification approval | APPROVED — 21/09/2026 |
+| Human merge decision | APPROVED FOR MERGE — 21/09/2026 |
 | Approved baseline | `f8070a5c94290ff44c65bc1b0831458662e14e11` |
 | Specification review | Initial `REQUEST CHANGES`; targeted re-review `PASS`; no remaining blocker |
-| Implementation review | `PASS WITH NON-BLOCKING NOTES`; F-001 `MEDIUM` remediated; F-002 `NOTE` live smoke remains not run |
+| Implementation review | `PASS WITH NON-BLOCKING NOTES`; F-001 `MEDIUM` remediated and targeted re-review `PASS`; F-002 `NOTE` live smoke remains not run |
+| Implementation PR | [#14](https://github.com/nshaokiet/ai-ip-description-generator/pull/14) |
+| Remediation commit | `5247cbcbe591d8b29917d9982b9066e393901c7e` |
+| Merge commit | `597f6c7b074eb2c5e445790b8c4f48f336f04da5` |
+| Merge date | 21/09/2026 |
 
 ## Objective
 
@@ -29,6 +34,18 @@ AI-002 Extraction Input Envelope
 ```
 
 Provider output is never canonical truth until both canonical and grounding/business validation succeed.
+
+## Review and merge closeout
+
+- Gemini specification review: initial `REQUEST CHANGES`; targeted specification re-review `PASS`.
+- Gemini implementation review: `PASS WITH NON-BLOCKING NOTES`.
+- F-001 (`MEDIUM`): optional input `sha256` could trigger an uncontrolled `KeyError`; accepted and resolved by remediation commit `5247cbcbe591d8b29917d9982b9066e393901c7e`.
+- Targeted remediation re-review: `PASS`; AC-19 `PASS`.
+- F-002 remains a non-blocking `NOTE`: live provider smoke was `NOT RUN — OPENAI_API_KEY not available`.
+- Human / Product Owner decision: `APPROVED FOR MERGE`.
+- PR #14 merged on 21/09/2026 at `597f6c7b074eb2c5e445790b8c4f48f336f04da5`.
+- Final task state: `Completed — Merged via PR #14`.
+- Acceptance criteria: 32/32 `PASS`.
 
 ## Scope
 
@@ -154,3 +171,4 @@ $env:RUN_OPENAI_LIVE_TESTS="1"
 - Aggregate: 201 executed / 200 pass / 1 skip / 0 failure/error.
 - Live provider smoke: `NOT RUN — OPENAI_API_KEY not available`.
 - Canonical AI-001 schema and AI-002 prompt have no diff.
+- Human / Product Owner approved and merged PR #14 on 21/09/2026; merge commit `597f6c7b074eb2c5e445790b8c4f48f336f04da5`.

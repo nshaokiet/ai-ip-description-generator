@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | SPEC-001 |
 | Document title | Đặc tả hệ thống — AI Intellectual Property Description Generator |
-| Version | 0.3.3 |
+| Version | 0.3.4 |
 | Status | Approved baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -38,6 +38,7 @@
 | 0.3.0 | 0.3.1 | 20/09/2026 | ChatGPT/Codex | Đồng bộ trạng thái APP-001 sau Gemini PASS và Human merge PR #10 | Post-merge governance closeout; không thay đổi requirement hoặc API contract đã duyệt | APP-001, REV-APP-001, PR #10, merge commit `0df4814ff1eb8cd576566ac3dd403131feca3759` | No |
 | 0.3.1 | 0.3.2 | 21/09/2026 | ChatGPT/Codex | Đồng bộ trạng thái APP-002 sau remediation, Gemini targeted PASS và Human merge PR #12 | Post-merge governance closeout; không thay đổi requirement hoặc API contract đã duyệt | APP-002, REV-APP-002, PR #12, merge commit `4a001d116cbf002bdd42a9151efbf3f308fce3e6` | No |
 | 0.3.2 | 0.3.3 | 21/09/2026 | ChatGPT/Codex | Ghi AI-RUNTIME-001 internal OpenAI extraction runtime, provider adapter và validation boundary đã triển khai, chờ independent review | Đồng bộ Human-approved runtime specification và ADR-010 | AI-RUNTIME-001, ADR-010 | No |
+| 0.3.3 | 0.3.4 | 21/09/2026 | ChatGPT/Codex | Ghi AI-RUNTIME-001 Completed sau F-001 remediation, targeted PASS và Human merge PR #14 | Post-merge governance closeout; không đổi technical specification | AI-RUNTIME-001, REV-AI-RUNTIME-001, PR #14, merge commit `597f6c7b074eb2c5e445790b8c4f48f336f04da5` | No |
 
 ## 3. Tổng quan
 
@@ -216,7 +217,7 @@ Trạng thái `Draft — cần xác nhận` nghĩa là requirement được đ�
 | FR-001 | Upload PDF/DOCX | Nhận đúng một PDF có text hoặc DOCX cho local single-tenant APP-001 | End User | Multipart file | Safe document metadata | Must | ADR-001, APP-001 | Từ chối zero/multiple/unsupported file; không lộ local path | Implemented and verified in APP-001; merged via PR #10 |
 | FR-002 | File validation | Xác minh extension, MIME, signature, parser readability, encryption và unsafe package content | System | File | Validation result | Must | FR-001 | File giả định dạng, hỏng, encrypted, scanned PDF hoặc unsafe DOCX bị từ chối | Implemented and verified in APP-001; merged via PR #10 |
 | FR-003 | Kiểm tra giới hạn | Áp 10 MiB cho PDF/DOCX và 50 trang cho PDF | System | File bytes/pages | Pass/fail | Must | FR-001 | File `>10 MiB` hoặc PDF `>50` trang bị từ chối; DOCX exact pagination nằm ngoài APP-001 | Implemented and verified in APP-001; merged via PR #10 |
-| FR-004 | Phân tích tài liệu | Điều phối deterministic parsing/evidence preparation rồi internal AI extraction | System | Valid document | Evidence envelope rồi validated analysis | Must | FR-002, AI-002, AI-RUNTIME-001 | Parsing giữ source order; runtime fail-closed qua provider, canonical và grounding validation | Internal extraction implemented — awaiting independent review; public orchestration remains Draft |
+| FR-004 | Phân tích tài liệu | Điều phối deterministic parsing/evidence preparation rồi internal AI extraction | System | Valid document | Evidence envelope rồi validated analysis | Must | FR-002, AI-002, AI-RUNTIME-001 | Parsing giữ source order; runtime fail-closed qua provider, canonical và grounding validation | Internal extraction Completed — Merged via PR #14; public orchestration remains Draft |
 | FR-005 | Structured extraction | Sinh JSON theo schema có version | System, AI | Parsed content | Structured JSON | Must | FR-004, AI-001 | JSON hợp lệ theo đúng schema version | Draft — cần xác nhận |
 | FR-006 | Trích xuất vấn đề kỹ thuật | Nhận diện vấn đề có evidence | AI, Human | Evidence chunks | Technical problems | Must | FR-005 | Mỗi mục có evidence hoặc nhãn phù hợp | Draft — cần xác nhận |
 | FR-007 | Trích xuất giải pháp kỹ thuật | Nhận diện giải pháp và quan hệ với vấn đề | AI, Human | Evidence chunks | Technical solutions | Must | FR-005 | Không tạo giải pháp không có căn cứ | Draft — cần xác nhận |
@@ -310,7 +311,7 @@ Luồng kiến trúc định hướng:
 10. **Human review:** chỉnh sửa, xác nhận hoặc yêu cầu làm lại.
 11. **Export:** render version đã chọn và lưu audit event.
 
-Trạng thái triển khai hiện hành đạt `PDF/DOCX → APP-001 validation → APP-002 parsing/evidence envelope → AI-RUNTIME-001 OpenAI Structured Output → nullable normalization → canonical/grounding validation → validated Structured Invention Analysis`. AI-RUNTIME-001 là internal service đang chờ independent review; public analyze endpoint/orchestration, draft runtime integration, DOCX export API, frontend và end-to-end workflow chưa được triển khai.
+Trạng thái triển khai hiện hành đạt `PDF/DOCX → APP-001 validation → APP-002 parsing/evidence envelope → AI-RUNTIME-001 OpenAI Structured Output → nullable normalization → canonical/grounding validation → validated Structured Invention Analysis`. AI-RUNTIME-001 là internal service `Completed — Merged via PR #14`; live provider smoke chưa chạy. Public analyze endpoint/orchestration, draft runtime integration, DOCX export API, frontend và end-to-end workflow chưa được triển khai.
 
 AI-RUNTIME-001 dùng OpenAI Responses API, `gpt-5.6-sol`, reasoning `high`, `openai==3.16.2`, `store=false`, timeout mặc định 180 giây, SDK retries 2 và `max_output_tokens=48000`. Canonical AI-001 schema không đổi; provider schema được sinh deterministically và canonical/business post-validation là authority cuối cùng. Runtime không có tools, retrieval, conversation, background mode hoặc repair model call.
 
@@ -527,8 +528,8 @@ Ngày hoàn thành từng phase: `[CẦN XÁC NHẬN]`. Mục tiêu hoàn thành
 2. Private production storage nào được dùng trước khi Supabase/PostgreSQL được phê duyệt?
 3. Retention cho source, derived data, export, logs và backup production là bao lâu? APP-001 local TTL đã khóa tối đa 1 giờ.
 6. Có malware scanning trong MVP không?
-7. Model OpenAI, giới hạn chi phí, timeout và retry policy là gì?
-8. Sử dụng File Search hay backend parsing/chunking cho từng loại tài liệu?
+7. Model/cost policy cho draft runtime hoặc task AI tương lai là gì? Extraction Runtime v1 đã được khóa riêng qua AI-RUNTIME-001/ADR-010.
+8. Retrieval policy cho draft runtime hoặc task tương lai là gì? Extraction Runtime v1 không dùng File Search/Web Search/external retrieval.
 9. Nếu Human mở lại Claims sau MVP/scope change, số lượng, loại và cấu trúc được phép là gì?
 10. Có bắt buộc mọi section được Human approve trước export không?
 11. PDF, QA report và claim mapping có thuộc MVP không?
