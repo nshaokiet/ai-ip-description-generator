@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import copy
-import json
 from collections.abc import Mapping
 from typing import Any
 
@@ -31,6 +30,17 @@ def _transform_node(node: Any, root: Mapping[str, Any], path: tuple[str, ...]) -
         return [_transform_node(item, root, path + (str(index),)) for index, item in enumerate(node)]
     if not isinstance(node, dict):
         return copy.deepcopy(node)
+
+    if "$ref" in node:
+        reference = node["$ref"]
+        if not isinstance(reference, str) or not reference.startswith("#/"):
+            raise DraftProviderSchemaError(f"only local JSON Pointer references are supported: {reference}")
+        target = root
+        for token in reference[2:].split("/"):
+            decoded = token.replace("~1", "/").replace("~0", "~")
+            if not isinstance(target, Mapping) or decoded not in target:
+                raise DraftProviderSchemaError(f"unresolvable reference: {reference}")
+            target = target[decoded]
 
     if "allOf" in node:
         compositions = node["allOf"]
@@ -75,10 +85,7 @@ def _transform_node(node: Any, root: Mapping[str, Any], path: tuple[str, ...]) -
                 transformed[key] = _transform_node(value, root, path + (key,))
             continue
         if key == "oneOf":
-            if "anyOf" in node:
-                raise DraftProviderSchemaError(f"combined oneOf/anyOf at {_display_path(path)}")
-            transformed["anyOf"] = _transform_node(value, root, path + ("anyOf",))
-            continue
+            raise DraftProviderSchemaError(f"unsupported oneOf at {_display_path(path)}")
         if key == "anyOf" and _is_presence_constraint(value):
             continue
         transformed[key] = _transform_node(value, root, path + (key,))

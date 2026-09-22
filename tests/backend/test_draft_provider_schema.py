@@ -26,6 +26,51 @@ def test_canonical_schema_projects_successfully():
     # 1. canonical schema non-mutation
     assert canonical == canonical_copy
 
+    # 3. recursively verify projected schema
+    def walk_verify(node):
+        if isinstance(node, list):
+            for item in node:
+                walk_verify(item)
+            return
+        if not isinstance(node, dict):
+            return
+
+        unsupported = {"if", "then", "else", "not", "contains", "prefixItems", "uniqueItems", "oneOf", "allOf"}
+        assert not unsupported.intersection(node), f"Found unsupported keywords in node: {node}"
+        if "items" in node:
+            assert node["items"] is not False
+
+        if "properties" in node:
+            assert node.get("type") == "object"
+            assert node.get("additionalProperties") is False
+            assert set(node.get("required", [])) == set(node["properties"])
+
+        for value in node.values():
+            walk_verify(value)
+
+    walk_verify(provider1)
+
+    draft_sections = provider1["properties"]["draft_sections"]
+    assert draft_sections["minItems"] == 6
+    assert draft_sections["maxItems"] == 6
+    assert "prefixItems" not in draft_sections
+    assert draft_sections["items"] is not False
+    assert "anyOf" in draft_sections["items"]
+
+    section_order = provider1["properties"]["section_order"]
+    assert section_order["type"] == "array"
+    assert section_order["minItems"] == 11
+    assert section_order["maxItems"] == 11
+    assert "enum" in section_order["items"]
+    assert "COVER_AND_DRAFT_NOTICE" in section_order["items"]["enum"]
+
+    evidence_locator = provider1["$defs"]["evidence_locator"]
+    assert "anyOf" not in evidence_locator
+    assert "page" in evidence_locator["properties"]
+    assert evidence_locator["properties"]["page"]["type"] == ["integer", "null"]
+    assert "page" in evidence_locator["required"]
+
+
 def test_optional_becomes_nullable_required_and_required_is_not_nullable():
     """3. all provider object properties required, 4. optional nullable, 5. required strict"""
     canonical = {
@@ -57,6 +102,28 @@ def test_local_ref_behavior():
     }
     provider = build_draft_provider_schema(canonical)
     assert provider["properties"]["nested"] == {"$ref": "#/$defs/target"}
+
+def test_local_ref_fail_closed():
+    """F-B01: unresolved local refs and external refs fail closed"""
+    canonical_unresolved = {
+        "type": "object",
+        "properties": {
+            "val": {"$ref": "#/$defs/missing"}
+        },
+        "required": ["val"]
+    }
+    with pytest.raises(DraftProviderSchemaError, match="unresolvable reference"):
+        build_draft_provider_schema(canonical_unresolved)
+
+    canonical_external = {
+        "type": "object",
+        "properties": {
+            "val": {"$ref": "http://example.com/schema.json"}
+        },
+        "required": ["val"]
+    }
+    with pytest.raises(DraftProviderSchemaError, match="only local JSON Pointer references are supported"):
+        build_draft_provider_schema(canonical_external)
 
 def test_compositional_allof_compatible_merge():
     """7. compositional allOf compatible merge"""
@@ -289,3 +356,17 @@ def test_evidence_locator_presence_constraint():
     assert p["properties"]["page"]["type"] == ["integer", "null"]
     # anyOf presence constraint is preserved but optional properties were resolved safely
     assert "anyOf" not in p
+
+def test_oneof_fails_closed():
+    """F-B02: oneOf must fail closed"""
+    canonical = {
+        "type": "object",
+        "properties": {
+            "val": {
+                "oneOf": [{"type": "string"}, {"type": "integer"}]
+            }
+        },
+        "required": ["val"]
+    }
+    with pytest.raises(DraftProviderSchemaError, match="unsupported oneOf"):
+        build_draft_provider_schema(canonical)
