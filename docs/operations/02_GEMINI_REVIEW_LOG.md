@@ -1465,7 +1465,7 @@ Review độc lập, khách quan đặc tả kỹ thuật APP-003 Internal Core 
 
 - `docs/tasks/APP-003-core-pipeline-orchestration.md` (v1.0.0, v1.1.0, v1.2.0)
 - `backend/app/services/document_storage.py` (kiểm tra hành vi `DocumentStorage.delete` và `path_for` với ngoại lệ `ValueError`)
-- `backend/app/services/preparation_service.py` (APP-002 contract)
+- `backend/app/services/document_parsing.py` (`DocumentPreparationService`, APP-002 contract)
 - `backend/app/services/extraction_runtime.py` (AI-RUNTIME-001 contract)
 - `backend/app/services/draft_runtime.py` (AI-RUNTIME-002 contract)
 - `docs/system-specification.md`, `PROJECT_CONTEXT.md`, `AGENTS.md`, ADR-001 đến ADR-010.
@@ -1473,18 +1473,22 @@ Review độc lập, khách quan đặc tả kỹ thuật APP-003 Internal Core 
 #### 3. Summary
 
 Vòng đời rà soát đặc tả APP-003 bao gồm:
-1. **Initial review (v1.0.0):** Gemini 3.1 Pro High kết luận `REQUEST CHANGES` với 2 findings: F-001 (xung đột chính sách dọn dẹp nguồn: đặc tả ban đầu đề xuất cờ `cleanup_source: bool = True` cho phép caller tắt dọn dẹp, vi phạm hợp đồng bảo vệ dữ liệu APP-001) và F-002 (hợp đồng tất định AC-26 so sánh cả trường viễn thám thời gian).
-2. **Remediation & Re-review (v1.1.0):** Gemini 3.8 Flash High khắc phục triệt để F-001 (xóa bỏ cờ tắt dọn dẹp, bắt buộc best-effort source cleanup) và F-002 (loại trừ trường viễn thám khỏi kiểm tra tất định). Gemini 3.1 Pro High re-review kết luận `PASS` kèm 3 residual non-blocking hardening notes (H-001, H-002, H-003).
-3. **Final Hardening & Targeted Re-review (v1.2.0):** Gemini 3.8 Flash High xử lý hoàn tất H-001 (bổ sung helper `_cleanup_source` đảm bảo an toàn ngoại lệ, ngăn ngoại lệ storage masking lỗi nghiệp vụ), H-002 (loại bỏ đường dẫn tuyệt đối Python 3.14, môi trường hóa độc lập cho Python 3.12.x), và H-003 (tinh chỉnh AC-29 phân biệt route nghiệp vụ với OpenAPI docs routes của framework). Gemini 3.1 Pro High thực hiện targeted re-review và kết luận `PASS`.
-4. **Human Decision & Merge:** Human / Product Owner chính thức phê duyệt Specification v1.2.0 và merge PR #18 vào `main` tại merge commit `bfbcdc760916f497b603bcd49ce0150d6819d337`.
+1. **Initial review (v1.0.0):** Gemini 3.1 Pro High kết luận `REQUEST CHANGES` với 2 findings chính: F-001 (xung đột chính sách dọn dẹp nguồn: đặc tả ban đầu đề xuất cờ `cleanup_source: bool = False` giữ lại tài liệu nguồn theo mặc định và để lại cho TTL, vi phạm hợp đồng dọn dẹp bắt buộc ngay sau xử lý của APP-001) và F-002 (hợp đồng tất định AC-26 so sánh cả trường viễn thám thời gian).
+2. **Remediation & Re-review (v1.1.0):** Gemini 3.8 Flash High khắc phục triệt để F-001 (xóa bỏ cờ tắt dọn dẹp, bắt buộc best-effort source cleanup) và F-002 (loại trừ trường viễn thám khỏi kiểm tra tất định). Gemini 3.1 Pro High độc lập rà soát lại (independent re-review) và kết luận `PASS`.
+3. **Subsequent Verification & Hardening (v1.2.0):** Quá trình rà soát xác minh điều phối repository tiếp theo của ChatGPT đã xác định thêm 3 hạng mục làm cứng:
+   - H-001: an toàn ngoại lệ khi dọn dẹp nguồn (`DocumentStorage.path_for` có thể ném `ValueError`, cần helper `_cleanup_source` bắt ngoại lệ để không che mờ lỗi nghiệp vụ chính).
+   - H-002: lệnh kiểm thử hồi quy mang tính cục bộ máy phát triển (loại bỏ đường dẫn Python 3.14 tuyệt đối, chuẩn hóa virtualenv Python 3.12 của dự án).
+   - H-003: tinh chỉnh AC-29 phân biệt route nghiệp vụ (`GET /health`, `POST /api/documents`) với route tài liệu kỹ thuật tự sinh của framework FastAPI (`/docs`, `/openapi.json`).
+   Gemini 3.8 Flash High đã triển khai làm cứng tài liệu đặc tả lên v1.2.0.
+4. **Targeted Final Re-review & Merge:** Gemini 3.1 Pro High thực hiện targeted final re-review cho các nội dung làm cứng và kết luận `PASS`. Human / Product Owner chính thức phê duyệt Specification v1.2.0 và merge PR #18 vào `main` tại merge commit `bfbcdc760916f497b603bcd49ce0150d6819d337`.
 
 #### 4. Findings
 
-- **F-001 (v1.0.0, HIGH):** Caller option to disable source cleanup conflicted with APP-001 mandatory cleanup policy. -> **RESOLVED** in v1.1.0 by removing caller retention switch and mandating best-effort cleanup.
-- **F-002 (v1.0.0, MEDIUM):** AC-26 determinism asserted strict equality on volatile telemetry/timing fields. -> **RESOLVED** in v1.1.0 by excluding telemetry from determinism assertions.
-- **H-001 (v1.1.0, LOW/NOTE):** Storage delete might raise unhandled `ValueError` from `path_for` masking primary pipeline errors. -> **RESOLVED** in v1.2.0 via `_cleanup_source` safe helper and updated AC-21.
-- **H-002 (v1.1.0, LOW/NOTE):** Machine-specific Python 3.14 path in regression script. -> **RESOLVED** in v1.2.0 by standardizing on project virtualenv Python 3.12.
-- **H-003 (v1.1.0, LOW/NOTE):** AC-29 needed clarification to exclude FastAPI framework documentation routes (`/docs`, `/openapi.json`). -> **RESOLVED** in v1.2.0.
+- **F-001 (v1.0.0):** Caller option to disable source cleanup (`cleanup_source: bool = False`) conflicted with APP-001 mandatory cleanup policy. -> **RESOLVED** in v1.1.0 by removing caller retention switch and mandating best-effort cleanup.
+- **F-002 (v1.0.0):** AC-26 determinism asserted strict equality on volatile telemetry/timing fields. -> **RESOLVED** in v1.1.0 by excluding telemetry from determinism assertions.
+- **H-001 (v1.2.0 hardening):** Storage delete might raise unhandled `ValueError` from `path_for` masking primary pipeline errors. -> **RESOLVED** in v1.2.0 via `_cleanup_source` safe helper and updated AC-21.
+- **H-002 (v1.2.0 hardening):** Machine-specific Python 3.14 path in regression script. -> **RESOLVED** in v1.2.0 by standardizing on project virtualenv Python 3.12.
+- **H-003 (v1.2.0 hardening):** AC-29 needed clarification to exclude FastAPI framework documentation routes (`/docs`, `/openapi.json`). -> **RESOLVED** in v1.2.0.
 
 #### 5. Source-Grounding Issues
 
@@ -1531,7 +1535,7 @@ Version: Specification 1.2.0; merge commit bfbcdc760916f497b603bcd49ce0150d6819d
 Work completed: Complete independent review lifecycle for APP-003 specification: initial REQUEST CHANGES, remediation v1.1.0, final hardening v1.2.0 PASS; Human / Product Owner approved Specification v1.2.0 and merged PR #18.
 Files affected: docs/tasks/APP-003-core-pipeline-orchestration.md; docs/operations/01_PROJECT_CONTROL_CENTER.md; docs/operations/02_GEMINI_REVIEW_LOG.md; PROJECT_CONTEXT.md; README.md.
 Evidence checked: PR #18 merged into main at bfbcdc760916f497b603bcd49ce0150d6819d337; git diff --check PASS; zero production code or tests modified.
-Findings: All findings F-001, F-002 and hardening notes H-001, H-002, H-003 resolved; REV-APP-003 CLOSED.
+Findings: All findings F-001, F-002 and hardening items H-001, H-002, H-003 resolved; REV-APP-003 CLOSED.
 Decisions: Specification v1.2.0 approved and merged. Implementation deferred to 26/09/2026 for Codex execution.
 Issues: Implementation NOT STARTED; BLK-003 remains open; live provider smoke remains deferred due to lack of API funding.
 Security impact: Mandatory safe cleanup mitigates disk retention risk; no secrets or confidential paper data exposed.
