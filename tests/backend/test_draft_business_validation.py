@@ -28,12 +28,6 @@ def test_all_fixtures_pass(fixture_name):
     source_analysis = data["input"]["source_analysis"]
     draft = data["expected_output"]
     title_id = data["input"]["generation_config"].get("selected_title_candidate_id")
-@pytest.mark.parametrize("fixture_name", FIXTURE_FILES)
-def test_all_fixtures_pass(fixture_name):
-    data = load_fixture(fixture_name)
-    source_analysis = data["input"]["source_analysis"]
-    draft = data["expected_output"]
-    title_id = data["input"]["generation_config"].get("selected_title_candidate_id")
     try:
         validate_draft_business_rules(draft, source_analysis, selected_title_candidate_id=title_id)
     except DraftBusinessValidationError as e:
@@ -142,7 +136,7 @@ def test_global_logical_id_uniqueness_source():
 
 def test_source_cross_reference_defensive_check():
     def mod(d, s): s["technical_solutions"][0]["addresses_problem_ids"].append("wrong-id")
-    run_failure_test(mod, ["source_analysis/technical_solutions/0/addresses_problem_ids/1"])
+    run_failure_test(mod, ["/source_analysis/technical_solutions/0/addresses_problem_ids/1"])
 
 def test_draft_reference_integrity():
     def mod(d, s): d["missing_information"].append({
@@ -270,3 +264,138 @@ def test_missing_section_missing_marker():
         d["draft_sections"][1]["missing_information_ids"] = ["m1"]
     run_failure_test(mod, ["/draft_sections/1/marker"])
 
+# === F-D01: TITLE SELECTION POLICY ===
+def test_fd01_valid_selected_id_pass():
+    # Already tested by representative.json (title-calibration, PRESENT)
+    data = load_fixture("representative.json")
+    validate_draft_business_rules(data["expected_output"], data["input"]["source_analysis"], selected_title_candidate_id="title-calibration")
+
+def test_fd01_invalid_selected_id_missing_correct_pass():
+    def mod(d, s):
+        d["selected_title"] = {
+            "status": "MISSING",
+            "marker": "[AUTHOR CONFIRMATION REQUIRED]",
+            "missing_information_ids": ["m2"]
+        }
+        d["missing_information"].append({
+            "missing_id": "m2", "origin": "DRAFT_VALIDATION", "rule_id": "TITLE_SELECTION_REQUIRED",
+            "target_path": "/selected_title", "description": "", "reason": "NOT_FOUND", "impact": "HIGH", "owner": "AUTHOR",
+            "grounding_label": "MISSING", "affected_section_ids": ["TITLE"]
+        })
+        for ev in d["evidence_appendix"]:
+            ev["usage_references"] = [u for u in ev["usage_references"] if u["target_type"] != "SELECTED_TITLE"]
+    # Passing an invalid candidate ID should still pass if draft handles it properly
+    # Using modifier to change draft, we catch if it throws
+    data = load_fixture("representative.json")
+    draft = copy.deepcopy(data["expected_output"])
+    source = copy.deepcopy(data["input"]["source_analysis"])
+    mod(draft, source)
+    validate_draft_business_rules(draft, source, selected_title_candidate_id="invalid-cand-id")
+
+def test_fd01_invalid_selected_id_present_fail():
+    def mod(d, s): pass # Draft retains PRESENT status for title
+    run_failure_test(mod, ["/selected_title/status"], title_id="invalid-cand-id")
+
+def test_fd01_absent_selected_id_missing_correct_pass():
+    def mod(d, s):
+        d["selected_title"] = {
+            "status": "MISSING",
+            "marker": "[AUTHOR CONFIRMATION REQUIRED]",
+            "missing_information_ids": ["m2"]
+        }
+        d["missing_information"].append({
+            "missing_id": "m2", "origin": "DRAFT_VALIDATION", "rule_id": "TITLE_SELECTION_REQUIRED",
+            "target_path": "/selected_title", "description": "", "reason": "NOT_FOUND", "impact": "HIGH", "owner": "AUTHOR",
+            "grounding_label": "MISSING", "affected_section_ids": ["TITLE"]
+        })
+        for ev in d["evidence_appendix"]:
+            ev["usage_references"] = [u for u in ev["usage_references"] if u["target_type"] != "SELECTED_TITLE"]
+    data = load_fixture("representative.json")
+    draft = copy.deepcopy(data["expected_output"])
+    source = copy.deepcopy(data["input"]["source_analysis"])
+    mod(draft, source)
+    validate_draft_business_rules(draft, source, selected_title_candidate_id=None)
+
+# === F-D02: TYPED SOURCE CROSS-REFERENCE VALIDATION ===
+def test_fd02_wrong_source_collection():
+    def mod(d, s):
+        # Use a component ID where a problem ID is expected
+        comp_id = s["components"][0]["component_id"]
+        s["technical_solutions"][0]["addresses_problem_ids"].append(comp_id)
+    run_failure_test(mod, ["/source_analysis/technical_solutions/0/addresses_problem_ids/1"])
+
+# === F-D03: TYPED DRAFT REFERENCE INTEGRITY ===
+def test_fd03_wrong_draft_collection():
+    def mod(d, s):
+        # Use a conflict ID where a missing ID is expected
+        d["abstract"] = {"status": "MISSING", "marker": "[AUTHOR CONFIRMATION REQUIRED]", "missing_information_ids": ["c1"]}
+        d["conflicts"].append({"conflict_id": "c1", "resolution_status": "UNRESOLVED", "evidence_ids": [s["evidence"][0]["evidence_id"], s["evidence"][1]["evidence_id"]], "author_question_ids": ["q1"], "summary": ""})
+        d["author_questions"].append({"question_id": "q1", "origin": "DRAFT_VALIDATION", "question": "", "priority": "HIGH"})
+    run_failure_test(mod, ["/abstract/missing_information_ids/0"])
+
+# === F-D04: AUTHOR QUESTION SOURCE-MISSING LINKAGE ===
+def test_fd04_no_draft_missing_record():
+    def mod(d, s):
+        d["author_questions"].append({
+            "question_id": "qnew", "origin": "SOURCE_ANALYSIS", "source_question_id": "source-q2",
+            "question": "?", "priority": "HIGH", "source_paths": []
+        })
+        s["author_questions"].append({
+            "question_id": "source-q2", "question": "?", "priority": "HIGH", "missing_information_id": "source-m2"
+        })
+        s["missing_information"] = [{"missing_id": "source-m2", "target_path": "/", "description": "", "reason": "NOT_FOUND", "impact": "HIGH", "owner": "AUTHOR"}]
+        # Draft doesn't have the corresponding missing record
+    run_failure_test(mod, ["/author_questions/0/related_missing_information_ids"])
+
+def test_fd04_draft_missing_record_not_in_related():
+    def mod(d, s):
+        d["author_questions"].append({
+            "question_id": "qnew", "origin": "SOURCE_ANALYSIS", "source_question_id": "source-q2",
+            "question": "?", "priority": "HIGH", "source_paths": [], "related_missing_information_ids": []
+        })
+        s["author_questions"].append({
+            "question_id": "source-q2", "question": "?", "priority": "HIGH", "missing_information_id": "source-m2"
+        })
+        s["missing_information"] = [{"missing_id": "source-m2", "target_path": "/", "description": "", "reason": "NOT_FOUND", "impact": "HIGH", "owner": "AUTHOR"}]
+        d["missing_information"].append({
+            "missing_id": "m2", "origin": "SOURCE_ANALYSIS", "source_missing_information_id": "source-m2",
+            "target_path": "/", "description": "", "reason": "NOT_FOUND", "impact": "HIGH", "owner": "AUTHOR",
+            "grounding_label": "MISSING", "affected_section_ids": ["TITLE"]
+        })
+    run_failure_test(mod, ["/author_questions/0/related_missing_information_ids"])
+
+# === F-D05: DRAWING INVARIANTS ===
+def test_fd05_proposed_missing_human_confirmation_required():
+    def mod(d, s):
+        s["drawing_requirements"][0] = {"drawing_id": "sd1", "kind": "PROPOSED_DRAWING", "status": "PRESENT", "title": "t", "human_confirmation_required": True}
+        d["drawings"][0] = {"drawing_id": "dr1", "source_drawing_id": "sd1", "kind": "PROPOSED_DRAWING", "status": "PRESENT", "title": "t", "evidence_ids": [], "human_confirmation_required": False}
+    run_failure_test(mod, ["/drawings/0/human_confirmation_required"])
+
+# === F-D06: EVIDENCE SOURCE CLOSURE ===
+def test_fd06_fake_evidence_consistently_used():
+    def mod(d, s):
+        d["selected_title"]["grounding"]["evidence_ids"].append("ev-fake")
+        d["evidence_appendix"].append({
+            "evidence_id": "ev-fake", "document_id": "d", "evidence_type": "TEXT", "locator": "l", "excerpt": "e",
+            "usage_references": [{"target_type": "SELECTED_TITLE", "target_id": "title-calibration"}]
+        })
+    run_failure_test(mod, ["/evidence_appendix"])
+
+# === F-D08: JSON POINTER STRICTNESS ===
+def test_fd08_malformed_escape():
+    def mod(d, s):
+        d["selected_title"]["source_paths"].append("/invalid/~2escape")
+    run_failure_test(mod, ["/selected_title/source_paths/1"])
+
+def test_fd08_slash_root_fails():
+    def mod(d, s):
+        # / points to an empty key, which doesn't exist, so it should fail
+        d["selected_title"]["source_paths"].append("/")
+    run_failure_test(mod, ["/selected_title/source_paths/1"])
+
+
+# === F-D07: SELECTED TITLE PROHIBITED SCANNER ===
+def test_fd07_selected_title_prohibited_content():
+    def mod(d, s):
+        d["selected_title"]["text"] += " This is patentable."
+    run_failure_test(mod, ["/selected_title/text"])

@@ -1,7 +1,3 @@
-"""Deterministic business validation for Draft generation."""
-
-from __future__ import annotations
-
 import re
 import unicodedata
 from collections.abc import Iterable, Mapping
@@ -9,8 +5,6 @@ from typing import Any
 
 
 class DraftBusinessValidationError(ValueError):
-    """A fail-closed validation result with content-safe diagnostics for draft business rules."""
-
     def __init__(self, code: str, message: str, *, paths: Iterable[str] = ()) -> None:
         super().__init__(message)
         self.code = code
@@ -19,24 +13,34 @@ class DraftBusinessValidationError(ValueError):
 
 
 def _resolve_json_pointer(doc: Mapping[str, Any], pointer: str) -> Any:
-    """Resolve a JSON Pointer relative to doc."""
-    if not pointer or not pointer.startswith("/"):
+    # F-D08: JSON POINTER STRICTNESS
+    if not isinstance(pointer, str):
+        raise TypeError("Pointer must be a string")
+    if not pointer.startswith("/"):
         raise ValueError("Pointer must start with /")
-    if pointer == "/":
-        return doc
-    parts = pointer.split("/")[1:]
+
+    parts = pointer.split("/")
+    if len(parts) == 2 and parts[1] == "":
+        part = ""
+    else:
+        parts = parts[1:]
+
     current = doc
     for part in parts:
+        if "~" in part:
+            # Check for invalid escapes like ~2
+            if re.search(r"~[^01]", part) or part.endswith("~"):
+                raise ValueError(f"Invalid escape in pointer: {part}")
         part = part.replace("~1", "/").replace("~0", "~")
         if isinstance(current, dict):
             if part not in current:
                 raise KeyError(f"Key '{part}' not found")
             current = current[part]
         elif isinstance(current, list):
-            try:
-                idx = int(part)
-            except ValueError:
+            # strict integer parsing
+            if not re.match(r"^(0|[1-9][0-9]*)$", part):
                 raise ValueError(f"Invalid list index '{part}'")
+            idx = int(part)
             if idx < 0 or idx >= len(current):
                 raise IndexError(f"Index {idx} out of range")
             current = current[idx]
@@ -45,14 +49,13 @@ def _resolve_json_pointer(doc: Mapping[str, Any], pointer: str) -> Any:
     return current
 
 
-def _collect_ids(doc: Any, id_keys: set[str], path: str = "") -> dict[str, list[str]]:
-    """Returns mapping from ID -> list of paths where it was declared."""
-    found = {}
+def _collect_typed_ids(doc: Any, id_keys: set[str], path: str = "") -> dict[str, dict[str, list[str]]]:
+    found = {k: {} for k in id_keys}
     def _visit(node: Any, current_path: str):
         if isinstance(node, dict):
             for k, v in node.items():
                 if k in id_keys and isinstance(v, str):
-                    found.setdefault(v, []).append(f"{current_path}/{k}")
+                    found[k].setdefault(v, []).append(f"{current_path}/{k}")
                 _visit(v, f"{current_path}/{k}")
         elif isinstance(node, list):
             for i, v in enumerate(node):
@@ -98,7 +101,6 @@ def validate_draft_business_rules(
     *,
     selected_title_candidate_id: str | None,
 ) -> None:
-    """Deterministically validate Draft generation business invariants."""
     errors = set()
 
     def _err(path: str):
@@ -121,33 +123,64 @@ def validate_draft_business_rules(
         "conflict_id", "question_id", "evidence_id", "draft_id"
     }
 
-    src_ids = _collect_ids(source_analysis, src_id_keys)
-    for k, paths in src_ids.items():
+    typed_src_ids = _collect_typed_ids(source_analysis, src_id_keys)
+    typed_draft_ids = _collect_typed_ids(draft, draft_id_keys)
+
+    # Check global uniqueness within source and draft
+    all_src_id_values = {}
+    for k, ids_dict in typed_src_ids.items():
+        for id_val, paths in ids_dict.items():
+            all_src_id_values.setdefault(id_val, []).extend(paths)
+    for id_val, paths in all_src_id_values.items():
         if len(paths) > 1:
             for p in paths:
                 _err(f"source_analysis{p}")
 
-    draft_ids = _collect_ids(draft, draft_id_keys)
-    for k, paths in draft_ids.items():
+    all_draft_id_values = {}
+    for k, ids_dict in typed_draft_ids.items():
+        for id_val, paths in ids_dict.items():
+            all_draft_id_values.setdefault(id_val, []).extend(paths)
+    for id_val, paths in all_draft_id_values.items():
         if len(paths) > 1:
             for p in paths:
                 _err(p)
 
-    all_src_ids = set(src_ids.keys())
-    all_draft_ids = set(draft_ids.keys())
+    all_src_ids_set = set(all_src_id_values.keys())
+    all_draft_ids_set = set(all_draft_id_values.keys())
 
-    # 12. SOURCE CROSS-REFERENCE DEFENSIVE CHECK
-    src_ref_keys = {
-        "addresses_problem_ids", "related_component_ids", "input_component_ids",
-        "output_component_ids", "related_step_ids", "related_solution_ids",
-        "component_ids", "process_step_ids", "source_evidence_ids",
-        "missing_information_id", "evidence_ids"
-    }
-    src_refs = _collect_refs(source_analysis, src_ref_keys)
-    for ref, paths in src_refs.items():
-        if ref not in all_src_ids:
-            for p in paths:
-                _err(f"source_analysis{p}")
+    # F-D02: TYPED SOURCE CROSS-REFERENCE VALIDATION
+    def _check_source_typed_refs(node: Any, current_path: str):
+        if isinstance(node, dict):
+            for k, v in node.items():
+                if k == "addresses_problem_ids" and isinstance(v, list):
+                    for i, ref in enumerate(v):
+                        if ref not in typed_src_ids["problem_id"]: _err(f"{current_path}/{k}/{i}")
+                elif k == "related_component_ids" and isinstance(v, list):
+                    for i, ref in enumerate(v):
+                        if ref not in typed_src_ids["component_id"]: _err(f"{current_path}/{k}/{i}")
+                elif k in ("input_component_ids", "output_component_ids", "component_ids") and isinstance(v, list):
+                    for i, ref in enumerate(v):
+                        if ref not in typed_src_ids["component_id"]: _err(f"{current_path}/{k}/{i}")
+                elif k in ("related_step_ids", "process_step_ids") and isinstance(v, list):
+                    for i, ref in enumerate(v):
+                        if ref not in typed_src_ids["step_id"]: _err(f"{current_path}/{k}/{i}")
+                elif k == "related_solution_ids" and isinstance(v, list):
+                    for i, ref in enumerate(v):
+                        if ref not in typed_src_ids["solution_id"]: _err(f"{current_path}/{k}/{i}")
+                elif k == "source_evidence_ids" and isinstance(v, list):
+                    for i, ref in enumerate(v):
+                        if ref not in typed_src_ids["evidence_id"]: _err(f"{current_path}/{k}/{i}")
+                elif k == "missing_information_id" and isinstance(v, str):
+                    if v not in typed_src_ids["missing_id"]: _err(f"{current_path}/{k}")
+                elif k == "evidence_ids" and isinstance(v, list):
+                    for i, ref in enumerate(v):
+                        if ref not in typed_src_ids["evidence_id"]: _err(f"{current_path}/{k}/{i}")
+                _check_source_typed_refs(v, f"{current_path}/{k}")
+        elif isinstance(node, list):
+            for i, v in enumerate(node):
+                _check_source_typed_refs(v, f"{current_path}/{i}")
+
+    _check_source_typed_refs(source_analysis, "/source_analysis")
 
     # 5. SOURCE JSON POINTERS & 6. TECHNICAL PARAGRAPH SOURCE PATH RESTRICTIONS
     def _check_source_paths(node: Any, current_path: str):
@@ -164,10 +197,7 @@ def validate_draft_business_rules(
                         except Exception:
                             _err(f"{current_path}/{k}/{i}")
                 elif k == "target_path" and isinstance(v, str):
-                    try:
-                        _resolve_json_pointer(source_analysis, v)
-                    except Exception:
-                        _err(f"{current_path}/{k}")
+                    pass # Handled specifically for SOURCE_ANALYSIS in missing_info check
                 _check_source_paths(v, f"{current_path}/{k}")
         elif isinstance(node, list):
             for i, v in enumerate(node):
@@ -175,39 +205,40 @@ def validate_draft_business_rules(
 
     _check_source_paths(draft, "")
 
-    # 7. SELECTED TITLE — EXACT IDENTITY & 22. TITLE MISSING LINKAGE
+    # F-D01: SELECTED TITLE — EXACT IDENTITY & 22. TITLE MISSING LINKAGE
     title_node = draft.get("selected_title", {})
-    if selected_title_candidate_id:
-        if title_node.get("status") != "PRESENT":
-            _err("/selected_title/status")
-        if title_node.get("source_title_candidate_id") != selected_title_candidate_id:
-            _err("/selected_title/source_title_candidate_id")
+    if _is_prohibited(title_node.get("text", "")):
+        _err("/selected_title/text")
 
-        cands = source_analysis.get("title_candidates", [])
-        found_cand = None
+    cands = source_analysis.get("title_candidates", [])
+    found_cand = None
+    if selected_title_candidate_id:
         for c in cands:
             if c.get("title_id") == selected_title_candidate_id:
                 found_cand = c
                 break
 
-        if not found_cand:
+    if found_cand:
+        if title_node.get("status") != "PRESENT":
+            _err("/selected_title/status")
+        if title_node.get("source_title_candidate_id") != selected_title_candidate_id:
             _err("/selected_title/source_title_candidate_id")
-        else:
-            if title_node.get("text") != found_cand.get("title"):
-                _err("/selected_title/text")
-            draft_ev = title_node.get("grounding", {}).get("evidence_ids", [])
-            src_ev = found_cand.get("grounding", {}).get("evidence_ids", [])
-            if sorted(draft_ev) != sorted(src_ev):
-                _err("/selected_title/grounding/evidence_ids")
-            for i, sp in enumerate(title_node.get("source_paths", [])):
-                try:
-                    resolved = _resolve_json_pointer(source_analysis, sp)
-                    if resolved != found_cand and found_cand not in (resolved if isinstance(resolved, list) else []):
-                        if sp != f"/title_candidates/{cands.index(found_cand)}":
-                            _err(f"/selected_title/source_paths/{i}")
-                except Exception:
-                    pass
+        if title_node.get("text") != found_cand.get("title"):
+            _err("/selected_title/text")
+        draft_ev = title_node.get("grounding", {}).get("evidence_ids", [])
+        src_ev = found_cand.get("grounding", {}).get("evidence_ids", [])
+        if sorted(draft_ev) != sorted(src_ev):
+            _err("/selected_title/grounding/evidence_ids")
+        for i, sp in enumerate(title_node.get("source_paths", [])):
+            try:
+                resolved = _resolve_json_pointer(source_analysis, sp)
+                if resolved != found_cand and found_cand not in (resolved if isinstance(resolved, list) else []):
+                    if sp != f"/title_candidates/{cands.index(found_cand)}":
+                        _err(f"/selected_title/source_paths/{i}")
+            except Exception:
+                pass
     else:
+        # Invalid or absent candidate ID
         if title_node.get("status") != "MISSING":
             _err("/selected_title/status")
         if title_node.get("marker") != "[AUTHOR CONFIRMATION REQUIRED]":
@@ -328,7 +359,7 @@ def validate_draft_business_rules(
     for i, m in enumerate(draft.get("missing_information", [])):
         if m.get("origin") == "SOURCE_ANALYSIS":
             smid = m.get("source_missing_information_id")
-            if not smid or smid not in all_src_ids:
+            if not smid or smid not in typed_src_ids["missing_id"]:
                 _err(f"/missing_information/{i}/source_missing_information_id")
             else:
                 found_src = None
@@ -346,11 +377,11 @@ def validate_draft_business_rules(
                     except Exception:
                         _err(f"/missing_information/{i}/target_path")
 
-    # 14. SOURCE_ANALYSIS AUTHOR QUESTIONS
+    # F-D04: AUTHOR QUESTION SOURCE-MISSING LINKAGE
     for i, q in enumerate(draft.get("author_questions", [])):
         if q.get("origin") == "SOURCE_ANALYSIS":
             sqid = q.get("source_question_id")
-            if not sqid or sqid not in all_src_ids:
+            if not sqid or sqid not in typed_src_ids["question_id"]:
                 _err(f"/author_questions/{i}/source_question_id")
             else:
                 found_sq = None
@@ -364,7 +395,7 @@ def validate_draft_business_rules(
                     for j, sp in enumerate(q.get("source_paths", [])):
                         if sp != f"/author_questions/{source_analysis.get('author_questions', []).index(found_sq)}":
                             _err(f"/author_questions/{i}/source_paths/{j}")
-                    
+
                     smid = found_sq.get("missing_information_id")
                     if smid:
                         draft_mid = None
@@ -372,21 +403,34 @@ def validate_draft_business_rules(
                             if m.get("origin") == "SOURCE_ANALYSIS" and m.get("source_missing_information_id") == smid:
                                 draft_mid = m.get("missing_id")
                                 break
-                        if draft_mid and draft_mid not in q.get("related_missing_information_ids", []):
+                        if not draft_mid or draft_mid not in q.get("related_missing_information_ids", []):
                             _err(f"/author_questions/{i}/related_missing_information_ids")
 
-    # 15. DRAFT REFERENCE INTEGRITY
-    draft_ref_keys = {
-        "missing_information_ids", "related_missing_information_ids",
-        "author_question_ids", "related_conflict_ids", "source_question_id",
-        "source_missing_information_id", "source_drawing_id"
-    }
-    draft_refs = _collect_refs(draft, draft_ref_keys)
-    all_known_ids = all_src_ids | all_draft_ids
-    for ref, paths in draft_refs.items():
-        if ref not in all_known_ids:
-            for p in paths:
-                _err(p)
+    # F-D03: TYPED DRAFT REFERENCE INTEGRITY
+    def _check_draft_typed_refs(node: Any, current_path: str):
+        if isinstance(node, dict):
+            for k, v in node.items():
+                if k in ("missing_information_ids", "related_missing_information_ids") and isinstance(v, list):
+                    for i, ref in enumerate(v):
+                        if ref not in typed_draft_ids["missing_id"]: _err(f"{current_path}/{k}/{i}")
+                elif k == "author_question_ids" and isinstance(v, list):
+                    for i, ref in enumerate(v):
+                        if ref not in typed_draft_ids["question_id"]: _err(f"{current_path}/{k}/{i}")
+                elif k == "related_conflict_ids" and isinstance(v, list):
+                    for i, ref in enumerate(v):
+                        if ref not in typed_draft_ids["conflict_id"]: _err(f"{current_path}/{k}/{i}")
+                elif k == "source_question_id" and isinstance(v, str):
+                    if v not in typed_src_ids["question_id"]: _err(f"{current_path}/{k}")
+                elif k == "source_missing_information_id" and isinstance(v, str):
+                    if v not in typed_src_ids["missing_id"]: _err(f"{current_path}/{k}")
+                elif k == "source_drawing_id" and isinstance(v, str):
+                    if v not in typed_src_ids["drawing_id"]: _err(f"{current_path}/{k}")
+                _check_draft_typed_refs(v, f"{current_path}/{k}")
+        elif isinstance(node, list):
+            for i, v in enumerate(node):
+                _check_draft_typed_refs(v, f"{current_path}/{i}")
+
+    _check_draft_typed_refs(draft, "")
 
     # 16. CONFLICTS & 24. CONFLICT MISSING LINKAGE
     for i, conflict in enumerate(draft.get("conflicts", [])):
@@ -396,14 +440,14 @@ def validate_draft_business_rules(
         if len(set(ev_ids)) < 2:
             _err(f"/conflicts/{i}/evidence_ids")
         for ev in ev_ids:
-            if ev not in all_src_ids:
+            if ev not in typed_src_ids["evidence_id"]:
                 _err(f"/conflicts/{i}/evidence_ids")
         if not conflict.get("author_question_ids"):
             _err(f"/conflicts/{i}/author_question_ids")
         if _is_prohibited(conflict.get("summary", "")):
             _err(f"/conflicts/{i}/summary")
 
-    # 17. DRAWINGS
+    # F-D05: DRAWING INVARIANTS
     for i, d in enumerate(draft.get("drawings", [])):
         sdid = d.get("source_drawing_id")
         if sdid:
@@ -418,10 +462,28 @@ def validate_draft_business_rules(
                 if d.get("kind") != found_sd.get("kind"): _err(f"/drawings/{i}/kind")
                 if d.get("status") != found_sd.get("status"): _err(f"/drawings/{i}/status")
                 if d.get("title") != found_sd.get("title"): _err(f"/drawings/{i}/title")
-                if found_sd.get("status") in ("PROPOSED", "MISSING") and d.get("marker") != "[AUTHOR CONFIRMATION REQUIRED]":
-                    _err(f"/drawings/{i}/marker")
 
-    # 18. EVIDENCE APPENDIX — CLOSED SET & 19. EVIDENCE EXACT COPY
+                # Check human_confirmation_required deterministic copy
+                if d.get("human_confirmation_required") != found_sd.get("human_confirmation_required"):
+                    _err(f"/drawings/{i}/human_confirmation_required")
+
+                if found_sd.get("status") in ("PROPOSED", "MISSING") or found_sd.get("kind") == "PROPOSED_DRAWING":
+                    if not found_sd.get("human_confirmation_required"):
+                        # Ensure we validate source requirement correctness too if needed,
+                        # but mainly check draft consistency. Wait, prompt says:
+                        # "For source kind PROPOSED_DRAWING or status MISSING: human_confirmation_required must remain true."
+                        if not d.get("human_confirmation_required"):
+                            _err(f"/drawings/{i}/human_confirmation_required")
+
+                if found_sd.get("kind") == "SOURCE_FIGURE":
+                    src_ev_ids = found_sd.get("source_evidence_ids", [])
+                    draft_ev_ids = d.get("evidence_ids", [])
+                    if sorted(src_ev_ids) != sorted(draft_ev_ids):
+                        _err(f"/drawings/{i}/evidence_ids")
+
+    # F-D06: EVIDENCE SOURCE CLOSURE
+    src_ev_dict = {e.get("evidence_id"): e for e in source_analysis.get("evidence", []) if e.get("evidence_id")}
+
     used_evidence = set()
     used_evidence.update(title_node.get("grounding", {}).get("evidence_ids", []))
     used_evidence.update(abs_node.get("grounding", {}).get("evidence_ids", []))
@@ -436,13 +498,21 @@ def validate_draft_business_rules(
     for c in draft.get("conflicts", []):
         used_evidence.update(c.get("evidence_ids", []))
 
+    # All used evidence MUST exist in source_analysis["evidence"] specifically
+    for eid in used_evidence:
+        if eid not in src_ev_dict:
+            _err(f"/evidence_appendix") # or a specific grounding path
+
     appendix_ev = draft.get("evidence_appendix", [])
     appendix_ids = {e.get("evidence_id") for e in appendix_ev if e.get("evidence_id")}
-    
+
+    for eid in appendix_ids:
+        if eid not in src_ev_dict:
+            _err("/evidence_appendix")
+
     if used_evidence != appendix_ids:
         _err("/evidence_appendix")
 
-    src_ev_dict = {e.get("evidence_id"): e for e in source_analysis.get("evidence", []) if e.get("evidence_id")}
     for i, e in enumerate(appendix_ev):
         eid = e.get("evidence_id")
         if eid in src_ev_dict:
@@ -454,7 +524,7 @@ def validate_draft_business_rules(
 
     # 20. REVERSE USAGE
     expected_usage = {eid: set() for eid in used_evidence}
-    
+
     for eid in title_node.get("grounding", {}).get("evidence_ids", []):
         if eid in expected_usage:
             expected_usage[eid].add(("SELECTED_TITLE", selected_title_candidate_id))
