@@ -246,7 +246,7 @@ Không đánh dấu application đã hoạt động khi mới chỉ có folder/R
 | Phase | Nội dung | Trạng thái |
 |---|---|---|
 | Phase 1 | Specification & Architecture | SPEC-001/002/003 approved baseline; chưa có tuyên bố Human hoàn tất toàn bộ phase |
-| Phase 2 | Core pipeline | APP-001, APP-002, AI-RUNTIME-001 và AI-RUNTIME-002 đã merge; đặc tả APP-003 core pipeline orchestration đang chờ independent review; chưa có public orchestration, DOCX integration endpoint, frontend hoặc end-to-end completion |
+| Phase 2 | Core pipeline | APP-001, APP-002, AI-RUNTIME-001 và AI-RUNTIME-002 đã merge; đặc tả APP-003 core pipeline orchestration đã remediate v1.1.0 và chờ independent re-review; chưa có public orchestration, DOCX integration endpoint, frontend hoặc end-to-end completion |
 | Phase 3 | Draft generation & DOCX | AI-003 Completed — Merged via PR #5; DOC-001 Completed — Merged via PR #7 |
 | Phase 4 | Evaluation & stabilization | Chưa bắt đầu |
 | Phase 5 | Deployment & handover | Chưa bắt đầu |
