@@ -7,7 +7,7 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-import httpx2
+import httpx
 import openai
 
 from backend.app.core.config import Settings
@@ -218,7 +218,7 @@ class OpenAIDraftRuntimePlumbingTests(unittest.TestCase):
         self.assertEqual(1, len(client.responses.calls))
 
     def test_timeout_and_connection_errors_are_mapped(self) -> None:
-        request = httpx2.Request("POST", "https://api.openai.com/v1/responses")
+        request = httpx.Request("POST", "https://api.openai.com/v1/responses")
         cases = (
             (openai.APITimeoutError(request=request), "provider_timeout"),
             (openai.APIConnectionError(request=request), "provider_connection"),
@@ -230,12 +230,12 @@ class OpenAIDraftRuntimePlumbingTests(unittest.TestCase):
                 self.assertEqual(1, len(client.responses.calls))
 
     def test_rate_limit_rejection_and_generic_errors_are_mapped(self) -> None:
-        request = httpx2.Request("POST", "https://api.openai.com/v1/responses")
+        request = httpx.Request("POST", "https://api.openai.com/v1/responses")
         cases = (
             (
                 openai.RateLimitError(
                     "synthetic rate limit",
-                    response=httpx2.Response(429, request=request),
+                    response=httpx.Response(429, request=request),
                     body=None,
                 ),
                 "provider_rate_limited",
@@ -243,7 +243,7 @@ class OpenAIDraftRuntimePlumbingTests(unittest.TestCase):
             (
                 openai.BadRequestError(
                     "synthetic rejection",
-                    response=httpx2.Response(400, request=request),
+                    response=httpx.Response(400, request=request),
                     body=None,
                 ),
                 "provider_request_rejected",
@@ -251,7 +251,7 @@ class OpenAIDraftRuntimePlumbingTests(unittest.TestCase):
             (
                 openai.InternalServerError(
                     "synthetic provider failure",
-                    response=httpx2.Response(500, request=request),
+                    response=httpx.Response(500, request=request),
                     body=None,
                 ),
                 "provider_error",

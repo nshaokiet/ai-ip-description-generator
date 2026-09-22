@@ -7,6 +7,7 @@ import pytest
 from backend.app.services.draft_business_validation import (
     validate_draft_business_rules,
     DraftBusinessValidationError,
+    _resolve_json_pointer,
 )
 
 FIXTURE_DIR = Path(__file__).resolve().parents[2] / "tests" / "fixtures" / "patent-draft" / "v1.0.0" / "cases"
@@ -140,9 +141,9 @@ def test_source_cross_reference_defensive_check():
 
 def test_draft_reference_integrity():
     def mod(d, s): d["missing_information"].append({
-        "missing_id": "m2", "origin": "DRAFT_VALIDATION", "rule_id": "TITLE_SELECTION_REQUIRED", 
-        "target_path": "/", "description": "", "reason": "NOT_FOUND", "impact": "HIGH", "owner": "AUTHOR", 
-        "grounding_label": "MISSING", "affected_section_ids": ["TITLE"], 
+        "missing_id": "m2", "origin": "DRAFT_VALIDATION", "rule_id": "TITLE_SELECTION_REQUIRED",
+        "target_path": "/title_candidates", "description": "", "reason": "NOT_FOUND", "impact": "HIGH", "owner": "AUTHOR",
+        "grounding_label": "MISSING", "affected_section_ids": ["TITLE"],
         "related_missing_information_ids": ["invalid-id"]
     })
     run_failure_test(mod, ["/missing_information/0/related_missing_information_ids/0"])
@@ -151,7 +152,7 @@ def test_source_missing_information_propagation_id():
     def mod(d, s):
         d["missing_information"].append({
             "missing_id": "m3", "origin": "SOURCE_ANALYSIS", "source_missing_information_id": "invalid-src",
-            "target_path": "/", "description": "", "reason": "NOT_FOUND", "impact": "HIGH", "owner": "AUTHOR", 
+            "target_path": "/title_candidates", "description": "", "reason": "NOT_FOUND", "impact": "HIGH", "owner": "AUTHOR",
             "grounding_label": "MISSING", "affected_section_ids": ["TITLE"]
         })
     run_failure_test(mod, ["/missing_information/0/source_missing_information_id"])
@@ -159,11 +160,11 @@ def test_source_missing_information_propagation_id():
 def test_source_missing_information_propagation_mismatch():
     def mod(d, s):
         s["missing_information"] = [{
-            "missing_id": "sm1", "target_path": "/", "description": "desc", "reason": "NOT_FOUND", "impact": "HIGH", "owner": "AUTHOR"
+            "missing_id": "sm1", "target_path": "/title_candidates", "description": "desc", "reason": "NOT_FOUND", "impact": "HIGH", "owner": "AUTHOR"
         }]
         d["missing_information"].append({
             "missing_id": "m4", "origin": "SOURCE_ANALYSIS", "source_missing_information_id": "sm1",
-            "target_path": "/", "description": "wrong desc", "reason": "NOT_FOUND", "impact": "HIGH", "owner": "AUTHOR", 
+            "target_path": "/title_candidates", "description": "wrong desc", "reason": "NOT_FOUND", "impact": "HIGH", "owner": "AUTHOR",
             "grounding_label": "MISSING", "affected_section_ids": ["TITLE"]
         })
     run_failure_test(mod, ["/missing_information/0/description"])
@@ -343,7 +344,7 @@ def test_fd04_no_draft_missing_record():
         s["author_questions"].append({
             "question_id": "source-q2", "question": "?", "priority": "HIGH", "missing_information_id": "source-m2"
         })
-        s["missing_information"] = [{"missing_id": "source-m2", "target_path": "/", "description": "", "reason": "NOT_FOUND", "impact": "HIGH", "owner": "AUTHOR"}]
+        s["missing_information"] = [{"missing_id": "source-m2", "target_path": "/title_candidates", "description": "", "reason": "NOT_FOUND", "impact": "HIGH", "owner": "AUTHOR"}]
         # Draft doesn't have the corresponding missing record
     run_failure_test(mod, ["/author_questions/0/related_missing_information_ids"])
 
@@ -356,10 +357,10 @@ def test_fd04_draft_missing_record_not_in_related():
         s["author_questions"].append({
             "question_id": "source-q2", "question": "?", "priority": "HIGH", "missing_information_id": "source-m2"
         })
-        s["missing_information"] = [{"missing_id": "source-m2", "target_path": "/", "description": "", "reason": "NOT_FOUND", "impact": "HIGH", "owner": "AUTHOR"}]
+        s["missing_information"] = [{"missing_id": "source-m2", "target_path": "/title_candidates", "description": "", "reason": "NOT_FOUND", "impact": "HIGH", "owner": "AUTHOR"}]
         d["missing_information"].append({
             "missing_id": "m2", "origin": "SOURCE_ANALYSIS", "source_missing_information_id": "source-m2",
-            "target_path": "/", "description": "", "reason": "NOT_FOUND", "impact": "HIGH", "owner": "AUTHOR",
+            "target_path": "/title_candidates", "description": "", "reason": "NOT_FOUND", "impact": "HIGH", "owner": "AUTHOR",
             "grounding_label": "MISSING", "affected_section_ids": ["TITLE"]
         })
     run_failure_test(mod, ["/author_questions/0/related_missing_information_ids"])
@@ -443,3 +444,76 @@ def test_fd11_selected_title_wrong_candidate_fails():
         # Suppose candidate 0 was selected, but we point to candidate 1
         d["selected_title"]["source_paths"] = ["/title_candidates/1"]
     run_failure_test(mod, ["/selected_title/source_paths/0"])
+
+
+
+
+# === TIGHTENED ABSTRACT BUSINESS VALIDATION ===
+def test_abstract_missing_source_analysis_only_fails():
+    """A missing Abstract linking ONLY a SOURCE_ANALYSIS record must fail."""
+    data = load_fixture("conflicting-evidence.json")
+    draft = copy.deepcopy(data["expected_output"])
+    source = copy.deepcopy(data["input"]["source_analysis"])
+    # Link only the SOURCE_ANALYSIS record
+    draft["abstract"]["missing_information_ids"] = ["missing-conflict"]
+
+    with pytest.raises(DraftBusinessValidationError) as exc_info:
+        validate_draft_business_rules(draft, source, selected_title_candidate_id=None)
+    assert "/abstract/missing_information_ids" in exc_info.value.paths
+
+
+def test_abstract_missing_draft_validation_passes():
+    """A missing Abstract linking a valid DRAFT_VALIDATION + ABSTRACT_SOURCE_INSUFFICIENT record passes."""
+    data = load_fixture("missing-information.json")
+    draft = copy.deepcopy(data["expected_output"])
+    source = copy.deepcopy(data["input"]["source_analysis"])
+    # missing-information.json has an abstract with status MISSING and links missing-abstract (DRAFT_VALIDATION + ABSTRACT_SOURCE_INSUFFICIENT)
+    validate_draft_business_rules(draft, source, selected_title_candidate_id=None)
+
+
+def test_abstract_missing_coexisting_source_and_draft_validation_passes():
+    """A missing Abstract linking both SOURCE_ANALYSIS and DRAFT_VALIDATION records passes."""
+    data = load_fixture("conflicting-evidence.json")
+    draft = copy.deepcopy(data["expected_output"])
+    source = copy.deepcopy(data["input"]["source_analysis"])
+    # conflicting-evidence.json links both missing-conflict (SOURCE_ANALYSIS) and missing-abstract (DRAFT_VALIDATION)
+    validate_draft_business_rules(draft, source, selected_title_candidate_id=None)
+
+
+# === F-D12: JSON POINTER "/" TOKENIZATION & RESOLUTION ===
+def test_fd12_json_pointer_slash_semantics():
+    # {"": "value"}, "/" -> returns "value"
+    assert _resolve_json_pointer({"": "value"}, "/") == "value"
+    assert _resolve_json_pointer({"": {"nested": 42}}, "/") == {"nested": 42}
+    assert _resolve_json_pointer({"": {"": "deep_empty"}}, "//") == "deep_empty"
+
+    # {"a": 1}, "/" -> failure because empty-string key does not exist
+    with pytest.raises(KeyError):
+        _resolve_json_pointer({"a": 1}, "/")
+
+    # "/" MUST NOT mean document root
+    doc = {"a": 1}
+    with pytest.raises(KeyError):
+        _resolve_json_pointer(doc, "/")
+
+    # Strict JSON Pointer escapes and errors preserved
+    assert _resolve_json_pointer({"a/b": 1}, "/a~1b") == 1
+    assert _resolve_json_pointer({"a~b": 2}, "/a~0b") == 2
+    with pytest.raises(ValueError, match="Invalid escape"):
+        _resolve_json_pointer({"a": 1}, "/a~2")
+    with pytest.raises(ValueError, match="Invalid escape"):
+        _resolve_json_pointer({"a": 1}, "/a~")
+    with pytest.raises(TypeError, match="Pointer must be a string"):
+        _resolve_json_pointer({"a": 1}, 123)
+    with pytest.raises(ValueError, match="Pointer must start with /"):
+        _resolve_json_pointer({"a": 1}, "a/b")
+    with pytest.raises(ValueError, match="Pointer must start with /"):
+        _resolve_json_pointer({"a": 1}, "")
+    with pytest.raises(ValueError, match="Invalid list index"):
+        _resolve_json_pointer({"arr": [1, 2]}, "/arr/-1")
+    with pytest.raises(ValueError, match="Invalid list index"):
+        _resolve_json_pointer({"arr": [1, 2]}, "/arr/01")
+    with pytest.raises(IndexError, match="out of range"):
+        _resolve_json_pointer({"arr": [1, 2]}, "/arr/5")
+    with pytest.raises(TypeError, match="Cannot traverse scalar"):
+        _resolve_json_pointer({"a": 1}, "/a/b")

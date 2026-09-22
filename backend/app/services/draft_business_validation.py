@@ -19,11 +19,7 @@ def _resolve_json_pointer(doc: Mapping[str, Any], pointer: str) -> Any:
     if not pointer.startswith("/"):
         raise ValueError("Pointer must start with /")
 
-    parts = pointer.split("/")
-    if len(parts) == 2 and parts[1] == "":
-        part = ""
-    else:
-        parts = parts[1:]
+    parts = pointer.split("/")[1:]
 
     current = doc
     for part in parts:
@@ -64,24 +60,6 @@ def _collect_typed_ids(doc: Any, id_keys: set[str], path: str = "") -> dict[str,
     return found
 
 
-def _collect_refs(doc: Any, ref_keys: set[str], path: str = "") -> dict[str, list[str]]:
-    found = {}
-    def _visit(node: Any, current_path: str):
-        if isinstance(node, dict):
-            for k, v in node.items():
-                if k in ref_keys:
-                    if isinstance(v, str):
-                        found.setdefault(v, []).append(f"{current_path}/{k}")
-                    elif isinstance(v, list):
-                        for i, ref in enumerate(v):
-                            if isinstance(ref, str):
-                                found.setdefault(ref, []).append(f"{current_path}/{k}/{i}")
-                _visit(v, f"{current_path}/{k}")
-        elif isinstance(node, list):
-            for i, v in enumerate(node):
-                _visit(v, f"{current_path}/{i}")
-    _visit(doc, path)
-    return found
 
 
 def _is_prohibited(text: str) -> bool:
@@ -375,7 +353,7 @@ def validate_draft_business_rules(
         for mid in abs_node.get("missing_information_ids", []):
             for m in draft.get("missing_information", []):
                 if m.get("missing_id") == mid:
-                    if m.get("rule_id") == "ABSTRACT_SOURCE_INSUFFICIENT" or m.get("origin") == "SOURCE_ANALYSIS":
+                    if m.get("origin") == "DRAFT_VALIDATION" and m.get("rule_id") == "ABSTRACT_SOURCE_INSUFFICIENT":
                         found_rule = True
                         break
             if found_rule:
