@@ -14,6 +14,9 @@ OPENAI_REASONING_EFFORT = "high"
 OPENAI_MAX_RETRIES = 2
 OPENAI_DEFAULT_TIMEOUT_SECONDS = 180
 OPENAI_DEFAULT_MAX_OUTPUT_TOKENS = 48_000
+OPENAI_DRAFT_MODEL = "gpt-5.6-sol"
+OPENAI_DRAFT_REASONING_EFFORT = "high"
+OPENAI_DRAFT_MAX_RETRIES = 2
 OPENAI_DRAFT_TIMEOUT_SECONDS = 240
 OPENAI_DRAFT_MAX_OUTPUT_TOKENS = 64_000
 
@@ -64,6 +67,12 @@ class Settings:
     openai_model: str = field(default=OPENAI_EXTRACTION_MODEL, init=False)
     openai_reasoning_effort: str = field(default=OPENAI_REASONING_EFFORT, init=False)
     openai_max_retries: int = field(default=OPENAI_MAX_RETRIES, init=False)
+    openai_draft_model: str = field(default=OPENAI_DRAFT_MODEL, init=False)
+    openai_draft_reasoning_effort: str = field(
+        default=OPENAI_DRAFT_REASONING_EFFORT,
+        init=False,
+    )
+    openai_draft_max_retries: int = field(default=OPENAI_DRAFT_MAX_RETRIES, init=False)
 
     def __post_init__(self) -> None:
         if not 30 <= self.openai_timeout_seconds <= 300:

@@ -95,6 +95,85 @@ def _is_prohibited(text: str) -> bool:
     return any(p in normalized for p in prohibited)
 
 
+_SOURCE_ID_KEYS = {
+    "field_id", "title_id", "statement_id", "problem_id",
+    "solution_id", "component_id", "step_id", "feature_id", "effect_id",
+    "embodiment_id", "experiment_id", "drawing_id", "missing_id",
+    "question_id", "evidence_id", "draft_id"
+}
+
+
+def _check_source_analysis_rules(
+    source_analysis: Mapping[str, Any],
+    errors: set[str],
+) -> dict[str, dict[str, list[str]]]:
+    """Apply the source-side ID and typed-reference rules used by Draft validation."""
+    typed_src_ids = _collect_typed_ids(source_analysis, _SOURCE_ID_KEYS)
+
+    all_src_id_values: dict[str, list[str]] = {}
+    for ids_dict in typed_src_ids.values():
+        for id_val, paths in ids_dict.items():
+            all_src_id_values.setdefault(id_val, []).extend(paths)
+    for paths in all_src_id_values.values():
+        if len(paths) > 1:
+            for path in paths:
+                errors.add(f"source_analysis{path}")
+
+    def _check_source_typed_refs(node: Any, current_path: str) -> None:
+        if isinstance(node, dict):
+            for key, value in node.items():
+                if key == "addresses_problem_ids" and isinstance(value, list):
+                    for index, reference in enumerate(value):
+                        if reference not in typed_src_ids["problem_id"]:
+                            errors.add(f"{current_path}/{key}/{index}")
+                elif key == "related_component_ids" and isinstance(value, list):
+                    for index, reference in enumerate(value):
+                        if reference not in typed_src_ids["component_id"]:
+                            errors.add(f"{current_path}/{key}/{index}")
+                elif key in ("input_component_ids", "output_component_ids", "component_ids") and isinstance(value, list):
+                    for index, reference in enumerate(value):
+                        if reference not in typed_src_ids["component_id"]:
+                            errors.add(f"{current_path}/{key}/{index}")
+                elif key in ("related_step_ids", "process_step_ids") and isinstance(value, list):
+                    for index, reference in enumerate(value):
+                        if reference not in typed_src_ids["step_id"]:
+                            errors.add(f"{current_path}/{key}/{index}")
+                elif key == "related_solution_ids" and isinstance(value, list):
+                    for index, reference in enumerate(value):
+                        if reference not in typed_src_ids["solution_id"]:
+                            errors.add(f"{current_path}/{key}/{index}")
+                elif key == "source_evidence_ids" and isinstance(value, list):
+                    for index, reference in enumerate(value):
+                        if reference not in typed_src_ids["evidence_id"]:
+                            errors.add(f"{current_path}/{key}/{index}")
+                elif key == "missing_information_id" and isinstance(value, str):
+                    if value not in typed_src_ids["missing_id"]:
+                        errors.add(f"{current_path}/{key}")
+                elif key == "evidence_ids" and isinstance(value, list):
+                    for index, reference in enumerate(value):
+                        if reference not in typed_src_ids["evidence_id"]:
+                            errors.add(f"{current_path}/{key}/{index}")
+                _check_source_typed_refs(value, f"{current_path}/{key}")
+        elif isinstance(node, list):
+            for index, value in enumerate(node):
+                _check_source_typed_refs(value, f"{current_path}/{index}")
+
+    _check_source_typed_refs(source_analysis, "/source_analysis")
+    return typed_src_ids
+
+
+def validate_draft_source_analysis(source_analysis: Mapping[str, Any]) -> None:
+    """Fail closed on source-side rules that must hold before a Draft model call."""
+    errors: set[str] = set()
+    _check_source_analysis_rules(source_analysis, errors)
+    if errors:
+        raise DraftBusinessValidationError(
+            code="draft_input_invalid",
+            message="The source analysis failed deterministic Draft input validation.",
+            paths=sorted(errors)[:10],
+        )
+
+
 def validate_draft_business_rules(
     draft: Mapping[str, Any],
     source_analysis: Mapping[str, Any],
@@ -112,29 +191,13 @@ def validate_draft_business_rules(
         _err("/document_metadata")
 
     # 11. GLOBAL LOGICAL ID UNIQUENESS
-    src_id_keys = {
-        "field_id", "title_id", "statement_id", "problem_id",
-        "solution_id", "component_id", "step_id", "feature_id", "effect_id",
-        "embodiment_id", "experiment_id", "drawing_id", "missing_id",
-        "question_id", "evidence_id", "draft_id"
-    }
     draft_id_keys = {
         "paragraph_id", "drawing_id", "missing_id",
         "conflict_id", "question_id", "evidence_id", "draft_id"
     }
 
-    typed_src_ids = _collect_typed_ids(source_analysis, src_id_keys)
+    typed_src_ids = _check_source_analysis_rules(source_analysis, errors)
     typed_draft_ids = _collect_typed_ids(draft, draft_id_keys)
-
-    # Check global uniqueness within source and draft
-    all_src_id_values = {}
-    for k, ids_dict in typed_src_ids.items():
-        for id_val, paths in ids_dict.items():
-            all_src_id_values.setdefault(id_val, []).extend(paths)
-    for id_val, paths in all_src_id_values.items():
-        if len(paths) > 1:
-            for p in paths:
-                _err(f"source_analysis{p}")
 
     all_draft_id_values = {}
     for k, ids_dict in typed_draft_ids.items():
@@ -144,43 +207,6 @@ def validate_draft_business_rules(
         if len(paths) > 1:
             for p in paths:
                 _err(p)
-
-    all_src_ids_set = set(all_src_id_values.keys())
-    all_draft_ids_set = set(all_draft_id_values.keys())
-
-    # F-D02: TYPED SOURCE CROSS-REFERENCE VALIDATION
-    def _check_source_typed_refs(node: Any, current_path: str):
-        if isinstance(node, dict):
-            for k, v in node.items():
-                if k == "addresses_problem_ids" and isinstance(v, list):
-                    for i, ref in enumerate(v):
-                        if ref not in typed_src_ids["problem_id"]: _err(f"{current_path}/{k}/{i}")
-                elif k == "related_component_ids" and isinstance(v, list):
-                    for i, ref in enumerate(v):
-                        if ref not in typed_src_ids["component_id"]: _err(f"{current_path}/{k}/{i}")
-                elif k in ("input_component_ids", "output_component_ids", "component_ids") and isinstance(v, list):
-                    for i, ref in enumerate(v):
-                        if ref not in typed_src_ids["component_id"]: _err(f"{current_path}/{k}/{i}")
-                elif k in ("related_step_ids", "process_step_ids") and isinstance(v, list):
-                    for i, ref in enumerate(v):
-                        if ref not in typed_src_ids["step_id"]: _err(f"{current_path}/{k}/{i}")
-                elif k == "related_solution_ids" and isinstance(v, list):
-                    for i, ref in enumerate(v):
-                        if ref not in typed_src_ids["solution_id"]: _err(f"{current_path}/{k}/{i}")
-                elif k == "source_evidence_ids" and isinstance(v, list):
-                    for i, ref in enumerate(v):
-                        if ref not in typed_src_ids["evidence_id"]: _err(f"{current_path}/{k}/{i}")
-                elif k == "missing_information_id" and isinstance(v, str):
-                    if v not in typed_src_ids["missing_id"]: _err(f"{current_path}/{k}")
-                elif k == "evidence_ids" and isinstance(v, list):
-                    for i, ref in enumerate(v):
-                        if ref not in typed_src_ids["evidence_id"]: _err(f"{current_path}/{k}/{i}")
-                _check_source_typed_refs(v, f"{current_path}/{k}")
-        elif isinstance(node, list):
-            for i, v in enumerate(node):
-                _check_source_typed_refs(v, f"{current_path}/{i}")
-
-    _check_source_typed_refs(source_analysis, "/source_analysis")
 
     # 5. SOURCE JSON POINTERS & 6. TECHNICAL PARAGRAPH SOURCE PATH RESTRICTIONS
     def _check_source_paths(node: Any, current_path: str):

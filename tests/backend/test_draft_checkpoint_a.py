@@ -5,7 +5,7 @@ from unittest import mock
 import pytest
 
 from backend.app.core.config import Settings
-from backend.app.services.draft_runtime import run_draft_generation
+from backend.app.services.draft_runtime import DraftRuntimeError, run_draft_generation
 
 
 def test_extraction_config_remains_unchanged():
@@ -82,8 +82,8 @@ def test_invalid_draft_config_rejected():
         Settings(storage_root=".", openai_draft_max_output_tokens=0)
 
 
-def test_draft_runtime_skeleton_cannot_accidentally_perform_call():
-    """9. Draft Runtime skeleton cannot accidentally perform an OpenAI call."""
-    # It must raise NotImplementedError before doing anything else
-    with pytest.raises(NotImplementedError, match="is a skeleton for Checkpoint A"):
+def test_public_draft_runtime_rejects_invalid_input_before_provider_setup():
+    """The public boundary fails closed on invalid source data before any provider setup."""
+    with pytest.raises(DraftRuntimeError) as captured:
         run_draft_generation(source_analysis={"fake": "data"})
+    assert captured.value.code == "draft_input_invalid"
