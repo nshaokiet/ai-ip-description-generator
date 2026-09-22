@@ -246,7 +246,7 @@ Không đánh dấu application đã hoạt động khi mới chỉ có folder/R
 | Phase | Nội dung | Trạng thái |
 |---|---|---|
 | Phase 1 | Specification & Architecture | SPEC-001/002/003 approved baseline; chưa có tuyên bố Human hoàn tất toàn bộ phase |
-| Phase 2 | Core pipeline | APP-001, APP-002, AI-RUNTIME-001 và AI-RUNTIME-002 đã merge; chưa có public orchestration, DOCX integration endpoint, frontend hoặc end-to-end completion |
+| Phase 2 | Core pipeline | APP-001, APP-002, AI-RUNTIME-001 và AI-RUNTIME-002 đã merge; đặc tả APP-003 core pipeline orchestration đã final hardening v1.2.0 và chờ targeted re-review; chưa có public orchestration, DOCX integration endpoint, frontend hoặc end-to-end completion |
 | Phase 3 | Draft generation & DOCX | AI-003 Completed — Merged via PR #5; DOC-001 Completed — Merged via PR #7 |
 | Phase 4 | Evaluation & stabilization | Chưa bắt đầu |
 | Phase 5 | Deployment & handover | Chưa bắt đầu |
@@ -266,7 +266,7 @@ Danh sách chi tiết nằm trong [`docs/system-specification.md`](docs/system-s
 
 Repository hiện có APP-001 secure upload, APP-002 deterministic evidence preparation, AI-RUNTIME-001 internal extraction runtime và AI-RUNTIME-002 internal draft generation runtime. Phạm vi triển khai đạt `PDF/DOCX → validation → parsing → source units/evidence envelope → extraction Structured Output → canonical/grounding validation → validated analysis → draft envelope → draft Structured Output → canonical/business validation → validated Patent Description Draft JSON`. Public surface vẫn chỉ gồm `GET /health` và `POST /api/documents`; runtimes chưa được nối vào public endpoint.
 
-AI-RUNTIME-002 đã `Completed — Merged via PR #16`. Live provider smoke ghi nhận `NOT RUN — DEFERRED due to unavailable API funding`, BLK-003 vẫn mở và core E2E chưa hoàn tất. Task tiếp theo chỉ có thể đi tới bước specification/Human approval tiếp theo. Không tự động triển khai public orchestration, DOCX integration endpoint, frontend, database/auth, production storage hoặc deployment.
+AI-RUNTIME-002 đã `Completed — Merged via PR #16`. Đặc tả kỹ thuật APP-003 core pipeline orchestration và offline E2E harness v1.0.0 đã hoàn tất tại `docs/tasks/APP-003-core-pipeline-orchestration.md` và đang chờ independent review. Live provider smoke ghi nhận `NOT RUN — DEFERRED due to unavailable API funding`, BLK-003 vẫn mở và core E2E chưa hoàn tất. Không tự động triển khai public orchestration, DOCX integration endpoint, frontend, database/auth, production storage hoặc deployment.
 
 ## 16. License
 

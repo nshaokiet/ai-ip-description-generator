@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.5 |
+| Version | 0.3.8 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -43,6 +43,9 @@
 | 0.3.2 | 0.3.3 | 21/09/2026 | ChatGPT/Codex | Ghi AI-RUNTIME-001 internal extraction runtime đã triển khai và chờ independent review | Đồng bộ Human-approved implementation, ADR-010 và BLK-004 disposition | AI-RUNTIME-001, ADR-010 | No |
 | 0.3.3 | 0.3.4 | 21/09/2026 | ChatGPT/Codex | Chuyển AI-RUNTIME-001 sang Completed, đóng REV-AI-RUNTIME-001 sau remediation, targeted PASS và Human merge PR #14 | Post-merge governance closeout | AI-RUNTIME-001, REV-AI-RUNTIME-001, PR #14, merge commit `597f6c7b074eb2c5e445790b8c4f48f336f04da5` | No |
 | 0.3.4 | 0.3.5 | 22/09/2026 | Gemini 3.8 Flash High | Chuyển AI-RUNTIME-002 sang Completed, đóng REV-AI-RUNTIME-002 sau remediation, independent review APPROVED và Human merge PR #16 | Post-merge governance closeout | AI-RUNTIME-002, REV-AI-RUNTIME-002, PR #16, merge commit `978516a4f5caa90bbd2189668237c6e028597361` | No |
+| 0.3.5 | 0.3.6 | 22/09/2026 | Gemini 3.8 Flash High | Ghi nhận hoàn tất đặc tả kỹ thuật APP-003 Core Pipeline Orchestration v1.0.0, chờ independent review | Đặc tả kỹ thuật nội bộ trước implementation | APP-003, `docs/tasks/APP-003-core-pipeline-orchestration.md` | No |
+| 0.3.6 | 0.3.7 | 22/09/2026 | Gemini 3.8 Flash High | Cập nhật APP-003 specification sau independent review (F-001/F-002 remediation: mandatory source cleanup, determinism contract) | Đồng bộ trạng thái remediated chờ re-review | APP-003, REV-APP-003 | No |
+| 0.3.7 | 0.3.8 | 22/09/2026 | Gemini 3.8 Flash High | Làm cứng đặc tả APP-003 v1.2.0: xử lý residual findings H-001 (cleanup exception safety helper), H-002 (Python 3.12 portable regression), H-003 (AC-29 framework routes) | Đồng bộ trạng thái hardened trước targeted re-review | APP-003, H-001, H-002, H-003 | No |
 
 ## 2. Project
 
@@ -151,7 +154,7 @@ APP-002 capability boundary: `Validated PDF/DOCX → deterministic text/table pa
 
 | Task ID | Task | Owner | Reviewer | Priority | Status | Dependency | Target date |
 |---|---|---|---|---|---|---|---|
-| NEXT-TBD | Task tiếp theo do Human xác định (public orchestration, DOCX integration endpoint, hoặc test harness) | Human / Product Owner | `[CẦN PHÂN CÔNG]` | `[CẦN XÁC NHẬN]` | NOT STARTED — Awaiting Human approval/assignment | AI-RUNTIME-002 post-merge closeout; task tiếp theo cần Human approval riêng | Trước 02/10/2026 nếu được giao |
+| APP-003 | Core Pipeline Orchestration & Offline E2E Harness Specification | ChatGPT/Codex | Gemini 3.1 Pro High + Human | High | Specification — Remediated — Awaiting Independent Re-review | APP-001, APP-002, AI-RUNTIME-001, AI-RUNTIME-002 | Trước 02/10/2026 |
 
 Mọi target date cụ thể cần được xếp trước deadline chung 02/10/2026 và do Human xác nhận.
 
@@ -194,6 +197,7 @@ ADR-001 đến ADR-010 đã được Human phê duyệt trong phạm vi từng d
 | APP-002 | Document Parsing & Evidence Source Units | ChatGPT/Codex | Gemini 3.1 Pro High + Human | Completed — Merged via PR #12 | Initial `477b8fda6afbae0049d8d691c213dc6355ba67da`; remediation `8b6f909a0f5787d72c002e163395656a666c9b78`; merge `4a001d116cbf002bdd42a9151efbf3f308fce3e6`; 30/30 AC; final Gemini PASS; 135 executed, 134 pass, 1 skip |
 | AI-RUNTIME-001 | OpenAI Responses API + Structured Outputs Extraction Runtime | ChatGPT/Codex | Gemini 3.1 Pro High + Human | Completed — Merged via PR #14 | Initial `e430584a0cc31d0ccc821eb2d21ad7a14548329a`; remediation `5247cbcbe591d8b29917d9982b9066e393901c7e`; merge `597f6c7b074eb2c5e445790b8c4f48f336f04da5`; 32/32 AC; 201 executed, 200 pass, 1 skip; live smoke not run |
 | AI-RUNTIME-002 | OpenAI Responses API + Patent Draft Generation Runtime | ChatGPT/Codex | Gemini 3.8 Flash High / Gemini 3.1 Pro High + Human | Completed — Merged via PR #16 | Implementation head `a59ce0219d7039f24fa8c7bd71d4e9829dbbf612`; merge commit `978516a4f5caa90bbd2189668237c6e028597361`; 240 backend pass, 2 skip, 1 warning; tests/draft 25 pass; live smoke deferred |
+| APP-003 | Core Pipeline Orchestration & Offline E2E Harness Specification | ChatGPT/Codex | Gemini 3.1 Pro High + Human | Specification — Remediated — Awaiting Independent Re-review | `docs/tasks/APP-003-core-pipeline-orchestration.md` v1.1.0 |
 | AI-001 | Output Schema v1.0.0 | ChatGPT/Codex | Gemini 3.1 Pro | Completed — Merged via PR #1 | Merge commit `49efead593437dfc5c88397ea6f335a2d4ff84d7`; Gemini review PASS; 15/15 tests pass; không có finding |
 | AI-002 | Extraction Prompt v1.0.0 | ChatGPT/Codex | Gemini 3.1 Pro High | Completed — Merged via PR #3 | Merge commit `8f2b7082881961cc1a2cf7fa56ece81976759c7f`; implementation `f8772b228a23bf7cdec10fa0c463e6d1f672c341`; governance `9f2a78b1396cdadb747c263a2bbbbacb8d7f4292`; 15/15 regression và 17/17 AI-002 tests pass |
 | AI-003 | Patent Draft Generation Contract v1.0.0 | ChatGPT/Codex | Gemini 3.1 Pro High | Completed — Merged via PR #5 | Implementation `ae7e8fb573ea4681a9db1bafa711d19a3c598666`; merge `fb522bc5ecbb5ad66bab6226fa88ae51020cef52`; 57/57 tests pass |
@@ -294,6 +298,7 @@ Recommended next action: Post-merge governance closeout; await Human assignment 
 | 21/09/2026 | Governance/documentation closeout | 0.3.4 | Bảo toàn AI-RUNTIME-001 review lifecycle, ghi F-001 remediation, targeted PASS, Human merge PR #14 và đóng REV-AI-RUNTIME-001 | ChatGPT/Codex | AI-RUNTIME-001, REV-AI-RUNTIME-001, PR #14, merge `597f6c7b074eb2c5e445790b8c4f48f336f04da5` |
 | 22/09/2026 | `backend/app/services/draft_*.py`, `backend/app/core/config.py`, `tests/draft/` | AI-RUNTIME-002 implementation | Internal OpenAI Responses API patent draft generation runtime merge qua PR #16 | ChatGPT/Codex | AI-RUNTIME-002, PR #16, merge `978516a4f5caa90bbd2189668237c6e028597361` |
 | 22/09/2026 | Governance/documentation closeout | 0.3.5 | Ghi nhận AI-RUNTIME-002 post-merge closeout, đóng REV-AI-RUNTIME-002 | Gemini 3.8 Flash High | AI-RUNTIME-002, REV-AI-RUNTIME-002, PR #16 |
+| 22/09/2026 | `docs/tasks/APP-003-core-pipeline-orchestration.md` | 1.2.0 | Làm cứng đặc tả APP-003 v1.2.0: helper `_cleanup_source` ngăn chặn mask lỗi, loại bỏ Python 3.14, tinh chỉnh AC-21 và AC-29 | Gemini 3.8 Flash High | APP-003, H-001, H-002, H-003 |
 
 ## 17. Prompt and Schema Versions
 
@@ -348,6 +353,7 @@ Recommended next action: Post-merge governance closeout; await Human assignment 
 | REV-APP-002 | Document Parsing & Evidence Source Units | Initial `477b8fda6afbae0049d8d691c213dc6355ba67da`; remediation `8b6f909a0f5787d72c002e163395656a666c9b78`; resolved by merge `4a001d116cbf002bdd42a9151efbf3f308fce3e6` | Gemini 3.1 Pro High | CLOSED — initial REQUEST CHANGES; F-001/F-002 RESOLVED; final PASS; merged via PR #12 | No |
 | REV-AI-RUNTIME-001 | OpenAI extraction runtime, adapter, validators, tests and ADR-010 | Initial `e430584a0cc31d0ccc821eb2d21ad7a14548329a`; remediation `5247cbcbe591d8b29917d9982b9066e393901c7e`; resolved by merge `597f6c7b074eb2c5e445790b8c4f48f336f04da5` | Gemini 3.1 Pro High | CLOSED — PASS WITH NON-BLOCKING NOTES; F-001 RESOLVED; targeted PASS; merged via PR #14 | No |
 | REV-AI-RUNTIME-002 | OpenAI draft generation runtime, provider schema, normalizer, validators, tests | Implementation head `a59ce0219d7039f24fa8c7bd71d4e9829dbbf612`; resolved by merge `978516a4f5caa90bbd2189668237c6e028597361` | Gemini 3.8 Flash High / Gemini 3.1 Pro High | CLOSED — APPROVED; merged via PR #16 | No |
+| REV-APP-003 | `docs/tasks/APP-003-core-pipeline-orchestration.md` | 1.1.0 | Gemini 3.1 Pro High + Human | OPEN — Awaiting independent re-review (v1.0.0 reviewed with REQUEST CHANGES; v1.1.0 remediated) | No |
 
 ## 21. Recent Decisions
 
@@ -363,8 +369,8 @@ Human đã phê duyệt ADR-006 và Output Schema v1.0.0 cho AI-001, sau đó me
 
 ## 22. Next Recommended Action
 
-1. Gemini 3.8 Flash High governance-only review AI-RUNTIME-002 post-merge closeout.
-2. Human xác nhận hoàn tất closeout; task tiếp theo do Human phê duyệt và phân công.
+1. Độc lập rà soát lại (independent read-only re-review) tài liệu đặc tả APP-003 v1.1.0 bởi Gemini 3.1 Pro High.
+2. Human / Product Owner xem xét kết quả review và phê duyệt đặc tả trước khi giao implementation task.
 3. Không đánh dấu toàn bộ Phase 1, Phase 2 hoặc MVP `Completed` khi chưa có bằng chứng và Human decision riêng.
 4. Chỉ xử lý public orchestration, auth/private storage, production retention, DOCX integration endpoint, frontend và claims theo task/approval riêng.
 
