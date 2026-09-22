@@ -5,12 +5,20 @@ from __future__ import annotations
 from typing import Any
 
 
-class DraftRuntimeError(Exception):
+class DraftRuntimeError(RuntimeError):
     """Base exception for the Draft Runtime."""
 
-    def __init__(self, code: str, message: str) -> None:
+    def __init__(
+        self,
+        code: str,
+        message: str,
+        *,
+        paths: tuple[str, ...] = (),
+    ) -> None:
         super().__init__(message)
         self.code = code
+        self.safe_message = message
+        self.paths = paths
 
 
 # Anticipated error codes for future checkpoints
