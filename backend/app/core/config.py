@@ -14,6 +14,8 @@ OPENAI_REASONING_EFFORT = "high"
 OPENAI_MAX_RETRIES = 2
 OPENAI_DEFAULT_TIMEOUT_SECONDS = 180
 OPENAI_DEFAULT_MAX_OUTPUT_TOKENS = 48_000
+OPENAI_DRAFT_TIMEOUT_SECONDS = 240
+OPENAI_DRAFT_MAX_OUTPUT_TOKENS = 64_000
 
 
 def _environment_integer(name: str, default: int, *, minimum: int, maximum: int) -> int:
@@ -56,6 +58,9 @@ class Settings:
     openai_timeout_seconds: int = OPENAI_DEFAULT_TIMEOUT_SECONDS
     openai_max_output_tokens: int = OPENAI_DEFAULT_MAX_OUTPUT_TOKENS
     run_openai_live_tests: bool = False
+    openai_draft_timeout_seconds: int = OPENAI_DRAFT_TIMEOUT_SECONDS
+    openai_draft_max_output_tokens: int = OPENAI_DRAFT_MAX_OUTPUT_TOKENS
+    run_openai_draft_live_tests: bool = False
     openai_model: str = field(default=OPENAI_EXTRACTION_MODEL, init=False)
     openai_reasoning_effort: str = field(default=OPENAI_REASONING_EFFORT, init=False)
     openai_max_retries: int = field(default=OPENAI_MAX_RETRIES, init=False)
@@ -66,6 +71,12 @@ class Settings:
         if not 1 <= self.openai_max_output_tokens <= OPENAI_DEFAULT_MAX_OUTPUT_TOKENS:
             raise ValueError(
                 "openai_max_output_tokens must be between 1 and the approved 48000-token limit"
+            )
+        if not 30 <= self.openai_draft_timeout_seconds <= 600:
+            raise ValueError("openai_draft_timeout_seconds must be between 30 and 600")
+        if not 1 <= self.openai_draft_max_output_tokens <= OPENAI_DRAFT_MAX_OUTPUT_TOKENS:
+            raise ValueError(
+                "openai_draft_max_output_tokens must be between 1 and the approved 64000-token limit"
             )
 
     @classmethod
@@ -94,4 +105,17 @@ class Settings:
                 maximum=OPENAI_DEFAULT_MAX_OUTPUT_TOKENS,
             ),
             run_openai_live_tests=_environment_flag("RUN_OPENAI_LIVE_TESTS"),
+            openai_draft_timeout_seconds=_environment_integer(
+                "OPENAI_DRAFT_TIMEOUT_SECONDS",
+                OPENAI_DRAFT_TIMEOUT_SECONDS,
+                minimum=30,
+                maximum=600,
+            ),
+            openai_draft_max_output_tokens=_environment_integer(
+                "OPENAI_DRAFT_MAX_OUTPUT_TOKENS",
+                OPENAI_DRAFT_MAX_OUTPUT_TOKENS,
+                minimum=1,
+                maximum=OPENAI_DRAFT_MAX_OUTPUT_TOKENS,
+            ),
+            run_openai_draft_live_tests=_environment_flag("RUN_OPENAI_DRAFT_LIVE_TESTS"),
         )
