@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.7 |
+| Version | 0.3.8 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -45,6 +45,7 @@
 | 0.3.4 | 0.3.5 | 22/09/2026 | Gemini 3.8 Flash High | Chuyển AI-RUNTIME-002 sang Completed, đóng REV-AI-RUNTIME-002 sau remediation, independent review APPROVED và Human merge PR #16 | Post-merge governance closeout | AI-RUNTIME-002, REV-AI-RUNTIME-002, PR #16, merge commit `978516a4f5caa90bbd2189668237c6e028597361` | No |
 | 0.3.5 | 0.3.6 | 22/09/2026 | Gemini 3.8 Flash High | Ghi nhận hoàn tất đặc tả kỹ thuật APP-003 Core Pipeline Orchestration v1.0.0, chờ independent review | Đặc tả kỹ thuật nội bộ trước implementation | APP-003, `docs/tasks/APP-003-core-pipeline-orchestration.md` | No |
 | 0.3.6 | 0.3.7 | 22/09/2026 | Gemini 3.8 Flash High | Cập nhật APP-003 specification sau independent review (F-001/F-002 remediation: mandatory source cleanup, determinism contract) | Đồng bộ trạng thái remediated chờ re-review | APP-003, REV-APP-003 | No |
+| 0.3.7 | 0.3.8 | 22/09/2026 | Gemini 3.8 Flash High | Làm cứng đặc tả APP-003 v1.2.0: xử lý residual findings H-001 (cleanup exception safety helper), H-002 (Python 3.12 portable regression), H-003 (AC-29 framework routes) | Đồng bộ trạng thái hardened trước targeted re-review | APP-003, H-001, H-002, H-003 | No |
 
 ## 2. Project
 
@@ -297,7 +298,7 @@ Recommended next action: Post-merge governance closeout; await Human assignment 
 | 21/09/2026 | Governance/documentation closeout | 0.3.4 | Bảo toàn AI-RUNTIME-001 review lifecycle, ghi F-001 remediation, targeted PASS, Human merge PR #14 và đóng REV-AI-RUNTIME-001 | ChatGPT/Codex | AI-RUNTIME-001, REV-AI-RUNTIME-001, PR #14, merge `597f6c7b074eb2c5e445790b8c4f48f336f04da5` |
 | 22/09/2026 | `backend/app/services/draft_*.py`, `backend/app/core/config.py`, `tests/draft/` | AI-RUNTIME-002 implementation | Internal OpenAI Responses API patent draft generation runtime merge qua PR #16 | ChatGPT/Codex | AI-RUNTIME-002, PR #16, merge `978516a4f5caa90bbd2189668237c6e028597361` |
 | 22/09/2026 | Governance/documentation closeout | 0.3.5 | Ghi nhận AI-RUNTIME-002 post-merge closeout, đóng REV-AI-RUNTIME-002 | Gemini 3.8 Flash High | AI-RUNTIME-002, REV-AI-RUNTIME-002, PR #16 |
-| 22/09/2026 | `docs/tasks/APP-003-core-pipeline-orchestration.md` | 1.1.0 | Remediate đặc tả APP-003: dọn dẹp nguồn bắt buộc, loại bỏ lookup trùng lặp, chuẩn hóa AC-26 determinism và AC-32 regression | Gemini 3.8 Flash High | APP-003 |
+| 22/09/2026 | `docs/tasks/APP-003-core-pipeline-orchestration.md` | 1.2.0 | Làm cứng đặc tả APP-003 v1.2.0: helper `_cleanup_source` ngăn chặn mask lỗi, loại bỏ Python 3.14, tinh chỉnh AC-21 và AC-29 | Gemini 3.8 Flash High | APP-003, H-001, H-002, H-003 |
 
 ## 17. Prompt and Schema Versions
 

@@ -6,12 +6,12 @@
 |---|---|
 | Task ID | APP-003 |
 | Document title | APP-003 — Internal Core Pipeline Orchestration and Offline E2E Harness Specification |
-| Specification version | 1.1.0 |
-| Status | Specification — Remediated — Awaiting Independent Re-review |
+| Specification version | 1.2.0 |
+| Status | Specification — Final Hardening — Awaiting Targeted Re-review |
 | Owner | ChatGPT/Codex |
 | Author | Gemini 3.8 Flash High |
 | Reviewer | Gemini 3.1 Pro High + Human / Product Owner |
-| Human specification approval | Pending independent re-review |
+| Human specification approval | Pending targeted re-review |
 | Baseline commit | `59bfe67583040319a7a0c2aa156db31bab382737` |
 | Branch | `docs/app-003-core-pipeline-orchestration-spec` |
 | Prepared date | 22/09/2026 |
@@ -68,14 +68,14 @@ Theo đặc tả kiến trúc tại [`docs/system-specification.md`](../system-s
   - **Giai đoạn 3 (Draft Generation):** `OpenAIDraftRuntime.run_draft_generation(source_analysis, selected_title_candidate_id)` sinh validated `Patent Description Draft JSON`.
 - Hỗ trợ tham số tùy chọn `selected_title_candidate_id: str | None = None` để truyền lựa chọn tiêu đề của tác giả vào giai đoạn soạn thảo.
 - Hỗ trợ tham số tùy chọn `correlation_id: str | None = None` để cho phép caller truyền ID theo dõi hoặc tự sinh ngẫu nhiên nếu không có.
-- **Bắt buộc dọn dẹp tài nguyên nguồn (Mandatory Best-Effort Source Cleanup):** Sau khi hoàn tất pipeline (thành công hoặc thất bại), orchestrator luôn thực hiện dọn dẹp file tạm trên đĩa qua `DocumentStorage.delete(document_id)`. Trong cấu hình ứng dụng chuẩn APP-001 (`on_removed=registry.remove`), việc xóa file thành công trên storage cũng tự động gỡ bỏ metadata khỏi registry.
+- **Bắt buộc dọn dẹp tài nguyên nguồn an toàn ngoại lệ (Mandatory Best-Effort Source Cleanup with Exception Safety):** Sau khi hoàn tất pipeline (thành công hoặc thất bại), orchestrator luôn thực hiện dọn dẹp file tạm trên đĩa qua phương thức helper an toàn `self._cleanup_source(document_id)`. Helper này bọc lời gọi `DocumentStorage.delete(document_id)` và bắt toàn bộ ngoại lệ (bao gồm `ValueError` từ `path_for` và `OSError` từ I/O), đảm bảo không một lỗi dọn dẹp nào được phép che mờ lỗi nghiệp vụ chính hoặc làm hỏng kết quả thành công. Trong cấu hình ứng dụng chuẩn APP-001 (`on_removed=registry.remove`), việc xóa file thành công trên storage cũng tự động gỡ bỏ metadata khỏi registry.
 - Định nghĩa kiểu kết quả chuẩn `PipelineResult` chứa `analysis: dict[str, Any]`, `draft: dict[str, Any]`, và `metadata: PipelineMetadata`.
 - `PipelineMetadata` ghi nhận:
   - `document_id`: mã định danh UUID4 hex mờ 32 ký tự (`opaque 32-character UUID4 hex identifier`).
   - `correlation_id`: mã tương quan theo dõi.
   - `total_duration_ms`: tổng thời gian thực thi đo lường được (dữ liệu viễn thám / runtime observability).
   - `stages`: danh sách `PipelineStageMetadata` ghi nhận tên chặng, thời lượng, trạng thái, và provider request ID (nếu có).
-  - `source_cleanup_performed: bool`: cờ phản ánh chính xác kết quả dọn dẹp (`True` nếu `DocumentStorage.delete` thành công; `False` nếu dọn dẹp thất bại/chưa xác nhận, kèm cảnh báo log và TTL 1 giờ làm chốt chặn an toàn).
+  - `source_cleanup_performed: bool`: cờ phản ánh chính xác kết quả dọn dẹp (`True` nếu dọn dẹp thành công; `False` nếu dọn dẹp thất bại/chưa xác nhận hoặc phát sinh lỗi/ngoại lệ, kèm cảnh báo log và TTL 1 giờ làm chốt chặn an toàn).
 - Định nghĩa phân loại lỗi điều phối `PipelineOrchestrationError` an toàn với 3 chặng chính: `"preparation"`, `"extraction"`, `"draft_generation"`. Bảo toàn mã lỗi chuẩn (`code`), thông điệp an toàn (`safe_message`), đường dẫn JSON Pointer (`paths`) và xâu chuỗi ngoại lệ gốc (`from exc`).
 - Thiết kế Dependency Injection qua `typing.Protocol` cho các service con (`preparation_service`, `extraction_runtime`, `draft_runtime`) để phục vụ mock / fake trong kiểm thử.
 - Ghi log vận hành an toàn (chỉ log metadata, timing, IDs; không log văn bản thô, prompt, payload, hoặc secret).
@@ -83,7 +83,7 @@ Theo đặc tả kiến trúc tại [`docs/system-specification.md`](../system-s
 
 ### 3.2 Out of Scope (Các hạng mục không triển khai)
 
-- **Không cho phép tắt dọn dẹp nguồn (No Caller Source Retention):** Không cung cấp tham số `cleanup_source: bool = False` hay bất kỳ cơ chế nào cho phép caller bỏ qua việc dọn dẹp nguồn bắt buộc của APP-001.
+- **Không cho phép tắt dọn dẹp nguồn (No Caller Source Retention):** Không cung cấp bất kỳ tham số hay cơ chế nào cho phép caller bỏ qua việc dọn dẹp nguồn bắt buộc của APP-001.
 - **Không tạo Public HTTP Endpoint:** Không tạo route mới tại `/api/documents/{id}/analyze`, `/api/documents/{id}/draft`, hay `/api/pipeline`.
 - **Không tích hợp DOCX Rendering:** Không gọi `render_patent_docx_v1` hay sinh file DOCX trong APP-003.
 - **Không bổ sung hạ tầng hàng đợi/worker:** Không dùng Celery, RQ, Redis, Kafka, hay async background job queue.
@@ -258,7 +258,37 @@ class CorePipelineOrchestrator:
         correlation_id: str | None = None,
     ) -> PipelineResult:
         ...
+
+    def _cleanup_source(self, document_id: str) -> bool:
+        """Best-effort source cleanup ensuring no storage exception masks primary outcomes."""
+        try:
+            cleanup_ok = self.storage.delete(document_id)
+        except Exception:
+            LOGGER.warning(
+                "pipeline_source_cleanup_failed document_id=%s",
+                document_id,
+            )
+            return False
+
+        if not cleanup_ok:
+            LOGGER.warning(
+                "pipeline_source_cleanup_failed document_id=%s",
+                document_id,
+            )
+        return cleanup_ok
 ```
+
+> [!IMPORTANT]
+> **Nguyên tắc an toàn ngoại lệ của Cleanup (H-001):**
+> Trong mã nguồn hiện hành `backend/app/services/document_storage.py`, `DocumentStorage.path_for(document_id)` có thể ném `ValueError` khi `document_id` không hợp lệ (không phải chuỗi hex 32 ký tự) hoặc thoát khỏi thư mục storage, trước cả khi tới khối `_unlink_path`. Do đó, `DocumentStorage.delete()` không tự đảm bảo nuốt mọi ngoại lệ nếu mã định danh không đúng chuẩn.
+> Vì vậy, phương thức helper `_cleanup_source(document_id)` đóng vai trò là chốt chặn an toàn bắt buộc:
+> 1. Bắt mọi ngoại lệ (`Exception`, bao gồm `ValueError` và `OSError`) phát sinh từ `storage.delete()`.
+> 2. **Bất biến sống còn:** KHÔNG một ngoại lệ dọn dẹp nào được phép thay thế hoặc che mờ:
+>    - `DocumentPreparationError`
+>    - `ExtractionRuntimeError`
+>    - `DraftRuntimeError`
+>    - hoặc phá vỡ việc đóng gói và trả về `PipelineResult` thành công.
+> 3. Orchestrator luôn bảo toàn kết quả nghiệp vụ hoặc lỗi nghiệp vụ nguyên bản từ pipeline.
 
 ---
 
@@ -271,16 +301,16 @@ Luồng thực thi bên trong `CorePipelineOrchestrator.run_pipeline()` tuân th
    │
    ▼
 [Stage 1: Document Preparation (APP-002)]
-   │── Document unknown, missing, SHA mismatch, or parse error? ──► [Fail: stage='preparation', code=exc.code] (Cleanup attempt)
+   │── Document unknown, missing, SHA mismatch, or parse error? ──► [Fail: stage='preparation', code=exc.code] (Safe cleanup attempt)
    ▼
 [Stage 2: Extraction Runtime (AI-RUNTIME-001)]
-   │── Provider timeout, refusal, schema, or grounding error? ──► [Fail: stage='extraction', code=exc.code] (Cleanup attempt)
+   │── Provider timeout, refusal, schema, or grounding error? ──► [Fail: stage='extraction', code=exc.code] (Safe cleanup attempt)
    ▼
 [Stage 3: Draft Generation Runtime (AI-RUNTIME-002)]
-   │── Schema invalid, word count exceeded, or business error? ──► [Fail: stage='draft_generation', code=exc.code] (Cleanup attempt)
+   │── Schema invalid, word count exceeded, or business error? ──► [Fail: stage='draft_generation', code=exc.code] (Safe cleanup attempt)
    ▼
 [Mandatory Best-Effort Source Cleanup & Result Assembly]
-   │── Execute DocumentStorage.delete(document_id)
+   │── Execute self._cleanup_source(document_id)
    │── If False: log warning, source_cleanup_performed=False, TTL fallback
    │── If True: source_cleanup_performed=True
    ▼
@@ -294,7 +324,7 @@ Luồng thực thi bên trong `CorePipelineOrchestrator.run_pipeline()` tuân th
    - Bắt đầu đo thời gian chặng `preparation`.
    - Gọi `self.preparation_service.prepare_extraction_input(document_id)`.
    - `DocumentPreparationService` tự quản lý việc kiểm tra sự tồn tại trong registry (`document_unknown`), mở lease, kiểm tra file trên đĩa (`document_expired_or_missing`), kiểm tra tính toàn vẹn SHA-256 (`parse_failed`), parse nội dung, và kiểm tra văn bản trích xuất được (`no_extractable_text`).
-   - Nếu phát sinh `DocumentPreparationError`, bắt ngoại lệ, cố gắng thực hiện dọn dẹp file nguồn qua `self.storage.delete(document_id)`, ghi log lỗi an toàn, và raise `PipelineOrchestrationError(stage="preparation", code=exc.code, document_id=document_id, correlation_id=correlation_id) from exc`.
+   - Nếu phát sinh `DocumentPreparationError`, bắt ngoại lệ, thực hiện dọn dẹp file nguồn qua helper an toàn `self._cleanup_source(document_id)`, ghi log lỗi an toàn, và raise `PipelineOrchestrationError(stage="preparation", code=exc.code, document_id=document_id, correlation_id=correlation_id) from exc`.
    - Kết thúc chặng preparation thành công, nhận về đối tượng `ExtractionInputEnvelope`.
 
 2. **Trích xuất thông tin sáng chế (Stage 2: Extraction - AI-RUNTIME-001):**
@@ -302,7 +332,7 @@ Luồng thực thi bên trong `CorePipelineOrchestrator.run_pipeline()` tuân th
    - Gọi `self.extraction_runtime.run_extraction(envelope, correlation_id=correlation_id)`.
    - Service thực hiện chuyển đổi provider schema, gọi mô hình (hoặc fake), normalize, kiểm tra canonical schema và grounding validation.
    - Nhận về `ExtractionRuntimeResult` chứa `analysis` hợp lệ và `runtime` metadata.
-   - Nếu phát sinh `ExtractionRuntimeError`, bắt ngoại lệ, thực hiện dọn dẹp file nguồn qua `self.storage.delete(document_id)`, ghi log lỗi, và raise `PipelineOrchestrationError(stage="extraction", code=exc.code, document_id=document_id, correlation_id=correlation_id, paths=exc.paths) from exc`.
+   - Nếu phát sinh `ExtractionRuntimeError`, bắt ngoại lệ, thực hiện dọn dẹp file nguồn qua helper an toàn `self._cleanup_source(document_id)`, ghi log lỗi, và raise `PipelineOrchestrationError(stage="extraction", code=exc.code, document_id=document_id, correlation_id=correlation_id, paths=exc.paths) from exc`.
    - **Quy tắc bất biến:** Tuyệt đối KHÔNG gọi chặng draft nếu chặng extraction gặp bất kỳ lỗi nào.
 
 3. **Soạn thảo mô tả bằng sáng chế (Stage 3: Draft Generation - AI-RUNTIME-002):**
@@ -310,12 +340,12 @@ Luồng thực thi bên trong `CorePipelineOrchestrator.run_pipeline()` tuân th
    - Gọi `self.draft_runtime.run_draft_generation(source_analysis=extraction_result.analysis, selected_title_candidate_id=selected_title_candidate_id)`.
    - Service tạo `AI-003 Draft Input Envelope`, sinh draft provider schema, gọi mô hình (hoặc fake), normalize, kiểm tra canonical draft schema và business rules.
    - Nhận về `DraftRuntimeResult` chứa `draft` hợp lệ và `runtime` metadata.
-   - Nếu phát sinh `DraftRuntimeError`, bắt ngoại lệ, thực hiện dọn dẹp file nguồn qua `self.storage.delete(document_id)`, ghi log lỗi, và raise `PipelineOrchestrationError(stage="draft_generation", code=exc.code, document_id=document_id, correlation_id=correlation_id, paths=exc.paths) from exc`.
+   - Nếu phát sinh `DraftRuntimeError`, bắt ngoại lệ, thực hiện dọn dẹp file nguồn qua helper an toàn `self._cleanup_source(document_id)`, ghi log lỗi, và raise `PipelineOrchestrationError(stage="draft_generation", code=exc.code, document_id=document_id, correlation_id=correlation_id, paths=exc.paths) from exc`.
 
 4. **Dọn dẹp tài nguyên bắt buộc & Đóng gói kết quả (Mandatory Source Cleanup & Result Assembly):**
-   - Luôn thực hiện gọi `cleanup_ok = self.storage.delete(document_id)`.
+   - Luôn thực hiện gọi helper an toàn: `cleanup_ok = self._cleanup_source(document_id)`.
    - Nếu `cleanup_ok` là `True`: ghi nhận `source_cleanup_performed = True`.
-   - Nếu `cleanup_ok` là `False` (do file đã bị xóa, đang có active lease khác, hoặc lỗi I/O đĩa): ghi log cảnh báo mức `WARNING` (`document_cleanup_failed document_id=%s`), ghi nhận `source_cleanup_performed = False`. Quá trình dọn dẹp thất bại KHÔNG làm hỏng hay thay đổi trạng thái thành công của kết quả nghiệp vụ đã hoàn tất; cơ chế quét dọn TTL 1 giờ tự động của APP-001 tiếp tục là chốt chặn an toàn dự phòng.
+   - Nếu `cleanup_ok` là `False` (do active lease, cleanup chưa thể hoàn tất/xác nhận, hoặc lỗi dọn dẹp bộ lưu trữ cục bộ): ghi nhận `source_cleanup_performed = False` (đã được helper ghi log cảnh báo mức `WARNING`). Quá trình dọn dẹp thất bại KHÔNG làm hỏng hay thay đổi trạng thái thành công của kết quả nghiệp vụ đã hoàn tất; cơ chế quét dọn TTL 1 giờ tự động của APP-001 tiếp tục là chốt chặn an toàn dự phòng.
    - Tổng hợp `PipelineStageMetadata` cho từng chặng (thời gian, status, provider_request_id, token usage).
    - Đóng gói và trả về đối tượng `PipelineResult`.
 
@@ -331,11 +361,12 @@ APP-003 tuân thủ và đồng bộ tuyệt đối với hợp đồng quản l
 4. **Chính sách dọn dẹp bắt buộc (Mandatory Source Cleanup Policy):**
    - Theo đặc tả hợp đồng APP-001: *"file chỉ tồn tại cho pipeline/rendering cục bộ; xóa ngay sau khi downstream processing kết thúc."*
    - Do đó, APP-003 bắt buộc kích hoạt dọn dẹp file nguồn ngay sau khi quá trình điều phối kết thúc, không cho phép caller can thiệp giữ lại tài liệu.
-   - **Khi pipeline thành công:** File đĩa được dọn dẹp ngay tại Bước 4.
-   - **Khi pipeline thất bại:** File đĩa được dọn dẹp ngay trong khối xử lý lỗi của chặng tương ứng.
+   - **Khi pipeline thành công:** File đĩa được dọn dẹp an toàn qua `self._cleanup_source(document_id)` ngay tại Bước 4.
+   - **Khi pipeline thất bại:** File đĩa được dọn dẹp an toàn qua `self._cleanup_source(document_id)` ngay trong khối xử lý lỗi của chặng tương ứng trước khi re-raise.
 5. **Xử lý sự cố dọn dẹp (Cleanup Failure Semantics):**
-   - Nếu pipeline thành công nhưng việc dọn dẹp file đĩa thất bại: bảo toàn kết quả nghiệp vụ `analysis` và `draft`, ghi log cảnh báo an toàn, ghi nhận `source_cleanup_performed = False`, và để cơ chế TTL sweep dọn dẹp sau.
-   - Nếu pipeline thất bại và việc dọn dẹp file cũng thất bại: bảo toàn ngoại lệ nghiệp vụ gốc (`PipelineOrchestrationError`), không thay thế bằng lỗi dọn dẹp, ghi log cảnh báo an toàn, và để TTL sweep dọn dẹp sau.
+   - Helper nội bộ `self._cleanup_source(document_id)` bắt trọn mọi ngoại lệ (`Exception`, bao gồm `ValueError` từ `path_for` và `OSError` từ hệ thống tệp).
+   - Nếu pipeline thành công nhưng việc dọn dẹp file đĩa thất bại hoặc ném ngoại lệ: bảo toàn kết quả nghiệp vụ `analysis` và `draft`, ghi log cảnh báo an toàn `pipeline_source_cleanup_failed`, ghi nhận `source_cleanup_performed = False`, và để cơ chế TTL sweep dọn dẹp sau.
+   - Nếu pipeline thất bại và việc dọn dẹp file cũng thất bại hoặc ném ngoại lệ: bảo toàn ngoại lệ nghiệp vụ gốc (`PipelineOrchestrationError` chaining từ lỗi nguyên bản), tuyệt đối không để ngoại lệ dọn dẹp thay thế hay che mờ lỗi chính, ghi log cảnh báo an toàn `pipeline_source_cleanup_failed`, và để TTL sweep dọn dẹp sau.
 6. **Cơ chế Registry Cleanup liên kết:** Trong mô hình chuẩn của ứng dụng (`backend/app/main.py`), `DocumentStorage` được khởi tạo với `on_removed=registry.remove`. Do đó, mỗi khi `DocumentStorage.delete` xóa file thành công, bản ghi registry cũng đồng thời được dọn dẹp.
 7. **Không lưu trữ vĩnh viễn:** Tuyệt đối không lưu trữ tài liệu nghiên cứu vô thời hạn. Bộ quét TTL (`DocumentStorage.sweep_expired()`) tiếp tục là chốt chặn an toàn cho mọi tài liệu tồn tại quá 60 phút.
 
@@ -475,7 +506,7 @@ class FakeDraftRuntime:
 | **AC-18** | Bắt buộc dọn dẹp tài nguyên sau khi pipeline hoàn tất thành công | Lifecycle Test | File trên đĩa bị xóa sau khi hoàn tất; `source_cleanup_performed=True` | `storage.path_for(doc_id).exists() == False` |
 | **AC-19** | Bắt buộc dọn dẹp tài nguyên khi pipeline thất bại ở bất kỳ chặng nào | Lifecycle Test | File bị xóa ngay cả khi pipeline gặp lỗi ở giữa chặng | File được xóa an toàn trong error handler |
 | **AC-20** | Ràng buộc hợp đồng: Caller không thể vô hiệu hóa dọn dẹp nguồn APP-001 | Contract Guard | Không có tham số `cleanup_source` hay switch bỏ qua dọn dẹp trong interface orchestrator | Chữ ký phương thức `run_pipeline` không có cờ bỏ qua cleanup |
-| **AC-21** | Lỗi khi cleanup không làm đè lỗi chính hay làm hỏng payload thành công | Robustness Test | `storage.delete` gặp lỗi hoặc trả `False` vẫn bảo toàn kết quả; `source_cleanup_performed=False` | Log WARNING xuất hiện, không ném lỗi xóa file |
+| **AC-21** | Lỗi hoặc ngoại lệ khi cleanup không làm đè lỗi chính hay làm hỏng kết quả thành công | Robustness Test | Kiểm thử rõ ràng cả hai trường hợp: (A) `storage.delete` trả về `False` (do active lease hoặc không thể xác nhận xóa); và (B) `storage.delete` ném ngoại lệ (bao gồm `ValueError` do ID không hợp lệ hoặc lỗi I/O bất thường). Cả 2 trường hợp đều kỳ vọng: kết quả thành công được bảo toàn đầy đủ với `source_cleanup_performed=False`; nếu pipeline đã gặp lỗi từ trước thì ngoại lệ chính vẫn được re-raise nguyên vẹn; log cảnh báo an toàn `WARNING` được phát ra; không có ngoại lệ dọn dẹp nào thoát ra ngoài; cơ chế TTL sweep sẵn sàng quét dọn sau | Mọi assertion bảo toàn kết quả/lỗi gốc và log WARNING đều PASS |
 | **AC-22** | Không gọi mạng bên ngoài trong default test suite | Network Guard | Chạy toàn bộ test suite khi ngắt mạng hoặc không có API key | Toàn bộ offline test suite PASS |
 | **AC-23** | Không yêu cầu `OPENAI_API_KEY` trong môi trường test | Config Guard | Chạy test khi `$env:OPENAI_API_KEY=""` | Toàn bộ offline test suite PASS |
 | **AC-24** | Số lần gọi Fake Extraction Runtime hoàn toàn tất định | Determinism Test | Chính xác 1 lần gọi cho mỗi pipeline run hợp lệ | `len(fake_extraction.invocations) == 1` |
@@ -483,7 +514,7 @@ class FakeDraftRuntime:
 | **AC-26** | Tính tất định của luồng điều phối nghiệp vụ và bàn giao dữ liệu | Determinism Test | Với input cố định và fake runtimes tất định, thứ tự gọi, số lần gọi, envelope, analysis và draft payload là giống hệt nhau qua các lần chạy lặp lại; các trường dữ liệu viễn thám thời gian (`duration_ms`, `total_duration_ms`) và ID sinh ngẫu nhiên (`correlation_id`, `provider_request_id`) được loại trừ rõ ràng khỏi phép so sánh bằng nhau tuyệt đối | So sánh cấu trúc và nội dung nghiệp vụ PASS |
 | **AC-27** | Bảo vệ quyền riêng tư trong log và thông điệp lỗi | Privacy Guard | Error message và log không chứa raw text, prompts, hay secrets | Scan log output không có dữ liệu nhạy cảm |
 | **AC-28** | Không làm biến dạng hay trôi hợp đồng của AI-001/AI-002/AI-003 | Contract Guard | Dữ liệu output tuân thủ 100% JSON Schema Draft 2020-12 | Canonical validators kiểm tra đều PASS |
-| **AC-29** | Không có Public HTTP Endpoint nào được tạo ra | Scope Guard | Kiểm tra routing table của FastAPI app | Chỉ có `GET /health` và `POST /api/documents` |
+| **AC-29** | Không có Public HTTP Endpoint nghiệp vụ mới nào được tạo ra | Scope Guard | Kiểm tra API routes của FastAPI app | Xác nhận APP-003 không bổ sung endpoint nghiệp vụ công khai nào; API nghiệp vụ ứng dụng hiện hành giữ nguyên không đổi (`GET /health` và `POST /api/documents`); đặc biệt không xuất hiện các route mới như `/api/pipeline`, `/api/documents/{id}/analyze`, `/api/documents/{id}/generate-draft` hoặc tương đương; các route tài liệu kỹ thuật tự sinh của framework (`/openapi.json`, `/docs`, `/docs/oauth2-redirect`, `/redoc`) không bị tính là route nghiệp vụ của APP-003 | Bảng định tuyến nghiệp vụ không đổi |
 | **AC-30** | Không thêm thư viện phụ thuộc mới | Dependency Guard | `requirements.txt` không thay đổi; `pip check` PASS | Không thêm package ngoài |
 | **AC-31** | Không thay đổi chính sách mô hình AI | Policy Guard | Giữ nguyên `gpt-5.6-sol`, reasoning `high`, `store=False` | Settings không bị thay đổi |
 | **AC-32** | Không phát sinh lỗi hoặc hỏng hóc hồi quy bất thường trong các bộ kiểm thử hiện có | Regression Test | Chạy toàn bộ test suites hiện tại của repository; zero unexpected failures/errors; chỉ cho phép các intentional skips đã được ghi nhận trước đó | Regression suites PASS |
@@ -506,32 +537,37 @@ Khi bước vào Phase Implementation (nhiệm vụ kỹ thuật tương lai đ�
 
 ## 13. Regression Validation Plan
 
-Trong giai đoạn implementation tiếp theo, agent thực hiện bắt buộc phải chạy kế hoạch kiểm thử tự động sau:
+Trong giai đoạn implementation tiếp theo, agent thực hiện bắt buộc phải chạy kế hoạch kiểm thử tự động trong môi trường ảo của dự án (yêu cầu Python 3.12.x). Tuyệt đối không hard-code đường dẫn tuyệt đối cục bộ của máy phát triển (như cài đặt Python máy cá nhân) vào quy trình:
 
 ```powershell
 $env:PYTHONDONTWRITEBYTECODE="1"
 
+# 0. Xác minh môi trường Python dự án (bắt buộc Python 3.12.x; không phụ thuộc Python 3.14)
+python --version
+
 # 1. Toàn bộ test suite schema hiện có
-.\.venv\Scripts\python.exe -m unittest discover -s tests/schema -p "test_*.py" -v
+python -m unittest discover -s tests/schema -p "test_*.py" -v
 
 # 2. Toàn bộ test suite prompt hiện có
-.\.venv\Scripts\python.exe -m unittest discover -s tests/prompt -p "test_*.py" -v
+python -m unittest discover -s tests/prompt -p "test_*.py" -v
 
 # 3. Toàn bộ test suite draft contract hiện có
-.\.venv\Scripts\python.exe -m unittest discover -s tests/draft -p "test_*.py" -v
+python -m unittest discover -s tests/draft -p "test_*.py" -v
 
 # 4. Toàn bộ test suite docx template hiện có
-.\.venv\Scripts\python.exe -m unittest discover -s tests/docx -p "test_*.py" -v
+python -m unittest discover -s tests/docx -p "test_*.py" -v
 
 # 5. Toàn bộ backend test suite (bao gồm APP-001, APP-002, AI-RUNTIME-001, AI-RUNTIME-002 và APP-003 mới)
-C:\Python314\python.exe -m pytest tests/backend/
+python -m pytest tests/backend/
 
 # 6. Kiểm tra tính toàn vẹn phụ thuộc
-.\.venv\Scripts\python.exe -m pip check
+python -m pip check
 
 # 7. Kiểm tra định dạng và khoảng trắng
 git diff --check
 ```
+
+*(Lưu ý về tính di động môi trường: Lệnh gọi `python` ở trên được thực thi thông qua môi trường ảo kích hoạt của dự án hoặc binary ảo tương đương `.\.venv\Scripts\python.exe`. Toàn bộ bộ test backend chạy qua pytest bằng Python 3.12 của dự án; không giới thiệu bất kỳ dependency hay yêu cầu nào đối với Python 3.14).*
 
 ---
 
@@ -540,7 +576,7 @@ git diff --check
 | Rủi ro | Mức độ | Biện pháp giảm thiểu |
 |---|---|---|
 | **Rò rỉ dữ liệu nghiên cứu chưa công bố** | Critical | Chỉ dùng synthetic fixtures cho testing; bắt buộc dọn dẹp file nguồn ngay sau khi chạy; không log payload, prompt, hay text; BLK-003 vẫn mở ngăn chặn production usage. |
-| **Xung đột bộ nhớ / Disk lock trên Windows** | Medium | Sử dụng `storage.lease()` chuẩn trong APP-002; bắt buộc gọi `storage.delete()` sau khi lease đã giải phóng; xử lý an toàn lỗi I/O để bảo toàn kết quả và để TTL sweep dọn dẹp sau. |
+| **Xung đột bộ nhớ / Disk lock trên Windows** | Medium | Sử dụng `storage.lease()` chuẩn trong APP-002; bắt buộc gọi `_cleanup_source()` sau khi lease đã giải phóng; helper bắt mọi ngoại lệ (kể cả `ValueError` và `OSError`) để bảo toàn kết quả và để TTL sweep dọn dẹp sau. |
 | **Lệch pha dữ liệu giữa Extraction và Draft** | High | Tận dụng chính xác `build_draft_input_envelope` và các validator chuẩn đã được kiểm chứng của AI-RUNTIME-002. |
 | **Vô tình kích hoạt gọi API tốn phí** | High | Default E2E harness sử dụng Fake Runtimes; live smoke test được tách biệt hoàn toàn và yêu cầu cờ môi trường riêng. |
 
@@ -550,22 +586,24 @@ git diff --check
 
 | Quyết định | Trạng thái hiện tại | Ghi chú |
 |---|---|---|
-| **Scope & Boundaries của APP-003** | Khuyến nghị phê duyệt theo đặc tả remediated này | Dừng lại ở Validated Draft JSON; không mở public endpoint, không render DOCX, dọn dẹp file nguồn bắt buộc theo APP-001. |
-| **Chính sách dọn dẹp file nguồn** | Đã định đoạt bởi hợp đồng APP-001 | Bắt buộc dọn dẹp sau khi pipeline kết thúc; không cần Human decision mới. |
+| **Scope & Boundaries của APP-003** | Khuyến nghị phê duyệt theo đặc tả hardened này (v1.2.0) | Dừng lại ở Validated Draft JSON; không mở public endpoint, không render DOCX, dọn dẹp file nguồn bắt buộc và an toàn ngoại lệ qua helper best-effort. |
+| **Chính sách dọn dẹp file nguồn** | Đã định đoạt bởi hợp đồng APP-001 | Bắt buộc dọn dẹp sau khi pipeline kết thúc; helper `_cleanup_source` bảo đảm an toàn ngoại lệ. |
 | **Quyết định kiến trúc mới** | Không yêu cầu ADR mới | Kế thừa trọn vẹn ADR-001 đến ADR-010. |
-| **Phê duyệt đặc tả sau Re-review** | Chờ Human / Product Owner quyết định | Yêu cầu kết quả independent re-review từ Gemini 3.1 Pro High trước khi Human phê duyệt. |
+| **Phê duyệt đặc tả sau Re-review** | Chờ Human / Product Owner quyết định | Yêu cầu kết quả targeted independent re-review từ Gemini 3.1 Pro High cho H-001/H-002/H-003 trước khi Human phê duyệt. |
 
 ---
 
 ## 16. Definition of Done (DoD) cho Specification
 
 Đặc tả APP-003 được coi là hoàn tất khi:
-- [x] Tài liệu đặc tả `docs/tasks/APP-003-core-pipeline-orchestration.md` được remediate đầy đủ các phát hiện review.
-- [x] Xung đột chính sách dọn dẹp nguồn được giải quyết triệt để, đồng bộ với APP-001 (mandatory cleanup, không có `cleanup_source` parameter).
-- [x] Tính tất định trong AC-26 được chuẩn hóa cho dữ liệu nghiệp vụ, loại trừ dữ liệu viễn thám thời gian.
-- [x] Loại bỏ đề xuất sửa đổi không cần thiết đối với `backend/app/main.py`.
-- [x] Không sửa đổi bất kỳ file mã nguồn backend, schema, prompt, fixture, template, hay test nào.
-- [x] Trạng thái nhiệm vụ được cập nhật chính xác trong tài liệu quản trị: `Specification — Remediated — Awaiting Independent Re-review`.
+- [x] Tài liệu đặc tả `docs/tasks/APP-003-core-pipeline-orchestration.md` được làm cứng (hardened) đầy đủ 3 residual findings (H-001, H-002, H-003).
+- [x] Cơ chế an toàn ngoại lệ cho cleanup (H-001) được thiết lập: helper `_cleanup_source` bắt mọi ngoại lệ (bao gồm `ValueError` từ `path_for` và lỗi I/O), bảo toàn nguyên vẹn kết quả hoặc lỗi chính.
+- [x] AC-21 được mở rộng kiểm thử cả `storage.delete` trả về `False` và ném ngoại lệ `ValueError`.
+- [x] Kế hoạch kiểm thử hồi quy (H-002) được môi trường hóa độc lập, loại bỏ đường dẫn tuyệt đối Python 3.14, chuẩn hóa Python 3.12.x virtual environment.
+- [x] AC-29 (H-003) được tinh chỉnh phân biệt giữa route nghiệp vụ và framework documentation routes.
+- [x] Đã chuẩn hóa từ ngữ conservative đối với trạng thái dọn dẹp trả về `False`.
+- [x] Không sửa đổi bất kỳ file mã nguồn backend, test, schema, prompt, fixture, template hay dependencies nào.
+- [x] Trạng thái nhiệm vụ được cập nhật chính xác trong tài liệu quản trị: `Specification — Final Hardening — Awaiting Targeted Re-review`.
 - [x] Không tuyên bố Phase 1, Phase 2, hay MVP hoàn thành.
 - [x] `git diff --check` đạt kết quả sạch (clean).
 - [x] Nhánh `docs/app-003-core-pipeline-orchestration-spec` được push lên remote repository.
@@ -578,14 +616,14 @@ git diff --check
 Task ID: APP-003
 Agent: Gemini 3.8 Flash High
 Reviewer: Gemini 3.1 Pro High + Human / Product Owner
-Status: Specification — Remediated — Awaiting Independent Re-review
-Version: Specification 1.1.0
-Work completed: Remediated APP-003 core pipeline orchestration specification after independent review: aligned source cleanup contract with APP-001 (mandatory cleanup, removed cleanup_source parameter), removed redundant registry lookup, refined determinism contract (AC-26) to exclude volatile observability telemetry, corrected document_id terminology to opaque 32-character UUID4 hex, refined regression contract (AC-32), and removed speculative main.py modification.
+Status: Specification — Final Hardening — Awaiting Targeted Re-review
+Version: Specification 1.2.0
+Work completed: Hardened APP-003 core pipeline orchestration specification: resolved residual findings H-001 (best-effort cleanup helper _cleanup_source catching all storage exceptions including ValueError to prevent masking primary business/runtime failures, updated AC-21 to test both False return and ValueError exceptions), H-002 (removed machine-specific Python 3.14 path, mandated environment-portable Python 3.12 project virtualenv), H-003 (refined AC-29 to distinguish FastAPI framework documentation routes from business endpoints), and refined cleanup failure wording to be conservative.
 Files affected: docs/tasks/APP-003-core-pipeline-orchestration.md; docs/operations/01_PROJECT_CONTROL_CENTER.md; PROJECT_CONTEXT.md; README.md.
 Evidence checked: Git branch, status, diff check PASS; zero production code, tests, or schemas modified.
-Findings: All findings from independent review addressed; fully consistent with APP-001/002, ADR-001 through ADR-010.
-Decisions: Human specification approval pending independent re-review by Gemini 3.1 Pro High.
+Findings: All residual findings H-001, H-002, H-003 addressed; fully consistent with APP-001/002, ADR-001 through ADR-010.
+Decisions: Human specification approval pending targeted independent re-review by Gemini 3.1 Pro High for H-001/H-002/H-003.
 Issues: BLK-003 remains open; live provider smoke remains deferred due to lack of API funding.
-Security impact: Mandatory cleanup mitigates disk retention risk; no credentials, PII or research content exposed.
-Recommended next action: Independent re-review by Gemini 3.1 Pro High before Human approval and implementation scheduling.
+Security impact: Mandatory safe cleanup mitigates disk retention risk; no credentials, PII or research content exposed.
+Recommended next action: Targeted independent re-review by Gemini 3.1 Pro High of H-001/H-002/H-003 before Human approval and implementation scheduling.
 ```
