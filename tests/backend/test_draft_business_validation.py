@@ -279,7 +279,7 @@ def test_fd01_invalid_selected_id_missing_correct_pass():
         }
         d["missing_information"].append({
             "missing_id": "m2", "origin": "DRAFT_VALIDATION", "rule_id": "TITLE_SELECTION_REQUIRED",
-            "target_path": "/selected_title", "description": "", "reason": "NOT_FOUND", "impact": "HIGH", "owner": "AUTHOR",
+            "target_path": "/title_candidates", "description": "", "reason": "NOT_FOUND", "impact": "HIGH", "owner": "AUTHOR",
             "grounding_label": "MISSING", "affected_section_ids": ["TITLE"]
         })
         for ev in d["evidence_appendix"]:
@@ -305,7 +305,7 @@ def test_fd01_absent_selected_id_missing_correct_pass():
         }
         d["missing_information"].append({
             "missing_id": "m2", "origin": "DRAFT_VALIDATION", "rule_id": "TITLE_SELECTION_REQUIRED",
-            "target_path": "/selected_title", "description": "", "reason": "NOT_FOUND", "impact": "HIGH", "owner": "AUTHOR",
+            "target_path": "/title_candidates", "description": "", "reason": "NOT_FOUND", "impact": "HIGH", "owner": "AUTHOR",
             "grounding_label": "MISSING", "affected_section_ids": ["TITLE"]
         })
         for ev in d["evidence_appendix"]:
@@ -399,3 +399,47 @@ def test_fd07_selected_title_prohibited_content():
     def mod(d, s):
         d["selected_title"]["text"] += " This is patentable."
     run_failure_test(mod, ["/selected_title/text"])
+
+# === F-D10: DRAFT MISSING target_path MUST RESOLVE ===
+def test_fd10_target_path_invalid_fails():
+    def mod(d, s):
+        d["missing_information"].append({
+            "missing_id": "m10", "origin": "DRAFT_VALIDATION", "rule_id": "TITLE_SELECTION_REQUIRED",
+            "target_path": "/selected_title", "description": "", "reason": "NOT_FOUND", "impact": "HIGH", "owner": "AUTHOR",
+            "grounding_label": "MISSING", "affected_section_ids": ["TITLE"]
+        })
+    run_failure_test(mod, ["/missing_information/0/target_path"])
+
+def test_fd10_target_path_malformed_fails():
+    def mod(d, s):
+        d["missing_information"].append({
+            "missing_id": "m11", "origin": "DRAFT_VALIDATION", "rule_id": "TITLE_SELECTION_REQUIRED",
+            "target_path": "/title_candidates/1/~2escape", "description": "", "reason": "NOT_FOUND", "impact": "HIGH", "owner": "AUTHOR",
+            "grounding_label": "MISSING", "affected_section_ids": ["TITLE"]
+        })
+    run_failure_test(mod, ["/missing_information/0/target_path"])
+
+def test_fd10_target_path_valid_passes():
+    def mod(d, s):
+        d["missing_information"].append({
+            "missing_id": "m12", "origin": "DRAFT_VALIDATION", "rule_id": "TITLE_SELECTION_REQUIRED",
+            "target_path": "/title_candidates", "description": "", "reason": "NOT_FOUND", "impact": "HIGH", "owner": "AUTHOR",
+            "grounding_label": "MISSING", "affected_section_ids": ["TITLE"]
+        })
+    data = load_fixture("representative.json")
+    draft = copy.deepcopy(data["expected_output"])
+    source = copy.deepcopy(data["input"]["source_analysis"])
+    mod(draft, source)
+    validate_draft_business_rules(draft, source, selected_title_candidate_id="title-calibration")
+
+# === F-D11: SELECTED TITLE PATH MUST RESOLVE EXACT CANDIDATE ===
+def test_fd11_selected_title_parent_list_fails():
+    def mod(d, s):
+        d["selected_title"]["source_paths"] = ["/title_candidates"]
+    run_failure_test(mod, ["/selected_title/source_paths/0"])
+
+def test_fd11_selected_title_wrong_candidate_fails():
+    def mod(d, s):
+        # Suppose candidate 0 was selected, but we point to candidate 1
+        d["selected_title"]["source_paths"] = ["/title_candidates/1"]
+    run_failure_test(mod, ["/selected_title/source_paths/0"])

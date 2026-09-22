@@ -197,7 +197,10 @@ def validate_draft_business_rules(
                         except Exception:
                             _err(f"{current_path}/{k}/{i}")
                 elif k == "target_path" and isinstance(v, str):
-                    pass # Handled specifically for SOURCE_ANALYSIS in missing_info check
+                    try:
+                        _resolve_json_pointer(source_analysis, v)
+                    except Exception:
+                        _err(f"{current_path}/{k}")
                 _check_source_paths(v, f"{current_path}/{k}")
         elif isinstance(node, list):
             for i, v in enumerate(node):
@@ -232,11 +235,10 @@ def validate_draft_business_rules(
         for i, sp in enumerate(title_node.get("source_paths", [])):
             try:
                 resolved = _resolve_json_pointer(source_analysis, sp)
-                if resolved != found_cand and found_cand not in (resolved if isinstance(resolved, list) else []):
-                    if sp != f"/title_candidates/{cands.index(found_cand)}":
-                        _err(f"/selected_title/source_paths/{i}")
+                if resolved != found_cand:
+                    _err(f"/selected_title/source_paths/{i}")
             except Exception:
-                pass
+                _err(f"/selected_title/source_paths/{i}")
     else:
         # Invalid or absent candidate ID
         if title_node.get("status") != "MISSING":
