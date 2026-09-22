@@ -10,14 +10,14 @@
 | Document title | Gemini Review Log |
 | Project | AI Intellectual Property Description Generator |
 | Project deadline | 02/10/2026 |
-| Version | 0.3.4 |
+| Version | 0.3.5 |
 | Status | Active review log |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High + Gemini 3.8 Flash High |
 | Created date | 18/09/2026 |
 | Last updated | 22/09/2026 GMT+7 |
-| Related task ID | REVIEW-001; SPEC-001; SPEC-002; SPEC-003; AI-001; AI-002; AI-003; DOC-001; APP-001; APP-002; AI-RUNTIME-001; AI-RUNTIME-002 |
+| Related task ID | REVIEW-001; SPEC-001; SPEC-002; SPEC-003; AI-001; AI-002; AI-003; DOC-001; APP-001; APP-002; AI-RUNTIME-001; AI-RUNTIME-002; APP-003 |
 | Source of Truth | Review history; bản nguồn Git tại `docs/operations/02_GEMINI_REVIEW_LOG.md` |
 | Confidentiality level | Internal; findings về research input có thể là Confidential |
 
@@ -39,6 +39,7 @@
 | 0.3.1 | 0.3.2 | 21/09/2026 | ChatGPT/Codex | Bảo toàn APP-002 initial REQUEST CHANGES/F-001/F-002, ghi remediation, targeted PASS, Human merge decision và đóng REV-APP-002 | Post-merge governance closeout | APP-002, REV-APP-002, PR #12, merge commit `4a001d116cbf002bdd42a9151efbf3f308fce3e6` | No |
 | 0.3.2 | 0.3.3 | 21/09/2026 | ChatGPT/Codex | Bảo toàn lifecycle review AI-RUNTIME-001, ghi F-001 remediation, targeted PASS, Human merge decision và đóng REV-AI-RUNTIME-001 | Post-merge governance closeout | AI-RUNTIME-001, REV-AI-RUNTIME-001, PR #14, merge commit `597f6c7b074eb2c5e445790b8c4f48f336f04da5` | No |
 | 0.3.3 | 0.3.4 | 22/09/2026 | Gemini 3.8 Flash High | Ghi lifecycle review AI-RUNTIME-002 (Checkpoints A-E, remediation, independent review APPROVED, Human merge PR #16 và deferred live smoke) | Post-merge governance closeout | AI-RUNTIME-002, REV-AI-RUNTIME-002, PR #16, merge commit `978516a4f5caa90bbd2189668237c6e028597361` | No |
+| 0.3.4 | 0.3.5 | 22/09/2026 | Gemini 3.8 Flash High | Ghi nhận vòng đời review đặc tả APP-003: initial REQUEST CHANGES, remediation v1.1.0 PASS, final hardening v1.2.0 PASS, Human phê duyệt v1.2.0, merge PR #18 và đóng REV-APP-003 | Post-merge specification governance closeout | REV-APP-003, APP-003, PR #18, merge commit `bfbcdc760916f497b603bcd49ce0150d6819d337` | No |
 
 ## 2. Review Rules
 
@@ -1419,6 +1420,139 @@ Merged successfully. The abstract-governance inconsistency plus F-D12/F-D13/F-D1
 #### 17. Resolved Version
 
 `978516a4f5caa90bbd2189668237c6e028597361`
+
+#### 18. Closed Date
+
+`22/09/2026`
+
+#### 19. Closed By
+
+Human / Product Owner.
+
+### REV-APP-003
+
+#### Date
+
+`22/09/2026`
+
+#### Reviewer
+
+Gemini 3.1 Pro High. Review mode: **Independent, read-only**.
+
+#### Task ID
+
+`APP-003`
+
+#### Artefact reviewed
+
+`docs/tasks/APP-003-core-pipeline-orchestration.md`
+
+#### Version reviewed
+
+Specification `1.2.0` (Hardened baseline; initial `1.0.0`, remediated `1.1.0`); resolved by merge commit `bfbcdc760916f497b603bcd49ce0150d6819d337`, Pull Request [#18](https://github.com/nshaokiet/ai-ip-description-generator/pull/18).
+
+#### Review status
+
+`CLOSED`
+
+Current state: `Specification — Approved & Merged via PR #18; Implementation — NOT STARTED (Deferred until 26/09/2026 for Codex execution after quota reset)`.
+
+#### 1. Review Objective
+
+Review độc lập, khách quan đặc tả kỹ thuật APP-003 Internal Core Pipeline Orchestration and Offline E2E Harness (v1.0.0, v1.1.0, v1.2.0), kiểm tra sự đồng bộ với các hợp đồng đã hoàn tất (APP-001, APP-002, AI-RUNTIME-001, AI-RUNTIME-002), tính nhất quán của cơ chế dọn dẹp tài nguyên bắt buộc, tính tất định của luồng dữ liệu, tính di động môi trường và ranh giới an toàn ngoại lệ.
+
+#### 2. Sources Reviewed
+
+- `docs/tasks/APP-003-core-pipeline-orchestration.md` (v1.0.0, v1.1.0, v1.2.0)
+- `backend/app/services/document_storage.py` (kiểm tra hành vi `DocumentStorage.delete` và `path_for` với ngoại lệ `ValueError`)
+- `backend/app/services/preparation_service.py` (APP-002 contract)
+- `backend/app/services/extraction_runtime.py` (AI-RUNTIME-001 contract)
+- `backend/app/services/draft_runtime.py` (AI-RUNTIME-002 contract)
+- `docs/system-specification.md`, `PROJECT_CONTEXT.md`, `AGENTS.md`, ADR-001 đến ADR-010.
+
+#### 3. Summary
+
+Vòng đời rà soát đặc tả APP-003 bao gồm:
+1. **Initial review (v1.0.0):** Gemini 3.1 Pro High kết luận `REQUEST CHANGES` với 2 findings: F-001 (xung đột chính sách dọn dẹp nguồn: đặc tả ban đầu đề xuất cờ `cleanup_source: bool = True` cho phép caller tắt dọn dẹp, vi phạm hợp đồng bảo vệ dữ liệu APP-001) và F-002 (hợp đồng tất định AC-26 so sánh cả trường viễn thám thời gian).
+2. **Remediation & Re-review (v1.1.0):** Gemini 3.8 Flash High khắc phục triệt để F-001 (xóa bỏ cờ tắt dọn dẹp, bắt buộc best-effort source cleanup) và F-002 (loại trừ trường viễn thám khỏi kiểm tra tất định). Gemini 3.1 Pro High re-review kết luận `PASS` kèm 3 residual non-blocking hardening notes (H-001, H-002, H-003).
+3. **Final Hardening & Targeted Re-review (v1.2.0):** Gemini 3.8 Flash High xử lý hoàn tất H-001 (bổ sung helper `_cleanup_source` đảm bảo an toàn ngoại lệ, ngăn ngoại lệ storage masking lỗi nghiệp vụ), H-002 (loại bỏ đường dẫn tuyệt đối Python 3.14, môi trường hóa độc lập cho Python 3.12.x), và H-003 (tinh chỉnh AC-29 phân biệt route nghiệp vụ với OpenAPI docs routes của framework). Gemini 3.1 Pro High thực hiện targeted re-review và kết luận `PASS`.
+4. **Human Decision & Merge:** Human / Product Owner chính thức phê duyệt Specification v1.2.0 và merge PR #18 vào `main` tại merge commit `bfbcdc760916f497b603bcd49ce0150d6819d337`.
+
+#### 4. Findings
+
+- **F-001 (v1.0.0, HIGH):** Caller option to disable source cleanup conflicted with APP-001 mandatory cleanup policy. -> **RESOLVED** in v1.1.0 by removing caller retention switch and mandating best-effort cleanup.
+- **F-002 (v1.0.0, MEDIUM):** AC-26 determinism asserted strict equality on volatile telemetry/timing fields. -> **RESOLVED** in v1.1.0 by excluding telemetry from determinism assertions.
+- **H-001 (v1.1.0, LOW/NOTE):** Storage delete might raise unhandled `ValueError` from `path_for` masking primary pipeline errors. -> **RESOLVED** in v1.2.0 via `_cleanup_source` safe helper and updated AC-21.
+- **H-002 (v1.1.0, LOW/NOTE):** Machine-specific Python 3.14 path in regression script. -> **RESOLVED** in v1.2.0 by standardizing on project virtualenv Python 3.12.
+- **H-003 (v1.1.0, LOW/NOTE):** AC-29 needed clarification to exclude FastAPI framework documentation routes (`/docs`, `/openapi.json`). -> **RESOLVED** in v1.2.0.
+
+#### 5. Source-Grounding Issues
+
+Không phát hiện. Đặc tả tuân thủ nghiêm ngặt nguyên tắc dẫn xuất dữ liệu tuần tự và bảo toàn source evidence locators qua các chặng.
+
+#### 6. Hallucination Risks
+
+Không có finding. Đặc tả kế thừa toàn bộ cơ chế validation canonical và business rules từ AI-001, AI-002, AI-RUNTIME-001 và AI-RUNTIME-002.
+
+#### 7. Missing Information
+
+Không có. Đặc tả đã đầy đủ 32 acceptance criteria, giao diện dependency injection, sơ đồ tuần tự và kịch bản kiểm thử.
+
+#### 8. Technical Concerns
+
+Tất cả các lo ngại kỹ thuật về an toàn ngoại lệ khi dọn dẹp tệp nguồn (H-001) và tính di động môi trường (H-002) đã được giải quyết trọn vẹn trong phiên bản v1.2.0.
+
+#### 9. Security and Privacy Concerns
+
+Bảo vệ quyền riêng tư được nâng cao: tài liệu nguồn bắt buộc phải dọn dẹp ngay sau khi pipeline hoàn tất (thành công hoặc thất bại); helper `_cleanup_source` đảm bảo không bị gián đoạn; TTL sweep 1 giờ tiếp tục là chốt chặn dự phòng; BLK-003 vẫn mở ngăn chặn sử dụng dữ liệu nghiên cứu thật trước khi chốt hạ tầng sản xuất.
+
+#### 10. Consistency Issues
+
+Hoàn toàn nhất quán với ADR-001 đến ADR-010 và hợp đồng các thành phần APP-001, APP-002, AI-RUNTIME-001, AI-RUNTIME-002.
+
+#### 11. Suggested Changes
+
+Không có thay đổi kỹ thuật nào thêm cho tài liệu đặc tả.
+
+#### 12. Recommendation
+
+`APPROVE`
+
+Current state: `Specification — Approved & Merged via PR #18`.
+
+#### 13. Handoff to ChatGPT/Codex
+
+```text
+Task ID: APP-003
+Agent: Gemini 3.8 Flash High
+Reviewer: Human / Product Owner
+Status: CLOSED — Specification Approved & Merged via PR #18
+Version: Specification 1.2.0; merge commit bfbcdc760916f497b603bcd49ce0150d6819d337
+Work completed: Complete independent review lifecycle for APP-003 specification: initial REQUEST CHANGES, remediation v1.1.0, final hardening v1.2.0 PASS; Human / Product Owner approved Specification v1.2.0 and merged PR #18.
+Files affected: docs/tasks/APP-003-core-pipeline-orchestration.md; docs/operations/01_PROJECT_CONTROL_CENTER.md; docs/operations/02_GEMINI_REVIEW_LOG.md; PROJECT_CONTEXT.md; README.md.
+Evidence checked: PR #18 merged into main at bfbcdc760916f497b603bcd49ce0150d6819d337; git diff --check PASS; zero production code or tests modified.
+Findings: All findings F-001, F-002 and hardening notes H-001, H-002, H-003 resolved; REV-APP-003 CLOSED.
+Decisions: Specification v1.2.0 approved and merged. Implementation deferred to 26/09/2026 for Codex execution.
+Issues: Implementation NOT STARTED; BLK-003 remains open; live provider smoke remains deferred due to lack of API funding.
+Security impact: Mandatory safe cleanup mitigates disk retention risk; no secrets or confidential paper data exposed.
+Recommended next action: Wait until 26/09/2026, then create a fresh APP-003 implementation branch from main and assign implementation to Codex.
+```
+
+#### 14. ChatGPT/Codex Response
+
+`ACCEPT`. Đặc tả kỹ thuật APP-003 v1.2.0 đã được làm cứng hoàn chỉnh và nhận được sự phê duyệt của Human / Product Owner. Toàn bộ quá trình triển khai mã nguồn sẽ được hoãn đến 26/09/2026 để Codex thực hiện sau khi quota reset.
+
+#### 15. Human Decision
+
+Human Decision: `APPROVED FOR SPECIFICATION MERGE`. Human / Product Owner đã chính thức phê duyệt APP-003 Specification v1.2.0 và merge PR #18 vào `main` tại merge commit `bfbcdc760916f497b603bcd49ce0150d6819d337`. Implementation được giao cho Codex và hoãn đến 26/09/2026.
+
+#### 16. Resolution
+
+Merged successfully. Đặc tả APP-003 hoàn tất và đóng vòng đời tài liệu với trạng thái `Specification — Approved & Merged`. Giai đoạn triển khai mã nguồn (Implementation) được ghi nhận `NOT STARTED` và hoãn đến 26/09/2026. REV-APP-003 chính thức `CLOSED`.
+
+#### 17. Resolved Version
+
+`bfbcdc760916f497b603bcd49ce0150d6819d337`
 
 #### 18. Closed Date
 

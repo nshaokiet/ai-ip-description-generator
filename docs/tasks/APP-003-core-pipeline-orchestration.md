@@ -7,13 +7,15 @@
 | Task ID | APP-003 |
 | Document title | APP-003 — Internal Core Pipeline Orchestration and Offline E2E Harness Specification |
 | Specification version | 1.2.0 |
-| Status | Specification — Final Hardening — Awaiting Targeted Re-review |
+| Status | Specification — Approved & Merged |
+| Implementation status | Implementation — NOT STARTED (Deferred until 26/09/2026 for Codex execution after quota reset) |
 | Owner | ChatGPT/Codex |
 | Author | Gemini 3.8 Flash High |
 | Reviewer | Gemini 3.1 Pro High + Human / Product Owner |
-| Human specification approval | Pending targeted re-review |
+| Human specification approval | Approved (PR #18, merge commit `bfbcdc760916f497b603bcd49ce0150d6819d337`) |
 | Baseline commit | `59bfe67583040319a7a0c2aa156db31bab382737` |
-| Branch | `docs/app-003-core-pipeline-orchestration-spec` |
+| Specification merge commit | `bfbcdc760916f497b603bcd49ce0150d6819d337` |
+| Branch | `main` |
 | Prepared date | 22/09/2026 |
 | Target completion | Internal baseline before 02/10/2026 |
 | Related tasks | APP-001, APP-002, AI-RUNTIME-001, AI-RUNTIME-002, DOC-001 |
@@ -586,10 +588,10 @@ git diff --check
 
 | Quyết định | Trạng thái hiện tại | Ghi chú |
 |---|---|---|
-| **Scope & Boundaries của APP-003** | Khuyến nghị phê duyệt theo đặc tả hardened này (v1.2.0) | Dừng lại ở Validated Draft JSON; không mở public endpoint, không render DOCX, dọn dẹp file nguồn bắt buộc và an toàn ngoại lệ qua helper best-effort. |
+| **Scope & Boundaries của APP-003** | Đã được Human phê duyệt theo đặc tả hardened v1.2.0 | Dừng lại ở Validated Draft JSON; không mở public endpoint, không render DOCX, dọn dẹp file nguồn bắt buộc và an toàn ngoại lệ qua helper best-effort. |
 | **Chính sách dọn dẹp file nguồn** | Đã định đoạt bởi hợp đồng APP-001 | Bắt buộc dọn dẹp sau khi pipeline kết thúc; helper `_cleanup_source` bảo đảm an toàn ngoại lệ. |
 | **Quyết định kiến trúc mới** | Không yêu cầu ADR mới | Kế thừa trọn vẹn ADR-001 đến ADR-010. |
-| **Phê duyệt đặc tả sau Re-review** | Chờ Human / Product Owner quyết định | Yêu cầu kết quả targeted independent re-review từ Gemini 3.1 Pro High cho H-001/H-002/H-003 trước khi Human phê duyệt. |
+| **Phê duyệt đặc tả sau Re-review** | Đã phê duyệt (Approved) | Targeted independent re-review PASS bởi Gemini 3.1 Pro High; Human / Product Owner đã approve và merge PR #18 tại commit `bfbcdc760916f497b603bcd49ce0150d6819d337`. |
 
 ---
 
@@ -603,10 +605,11 @@ git diff --check
 - [x] AC-29 (H-003) được tinh chỉnh phân biệt giữa route nghiệp vụ và framework documentation routes.
 - [x] Đã chuẩn hóa từ ngữ conservative đối với trạng thái dọn dẹp trả về `False`.
 - [x] Không sửa đổi bất kỳ file mã nguồn backend, test, schema, prompt, fixture, template hay dependencies nào.
-- [x] Trạng thái nhiệm vụ được cập nhật chính xác trong tài liệu quản trị: `Specification — Final Hardening — Awaiting Targeted Re-review`.
+- [x] Đã qua targeted independent re-review bởi Gemini 3.1 Pro High với kết quả PASS.
+- [x] Human / Product Owner đã phê duyệt đặc tả v1.2.0 và merge PR #18 vào `main` tại commit `bfbcdc760916f497b603bcd49ce0150d6819d337`.
+- [x] Trạng thái nhiệm vụ được cập nhật chính xác: `Specification — Approved & Merged`; `Implementation — NOT STARTED (Deferred until 26/09/2026)`.
 - [x] Không tuyên bố Phase 1, Phase 2, hay MVP hoàn thành.
 - [x] `git diff --check` đạt kết quả sạch (clean).
-- [x] Nhánh `docs/app-003-core-pipeline-orchestration-spec` được push lên remote repository.
 
 ---
 
@@ -616,14 +619,14 @@ git diff --check
 Task ID: APP-003
 Agent: Gemini 3.8 Flash High
 Reviewer: Gemini 3.1 Pro High + Human / Product Owner
-Status: Specification — Final Hardening — Awaiting Targeted Re-review
+Status: Specification — Approved & Merged
 Version: Specification 1.2.0
-Work completed: Hardened APP-003 core pipeline orchestration specification: resolved residual findings H-001 (best-effort cleanup helper _cleanup_source catching all storage exceptions including ValueError to prevent masking primary business/runtime failures, updated AC-21 to test both False return and ValueError exceptions), H-002 (removed machine-specific Python 3.14 path, mandated environment-portable Python 3.12 project virtualenv), H-003 (refined AC-29 to distinguish FastAPI framework documentation routes from business endpoints), and refined cleanup failure wording to be conservative.
-Files affected: docs/tasks/APP-003-core-pipeline-orchestration.md; docs/operations/01_PROJECT_CONTROL_CENTER.md; PROJECT_CONTEXT.md; README.md.
-Evidence checked: Git branch, status, diff check PASS; zero production code, tests, or schemas modified.
-Findings: All residual findings H-001, H-002, H-003 addressed; fully consistent with APP-001/002, ADR-001 through ADR-010.
-Decisions: Human specification approval pending targeted independent re-review by Gemini 3.1 Pro High for H-001/H-002/H-003.
+Work completed: Completed specification governance closeout for APP-003. Targeted independent re-review for H-001/H-002/H-003 passed; Human / Product Owner approved Specification v1.2.0 and merged PR #18 into main at commit bfbcdc760916f497b603bcd49ce0150d6819d337. REV-APP-003 is CLOSED. Implementation has NOT started and is explicitly deferred until 26/09/2026 for Codex execution after quota reset.
+Files affected: docs/tasks/APP-003-core-pipeline-orchestration.md; docs/operations/01_PROJECT_CONTROL_CENTER.md; docs/operations/02_GEMINI_REVIEW_LOG.md; PROJECT_CONTEXT.md; README.md.
+Evidence checked: Git branch, status, diff check PASS; PR #18 merged into main; zero production code, tests, or schemas modified.
+Findings: No open specification findings. REV-APP-003 CLOSED.
+Decisions: Specification v1.2.0 approved and merged. Implementation deferred to 26/09/2026.
 Issues: BLK-003 remains open; live provider smoke remains deferred due to lack of API funding.
-Security impact: Mandatory safe cleanup mitigates disk retention risk; no credentials, PII or research content exposed.
-Recommended next action: Targeted independent re-review by Gemini 3.1 Pro High of H-001/H-002/H-003 before Human approval and implementation scheduling.
+Security impact: Mandatory safe cleanup specified; no confidential research data, credentials or keys touched.
+Recommended next action: Wait until 26/09/2026, then create a fresh APP-003 implementation branch from main and assign implementation to Codex.
 ```
