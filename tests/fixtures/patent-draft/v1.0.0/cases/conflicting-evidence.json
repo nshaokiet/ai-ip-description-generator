@@ -64,7 +64,7 @@
       "EXPERIMENTAL_EXAMPLES_AND_RESULTS", "MISSING_INFORMATION_AND_AUTHOR_QUESTIONS", "EVIDENCE_AND_REFERENCE_APPENDIX"
     ],
     "selected_title": { "status": "MISSING", "marker": "[AUTHOR CONFIRMATION REQUIRED]", "missing_information_ids": ["missing-title"] },
-    "abstract": { "status": "MISSING", "marker": "[AUTHOR CONFIRMATION REQUIRED]", "missing_information_ids": ["missing-conflict"] },
+    "abstract": { "status": "MISSING", "marker": "[AUTHOR CONFIRMATION REQUIRED]", "missing_information_ids": ["missing-conflict", "missing-abstract"] },
     "draft_sections": [
       {
         "section_id": "TECHNICAL_FIELD", "sequence": 4, "heading": "Technical Field", "status": "PRESENT",
@@ -120,6 +120,12 @@
         "description": "The structured analysis does not contain supported content for the remaining technical sections.", "reason": "INSUFFICIENT_DETAIL", "impact": "HIGH", "owner": "AUTHOR", "grounding_label": "MISSING",
         "affected_section_ids": ["SUMMARY_OF_TECHNICAL_DISCLOSURE", "BRIEF_DESCRIPTION_OF_DRAWINGS", "DETAILED_DESCRIPTION", "EXPERIMENTAL_EXAMPLES_AND_RESULTS"],
         "marker": "[AUTHOR CONFIRMATION REQUIRED]"
+      },
+      {
+        "missing_id": "missing-abstract", "origin": "DRAFT_VALIDATION", "rule_id": "ABSTRACT_SOURCE_INSUFFICIENT", "target_path": "/background",
+        "description": "The unresolved conflicting source cannot support one meaningful Abstract without author resolution.",
+        "reason": "CONFLICTING", "impact": "HIGH", "owner": "AUTHOR", "grounding_label": "MISSING",
+        "affected_section_ids": ["ABSTRACT"], "marker": "[AUTHOR CONFIRMATION REQUIRED]"
       }
     ],
     "conflicts": [{
