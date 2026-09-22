@@ -18,12 +18,18 @@ from openai import OpenAI
 from backend.app.core.config import Settings
 from backend.app.services.draft_business_validation import (
     DraftBusinessValidationError,
+    validate_draft_business_rules,
     validate_draft_source_analysis,
 )
 from backend.app.services.draft_provider_schema import (
     PATENT_DRAFT_PROVIDER_SCHEMA_NAME,
     DraftProviderSchemaError,
     build_draft_provider_schema,
+)
+from backend.app.services.draft_validation import (
+    DraftValidationError,
+    normalize_draft_provider_output,
+    validate_canonical_draft,
 )
 
 
@@ -210,6 +216,25 @@ class OpenAIDraftRuntime:
         if not isinstance(provider_output, dict):
             self._raise_parse_error(source_analysis, request_id)
 
+        normalized = normalize_draft_provider_output(
+            provider_output,
+            canonical_draft_schema,
+        )
+        try:
+            draft = validate_canonical_draft(normalized, canonical_draft_schema)
+        except DraftValidationError as exc:
+            self._log_failure(exc.code, source_analysis, request_id=request_id)
+            raise DraftRuntimeError(exc.code, exc.safe_message, paths=exc.paths) from exc
+        try:
+            validate_draft_business_rules(
+                draft,
+                source_analysis,
+                selected_title_candidate_id=selected_title_candidate_id,
+            )
+        except DraftBusinessValidationError as exc:
+            self._log_failure(exc.code, source_analysis, request_id=request_id)
+            raise DraftRuntimeError(exc.code, exc.safe_message, paths=exc.paths) from exc
+
         runtime_metadata = DraftRuntimeMetadata(
             provider="openai",
             model=self.settings.openai_draft_model,
@@ -219,7 +244,7 @@ class OpenAIDraftRuntime:
             usage=_safe_usage(_field(response, "usage")),
         )
         self._log_completion(source_analysis, runtime_metadata)
-        return DraftRuntimeResult(draft=provider_output, runtime=runtime_metadata)
+        return DraftRuntimeResult(draft=draft, runtime=runtime_metadata)
 
     def _load_source_schema(self) -> dict[str, Any]:
         return self._load_schema(
