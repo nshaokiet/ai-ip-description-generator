@@ -10,14 +10,14 @@
 | Document title | Gemini Review Log |
 | Project | AI Intellectual Property Description Generator |
 | Project deadline | 02/10/2026 |
-| Version | 0.3.3 |
+| Version | 0.3.4 |
 | Status | Active review log |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
-| Reviewer | Gemini 3.1 Pro High |
+| Reviewer | Gemini 3.1 Pro High + Gemini 3.8 Flash High |
 | Created date | 18/09/2026 |
-| Last updated | 21/09/2026 GMT+7 |
-| Related task ID | REVIEW-001; SPEC-001; SPEC-002; SPEC-003; AI-001; AI-002; AI-003; DOC-001; APP-001; APP-002; AI-RUNTIME-001 |
+| Last updated | 22/09/2026 GMT+7 |
+| Related task ID | REVIEW-001; SPEC-001; SPEC-002; SPEC-003; AI-001; AI-002; AI-003; DOC-001; APP-001; APP-002; AI-RUNTIME-001; AI-RUNTIME-002 |
 | Source of Truth | Review history; bản nguồn Git tại `docs/operations/02_GEMINI_REVIEW_LOG.md` |
 | Confidentiality level | Internal; findings về research input có thể là Confidential |
 
@@ -38,6 +38,7 @@
 | 0.3.0 | 0.3.1 | 20/09/2026 | ChatGPT/Codex | Ghi Gemini review APP-001 PASS, Human merge decision và đóng REV-APP-001 | Post-merge governance closeout | APP-001, REV-APP-001, PR #10, merge commit `0df4814ff1eb8cd576566ac3dd403131feca3759` | No |
 | 0.3.1 | 0.3.2 | 21/09/2026 | ChatGPT/Codex | Bảo toàn APP-002 initial REQUEST CHANGES/F-001/F-002, ghi remediation, targeted PASS, Human merge decision và đóng REV-APP-002 | Post-merge governance closeout | APP-002, REV-APP-002, PR #12, merge commit `4a001d116cbf002bdd42a9151efbf3f308fce3e6` | No |
 | 0.3.2 | 0.3.3 | 21/09/2026 | ChatGPT/Codex | Bảo toàn lifecycle review AI-RUNTIME-001, ghi F-001 remediation, targeted PASS, Human merge decision và đóng REV-AI-RUNTIME-001 | Post-merge governance closeout | AI-RUNTIME-001, REV-AI-RUNTIME-001, PR #14, merge commit `597f6c7b074eb2c5e445790b8c4f48f336f04da5` | No |
+| 0.3.3 | 0.3.4 | 22/09/2026 | Gemini 3.8 Flash High | Ghi lifecycle review AI-RUNTIME-002 (Checkpoints A-E, remediation, independent review APPROVED, Human merge PR #16 và deferred live smoke) | Post-merge governance closeout | AI-RUNTIME-002, REV-AI-RUNTIME-002, PR #16, merge commit `978516a4f5caa90bbd2189668237c6e028597361` | No |
 
 ## 2. Review Rules
 
@@ -92,8 +93,9 @@
 | REV-APP-001 | 20/09/2026 | APP-001 | FastAPI Backend Skeleton and Secure Document Upload | Implementation head `bd39b9f7bdd9f7a1796d9a405e7998070e124e07`; resolved by merge commit `0df4814ff1eb8cd576566ac3dd403131feca3759` | APPROVE | CLOSED |
 | REV-APP-002 | 21/09/2026 | APP-002 | Document Parsing & Evidence Source Units | Initial `477b8fda6afbae0049d8d691c213dc6355ba67da`; remediation `8b6f909a0f5787d72c002e163395656a666c9b78`; resolved by merge `4a001d116cbf002bdd42a9151efbf3f308fce3e6` | APPROVE | CLOSED |
 | REV-AI-RUNTIME-001 | 21/09/2026 | AI-RUNTIME-001 | OpenAI Responses API + Structured Outputs Extraction Runtime | Initial implementation `e430584a0cc31d0ccc821eb2d21ad7a14548329a`; remediation `5247cbcbe591d8b29917d9982b9066e393901c7e`; resolved by merge `597f6c7b074eb2c5e445790b8c4f48f336f04da5` | APPROVE | CLOSED |
+| REV-AI-RUNTIME-002 | 22/09/2026 | AI-RUNTIME-002 | OpenAI Responses API + Patent Draft Generation Runtime | Implementation head `a59ce0219d7039f24fa8c7bd71d4e9829dbbf612`; resolved by merge `978516a4f5caa90bbd2189668237c6e028597361` | APPROVE | CLOSED |
 
-Các entry review được ChatGPT/Codex ghi lại từ kết quả Gemini do Human / Product Owner xác nhận; Gemini không sửa production artefact. REV-001/002/003 ghi verdict `PASS WITH HUMAN DECISIONS REQUIRED`, không có document finding; chúng được đóng sau khi Human phê duyệt baseline và ban hành DEC-001/002/003. REV-APP-001 đã `CLOSED` sau khi Human approve và merge PR #10 ngày 20/09/2026. REV-APP-002 bảo toàn initial `REQUEST CHANGES`, F-001/F-002 và remediation evidence; lifecycle được `CLOSED` sau targeted `PASS` và Human merge PR #12 ngày 21/09/2026. REV-AI-RUNTIME-001 bảo toàn specification initial `REQUEST CHANGES`, targeted specification `PASS`, implementation `PASS WITH NON-BLOCKING NOTES`, F-001 remediation, targeted remediation `PASS` và Human merge PR #14; F-002 live-provider evidence vẫn là non-blocking `NOTE` chưa chạy.
+Các entry review được ChatGPT/Codex ghi lại từ kết quả Gemini do Human / Product Owner xác nhận; Gemini không sửa production artefact. REV-001/002/003 ghi verdict `PASS WITH HUMAN DECISIONS REQUIRED`, không có document finding; chúng được đóng sau khi Human phê duyệt baseline và ban hành DEC-001/002/003. REV-APP-001 đã `CLOSED` sau khi Human approve và merge PR #10 ngày 20/09/2026. REV-APP-002 bảo toàn initial `REQUEST CHANGES`, F-001/F-002 và remediation evidence; lifecycle được `CLOSED` sau targeted `PASS` và Human merge PR #12 ngày 21/09/2026. REV-AI-RUNTIME-001 bảo toàn specification initial `REQUEST CHANGES`, targeted specification `PASS`, implementation `PASS WITH NON-BLOCKING NOTES`, F-001 remediation, targeted remediation `PASS` và Human merge PR #14; F-002 live-provider evidence vẫn là non-blocking `NOTE` chưa chạy. REV-AI-RUNTIME-002 bảo toàn toàn bộ lifecycle review các checkpoints (A-E), remediation đợt cuối đạt độc lập APPROVED, Human merge PR #16 ngày 22/09/2026; ghi nhận live provider smoke NOT RUN — DEFERRED due to unavailable API funding mà không tạo false PASS.
 
 ## 7. Review Entry Template
 
@@ -1241,6 +1243,186 @@ Merged successfully. F-001 is resolved by remediation commit `5247cbcbe591d8b299
 #### 18. Closed Date
 
 `21/09/2026`
+
+#### 19. Closed By
+
+Human / Product Owner.
+
+### REV-AI-RUNTIME-002: AI-RUNTIME-002 Patent Draft Generation Runtime Post-Merge Closeout
+
+#### Review ID
+
+`REV-AI-RUNTIME-002`
+
+#### Date
+
+22/09/2026
+
+#### Reviewer
+
+Gemini 3.1 Pro High (independent final review) / Gemini 3.8 Flash High (final remediation and governance closeout evidence)
+
+#### Task ID
+
+`AI-RUNTIME-002`
+
+#### Artefact reviewed
+
+OpenAI Responses API + Patent Draft Generation Runtime v1.0.0, draft provider-schema adapter (`draft_provider_schema.py`), canonical Patent Draft 2020-12 validator (`draft_validation.py`), deterministic business/grounding validator (`draft_business_validation.py`), core draft runtime and normalization path (`draft_runtime.py`), draft environment configuration (`.env.example`), runtime/business tests under `tests/backend/`, Patent Draft contract tests under `tests/draft/`, and supporting documentation in Pull Request [#16](https://github.com/nshaokiet/ai-ip-description-generator/pull/16).
+
+#### Version reviewed
+
+Checkpoints A through E; final implementation/remediation head `a59ce0219d7039f24fa8c7bd71d4e9829dbbf612`; resolved by merge commit `978516a4f5caa90bbd2189668237c6e028597361`.
+
+#### Review status
+
+`CLOSED`
+
+Current state: `Completed — Merged via PR #16`.
+
+#### 1. Review Objective
+
+Independent review of the AI-RUNTIME-002 draft generation runtime from validated AI-001 Structured Invention Analysis via deterministic AI-003 Draft Input Envelope to validated Patent Description Draft JSON: OpenAI Responses API request semantics (`gpt-5.6-sol`, reasoning high, `store=false`, `stream=false`, `background=false`, no tools/retrieval, stateless, timeout 240s, SDK retries 2, `max_output_tokens=64000`), draft provider-schema adaptation, nullable normalization, canonical Draft 2020-12 validation, deterministic business and grounding validation, fail-closed behavior, safe errors/logging, synthetic tests, security and scope boundaries.
+
+#### 2. Sources Reviewed
+
+- Checkpoint history across development branch `exp/ai-runtime-002-checkpoint-a-gemini`; Checkpoint E baseline `1d1ef27b847d78087e0e307b88043d312a25b194`, E1 `ab2ca92dd24c829866e45433e44b0fa5e082e5c1`, E2 `5d820f6ec1bcf50cc08a7c411b0a882966087f27`, and final remediation head `a59ce0219d7039f24fa8c7bd71d4e9829dbbf612`.
+- Pull Request #16 and merge commit `978516a4f5caa90bbd2189668237c6e028597361`.
+- Python 3.12.10; `openai==3.16.2`; `jsonschema==4.26.0`.
+- Automated test evidence: backend test suite 240 passed, 2 skipped, 1 warning; tests/draft 25 passed.
+- `git diff --check`: `PASS`.
+
+#### 3. Summary
+
+AI-RUNTIME-002 proceeded through staged development checkpoints (A through E). Independent reviews identified findings and notes in business validation and runtime integration, including the abstract-governance inconsistency, F-D12 JSON Pointer `/` handling, F-D13 dead helper, F-D14 target_path test precision, F-D15 prohibited-substring false-positive risk, test import alignment, and missing draft environment examples. Targeted final remediation reached head `a59ce0219d7039f24fa8c7bd71d4e9829dbbf612`: all required remediation was resolved, while F-D15 was intentionally retained as a documented non-blocking NOTE. Final independent review returned `APPROVED` / safe for Human merge. Canonical AI-003 schema and prompt were not altered. Human / Product Owner approved and merged PR #16 on 22/09/2026 at merge commit `978516a4f5caa90bbd2189668237c6e028597361`. Live provider smoke was explicitly `NOT RUN — DEFERRED due to unavailable API funding`, and waived by Human as a pre-merge gate, but remains mandatory before production deployment.
+
+#### 4. Findings
+
+##### Governance decision — Abstract missing linkage
+
+- **Location:** `backend/app/services/draft_business_validation.py` and `tests/fixtures/patent-draft/v1.0.0/cases/conflicting-evidence.json`.
+- **Issue:** The canonical AI-003 prompt is authoritative for `abstract.status == "MISSING"`. Every such abstract must reference at least one missing-information record with `origin == "DRAFT_VALIDATION"` and `rule_id == "ABSTRACT_SOURCE_INSUFFICIENT"`. A source-origin conflict record may coexist but does not substitute for that required record.
+- **Resolution:** Final remediation tightened the validator and corrected the conflicting-evidence fixture without changing the canonical AI-003 schema or prompt.
+- **Resolution status:** `RESOLVED`.
+
+##### F-D12 — LOW — JSON Pointer `/` handling
+
+- **Location:** `backend/app/services/draft_business_validation.py`.
+- **Issue:** JSON Pointer `/` was handled incorrectly. Under RFC 6901, the empty pointer denotes the document root, while `/` denotes a single empty-string reference token.
+- **Resolution:** Pointer handling was corrected and targeted tests were added.
+- **Resolution status:** `RESOLVED`.
+
+##### F-D13 — NOTE — Dead helper
+
+- **Location:** `backend/app/services/draft_business_validation.py`.
+- **Issue:** Unused helper `_collect_refs` remained after refactoring.
+- **Resolution:** Removed in final remediation.
+- **Resolution status:** `RESOLVED`.
+
+##### F-D14 — LOW — Imprecise target-path tests
+
+- **Location:** `tests/backend/test_draft_business_validation.py`.
+- **Issue:** Some tests used overly generic target paths and did not exercise representative source-analysis pointer locations precisely.
+- **Resolution:** Tests were tightened to use representative valid target paths and explicit pointer cases.
+- **Resolution status:** `RESOLVED`.
+
+##### F-D15 — NOTE — Prohibited-substring scanner false-positive risk
+
+- **Issue:** The prohibited-substring scanner may produce false positives in edge cases.
+- **Decision:** Intentionally left unchanged in the final remediation scope as a documented non-blocking note.
+- **Resolution status:** `OPEN NOTE / NON-BLOCKING`.
+
+##### Non-blocking review note — Test import alignment
+
+- **Location:** `tests/backend/test_draft_runtime.py` and `tests/backend/test_extraction_runtime.py`.
+- **Issue:** Tests imported `httpx2` directly even though test-facing code should use `httpx`; the OpenAI SDK may still carry its own internal `httpx2` dependency.
+- **Resolution:** Test imports were changed from `httpx2` to `httpx`.
+- **Resolution status:** `RESOLVED`.
+
+##### Non-blocking review note — Draft environment example
+
+- **Location:** `.env.example`.
+- **Issue:** Draft runtime operational variables were incomplete in the example environment file.
+- **Resolution:** Added `OPENAI_DRAFT_TIMEOUT_SECONDS=240`, `OPENAI_DRAFT_MAX_OUTPUT_TOKENS=64000`, and `RUN_OPENAI_DRAFT_LIVE_TESTS=0`.
+- **Resolution status:** `RESOLVED`.
+
+##### Live provider smoke — deferred pre-production gate
+
+- **Issue:** A funded OpenAI Responses API smoke call was not completed because the project has no allocated API budget.
+- **Status:** `NOT RUN — DEFERRED due to unavailable API funding`.
+- **Decision:** Human / Product Owner waived this as a pre-merge gate. A successful funded OpenAI live smoke test remains mandatory before production deployment.
+
+#### 5. Source-Grounding Issues
+
+No unresolved source-grounding finding. All draft technical sections maintain deterministic provenance and strict references back to validated source evidence locators and source analysis units. Paragraph-level and claim-free drafting constraints are enforced deterministically.
+
+#### 6. Hallucination Risks
+
+Deterministic business validation and fail-closed normalization reject structurally invalid or unsupported outputs that violate the enforced contracts; they do not eliminate hallucination risk. Missing-information handling keeps unsupported aspects explicit with `[AUTHOR CONFIRMATION REQUIRED]` markers where required. Human review remains mandatory.
+
+#### 7. Missing Information
+
+Synthetic live provider smoke remains deferred due to lack of API funding. BLK-003 remains open for authentication, private production storage, and real research data retention.
+
+#### 8. Technical Concerns
+
+All required remediation items were completed without modifying canonical AI-001 or AI-003 schemas or prompts; F-D15 remains a documented non-blocking NOTE. The draft runtime is strictly internal: no public orchestration, no public analyze/draft endpoint, no DOCX integration endpoint, and no frontend were introduced.
+
+#### 9. Security and Privacy Concerns
+
+All fixtures and automated tests use synthetic data only. Provider calls enforce `store=false`, `stream=false`, `background=false`, stateless execution, and no PII, secrets, credentials, full research papers, or provider payloads are logged or committed.
+
+#### 10. Consistency Issues
+
+No unresolved blocking consistency issue. Draft runtime parameters (`gpt-5.6-sol`, reasoning high, timeout 240s, SDK retries 2, `max_output_tokens=64000`, no retrieval) remain consistent with the Human-approved AI-RUNTIME-002 policy and relevant accepted ADR direction. F-D15 remains a documented non-blocking implementation note.
+
+#### 11. Suggested Changes
+
+All required pre-merge remediation items were completed and verified. F-D15 remains documented as a non-blocking note; no additional technical change is required for this governance closeout.
+
+#### 12. Recommendation
+
+`APPROVE`
+
+Current state: `Completed — Merged via PR #16`.
+
+#### 13. Handoff to ChatGPT/Codex
+
+```text
+Task ID: AI-RUNTIME-002
+Agent: Gemini 3.8 Flash High
+Reviewer: Human / Product Owner
+Status: CLOSED — AI-RUNTIME-002 Completed — Merged via PR #16
+Version: Implementation head a59ce0219d7039f24fa8c7bd71d4e9829dbbf612; resolved by merge commit 978516a4f5caa90bbd2189668237c6e028597361
+Work completed: Checkpoint reviews (A through E) and final remediation review completed with verdict APPROVED; Human approved and merged PR #16.
+Files affected: Review log only; production artefacts not modified by reviewer.
+Evidence checked: 240 backend pass, 2 skip, 1 warning; 25 tests/draft pass; git diff --check PASS.
+Findings: Abstract-governance inconsistency resolved; F-D12/F-D13/F-D14 resolved; F-D15 retained as a documented non-blocking NOTE; test-import and `.env.example` notes resolved; final independent review safe for merge.
+Decisions: Recommendation APPROVE; Human / Product Owner approved and merged PR #16 on 22/09/2026.
+Issues: Live provider smoke NOT RUN — DEFERRED due to unavailable API funding; pre-production live smoke gate preserved; BLK-003 remains open; core end-to-end pipeline not complete.
+Security impact: Synthetic-only evidence; store=false; no credentials, PII or confidential paper data logged or committed.
+Recommended next action: Post-merge governance closeout; await Human assignment for next milestone.
+```
+
+#### 14. ChatGPT/Codex Response
+
+`ACCEPT`. Gemini 3.8 Flash High applied the targeted final remediation reaching head `a59ce0219d7039f24fa8c7bd71d4e9829dbbf612` without modifying canonical schemas or prompts. The live smoke is recorded as `NOT RUN — DEFERRED due to unavailable API funding` and preserved as a pre-production gate.
+
+#### 15. Human Decision
+
+Human Decision: `APPROVED FOR MERGE`. Human / Product Owner approved and merged PR #16 on 22/09/2026 at merge commit `978516a4f5caa90bbd2189668237c6e028597361`, explicitly waiving the live smoke test as a pre-merge gate due to budget constraints while retaining it as mandatory before production deployment.
+
+#### 16. Resolution
+
+Merged successfully. The abstract-governance inconsistency plus F-D12/F-D13/F-D14 and the test-import/environment notes were resolved in final remediation head `a59ce0219d7039f24fa8c7bd71d4e9829dbbf612`; F-D15 remains a documented non-blocking NOTE. PR #16 resolved at merge commit `978516a4f5caa90bbd2189668237c6e028597361`. Live provider smoke remains `NOT RUN — DEFERRED due to unavailable API funding` and does not block governance closure, but remains mandatory before production deployment.
+
+#### 17. Resolved Version
+
+`978516a4f5caa90bbd2189668237c6e028597361`
+
+#### 18. Closed Date
+
+`22/09/2026`
 
 #### 19. Closed By
 

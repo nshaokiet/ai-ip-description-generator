@@ -8,13 +8,13 @@
 |---|---|
 | Document ID | SPEC-002 |
 | Document title | Project Context — AI Intellectual Property Description Generator |
-| Version | 0.3.4 |
+| Version | 0.3.5 |
 | Status | Approved baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High |
 | Created date | 18/09/2026 |
-| Last updated | 21/09/2026 |
+| Last updated | 22/09/2026 |
 | Related task ID | SPEC-002 |
 | Source of Truth | GitHub — `PROJECT_CONTEXT.md` |
 | Confidentiality level | Internal; research inputs are Confidential by default |
@@ -42,6 +42,7 @@
 | 0.3.1 | 0.3.2 | 21/09/2026 | ChatGPT/Codex | Ghi APP-002 hoàn tất sau remediation, Gemini targeted PASS và Human merge PR #12 | Đồng bộ post-merge governance evidence, không đổi contract kỹ thuật | APP-002, REV-APP-002, PR #12, merge commit `4a001d116cbf002bdd42a9151efbf3f308fce3e6` | No |
 | 0.3.2 | 0.3.3 | 21/09/2026 | ChatGPT/Codex | Ghi AI-RUNTIME-001 internal extraction runtime đã triển khai và chờ independent review | Đồng bộ runtime configuration, validation boundary và blocker disposition đã được Human phê duyệt | AI-RUNTIME-001, ADR-010 | No |
 | 0.3.3 | 0.3.4 | 21/09/2026 | ChatGPT/Codex | Chuyển AI-RUNTIME-001 sang Completed sau remediation, targeted re-review PASS và Human merge PR #14 | Post-merge governance closeout; không đổi technical contract | AI-RUNTIME-001, REV-AI-RUNTIME-001, PR #14, merge commit `597f6c7b074eb2c5e445790b8c4f48f336f04da5` | No |
+| 0.3.4 | 0.3.5 | 22/09/2026 | Gemini 3.8 Flash High | Chuyển AI-RUNTIME-002 sang Completed sau remediation, independent review APPROVED và Human merge PR #16 | Post-merge governance closeout; không đổi technical contract | AI-RUNTIME-002, REV-AI-RUNTIME-002, PR #16, merge commit `978516a4f5caa90bbd2189668237c6e028597361` | No |
 
 ## 2. Project name
 
@@ -117,13 +118,13 @@ Pipeline MVP ưu tiên một paper cho một hồ sơ. Nội dung thiếu không
 | Lớp | Công nghệ đã định hướng | Trạng thái |
 |---|---|---|
 | Frontend | Next.js + TypeScript | Requirement; chưa có bằng chứng triển khai |
-| Backend | FastAPI + Python 3.12 | APP-001/APP-002 và AI-RUNTIME-001 Completed; internal extraction đã merge qua PR #14; public surface chưa đổi |
-| Production AI | OpenAI Responses API | AI-RUNTIME-001: `gpt-5.6-sol`, reasoning high, `store=false`, strict provider schema + canonical/grounding validation; internal only; live provider smoke chưa chạy |
+| Backend | FastAPI + Python 3.12 | APP-001/APP-002, AI-RUNTIME-001 và AI-RUNTIME-002 Completed; internal extraction và draft runtimes đã merge qua PR #14 và PR #16; public surface chưa đổi |
+| Production AI | OpenAI Responses API | AI-RUNTIME-001: `gpt-5.6-sol`, reasoning high, `store=false`, timeout 180s, max 48k tokens; AI-RUNTIME-002: `gpt-5.6-sol`, reasoning high, `store=false`, timeout 240s, max 64k tokens; internal only; live provider smoke NOT RUN — DEFERRED due to unavailable API funding |
 | Structured data | JSON Schema Draft 2020-12 | Output Schema v1.0.0 — Completed — Merged via PR #1 |
 | Extraction prompt | Markdown prompt contract | v1.0.0 — Completed — Merged via PR #3 |
 | Patent draft contract | JSON Schema Draft 2020-12 | v1.0.0 — Completed — Merged via PR #5 |
 | Draft generation prompt | Markdown prompt contract | v1.0.0 — Completed — Merged via PR #5 |
-| Retrieval | Không dùng trong Extraction Runtime v1 | AI-RUNTIME-001 chỉ dùng APP-002 envelope; task tương lai cần approval riêng |
+| Retrieval | Không dùng trong Extraction Runtime v1 hoặc Draft Runtime v1 | AI-RUNTIME-001/AI-RUNTIME-002 chỉ dùng input envelopes; task tương lai cần approval riêng |
 | Database | Supabase/PostgreSQL | Optional/MVP+ hoặc khi được phê duyệt |
 | DOCX | `docxtpl==0.20.2`, `python-docx==1.2.0` | Patent DOCX Template v1.0.0 — Completed — Merged via PR #7 |
 | Frontend deployment | Vercel | Định hướng; config `[FILE CHƯA TỒN TẠI]` |
@@ -139,7 +140,7 @@ Không tự ý thêm framework, dịch vụ hoặc dependency.
 3. AI-RUNTIME-001 extraction bằng prompt/schema version cụ thể và provider schema được dẫn xuất.
 4. Validate canonical JSON, provenance và logical reference.
 5. Detect missing information, tạo author questions.
-6. Generate draft từ dữ liệu đã phân loại.
+6. AI-RUNTIME-002 patent draft generation từ validated analysis, strict provider schema, schema-aware normalization, canonical Draft 2020-12 validation và deterministic business validation.
 7. Grounding/consistency validation.
 8. Human review trước export.
 
@@ -233,7 +234,7 @@ Output Schema v1.0.0 có phạm vi hẹp hơn mô hình toàn hệ thống: grou
 
 Giai đoạn khởi tạo đề xuất: **Phase 1 — Specification & Architecture**.
 
-SPEC-001, SPEC-002 và SPEC-003 là **Approved baseline** sau Gemini 3.1 Pro High review và Human decisions ngày 20/09/2026. Việc này không tự động hoàn tất toàn bộ Phase 1; Phase 2 chưa bắt đầu.
+SPEC-001, SPEC-002 và SPEC-003 là **Approved baseline** sau Gemini 3.1 Pro High review và Human decisions ngày 20/09/2026. Implementation đã tiến vào các task thuộc Phase 2/Phase 3, nhưng Human / Product Owner chưa tuyên bố toàn bộ Phase 1, Phase 2, Phase 3 hoặc MVP `Completed`.
 
 ## 20. AI Roles
 
@@ -285,15 +286,16 @@ NotebookLM lưu và tra cứu nguồn được cấp quyền, hỗ trợ groundi
 
 | Artefact | Location | Version | Status có bằng chứng |
 |---|---|---|---|
-| System Specification | `docs/system-specification.md` | 0.3.4 | SPEC-001 Approved baseline; AI-RUNTIME-001 post-merge state đã đồng bộ |
+| System Specification | `docs/system-specification.md` | 0.3.5 | SPEC-001 Approved baseline; AI-RUNTIME-002 post-merge state đã đồng bộ |
 | AI Collaboration Rules | `AGENTS.md` | 0.2.0 | SPEC-003 Approved baseline |
-| Project Context | `PROJECT_CONTEXT.md` | 0.3.4 | SPEC-002 Approved baseline; AI-RUNTIME-001 post-merge state đã đồng bộ |
-| Project Control Center source | `docs/operations/01_PROJECT_CONTROL_CENTER.md` | 0.3.4 | AI-RUNTIME-001 Completed — Merged via PR #14; Phase 1/Phase 2/MVP chưa được tuyên bố hoàn tất |
-| Gemini Review Log source | `docs/operations/02_GEMINI_REVIEW_LOG.md` | 0.3.3 | `REV-AI-RUNTIME-001` và các task review có bằng chứng đều `CLOSED` |
+| Project Context | `PROJECT_CONTEXT.md` | 0.3.5 | SPEC-002 Approved baseline; AI-RUNTIME-002 post-merge state đã đồng bộ |
+| Project Control Center source | `docs/operations/01_PROJECT_CONTROL_CENTER.md` | 0.3.5 | AI-RUNTIME-002 Completed — Merged via PR #16; Phase 1/Phase 2/MVP chưa được tuyên bố hoàn tất |
+| Gemini Review Log source | `docs/operations/02_GEMINI_REVIEW_LOG.md` | 0.3.4 | `REV-AI-RUNTIME-002` và các task review có bằng chứng đều `CLOSED` |
 | Foundational ADRs | `docs/decisions/ADR-001…005-*.md` | ADR-001…ADR-005 | Accepted theo Human decisions ngày 20/09/2026 |
 | APP-001 backend | `backend/app/`, `backend/requirements.txt`, `tests/backend/` | Implementation head `bd39b9f7bdd9f7a1796d9a405e7998070e124e07` | Completed — Merged via PR #10; 24/24 APP-001 tests và 109/109 tổng tests pass |
 | APP-002 document preparation | `backend/app/`, `tests/backend/test_document_parsing.py` | Implementation `477b8fda6afbae0049d8d691c213dc6355ba67da`; remediation `8b6f909a0f5787d72c002e163395656a666c9b78` | Completed — Merged via PR #12 at `4a001d116cbf002bdd42a9151efbf3f308fce3e6`; Gemini final PASS; 30/30 AC; 135 executed, 134 pass, 1 Windows skip, 0 failure/error |
 | AI extraction runtime | `backend/app/services/extraction_runtime.py`, `provider_schema.py`, `extraction_validation.py` | AI-RUNTIME-001 / ADR-010 | Completed — Merged via PR #14 at `597f6c7b074eb2c5e445790b8c4f48f336f04da5`; 32/32 AC; 201 executed, 200 pass, 1 skip; live provider smoke not run |
+| AI draft runtime | `backend/app/services/draft_runtime.py`, `draft_provider_schema.py`, `draft_validation.py`, `draft_business_validation.py` | AI-RUNTIME-002 | Completed — Merged via PR #16 at `978516a4f5caa90bbd2189668237c6e028597361` (implementation head `a59ce0219d7039f24fa8c7bd71d4e9829dbbf612`); backend suite 240 pass, 2 skip; tests/draft 25 pass; live smoke deferred |
 | ADR | `docs/decisions/ADR-006-output-schema-v1.md` | ADR-006 | Accepted; Completed — Merged via PR #1 |
 | Production JSON Schema | `schemas/invention-output/v1.0.0/invention-output.schema.json` | 1.0.0 | Completed — Merged via PR #1; Gemini review PASS; 15/15 tests pass |
 | Production extraction prompt | `prompts/extraction/v1.0.0/extraction-prompt.md` | 1.0.0 | Completed — Merged via PR #3; canonical offline validation only |
@@ -302,13 +304,13 @@ NotebookLM lưu và tra cứu nguồn được cấp quyền, hỗ trợ groundi
 | Draft generation prompt | `prompts/draft-generation/v1.0.0/draft-generation-prompt.md` | 1.0.0 | Completed — Merged via PR #5; offline only |
 | Patent draft ADR | `docs/decisions/ADR-008-patent-draft-contract-v1.md` | ADR-008 | Accepted — Completed — Merged via PR #5 |
 | DOCX template | `templates/patent-docx/v1.0.0/patent-description-template.docx` | 1.0.0 | Completed — Merged via PR #7 |
-| Application code | `backend/app/` | APP-001 + APP-002 + AI-RUNTIME-001 | FastAPI local upload/preparation cùng internal extraction runtime; public analyze endpoint, frontend, draft runtime, database/auth và deployment chưa triển khai |
+| Application code | `backend/app/` | APP-001 + APP-002 + AI-RUNTIME-001 + AI-RUNTIME-002 | FastAPI local upload/preparation cùng internal extraction và draft runtimes; public analyze/draft endpoints, public orchestration, frontend, database/auth và deployment chưa triển khai |
 
 ## 26. Open questions
 
 1. Auth, user roles, tenant model và private production storage nào được dùng?
 2. Data/log/backup retention và deletion SLA production là gì? APP-001 chỉ khóa local ephemeral TTL tối đa 1 giờ.
-5. Model/cost policy cho draft runtime hoặc task AI tương lai là gì? Extraction Runtime v1 đã khóa `gpt-5.6-sol`, timeout 180, SDK retries 2, 48.000 output tokens và không retrieval.
+5. Model/cost policy cho draft runtime hoặc task AI tương lai là gì? Extraction Runtime v1 (AI-RUNTIME-001) đã khóa `gpt-5.6-sol`, timeout 180s, 48.000 output tokens; Draft Runtime v1 (AI-RUNTIME-002) đã khóa `gpt-5.6-sol`, timeout 240s, 64.000 output tokens; không retrieval; task tương lai cần approval riêng.
 6. Nếu Human mở lại Claims sau MVP/scope change, loại/số lượng và reviewer chuyên môn là ai?
 7. PDF/QA report/claim mapping có thuộc MVP không?
 8. Golden set, metrics, threshold và tài liệu test được cấp quyền là gì?
@@ -325,9 +327,9 @@ NotebookLM lưu và tra cứu nguồn được cấp quyền, hỗ trợ groundi
 
 ## 28. Recommended next action
 
-1. Gemini 3.1 Pro High governance-only review cho post-merge closeout AI-RUNTIME-001.
-2. AI-RUNTIME-002 chỉ đủ điều kiện đi tới bước Human approval/assignment tiếp theo; chưa được phê duyệt hoặc bắt đầu.
-3. Chỉ tiếp tục public orchestration, auth/private storage, production retention, draft runtime, frontend, Draft Claims hoặc optional outputs bằng task/approval riêng.
+1. Gemini governance-only review cho post-merge closeout AI-RUNTIME-002.
+2. Task tiếp theo chỉ đủ điều kiện đi tới bước Human approval/assignment tiếp theo.
+3. Chỉ tiếp tục public orchestration, auth/private storage, production retention, DOCX integration endpoint, frontend, Draft Claims hoặc optional outputs bằng task/approval riêng.
 
 AI-002 được merge với implementation commit `f8772b228a23bf7cdec10fa0c463e6d1f672c341` và governance commit `9f2a78b1396cdadb747c263a2bbbbacb8d7f4292`; Gemini review `PASS`, không có finding, AI-001 regression 15/15 và AI-002 tests 17/17 pass. AI-002 tự thân không chứng minh Responses API hoặc live-model integration; provider adapter/runtime sau đó được Human phê duyệt riêng trong AI-RUNTIME-001. Claims vẫn nằm ngoài Output Schema và Extraction Prompt v1.0.0.
 
@@ -338,3 +340,4 @@ DOC-001 triển khai Patent DOCX Template v1.0.0 và deterministic offline rende
 APP-001 triển khai FastAPI local single-tenant skeleton với `GET /health`, secure `POST /api/documents`, layered validation cho PDF/DOCX, safe structured errors, opaque storage identifiers, local ephemeral cleanup và synthetic offline tests. Không có frontend, OpenAI/model call, database, authentication, production storage hoặc deployment. Gemini 3.1 Pro High review `PASS`: 22 acceptance criteria pass, 0 failed, 0 unverifiable; Security và Scope đều `PASS`; không có blocker hoặc required remediation. Human / Product Owner đã approve và merge [PR #10](https://github.com/nshaokiet/ai-ip-description-generator/pull/10) ngày 20/09/2026; specification merge `1bf957162eba78c069d3ba976af7fe1d174cab30`, implementation head `bd39b9f7bdd9f7a1796d9a405e7998070e124e07`, merge commit `0df4814ff1eb8cd576566ac3dd403131feca3759`. Trạng thái hiện tại: **Completed — Merged via PR #10**.
 
 AI-RUNTIME-001 triển khai internal OpenAI Responses API extraction boundary từ APP-002 envelope tới validated Structured Invention Analysis. Gemini implementation review trả `PASS WITH NON-BLOCKING NOTES`; F-001 `MEDIUM` được sửa tại `5247cbcbe591d8b29917d9982b9066e393901c7e` và targeted re-review `PASS`. Human / Product Owner đã approve và merge [PR #14](https://github.com/nshaokiet/ai-ip-description-generator/pull/14) ngày 21/09/2026 tại merge commit `597f6c7b074eb2c5e445790b8c4f48f336f04da5`. 32/32 acceptance criteria đạt; regression ghi nhận 201 executed, 200 pass, 1 intentional Windows skip. Live provider smoke vẫn `NOT RUN — OPENAI_API_KEY not available`; BLK-003 vẫn mở. Trạng thái hiện tại: **Completed — Merged via PR #14**.
+AI-RUNTIME-002 triển khai internal OpenAI Responses API draft generation runtime từ validated Structured Invention Analysis (AI-001) qua deterministic AI-003 Draft Input Envelope tới validated Patent Description Draft JSON. Runtime sử dụng `gpt-5.6-sol`, reasoning high, `store=false`, timeout 240 giây, SDK retries 2 và `max_output_tokens=64000`. Output đi qua provider-schema adaptation, schema-aware normalization, canonical Patent Draft 2020-12 validation và deterministic business/grounding validation. Đợt remediation cuối đã xử lý abstract validation governance contract, F-D12 JSON Pointer `/` handling, F-D13 dead helper removal, F-D14 test target_path precision, sửa test imports từ `httpx2` sang `httpx` và bổ sung các biến môi trường draft cần thiết vào `.env.example`; F-D15 prohibited-substring scanner false-positive risk được giữ lại như non-blocking NOTE. Independent final review kết luận `APPROVED`. Human / Product Owner đã approve và merge [PR #16](https://github.com/nshaokiet/ai-ip-description-generator/pull/16) ngày 22/09/2026 tại merge commit `978516a4f5caa90bbd2189668237c6e028597361` (implementation head `a59ce0219d7039f24fa8c7bd71d4e9829dbbf612`). Automated evidence: backend test suite 240 pass, 2 skip, 1 warning; tests/draft 25 pass. Live provider smoke ghi nhận `NOT RUN — DEFERRED due to unavailable API funding`; BLK-003 vẫn mở. Trạng thái hiện tại: **Completed — Merged via PR #16**.
