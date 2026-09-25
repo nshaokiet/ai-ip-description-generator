@@ -1,4 +1,13 @@
-# Prompts
+# Prompts / Câu lệnh AI
+
+**Nhiệm vụ / Responsibilities**
+
+- Lưu prompt production theo semantic version.
+- Quy định input/output, grounding, uncertainty và injection resistance.
+- Tách extraction prompt và draft-generation prompt theo artefact/version.
+- Mọi thay đổi prompt phải có task/review/test tương ứng.
+
+---
 
 This directory contains version-controlled prompt specifications used by the AI pipeline.
 
