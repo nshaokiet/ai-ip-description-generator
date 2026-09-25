@@ -1,4 +1,12 @@
-# Templates
+# Templates / Mẫu tài liệu
+
+**Nhiệm vụ / Responsibilities**
+
+- Lưu template DOCX versioned dùng cho output generation.
+- Lưu manifest/mapping giữa draft JSON và tài liệu xuất.
+- Chỉ chứa template/cấu hình sinh tài liệu; không chứa tài liệu nghiên cứu thật.
+
+---
 
 This directory stores document templates used for output generation.
 
