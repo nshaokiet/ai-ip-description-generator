@@ -151,33 +151,23 @@ Supabase/PostgreSQL chỉ thuộc MVP+ hoặc được sử dụng khi Human ph�
 
 Không tự ý thêm framework, dịch vụ hoặc dependency khi chưa giải thích và được Human phê duyệt.
 
-## 8. Cấu trúc repository
+## 8. Cấu trúc repository / Repository structure
 
-```text
-ai-ip-description-generator/
-├── AGENTS.md
-├── PROJECT_CONTEXT.md
-├── README.md
-├── frontend/                         # Next.js — chưa khởi tạo mã ứng dụng
-├── backend/                          # Upload, evidence preparation + internal extraction runtime
-├── prompts/                          # Prompt có version
-├── templates/                        # DOCX template có version
-├── tests/                            # Test cases và AI evaluation
-├── schemas/                          # JSON Schema production có version
-├── docs/
-│   ├── system-specification.md       # Đặc tả hệ thống đầy đủ
-│   ├── architecture.md               # Ghi chú kiến trúc ban đầu
-│   ├── workflow.md                   # Ghi chú workflow ban đầu
-│   ├── decisions/                    # Architecture Decision Records
-│   ├── tasks/                        # Task specification và acceptance criteria
-│   ├── operations/
-│   │   ├── 01_PROJECT_CONTROL_CENTER.md
-│   │   └── 02_GEMINI_REVIEW_LOG.md
-│   └── archive/                      # Snapshot tài liệu cũ được bảo toàn
-├── .github/
-├── .env.example
-└── .gitignore
-```
+Bản đồ Anh–Việt đầy đủ: [`FOLDER_STRUCTURE.md`](FOLDER_STRUCTURE.md).
+
+> Giữ nguyên physical folder names tiếng Anh để không phá imports, tests, IDE/MCP config. Mỗi folder có tên hiển thị Anh / Việt và README nêu rõ nhiệm vụ.
+
+| Path | English / Việt | Nhiệm vụ chính |
+|---|---|---|
+| `backend/` | Backend / Xử lý máy chủ | Upload, parsing, AI runtime, validation, grounding |
+| `frontend/` | Frontend / Giao diện người dùng | Upload UI, progress, review/edit, export |
+| `prompts/` | Prompts / Câu lệnh AI | Prompt production có version |
+| `schemas/` | Schemas / Lược đồ dữ liệu | JSON Schema và data contracts |
+| `templates/` | Templates / Mẫu tài liệu | DOCX template, manifest, mapping |
+| `tests/` | Tests / Kiểm thử | Automated tests và synthetic fixtures |
+| `docs/` | Documentation / Tài liệu dự án | Specification, ADR, task, operations, archive |
+| `tools/` | Tools / Công cụ nội bộ | Project Orchestrator MCP và developer tooling |
+| `.github/` | GitHub configuration / Cấu hình GitHub | PR/workflow repository configuration |
 
 ## 9. Tài liệu cần đọc
 

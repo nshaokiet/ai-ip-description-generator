@@ -1,4 +1,16 @@
-# Frontend
+# Frontend / Giao diện người dùng
+
+**Nhiệm vụ / Responsibilities**
+
+- Giao diện upload tài liệu nghiên cứu.
+- Hiển thị trạng thái phân tích và tiến độ pipeline.
+- Hiển thị Structured Result, evidence và cảnh báo thiếu thông tin.
+- Human review/edit trước khi xuất tài liệu.
+- Kích hoạt xuất DOCX qua backend khi endpoint được phê duyệt.
+
+**Trạng thái hiện tại / Current status:** placeholder, Next.js chưa được khởi tạo.
+
+---
 
 Planned stack: **Next.js + TypeScript**.
 
