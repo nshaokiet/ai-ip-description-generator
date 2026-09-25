@@ -1,4 +1,20 @@
-# APP-001/APP-002 backend and AI-RUNTIME-001 internal extraction
+# Backend / Xử lý máy chủ
+
+**Nhiệm vụ / Responsibilities**
+
+- Tiếp nhận và kiểm tra PDF/DOCX an toàn.
+- Chuẩn hóa tài liệu thành source units/evidence để AI xử lý.
+- Chạy extraction runtime và draft runtime nội bộ.
+- Thực thi validation, grounding và business rules phía máy chủ.
+- Quản lý cấu hình backend, storage tạm thời và API nội bộ.
+
+**Không phụ trách / Out of scope**
+
+- Giao diện người dùng.
+- Claims/prior-art/patentability conclusions.
+- Production auth/storage/deployment khi chưa được phê duyệt.
+
+---
 
 Local, single-tenant skeleton for secure synthetic PDF/DOCX upload validation.
 It does not call a model, OCR service, database, cloud storage, or network API.
