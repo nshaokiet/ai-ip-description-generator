@@ -31,9 +31,9 @@ test('budget is seeded manually at 14/8 and strict boundary is observed', () => 
     assert.equal(f.store.budget().decision, 'CONTINUE');
     f.store.setBudget(8.01); assert.equal(f.store.budget().decision, 'CONTINUE');
     f.store.setBudget(8); assert.equal(f.store.budget().decision, 'STOP_AND_CHECKPOINT');
-    f.store.setBudget(0); assert.equal(f.store.budget().decision, 'STOP_AND_CHECKPOINT');
     f.store.setBudget(100, 'weekly-2026-09-26'); assert.equal(f.store.budget().decision, 'CONTINUE');
     assert.equal(f.store.budget().cycle, 'weekly-2026-09-26');
+    f.store.setBudget(0); assert.equal(f.store.budget().decision, 'STOP_AND_CHECKPOINT');
   } finally { f.cleanup(); }
 });
 test('invalid manual remaining budget is rejected', () => {
