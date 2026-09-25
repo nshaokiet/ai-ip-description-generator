@@ -1,4 +1,13 @@
-# Tests
+# Tests / Kiểm thử
+
+**Nhiệm vụ / Responsibilities**
+
+- Unit/integration/regression tests cho backend, schema, prompt và DOCX.
+- Fixtures synthetic và offline test harness.
+- Live provider tests phải tách riêng, opt-in và không được giả mạo PASS.
+- Không lưu paper thật, PII, secrets hoặc confidential outputs trong fixtures.
+
+---
 
 ## AI-001 schema validation
 
