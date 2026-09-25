@@ -1,4 +1,12 @@
-# Schema registry
+# Schemas / Lược đồ dữ liệu
+
+**Nhiệm vụ / Responsibilities**
+
+- Lưu JSON Schema production theo artefact và semantic version.
+- Khóa contract giữa extraction, draft generation, validation và DOCX.
+- Không sửa âm thầm version đã phát hành; thay đổi contract phải tạo version mới.
+
+---
 
 Các schema production của dự án được lưu theo artefact và semantic version. Không chỉnh sửa một version đã phát hành để thay đổi contract; tạo thư mục version mới và cập nhật ADR/migration notes.
 
