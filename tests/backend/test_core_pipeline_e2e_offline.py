@@ -26,7 +26,6 @@ from backend.app.services.extraction_runtime import (
     ExtractionRuntimeResult,
 )
 from backend.app.services.extraction_validation import (
-    ExtractionValidationError,
     validate_canonical_output,
     validate_grounding_and_business_rules,
 )
@@ -131,26 +130,20 @@ class CorePipelineOfflineE2ETests(unittest.TestCase):
         self.app = create_app(self.settings)
         self.client_context = TestClient(self.app)
         self.client = self.client_context.__enter__()
-        self.upload_count = 0
 
     def tearDown(self) -> None:
         self.client_context.__exit__(None, None, None)
         self.temporary_directory.cleanup()
 
     def upload(self, filename: str, payload: bytes, media_type: str) -> str:
-        self.upload_count += 1
-        document_id = "a" + f"{self.upload_count:031x}"
-        with patch.object(
-            self.app.state.document_storage,
-            "allocate_id",
-            return_value=document_id,
-        ):
-            response = self.client.post(
-                "/api/documents",
-                files={"file": (filename, payload, media_type)},
-            )
+        response = self.client.post(
+            "/api/documents",
+            files={"file": (filename, payload, media_type)},
+        )
         self.assertEqual(201, response.status_code, response.text)
-        return response.json()["document_id"]
+        document_id = response.json()["document_id"]
+        self.assertRegex(document_id, r"^[a-f][0-9a-f]{31}$")
+        return document_id
 
     def pipeline(
         self,
@@ -281,30 +274,22 @@ class CorePipelineOfflineE2ETests(unittest.TestCase):
             response = self.client.get(path)
             self.assertNotEqual(404, response.status_code, path)
 
-    def test_digit_leading_app001_id_exposes_ai001_contract_gap(self) -> None:
-        document_id = "1" + "0" * 31
-        with patch.object(
-            self.app.state.document_storage,
-            "allocate_id",
-            return_value=document_id,
-        ):
-            response = self.client.post(
-                "/api/documents",
-                files={
-                    "file": (
-                        "contract-gap.pdf",
-                        synthetic_pdf(["Synthetic contract-gap evidence."]),
-                        PDF_MEDIA_TYPE,
-                    )
-                },
-            )
-        self.assertEqual(201, response.status_code, response.text)
-        envelope = self.app.state.document_preparation_service.prepare_extraction_input(document_id)
+    def test_real_app001_id_satisfies_ai001_canonical_identifier(self) -> None:
+        document_id = self.upload(
+            "identifier-contract.pdf",
+            synthetic_pdf(["Synthetic identifier-contract evidence."]),
+            PDF_MEDIA_TYPE,
+        )
+        envelope = self.app.state.document_preparation_service.prepare_extraction_input(
+            document_id
+        )
         analysis = _load_json(MINIMAL_ANALYSIS_PATH)
         analysis["document_metadata"] = envelope.document_metadata.model_dump(exclude_none=True)
-        with self.assertRaises(ExtractionValidationError) as captured:
-            validate_canonical_output(analysis, _load_json(ANALYSIS_SCHEMA_PATH))
-        self.assertEqual(("/document_metadata/document_id",), captured.exception.paths)
+        validated = validate_canonical_output(
+            analysis,
+            _load_json(ANALYSIS_SCHEMA_PATH),
+        )
+        self.assertEqual(document_id, validated["document_metadata"]["document_id"])
         self.app.state.document_storage.delete(document_id)
 
     def test_repeated_synthetic_inputs_have_deterministic_business_shape(self) -> None:

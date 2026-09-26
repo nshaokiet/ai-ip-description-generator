@@ -7,8 +7,10 @@ import os
 import tempfile
 import time
 import unittest
+import uuid
 import zipfile
 from pathlib import Path
+from unittest.mock import patch
 
 from fastapi.testclient import TestClient
 from pypdf import PdfWriter
@@ -136,8 +138,30 @@ class DocumentUploadTests(unittest.TestCase):
         self.assertEqual(len(payload), body["size_bytes"])
         self.assertEqual(1, body["page_count"])
         self.assertEqual("validated", body["validation_status"])
-        self.assertRegex(body["document_id"], r"^[0-9a-f]{32}$")
+        self.assertRegex(body["document_id"], r"^[a-f][0-9a-f]{31}$")
         self.assertTrue((self.storage_root / body["document_id"]).is_file())
+
+    def test_allocate_id_rejects_digit_leading_uuid4_candidates(self) -> None:
+        rejected = uuid.UUID(hex="1" * 32)
+        accepted = uuid.UUID(hex="a" * 32)
+        with patch(
+            "backend.app.services.document_storage.uuid.uuid4",
+            side_effect=[rejected, accepted],
+        ) as uuid4:
+            document_id = self.app.state.document_storage.allocate_id()
+        self.assertEqual(accepted.hex, document_id)
+        self.assertEqual(2, uuid4.call_count)
+
+    def test_allocated_ids_are_schema_compatible_uuid4_hex_and_unique(self) -> None:
+        document_ids = {
+            self.app.state.document_storage.allocate_id()
+            for _ in range(64)
+        }
+        self.assertEqual(64, len(document_ids))
+        for document_id in document_ids:
+            self.assertRegex(document_id, r"^[a-f][0-9a-f]{31}$")
+            self.assertEqual(document_id, uuid.UUID(hex=document_id).hex)
+            self.assertEqual(4, uuid.UUID(hex=document_id).version)
 
     def test_document_ids_are_unique_within_a_run(self) -> None:
         first = self.upload("one.pdf", synthetic_pdf(), PDF_MEDIA_TYPE)
