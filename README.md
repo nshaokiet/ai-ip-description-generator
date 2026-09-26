@@ -252,14 +252,14 @@ Không đánh dấu application đã hoạt động khi mới chỉ có folder/R
 
 ## 13. Roadmap
 
-| Phase | Nội dung | Trạng thái |
+| Phase  | Nội dung | Trạng thái |
 |---|---|---|
-| Phase 1 | Specification & Architecture | SPEC-001/002/003 approved baseline; chưa có tuyên bố Human hoàn tất toàn bộ phase |
-| Phase 2 | Core pipeline | APP-001, APP-002, AI-RUNTIME-001 và AI-RUNTIME-002 đã merge; đặc tả APP-003 core pipeline orchestration v1.2.0 đã được Human phê duyệt và merge qua PR #18 (Specification — Approved & Merged); APP-003 Implementation — NOT STARTED (Deferred until 26/09/2026 cho Codex thực hiện); chưa có public orchestration, DOCX integration endpoint, frontend hoặc end-to-end completion |
-| Phase 3 | Draft generation & DOCX | AI-003 Completed — Merged via PR #5; DOC-001 Completed — Merged via PR #7 |
-| Phase 4 | Evaluation & stabilization | Chưa bắt đầu |
-| Phase 5 | Deployment & handover | Chưa bắt đầu |
-| Post-MVP | Tính năng mở rộng được phê duyệt riêng | Chưa xác định |
+| Phase 1  | Specification & Architecture | SPEC-001/002/003 approved baseline; chưa có tuyên bố Human hoàn tất toàn bộ phase |
+| Phase 2  | Core pipeline | APP-001, APP-002, AI-RUNTIME-001 và AI-RUNTIME-002 đã merge; đặc tả APP-003 core pipeline orchestration v1.2.0 đã được Human phê duyệt và merge qua PR #18 (Specification — Approved & Merged); APP-003 Implementation — NOT STARTED (Deferred until 26/09/2026 cho Codex thực hiện); chưa có public orchestration, DOCX integration endpoint, frontend hoặc end-to-end completion |
+| Phase 3  | Draft generation & DOCX | AI-003 Completed — Merged via PR #5; DOC-001 Completed — Merged via PR #7 |
+| Phase 4  | Evaluation & stabilization | Chưa bắt đầu |
+| Phase 5  | Deployment & handover | Chưa bắt đầu |
+| Post-MVP  | Tính năng mở rộng được phê duyệt riêng | Chưa xác định |
 
 ## 14. Các quyết định cần Human xác nhận
 
