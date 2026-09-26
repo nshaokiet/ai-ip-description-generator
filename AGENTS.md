@@ -126,8 +126,6 @@ Project Orchestrator MCP là **Coordination & State Management Layer**, không p
 
 ## 9. Tài liệu bắt buộc phải đọc
 
-## 9. Tài liệu bắt buộc phải đọc
-
 Trước khi hành động, đọc theo thứ tự:
 
 1. `AGENTS.md`.
