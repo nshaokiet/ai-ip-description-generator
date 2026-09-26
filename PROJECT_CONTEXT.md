@@ -8,13 +8,13 @@
 |---|---|
 | Document ID | SPEC-002 |
 | Document title | Project Context — AI Intellectual Property Description Generator |
-| Version | 0.3.9 |
+| Version | 0.4.0 |
 | Status | Approved baseline |
 | Owner | Human / Product Owner |
-| Author | ChatGPT/Codex |
-| Reviewer | Gemini 3.1 Pro High |
+| Author | ChatGPT |
+| Reviewer | Human / Product Owner |
 | Created date | 18/09/2026 |
-| Last updated | 22/09/2026 |
+| Last updated | 26/09/2026 |
 | Related task ID | SPEC-002 |
 | Source of Truth | GitHub — `PROJECT_CONTEXT.md` |
 | Confidentiality level | Internal; research inputs are Confidential by default |
@@ -47,6 +47,7 @@
 | 0.3.6 | 0.3.7 | 22/09/2026 | Gemini 3.8 Flash High | Cập nhật đặc tả kỹ thuật APP-003 v1.1.0 sau independent review, chờ re-review | Đồng bộ trạng thái remediated chờ re-review | APP-003, REV-APP-003 | No |
 | 0.3.7 | 0.3.8 | 22/09/2026 | Gemini 3.8 Flash High | Làm cứng đặc tả APP-003 v1.2.0: xử lý residual findings H-001 (cleanup exception safety helper), H-002 (Python 3.12 portable regression), H-003 (AC-29 framework routes) | Đồng bộ trạng thái hardened trước targeted re-review | APP-003, H-001, H-002, H-003 | No |
 | 0.3.8 | 0.3.9 | 22/09/2026 | Gemini 3.8 Flash High | Đóng vòng đời đặc tả APP-003: Human duyệt v1.2.0, merge PR #18 tại bfbcdc7; ghi nhận implementation chưa bắt đầu (hoãn đến 26/09/2026 cho Codex) | Post-merge specification governance closeout; không đổi technical contract | APP-003, REV-APP-003, PR #18, merge commit `bfbcdc760916f497b603bcd49ce0150d6819d337` | No |
+| 0.3.9 | 0.4.0 | 26/09/2026 | ChatGPT | Cập nhật operating model: Codex implementation, Antigravity independent review, Project Orchestrator MCP coordination; loại NotebookLM khỏi workflow hiện tại | Đồng bộ workflow thực tế do Human quyết định | Human decision 26/09/2026 | No |
 
 ## 2. Project name
 
@@ -240,12 +241,16 @@ Giai đoạn khởi tạo đề xuất: **Phase 1 — Specification & Architectu
 
 SPEC-001, SPEC-002 và SPEC-003 là **Approved baseline** sau Gemini 3.1 Pro High review và Human decisions ngày 20/09/2026. Implementation đã tiến vào các task thuộc Phase 2/Phase 3, nhưng Human / Product Owner chưa tuyên bố toàn bộ Phase 1, Phase 2, Phase 3 hoặc MVP `Completed`.
 
-## 20. AI Roles
+## 20. AI / Agent Roles
 
-- **Human / Product Owner:** scope, approval, decision, final output/release.
-- **ChatGPT/Codex:** Lead Developer, System Architect, Integration Owner.
-- **Gemini Pro:** Research Analyst, Independent Reviewer, QA Reviewer; không overwrite production.
-- **NotebookLM:** Research Workspace; không phải Source of Truth hoặc production AI.
+- **Human / Product Owner — Governance & Final Approval Authority:** quyết định scope, architecture/security/data/provider policy, approve task/gate, merge và release.
+- **ChatGPT — Technical Coordinator & Architecture Advisor:** specification, architecture guidance, prompt/handoff, governance và evidence reconciliation.
+- **Codex (VS Code) — Primary Implementation Agent:** implement/test/debug/commit/push approved tasks trên branch/worktree riêng; không tự approve hoặc merge.
+- **Antigravity Reviewer Agent — Independent Review & QA:** review độc lập branch/SHA; exact model/profile phải được ghi trong từng review record; không sửa production artefact khi đang reviewer.
+- **Project Orchestrator MCP — Coordination & State Management Layer:** task queue/lifecycle, lease, budget guard, checkpoint/handoff và shared state; không code/review/approve/merge.
+- **GitHub — Technical Source of Truth:** canonical technical artefacts và evidence.
+
+**NotebookLM không thuộc toolchain/workflow hiện tại.** Tham chiếu Gemini/NotebookLM trong historical changelog/review evidence được giữ nguyên để bảo toàn provenance.
 
 Chi tiết quyền hạn nằm trong `AGENTS.md`.
 
@@ -257,21 +262,21 @@ Chi tiết quyền hạn nằm trong `AGENTS.md`.
 4. `docs/system-specification.md`.
 5. `PROJECT_CONTEXT.md`.
 6. Project Control Center.
-7. Gemini Review Log.
-8. NotebookLM notes.
+7. Review Log.
+8. MCP state/checkpoint là operational evidence, không được ghi đè các nguồn authority phía trên.
 
 ## 22. Communication Bridge
 
 Google Drive dùng để chia sẻ:
 
 - `01_PROJECT_CONTROL_CENTER`: trạng thái vận hành.
-- `02_GEMINI_REVIEW_LOG`: review history.
+- `02_GEMINI_REVIEW_LOG`: historical/current review log với legacy filename; review mới phải ghi Antigravity reviewer và exact model/profile.
 
 Bản nguồn Git hiện ở `docs/operations/`. Trạng thái tạo/đồng bộ Google Docs: `[CẦN XÁC NHẬN TRẠNG THÁI]`. Google Docs không ghi đè technical artefacts trong GitHub.
 
-## 23. Research Workspace
+## 23. Agent Coordination Layer
 
-NotebookLM lưu và tra cứu nguồn được cấp quyền, hỗ trợ grounding và so sánh. Nó không sửa code, không phê duyệt quyết định, không tự cập nhật GitHub và không thay thế tài liệu gốc.
+Project Orchestrator MCP là lớp điều phối dùng chung giữa VS Code/Codex và Antigravity. MCP lưu task state, lease, dependency, manual quota/budget, checkpoint và handoff. MCP không phải coding agent, reviewer, approval authority hoặc Git merge engine.
 
 ## 24. Critical project rules
 
@@ -284,7 +289,7 @@ NotebookLM lưu và tra cứu nguồn được cấp quyền, hỗ trợ groundi
 7. Không mô tả output là tài liệu pháp lý hoàn chỉnh.
 8. Không tự thay scope, deadline, tech stack hoặc architecture.
 9. Mỗi nội dung kỹ thuật quan trọng phải có evidence hoặc nhãn thiếu/suy luận.
-10. Gemini review; ChatGPT/Codex implement; Human quyết định phần thuộc thẩm quyền.
+10. Codex implement; Antigravity review độc lập; MCP điều phối state; Human quyết định gate/merge/release.
 
 ## 25. Current artefacts
 

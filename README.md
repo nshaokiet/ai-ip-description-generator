@@ -178,18 +178,37 @@ Bản đồ Anh–Việt đầy đủ: [`FOLDER_STRUCTURE.md`](FOLDER_STRUCTURE.
 3. [`docs/system-specification.md`](docs/system-specification.md) — requirement và kiến trúc chi tiết.
 4. ADR trong `docs/decisions/` khi được tạo.
 5. [`01_PROJECT_CONTROL_CENTER.md`](docs/operations/01_PROJECT_CONTROL_CENTER.md) — trạng thái và quyết định đang chờ.
-6. [`02_GEMINI_REVIEW_LOG.md`](docs/operations/02_GEMINI_REVIEW_LOG.md) — review findings và resolution.
+6. [`02_GEMINI_REVIEW_LOG.md`](docs/operations/02_GEMINI_REVIEW_LOG.md) — lịch sử review hiện có; tên file legacy được giữ để truy vết, các review mới phải ghi rõ Antigravity reviewer và model profile thực tế.
 
-## 10. Phân chia vai trò
+## 10. Operating model / Phân chia vai trò
 
-| Vai trò | Trách nhiệm chính |
-|---|---|
-| Human / Product Owner | Quyết định scope, kiến trúc chính, dữ liệu, release và output cuối |
-| ChatGPT/Codex | Lead Developer, System Architect, Integration Owner |
-| Gemini Pro | Research Analyst, Independent Reviewer, QA Reviewer |
-| NotebookLM | Research Workspace; không phải production AI hoặc Source of Truth |
+| Thành phần | Vai trò chính | Trách nhiệm và ranh giới |
+|---|---|---|
+| **Human / Product Owner** | **Governance & Final Approval Authority** | Quyết định scope, kiến trúc chính, security/data policy, provider/model policy, chi phí, release và output cuối; phê duyệt task/gate và quyết định merge `main`. |
+| **ChatGPT** | **Technical Coordinator & Architecture Advisor** | Chuyển mục tiêu Human thành specification/prompt/handoff rõ ràng; đối chiếu bằng chứng, hỗ trợ kiến trúc, governance và điều phối giữa các agent; không tự thay Human phê duyệt hoặc release. |
+| **Codex (VS Code)** | **Primary Implementation Agent** | Claim task đã được duyệt qua MCP; triển khai, test, debug, commit/push trên branch/worktree riêng; xử lý remediation; không tự approve review và không merge `main`. |
+| **Antigravity Reviewer Agent** | **Independent Review & QA** | Review độc lập branch/commit cố định; kiểm tra acceptance criteria, regression, security/privacy, scope và chất lượng implementation; không sửa production artefact trong vai trò reviewer. **Exact model/profile dùng trong Antigravity phải được ghi trong từng review record, không hard-code tên model vào vai trò.** |
+| **Project Orchestrator MCP** | **Coordination & State Management Layer** | Quản lý task queue/lifecycle, task lease, budget guard, checkpoint/handoff và trạng thái dùng chung giữa Codex/Antigravity; **không code, không review, không approve, không merge và không tự kích hoạt quota reset**. |
+| **GitHub** | **Technical Source of Truth** | Lưu canonical source code, specification, prompt/schema/template, tests, ADR, PR/commit history và release evidence. |
 
-GitHub là **Technical Source of Truth**. Gemini không ghi đè production artefact; ChatGPT/Codex không tự phê duyệt quyết định thuộc quyền Human.
+### Separation of duties / Tách biệt trách nhiệm
+
+```text
+Human approves scope/task
+        ↓
+Codex implements + tests
+        ↓
+Antigravity performs independent review
+        ↓
+Codex remediates findings when required
+        ↓
+Human approves merge/release
+
+Project Orchestrator MCP
+= shared coordination/state layer across the workflow
+```
+
+**NotebookLM không còn thuộc toolchain hoặc workflow của dự án.** Các tham chiếu Gemini/NotebookLM trong changelog hoặc review history cũ chỉ là historical evidence và không mô tả operating model hiện tại.
 
 ## 11. Trạng thái hiện tại
 
