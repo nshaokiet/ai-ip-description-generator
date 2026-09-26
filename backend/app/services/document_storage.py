@@ -49,7 +49,10 @@ class DocumentStorage:
             pass
 
     def allocate_id(self) -> str:
-        return uuid.uuid4().hex
+        while True:
+            document_id = uuid.uuid4().hex
+            if document_id[0] in "abcdef":
+                return document_id
 
     def path_for(self, document_id: str) -> Path:
         if len(document_id) != 32 or any(ch not in "0123456789abcdef" for ch in document_id):
