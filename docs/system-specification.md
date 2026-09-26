@@ -8,13 +8,13 @@
 |---|---|
 | Document ID | SPEC-001 |
 | Document title | Đặc tả hệ thống — AI Intellectual Property Description Generator |
-| Version | 0.3.5 |
+| Version | 0.3.6 |
 | Status | Approved baseline |
 | Owner | Human / Product Owner |
-| Author | ChatGPT/Codex |
-| Reviewer | Gemini 3.1 Pro High |
+| Author | ChatGPT |
+| Reviewer | Human / Product Owner |
 | Created date | 18/09/2026 |
-| Last updated | 22/09/2026 |
+| Last updated | 26/09/2026 |
 | Related task ID | SPEC-001 |
 | Source of Truth | GitHub — `docs/system-specification.md` |
 | Confidentiality level | Internal; tài liệu nghiên cứu đầu vào phải được xử lý như Confidential |
@@ -40,6 +40,7 @@
 | 0.3.2 | 0.3.3 | 21/09/2026 | ChatGPT/Codex | Ghi AI-RUNTIME-001 internal OpenAI extraction runtime, provider adapter và validation boundary đã triển khai, chờ independent review | Đồng bộ Human-approved runtime specification và ADR-010 | AI-RUNTIME-001, ADR-010 | No |
 | 0.3.3 | 0.3.4 | 21/09/2026 | ChatGPT/Codex | Ghi AI-RUNTIME-001 Completed sau F-001 remediation, targeted PASS và Human merge PR #14 | Post-merge governance closeout; không đổi technical specification | AI-RUNTIME-001, REV-AI-RUNTIME-001, PR #14, merge commit `597f6c7b074eb2c5e445790b8c4f48f336f04da5` | No |
 | 0.3.4 | 0.3.5 | 22/09/2026 | Gemini 3.8 Flash High | Ghi AI-RUNTIME-002 Completed sau remediation, independent review APPROVED và Human merge PR #16 | Post-merge governance closeout; không đổi technical specification | AI-RUNTIME-002, REV-AI-RUNTIME-002, PR #16, merge commit `978516a4f5caa90bbd2189668237c6e028597361` | No |
+| 0.3.5 | 0.3.6 | 26/09/2026 | ChatGPT | Cập nhật stakeholder/agent operating model: tách ChatGPT, Codex, Antigravity reviewer và Project Orchestrator MCP; loại NotebookLM khỏi current workflow | Đồng bộ Human decision và tooling hiện hành | Human decision 26/09/2026 | No |
 
 ## 3. Tổng quan
 
@@ -115,8 +116,10 @@ Phạm vi tổng thể gồm giao diện upload và review, API điều phối, 
 | Human / Product Owner | Sản phẩm đúng phạm vi, kiểm soát rủi ro và quyết định | Phê duyệt scope, kiến trúc chính, breaking change và đầu ra cuối |
 | Tác giả/nghiên cứu viên | Chuyển nội dung nghiên cứu thành bản nháp có thể rà soát | Cung cấp tài liệu hợp lệ, trả lời câu hỏi còn thiếu, xác nhận kỹ thuật |
 | Chuyên gia SHTT | Rà soát cấu trúc, claims, căn cứ và rủi ro | Đánh giá chuyên môn trước khi sử dụng pháp lý |
-| ChatGPT/Codex | Triển khai và tích hợp | Lead Developer, System Architect, Integration Owner |
-| Gemini Pro | Review độc lập | Research Analyst, QA Reviewer; không ghi đè artefact production |
+| ChatGPT | Điều phối kỹ thuật và kiến trúc | Technical Coordinator & Architecture Advisor; specification, handoff, governance support |
+| Codex (VS Code) | Triển khai chính | Primary Implementation Agent; code/test/debug/commit/push approved tasks; không tự merge |
+| Antigravity Reviewer Agent | Review độc lập | Independent Review & QA; review fixed branch/SHA, ghi exact model/profile trong review record |
+| Project Orchestrator MCP | Điều phối trạng thái | Task lifecycle, lease, budget guard, checkpoint/handoff; không code/review/approve/merge |
 | Quản trị vận hành `[CẦN XÁC NHẬN]` | Quản lý truy cập, vận hành và sự cố | Vai trò và quyền cụ thể `[CẦN XÁC NHẬN]` |
 
 ## 12. Actor
@@ -125,8 +128,10 @@ Phạm vi tổng thể gồm giao diện upload và review, API điều phối, 
 - **Human Reviewer:** xác nhận nội dung kỹ thuật và trạng thái section.
 - **System:** kiểm tra file, điều phối pipeline, validation, lưu version và export.
 - **OpenAI Responses API:** tạo Structured Output và bản nháp theo prompt/schema có version.
-- **ChatGPT/Codex:** xây dựng, bảo trì và xử lý review.
-- **Gemini Pro:** review artefact và output được giao.
+- **ChatGPT:** technical coordination, architecture guidance, specification và governance support.
+- **Codex (VS Code):** implementation, test, debug và remediation trong approved scope.
+- **Antigravity Reviewer Agent:** independent review/QA; exact model/profile được ghi theo từng review.
+- **Project Orchestrator MCP:** coordination/state layer cho task, lease, budget và handoff.
 
 ## 13. User journey
 
@@ -494,13 +499,13 @@ Ngày hoàn thành từng phase: `[CẦN XÁC NHẬN]`. Mục tiêu hoàn thành
 
 | Risk ID | Mô tả | Khả năng | Ảnh hưởng | Biện pháp giảm thiểu | Owner | Status |
 |---|---|---|---|---|---|---|
-| RISK-001 | AI tạo nội dung không có nguồn | Cao | Cao | Schema/evidence bắt buộc, grounding check, Human review | ChatGPT/Codex + Human | Open |
-| RISK-002 | PDF phức tạp làm sai locator | Trung bình | Cao | Parser tests, page mapping, manual evidence preview | ChatGPT/Codex | Open |
+| RISK-001 | AI tạo nội dung không có nguồn | Cao | Cao | Schema/evidence bắt buộc, grounding check, Human review | Codex + Human | Open |
+| RISK-002 | PDF phức tạp làm sai locator | Trung bình | Cao | Parser tests, page mapping, manual evidence preview | Codex | Open |
 | RISK-003 | Claim vượt support của description | Cao | Cao | Claim-element mapping, warning, chuyên gia SHTT review | Human / chuyên gia SHTT | Open |
 | RISK-004 | Rò rỉ nghiên cứu chưa công bố | Trung bình | Critical | Private storage, access control, redaction, vendor policy review | Human / Product Owner | Open |
-| RISK-005 | Schema/prompt thay đổi làm hỏng output cũ | Trung bình | Cao | Semantic version, compatibility tests, migration policy | ChatGPT/Codex | Open |
+| RISK-005 | Schema/prompt thay đổi làm hỏng output cũ | Trung bình | Cao | Semantic version, compatibility tests, migration policy | Codex + ChatGPT coordination | Open |
 | RISK-006 | Deadline ngắn dẫn tới over-scope | Cao | Cao | Giữ luồng 1 paper, hoãn optional items, quyết định nhanh open questions | Human / Product Owner | Open |
-| RISK-007 | Không có golden set đủ đại diện | Cao | Trung bình | Chọn tài liệu được cấp quyền, annotation protocol, review độc lập | Human + Gemini Pro | Open |
+| RISK-007 | Không có golden set đủ đại diện | Cao | Trung bình | Chọn tài liệu được cấp quyền, annotation protocol, review độc lập | Human + Antigravity Reviewer Agent | Open |
 | RISK-008 | DOCX template không phản ánh yêu cầu chuyên môn | Trung bình | Cao | Template review với chuyên gia SHTT trước khóa version | Human / chuyên gia SHTT | Open |
 
 ## 31. Assumptions
@@ -521,7 +526,7 @@ Ngày hoàn thành từng phase: `[CẦN XÁC NHẬN]`. Mục tiêu hoàn thành
 - Prompt, schema, API contract và DOCX template có version.
 - Human/chuyên gia SHTT review cấu trúc draft; Claims tương lai cần scope-change approval riêng.
 - Vercel/Railway account/config khi đến Phase 5.
-- Google Drive/NotebookLM chỉ phục vụ phối hợp và research, không thay GitHub Technical Source of Truth.
+- Google Drive chỉ phục vụ phối hợp tài liệu khi cần; không thay GitHub Technical Source of Truth. NotebookLM không thuộc current project toolchain.
 
 ## 33. Open questions
 
