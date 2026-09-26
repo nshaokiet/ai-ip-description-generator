@@ -48,6 +48,10 @@ class Settings:
     """Small, explicit configuration surface with fixed extraction policy."""
 
     storage_root: Path
+    local_export_root: Path = field(
+        default_factory=lambda: Path(tempfile.gettempdir()) / "ai-ip-generator" / "exports"
+    )
+    enable_local_orchestration_api: bool = False
     max_upload_bytes: int = 10 * MEBIBYTE
     max_pdf_pages: int = 50
     upload_ttl_seconds: int = 60 * 60
@@ -100,6 +104,9 @@ class Settings:
         api_key = configured_api_key if configured_api_key and configured_api_key.strip() else None
         return cls(
             storage_root=root,
+            enable_local_orchestration_api=_environment_flag(
+                "AI_IP_ENABLE_LOCAL_ORCHESTRATION_API"
+            ),
             openai_api_key=api_key,
             openai_timeout_seconds=_environment_integer(
                 "OPENAI_TIMEOUT_SECONDS",
