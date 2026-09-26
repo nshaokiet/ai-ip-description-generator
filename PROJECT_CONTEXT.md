@@ -280,8 +280,6 @@ Project Orchestrator MCP là lớp điều phối dùng chung giữa VS Code/Cod
 
 ## 24. Critical project rules
 
-## 24. Critical project rules
-
 1. Không bịa thông tin kỹ thuật, source, decision, test hoặc trạng thái.
 2. Human review bắt buộc.
 3. API key chỉ ở backend.
