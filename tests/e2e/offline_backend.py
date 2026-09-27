@@ -1,4 +1,4 @@
-"""Synthetic-only FastAPI process for P0-006 browser tests. No provider client exists."""
+"""Synthetic-only FastAPI process for browser tests. No provider client exists."""
 
 from __future__ import annotations
 
@@ -26,8 +26,9 @@ TEMP_ROOT = tempfile.TemporaryDirectory(prefix="ai-ip-p0-006-browser-")
 
 class SyntheticExtractionRuntime:
     def run_extraction(self, envelope, *, correlation_id=None):
-        analysis = copy.deepcopy(CASE["input"]["source_analysis"])
         metadata = envelope.document_metadata.model_dump(exclude_none=True)
+        fixture = MISSING if metadata["file_name"] == "synthetic-missing.pdf" else CASE
+        analysis = copy.deepcopy(fixture["input"]["source_analysis"])
         analysis["document_metadata"] = metadata
         for evidence in analysis["evidence"]:
             evidence["document_id"] = metadata["document_id"]
@@ -42,11 +43,12 @@ class SyntheticExtractionRuntime:
 
 class SyntheticDraftRuntime:
     def run_draft_generation(self, source_analysis, selected_title_candidate_id=None):
-        draft = copy.deepcopy(CASE["expected_output"])
+        missing_case = source_analysis["document_metadata"]["file_name"] == "synthetic-missing.pdf"
+        draft = copy.deepcopy((MISSING if missing_case else CASE)["expected_output"])
         draft["document_metadata"]["source_document"] = copy.deepcopy(source_analysis["document_metadata"])
         for evidence in draft["evidence_appendix"]:
             evidence["document_id"] = source_analysis["document_metadata"]["document_id"]
-        if selected_title_candidate_id is None:
+        if selected_title_candidate_id is None and not missing_case:
             draft["selected_title"] = copy.deepcopy(MISSING["expected_output"]["selected_title"])
             draft["missing_information"].append(
                 copy.deepcopy(next(item for item in MISSING["expected_output"]["missing_information"] if item["missing_id"] == "missing-title"))

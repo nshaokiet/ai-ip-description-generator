@@ -1,4 +1,7 @@
-import { expect, test, type Page } from "@playwright/test";
+import { execFileSync } from "node:child_process";
+import path from "node:path";
+
+import { expect, test, type Download, type Page } from "@playwright/test";
 
 const backend = "http://127.0.0.1:8000";
 const mediaTypes = {
@@ -6,7 +9,15 @@ const mediaTypes = {
   docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
 };
 
-async function processSynthetic(page: Page, format: "pdf" | "docx") {
+async function downloadedDocxText(download: Download): Promise<string> {
+  const root = path.resolve(__dirname, "../..");
+  const python = path.join(root, ".venv", process.platform === "win32" ? "Scripts/python.exe" : "bin/python");
+  const helper = path.join(root, "tests/e2e/inspect_docx.py");
+  const output = execFileSync(python, [helper, await download.path()], { encoding: "utf8" });
+  return (JSON.parse(output) as { text: string }).text;
+}
+
+async function uploadSynthetic(page: Page, format: "pdf" | "docx", options: { missing?: boolean; keyboard?: boolean } = {}) {
   await page.route("**/*", async (route) => {
     const url = new URL(route.request().url());
     if (url.protocol.startsWith("http") && !["127.0.0.1", "localhost"].includes(url.hostname)) {
@@ -18,16 +29,30 @@ async function processSynthetic(page: Page, format: "pdf" | "docx") {
   const fixture = await page.request.get(`${backend}/__test/${format}`);
   expect(fixture.ok()).toBeTruthy();
   await page.goto("/");
-  await page.locator("#document-file").setInputFiles({
-    name: `synthetic.${format}`,
+  const file = {
+    name: options.missing ? "synthetic-missing.pdf" : `synthetic.${format}`,
     mimeType: mediaTypes[format],
     buffer: await fixture.body(),
-  });
+  };
+  if (options.keyboard) {
+    const chooserPromise = page.waitForEvent("filechooser");
+    const button = page.getByRole("button", { name: "Select document" });
+    await button.focus();
+    await expect(button).toBeFocused();
+    await page.keyboard.press("Enter");
+    await (await chooserPromise).setFiles(file);
+  } else {
+    await page.locator("#document-file").setInputFiles(file);
+  }
   await page.getByRole("button", { name: "Upload & Validate" }).click();
   await expect(page.getByRole("heading", { name: "Ready for analysis" })).toBeVisible();
+}
+
+async function processSynthetic(page: Page, format: "pdf" | "docx", options: { missing?: boolean; keyboard?: boolean } = {}) {
+  await uploadSynthetic(page, format, options);
   const processResponse = page.waitForResponse((response) => response.url().includes("/process") && response.request().method() === "POST");
   await page.getByRole("button", { name: "Analyze & Generate Draft" }).click();
-  const processed = await (await processResponse).json() as { draft: { output_notice: unknown; drawings: unknown } };
+  const processed = await (await processResponse).json() as { draft: Record<string, unknown> };
   await expect(page.getByRole("heading", { name: "Grounded draft workspace" })).toBeVisible();
   await page.getByRole("tab", { name: "Patent Draft" }).click();
   await expect(page.getByRole("heading", { name: "Title: MISSING" })).toBeVisible();
@@ -64,7 +89,7 @@ test("PDF session: cancel, immutable save, validate, review and exact UNREVIEWED
   await expect(page.getByText("Backend validation: PASSED for this exact revision")).toBeVisible();
   await page.getByLabel("Session review status for Technical Field").selectOption("REVIEWED");
 
-  const revised = `${original} The sensor remains temperature-aware.`;
+  const revised = "A calibrated optical sensor compensates for thermal drift in each measurement band.";
   await saveParagraphRevision(page, revised);
   await expect(page.getByText("Backend validation: NOT VALIDATED")).toBeVisible();
   await expect(page.getByText("6 UNREVIEWED", { exact: false })).toBeVisible();
@@ -80,6 +105,11 @@ test("PDF session: cancel, immutable save, validate, review and exact UNREVIEWED
   await expect(page.getByText("Backend validation: PASSED for this exact revision")).toBeVisible();
   await expect(page.getByText("semantic source support is unverified", { exact: false })).toBeVisible();
 
+  await page.getByRole("button", { name: "Edit prose" }).click();
+  await firstParagraph(page).fill("Unsaved export substitution.");
+  await expect(page.getByRole("button", { name: "Export revision-2 DOCX" })).toBeDisabled();
+  await page.getByRole("button", { name: "Cancel edit" }).click();
+
   let exported: Record<string, unknown> | undefined;
   page.on("request", (request) => {
     if (request.url().includes("/backend/api/exports/docx")) exported = request.postDataJSON();
@@ -92,6 +122,13 @@ test("PDF session: cancel, immutable save, validate, review and exact UNREVIEWED
   expect((exported?.draft as { draft_sections: Array<{ paragraphs: Array<{ text: string }> }> }).draft_sections[0].paragraphs[0].text).toBe(revised);
   expect((exported?.draft as { output_notice: unknown }).output_notice).toEqual(processed.draft.output_notice);
   expect((exported?.draft as { drawings: unknown }).drawings).toEqual(processed.draft.drawings);
+  const downloaded = await downloadedDocxText(download);
+  expect(downloaded).toContain(revised);
+  expect(downloaded).not.toContain(original);
+  expect(downloaded).not.toContain("Unsaved export substitution.");
+  expect(downloaded).not.toContain("Cancelled edit text.");
+  expect(downloaded).toContain("AI-generated draft");
+  expect(downloaded).toContain("[AUTHOR CONFIRMATION REQUIRED]");
   await expect(page.getByText("6 UNREVIEWED", { exact: false })).toBeVisible();
 
   const review = page.getByLabel("Session review status for Technical Field");
@@ -109,12 +146,44 @@ test("PDF session: cancel, immutable save, validate, review and exact UNREVIEWED
 
 test("DOCX upload and edited revision export over the real local HTTP boundary", async ({ page }) => {
   await processSynthetic(page, "docx");
-  await saveParagraphRevision(page, "The optical sensor calibration uses a temperature coefficient.");
+  const revised = "A temperature coefficient calibrates the optical sensor across defined bands.";
+  await saveParagraphRevision(page, revised);
   await page.getByRole("button", { name: "Validate revision-2" }).click();
   await expect(page.getByText("Backend validation: PASSED for this exact revision")).toBeVisible();
   const downloadPromise = page.waitForEvent("download");
   await page.getByRole("button", { name: "Export revision-2 DOCX" }).click();
-  expect((await downloadPromise).suggestedFilename()).toBe("patent-description-draft.docx");
+  const download = await downloadPromise;
+  expect(download.suggestedFilename()).toBe("patent-description-draft.docx");
+  const downloaded = await downloadedDocxText(download);
+  expect(downloaded).toContain(revised);
+  expect(downloaded).not.toContain("The disclosure relates to calibration of an optical sensor across temperature bands.");
+  expect(downloaded).toContain("AI-generated draft");
+  expect(downloaded).toContain("[AUTHOR CONFIRMATION REQUIRED]");
+});
+
+test("non-title missing information and linked question survive browser and DOCX", async ({ page }) => {
+  const processed = await processSynthetic(page, "pdf", { missing: true });
+  const draft = processed.draft as {
+    selected_title: { status: string };
+    abstract: { status: string; missing_information_ids: string[] };
+    author_questions: Array<{ question: string; related_missing_information_ids: string[] }>;
+  };
+  expect(draft.selected_title.status).toBe("MISSING");
+  expect(draft.abstract.status).toBe("MISSING");
+  expect(draft.abstract.missing_information_ids).toContain("missing-abstract");
+  expect(draft.author_questions.find((item) => item.question.includes("Abstract"))?.related_missing_information_ids).toContain("missing-abstract");
+  await expect(page.getByText("Related items: missing-abstract")).toBeVisible();
+  await page.getByRole("tab", { name: "Review Items" }).click();
+  await expect(page.getByText("Can the author provide supported technical content for the Abstract?")).toBeVisible();
+  await page.getByRole("tab", { name: "Patent Draft" }).click();
+  await page.getByRole("button", { name: "Validate revision-1" }).click();
+  await expect(page.getByText("Backend validation: PASSED for this exact revision")).toBeVisible();
+  const downloadPromise = page.waitForEvent("download");
+  await page.getByRole("button", { name: "Export revision-1 DOCX" }).click();
+  const downloaded = await downloadedDocxText(await downloadPromise);
+  expect(downloaded).toContain("[AUTHOR CONFIRMATION REQUIRED]");
+  expect(downloaded).toContain("Can the author provide supported technical content for the Abstract?");
+  expect(downloaded).not.toContain("The disclosure relates to calibration of an optical sensor across temperature bands.");
 });
 
 test("invalid edit and rejected export preserve selected revision", async ({ page }) => {
@@ -142,7 +211,7 @@ test("invalid edit and rejected export preserve selected revision", async ({ pag
 });
 
 test("keyboard-only edit, validate, review and export controls", async ({ page }) => {
-  await processSynthetic(page, "pdf");
+  await processSynthetic(page, "pdf", { keyboard: true });
   await page.getByRole("button", { name: "Edit prose" }).focus();
   await page.keyboard.press("Enter");
   await firstParagraph(page).focus();
@@ -175,6 +244,70 @@ test("narrow viewport keeps editing, warnings, validation and export usable", as
   const downloadPromise = page.waitForEvent("download");
   await page.getByRole("button", { name: "Export revision-2 DOCX" }).click();
   await downloadPromise;
+});
+
+test("corrupt upload is rejected safely and a valid synthetic document can be retried", async ({ page }) => {
+  await page.goto("/");
+  await page.locator("#document-file").setInputFiles({
+    name: "synthetic-corrupt.pdf", mimeType: mediaTypes.pdf, buffer: Buffer.from("%PDF-1.7\nnot a valid PDF"),
+  });
+  await page.getByRole("button", { name: "Upload & Validate" }).click();
+  await expect(page.getByRole("heading", { name: "We could not complete that operation" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Ready for analysis" })).toHaveCount(0);
+  await expect(page.getByRole("heading", { name: "Grounded draft workspace" })).toHaveCount(0);
+  await expect(page.locator(".error-banner")).not.toContainText("not a valid PDF");
+  await page.getByRole("button", { name: "Choose another document" }).click();
+  const fixture = await page.request.get(`${backend}/__test/pdf`);
+  expect(fixture.ok()).toBeTruthy();
+  await page.locator("#document-file").setInputFiles({
+    name: "synthetic.pdf", mimeType: mediaTypes.pdf, buffer: await fixture.body(),
+  });
+  await page.getByRole("button", { name: "Upload & Validate" }).click();
+  await expect(page.getByRole("heading", { name: "Ready for analysis" })).toBeVisible();
+});
+
+test("process proxy failure is safe and requires a new upload before retry", async ({ page }) => {
+  await uploadSynthetic(page, "pdf");
+  await page.route("**/backend/api/documents/*/process", async (route) => {
+    const processed = await route.fetch();
+    expect(processed.ok()).toBeTruthy();
+    await route.fulfill({ status: 502, contentType: "text/plain", body: "raw C:\\private\\paper.pdf" });
+  });
+  await page.getByRole("button", { name: "Analyze & Generate Draft" }).click();
+  await expect(page.getByText("The local service could not complete the request.")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Ready for analysis" })).toHaveCount(0);
+  await expect(page.getByRole("heading", { name: "Grounded draft workspace" })).toHaveCount(0);
+  await expect(page.locator(".error-banner")).not.toContainText("C:\\private");
+  await page.unroute("**/backend/api/documents/*/process");
+  await page.getByRole("button", { name: "Choose another document" }).click();
+  const fixture = await page.request.get(`${backend}/__test/pdf`);
+  await page.locator("#document-file").setInputFiles({
+    name: "synthetic-retry.pdf", mimeType: mediaTypes.pdf, buffer: await fixture.body(),
+  });
+  await page.getByRole("button", { name: "Upload & Validate" }).click();
+  await page.getByRole("button", { name: "Analyze & Generate Draft" }).click();
+  await expect(page.getByRole("heading", { name: "Grounded draft workspace" })).toBeVisible();
+});
+
+test("export failure creates no download and preserves the validated revision for retry", async ({ page }) => {
+  await processSynthetic(page, "pdf");
+  await page.getByRole("button", { name: "Validate revision-1" }).click();
+  await expect(page.getByText("Backend validation: PASSED for this exact revision")).toBeVisible();
+  const downloads: Download[] = [];
+  page.on("download", (download) => downloads.push(download));
+  await page.route("**/backend/api/exports/docx", (route) =>
+    route.fulfill({ status: 503, contentType: "text/plain", body: "raw C:\\private\\export.docx" }));
+  await page.getByRole("button", { name: "Export revision-1 DOCX" }).click();
+  await expect(page.getByText("The local service could not complete the request.")).toBeVisible();
+  expect(downloads).toHaveLength(0);
+  await expect(page.locator(".error-banner")).not.toContainText("C:\\private");
+  await expect(page.getByLabel("Selected revision")).toHaveValue("revision-1");
+  await page.unroute("**/backend/api/exports/docx");
+  await page.getByRole("button", { name: "Return to results" }).click();
+  await expect(page.getByText("Backend validation: PASSED for this exact revision")).toBeVisible();
+  const downloadPromise = page.waitForEvent("download");
+  await page.getByRole("button", { name: "Export revision-1 DOCX" }).click();
+  expect((await downloadPromise).suggestedFilename()).toBe("patent-description-draft.docx");
 });
 
 test("non-JSON and network backend failures are safe and keep the revision", async ({ page }) => {
