@@ -6,12 +6,16 @@
 |---|---|
 | Task ID | P0-006 |
 | Specification version | 0.2.0 |
-| Status | Specification — Human Decisions Resolved; Awaiting Targeted Independent Re-review |
-| Implementation status | NOT STARTED; targeted re-review and separate Human implementation approval pending |
+| Document evidence revision | 0.2.1 — implementation evidence only; approved specification contract remains v0.2.0 |
+| Status | Implemented — Awaiting Independent Review |
+| Implementation status | Implemented on `feat/p0-006-frontend-backend-integration`; independent implementation review and Human merge/release decision pending |
 | Owner / author | Human / Product Owner; Codex draft |
 | v0.1.0 independent reviewer | Gemini 3.8 Flash High — `PASS WITH HUMAN DECISIONS REQUIRED`; findings `NONE` |
 | Human decision gate | RESOLVED — HD-P0-006-01 through HD-P0-006-07 approved by Human / Product Owner |
-| v0.2.0 reviewer | Targeted independent re-review pending; exact reviewer model/profile to be recorded |
+| v0.2.0 reviewer | Gemini 3.8 Flash High — targeted independent re-review `PASS`; findings `NONE` |
+| Implementation approval | Human / Product Owner explicitly approved P0-006 implementation against specification SHA `5dfbbca9b66367a7930bd3892b8a0ea883781f31` |
+| Implementation branch | `feat/p0-006-frontend-backend-integration` |
+| Implementation code/test SHA | `8af6e499f22ecace4181f9422de525176c39aaf7` (documentation evidence commit follows) |
 | Date | 27/09/2026 |
 | Source of truth | This Git file; audit baseline `ec4db79af8d0511a2888e176d45defefdc3828dc` |
 | Related tasks | P0-005, APP-003, P0-003, P0-004, DOC-001 |
@@ -24,14 +28,17 @@
 |---|---|---|---|---|---|---|---|
 | None | 0.1.0 | 27/09/2026 | Codex | Initial current-state audit and proposed integration contract | Define the actual remaining P0-006 work before implementation | P0-005 closeout; governance issue GOV-P0-006-01 | No production contract changed |
 | 0.1.0 | 0.2.0 | 27/09/2026 | Codex | Incorporate seven approved Human decisions after v0.1.0 independent review | Resolve the specification's decision gate before targeted re-review | HD-P0-006-01…07; Gemini 3.8 Flash High `PASS WITH HUMAN DECISIONS REQUIRED`, findings `NONE` | No production contract changed |
+| 0.2.0 | 0.2.1 evidence revision | 27/09/2026 | Codex | Record targeted review, Human implementation approval, implementation SHA and offline tests; retain specification v0.2.0 | Implementation handoff to independent reviewer | P0-006; specification SHA `5dfbbca9`; HD-P0-006-01…07 | No specification contract changed |
 
-The seven decisions in section 22 are approved specification requirements. v0.1.0 received independent `PASS WITH HUMAN DECISIONS REQUIRED` with no findings; v0.2.0 awaits targeted independent re-review. This is not approval to start implementation or release.
+The seven decisions in section 22 are approved specification requirements. v0.1.0 received independent `PASS WITH HUMAN DECISIONS REQUIRED` with no findings; v0.2.0 received targeted independent `PASS` with no findings, followed by explicit Human implementation approval. Implementation is complete on the feature branch but is not independently reviewed, merged or released.
 
 ## 2. Objective
 
 Complete the local, single-tenant, synthetic-data Human review path after P0-005's read-only results: edit eligible draft prose, keep distinct review revisions and section decisions, validate the selected edited revision, and export that exact revision as an editable DOCX. Reuse the existing upload, process, result transport, and export boundaries. The generated content remains a draft requiring Human review and is neither legal advice nor filing-ready.
 
 ## 3. Current-state evidence
+
+This section is the pre-implementation audit at the approved specification baseline, not a claim that these gaps remain after the implementation recorded in section 25.
 
 | Capability | Verified implementation evidence | Present boundary |
 |---|---|---|
@@ -84,13 +91,13 @@ No replacement of existing upload/process/export pipeline; no changes to canonic
 | APP-003 implementation accepted | `3e7c291` merged by `b5a47f6`, 32/32 AC and independent PASS in merge message | Validated analysis/draft generation and source cleanup |
 | DOC-001 renderer and P0-003 composition | DOC-001 PR #7 evidence in `docs/system-specification.md`; P0-003 `e891c38` merged by `5cfb1b5` | Canonical DOCX output |
 | P0-004 local HTTP boundary | `0f5799b` merged by `43737a7` | Existing opt-in upload/metadata/process/export contract |
-| P0-006 specification review and Human decisions | v0.1.0: Gemini 3.8 Flash High `PASS WITH HUMAN DECISIONS REQUIRED`, findings `NONE`; HD-P0-006-01…07 now approved | v0.2.0 targeted re-review remains before separate Human implementation approval |
+| P0-006 specification review and Human decisions | v0.1.0: Gemini 3.8 Flash High `PASS WITH HUMAN DECISIONS REQUIRED`, findings `NONE`; HD-P0-006-01…07 approved; v0.2.0 targeted review `PASS`, findings `NONE`; Human approved implementation | Implementation approval gate passed; independent implementation review still pending |
 
 ## 8. Blockers
 
-- P0-006 implementation remains NOT STARTED until targeted independent re-review of v0.2.0 and separate Human implementation approval. The seven Human decision questions in v0.1.0 are RESOLVED.
+- P0-006 implementation has passed the targeted specification review and Human implementation approval gates. Independent implementation review, Human merge/release approval and production-readiness gates remain open.
 - Local review state is not formal section approval or authenticated actor attribution. Any future audited approval/persistence policy requires a separate task and Human decision.
-- BLK-003 (production auth/private storage/retention) blocks real or unpublished research data and production use, but does not block synthetic-only local specification review.
+- BLK-003 (production auth/private storage/retention) blocks real or unpublished research data and production use, but does not block synthetic-only local implementation and review.
 - GOV-P0-006-01 requires governance reconciliation; merged APP-003 technical acceptance is established by `b5a47f6`, so the stale document text alone does not require reimplementation.
 
 ## 9. Architecture boundary
@@ -154,11 +161,11 @@ Keep keyboard-operable edit/review controls, visible focus, labels tied to field
 - Offline backend contract tests: valid/invalid edited drafts, source mismatch, pointer/evidence closure, abstract count, export rejection without partial file, safe error/correlation ID, disabled flag route absence.
 - Frontend interaction checks: edit/save/cancel, immutable memory-only revisions, stale validation/review invalidation, all three review statuses, selected-revision export, errors/recovery and keyboard labels. `@playwright/test` is the only newly approved frontend development dependency; do not add Jest, Vitest, React Testing Library, Cypress or another framework without separate Human approval.
 - Playwright browser E2E with synthetic PDF and DOCX plus fake/offline runtimes: upload -> process -> inspect -> edit -> validate -> review -> export; test `UNREVIEWED` export, `NEEDS_CHANGES` display, rejected edit/export, reload loss and narrow viewport. No provider API calls.
-- Run existing targeted backend tests (`test_document_upload.py`, `test_core_pipeline.py`, `test_core_pipeline_e2e_offline.py`, `test_patent_docx_renderer.py`, `test_pipeline_docx_integration.py`, `test_local_orchestration_api.py`) and existing frontend lint/build during implementation review. No implementation test is claimed in this specification-only task.
+- Run existing targeted backend tests (`test_document_upload.py`, `test_core_pipeline.py`, `test_core_pipeline_e2e_offline.py`, `test_patent_docx_renderer.py`, `test_pipeline_docx_integration.py`, `test_local_orchestration_api.py`) and existing frontend lint/build during implementation review. Results from the completed implementation are recorded in section 25.
 
 ## 19. Acceptance Criteria
 
-The following objective implementation gates incorporate all seven approved Human decisions. Implementation remains NOT STARTED pending targeted specification re-review and separate Human approval.
+The following objective implementation gates incorporate all seven approved Human decisions. Implementation evidence is recorded in section 25; independent implementation review remains pending.
 
 | ID | Objective test |
 |---|---|
@@ -182,7 +189,7 @@ The following objective implementation gates incorporate all seven approved Huma
 
 ## 20. Definition of Done
 
-Specification v0.2.0 is ready for targeted independent re-review when all seven approved decisions are traceable through sections 5–19 and 22, v0.1.0 review history is preserved, and the documentation-only diff passes checks. Implementation may begin only after that gate and separate Human approval. Implementation DoD then requires AC-01…AC-17 with evidence, independent review of a fixed branch/SHA with exact reviewer model/profile, version/API documentation aligned with code, no secret or confidential fixture committed, and separate Human merge/release approval.
+Specification v0.2.0 passed targeted independent re-review and received separate Human implementation approval. Implementation evidence for AC-01…AC-17 is recorded in section 25. Task closure still requires independent review of a fixed implementation SHA with exact reviewer model/profile and separate Human merge/release approval; no such approval is claimed here.
 
 ## 21. Explicit non-goals
 
@@ -190,7 +197,7 @@ No new AI generation capability, post-analysis title-selection provider flow, ar
 
 ## 22. Approved Human decisions
 
-v0.1.0 received Gemini 3.8 Flash High independent `PASS WITH HUMAN DECISIONS REQUIRED`, findings `NONE`. Human / Product Owner subsequently approved every decision below; the decision gate is **RESOLVED**. This records scope approval, not implementation approval.
+v0.1.0 received Gemini 3.8 Flash High independent `PASS WITH HUMAN DECISIONS REQUIRED`, findings `NONE`. Human / Product Owner subsequently approved every decision below; the decision gate is **RESOLVED**. v0.2.0 then received targeted `PASS`, findings `NONE`, and Human separately approved implementation at specification SHA `5dfbbca9b66367a7930bd3892b8a0ea883781f31`. None of these approvals substitutes for independent implementation review or Human merge/release approval.
 
 | ID | Status | Approved requirement |
 |---|---|---|
@@ -202,10 +209,36 @@ v0.1.0 received Gemini 3.8 Flash High independent `PASS WITH HUMAN DECISIONS REQ
 | HD-P0-006-06 | APPROVED | `@playwright/test` may be added only as a development dependency for offline browser E2E/responsive/interaction tests; no other frontend test framework without separate evidenced blocker and Human approval. |
 | HD-P0-006-07 | APPROVED | Post-analysis title selection and arbitrary title edit are out of scope. Preserve truthful canonical `MISSING` title/confirmation marker when no candidate was selected; future workflow needs separate scope and Human approval. |
 
-## 23. Proposed implementation branch name
+## 23. Implementation branch
 
-`feat/p0-006-frontend-backend-integration`, created only after targeted specification re-review and separate Human implementation approval, from an approved base containing the accepted P0-005, APP-003, P0-003 and P0-004 commits.
+`feat/p0-006-frontend-backend-integration`, created from the exact approved specification SHA `5dfbbca9b66367a7930bd3892b8a0ea883781f31` after targeted specification re-review and separate Human implementation approval. The approved base contains accepted P0-005 and the APP-003, P0-003 and P0-004 merge commits.
 
-## 24. Proposed independent-review gate
+## 24. Independent-review gate
 
-v0.1.0 was independently reviewed by Gemini 3.8 Flash High: `PASS WITH HUMAN DECISIONS REQUIRED`, findings `NONE`; Human has resolved HD-P0-006-01…07. Targeted independent re-review of this v0.2.0 fixed commit must verify faithful incorporation, AC consistency, and unchanged technical/security boundaries; record exact reviewer model/profile, evidence and findings. Only after that and separate Human implementation approval may code work start. Later, independently review a fixed implementation SHA for all ACs, synthetic offline integration and Playwright E2E, security/privacy, versioned edits, source-grounding validation and regression. Reviewer `PASS` does not substitute for Human merge/release approval.
+v0.1.0 was independently reviewed by Gemini 3.8 Flash High: `PASS WITH HUMAN DECISIONS REQUIRED`, findings `NONE`; Human resolved HD-P0-006-01…07. Targeted independent re-review of v0.2.0 at `5dfbbca9b66367a7930bd3892b8a0ea883781f31` returned `PASS`, findings `NONE`; Human then approved implementation. The next gate is independent review of the fixed implementation HEAD for all ACs, synthetic offline integration and Playwright E2E, security/privacy, source-grounding validation and regression. Record exact reviewer model/profile and findings in that review. Reviewer `PASS` does not substitute for Human merge/release approval.
+
+## 25. Implementation evidence and handoff
+
+Status: **Implemented — Awaiting Independent Review**, not `CLOSED` or `Completed`. Backend validation was committed at `0300627`; frontend revisions and offline browser tests at `2a18f590cb186cb64e3ce52e04051a5a88887b9b`, with targeted keyboard-export/network-error test coverage at `8af6e499f22ecace4181f9422de525176c39aaf7`. The final review SHA is the documentation commit HEAD on `feat/p0-006-frontend-backend-integration` after push. No provider API call was made.
+
+| AC | Implementation evidence | Test evidence |
+|---|---|---|
+| AC-01 | Existing upload/process/export routes reused; validation route exists only behind local flag. | `test_disabled_flag_preserves_existing_routes_and_hides_local_routes`; full backend regression. |
+| AC-02 | `client.ts` retains same-origin `/backend`, normalized safe errors and no browser provider configuration. | PDF/DOCX Playwright flows and safe non-JSON/network-error case. |
+| AC-03 | Existing process response is passed to `ResultWorkspace` without production fixtures. | Synthetic PDF and DOCX Playwright HTTP flows using `tests/e2e/offline_backend.py`. |
+| AC-04 | `PatentDraftView.tsx` exposes only `PRESENT` abstract/paragraph prose; `edited_draft_validation.py` rejects protected changes. | `test_validate_rejects_protected_change_and_abstract_count_errors`; PDF browser edit. |
+| AC-05 | `draftRevisions.ts` clones, saves and selects immutable session revisions; no persistence added. | PDF browser cancel/save/history and reload assertions. |
+| AC-06 | New revisions reset validation and section review records; review changes do not edit draft. | PDF browser checks prior revision retains validation/review while new one is `UNREVIEWED` and unvalidated. |
+| AC-07 | `PatentDraftView.tsx` keeps grounding/evidence/source paths visible beside edit controls and unverified prose warnings. | PDF browser checks evidence and source path during editing; narrow viewport checks warning. |
+| AC-08 | `POST /api/drafts/validate` reuses canonical schema, source analysis, business/grounding rules and abstract-count checks; no provider call. | Backend `test_validate_*` cases cover valid, schema/business/source/pointer/protected/word-count failures and safe correlation. |
+| AC-09 | Export checks digest bound to revision ID and exact draft, revalidates immediately before existing renderer, then cleans output. | Backend `test_export_*` cases cover stale/invalid/source/partial cleanup; PDF/DOCX Playwright verify exact revision and rejected export preserves it. |
+| AC-10 | `draftRevisions.ts` stores section ID, revision ID, status and session timestamp outside canonical JSON. | PDF browser checks `UNREVIEWED`, `REVIEWED`, `NEEDS_CHANGES` and unchanged technical validation. |
+| AC-11 | Existing pipeline source cleanup and renderer temp cleanup retained. | `test_process_maps_typed_error_and_preserves_cleanup`, export cleanup tests and full backend regression. |
+| AC-12 | `client.ts` normalizes network/proxy/non-JSON failures; backend returns safe code, paths and correlation ID. | Browser non-JSON plus aborted-network case; backend 422/409/5xx and correlation tests. |
+| AC-13 | Labeled/focusable review/edit controls and responsive warning layout. | Targeted keyboard-only edit/validate/review/export and narrow Playwright cases. |
+| AC-14 | Synthetic fake runtimes over actual local HTTP; `@playwright/test` is the only new frontend dev dependency. | Six-test offline Playwright suite plus 17 local orchestration API tests; no provider API call. |
+| AC-15 | UI/READMEs disclose memory-only edits/review and synthetic-only boundary. | PDF browser reload discards revisions; no durable store in changed-file audit. |
+| AC-16 | `contracts.ts` represents canonical `output_notice` and `drawings`; immutable edit carries full payload. | PDF browser compares process/export `output_notice` and `drawings` unchanged. |
+| AC-17 | Title is read-only; missing title and marker rendered without post-analysis selection. | PDF/DOCX browser checks `Title: MISSING` and `[AUTHOR CONFIRMATION REQUIRED]`. |
+
+Checks before implementation review, including final post-implementation regression: focused backend tests **77 passed, 1 skipped, 1 warning**; full `pytest tests -q -p no:cacheprovider` **380 passed, 3 skipped, 1 warning**; frontend `npm run lint` **PASS**, `npm run build` **PASS**; offline Playwright full suite **6 passed** (PDF, DOCX, invalid edit/export, keyboard, narrow, safe error). After strengthening two existing browser tests to cover keyboard export and network failure, targeted Playwright re-verification **2 passed**; the other four tests were unchanged. `npm ci` did not complete because a pre-existing Next development process held `@next/swc-win32-x64-msvc` open on Windows; the installed dependency tree nevertheless passed lint, build and Playwright. No production/real-data readiness is claimed while BLK-003 remains open. GOV-P0-006-01 remains open and unchanged.
