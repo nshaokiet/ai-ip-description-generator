@@ -83,6 +83,15 @@ app = create_app(
 )
 
 
+@app.get("/__test/storage")
+def test_storage() -> dict[str, int]:
+    """Expose file counts, never paths or content, for synthetic cleanup checks."""
+    return {
+        "source_files": sum(path.is_file() for path in settings.storage_root.rglob("*")),
+        "export_files": sum(path.is_file() for path in settings.local_export_root.rglob("*")),
+    }
+
+
 @app.get("/__test/pdf")
 def test_pdf() -> Response:
     return Response(

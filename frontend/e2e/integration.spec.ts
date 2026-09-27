@@ -72,6 +72,49 @@ async function saveParagraphRevision(page: Page, replacement: string) {
   await expect(page.getByLabel("Selected revision")).toHaveValue("revision-2");
 }
 
+test("six fresh synthetic runs keep deterministic shape and clean source/export storage", async ({ page }) => {
+  const shapes = new Map<string, string>();
+  for (const format of ["pdf", "docx"] as const) {
+    for (let run = 1; run <= 3; run += 1) {
+      const start = Date.now();
+      await uploadSynthetic(page, format);
+      const uploaded = Date.now();
+      const processResponse = page.waitForResponse((response) => response.url().includes("/process") && response.request().method() === "POST");
+      await page.getByRole("button", { name: "Analyze & Generate Draft" }).click();
+      const processed = await (await processResponse).json() as { draft: {
+        section_order: unknown; draft_sections: Array<{ section_id: string; status: string }>;
+        missing_information: Array<{ missing_id: string }>; output_notice: unknown;
+      } };
+      await expect(page.getByRole("heading", { name: "Grounded draft workspace" })).toBeVisible();
+      const processedAt = Date.now();
+      const shape = JSON.stringify({
+        order: processed.draft.section_order,
+        sections: processed.draft.draft_sections.map(({ section_id, status }) => ({ section_id, status })),
+        missing: processed.draft.missing_information.map(({ missing_id }) => missing_id),
+        notice: processed.draft.output_notice,
+      });
+      if (shapes.has(format)) expect(shape).toBe(shapes.get(format));
+      else shapes.set(format, shape);
+      await page.getByRole("button", { name: "Validate revision-1" }).click();
+      await expect(page.getByText("Backend validation: PASSED for this exact revision")).toBeVisible();
+      const validatedAt = Date.now();
+      const downloadPromise = page.waitForEvent("download");
+      await page.getByRole("button", { name: "Export revision-1 DOCX" }).click();
+      const downloaded = await downloadedDocxText(await downloadPromise);
+      expect(downloaded).toContain("AI-generated draft");
+      const exportedAt = Date.now();
+      const storage = await page.request.get(`${backend}/__test/storage`);
+      expect(storage.ok()).toBeTruthy();
+      expect(await storage.json()).toEqual({ source_files: 0, export_files: 0 });
+      console.log(`P0-007 stability ${JSON.stringify({
+        format, run, upload_ms: uploaded - start, process_ms: processedAt - uploaded,
+        validation_ms: validatedAt - processedAt, export_ms: exportedAt - validatedAt,
+        total_ms: exportedAt - start, source_files: 0, export_files: 0,
+      })}`);
+    }
+  }
+});
+
 test("PDF session: cancel, immutable save, validate, review and exact UNREVIEWED export", async ({ page }) => {
   const processed = await processSynthetic(page, "pdf");
   const original = "The disclosure relates to calibration of an optical sensor across temperature bands.";
@@ -264,6 +307,8 @@ test("corrupt upload is rejected safely and a valid synthetic document can be re
   });
   await page.getByRole("button", { name: "Upload & Validate" }).click();
   await expect(page.getByRole("heading", { name: "Ready for analysis" })).toBeVisible();
+  await page.getByRole("button", { name: "Analyze & Generate Draft" }).click();
+  await expect(page.getByRole("heading", { name: "Grounded draft workspace" })).toBeVisible();
 });
 
 test("process proxy failure is safe and requires a new upload before retry", async ({ page }) => {
