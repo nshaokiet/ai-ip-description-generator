@@ -6,7 +6,8 @@
 |---|---|
 | Task ID | P0-007 |
 | Specification version | 0.1.0 |
-| Status | Draft — ready for independent specification review; implementation not approved or started by this document |
+| Status | Approved specification v0.1.0; implementation READY FOR INDEPENDENT IMPLEMENTATION REVIEW — not merged or closed |
+| Implementation evidence revision | 0.1.1; technical specification remains v0.1.0 |
 | Owner / decision authority | Human / Product Owner |
 | Author | Codex |
 | Proposed independent reviewer | Antigravity Reviewer Agent; record the exact model/profile actually used when review occurs |
@@ -18,6 +19,7 @@
 | From | To | Date | Author | Change | Reason | Related task/decision | Breaking change |
 |---|---|---|---|---|---|---|---|
 | None | 0.1.0 | 27/09/2026 | Codex | Define evidence-based MVP E2E validation and stabilization gates | Specify the next task without implementing it or expanding product scope | P0-007; APP-003, P0-003, P0-004, P0-005, P0-006; BLK-003 | No |
+| 0.1.0 | 0.1.1 evidence addendum | 27/09/2026 | Codex | Record approved specification review, Human implementation approval, offline test results and AC-01…AC-16 implementation evidence | Handoff for independent implementation review; no technical requirement change | P0-007; specification `f98cf600f47a6559175c10dc3498846a7ae4395b`; implementation `2638c620a36e6fb4016ed2efaeb788446a5b2eff` | No |
 
 ## 1. Purpose and current-state baseline
 
@@ -160,13 +162,13 @@ For each failure capture task ID, fixed SHA, synthetic fixture ID, command, envi
 | AC-15 | Targeted affected tests, one final full offline backend regression, frontend lint/build and complete Playwright suite pass at the fixed implementation SHA; commands, totals/skips and any exceptions are reproducible and reported. |
 | AC-16 | Handoff lists known limitations, any unresolved findings, fixed SHAs, exact test evidence and independent reviewer identity/profile when evidenced; BLK-003 stays OPEN and no production/live-provider/MVP-release claim is made. |
 
-These are proposed P0-007 acceptance criteria, **not** verified results. An AC count of 16 follows the distinct gates above; it is not copied from P0-006. Independent review and Human approval must occur before implementation and before any later claim of task completion.
+At the specification baseline these were proposed criteria, not verified results. The separately authorized implementation evidence is recorded in section 15; the AC definitions above are unchanged. An AC count of 16 follows the distinct gates above; it is not copied from P0-006. Independent implementation review and Human merge decision are still pending.
 
 ## 13. Explicit blockers and limitations
 
 BLK-003 is **OPEN**: production authentication, private storage and retention are undecided. No real/confidential inputs or production deployment. Live provider smoke remains **NOT RUN / DEFERRED** and is not required for P0-007 offline acceptance; therefore provider behavior, semantic grounding quality and production performance remain unvalidated. Claims and title-generation workflow remain out of scope. The existing session-only UI can lose edits/review on reload or session loss; it is not audited Human approval. Synthetic oracle outputs do not prove real-paper extraction accuracy. `GOV-P0-006-01` remains RESOLVED; P0-006 remains CLOSED. This specification does not reopen either.
 
-## 14. Independent-review handoff and next gate
+## 14. Historical specification-review handoff and next gate
 
 The independent reviewer should inspect this specification against the fixed merged code/tests, check that reused coverage and proposed gaps are accurately distinguished, verify the 16 AC are objective, and report `PASS`, `REQUEST CHANGES` or Human decisions required with evidence. Record the actual Antigravity model/profile and reviewed specification SHA in the review log **only after** review occurs. No review result, implementation approval, test execution or release decision is asserted here.
 
@@ -184,4 +186,61 @@ Decisions: No new product, provider, schema, security or release decision made.
 Issues: BLK-003 OPEN; live provider smoke deferred; synthetic-only limitations as section 13.
 Security impact: No real data, provider call or code change in this specification task.
 Recommended next action: ANTIGRAVITY INDEPENDENT SPECIFICATION REVIEW.
+```
+
+## 15. P0-007 implementation evidence and current handoff — 27/09/2026
+
+This section supersedes the **lifecycle status only** in the original specification handoff. Specification v0.1.0 remains fixed at `f98cf600f47a6559175c10dc3498846a7ae4395b`. Human-supplied independent **specification** review by Google Antigravity (Advanced Agentic Coding) returned `PASS` for specification AC-01…AC-16, findings `NONE`, Human decisions required `NONE`; Human / Product Owner then approved implementation. The exact underlying model is not evidenced. This was not an independent **implementation** review.
+
+Implementation branch: `feat/p0-007-mvp-e2e-validation-stabilization`. Pushed checkpoint `05ec10a90f11560a74e3cb2f3e7b2b33089314e1` adds browser downloaded-DOCX inspection, missing-information and failure/retry cases, keyboard upload, and fail-closed Playwright server startup. `560c41288c41786817724d12dc966fb82c87975f` adds repeated stability/cleanup evidence; `2638c620a36e6fb4016ed2efaeb788446a5b2eff` adds narrow failure, keyboard recovery and correlation-ID assertions. **Fixed implementation code SHA:** `2638c620a36e6fb4016ed2efaeb788446a5b2eff`. No production application code or released contract changed; no product defect fix was required.
+
+Validation environment: Windows NT 10.0.26200.0, Python 3.12.10, Node v24.18.0, npm 11.16.0. Backend regression and build ran at `560c41288c41786817724d12dc966fb82c87975f`; only browser-test assertions changed afterward. Final Playwright and lint ran at code SHA `2638c620a36e6fb4016ed2efaeb788446a5b2eff`:
+
+| Command | Actual result |
+|---|---|
+| Specification section 7 targeted `pytest` command | **194 passed, 1 skipped, 1 warning** in 11.39s at `560c412` |
+| `.\.venv\Scripts\python.exe -m pytest tests -q -p no:cacheprovider` | **380 passed, 3 skipped, 1 warning** in 19.81s at `560c412`; no live-provider flag or API credential used |
+| `frontend/`: `npm run lint` | **PASS** |
+| `frontend/`: `npm run build` | **PASS** at `560c412`; no production frontend changes followed this build |
+| `frontend/`: `npm run test:e2e` | **11 passed** in 56.5s at the fixed code SHA; Playwright-owned backend/frontend were started with `reuseExistingServer: false` |
+
+The single pytest warning is Starlette's third-party `anyio.abc.BlockingPortal` deprecation. Three skips were reported in the full suite; no failed/error tests. Playwright ran outside the filesystem sandbox on Windows so it could terminate its own test server processes; the same test cases had completed inside the sandbox but teardown could not exit there. No provider client exists in the injected `tests/e2e/offline_backend.py` harness; synthetic fixture bytes only were used. This proves local wiring and contracts, not real-provider behavior or semantic source entailment.
+
+| Criterion | Implementation evidence at fixed code SHA | Self-check |
+|---|---|---|
+| AC-01 | `playwright.config.ts` sets both `reuseExistingServer: false`, so occupied ports fail instead of silently reusing unidentified servers; `offline_backend.py` injects fake extraction/draft runtimes with no provider client; fixtures are synthetic. | PASS |
+| AC-02 | PDF Playwright case traverses upload, process, revision edit/review, backend validation and actual downloaded DOCX; selected prose present and old/unsaved prose absent. Offline pipeline/DOCX backend tests also pass. | PASS |
+| AC-03 | DOCX Playwright case exercises the same local boundary and inspects actual downloaded edited DOCX and notice. Offline DOCX pipeline tests also pass. | PASS |
+| AC-04 | Existing upload regression rejects invalid/corrupt/unsupported files; browser corrupt-PDF case shows safe error, no false process/result, then valid-file retry. | PASS |
+| AC-05 | PDF browser case compares canonical `output_notice` and `drawings` through export request and checks grounding/source path; backend validation and renderer tests cover document identity, evidence IDs, pointer closure and notices. | PASS |
+| AC-06 | `missing-information.json` flows through browser and downloaded DOCX: non-title `missing-abstract` marker and linked author question survive, title remains `MISSING`; existing renderer tests preserve `UNRESOLVED` conflict and `INFERENCE` labels. | PASS |
+| AC-07 | PDF session test checks cancel, immutable revision-1/revision-2 selection, validation reset, `UNREVIEWED` reset, local review status and reload loss. | PASS |
+| AC-08 | Backend canonical/business/source/abstract validation tests pass; browser invalid edited prose fails validation and disables export. | PASS |
+| AC-09 | Backend export tests reject stale digest/revision and revalidate; PDF browser export request binds revision-2 and downloaded DOCX contains only selected saved prose, not old or unsaved text. | PASS |
+| AC-10 | Browser corrupt-upload, process-proxy and export failures show safe errors and recovery; failed export produces no download, preserves selected validated revision, exposes safe correlation ID; existing validation network tests cover non-JSON/abort. | PASS |
+| AC-11 | Backend source/export success and failure cleanup tests pass; six browser stability runs query test-only file counts after export, each returning `source_files=0`, `export_files=0`. | PASS |
+| AC-12 | Keyboard test activates file chooser using focus/Enter, supplies synthetic file without native-dialog automation, then edits, validates, reviews and exports by keyboard; corrupt-upload retry also checks keyboard-focused selection. | PASS |
+| AC-13 | 390×844 browser case covers missing title/marker, edit warning, validation, export and injected error/recovery; page width stays within viewport before and during error. | PASS |
+| AC-14 | Three PDF and three DOCX fresh synthetic runs each validate, download, retain deterministic section/missing/notice shape, and leave zero source/export files; stage and total durations below. | PASS |
+| AC-15 | Targeted backend 194/1, full offline backend 380/3, lint/build PASS and final Playwright 11/11; commands and environment above. | PASS |
+| AC-16 | This handoff records fixed SHAs, exact evidence and limitations; independent implementation review is still pending, BLK-003 OPEN, live provider smoke unvalidated, no release/production claim. | PASS |
+
+AC-14 local total durations (milliseconds): PDF **2219, 1300, 1160** — median **1300**, max **2219**; DOCX **2066, 2155, 2120** — median **2120**, max **2155**. Per-stage `upload/process/validation/export` measurements are emitted as safe `P0-007 stability` JSON lines by the browser test. All six runs remained within existing 60-second Playwright test boundary (combined stability case 11.2s); this is not a production SLA. The test-only storage endpoint returns counts, never paths or content.
+
+Limitations: synthetic oracle outputs do not prove real-paper extraction accuracy, semantic support of edited prose, live provider/model behavior, cost or production latency. Session edits and review status disappear on reload; `REVIEWED` is not formal Human approval. BLK-003 stays **OPEN** for production auth/private storage/retention; live-provider smoke remains **NOT RUN / DEFERRED**. No real/confidential research data or provider API call was used. P0-007 is **READY FOR INDEPENDENT IMPLEMENTATION REVIEW**, not CLOSED, merged, production-ready or MVP-released.
+
+```text
+Task ID: P0-007
+Agent: Codex
+Reviewer: Independent implementation review pending; specification reviewer was Google Antigravity (Advanced Agentic Coding), underlying model not evidenced.
+Status: READY FOR INDEPENDENT IMPLEMENTATION REVIEW
+Version: Specification v0.1.0 at f98cf600f47a6559175c10dc3498846a7ae4395b; implementation code 2638c620a36e6fb4016ed2efaeb788446a5b2eff; evidence addendum 0.1.1.
+Work completed: Added only test/harness coverage for five approved gaps and six-run local stability evidence; no production code change.
+Files affected: frontend/e2e/integration.spec.ts; frontend/playwright.config.ts; tests/e2e/inspect_docx.py; tests/e2e/offline_backend.py; docs/tasks/P0-007-mvp-e2e-validation-stabilization.md; docs/operations/01_PROJECT_CONTROL_CENTER.md; docs/operations/02_GEMINI_REVIEW_LOG.md; PROJECT_CONTEXT.md.
+Evidence checked: Targeted backend 194 passed/1 skipped; full offline backend 380 passed/3 skipped; frontend lint/build PASS; Playwright 11 passed; PDF and DOCX stability 3/3 each with zero source/export files.
+Findings: No production defect found by this implementation self-check; independent implementation review pending.
+Decisions: Human approved implementation after independent specification PASS; no Human merge/release/production decision inferred.
+Issues: BLK-003 OPEN; live-provider smoke NOT RUN; synthetic-only and session-only limitations as above.
+Security impact: No provider API call or real/confidential input; no application, schema, prompt, template, dependency or security-policy change.
+Recommended next action: ANTIGRAVITY INDEPENDENT IMPLEMENTATION REVIEW.
 ```
