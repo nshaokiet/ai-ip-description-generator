@@ -6,11 +6,11 @@
 |---|---|
 | Task ID | P0-007 |
 | Specification version | 0.1.0 |
-| Status | Approved specification v0.1.0; implementation READY FOR INDEPENDENT IMPLEMENTATION REVIEW — not merged or closed |
-| Implementation evidence revision | 0.1.1; technical specification remains v0.1.0 |
+| Status | CLOSED / COMPLETED — MERGED; approved specification remains v0.1.0 |
+| Implementation evidence revision | 0.1.2; technical specification remains v0.1.0 |
 | Owner / decision authority | Human / Product Owner |
 | Author | Codex |
-| Proposed independent reviewer | Antigravity Reviewer Agent; record the exact model/profile actually used when review occurs |
+| Independent implementation reviewer | Google Antigravity; profile Google Antigravity (Advanced Agentic Coding); underlying model not evidenced |
 | Date | 27/09/2026 |
 | Baseline | `main` at `403deba9d33d1cc20c3d231bc08fa473420505ed` |
 | Source of truth | This Git specification, subject to independent review and Human approval |
@@ -20,6 +20,7 @@
 |---|---|---|---|---|---|---|---|
 | None | 0.1.0 | 27/09/2026 | Codex | Define evidence-based MVP E2E validation and stabilization gates | Specify the next task without implementing it or expanding product scope | P0-007; APP-003, P0-003, P0-004, P0-005, P0-006; BLK-003 | No |
 | 0.1.0 | 0.1.1 evidence addendum | 27/09/2026 | Codex | Record approved specification review, Human implementation approval, offline test results and AC-01…AC-16 implementation evidence | Handoff for independent implementation review; no technical requirement change | P0-007; specification `f98cf600f47a6559175c10dc3498846a7ae4395b`; implementation `2638c620a36e6fb4016ed2efaeb788446a5b2eff` | No |
+| 0.1.1 | 0.1.2 evidence addendum | 27/09/2026 | Codex | Record independent implementation review PASS, Human merge approval and implementation merge; close lifecycle | Post-merge governance only; specification v0.1.0 and technical requirements unchanged | P0-007; REV-P0-007-IMPLEMENTATION; merge `26b12450284b9331f79fbbffe3220d93e40c0916` | No |
 
 ## 1. Purpose and current-state baseline
 
@@ -243,4 +244,30 @@ Decisions: Human approved implementation after independent specification PASS; n
 Issues: BLK-003 OPEN; live-provider smoke NOT RUN; synthetic-only and session-only limitations as above.
 Security impact: No provider API call or real/confidential input; no application, schema, prompt, template, dependency or security-policy change.
 Recommended next action: ANTIGRAVITY INDEPENDENT IMPLEMENTATION REVIEW.
+```
+
+## 16. Post-merge closeout — 27/09/2026
+
+This section supersedes the **current lifecycle status** in sections 12, 14 and 15; their pre-review and pre-merge statements remain historical evidence. Approved specification v0.1.0 at `f98cf600f47a6559175c10dc3498846a7ae4395b` and all technical requirements are unchanged.
+
+Google Antigravity, reviewer profile **Google Antigravity (Advanced Agentic Coding)**, independently reviewed accepted implementation/handoff SHA `bd43a7e9875537c4f5ebdee53626542a11500636` with final test-code SHA `2638c620a36e6fb4016ed2efaeb788446a5b2eff`. Decision **PASS**; AC-01 through AC-16 **PASS**; findings **NONE**; reviewer modified **no files**. The underlying model beyond the supplied profile and exact review date are not evidenced.
+
+Independent execution: `npm run lint` **PASS**, `npm run build` **PASS**, `npm run test:e2e` **11 passed**. The reviewer accepted the historical targeted backend result **194 passed / 1 skipped** and full offline backend result **380 passed / 3 skipped** because no production Python code changed; these backend suites were **not independently rerun**. Historical PDF stability **3/3 PASS**, DOCX stability **3/3 PASS**, source/export cleanup **PASS**, provider API calls **NONE**, and real/confidential data **NONE** remain the accepted implementation evidence. This documentation closeout runs no test suite.
+
+Human / Product Owner accepted the independent implementation review and approved merge into `main`. Implementation merge commit: `26b12450284b9331f79fbbffe3220d93e40c0916`. `REV-P0-007-IMPLEMENTATION` is **CLOSED** and P0-007 is **CLOSED / COMPLETED — MERGED**. This does not close BLK-003, authorize real/confidential data, validate live-provider smoke, establish production readiness or release the MVP. Claims remain outside MVP; live-provider smoke is **UNVALIDATED / DEFERRED**.
+
+```text
+Task ID: P0-007
+Agent: Codex (post-merge governance closeout)
+Reviewer: Google Antigravity (Advanced Agentic Coding); underlying model not evidenced
+Status: CLOSED / COMPLETED — MERGED; review CLOSED
+Version: Specification v0.1.0; evidence revision 0.1.2; accepted implementation bd43a7e9875537c4f5ebdee53626542a11500636; final test-code 2638c620a36e6fb4016ed2efaeb788446a5b2eff; merge 26b12450284b9331f79fbbffe3220d93e40c0916
+Work completed: Recorded independent PASS for AC-01…AC-16, findings NONE, Human review acceptance and merge approval; no code or test change.
+Files affected: docs/tasks/P0-007-mvp-e2e-validation-stabilization.md; docs/operations/01_PROJECT_CONTROL_CENTER.md; docs/operations/02_GEMINI_REVIEW_LOG.md; PROJECT_CONTEXT.md.
+Evidence checked: Independent lint/build PASS and Playwright 11 passed; historical backend 194 passed/1 skipped targeted, 380 passed/3 skipped full offline accepted without reviewer rerun; PDF/DOCX stability 3/3 each; source/export cleanup PASS; no provider call or real/confidential data.
+Findings: NONE.
+Decisions: Human accepted independent review and approved implementation merge to main.
+Issues: BLK-003 OPEN; live-provider smoke UNVALIDATED / DEFERRED; no production-readiness or MVP-release decision.
+Security impact: Synthetic/offline evidence only; no real/confidential-data authorization.
+Recommended next action: HUMAN MERGE CLOSEOUT branch docs/p0-007-post-merge-closeout.
 ```
