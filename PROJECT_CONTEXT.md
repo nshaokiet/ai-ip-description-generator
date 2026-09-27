@@ -8,13 +8,13 @@
 |---|---|
 | Document ID | SPEC-002 |
 | Document title | Project Context — AI Intellectual Property Description Generator |
-| Version | 0.4.0 |
+| Version | 0.4.1 |
 | Status | Approved baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT |
 | Reviewer | Human / Product Owner |
 | Created date | 18/09/2026 |
-| Last updated | 26/09/2026 |
+| Last updated | 27/09/2026 |
 | Related task ID | SPEC-002 |
 | Source of Truth | GitHub — `PROJECT_CONTEXT.md` |
 | Confidentiality level | Internal; research inputs are Confidential by default |
@@ -48,6 +48,7 @@
 | 0.3.7 | 0.3.8 | 22/09/2026 | Gemini 3.8 Flash High | Làm cứng đặc tả APP-003 v1.2.0: xử lý residual findings H-001 (cleanup exception safety helper), H-002 (Python 3.12 portable regression), H-003 (AC-29 framework routes) | Đồng bộ trạng thái hardened trước targeted re-review | APP-003, H-001, H-002, H-003 | No |
 | 0.3.8 | 0.3.9 | 22/09/2026 | Gemini 3.8 Flash High | Đóng vòng đời đặc tả APP-003: Human duyệt v1.2.0, merge PR #18 tại bfbcdc7; ghi nhận implementation chưa bắt đầu (hoãn đến 26/09/2026 cho Codex) | Post-merge specification governance closeout; không đổi technical contract | APP-003, REV-APP-003, PR #18, merge commit `bfbcdc760916f497b603bcd49ce0150d6819d337` | No |
 | 0.3.9 | 0.4.0 | 26/09/2026 | ChatGPT | Cập nhật operating model: Codex implementation, Antigravity independent review, Project Orchestrator MCP coordination; loại NotebookLM khỏi workflow hiện tại | Đồng bộ workflow thực tế do Human quyết định | Human decision 26/09/2026 | No |
+| 0.4.0 | 0.4.1 | 27/09/2026 | Codex | Ghi P0-006 Frontend/backend integration CLOSED / Completed sau independent review PASS và Human-approved merge; giữ BLK-003/GOV-P0-006-01 OPEN | Post-merge governance closeout, không đổi technical contract | P0-006, REV-P0-006-IMPLEMENTATION, merge `3207479e5cca73da3e7facbc7c482d2ce5eba2b9` | No |
 
 ## 2. Project name
 
@@ -122,8 +123,8 @@ Pipeline MVP ưu tiên một paper cho một hồ sơ. Nội dung thiếu không
 
 | Lớp | Công nghệ đã định hướng | Trạng thái |
 |---|---|---|
-| Frontend | Next.js + TypeScript | Requirement; chưa có bằng chứng triển khai |
-| Backend | FastAPI + Python 3.12 | APP-001/APP-002, AI-RUNTIME-001 và AI-RUNTIME-002 Completed; internal extraction và draft runtimes đã merge qua PR #14 và PR #16; public surface chưa đổi |
+| Frontend | Next.js + TypeScript | P0-005 Frontend MVP CLOSED; P0-006 frontend/backend integration CLOSED / Completed — merged at `3207479e5cca73da3e7facbc7c482d2ce5eba2b9`; local synthetic-only, not production-ready |
+| Backend | FastAPI + Python 3.12 | APP-001/APP-002 và AI-RUNTIME-001/002 Completed; P0-006 opt-in local validation/export API merged; no production authentication or private storage approval |
 | Production AI | OpenAI Responses API | AI-RUNTIME-001: `gpt-5.6-sol`, reasoning high, `store=false`, timeout 180s, max 48k tokens; AI-RUNTIME-002: `gpt-5.6-sol`, reasoning high, `store=false`, timeout 240s, max 64k tokens; internal only; live provider smoke NOT RUN — DEFERRED due to unavailable API funding |
 | Structured data | JSON Schema Draft 2020-12 | Output Schema v1.0.0 — Completed — Merged via PR #1 |
 | Extraction prompt | Markdown prompt contract | v1.0.0 — Completed — Merged via PR #3 |
@@ -241,6 +242,8 @@ Giai đoạn khởi tạo đề xuất: **Phase 1 — Specification & Architectu
 
 SPEC-001, SPEC-002 và SPEC-003 là **Approved baseline** sau Gemini 3.1 Pro High review và Human decisions ngày 20/09/2026. Implementation đã tiến vào các task thuộc Phase 2/Phase 3, nhưng Human / Product Owner chưa tuyên bố toàn bộ Phase 1, Phase 2, Phase 3 hoặc MVP `Completed`.
 
+P0-006 Frontend/backend integration là **CLOSED / Completed — Merged** tại `3207479e5cca73da3e7facbc7c482d2ce5eba2b9` (accepted implementation `0f1e94db438869a980db8a1cb1e06956de2d8d3e`). Google Antigravity (Advanced Agentic Coding) independent review `PASS`, AC-01…AC-17 `PASS`, findings `NONE`; Human accepted review và approved merge. Điều này không đóng BLK-003 hoặc GOV-P0-006-01, và không tuyên bố production/real-data readiness hay toàn bộ MVP Completed.
+
 ## 20. AI / Agent Roles
 
 - **Human / Product Owner — Governance & Final Approval Authority:** quyết định scope, architecture/security/data/provider policy, approve task/gate, merge và release.
@@ -297,15 +300,16 @@ Project Orchestrator MCP là lớp điều phối dùng chung giữa VS Code/Cod
 |---|---|---|---|
 | System Specification | `docs/system-specification.md` | 0.3.5 | SPEC-001 Approved baseline; AI-RUNTIME-002 post-merge state đã đồng bộ |
 | AI Collaboration Rules | `AGENTS.md` | 0.2.0 | SPEC-003 Approved baseline |
-| Project Context | `PROJECT_CONTEXT.md` | 0.3.5 | SPEC-002 Approved baseline; AI-RUNTIME-002 post-merge state đã đồng bộ |
-| Project Control Center source | `docs/operations/01_PROJECT_CONTROL_CENTER.md` | 0.3.5 | AI-RUNTIME-002 Completed — Merged via PR #16; Phase 1/Phase 2/MVP chưa được tuyên bố hoàn tất |
-| Gemini Review Log source | `docs/operations/02_GEMINI_REVIEW_LOG.md` | 0.3.4 | `REV-AI-RUNTIME-002` và các task review có bằng chứng đều `CLOSED` |
+| Project Context | `PROJECT_CONTEXT.md` | 0.4.1 | SPEC-002 Approved baseline; P0-006 post-merge status đồng bộ |
+| Project Control Center source | `docs/operations/01_PROJECT_CONTROL_CENTER.md` | 0.3.14 | P0-006 CLOSED / Completed; BLK-003 and GOV-P0-006-01 OPEN; Phase 1/Phase 2/MVP chưa được tuyên bố hoàn tất |
+| Gemini Review Log source | `docs/operations/02_GEMINI_REVIEW_LOG.md` | 0.3.6 | `REV-P0-006-IMPLEMENTATION` CLOSED; reviewer identity không suy đoán underlying Gemini model/profile |
 | Foundational ADRs | `docs/decisions/ADR-001…005-*.md` | ADR-001…ADR-005 | Accepted theo Human decisions ngày 20/09/2026 |
 | APP-001 backend | `backend/app/`, `backend/requirements.txt`, `tests/backend/` | Implementation head `bd39b9f7bdd9f7a1796d9a405e7998070e124e07` | Completed — Merged via PR #10; 24/24 APP-001 tests và 109/109 tổng tests pass |
 | APP-002 document preparation | `backend/app/`, `tests/backend/test_document_parsing.py` | Implementation `477b8fda6afbae0049d8d691c213dc6355ba67da`; remediation `8b6f909a0f5787d72c002e163395656a666c9b78` | Completed — Merged via PR #12 at `4a001d116cbf002bdd42a9151efbf3f308fce3e6`; Gemini final PASS; 30/30 AC; 135 executed, 134 pass, 1 Windows skip, 0 failure/error |
 | AI extraction runtime | `backend/app/services/extraction_runtime.py`, `provider_schema.py`, `extraction_validation.py` | AI-RUNTIME-001 / ADR-010 | Completed — Merged via PR #14 at `597f6c7b074eb2c5e445790b8c4f48f336f04da5`; 32/32 AC; 201 executed, 200 pass, 1 skip; live provider smoke not run |
 | AI draft runtime | `backend/app/services/draft_runtime.py`, `draft_provider_schema.py`, `draft_validation.py`, `draft_business_validation.py` | AI-RUNTIME-002 | Completed — Merged via PR #16 at `978516a4f5caa90bbd2189668237c6e028597361` (implementation head `a59ce0219d7039f24fa8c7bd71d4e9829dbbf612`); backend suite 240 pass, 2 skip; tests/draft 25 pass; live smoke deferred |
 | Core pipeline orchestration spec | `docs/tasks/APP-003-core-pipeline-orchestration.md` | 1.2.0 | APP-003 Specification — Approved & Merged qua PR #18 tại `bfbcdc760916f497b603bcd49ce0150d6819d337`; Implementation — NOT STARTED (Deferred until 26/09/2026 for Codex) |
+| P0-006 frontend/backend integration | `docs/tasks/P0-006-frontend-backend-integration.md`, `frontend/`, `backend/app/api/routes/local_orchestration.py` | Approved specification v0.2.0; implementation `0f1e94db438869a980db8a1cb1e06956de2d8d3e` | CLOSED / Completed — Merged at `3207479e5cca73da3e7facbc7c482d2ce5eba2b9`; independent Google Antigravity (Advanced Agentic Coding) PASS, AC-01…AC-17 PASS, findings NONE; BLK-003 and GOV-P0-006-01 OPEN |
 | ADR | `docs/decisions/ADR-006-output-schema-v1.md` | ADR-006 | Accepted; Completed — Merged via PR #1 |
 | Production JSON Schema | `schemas/invention-output/v1.0.0/invention-output.schema.json` | 1.0.0 | Completed — Merged via PR #1; Gemini review PASS; 15/15 tests pass |
 | Production extraction prompt | `prompts/extraction/v1.0.0/extraction-prompt.md` | 1.0.0 | Completed — Merged via PR #3; canonical offline validation only |
@@ -314,7 +318,7 @@ Project Orchestrator MCP là lớp điều phối dùng chung giữa VS Code/Cod
 | Draft generation prompt | `prompts/draft-generation/v1.0.0/draft-generation-prompt.md` | 1.0.0 | Completed — Merged via PR #5; offline only |
 | Patent draft ADR | `docs/decisions/ADR-008-patent-draft-contract-v1.md` | ADR-008 | Accepted — Completed — Merged via PR #5 |
 | DOCX template | `templates/patent-docx/v1.0.0/patent-description-template.docx` | 1.0.0 | Completed — Merged via PR #7 |
-| Application code | `backend/app/` | APP-001 + APP-002 + AI-RUNTIME-001 + AI-RUNTIME-002 | FastAPI local upload/preparation cùng internal extraction và draft runtimes; public analyze/draft endpoints, public orchestration, frontend, database/auth và deployment chưa triển khai |
+| Application code | `backend/app/`, `frontend/` | APP-001/002, AI-RUNTIME-001/002, P0-005/006 and intervening integration tasks | Local upload/orchestration, internal extraction/draft runtimes, frontend Human review and edited-draft export are merged; production database/auth/private storage and deployment are not approved or implemented |
 
 ## 26. Open questions
 
@@ -337,10 +341,10 @@ Project Orchestrator MCP là lớp điều phối dùng chung giữa VS Code/Cod
 
 ## 28. Recommended next action
 
-1. Đóng governance sau khi merge PR #18 cho đặc tả APP-003 v1.2.0.
-2. Chờ đến 26/09/2026 khi quota Codex reset, tạo nhánh implementation APP-003 mới từ main và giao cho Codex thực hiện theo đúng đặc tả v1.2.0 đã duyệt.
-3. Gemini 3.1 Pro High thực hiện independent review cho implementation khi hoàn tất; Human / Product Owner là người quyết định merge cuối cùng.
-4. Chỉ tiếp tục public orchestration, auth/private storage, production retention, DOCX integration endpoint, frontend, Draft Claims hoặc optional outputs bằng task/approval riêng.
+1. Human merge riêng nhánh tài liệu `docs/p0-006-post-merge-closeout` sau khi kiểm tra governance diff; implementation P0-006 đã merge vào `main`.
+2. Giao governance reconciliation APP-003 cho GOV-P0-006-01 riêng; không coi P0-006 closeout là resolution của issue đó.
+3. BLK-003 vẫn OPEN: không dùng dữ liệu nghiên cứu thật hoặc coi hệ thống là production-ready trước Human security/data decisions.
+4. Chỉ tiếp tục Draft Claims, optional outputs hoặc production deployment bằng task/approval riêng; không suy rộng P0-006 Completed thành toàn bộ MVP Completed.
 
 AI-002 được merge với implementation commit `f8772b228a23bf7cdec10fa0c463e6d1f672c341` và governance commit `9f2a78b1396cdadb747c263a2bbbbacb8d7f4292`; Gemini review `PASS`, không có finding, AI-001 regression 15/15 và AI-002 tests 17/17 pass. AI-002 tự thân không chứng minh Responses API hoặc live-model integration; provider adapter/runtime sau đó được Human phê duyệt riêng trong AI-RUNTIME-001. Claims vẫn nằm ngoài Output Schema và Extraction Prompt v1.0.0.
 

@@ -6,16 +6,20 @@
 |---|---|
 | Task ID | P0-006 |
 | Specification version | 0.2.0 |
-| Document evidence revision | 0.2.1 — implementation evidence only; approved specification contract remains v0.2.0 |
-| Status | Implemented — Awaiting Independent Review |
-| Implementation status | Implemented on `feat/p0-006-frontend-backend-integration`; independent implementation review and Human merge/release decision pending |
+| Document evidence revision | 0.2.2 — post-merge governance evidence only; approved specification contract remains v0.2.0 |
+| Status | CLOSED / Completed — Merged |
+| Implementation status | Accepted implementation merged into `main`; closeout documentation branch awaits Human merge |
 | Owner / author | Human / Product Owner; Codex draft |
 | v0.1.0 independent reviewer | Gemini 3.8 Flash High — `PASS WITH HUMAN DECISIONS REQUIRED`; findings `NONE` |
 | Human decision gate | RESOLVED — HD-P0-006-01 through HD-P0-006-07 approved by Human / Product Owner |
 | v0.2.0 reviewer | Gemini 3.8 Flash High — targeted independent re-review `PASS`; findings `NONE` |
 | Implementation approval | Human / Product Owner explicitly approved P0-006 implementation against specification SHA `5dfbbca9b66367a7930bd3892b8a0ea883781f31` |
 | Implementation branch | `feat/p0-006-frontend-backend-integration` |
-| Implementation code/test SHA | `8af6e499f22ecace4181f9422de525176c39aaf7` (documentation evidence commit follows) |
+| Final accepted implementation SHA | `0f1e94db438869a980db8a1cb1e06956de2d8d3e` |
+| Implementation merge SHA | `3207479e5cca73da3e7facbc7c482d2ce5eba2b9` |
+| Independent implementation review | Google Antigravity (Advanced Agentic Coding): `PASS`, AC-01…AC-17 `PASS`, findings `NONE`; underlying Gemini model/profile not evidenced |
+| Review record | `REV-P0-006-IMPLEMENTATION` — `CLOSED` in `docs/operations/02_GEMINI_REVIEW_LOG.md` |
+| Human decision | Accepted independent review and approved implementation merge to `main` |
 | Date | 27/09/2026 |
 | Source of truth | This Git file; audit baseline `ec4db79af8d0511a2888e176d45defefdc3828dc` |
 | Related tasks | P0-005, APP-003, P0-003, P0-004, DOC-001 |
@@ -29,8 +33,9 @@
 | None | 0.1.0 | 27/09/2026 | Codex | Initial current-state audit and proposed integration contract | Define the actual remaining P0-006 work before implementation | P0-005 closeout; governance issue GOV-P0-006-01 | No production contract changed |
 | 0.1.0 | 0.2.0 | 27/09/2026 | Codex | Incorporate seven approved Human decisions after v0.1.0 independent review | Resolve the specification's decision gate before targeted re-review | HD-P0-006-01…07; Gemini 3.8 Flash High `PASS WITH HUMAN DECISIONS REQUIRED`, findings `NONE` | No production contract changed |
 | 0.2.0 | 0.2.1 evidence revision | 27/09/2026 | Codex | Record targeted review, Human implementation approval, implementation SHA and offline tests; retain specification v0.2.0 | Implementation handoff to independent reviewer | P0-006; specification SHA `5dfbbca9`; HD-P0-006-01…07 | No specification contract changed |
+| 0.2.1 | 0.2.2 evidence revision | 27/09/2026 | Codex | Record independent implementation PASS, Human acceptance and merge; retain specification v0.2.0 | Post-merge governance closeout | P0-006, REV-P0-006-IMPLEMENTATION, merge `3207479e5cca73da3e7facbc7c482d2ce5eba2b9` | No specification contract changed |
 
-The seven decisions in section 22 are approved specification requirements. v0.1.0 received independent `PASS WITH HUMAN DECISIONS REQUIRED` with no findings; v0.2.0 received targeted independent `PASS` with no findings, followed by explicit Human implementation approval. Implementation is complete on the feature branch but is not independently reviewed, merged or released.
+The seven decisions in section 22 are approved specification requirements. v0.1.0 received independent `PASS WITH HUMAN DECISIONS REQUIRED` with no findings; v0.2.0 received targeted independent `PASS` with no findings, followed by explicit Human implementation approval. The fixed implementation received independent `PASS`, findings `NONE`; Human accepted the review and approved merge to `main`. This is not production/real-data or release approval.
 
 ## 2. Objective
 
@@ -91,11 +96,11 @@ No replacement of existing upload/process/export pipeline; no changes to canonic
 | APP-003 implementation accepted | `3e7c291` merged by `b5a47f6`, 32/32 AC and independent PASS in merge message | Validated analysis/draft generation and source cleanup |
 | DOC-001 renderer and P0-003 composition | DOC-001 PR #7 evidence in `docs/system-specification.md`; P0-003 `e891c38` merged by `5cfb1b5` | Canonical DOCX output |
 | P0-004 local HTTP boundary | `0f5799b` merged by `43737a7` | Existing opt-in upload/metadata/process/export contract |
-| P0-006 specification review and Human decisions | v0.1.0: Gemini 3.8 Flash High `PASS WITH HUMAN DECISIONS REQUIRED`, findings `NONE`; HD-P0-006-01…07 approved; v0.2.0 targeted review `PASS`, findings `NONE`; Human approved implementation | Implementation approval gate passed; independent implementation review still pending |
+| P0-006 specification review and Human decisions | v0.1.0: Gemini 3.8 Flash High `PASS WITH HUMAN DECISIONS REQUIRED`, findings `NONE`; HD-P0-006-01…07 approved; v0.2.0 targeted review `PASS`, findings `NONE`; Human approved implementation | Implementation review and merge recorded in sections 24–25 |
 
 ## 8. Blockers
 
-- P0-006 implementation has passed the targeted specification review and Human implementation approval gates. Independent implementation review, Human merge/release approval and production-readiness gates remain open.
+- P0-006 implementation has passed targeted specification review, independent implementation review and Human merge approval. Production/real-data and release gates remain separate; BLK-003 remains open.
 - Local review state is not formal section approval or authenticated actor attribution. Any future audited approval/persistence policy requires a separate task and Human decision.
 - BLK-003 (production auth/private storage/retention) blocks real or unpublished research data and production use, but does not block synthetic-only local implementation and review.
 - GOV-P0-006-01 requires governance reconciliation; merged APP-003 technical acceptance is established by `b5a47f6`, so the stale document text alone does not require reimplementation.
@@ -165,7 +170,7 @@ Keep keyboard-operable edit/review controls, visible focus, labels tied to field
 
 ## 19. Acceptance Criteria
 
-The following objective implementation gates incorporate all seven approved Human decisions. Implementation evidence is recorded in section 25; independent implementation review remains pending.
+The following objective implementation gates incorporate all seven approved Human decisions. Implementation and independent review evidence are recorded in section 25. Technical requirements below are unchanged by this closeout.
 
 | ID | Objective test |
 |---|---|
@@ -189,7 +194,7 @@ The following objective implementation gates incorporate all seven approved Huma
 
 ## 20. Definition of Done
 
-Specification v0.2.0 passed targeted independent re-review and received separate Human implementation approval. Implementation evidence for AC-01…AC-17 is recorded in section 25. Task closure still requires independent review of a fixed implementation SHA with exact reviewer model/profile and separate Human merge/release approval; no such approval is claimed here.
+Specification v0.2.0 passed targeted independent re-review and received separate Human implementation approval. Implementation evidence for AC-01…AC-17 is recorded in section 25. Google Antigravity (Advanced Agentic Coding) independently returned `PASS` with findings `NONE` on fixed implementation SHA `0f1e94db438869a980db8a1cb1e06956de2d8d3e`; Human accepted the review and approved merge `3207479e5cca73da3e7facbc7c482d2ce5eba2b9`. P0-006 implementation is `Completed / Merged`; no production/real-data or release approval is inferred.
 
 ## 21. Explicit non-goals
 
@@ -197,7 +202,7 @@ No new AI generation capability, post-analysis title-selection provider flow, ar
 
 ## 22. Approved Human decisions
 
-v0.1.0 received Gemini 3.8 Flash High independent `PASS WITH HUMAN DECISIONS REQUIRED`, findings `NONE`. Human / Product Owner subsequently approved every decision below; the decision gate is **RESOLVED**. v0.2.0 then received targeted `PASS`, findings `NONE`, and Human separately approved implementation at specification SHA `5dfbbca9b66367a7930bd3892b8a0ea883781f31`. None of these approvals substitutes for independent implementation review or Human merge/release approval.
+v0.1.0 received Gemini 3.8 Flash High independent `PASS WITH HUMAN DECISIONS REQUIRED`, findings `NONE`. Human / Product Owner subsequently approved every decision below; the decision gate is **RESOLVED**. v0.2.0 then received targeted `PASS`, findings `NONE`, and Human separately approved implementation at specification SHA `5dfbbca9b66367a7930bd3892b8a0ea883781f31`. The later independent implementation review and Human merge approval are recorded separately in sections 24–25.
 
 | ID | Status | Approved requirement |
 |---|---|---|
@@ -215,11 +220,11 @@ v0.1.0 received Gemini 3.8 Flash High independent `PASS WITH HUMAN DECISIONS REQ
 
 ## 24. Independent-review gate
 
-v0.1.0 was independently reviewed by Gemini 3.8 Flash High: `PASS WITH HUMAN DECISIONS REQUIRED`, findings `NONE`; Human resolved HD-P0-006-01…07. Targeted independent re-review of v0.2.0 at `5dfbbca9b66367a7930bd3892b8a0ea883781f31` returned `PASS`, findings `NONE`; Human then approved implementation. The next gate is independent review of the fixed implementation HEAD for all ACs, synthetic offline integration and Playwright E2E, security/privacy, source-grounding validation and regression. Record exact reviewer model/profile and findings in that review. Reviewer `PASS` does not substitute for Human merge/release approval.
+v0.1.0 was independently reviewed by Gemini 3.8 Flash High: `PASS WITH HUMAN DECISIONS REQUIRED`, findings `NONE`; Human resolved HD-P0-006-01…07. Targeted independent re-review of v0.2.0 at `5dfbbca9b66367a7930bd3892b8a0ea883781f31` returned `PASS`, findings `NONE`; Human then approved implementation. Google Antigravity (Advanced Agentic Coding) independently reviewed fixed implementation `0f1e94db438869a980db8a1cb1e06956de2d8d3e`: `PASS`, AC-01…AC-17 `PASS`, findings `NONE`. Human accepted that review and approved merge `3207479e5cca73da3e7facbc7c482d2ce5eba2b9`. The underlying Gemini model/profile was not supplied; no production/release approval is inferred.
 
 ## 25. Implementation evidence and handoff
 
-Status: **Implemented — Awaiting Independent Review**, not `CLOSED` or `Completed`. Backend validation was committed at `0300627`; frontend revisions and offline browser tests at `2a18f590cb186cb64e3ce52e04051a5a88887b9b`, with targeted keyboard-export/network-error test coverage at `8af6e499f22ecace4181f9422de525176c39aaf7`. The final review SHA is the documentation commit HEAD on `feat/p0-006-frontend-backend-integration` after push. No provider API call was made.
+Status: **CLOSED / Completed — Merged**. Backend validation was committed at `0300627`; frontend revisions and offline browser tests at `2a18f590cb186cb64e3ce52e04051a5a88887b9b`, with targeted keyboard-export/network-error test coverage at `8af6e499f22ecace4181f9422de525176c39aaf7`. Final accepted implementation SHA is `0f1e94db438869a980db8a1cb1e06956de2d8d3e`; implementation merge SHA is `3207479e5cca73da3e7facbc7c482d2ce5eba2b9`. No provider API call was made during implementation/tests.
 
 | AC | Implementation evidence | Test evidence |
 |---|---|---|
@@ -242,3 +247,5 @@ Status: **Implemented — Awaiting Independent Review**, not `CLOSED` or `Comple
 | AC-17 | Title is read-only; missing title and marker rendered without post-analysis selection. | PDF/DOCX browser checks `Title: MISSING` and `[AUTHOR CONFIRMATION REQUIRED]`. |
 
 Checks before implementation review, including final post-implementation regression: focused backend tests **77 passed, 1 skipped, 1 warning**; full `pytest tests -q -p no:cacheprovider` **380 passed, 3 skipped, 1 warning**; frontend `npm run lint` **PASS**, `npm run build` **PASS**; offline Playwright full suite **6 passed** (PDF, DOCX, invalid edit/export, keyboard, narrow, safe error). After strengthening two existing browser tests to cover keyboard export and network failure, targeted Playwright re-verification **2 passed**; the other four tests were unchanged. `npm ci` did not complete because a pre-existing Next development process held `@next/swc-win32-x64-msvc` open on Windows; the installed dependency tree nevertheless passed lint, build and Playwright. No production/real-data readiness is claimed while BLK-003 remains open. GOV-P0-006-01 remains open and unchanged.
+
+Post-merge independent verification, reported by Human / Product Owner: reviewer **Google Antigravity (Advanced Agentic Coding)**; result **PASS** for AC-01…AC-17; findings **NONE**; backend targeted tests **17 passed**, frontend lint **PASS**, frontend build **PASS**, Playwright **6 passed**; reviewer modified **no files**. Human accepted the review and approved merge. This is separate from Codex's implementation-time test evidence above. BLK-003 and GOV-P0-006-01 remain **OPEN**.
