@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.11 |
+| Version | 0.3.12 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -49,6 +49,7 @@
 | 0.3.8 | 0.3.9 | 22/09/2026 | Gemini 3.8 Flash High | Đóng vòng đời đặc tả APP-003: Human duyệt v1.2.0, merge PR #18 tại bfbcdc7, đóng REV-APP-003, implementation chưa bắt đầu (deferred đến 26/09/2026) | Post-merge specification governance closeout; không đổi technical contract | APP-003, REV-APP-003, PR #18, merge commit `bfbcdc760916f497b603bcd49ce0150d6819d337` | No |
 | 0.3.9 | 0.3.10 | 26/09/2026 | Codex | Chuyển P0-005 Frontend MVP sang `CLOSED` theo Human closeout instruction sau independent review `ACCEPT`; final accepted SHA `43907213f14c8c55294f55af34afcc0cbcc9dc66`; không có release-blocking finding | Governance closeout trên feature branch; không merge `main` | P0-005 | No |
 | 0.3.10 | 0.3.11 | 27/09/2026 | Codex | Ghi P0-006 specification 0.1.0 chờ independent review và GOV-P0-006-01 về APP-003 status cũ mâu thuẫn với merged implementation | Current-state audit; không đổi APP-003 status hoặc bắt đầu P0-006 implementation | P0-006, GOV-P0-006-01 | No |
+| 0.3.11 | 0.3.12 | 27/09/2026 | Codex | Ghi review P0-006 v0.1.0 `PASS WITH HUMAN DECISIONS REQUIRED`, findings `NONE`, Gemini 3.8 Flash High; Human duyệt HD-P0-006-01…07; nâng specification lên v0.2.0 chờ targeted re-review | Human decision gate RESOLVED; implementation chưa bắt đầu hoặc được phê duyệt | P0-006, HD-P0-006-01…07 | No |
 
 ## 2. Project
 
@@ -160,11 +161,13 @@ APP-002 capability boundary: `Validated PDF/DOCX → deterministic text/table pa
 | Task ID | Task | Owner | Reviewer | Priority | Status | Dependency | Target date |
 |---|---|---|---|---|---|---|---|
 | APP-003 | Core Pipeline Orchestration & Offline E2E Harness Implementation | ChatGPT/Codex | Gemini 3.1 Pro High + Human | High | Implementation — NOT STARTED (Deferred until 26/09/2026 for Codex execution after quota reset) | APP-001, APP-002, AI-RUNTIME-001, AI-RUNTIME-002, APP-003 Spec v1.2.0 | 26/09/2026 - trước 02/10/2026 |
-| P0-006 | Frontend/backend integration | Codex | Independent reviewer + Human | High | Specification — Draft for Independent Review; implementation BLOCKED / NOT STARTED | P0-005 CLOSED; APP-003/P0-003/P0-004 merged; open Human decisions in specification | Trước 02/10/2026 |
+| P0-006 | Frontend/backend integration | Codex | Gemini 3.8 Flash High v0.1.0; targeted reviewer pending + Human | High | Specification v0.2.0 — Human Decisions Resolved; Awaiting Targeted Independent Re-review; implementation NOT STARTED | P0-005 CLOSED; APP-003/P0-003/P0-004 merged; HD-P0-006-01…07 APPROVED; targeted re-review and separate implementation approval pending | Trước 02/10/2026 |
 
 Mọi target date cụ thể cần được xếp trước deadline chung 02/10/2026 và do Human xác nhận.
 
 GOV-P0-006-01 — OPEN GOVERNANCE ISSUE: Bảng trên và các tài liệu cũ còn ghi APP-003 implementation `NOT STARTED`. Git cho thấy implementation `3e7c291` đã merge vào `main` tại `b5a47f6` (merge message: 32/32 AC, independent Antigravity `PASS`). P0-003 DOCX integration merge `5cfb1b5`; P0-004 local HTTP API merge `43737a7`. P0-006 audit ghi mâu thuẫn này trong `docs/tasks/P0-006-frontend-backend-integration.md`; APP-003 status chưa được thay đổi trong task này. Human cần giao governance reconciliation riêng.
+
+P0-006 specification review: v0.1.0 tại `9115c14e929a1f9796fd4622d0f0fddba84e58f1` được Gemini 3.8 Flash High đánh giá `PASS WITH HUMAN DECISIONS REQUIRED`, findings `NONE`. Human / Product Owner đã APPROVE HD-P0-006-01 đến HD-P0-006-07; Human Decision Gate `RESOLVED`. Specification hiện tại v0.2.0 chờ targeted independent re-review. P0-006 implementation `NOT STARTED`; review/decision này chưa phải implementation approval.
 
 ## 11. Current Blockers
 
@@ -207,7 +210,7 @@ ADR-001 đến ADR-010 đã được Human phê duyệt trong phạm vi từng d
 | AI-RUNTIME-002 | OpenAI Responses API + Patent Draft Generation Runtime | ChatGPT/Codex | Gemini 3.8 Flash High / Gemini 3.1 Pro High + Human | Completed — Merged via PR #16 | Implementation head `a59ce0219d7039f24fa8c7bd71d4e9829dbbf612`; merge commit `978516a4f5caa90bbd2189668237c6e028597361`; 240 backend pass, 2 skip, 1 warning; tests/draft 25 pass; live smoke deferred |
 | APP-003 | Core Pipeline Orchestration & Offline E2E Harness Specification | ChatGPT/Codex | Gemini 3.1 Pro High + Human | Specification — Approved & Merged; Implementation — NOT STARTED (Deferred to 26/09/2026) | `docs/tasks/APP-003-core-pipeline-orchestration.md` v1.2.0; PR #18 merged at `bfbcdc760916f497b603bcd49ce0150d6819d337` |
 | P0-005 | Frontend MVP | Codex | Independent review `ACCEPT`; exact reviewer profile not supplied in closeout instruction | CLOSED | Final accepted SHA `43907213f14c8c55294f55af34afcc0cbcc9dc66`; release-blocking findings `NONE` |
-| P0-006 | Frontend/backend integration specification | Codex | Independent reviewer to be assigned; exact model/profile pending | Specification — Draft for Independent Review; implementation BLOCKED / NOT STARTED | `docs/tasks/P0-006-frontend-backend-integration.md` v0.1.0; GOV-P0-006-01 and Human decisions open |
+| P0-006 | Frontend/backend integration specification | Codex | Gemini 3.8 Flash High v0.1.0; targeted reviewer pending | Specification v0.2.0 — Human Decisions Resolved; Awaiting Targeted Independent Re-review; implementation NOT STARTED | `docs/tasks/P0-006-frontend-backend-integration.md`; v0.1.0 review PASS WITH HUMAN DECISIONS REQUIRED, findings NONE; HD-P0-006-01…07 APPROVED; GOV-P0-006-01 remains open |
 | AI-001 | Output Schema v1.0.0 | ChatGPT/Codex | Gemini 3.1 Pro | Completed — Merged via PR #1 | Merge commit `49efead593437dfc5c88397ea6f335a2d4ff84d7`; Gemini review PASS; 15/15 tests pass; không có finding |
 | AI-002 | Extraction Prompt v1.0.0 | ChatGPT/Codex | Gemini 3.1 Pro High | Completed — Merged via PR #3 | Merge commit `8f2b7082881961cc1a2cf7fa56ece81976759c7f`; implementation `f8772b228a23bf7cdec10fa0c463e6d1f672c341`; governance `9f2a78b1396cdadb747c263a2bbbbacb8d7f4292`; 15/15 regression và 17/17 AI-002 tests pass |
 | AI-003 | Patent Draft Generation Contract v1.0.0 | ChatGPT/Codex | Gemini 3.1 Pro High | Completed — Merged via PR #5 | Implementation `ae7e8fb573ea4681a9db1bafa711d19a3c598666`; merge `fb522bc5ecbb5ad66bab6226fa88ae51020cef52`; 57/57 tests pass |
@@ -312,6 +315,7 @@ Recommended next action: Post-merge governance closeout; await Human assignment 
 | 22/09/2026 | Governance/documentation closeout | 0.3.9 | Đóng vòng đời đặc tả APP-003 sau re-review PASS, Human phê duyệt v1.2.0, merge PR #18 tại bfbcdc7, đóng REV-APP-003; hoãn implementation đến 26/09/2026 cho Codex | Gemini 3.8 Flash High | APP-003, REV-APP-003, PR #18, merge commit `bfbcdc760916f497b603bcd49ce0150d6819d337` |
 | 26/09/2026 | `docs/operations/01_PROJECT_CONTROL_CENTER.md` | 0.3.10 | Ghi P0-005 Frontend MVP `CLOSED` theo final accepted SHA và independent review evidence do Human cung cấp | Codex | P0-005, `43907213f14c8c55294f55af34afcc0cbcc9dc66` |
 | 27/09/2026 | `docs/tasks/P0-006-frontend-backend-integration.md`; `docs/operations/01_PROJECT_CONTROL_CENTER.md` | 0.1.0; 0.3.11 | Tạo draft specification/audit P0-006, ghi mâu thuẫn APP-003 governance, chờ independent review và Human decisions | Codex | P0-006, GOV-P0-006-01 |
+| 27/09/2026 | `docs/tasks/P0-006-frontend-backend-integration.md`; `docs/operations/01_PROJECT_CONTROL_CENTER.md` | 0.2.0; 0.3.12 | Ghi v0.1.0 independent review của Gemini 3.8 Flash High (PASS WITH HUMAN DECISIONS REQUIRED; findings NONE), bảy Human decisions APPROVED và v0.2.0 chờ targeted re-review | Codex | P0-006, HD-P0-006-01…07 |
 
 ## 17. Prompt and Schema Versions
 
@@ -381,11 +385,12 @@ Human đã phê duyệt ADR-006 và Output Schema v1.0.0 cho AI-001, sau đó me
 | DEC-005 | Phê duyệt và merge PR #16 cho AI-RUNTIME-002 draft generation runtime; hoãn synthetic live smoke do chưa cấp kinh phí API (22/09/2026) | Recorded, implemented and merged via PR #16 |
 | DEC-006 | Phê duyệt APP-003 Specification v1.2.0 và merge PR #18; hoãn implementation đến 26/09/2026 cho Codex thực hiện sau khi quota reset (22/09/2026) | Recorded, specification merged via PR #18 at `bfbcdc760916f497b603bcd49ce0150d6819d337` |
 | DEC-007 | Đóng P0-005 Frontend MVP tại final accepted SHA `43907213f14c8c55294f55af34afcc0cbcc9dc66` sau independent review `ACCEPT`; release-blocking findings `NONE`; không merge `main` trong closeout này (26/09/2026) | Recorded; P0-005 CLOSED |
+| DEC-008 | Human / Product Owner phê duyệt HD-P0-006-01…07 cho P0-006 specification sau Gemini 3.8 Flash High review v0.1.0 `PASS WITH HUMAN DECISIONS REQUIRED`, findings `NONE` (27/09/2026) | Recorded; decision gate RESOLVED; specification v0.2.0 awaiting targeted re-review; implementation NOT STARTED |
 
 ## 22. Next Recommended Action
 
-1. Independent review `docs/tasks/P0-006-frontend-backend-integration.md` v0.1.0 trên fixed specification commit; ghi exact reviewer model/profile.
-2. Human quyết định các open decisions về edit/review/export/persistence/API trước khi phê duyệt P0-006 implementation; giao APP-003 governance reconciliation riêng cho GOV-P0-006-01.
+1. Antigravity targeted independent re-review `docs/tasks/P0-006-frontend-backend-integration.md` v0.2.0 trên fixed specification commit; ghi exact reviewer model/profile, evidence và findings.
+2. Sau targeted re-review, Human quyết định riêng việc phê duyệt P0-006 implementation; giao APP-003 governance reconciliation riêng cho GOV-P0-006-01.
 3. Không đánh dấu P0-006 implementation, toàn bộ Phase 1, Phase 2 hoặc MVP `Completed` khi chưa có bằng chứng và Human decision riêng.
 
 ## 23. Last Updated
