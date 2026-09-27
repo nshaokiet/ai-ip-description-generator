@@ -108,6 +108,7 @@ def create_app(
                     "code": exc.code,
                     "message": exc.safe_message,
                     "correlation_id": correlation_id,
+                    **({"paths": list(exc.paths)} if exc.paths else {}),
                 }
             },
         )

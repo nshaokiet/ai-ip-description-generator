@@ -10,11 +10,16 @@ from typing import Any, Literal
 from fastapi import APIRouter, Request
 from fastapi.responses import FileResponse
 from jsonschema import ValidationError
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from starlette.background import BackgroundTask
 
 from backend.app.api.routes.documents import APIError
 from backend.app.services.core_pipeline import PipelineOrchestrationError
+from backend.app.services.edited_draft_validation import (
+    EditedDraftValidationError,
+    draft_digest,
+    validate_edited_draft,
+)
 
 
 LOGGER = logging.getLogger(__name__)
@@ -34,8 +39,26 @@ class ProcessDocumentRequest(StrictRequest):
     selected_title_candidate_id: str | None = None
 
 
-class ExportDocxRequest(StrictRequest):
+class DraftRevisionRequest(StrictRequest):
+    revision_id: str = Field(min_length=1, max_length=64, pattern=r"^[A-Za-z0-9_-]+$")
+    analysis: dict[str, Any]
+    original_draft: dict[str, Any]
     draft: dict[str, Any]
+    selected_title_candidate_id: str | None = None
+
+
+class ExportDocxRequest(DraftRevisionRequest):
+    validated_digest: str = Field(pattern=r"^[a-f0-9]{64}$")
+
+
+class DraftValidationResponse(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    valid: Literal[True]
+    revision_id: str
+    draft_digest: str
+    unverified_prose_paths: list[str]
+    correlation_id: str
 
 
 class DocumentMetadataResponse(BaseModel):
@@ -108,6 +131,18 @@ def _remove_export(path: Path) -> None:
         LOGGER.warning("docx_export_cleanup_failed")
 
 
+def _validate_revision(body: DraftRevisionRequest) -> tuple[str, ...]:
+    try:
+        return validate_edited_draft(
+            analysis=body.analysis,
+            original_draft=body.original_draft,
+            draft=body.draft,
+            selected_title_candidate_id=body.selected_title_candidate_id,
+        )
+    except EditedDraftValidationError as exc:
+        raise APIError(422, exc.code, exc.safe_message, paths=exc.paths) from exc
+
+
 @router.get("/documents/{document_id}", response_model=DocumentMetadataResponse)
 async def get_document(document_id: str, request: Request) -> dict[str, object]:
     if not _is_document_id(document_id):
@@ -163,8 +198,29 @@ async def process_document(
     }
 
 
+@router.post("/drafts/validate", response_model=DraftValidationResponse)
+async def validate_draft_revision(
+    body: DraftRevisionRequest, request: Request
+) -> DraftValidationResponse:
+    unverified_paths = _validate_revision(body)
+    return DraftValidationResponse(
+        valid=True,
+        revision_id=body.revision_id,
+        draft_digest=draft_digest(body.draft, body.revision_id),
+        unverified_prose_paths=list(unverified_paths),
+        correlation_id=request.state.correlation_id,
+    )
+
+
 @router.post("/exports/docx")
 async def export_docx(body: ExportDocxRequest, request: Request) -> FileResponse:
+    if body.validated_digest != draft_digest(body.draft, body.revision_id):
+        raise APIError(
+            409,
+            "stale_draft_revision",
+            "The selected draft differs from the validated revision.",
+        )
+    _validate_revision(body)
     export_root = Path(request.app.state.local_export_root)
     output_path = export_root / f"{uuid.uuid4().hex}.docx"
     try:

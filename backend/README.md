@@ -16,8 +16,10 @@
 
 ---
 
-Local, single-tenant skeleton for secure synthetic PDF/DOCX upload validation.
-It does not call a model, OCR service, database, cloud storage, or network API.
+Local, single-tenant backend for synthetic PDF/DOCX upload and opt-in orchestration.
+Upload and edited-draft validation/export make no model call; processing uses
+the existing extraction/draft runtimes unless offline fakes are injected.
+There is no OCR, database, cloud storage, or production authentication.
 Do not use research or production data until the separate security, authentication,
 private-storage, and retention decisions are approved.
 
@@ -45,6 +47,25 @@ directory is used. Never point it at a source-controlled path.
 
 - `GET /health` returns `{"status":"ok"}`.
 - `POST /api/documents` accepts exactly one multipart field named `file`.
+
+With `AI_IP_ENABLE_LOCAL_ORCHESTRATION_API=1`, the app also exposes local
+`GET /api/documents/{id}`, `POST /api/documents/{id}/process`,
+`POST /api/drafts/validate`, and `POST /api/exports/docx`. The flag is not
+authentication. Process deletes the uploaded source best-effort after success
+or failure.
+
+The P0-006 validation request contains `revision_id`, original `analysis`,
+immutable `original_draft`, exact selected `draft`, and optional
+`selected_title_candidate_id`. Success returns a digest bound to the revision
+and exact draft plus `unverified_prose_paths`. Only existing `PRESENT` abstract
+or paragraph prose may differ from the original; the canonical schema,
+source analysis, and existing draft business/grounding rules are checked.
+Deterministic validation cannot prove semantic support for edited prose, so
+those paths remain flagged for Human review. Export accepts the same context
+plus `validated_digest`, checks it, and reruns validation immediately before
+the existing DOCX renderer. Invalid/stale revisions return safe errors with
+correlation ID and field paths where available; no usable DOCX is created.
+Review status is not embedded in canonical AI-003 JSON.
 
 Successful uploads remain in ephemeral local storage for downstream local processing.
 A downstream caller must use `DocumentStorage.lease(document_id)` while reading and
@@ -105,6 +126,7 @@ authorization headers, or local paths.
 ```powershell
 $env:PYTHONDONTWRITEBYTECODE="1"
 .\.venv\Scripts\python.exe -m unittest discover -s tests/backend -p "test_*.py" -v
+.\.venv\Scripts\python.exe -m pytest tests -q -p no:cacheprovider
 ```
 
 The live smoke test is synthetic and opt-in. It is not part of default discovery:

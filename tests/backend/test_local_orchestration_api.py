@@ -16,6 +16,7 @@ from backend.app.core.config import Settings
 from backend.app.main import create_app
 from backend.app.services.draft_runtime import DraftRuntimeMetadata, DraftRuntimeResult
 from backend.app.services.draft_validation import validate_canonical_draft
+from backend.app.services.edited_draft_validation import draft_digest
 from backend.app.services.extraction_runtime import ExtractionRuntimeError
 from backend.app.services.patent_docx_renderer import PatentDocxRenderer
 from tests.backend.test_core_pipeline_e2e_offline import ValidatingFakeExtractionRuntime
@@ -39,13 +40,9 @@ DRAFT_CASE_PATH = (
     / "cases"
     / "missing-information.json"
 )
-DOCX_FIXTURE_PATH = (
-    REPOSITORY_ROOT
-    / "tests"
-    / "fixtures"
-    / "patent-docx"
-    / "v1.0.0"
-    / "representative-context.json"
+REPRESENTATIVE_CASE_PATH = (
+    REPOSITORY_ROOT / "tests" / "fixtures" / "patent-draft" / "v1.0.0"
+    / "cases" / "representative.json"
 )
 PDF_MEDIA_TYPE = "application/pdf"
 DOCX_MEDIA_TYPE = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
@@ -94,6 +91,8 @@ class FailingExtractionRuntime:
 
 class ExplodingRenderer:
     def render(self, draft: dict, output_path: Path) -> Path:
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        output_path.write_bytes(b"partial")
         raise RuntimeError("sensitive renderer detail")
 
 
@@ -132,6 +131,22 @@ class LocalOrchestrationAPITests(unittest.TestCase):
         self.assertEqual(201, response.status_code, response.text)
         return response.json()["document_id"], response.json()
 
+    def draft_context(self) -> dict:
+        fixture = _load_json(REPRESENTATIVE_CASE_PATH)
+        draft = fixture["expected_output"]
+        return {
+            "revision_id": "revision-1",
+            "analysis": fixture["input"]["source_analysis"],
+            "original_draft": copy.deepcopy(draft),
+            "draft": copy.deepcopy(draft),
+            "selected_title_candidate_id": "title-calibration",
+        }
+
+    def validated_export_context(self, context: dict) -> dict:
+        response = self.client.post("/api/drafts/validate", json=context)
+        self.assertEqual(200, response.status_code, response.text)
+        return {**context, "validated_digest": response.json()["draft_digest"]}
+
     def test_feature_flag_is_strict_and_opt_in(self) -> None:
         with patch.dict(os.environ, {"AI_IP_ENABLE_LOCAL_ORCHESTRATION_API": "1"}):
             self.assertTrue(Settings.from_environment().enable_local_orchestration_api)
@@ -153,6 +168,7 @@ class LocalOrchestrationAPITests(unittest.TestCase):
                 ("get", f"/api/documents/{upload['document_id']}"),
                 ("post", f"/api/documents/{upload['document_id']}/process"),
                 ("post", "/api/exports/docx"),
+                ("post", "/api/drafts/validate"),
             ):
                 response = getattr(client, method)(path)
                 self.assertEqual(404, response.status_code, response.text)
@@ -262,13 +278,119 @@ class LocalOrchestrationAPITests(unittest.TestCase):
         self.assertIn("correlation_id", response.json()["error"])
         self.assertFalse(source_path.exists())
 
-    def test_export_returns_editable_docx_and_removes_temporary_file(self) -> None:
-        draft = _load_json(DOCX_FIXTURE_PATH)
+    def test_validate_edited_revision_returns_exact_digest_and_unverified_paths(self) -> None:
+        context = self.draft_context()
+        context["revision_id"] = "revision-2"
+        context["draft"]["draft_sections"][0]["paragraphs"][0]["text"] += " The coefficient remains source-linked."
         with (
             patch("socket.create_connection") as connect,
             patch("urllib.request.urlopen") as urlopen,
         ):
-            response = self.client.post("/api/exports/docx", json={"draft": draft})
+            response = self.client.post("/api/drafts/validate", json=context)
+        connect.assert_not_called()
+        urlopen.assert_not_called()
+        self.assertEqual(200, response.status_code, response.text)
+        self.assertEqual("revision-2", response.json()["revision_id"])
+        self.assertTrue(response.json()["valid"])
+        self.assertEqual(draft_digest(context["draft"], "revision-2"), response.json()["draft_digest"])
+        self.assertEqual(
+            ["/draft_sections/0/paragraphs/0/text"], response.json()["unverified_prose_paths"]
+        )
+        self.assertEqual(response.headers["x-correlation-id"], response.json()["correlation_id"])
+
+    def test_validate_rejects_schema_business_source_and_pointer_failures(self) -> None:
+        cases = (
+            ("schema", lambda body: body["draft"].update({"claims": []}), "invalid_patent_draft"),
+            ("source", lambda body: body["analysis"]["document_metadata"].update({"document_id": "other-id"}), "invalid_draft_grounding"),
+            ("pointer", lambda body: body["draft"]["draft_sections"][0]["paragraphs"][0]["source_paths"].__setitem__(0, "/no-such-source"), "invalid_draft_grounding"),
+            ("evidence", lambda body: body["draft"]["draft_sections"][0]["paragraphs"][0]["grounding"]["evidence_ids"].__setitem__(0, "unknown-evidence"), "invalid_draft_grounding"),
+        )
+        for name, change, expected_code in cases:
+            with self.subTest(name=name):
+                context = self.draft_context()
+                change(context)
+                response = self.client.post("/api/drafts/validate", json=context)
+                self.assertEqual(422, response.status_code, response.text)
+                self.assertEqual(expected_code, response.json()["error"]["code"])
+                self.assertTrue(response.json()["error"].get("paths"))
+                self.assertEqual(response.headers["x-correlation-id"], response.json()["error"]["correlation_id"])
+                self.assertNotIn("no-such-source", response.text)
+                self.assertNotIn(str(self.root), response.text)
+
+        malformed_analysis = self.draft_context()
+        malformed_analysis["analysis"]["unapproved_field"] = "must not leak"
+        response = self.client.post("/api/drafts/validate", json=malformed_analysis)
+        self.assertEqual(422, response.status_code, response.text)
+        self.assertEqual("invalid_source_analysis", response.json()["error"]["code"])
+        self.assertNotIn("must not leak", response.text)
+
+    def test_validate_rejects_protected_change_and_abstract_count_errors(self) -> None:
+        protected = self.draft_context()
+        protected["draft"]["document_metadata"]["draft_id"] = "changed-draft-id"
+        response = self.client.post("/api/drafts/validate", json=protected)
+        self.assertEqual("protected_draft_field_changed", response.json()["error"]["code"])
+        self.assertIn("/document_metadata/draft_id", response.json()["error"]["paths"])
+
+        valid = self.draft_context()
+        valid["draft"]["abstract"]["text"] = "A calibrated optical sensor uses a measured temperature coefficient."
+        valid["draft"]["abstract"]["word_count"] = 9
+        response = self.client.post("/api/drafts/validate", json=valid)
+        self.assertEqual(200, response.status_code, response.text)
+
+        invalid_count = copy.deepcopy(valid)
+        invalid_count["draft"]["abstract"]["word_count"] = 8
+        response = self.client.post("/api/drafts/validate", json=invalid_count)
+        self.assertEqual(422, response.status_code, response.text)
+        self.assertIn("/abstract/word_count", response.json()["error"]["paths"])
+
+        over_limit = self.draft_context()
+        over_limit["draft"]["abstract"]["text"] = "word " * 151
+        over_limit["draft"]["abstract"]["word_count"] = 151
+        response = self.client.post("/api/drafts/validate", json=over_limit)
+        self.assertEqual(422, response.status_code, response.text)
+
+    def test_export_requires_exact_validated_revision_and_revalidates(self) -> None:
+        body = self.validated_export_context(self.draft_context())
+        stale = copy.deepcopy(body)
+        stale["draft"]["draft_sections"][0]["paragraphs"][0]["text"] += " Changed after validation."
+        response = self.client.post("/api/exports/docx", json=stale)
+        self.assertEqual(409, response.status_code, response.text)
+        self.assertEqual("stale_draft_revision", response.json()["error"]["code"])
+        self.assertEqual([], list(self.export_root.glob("*.docx")))
+
+        invalid = copy.deepcopy(body)
+        invalid["draft"]["draft_sections"][0]["paragraphs"][0]["source_paths"][0] = "/bad"
+        invalid["validated_digest"] = draft_digest(invalid["draft"], invalid["revision_id"])
+        with patch.object(self.app.state.patent_docx_renderer, "render") as render:
+            response = self.client.post("/api/exports/docx", json=invalid)
+        render.assert_not_called()
+        self.assertEqual(422, response.status_code, response.text)
+        self.assertEqual("invalid_draft_grounding", response.json()["error"]["code"])
+
+        wrong_source = copy.deepcopy(body)
+        wrong_source["analysis"]["document_metadata"]["document_id"] = "different"
+        response = self.client.post("/api/exports/docx", json=wrong_source)
+        self.assertEqual(422, response.status_code, response.text)
+        self.assertEqual([], list(self.export_root.glob("*.docx")))
+
+        over_limit = copy.deepcopy(body)
+        over_limit["draft"]["abstract"]["text"] = "word " * 151
+        over_limit["draft"]["abstract"]["word_count"] = 151
+        over_limit["validated_digest"] = draft_digest(over_limit["draft"], over_limit["revision_id"])
+        response = self.client.post("/api/exports/docx", json=over_limit)
+        self.assertEqual(422, response.status_code, response.text)
+        self.assertEqual([], list(self.export_root.glob("*.docx")))
+
+    def test_export_returns_editable_docx_and_removes_temporary_file(self) -> None:
+        context = self.draft_context()
+        context["revision_id"] = "revision-2"
+        context["draft"]["draft_sections"][0]["paragraphs"][0]["text"] += " Calibration remains temperature-aware."
+        body = self.validated_export_context(context)
+        with (
+            patch("socket.create_connection") as connect,
+            patch("urllib.request.urlopen") as urlopen,
+        ):
+            response = self.client.post("/api/exports/docx", json=body)
         connect.assert_not_called()
         urlopen.assert_not_called()
         self.assertEqual(200, response.status_code, response.text)
@@ -280,12 +402,15 @@ class LocalOrchestrationAPITests(unittest.TestCase):
         with zipfile.ZipFile(io.BytesIO(response.content)) as package:
             self.assertIsNone(package.testzip())
             self.assertIn("word/document.xml", package.namelist())
+            self.assertIn(b"Calibration remains temperature-aware.", package.read("word/document.xml"))
         self.assertEqual([], list(self.export_root.glob("*.docx")))
 
     def test_export_rejects_invalid_draft_without_output_or_path_disclosure(self) -> None:
-        invalid = _load_json(DOCX_FIXTURE_PATH)
-        invalid["claims"] = []
-        response = self.client.post("/api/exports/docx", json={"draft": invalid})
+        context = self.draft_context()
+        context["draft"]["claims"] = []
+        response = self.client.post("/api/exports/docx", json={
+            **context, "validated_digest": draft_digest(context["draft"], context["revision_id"])
+        })
         self.assertEqual(422, response.status_code, response.text)
         self.assertEqual("invalid_patent_draft", response.json()["error"]["code"])
         self.assertIn("correlation_id", response.json()["error"])
@@ -296,7 +421,7 @@ class LocalOrchestrationAPITests(unittest.TestCase):
         response = self.client.post(
             "/api/exports/docx",
             json={
-                "draft": _load_json(DOCX_FIXTURE_PATH),
+                **self.validated_export_context(self.draft_context()),
                 "output_path": "C:/client-selected.docx",
             },
         )
@@ -315,15 +440,17 @@ class LocalOrchestrationAPITests(unittest.TestCase):
             draft_runtime=self.draft_runtime,
             docx_renderer=ExplodingRenderer(),
         )
+        context = self.draft_context()
         with TestClient(failing_app, raise_server_exceptions=False) as client:
             response = client.post(
                 "/api/exports/docx",
-                json={"draft": _load_json(DOCX_FIXTURE_PATH)},
+                json={**context, "validated_digest": draft_digest(context["draft"], context["revision_id"])},
             )
         self.assertEqual(500, response.status_code, response.text)
         self.assertEqual("docx_render_failed", response.json()["error"]["code"])
         self.assertNotIn("sensitive renderer detail", response.text)
         self.assertNotIn(str(self.root), response.text)
+        self.assertEqual([], list((self.root / "render-failure-exports").glob("*.docx")))
 
     def test_enabled_openapi_adds_only_approved_public_business_routes(self) -> None:
         paths = {
@@ -338,6 +465,7 @@ class LocalOrchestrationAPITests(unittest.TestCase):
                 ("GET", "/api/documents/{document_id}"),
                 ("POST", "/api/documents/{document_id}/process"),
                 ("POST", "/api/exports/docx"),
+                ("POST", "/api/drafts/validate"),
             },
             paths,
         )
