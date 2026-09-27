@@ -141,7 +141,7 @@ test("invalid edit and rejected export preserve selected revision", async ({ pag
   await expect(page.getByText("The optical sensor is calibrated across temperature bands.", { exact: true })).toBeVisible();
 });
 
-test("keyboard-only edit, validate and review controls", async ({ page }) => {
+test("keyboard-only edit, validate, review and export controls", async ({ page }) => {
   await processSynthetic(page, "pdf");
   await page.getByRole("button", { name: "Edit prose" }).focus();
   await page.keyboard.press("Enter");
@@ -157,6 +157,10 @@ test("keyboard-only edit, validate and review controls", async ({ page }) => {
   await review.focus();
   await page.keyboard.press("ArrowDown");
   await expect(review).toHaveValue("REVIEWED");
+  const downloadPromise = page.waitForEvent("download");
+  await page.getByRole("button", { name: "Export revision-2 DOCX" }).focus();
+  await page.keyboard.press("Enter");
+  expect((await downloadPromise).suggestedFilename()).toBe("patent-description-draft.docx");
 });
 
 test("narrow viewport keeps editing, warnings, validation and export usable", async ({ page }) => {
@@ -173,7 +177,7 @@ test("narrow viewport keeps editing, warnings, validation and export usable", as
   await downloadPromise;
 });
 
-test("non-JSON backend failure is safe and keeps the revision", async ({ page }) => {
+test("non-JSON and network backend failures are safe and keep the revision", async ({ page }) => {
   await processSynthetic(page, "pdf");
   await saveParagraphRevision(page, "The sensor uses a temperature coefficient for calibration.");
   await page.route("**/backend/api/drafts/validate", (route) => route.fulfill({ status: 502, body: "proxy fault with no JSON" }));
@@ -181,5 +185,10 @@ test("non-JSON backend failure is safe and keeps the revision", async ({ page })
   await expect(page.getByRole("heading", { name: /Draft validation failed/ })).toBeVisible();
   await expect(page.getByText("The local service could not complete the request.")).toBeVisible();
   await expect(page.getByText("proxy fault with no JSON")).toHaveCount(0);
+  await expect(page.getByLabel("Selected revision")).toHaveValue("revision-2");
+  await page.unroute("**/backend/api/drafts/validate");
+  await page.route("**/backend/api/drafts/validate", (route) => route.abort());
+  await page.getByRole("button", { name: "Validate revision-2" }).click();
+  await expect(page.getByText("The local backend is unavailable. Confirm that FastAPI is running.")).toBeVisible();
   await expect(page.getByLabel("Selected revision")).toHaveValue("revision-2");
 });
