@@ -1,7 +1,9 @@
 import type {
   ExportedDocx,
+  ExportDocxRequest,
+  DraftRevisionRequest,
+  DraftValidationResult,
   NormalizedApiError,
-  PatentDraft,
   ProcessResult,
   UploadedDocument,
 } from "@/lib/types/contracts";
@@ -14,6 +16,7 @@ interface ErrorEnvelope {
     code?: unknown;
     message?: unknown;
     correlation_id?: unknown;
+    paths?: unknown;
   };
 }
 
@@ -21,6 +24,7 @@ export class ApiClientError extends Error implements NormalizedApiError {
   readonly status: number;
   readonly code: string;
   readonly correlation_id?: string;
+  readonly paths?: string[];
 
   constructor(error: NormalizedApiError) {
     super(error.message);
@@ -28,6 +32,7 @@ export class ApiClientError extends Error implements NormalizedApiError {
     this.status = error.status;
     this.code = error.code;
     this.correlation_id = error.correlation_id;
+    this.paths = error.paths;
   }
 }
 
@@ -62,6 +67,9 @@ async function toApiError(response: Response): Promise<ApiClientError> {
       typeof candidate?.correlation_id === "string"
         ? candidate.correlation_id
         : headerCorrelationId,
+    paths: Array.isArray(candidate?.paths)
+      ? candidate.paths.filter((path): path is string => typeof path === "string")
+      : undefined,
   });
 }
 
@@ -106,11 +114,20 @@ export async function processDocument(documentId: string): Promise<ProcessResult
   return (await response.json()) as ProcessResult;
 }
 
-export async function exportDocx(draft: PatentDraft): Promise<ExportedDocx> {
+export async function validateDraft(requestBody: DraftRevisionRequest): Promise<DraftValidationResult> {
+  const response = await request("/api/drafts/validate", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(requestBody),
+  });
+  return (await response.json()) as DraftValidationResult;
+}
+
+export async function exportDocx(requestBody: ExportDocxRequest): Promise<ExportedDocx> {
   const response = await request("/api/exports/docx", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ draft }),
+    body: JSON.stringify(requestBody),
   });
   return { blob: await response.blob(), filename: DOCX_FILENAME };
 }

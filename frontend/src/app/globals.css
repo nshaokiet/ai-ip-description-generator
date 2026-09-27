@@ -56,9 +56,75 @@ button:disabled {
 
 button:focus-visible,
 input:focus-visible,
-summary:focus-visible {
+summary:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
   outline: 3px solid rgb(39 163 227 / 35%);
   outline-offset: 3px;
+}
+
+.revision-workspace {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  padding: 22px 32px;
+  border-bottom: 1px solid var(--color-border);
+  background: #f7faf9;
+}
+
+.revision-workspace label,
+.draft-document label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.revision-workspace select,
+.section-review-control select,
+.draft-document textarea {
+  width: 100%;
+  max-width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--color-text);
+  font: inherit;
+}
+
+.draft-document textarea { resize: vertical; min-height: 110px; }
+.revision-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.revision-status {
+  display: grid;
+  gap: 5px;
+  padding: 16px 32px;
+  color: var(--color-text-secondary);
+  border-bottom: 1px solid var(--color-border);
+  font-size: 0.85rem;
+}
+.revision-status strong { color: var(--color-primary-700); }
+.edit-support-warning {
+  margin: 16px 32px;
+  padding: 12px 16px;
+  border-left: 4px solid #a76b16;
+  background: #fff6e6;
+  color: #6d430c;
+  font-size: 0.88rem;
+}
+.draft-document .edit-support-warning { margin: 12px 0; }
+.section-review-control {
+  max-width: 360px;
+  margin: 0 0 20px;
+}
+.grounding-details { margin-top: 9px; }
+
+@media (max-width: 620px) {
+  .revision-workspace { flex-direction: column; padding: 20px 18px; }
+  .revision-workspace > div, .revision-actions, .revision-actions button { width: 100%; }
+  .revision-status { padding: 16px 18px; }
+  .edit-support-warning { margin: 14px 18px; }
 }
 
 code {

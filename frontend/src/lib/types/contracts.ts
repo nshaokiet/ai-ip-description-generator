@@ -112,6 +112,13 @@ export interface AnalysisAuthorQuestion {
 export interface InventionAnalysis {
   schema_version: "1.0.0";
   output_type: "STRUCTURED_INVENTION_ANALYSIS";
+  output_notice: {
+    status: "DRAFT";
+    human_review_required: true;
+    is_legal_advice: false;
+    filing_ready: false;
+    includes_patentability_assessment: false;
+  };
   document_metadata: SourceDocumentMetadata;
   title_candidates: AnalysisItem[];
   technical_field: TechnicalField;
@@ -124,6 +131,14 @@ export interface InventionAnalysis {
   technical_effects: AnalysisItem[];
   embodiments: AnalysisItem[];
   experimental_data: AnalysisItem[];
+  drawing_requirements: Array<{
+    drawing_id: string;
+    kind: "SOURCE_FIGURE" | "PROPOSED_DRAWING";
+    title: string;
+    status: "AVAILABLE" | "PROPOSED" | "MISSING";
+    source_evidence_ids: string[];
+    human_confirmation_required: boolean;
+  }>;
   missing_information: AnalysisMissingInformation[];
   author_questions: AnalysisAuthorQuestion[];
   evidence: Evidence[];
@@ -172,6 +187,8 @@ export interface DraftHeadlineContent {
 export interface DraftMissingInformation {
   missing_id: string;
   origin: "SOURCE_ANALYSIS" | "DRAFT_VALIDATION";
+  source_missing_information_id?: string;
+  rule_id?: "TITLE_SELECTION_REQUIRED" | "ABSTRACT_SOURCE_INSUFFICIENT" | "SECTION_SOURCE_INSUFFICIENT" | "CONFLICT_REQUIRES_RESOLUTION";
   target_path: string;
   description: string;
   reason: "NOT_FOUND" | "AMBIGUOUS" | "CONFLICTING" | "INSUFFICIENT_DETAIL";
@@ -196,6 +213,7 @@ export interface DraftConflict {
 export interface DraftAuthorQuestion {
   question_id: string;
   origin: "SOURCE_ANALYSIS" | "DRAFT_VALIDATION";
+  source_question_id?: string;
   question: string;
   priority: "HIGH" | "MEDIUM" | "LOW";
   source_paths: string[];
@@ -213,9 +231,29 @@ export interface EvidenceAppendixItem extends Evidence {
   usage_references: EvidenceUsageReference[];
 }
 
+export interface DraftDrawing {
+  drawing_id: string;
+  source_drawing_id: string;
+  kind: "SOURCE_FIGURE" | "PROPOSED_DRAWING";
+  title: string;
+  status: "AVAILABLE" | "PROPOSED" | "MISSING";
+  source_paths: string[];
+  evidence_ids: string[];
+  human_confirmation_required: boolean;
+}
+
 export interface PatentDraft {
   schema_version: "1.0.0";
   output_type: "PATENT_DESCRIPTION_DRAFT";
+  output_notice: {
+    status: "DRAFT";
+    notice: "AI-generated draft — requires human review.";
+    human_review_required: true;
+    is_legal_advice: false;
+    filing_ready: false;
+    includes_patentability_assessment: false;
+    includes_claims: false;
+  };
   document_metadata: {
     draft_id: string;
     language: string;
@@ -228,6 +266,7 @@ export interface PatentDraft {
   selected_title: DraftHeadlineContent;
   abstract: DraftHeadlineContent;
   draft_sections: DraftSection[];
+  drawings: DraftDrawing[];
   missing_information: DraftMissingInformation[];
   conflicts: DraftConflict[];
   author_questions: DraftAuthorQuestion[];
@@ -251,6 +290,27 @@ export interface NormalizedApiError {
   code: string;
   message: string;
   correlation_id?: string;
+  paths?: string[];
+}
+
+export interface DraftRevisionRequest {
+  revision_id: string;
+  analysis: InventionAnalysis;
+  original_draft: PatentDraft;
+  draft: PatentDraft;
+  selected_title_candidate_id: string | null;
+}
+
+export interface DraftValidationResult {
+  valid: true;
+  revision_id: string;
+  draft_digest: string;
+  unverified_prose_paths: string[];
+  correlation_id: string;
+}
+
+export interface ExportDocxRequest extends DraftRevisionRequest {
+  validated_digest: string;
 }
 
 export interface ExportedDocx {

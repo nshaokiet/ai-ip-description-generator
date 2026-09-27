@@ -14,6 +14,7 @@ import {
 } from "@/lib/api/client";
 import type {
   NormalizedApiError,
+  ExportDocxRequest,
   ProcessResult,
   UploadedDocument,
   WorkflowState,
@@ -76,12 +77,12 @@ export default function Home() {
     }
   }
 
-  async function handleExport() {
+  async function handleExport(requestBody: ExportDocxRequest) {
     if (!result) return;
     setError(null);
     setState("EXPORTING");
     try {
-      const exported = await exportDocx(result.draft);
+      const exported = await exportDocx(requestBody);
       const objectUrl = URL.createObjectURL(exported.blob);
       const anchor = window.document.createElement("a");
       anchor.href = objectUrl;
