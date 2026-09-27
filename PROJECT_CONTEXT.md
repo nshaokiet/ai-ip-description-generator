@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | SPEC-002 |
 | Document title | Project Context — AI Intellectual Property Description Generator |
-| Version | 0.4.1 |
+| Version | 0.4.2 |
 | Status | Approved baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT |
@@ -49,6 +49,7 @@
 | 0.3.8 | 0.3.9 | 22/09/2026 | Gemini 3.8 Flash High | Đóng vòng đời đặc tả APP-003: Human duyệt v1.2.0, merge PR #18 tại bfbcdc7; ghi nhận implementation chưa bắt đầu (hoãn đến 26/09/2026 cho Codex) | Post-merge specification governance closeout; không đổi technical contract | APP-003, REV-APP-003, PR #18, merge commit `bfbcdc760916f497b603bcd49ce0150d6819d337` | No |
 | 0.3.9 | 0.4.0 | 26/09/2026 | ChatGPT | Cập nhật operating model: Codex implementation, Antigravity independent review, Project Orchestrator MCP coordination; loại NotebookLM khỏi workflow hiện tại | Đồng bộ workflow thực tế do Human quyết định | Human decision 26/09/2026 | No |
 | 0.4.0 | 0.4.1 | 27/09/2026 | Codex | Ghi P0-006 Frontend/backend integration CLOSED / Completed sau independent review PASS và Human-approved merge; giữ BLK-003/GOV-P0-006-01 OPEN | Post-merge governance closeout, không đổi technical contract | P0-006, REV-P0-006-IMPLEMENTATION, merge `3207479e5cca73da3e7facbc7c482d2ce5eba2b9` | No |
+| 0.4.1 | 0.4.2 | 27/09/2026 | Codex | Đối chiếu APP-003 implementation/merge evidence, chuyển trạng thái sang Completed — Merged và RESOLVED GOV-P0-006-01; BLK-003 vẫn OPEN | Sửa stale governance state; không đổi technical specification hoặc P0-006 lifecycle | APP-003, GOV-P0-006-01, merge `b5a47f6030441b438e7e1745b75b05d8b345d6c0` | No |
 
 ## 2. Project name
 
@@ -242,7 +243,7 @@ Giai đoạn khởi tạo đề xuất: **Phase 1 — Specification & Architectu
 
 SPEC-001, SPEC-002 và SPEC-003 là **Approved baseline** sau Gemini 3.1 Pro High review và Human decisions ngày 20/09/2026. Implementation đã tiến vào các task thuộc Phase 2/Phase 3, nhưng Human / Product Owner chưa tuyên bố toàn bộ Phase 1, Phase 2, Phase 3 hoặc MVP `Completed`.
 
-P0-006 Frontend/backend integration là **CLOSED / Completed — Merged** tại `3207479e5cca73da3e7facbc7c482d2ce5eba2b9` (accepted implementation `0f1e94db438869a980db8a1cb1e06956de2d8d3e`). Google Antigravity (Advanced Agentic Coding) independent review `PASS`, AC-01…AC-17 `PASS`, findings `NONE`; Human accepted review và approved merge. Điều này không đóng BLK-003 hoặc GOV-P0-006-01, và không tuyên bố production/real-data readiness hay toàn bộ MVP Completed.
+P0-006 Frontend/backend integration là **CLOSED / Completed — Merged** tại `3207479e5cca73da3e7facbc7c482d2ce5eba2b9` (accepted implementation `0f1e94db438869a980db8a1cb1e06956de2d8d3e`). Google Antigravity (Advanced Agentic Coding) independent review `PASS`, AC-01…AC-17 `PASS`, findings `NONE`; Human accepted review và approved merge. GOV-P0-006-01 được RESOLVED riêng bằng APP-003 governance reconciliation sau đó; BLK-003 vẫn OPEN. Không tuyên bố production/real-data readiness hay toàn bộ MVP Completed.
 
 ## 20. AI / Agent Roles
 
@@ -300,16 +301,16 @@ Project Orchestrator MCP là lớp điều phối dùng chung giữa VS Code/Cod
 |---|---|---|---|
 | System Specification | `docs/system-specification.md` | 0.3.5 | SPEC-001 Approved baseline; AI-RUNTIME-002 post-merge state đã đồng bộ |
 | AI Collaboration Rules | `AGENTS.md` | 0.2.0 | SPEC-003 Approved baseline |
-| Project Context | `PROJECT_CONTEXT.md` | 0.4.1 | SPEC-002 Approved baseline; P0-006 post-merge status đồng bộ |
-| Project Control Center source | `docs/operations/01_PROJECT_CONTROL_CENTER.md` | 0.3.14 | P0-006 CLOSED / Completed; BLK-003 and GOV-P0-006-01 OPEN; Phase 1/Phase 2/MVP chưa được tuyên bố hoàn tất |
-| Gemini Review Log source | `docs/operations/02_GEMINI_REVIEW_LOG.md` | 0.3.6 | `REV-P0-006-IMPLEMENTATION` CLOSED; reviewer identity không suy đoán underlying Gemini model/profile |
+| Project Context | `PROJECT_CONTEXT.md` | 0.4.2 | SPEC-002 Approved baseline; APP-003 implementation status reconciled; P0-006 remains CLOSED |
+| Project Control Center source | `docs/operations/01_PROJECT_CONTROL_CENTER.md` | 0.3.15 | APP-003 Completed — Merged; GOV-P0-006-01 RESOLVED; P0-006 CLOSED; BLK-003 OPEN; Phase 1/Phase 2/MVP chưa được tuyên bố hoàn tất |
+| Gemini Review Log source | `docs/operations/02_GEMINI_REVIEW_LOG.md` | 0.3.7 | APP-003 implementation merge-evidence addendum; exact underlying reviewer model/profile not evidenced; `REV-P0-006-IMPLEMENTATION` remains CLOSED |
 | Foundational ADRs | `docs/decisions/ADR-001…005-*.md` | ADR-001…ADR-005 | Accepted theo Human decisions ngày 20/09/2026 |
 | APP-001 backend | `backend/app/`, `backend/requirements.txt`, `tests/backend/` | Implementation head `bd39b9f7bdd9f7a1796d9a405e7998070e124e07` | Completed — Merged via PR #10; 24/24 APP-001 tests và 109/109 tổng tests pass |
 | APP-002 document preparation | `backend/app/`, `tests/backend/test_document_parsing.py` | Implementation `477b8fda6afbae0049d8d691c213dc6355ba67da`; remediation `8b6f909a0f5787d72c002e163395656a666c9b78` | Completed — Merged via PR #12 at `4a001d116cbf002bdd42a9151efbf3f308fce3e6`; Gemini final PASS; 30/30 AC; 135 executed, 134 pass, 1 Windows skip, 0 failure/error |
 | AI extraction runtime | `backend/app/services/extraction_runtime.py`, `provider_schema.py`, `extraction_validation.py` | AI-RUNTIME-001 / ADR-010 | Completed — Merged via PR #14 at `597f6c7b074eb2c5e445790b8c4f48f336f04da5`; 32/32 AC; 201 executed, 200 pass, 1 skip; live provider smoke not run |
 | AI draft runtime | `backend/app/services/draft_runtime.py`, `draft_provider_schema.py`, `draft_validation.py`, `draft_business_validation.py` | AI-RUNTIME-002 | Completed — Merged via PR #16 at `978516a4f5caa90bbd2189668237c6e028597361` (implementation head `a59ce0219d7039f24fa8c7bd71d4e9829dbbf612`); backend suite 240 pass, 2 skip; tests/draft 25 pass; live smoke deferred |
-| Core pipeline orchestration spec | `docs/tasks/APP-003-core-pipeline-orchestration.md` | 1.2.0 | APP-003 Specification — Approved & Merged qua PR #18 tại `bfbcdc760916f497b603bcd49ce0150d6819d337`; Implementation — NOT STARTED (Deferred until 26/09/2026 for Codex) |
-| P0-006 frontend/backend integration | `docs/tasks/P0-006-frontend-backend-integration.md`, `frontend/`, `backend/app/api/routes/local_orchestration.py` | Approved specification v0.2.0; implementation `0f1e94db438869a980db8a1cb1e06956de2d8d3e` | CLOSED / Completed — Merged at `3207479e5cca73da3e7facbc7c482d2ce5eba2b9`; independent Google Antigravity (Advanced Agentic Coding) PASS, AC-01…AC-17 PASS, findings NONE; BLK-003 and GOV-P0-006-01 OPEN |
+| Core pipeline orchestration | `docs/tasks/APP-003-core-pipeline-orchestration.md`, `backend/app/services/core_pipeline.py` | Specification v1.2.0; governance evidence revision 1.2.1 | APP-003 Completed — Merged; implementation `3e7c2910695eed9e5ef1d7d0ff11f8f0e3ac6c38`, merge `b5a47f6030441b438e7e1745b75b05d8b345d6c0`; merge message: 32/32 AC verified, independent Antigravity PASS; exact underlying model/profile not evidenced; BLK-003 OPEN |
+| P0-006 frontend/backend integration | `docs/tasks/P0-006-frontend-backend-integration.md`, `frontend/`, `backend/app/api/routes/local_orchestration.py` | Approved specification v0.2.0; implementation `0f1e94db438869a980db8a1cb1e06956de2d8d3e` | CLOSED / Completed — Merged at `3207479e5cca73da3e7facbc7c482d2ce5eba2b9`; independent Google Antigravity (Advanced Agentic Coding) PASS, AC-01…AC-17 PASS, findings NONE; BLK-003 OPEN; GOV-P0-006-01 RESOLVED separately |
 | ADR | `docs/decisions/ADR-006-output-schema-v1.md` | ADR-006 | Accepted; Completed — Merged via PR #1 |
 | Production JSON Schema | `schemas/invention-output/v1.0.0/invention-output.schema.json` | 1.0.0 | Completed — Merged via PR #1; Gemini review PASS; 15/15 tests pass |
 | Production extraction prompt | `prompts/extraction/v1.0.0/extraction-prompt.md` | 1.0.0 | Completed — Merged via PR #3; canonical offline validation only |
@@ -341,8 +342,8 @@ Project Orchestrator MCP là lớp điều phối dùng chung giữa VS Code/Cod
 
 ## 28. Recommended next action
 
-1. Human merge riêng nhánh tài liệu `docs/p0-006-post-merge-closeout` sau khi kiểm tra governance diff; implementation P0-006 đã merge vào `main`.
-2. Giao governance reconciliation APP-003 cho GOV-P0-006-01 riêng; không coi P0-006 closeout là resolution của issue đó.
+1. Human merge riêng nhánh tài liệu `docs/app-003-governance-reconciliation` sau khi kiểm tra governance diff; APP-003 implementation và P0-006 đã merge vào `main`.
+2. GOV-P0-006-01 RESOLVED bằng reconciliation này; không thay đổi P0-006 lifecycle.
 3. BLK-003 vẫn OPEN: không dùng dữ liệu nghiên cứu thật hoặc coi hệ thống là production-ready trước Human security/data decisions.
 4. Chỉ tiếp tục Draft Claims, optional outputs hoặc production deployment bằng task/approval riêng; không suy rộng P0-006 Completed thành toàn bộ MVP Completed.
 
@@ -357,4 +358,4 @@ APP-001 triển khai FastAPI local single-tenant skeleton với `GET /health`, s
 AI-RUNTIME-001 triển khai internal OpenAI Responses API extraction boundary từ APP-002 envelope tới validated Structured Invention Analysis. Gemini implementation review trả `PASS WITH NON-BLOCKING NOTES`; F-001 `MEDIUM` được sửa tại `5247cbcbe591d8b29917d9982b9066e393901c7e` và targeted re-review `PASS`. Human / Product Owner đã approve và merge [PR #14](https://github.com/nshaokiet/ai-ip-description-generator/pull/14) ngày 21/09/2026 tại merge commit `597f6c7b074eb2c5e445790b8c4f48f336f04da5`. 32/32 acceptance criteria đạt; regression ghi nhận 201 executed, 200 pass, 1 intentional Windows skip. Live provider smoke vẫn `NOT RUN — OPENAI_API_KEY not available`; BLK-003 vẫn mở. Trạng thái hiện tại: **Completed — Merged via PR #14**.
 AI-RUNTIME-002 triển khai internal OpenAI Responses API draft generation runtime từ validated Structured Invention Analysis (AI-001) qua deterministic AI-003 Draft Input Envelope tới validated Patent Description Draft JSON. Runtime sử dụng `gpt-5.6-sol`, reasoning high, `store=false`, timeout 240 giây, SDK retries 2 và `max_output_tokens=64000`. Output đi qua provider-schema adaptation, schema-aware normalization, canonical Patent Draft 2020-12 validation và deterministic business/grounding validation. Đợt remediation cuối đã xử lý abstract validation governance contract, F-D12 JSON Pointer `/` handling, F-D13 dead helper removal, F-D14 test target_path precision, sửa test imports từ `httpx2` sang `httpx` và bổ sung các biến môi trường draft cần thiết vào `.env.example`; F-D15 prohibited-substring scanner false-positive risk được giữ lại như non-blocking NOTE. Independent final review kết luận `APPROVED`. Human / Product Owner đã approve và merge [PR #16](https://github.com/nshaokiet/ai-ip-description-generator/pull/16) ngày 22/09/2026 tại merge commit `978516a4f5caa90bbd2189668237c6e028597361` (implementation head `a59ce0219d7039f24fa8c7bd71d4e9829dbbf612`). Automated evidence: backend test suite 240 pass, 2 skip, 1 warning; tests/draft 25 pass. Live provider smoke ghi nhận `NOT RUN — DEFERRED due to unavailable API funding`; BLK-003 vẫn mở. Trạng thái hiện tại: **Completed — Merged via PR #16**.
 
-APP-003 hoàn tất vòng đời đặc tả kỹ thuật Core Pipeline Orchestration and Offline E2E Harness v1.2.0. Trải qua các vòng review độc lập bởi Gemini 3.1 Pro High (initial REQUEST CHANGES → remediation v1.1.0 PASS → final hardening v1.2.0 cho H-001/H-002/H-003 PASS), Human / Product Owner đã chính thức phê duyệt Specification v1.2.0 và merge PR #18 ngày 22/09/2026 tại merge commit `bfbcdc760916f497b603bcd49ce0150d6819d337`. REV-APP-003 đã CLOSED. Trạng thái đặc tả: **Specification — Approved & Merged**. Trạng thái triển khai: **Implementation — NOT STARTED (Deferred until 26/09/2026 cho Codex thực hiện sau khi quota reset)**.
+APP-003 hoàn tất vòng đời đặc tả kỹ thuật Core Pipeline Orchestration and Offline E2E Harness v1.2.0. Trải qua các vòng review độc lập bởi Gemini 3.1 Pro High (initial REQUEST CHANGES → remediation v1.1.0 PASS → final hardening v1.2.0 cho H-001/H-002/H-003 PASS), Human / Product Owner đã chính thức phê duyệt Specification v1.2.0 và merge PR #18 ngày 22/09/2026 tại merge commit `bfbcdc760916f497b603bcd49ce0150d6819d337`. REV-APP-003 đã CLOSED. Trạng thái đặc tả: **Specification — Approved & Merged**. Sau mốc đặc tả, APP-003 implementation `3e7c2910695eed9e5ef1d7d0ff11f8f0e3ac6c38` đã merge tại `b5a47f6030441b438e7e1745b75b05d8b345d6c0`: **Completed — Merged**. Thông điệp merge ghi 32/32 AC verified và independent Antigravity `PASS`; exact underlying reviewer model/profile và primary review report không được chứng minh bởi bằng chứng hiện có. GOV-P0-006-01 RESOLVED; BLK-003 vẫn OPEN. Không có bằng chứng live-provider validation hoặc production readiness.

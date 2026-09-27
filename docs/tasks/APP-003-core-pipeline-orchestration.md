@@ -7,11 +7,14 @@
 | Task ID | APP-003 |
 | Document title | APP-003 — Internal Core Pipeline Orchestration and Offline E2E Harness Specification |
 | Specification version | 1.2.0 |
+| Governance evidence revision | 1.2.1 — status reconciliation only; technical specification unchanged |
 | Status | Specification — Approved & Merged |
-| Implementation status | Implementation — NOT STARTED (Deferred until 26/09/2026 for Codex execution after quota reset) |
+| Implementation status | Completed — Merged at `b5a47f6030441b438e7e1745b75b05d8b345d6c0` |
+| Implementation commit | `3e7c2910695eed9e5ef1d7d0ff11f8f0e3ac6c38` |
+| Implementation review evidence | Merge message reports 32/32 acceptance criteria verified and independent Antigravity `PASS`; exact underlying reviewer model/profile not evidenced |
 | Owner | ChatGPT/Codex |
 | Author | Gemini 3.8 Flash High |
-| Reviewer | Gemini 3.1 Pro High + Human / Product Owner |
+| Specification reviewer | Gemini 3.1 Pro High + Human / Product Owner; implementation reviewer identity limited to the merge-message evidence above |
 | Human specification approval | Approved (PR #18, merge commit `bfbcdc760916f497b603bcd49ce0150d6819d337`) |
 | Baseline commit | `59bfe67583040319a7a0c2aa156db31bab382737` |
 | Specification merge commit | `bfbcdc760916f497b603bcd49ce0150d6819d337` |
@@ -607,13 +610,13 @@ git diff --check
 - [x] Không sửa đổi bất kỳ file mã nguồn backend, test, schema, prompt, fixture, template hay dependencies nào.
 - [x] Đã qua targeted independent re-review bởi Gemini 3.1 Pro High với kết quả PASS.
 - [x] Human / Product Owner đã phê duyệt đặc tả v1.2.0 và merge PR #18 vào `main` tại commit `bfbcdc760916f497b603bcd49ce0150d6819d337`.
-- [x] Trạng thái nhiệm vụ được cập nhật chính xác: `Specification — Approved & Merged`; `Implementation — NOT STARTED (Deferred until 26/09/2026)`.
+- [x] At specification closeout on 22/09/2026, implementation had not started and was deferred to 26/09/2026. This is historical; the current implementation state is recorded in the governance reconciliation below.
 - [x] Không tuyên bố Phase 1, Phase 2, hay MVP hoàn thành.
 - [x] `git diff --check` đạt kết quả sạch (clean).
 
 ---
 
-## 17. Handoff Expectations
+## 17. Handoff Expectations (historical specification closeout, 22/09/2026)
 
 ```text
 Task ID: APP-003
@@ -629,4 +632,28 @@ Decisions: Specification v1.2.0 approved and merged. Implementation deferred to 
 Issues: BLK-003 remains open; live provider smoke remains deferred due to lack of API funding.
 Security impact: Mandatory safe cleanup specified; no confidential research data, credentials or keys touched.
 Recommended next action: Wait until 26/09/2026, then create a fresh APP-003 implementation branch from main and assign implementation to Codex.
+```
+
+## 18. Implementation governance reconciliation (27/09/2026)
+
+Specification v1.2.0 and its technical requirements remain unchanged. The earlier `NOT STARTED` statements above describe the 22/09/2026 specification closeout, not the current implementation state. Git confirms implementation commit `3e7c2910695eed9e5ef1d7d0ff11f8f0e3ac6c38` was merged into `main` at `b5a47f6030441b438e7e1745b75b05d8b345d6c0`. The merge message records **32/32 acceptance criteria verified** and **independent Antigravity review PASS**. The underlying reviewer model/profile and the primary review report are not evidenced here; no additional review findings, test results or Human approval are inferred. P0-003 DOCX integration merged at `5cfb1b5d0377fcb4538a2bba0bbb48232001b123`; P0-004 local HTTP boundary merged at `43737a79fcdb634a12a92752c767df9fbf98d1f3`. These later tasks do not expand APP-003's own technical scope. GOV-P0-006-01 is **RESOLVED** by this status reconciliation; BLK-003 remains **OPEN**. This is not evidence of live-provider validation, production readiness or authorization for real research data.
+
+| Governance revision | Date | Change | Breaking change |
+|---|---|---|---|
+| 1.2.1 | 27/09/2026 | Reconcile APP-003 implementation and merge evidence; preserve Specification v1.2.0 and historical specification handoff | No |
+
+```text
+Task ID: GOV-P0-006-01 / APP-003
+Agent: Codex
+Reviewer: Antigravity for APP-003 implementation per merge message; exact underlying model/profile not evidenced
+Status: APP-003 Completed — Merged; GOV-P0-006-01 RESOLVED
+Version: Specification v1.2.0; governance evidence revision 1.2.1
+Work completed: Reconciled stale implementation status against Git history without changing technical requirements.
+Files affected: docs/tasks/APP-003-core-pipeline-orchestration.md; docs/operations/01_PROJECT_CONTROL_CENTER.md; docs/operations/02_GEMINI_REVIEW_LOG.md; PROJECT_CONTEXT.md.
+Evidence checked: Implementation 3e7c2910695eed9e5ef1d7d0ff11f8f0e3ac6c38 is an ancestor of merge b5a47f6030441b438e7e1745b75b05d8b345d6c0 on main; merge message reports 32/32 AC and independent Antigravity PASS.
+Findings: No primary APP-003 implementation review report or exact underlying reviewer model/profile evidenced in this reconciliation.
+Decisions: Resolve GOV-P0-006-01 as documentation-state discrepancy only; no technical scope change.
+Issues: BLK-003 OPEN; live provider smoke not validated.
+Security impact: No new production/real-data authorization.
+Recommended next action: HUMAN MERGE GOVERNANCE RECONCILIATION.
 ```

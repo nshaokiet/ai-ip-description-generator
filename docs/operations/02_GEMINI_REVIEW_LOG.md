@@ -10,7 +10,7 @@
 | Document title | Gemini Review Log |
 | Project | AI Intellectual Property Description Generator |
 | Project deadline | 02/10/2026 |
-| Version | 0.3.6 |
+| Version | 0.3.7 |
 | Status | Active review log |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -41,6 +41,7 @@
 | 0.3.3 | 0.3.4 | 22/09/2026 | Gemini 3.8 Flash High | Ghi lifecycle review AI-RUNTIME-002 (Checkpoints A-E, remediation, independent review APPROVED, Human merge PR #16 và deferred live smoke) | Post-merge governance closeout | AI-RUNTIME-002, REV-AI-RUNTIME-002, PR #16, merge commit `978516a4f5caa90bbd2189668237c6e028597361` | No |
 | 0.3.4 | 0.3.5 | 22/09/2026 | Gemini 3.8 Flash High | Ghi nhận vòng đời review đặc tả APP-003: initial REQUEST CHANGES, remediation v1.1.0 PASS, final hardening v1.2.0 PASS, Human phê duyệt v1.2.0, merge PR #18 và đóng REV-APP-003 | Post-merge specification governance closeout | REV-APP-003, APP-003, PR #18, merge commit `bfbcdc760916f497b603bcd49ce0150d6819d337` | No |
 | 0.3.5 | 0.3.6 | 27/09/2026 | Codex | Ghi independent implementation review P0-006 PASS, findings NONE, Human acceptance/merge và đóng REV-P0-006-IMPLEMENTATION | Post-merge governance closeout; giữ nguyên reviewer identity có bằng chứng | P0-006, `0f1e94db438869a980db8a1cb1e06956de2d8d3e`, merge `3207479e5cca73da3e7facbc7c482d2ce5eba2b9` | No |
+| 0.3.6 | 0.3.7 | 27/09/2026 | Codex | Bổ sung APP-003 implementation merge-evidence addendum; giữ nguyên lịch sử review đặc tả REV-APP-003, không tạo review record giả | Reconcile GOV-P0-006-01 from Git evidence; exact underlying reviewer model/profile not evidenced | APP-003, GOV-P0-006-01, merge `b5a47f6030441b438e7e1745b75b05d8b345d6c0` | No |
 
 ## 2. Review Rules
 
@@ -1685,3 +1686,11 @@ No finding required resolution. Implementation SHA `0f1e94db438869a980db8a1cb1e0
 #### 19. Closed By
 
 Human / Product Owner instruction to perform post-merge closeout.
+
+### APP-003 implementation merge-evidence addendum — GOV-P0-006-01
+
+This is a governance evidence addendum, **not** a new independent review record and not a change to historical `REV-APP-003` (specification review). The `NOT STARTED` statement in that 22/09/2026 specification closeout was true at that time but is superseded for current APP-003 implementation status.
+
+Git verifies implementation commit `3e7c2910695eed9e5ef1d7d0ff11f8f0e3ac6c38` is an ancestor of APP-003 implementation merge `b5a47f6030441b438e7e1745b75b05d8b345d6c0` on `main`. The merge message reports **32/32 acceptance criteria verified** and **independent Antigravity review PASS**. The exact underlying reviewer model/profile, primary review report, detailed findings and separate review date are not evidenced by this merge message; none is invented. This addendum does not relabel the specification reviewer as the implementation reviewer or assert a new Human review approval.
+
+Current governance state: APP-003 implementation **Completed — Merged**; GOV-P0-006-01 **RESOLVED** as a stale documentation-state discrepancy. P0-006 remains CLOSED / Completed. BLK-003 remains **OPEN**; live-provider validation and production/real-data authorization are not evidenced. P0-003 DOCX integration merge `5cfb1b5d0377fcb4538a2bba0bbb48232001b123` and P0-004 local HTTP boundary merge `43737a79fcdb634a12a92752c767df9fbf98d1f3` are later, separate integrations and do not expand APP-003's technical scope.
