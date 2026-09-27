@@ -287,6 +287,14 @@ test("narrow viewport keeps editing, warnings, validation and export usable", as
   const downloadPromise = page.waitForEvent("download");
   await page.getByRole("button", { name: "Export revision-2 DOCX" }).click();
   await downloadPromise;
+  await page.route("**/backend/api/exports/docx", (route) =>
+    route.fulfill({ status: 503, contentType: "text/plain", body: "synthetic proxy fault" }));
+  await page.getByRole("button", { name: "Export revision-2 DOCX" }).click();
+  await expect(page.getByText("The local service could not complete the request.")).toBeVisible();
+  const errorWidth = await page.evaluate(() => ({ body: document.body.scrollWidth, viewport: innerWidth }));
+  expect(errorWidth.body).toBeLessThanOrEqual(errorWidth.viewport);
+  await page.getByRole("button", { name: "Return to results" }).click();
+  await expect(page.getByLabel("Selected revision")).toHaveValue("revision-2");
 });
 
 test("corrupt upload is rejected safely and a valid synthetic document can be retried", async ({ page }) => {
@@ -302,7 +310,12 @@ test("corrupt upload is rejected safely and a valid synthetic document can be re
   await page.getByRole("button", { name: "Choose another document" }).click();
   const fixture = await page.request.get(`${backend}/__test/pdf`);
   expect(fixture.ok()).toBeTruthy();
-  await page.locator("#document-file").setInputFiles({
+  const chooserPromise = page.waitForEvent("filechooser");
+  const select = page.getByRole("button", { name: "Select document" });
+  await select.focus();
+  await expect(select).toBeFocused();
+  await page.keyboard.press("Enter");
+  await (await chooserPromise).setFiles({
     name: "synthetic.pdf", mimeType: mediaTypes.pdf, buffer: await fixture.body(),
   });
   await page.getByRole("button", { name: "Upload & Validate" }).click();
@@ -341,9 +354,10 @@ test("export failure creates no download and preserves the validated revision fo
   const downloads: Download[] = [];
   page.on("download", (download) => downloads.push(download));
   await page.route("**/backend/api/exports/docx", (route) =>
-    route.fulfill({ status: 503, contentType: "text/plain", body: "raw C:\\private\\export.docx" }));
+    route.fulfill({ status: 503, contentType: "text/plain", headers: { "x-correlation-id": "synthetic-reference-123" }, body: "raw C:\\private\\export.docx" }));
   await page.getByRole("button", { name: "Export revision-1 DOCX" }).click();
   await expect(page.getByText("The local service could not complete the request.")).toBeVisible();
+  await expect(page.getByText("Reference ID: synthetic-reference-123")).toBeVisible();
   expect(downloads).toHaveLength(0);
   await expect(page.locator(".error-banner")).not.toContainText("C:\\private");
   await expect(page.getByLabel("Selected revision")).toHaveValue("revision-1");
