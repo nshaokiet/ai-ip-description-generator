@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.15 |
+| Version | 0.3.17 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -53,6 +53,8 @@
 | 0.3.12 | 0.3.13 | 27/09/2026 | Codex | Ghi targeted specification review `PASS`, Human approval và P0-006 implementation/test evidence trên feature branch; chuyển sang chờ independent implementation review | Handoff implementation, không đóng task hoặc merge | P0-006, DEC-009; `8af6e499f22ecace4181f9422de525176c39aaf7` | No |
 | 0.3.13 | 0.3.14 | 27/09/2026 | Codex | Đóng P0-006 sau independent implementation review PASS, Human acceptance và merge vào main; giữ BLK-003/GOV-P0-006-01 OPEN | Post-merge governance closeout, không sửa code | P0-006, REV-P0-006-IMPLEMENTATION, DEC-010, merge `3207479e5cca73da3e7facbc7c482d2ce5eba2b9` | No |
 | 0.3.14 | 0.3.15 | 27/09/2026 | Codex | Đối chiếu Git, chuyển APP-003 implementation sang Completed — Merged và đóng GOV-P0-006-01; BLK-003 vẫn OPEN | Sửa trạng thái governance lỗi thời, không đổi technical scope/code/test | APP-003, GOV-P0-006-01, implementation `3e7c2910695eed9e5ef1d7d0ff11f8f0e3ac6c38`, merge `b5a47f6030441b438e7e1745b75b05d8b345d6c0` | No |
+| 0.3.15 | 0.3.16 | 27/09/2026 | Codex | Register draft P0-007 MVP E2E validation/stabilization specification v0.1.0 for independent review; governance reconciliation branch already merged | Define next validation task without implementation, product-scope or release change | P0-007; main `403deba9d33d1cc20c3d231bc08fa473420505ed`; BLK-003 OPEN | No |
+| 0.3.16 | 0.3.17 | 27/09/2026 | Codex | Record P0-007 specification PASS and Human implementation approval; hand off synthetic/offline implementation and AC-01…AC-16 self-check for independent implementation review | Evidence-only lifecycle update; no product/release approval | P0-007, REV-P0-007-SPECIFICATION, implementation `2638c620a36e6fb4016ed2efaeb788446a5b2eff`; BLK-003 OPEN | No |
 
 ## 2. Project
 
@@ -124,7 +126,8 @@ Các mục trên chưa được coi là đã chốt chỉ vì có tài liệu Dr
 - [x] AI-RUNTIME-002 internal Responses API draft generation runtime đã `Completed — Merged via PR #16`; implementation head `a59ce0219d7039f24fa8c7bd71d4e9829dbbf612`, merge commit `978516a4f5caa90bbd2189668237c6e028597361`; backend suite 240 pass, 2 skip, 1 warning; tests/draft 25 pass; independent final review APPROVED; live provider smoke NOT RUN — DEFERRED due to unavailable API funding.
 - [x] P0-005 Frontend MVP `CLOSED`; final accepted SHA `43907213f14c8c55294f55af34afcc0cbcc9dc66`; independent review `ACCEPT`; logo asset, desktop visual, narrow visual, `npm run lint`, `npm run build`, `git diff --check` và remediation scope `PASS`; release-blocking findings `NONE`.
 - [x] P0-006 Frontend/backend integration **CLOSED / Completed — Merged**; accepted implementation SHA `0f1e94db438869a980db8a1cb1e06956de2d8d3e`, merge `3207479e5cca73da3e7facbc7c482d2ce5eba2b9`; Google Antigravity (Advanced Agentic Coding) independent review `PASS`, AC-01…AC-17 `PASS`, findings `NONE`; Human accepted review and approved merge.
-- [ ] Chạy core pipeline end-to-end.
+- [x] P0-007 specification v0.1.0 at `f98cf600f47a6559175c10dc3498846a7ae4395b` received independent specification `PASS` (AC-01…AC-16, findings NONE, no Human decisions required); Human approved implementation. Test/harness implementation on feature branch `2638c620a36e6fb4016ed2efaeb788446a5b2eff` is ready for independent **implementation** review, not merged or closed.
+- [x] Chạy core pipeline end-to-end **offline/synthetic** cho PDF/DOCX: APP-003 backend regression và P0-007 browser validation evidence; không phải live-provider hoặc production run.
 - [ ] Evaluation, stabilization, deployment và handover.
 
 Các ô `[x]` chỉ xác nhận bằng chứng được nêu ngay trên từng dòng; không suy rộng thành Human/Gemini approval cho các artefact hoặc phase khác.
@@ -140,8 +143,8 @@ Các deliverable Draft đã tạo, có bằng chứng file:
 | SPEC-001 | System Specification 0.3.5 | Approved baseline; AI-RUNTIME-002 merge evidence đồng bộ đến 22/09/2026 | Approved baseline |
 | SPEC-002 | Project Context 0.3.5 | Approved baseline; AI-RUNTIME-002 merge evidence đồng bộ đến 22/09/2026 | Approved baseline |
 | SPEC-003 | AI Collaboration Rules 0.2.0 | Gemini 3.1 Pro High review + Human decisions ngày 20/09/2026 | Approved baseline |
-| SPEC-004 | Project Control Center source 0.3.15 | File hiện tại | Active; Google Doc sync pending confirmation |
-| REVIEW-001 | Gemini Review Log source 0.3.7 | `REV-P0-006-IMPLEMENTATION`, APP-003 merge-evidence addendum và prior task reviews có bằng chứng | Active log; P0-006 review CLOSED |
+| SPEC-004 | Project Control Center source 0.3.17 | File hiện tại | Active; Google Doc sync pending confirmation |
+| REVIEW-001 | Gemini Review Log source 0.3.8 | `REV-P0-007-SPECIFICATION` CLOSED; implementation review still pending; prior review history preserved | Active log |
 | AI-001 | Output Schema v1.0.0 | PR [#1](https://github.com/nshaokiet/ai-ip-description-generator/pull/1), merge commit `49efead593437dfc5c88397ea6f335a2d4ff84d7`, 19/09/2026; Gemini review PASS; 15/15 tests pass; không có finding | Completed — Merged via PR #1 |
 | AI-002 | Extraction Prompt v1.0.0 | PR [#3](https://github.com/nshaokiet/ai-ip-description-generator/pull/3), merge commit `8f2b7082881961cc1a2cf7fa56ece81976759c7f`, 19/09/2026; implementation `f8772b228a23bf7cdec10fa0c463e6d1f672c341`; governance `9f2a78b1396cdadb747c263a2bbbbacb8d7f4292`; Gemini review PASS; AI-001 15/15 và AI-002 17/17 tests pass; không có finding | Completed — Merged via PR #3 |
 | AI-003 | Patent Draft Generation Contract v1.0.0 | PR [#5](https://github.com/nshaokiet/ai-ip-description-generator/pull/5), implementation `ae7e8fb573ea4681a9db1bafa711d19a3c598666`, merge commit `fb522bc5ecbb5ad66bab6226fa88ae51020cef52`, 20/09/2026; Gemini reviews PASS; 57/57 tests pass; không có finding hoặc required change | Completed — Merged via PR #5 |
@@ -161,12 +164,13 @@ APP-002 capability boundary: `Validated PDF/DOCX → deterministic text/table pa
 | Task ID | Công việc | Owner | Reviewer | Status | Evidence/Blocker |
 |---|---|---|---|---|---|
 | SPEC-004 | Đồng bộ Project Control Center sang Google Docs | Human / Product Owner | ChatGPT/Codex | `[CẦN XÁC NHẬN TRẠNG THÁI]` | Chưa có bằng chứng Google Doc/link |
+| P0-007 | Independent implementation review of synthetic/offline MVP validation | Codex handoff | Antigravity Reviewer Agent; actual review model/profile to be recorded after review | READY FOR INDEPENDENT IMPLEMENTATION REVIEW | Implementation code `2638c620a36e6fb4016ed2efaeb788446a5b2eff`; 16 AC self-check PASS; not merged/closed; BLK-003 OPEN |
 
 ## 10. Next Tasks
 
 | Task ID | Task | Owner | Reviewer | Priority | Status | Dependency | Target date |
 |---|---|---|---|---|---|---|---|
-| GOV-P0-006-01 | Human merge of APP-003 governance reconciliation branch | Human / Product Owner | Human / Product Owner | High | RESOLVED in branch `docs/app-003-governance-reconciliation`; awaiting Human merge | APP-003 implementation and merge evidence verified | 27/09/2026 |
+| P0-007 | MVP End-to-End Validation & Stabilization independent implementation review | Codex | Antigravity Reviewer Agent; actual implementation-review profile pending | High | READY FOR INDEPENDENT IMPLEMENTATION REVIEW; implementation not merged/closed | Approved spec v0.1.0 `f98cf600`; implementation `2638c620`; BLK-003 OPEN | Before 02/10/2026; Human decides later merge/release gate |
 
 Mọi target date cụ thể cần được xếp trước deadline chung 02/10/2026 và do Human xác nhận.
 
@@ -207,8 +211,8 @@ ADR-001 đến ADR-010 đã được Human phê duyệt trong phạm vi từng d
 | SPEC-001 | System Specification | ChatGPT/Codex | Gemini Pro + Human | Approved baseline | `docs/system-specification.md` 0.3.5; REV-001 CLOSED |
 | SPEC-002 | Project Context | ChatGPT/Codex | Gemini Pro + Human | Approved baseline | `PROJECT_CONTEXT.md` 0.3.5; REV-003 CLOSED |
 | SPEC-003 | AGENTS.md | ChatGPT/Codex | Gemini Pro + Human | Approved baseline | `AGENTS.md` 0.2.0; REV-002 CLOSED |
-| SPEC-004 | Control Center source | ChatGPT/Codex | Human | Active | File hiện tại 0.3.15 |
-| REVIEW-001 | Review Log | ChatGPT/Codex | Independent reviewers + Human | Active | `02_GEMINI_REVIEW_LOG.md` 0.3.7; REV-P0-006-IMPLEMENTATION CLOSED; APP-003 implementation merge evidence appended |
+| SPEC-004 | Control Center source | ChatGPT/Codex | Human | Active | File hiện tại 0.3.17 |
+| REVIEW-001 | Review Log | ChatGPT/Codex | Independent reviewers + Human | Active | `02_GEMINI_REVIEW_LOG.md` 0.3.8; REV-P0-007-SPECIFICATION CLOSED; independent implementation review pending |
 | APP-001 | FastAPI Backend Skeleton and Secure Document Upload | ChatGPT/Codex | Gemini 3.1 Pro High + Human | Completed — Merged via PR #10 | Implementation head `bd39b9f7bdd9f7a1796d9a405e7998070e124e07`; merge `0df4814ff1eb8cd576566ac3dd403131feca3759`; 109/109 tests pass |
 | APP-002 | Document Parsing & Evidence Source Units | ChatGPT/Codex | Gemini 3.1 Pro High + Human | Completed — Merged via PR #12 | Initial `477b8fda6afbae0049d8d691c213dc6355ba67da`; remediation `8b6f909a0f5787d72c002e163395656a666c9b78`; merge `4a001d116cbf002bdd42a9151efbf3f308fce3e6`; 30/30 AC; final Gemini PASS; 135 executed, 134 pass, 1 skip |
 | AI-RUNTIME-001 | OpenAI Responses API + Structured Outputs Extraction Runtime | ChatGPT/Codex | Gemini 3.1 Pro High + Human | Completed — Merged via PR #14 | Initial `e430584a0cc31d0ccc821eb2d21ad7a14548329a`; remediation `5247cbcbe591d8b29917d9982b9066e393901c7e`; merge `597f6c7b074eb2c5e445790b8c4f48f336f04da5`; 32/32 AC; 201 executed, 200 pass, 1 skip; live smoke not run |
@@ -216,6 +220,7 @@ ADR-001 đến ADR-010 đã được Human phê duyệt trong phạm vi từng d
 | APP-003 | Core Pipeline Orchestration & Offline E2E Harness | Codex implementation; specification owner ChatGPT/Codex | Specification: Gemini 3.1 Pro High + Human; implementation: Antigravity per merge message, exact underlying model/profile not evidenced | Completed — Merged | Specification v1.2.0 merge `bfbcdc760916f497b603bcd49ce0150d6819d337`; implementation `3e7c2910695eed9e5ef1d7d0ff11f8f0e3ac6c38`; implementation merge `b5a47f6030441b438e7e1745b75b05d8b345d6c0`; merge message: 32/32 AC, independent Antigravity PASS; BLK-003 OPEN |
 | P0-005 | Frontend MVP | Codex | Independent review `ACCEPT`; exact reviewer profile not supplied in closeout instruction | CLOSED | Final accepted SHA `43907213f14c8c55294f55af34afcc0cbcc9dc66`; release-blocking findings `NONE` |
 | P0-006 | Frontend/backend integration | Codex | Google Antigravity (Advanced Agentic Coding); underlying Gemini model/profile not evidenced | CLOSED / Completed — Merged | Accepted implementation `0f1e94db438869a980db8a1cb1e06956de2d8d3e`; merge `3207479e5cca73da3e7facbc7c482d2ce5eba2b9`; independent PASS, AC-01…AC-17 PASS, findings NONE; targeted backend 17 pass, frontend lint/build PASS, Playwright 6 pass; Human accepted/approved merge; BLK-003 remains OPEN; GOV-P0-006-01 resolved separately |
+| P0-007 | MVP End-to-End Validation & Stabilization | Codex | Specification: Google Antigravity (Advanced Agentic Coding), underlying model not evidenced; implementation: independent reviewer pending | READY FOR INDEPENDENT IMPLEMENTATION REVIEW | Approved spec v0.1.0 `f98cf600f47a6559175c10dc3498846a7ae4395b`; implementation code `2638c620a36e6fb4016ed2efaeb788446a5b2eff`; self-check AC-01…AC-16 PASS; backend 380 passed/3 skipped (before final browser-test-only edit), lint/build PASS, Playwright 11 passed; synthetic/offline only; BLK-003 OPEN |
 | AI-001 | Output Schema v1.0.0 | ChatGPT/Codex | Gemini 3.1 Pro | Completed — Merged via PR #1 | Merge commit `49efead593437dfc5c88397ea6f335a2d4ff84d7`; Gemini review PASS; 15/15 tests pass; không có finding |
 | AI-002 | Extraction Prompt v1.0.0 | ChatGPT/Codex | Gemini 3.1 Pro High | Completed — Merged via PR #3 | Merge commit `8f2b7082881961cc1a2cf7fa56ece81976759c7f`; implementation `f8772b228a23bf7cdec10fa0c463e6d1f672c341`; governance `9f2a78b1396cdadb747c263a2bbbbacb8d7f4292`; 15/15 regression và 17/17 AI-002 tests pass |
 | AI-003 | Patent Draft Generation Contract v1.0.0 | ChatGPT/Codex | Gemini 3.1 Pro High | Completed — Merged via PR #5 | Implementation `ae7e8fb573ea4681a9db1bafa711d19a3c598666`; merge `fb522bc5ecbb5ad66bab6226fa88ae51020cef52`; 57/57 tests pass |
@@ -223,7 +228,7 @@ ADR-001 đến ADR-010 đã được Human phê duyệt trong phạm vi từng d
 
 ## 14. ChatGPT/Codex Handoffs
 
-The P0-006 closeout handoff below is a historical record from before this governance reconciliation; its `GOV-P0-006-01 OPEN` statement was true at that time and is superseded by the current APP-003 handoff after it.
+The current P0-007 implementation handoff and AC map are in section 15 of `docs/tasks/P0-007-mvp-e2e-validation-stabilization.md`; section 14 is the historical pre-review specification handoff. The P0-006 and APP-003 handoffs below are historical records; their then-current next actions are superseded. The P0-006 `GOV-P0-006-01 OPEN` statement was true at that closeout, before the separate reconciliation.
 
 ```text
 Task ID: P0-006
@@ -241,7 +246,7 @@ Security impact: No new production/real-data authorization; local synthetic-only
 Recommended next action: HUMAN MERGE CLOSEOUT branch docs/p0-006-post-merge-closeout.
 ```
 
-Current APP-003 governance handoff:
+Historical APP-003 governance handoff (completed before the P0-007 specification):
 
 ```text
 Task ID: GOV-P0-006-01 / APP-003
@@ -344,6 +349,8 @@ Recommended next action: Post-merge governance closeout; await Human assignment 
 | 27/09/2026 | P0-006 implementation and documentation handoff | Specification v0.2.0, evidence revision 0.2.1; Control Center 0.3.13 | Ghi targeted specification PASS, Human implementation approval, code/test SHA và offline regressions; chờ independent implementation review | Codex | P0-006, DEC-009; `8af6e499f22ecace4181f9422de525176c39aaf7` |
 | 27/09/2026 | P0-006 post-merge governance closeout | Specification v0.2.0, evidence revision 0.2.2; Control Center 0.3.14; Review Log 0.3.6; Project Context 0.4.1 | Ghi independent review PASS, Human acceptance, implementation merge và CLOSED / Completed; không đổi code/test | Codex | P0-006, REV-P0-006-IMPLEMENTATION, DEC-010; merge `3207479e5cca73da3e7facbc7c482d2ce5eba2b9` |
 | 27/09/2026 | APP-003 governance reconciliation | APP-003 specification v1.2.0, evidence revision 1.2.1; Control Center 0.3.15; Review Log 0.3.7; Project Context 0.4.2 | Sửa APP-003 implementation status theo Git merge; đóng GOV-P0-006-01; giữ BLK-003 OPEN và technical requirements nguyên trạng | Codex | APP-003, GOV-P0-006-01; implementation `3e7c2910695eed9e5ef1d7d0ff11f8f0e3ac6c38`, merge `b5a47f6030441b438e7e1745b75b05d8b345d6c0` |
+| 27/09/2026 | `docs/tasks/P0-007-mvp-e2e-validation-stabilization.md` | Specification 0.1.0; Control Center 0.3.16; Project Context 0.4.3 | Define next synthetic/offline E2E validation task, reuse existing tests and identify only meaningful integration gaps; await independent specification review | Codex | P0-007; baseline `403deba9d33d1cc20c3d231bc08fa473420505ed`; BLK-003 OPEN |
+| 27/09/2026 | P0-007 synthetic/offline implementation handoff | Specification v0.1.0, evidence addendum 0.1.1; Control Center 0.3.17; Review Log 0.3.8; Project Context 0.4.4 | Record spec review PASS/Human implementation approval, test-only changes, backend/frontend/browser/stability results and 16 AC self-checks; await independent implementation review | Codex | P0-007; code `2638c620a36e6fb4016ed2efaeb788446a5b2eff`; BLK-003 OPEN |
 
 ## 17. Prompt and Schema Versions
 
@@ -401,6 +408,8 @@ Recommended next action: Post-merge governance closeout; await Human assignment 
 | REV-APP-003 | `docs/tasks/APP-003-core-pipeline-orchestration.md` | 1.2.0 | Gemini 3.1 Pro High + Human | CLOSED — initial REQUEST CHANGES; remediation completed; independent re-review PASS; final hardening completed; targeted re-review PASS; Human approved Specification v1.2.0; merged via PR #18 | No |
 | APP-003-IMPLEMENTATION-EVIDENCE | Core pipeline implementation merge message; not a new primary review record | Implementation `3e7c2910695eed9e5ef1d7d0ff11f8f0e3ac6c38`; merge `b5a47f6030441b438e7e1745b75b05d8b345d6c0` | Antigravity per merge message; exact underlying model/profile not evidenced | Merge message reports 32/32 AC verified and independent review PASS; primary review report not evidenced | No |
 | REV-P0-006-IMPLEMENTATION | Frontend/backend integration implementation on `feat/p0-006-frontend-backend-integration` | Reviewed `0f1e94db438869a980db8a1cb1e06956de2d8d3e`; resolved by merge `3207479e5cca73da3e7facbc7c482d2ce5eba2b9` | Google Antigravity (Advanced Agentic Coding); underlying Gemini model/profile not evidenced | CLOSED — PASS; AC-01…AC-17 PASS; findings NONE; Human accepted review and approved merge | No |
+| REV-P0-007-SPECIFICATION | P0-007 MVP E2E Validation & Stabilization specification | v0.1.0 at `f98cf600f47a6559175c10dc3498846a7ae4395b` | Google Antigravity (Advanced Agentic Coding); underlying model not evidenced | CLOSED — PASS; specification AC-01…AC-16 PASS; findings NONE; Human approved implementation | No |
+| REV-P0-007-IMPLEMENTATION | P0-007 synthetic/offline test/harness implementation | Code `2638c620a36e6fb4016ed2efaeb788446a5b2eff`; branch `feat/p0-007-mvp-e2e-validation-stabilization` | Antigravity Reviewer Agent; actual reviewer/profile pending | NOT STARTED — independent implementation review requested; no verdict claimed | Yes — review gate |
 
 ## 21. Recent Decisions
 
@@ -418,12 +427,13 @@ Human đã phê duyệt ADR-006 và Output Schema v1.0.0 cho AI-001, sau đó me
 | DEC-008 | Human / Product Owner phê duyệt HD-P0-006-01…07 cho P0-006 specification sau Gemini 3.8 Flash High review v0.1.0 `PASS WITH HUMAN DECISIONS REQUIRED`, findings `NONE` (27/09/2026) | Recorded historical gate; decision gate RESOLVED; later review/implementation approval recorded in DEC-009 |
 | DEC-009 | Gemini 3.8 Flash High targeted re-review P0-006 specification v0.2.0 at `5dfbbca9b66367a7930bd3892b8a0ea883781f31`: `PASS`, findings `NONE`; Human / Product Owner explicitly approved implementation (27/09/2026) | Recorded historical implementation gate; later independent review and Human merge approval recorded in DEC-010 |
 | DEC-010 | Human / Product Owner accepted Google Antigravity (Advanced Agentic Coding) P0-006 independent implementation review `PASS`, findings `NONE`, and approved merge of `0f1e94db438869a980db8a1cb1e06956de2d8d3e` into `main` | Recorded; merge `3207479e5cca73da3e7facbc7c482d2ce5eba2b9`; P0-006 CLOSED / Completed; BLK-003 OPEN; GOV-P0-006-01 was OPEN at that closeout and is now RESOLVED separately |
+| DEC-011 | Human / Product Owner approved P0-007 implementation after Google Antigravity (Advanced Agentic Coding) independent specification v0.1.0 `PASS`, AC-01…AC-16 `PASS`, findings `NONE`, Human decisions required `NONE` | Recorded; fixed specification `f98cf600f47a6559175c10dc3498846a7ae4395b`; implementation review and merge/release approvals are separate pending gates |
 
 ## 22. Next Recommended Action
 
-1. Human merge nhánh tài liệu `docs/app-003-governance-reconciliation` sau khi kiểm tra governance diff; không merge trong task này.
-2. BLK-003 vẫn OPEN và chặn production/real-data use; live provider validation chưa có bằng chứng.
-3. Không suy rộng APP-003 hoặc P0-006 Completed thành toàn bộ Phase 1, Phase 2 hoặc MVP `Completed` hay production/release approval.
+1. ANTIGRAVITY INDEPENDENT IMPLEMENTATION REVIEW for P0-007 at fixed code SHA `2638c620a36e6fb4016ed2efaeb788446a5b2eff`; record actual reviewer/profile, verdict and findings only after review.
+2. Human / Product Owner decides the later merge/release gate. P0-007 remains READY FOR INDEPENDENT IMPLEMENTATION REVIEW, not CLOSED or merged.
+3. BLK-003 remains OPEN and blocks production/real-data use; live provider validation has no evidence. Do not infer MVP or release completion from synthetic/offline tests.
 
 ## 23. Last Updated
 
