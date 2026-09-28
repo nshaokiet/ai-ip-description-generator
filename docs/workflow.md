@@ -13,7 +13,7 @@ Validation phải đối chiếu extension, declared MIME, signature/package và
 
 APP-001 chỉ dùng local ephemeral storage trong single-tenant synthetic development. Temporary bytes bị xóa ngay khi validation thất bại, sau downstream processing, hoặc muộn nhất sau 1 giờ. Không dùng dữ liệu nghiên cứu thật trước security acceptance.
 
-Trạng thái hiện hành: APP-001 `Completed — Merged via PR #10` ngày 20/09/2026. Backend đã triển khai `GET /health`, secure `POST /api/documents` và validation/cleanup tương ứng. APP-002 `Completed — Merged via PR #12` ngày 21/09/2026 và nối validated input với internal evidence preparation. AI-RUNTIME-001 internal extraction cũng đã hoàn tất qua PR #14 và AI-RUNTIME-002 internal draft generation runtime đã hoàn tất qua PR #16; frontend, public orchestration/analyze/draft endpoints, DOCX export API, database, authentication, production storage và deployment vẫn ngoài phạm vi đã hoàn thành.
+Trạng thái hiện hành: APP-001/002/003, AI-RUNTIME-001/002, P0-005 frontend, P0-006 local HTTP integration và P0-007 synthetic/offline E2E validation đã merge. Backend có `GET /health`, `POST /api/documents`; local metadata/process/draft-validation/DOCX-export routes chỉ được đăng ký khi `AI_IP_ENABLE_LOCAL_ORCHESTRATION_API=1`. Cờ này không phải authentication. Normal process dùng provider runtimes, còn `tests/e2e/offline_backend.py` inject fake runtimes cho kiểm thử synthetic. Production auth/storage/retention, public deployment và live-provider smoke chưa được phê duyệt/xác minh.
 
 ## 2. Document Analysis
 
@@ -25,7 +25,7 @@ Implementation `477b8fda6afbae0049d8d691c213dc6355ba67da`, remediation F-001/F-0
 
 AI-RUNTIME-001 nối envelope này với internal OpenAI Responses API extraction: canonical prompt ở instruction authority, serialized envelope là untrusted input, strict provider schema được dẫn xuất từ AI-001, rồi output đi qua nullable normalization, canonical Draft 2020-12 validation và deterministic grounding/business validation. Runtime dùng `gpt-5.6-sol`, reasoning high, `store=false`, không tools/retrieval và đã `Completed — Merged via PR #14` ngày 21/09/2026. Gemini implementation review là `PASS WITH NON-BLOCKING NOTES`; F-001 `MEDIUM` đã resolved và targeted remediation re-review `PASS`. AI-RUNTIME-001 live provider smoke chưa chạy; AI-RUNTIME-002 live provider smoke được ghi `NOT RUN — DEFERRED due to unavailable API funding` và vẫn là gate bắt buộc trước production deployment.
 
-Pipeline nội bộ hiện đạt `PDF/DOCX → validation → parsing → source units/evidence envelope → extraction runtime → canonical/grounding validation → validated analysis → draft runtime → validated Patent Description Draft JSON`. Public orchestration/analyze/draft endpoints, DOCX export API, frontend và E2E vẫn cần task/approval riêng.
+Pipeline nội bộ đạt `PDF/DOCX → validation → parsing → source units/evidence envelope → extraction runtime → canonical/grounding validation → validated analysis → draft runtime → validated Patent Description Draft JSON`. Local opt-in API nối upload/process/validation/export với frontend và synthetic E2E; đây không phải bộ endpoint production có auth hoặc xác nhận live-model/semantic quality.
 
 The system should extract, at minimum:
 

@@ -28,8 +28,15 @@ private-storage, and retention decisions are approved.
 Use Python 3.12 and install the exact approved pins:
 
 ```powershell
+py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r backend\requirements.txt
 ```
+
+Run these commands from the repository root in a fresh checkout. For test
+dependencies, also install `-r tests/requirements.txt`. See the
+[MVP handover runbook](../docs/operations/MVP_HANDOVER_RUNBOOK.md) for the
+isolated install and startup sequence. Python reads process environment;
+`.env.example` is guidance, not an automatically loaded dotenv file.
 
 ## Run locally
 
@@ -42,6 +49,11 @@ Run from the repository root. The development server binds to localhost explicit
 The optional `AI_IP_UPLOAD_ROOT` environment variable may point to an ephemeral
 directory outside the repository. If omitted, the operating-system temporary
 directory is used. Never point it at a source-controlled path.
+The normal app defaults to health/upload only. With the local orchestration flag
+enabled, `/process` uses actual provider runtimes and needs a backend-only
+`OPENAI_API_KEY` to complete; no key is needed for health/upload. Do not invoke
+provider processing as part of the local/synthetic handover. Stop the server
+with Ctrl+C; do not terminate an unidentified process.
 
 ## Endpoints
 
@@ -72,6 +84,11 @@ A downstream caller must use `DocumentStorage.lease(document_id)` while reading 
 `DocumentStorage.delete(document_id)` immediately after completion. Startup and
 request-time sweeps retry removal of files whose receipt time is at least one hour old.
 Cleanup is best effort on operating systems that temporarily retain open handles.
+Export files also use an OS-temp root and best-effort response cleanup. A forced
+shutdown may leave residual temporary files; no production retention/deletion
+guarantee is established. The full offline workflow instead starts
+`tests/e2e/offline_backend.py` through Playwright with injected fake runtimes;
+it still exercises real FastAPI upload/parsing/validation/DOCX rendering.
 
 PDF acceptance is deterministic: every page is inspected, mixed text/image PDFs are
 accepted when at least one page has non-whitespace extractable text, blank pages are

@@ -2,7 +2,9 @@
 
 This directory contains the P0-005 local frontend MVP extended by P0-006 with
 single-session draft editing, immutable revisions, section review records,
-backend validation, and export of the selected validated revision.
+backend validation, and export of the selected validated revision. P0-007
+validated the integrated synthetic/offline browser flow; it did not validate
+live-provider quality or approve production use.
 
 The generated content is an AI-assisted draft for Human review. It is not legal
 advice and is not filing-ready.
@@ -18,8 +20,8 @@ advice and is not filing-ready.
 
 ## Local prerequisites
 
-- Node.js 24 or another version supported by the locked Next.js release
-- npm 11
+- Historically verified: Node.js 24.18.0 / npm 11.16.0. The repository does
+  not enforce an exact Node/npm pin; other versions need separate verification.
 - The repository Python 3.12 environment and FastAPI backend dependencies
 - A local backend configured for the approved single-tenant orchestration API
 
@@ -32,11 +34,12 @@ been approved.
 From `frontend/`:
 
 ```powershell
-npm install
+npm ci
 ```
 
-The committed `package-lock.json` is the dependency source of truth. Subsequent
-clean installs can use `npm ci`.
+The committed `package-lock.json` is the dependency source of truth for clean
+installs. See the [MVP handover runbook](../docs/operations/MVP_HANDOVER_RUNBOOK.md)
+for fresh setup, startup checks and the synthetic E2E command.
 
 ## Backend expectation
 
@@ -69,6 +72,10 @@ npm run dev
 
 Open `http://localhost:3000`. The normal workflow consumes actual backend
 responses; no analysis or draft fixture is embedded in production UI code.
+Start the normal backend first on loopback port 8000. Normal processing is
+provider-dependent when local orchestration is enabled; use Playwright's
+offline harness for a no-provider full-flow demonstration. Stop both terminals
+with Ctrl+C before E2E so its owned ports 8000/3106 are available.
 
 ## Quality checks and production build
 

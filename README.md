@@ -2,7 +2,7 @@
 
 Nền tảng AI hỗ trợ chuyển bài báo nghiên cứu khoa học thành dữ liệu sáng chế có cấu trúc và bản dự thảo patent specification để con người rà soát.
 
-> **Trạng thái hiện tại:** APP-001, APP-002, AI-RUNTIME-001 và AI-RUNTIME-002 đã hoàn tất; AI-RUNTIME-001 và AI-RUNTIME-002 là internal OpenAI Responses API extraction & draft runtimes đã merge qua PR #14 và PR #16. Runtimes dùng `gpt-5.6-sol`, reasoning high, `store=false`, strict provider schema, canonical post-validation và grounding/business validation. Live provider smoke ghi nhận `NOT RUN — DEFERRED due to unavailable API funding`; không có public analyze/draft endpoint và không được dùng dữ liệu nghiên cứu thật khi BLK-003 còn mở. Toàn bộ Phase 1, Phase 2, core pipeline end-to-end và MVP chưa được tuyên bố hoàn tất.
+> **Trạng thái hiện tại:** APP-003 core pipeline, P0-005 frontend, P0-006 local integration và P0-007 synthetic/offline E2E validation đã merge; P0-007 đã CLOSED tại `8142692c6e92670b4b09996d733f93c409e93e49`. P0-008 đang chuẩn bị handover local/synthetic, chưa được independent implementation review hoặc Human chấp nhận. Normal processing dùng provider runtimes; chỉ E2E harness mới inject fake runtimes để chạy offline. Live-provider smoke **UNVALIDATED / DEFERRED**; BLK-003 **OPEN**. Không có phê duyệt production, public deployment hoặc dữ liệu nghiên cứu thật/bảo mật.
 >
 > **Deadline MVP:** bàn giao chính thức 02/10/2026; mục tiêu hoàn thành nội bộ 30/09/2026, ngày 01–02/10 dành cho buffer/test/handover.
 
@@ -145,8 +145,8 @@ Supabase/PostgreSQL chỉ thuộc MVP+ hoặc được sử dụng khi Human ph�
 | Retrieval | OpenAI File Search nếu cần và được phê duyệt |
 | Database | Supabase/PostgreSQL — optional/MVP+ |
 | Document generation | `docxtpl` |
-| Frontend deployment | Vercel |
-| Backend deployment | Railway |
+| Frontend deployment (proposed, unapproved) | Vercel — not deployed |
+| Backend deployment (proposed, unapproved) | Railway — not deployed |
 | Version control | GitHub |
 
 Không tự ý thêm framework, dịch vụ hoặc dependency khi chưa giải thích và được Human phê duyệt.
@@ -216,11 +216,8 @@ Project Orchestrator MCP
 
 - [x] Repository Private đã được khởi tạo.
 - [x] Cấu trúc `frontend`, `backend`, `prompts`, `templates`, `tests` và `.github`.
-- [x] SPEC-001 System Specification 0.3.5 — Approved baseline; AI-RUNTIME-002 post-merge state đã đồng bộ.
-- [x] SPEC-002 Project Context 0.3.5 — Approved baseline; AI-RUNTIME-002 post-merge state đã đồng bộ.
-- [x] SPEC-003 AGENTS.md 0.2.0 — Approved baseline.
-- [x] Project Control Center 0.3.5 và Gemini Review Log 0.3.4.
-- [x] Gemini Review Log 0.3.4 với `REV-AI-RUNTIME-002` và các review task có bằng chứng đều `CLOSED`.
+- [x] SPEC-001 System Specification 0.3.7; SPEC-002 Project Context 0.4.7; SPEC-003 AGENTS.md 0.3.1 — approved technical/governance baselines with factual status updates.
+- [x] Project Control Center 0.3.20 và Gemini Review Log 0.3.9 tại P0-008 implementation handoff; historical reviews remain intact.
 - [x] ADR-001…ADR-005 — Accepted theo Human decisions ngày 20/09/2026.
 - [x] Output Schema v1.0.0, fixtures và automated validation tests — Completed — Merged via PR #1; Gemini review `PASS`, 15/15 tests pass, không có finding.
 - [x] Extraction Prompt v1.0.0, ADR-007 và synthetic offline tests — Completed — Merged via PR #3; Gemini review `PASS`, AI-001 regression 15/15 và AI-002 tests 17/17 pass, không có finding; chưa tích hợp model/API thật.
@@ -230,15 +227,15 @@ Project Orchestrator MCP
 - [x] APP-002 document parsing và evidence source units — Completed — Merged via PR #12; initial `477b8fda6afbae0049d8d691c213dc6355ba67da`, remediation `8b6f909a0f5787d72c002e163395656a666c9b78`, merge `4a001d116cbf002bdd42a9151efbf3f308fce3e6`; initial Gemini `REQUEST CHANGES`, F-001/F-002 `RESOLVED`, final `PASS`; 30/30 AC; 135 executed, 134 pass, 1 Windows skip, 0 failure/error.
 - [x] AI-RUNTIME-001 — Completed — Merged via PR #14 tại `597f6c7b074eb2c5e445790b8c4f48f336f04da5`; implementation review `PASS WITH NON-BLOCKING NOTES`, F-001 `MEDIUM` resolved tại `5247cbcbe591d8b29917d9982b9066e393901c7e`, targeted remediation `PASS`, 32/32 AC và 201 executed / 200 pass / 1 skip.
 - [x] AI-RUNTIME-002 — Completed — Merged via PR #16 tại `978516a4f5caa90bbd2189668237c6e028597361` (implementation head `a59ce0219d7039f24fa8c7bd71d4e9829dbbf612`); independent final review APPROVED, backend suite 240 pass (2 skip, 1 warning), tests/draft 25 pass; live provider smoke deferred.
+- [x] APP-003 core pipeline, P0-005 frontend MVP, P0-006 local integration và P0-007 synthetic/offline E2E validation đã merge. P0-007 closeout ở `8142692c6e92670b4b09996d733f93c409e93e49`.
 
 ### Chưa hoàn thành
 
-- [ ] Next.js application.
-- [ ] Core pipeline end-to-end.
 - [ ] AI evaluation và golden set.
-- [ ] Deployment Vercel/Railway.
+- [ ] Live-provider smoke; production auth/private storage/retention (BLK-003); public deployment.
+- [ ] P0-008 independent implementation review và Human handover acceptance.
 
-Không đánh dấu application đã hoạt động khi mới chỉ có folder/README placeholder.
+Local E2E được kiểm chứng bằng fake runtimes và synthetic fixtures; đây không phải xác nhận chất lượng AI trên paper thật.
 
 ## 12. Bảo mật và dữ liệu
 
@@ -255,10 +252,10 @@ Không đánh dấu application đã hoạt động khi mới chỉ có folder/R
 | Phase  | Nội dung | Trạng thái |
 |---|---|---|
 | Phase 1  | Specification & Architecture | SPEC-001/002/003 approved baseline; chưa có tuyên bố Human hoàn tất toàn bộ phase |
-| Phase 2  | Core pipeline | APP-001, APP-002, AI-RUNTIME-001 và AI-RUNTIME-002 đã merge; đặc tả APP-003 core pipeline orchestration v1.2.0 đã được Human phê duyệt và merge qua PR #18 (Specification — Approved & Merged); APP-003 Implementation — NOT STARTED (Deferred until 26/09/2026 cho Codex thực hiện); chưa có public orchestration, DOCX integration endpoint, frontend hoặc end-to-end completion |
+| Phase 2  | Core pipeline | APP-001/002/003 và AI-RUNTIME-001/002 đã merge; local orchestration API khi bật cờ, chưa có production auth/storage |
 | Phase 3  | Draft generation & DOCX | AI-003 Completed — Merged via PR #5; DOC-001 Completed — Merged via PR #7 |
-| Phase 4  | Evaluation & stabilization | Chưa bắt đầu |
-| Phase 5  | Deployment & handover | Chưa bắt đầu |
+| Phase 4  | Evaluation & stabilization | P0-007 synthetic/offline stabilization đã merge; semantic evaluation/golden set là EVAL-001 tương lai |
+| Phase 5  | Deployment & handover | P0-008 local/synthetic handover đang triển khai; deployment chưa được phê duyệt |
 | Post-MVP  | Tính năng mở rộng được phê duyệt riêng | Chưa xác định |
 
 ## 14. Các quyết định cần Human xác nhận
@@ -271,11 +268,21 @@ Không đánh dấu application đã hoạt động khi mới chỉ có folder/R
 
 Danh sách chi tiết nằm trong [`docs/system-specification.md`](docs/system-specification.md).
 
-## 15. Bắt đầu phát triển
+## 15. Local quickstart / Bắt đầu cục bộ
 
-Repository hiện có APP-001 secure upload, APP-002 deterministic evidence preparation, AI-RUNTIME-001 internal extraction runtime và AI-RUNTIME-002 internal draft generation runtime. Phạm vi triển khai đạt `PDF/DOCX → validation → parsing → source units/evidence envelope → extraction Structured Output → canonical/grounding validation → validated analysis → draft envelope → draft Structured Output → canonical/business validation → validated Patent Description Draft JSON`. Public surface vẫn chỉ gồm `GET /health` và `POST /api/documents`; runtimes chưa được nối vào public endpoint.
+Run from repository root on Windows PowerShell with Python 3.12 and a Node/npm version compatible with the lockfile (P0-007 verified Node 24.18.0/npm 11.16.0; no exact Node pin is enforced):
 
-AI-RUNTIME-002 đã `Completed — Merged via PR #16`. Đặc tả kỹ thuật APP-003 core pipeline orchestration và offline E2E harness v1.2.0 đã được Human / Product Owner phê duyệt và merge qua PR #18 tại [`docs/tasks/APP-003-core-pipeline-orchestration.md`](docs/tasks/APP-003-core-pipeline-orchestration.md) (Specification — Approved & Merged). Triển khai kỹ thuật (Implementation) chưa bắt đầu và được hoãn đến 26/09/2026 cho Codex thực hiện sau khi quota reset. Live provider smoke ghi nhận `NOT RUN — DEFERRED due to unavailable API funding`, BLK-003 vẫn mở và core E2E chưa hoàn tất. Không tự động triển khai public orchestration, DOCX integration endpoint, frontend, database/auth, production storage hoặc deployment.
+```powershell
+py -3.12 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r backend/requirements.txt -r tests/requirements.txt
+cd frontend
+npm ci
+cd ..
+```
+
+Start normal backend (`.\.venv\Scripts\python.exe -m uvicorn backend.app.main:app --host 127.0.0.1 --port 8000`) from root, then `cd frontend; npm run dev` in a second terminal. Check `http://127.0.0.1:8000/health`, `http://localhost:3000` and `http://localhost:3000/backend/health`. Stop each controlled process with Ctrl+C. The normal process does **not** provide an offline full-processing demo; enabling local orchestration makes processing provider-dependent. Do not set a provider key for this local/synthetic handover.
+
+For the full synthetic flow, use the isolated offline E2E harness and commands in the [authoritative MVP handover runbook](docs/operations/MVP_HANDOVER_RUNBOOK.md). It covers browser/DOCX smoke, tests, configuration, temporary-data limitations and evidence. Claims, OCR, prior-art search and patentability scoring remain outside MVP; outputs require Human/SHTT specialist review. P0-009 offline CI, EVAL-001 semantic evaluation, SEC-001 production security/BLK-003 and later UX hardening are separate work.
 
 ## 16. License
 

@@ -8,13 +8,13 @@
 |---|---|
 | Document ID | SPEC-001 |
 | Document title | Đặc tả hệ thống — AI Intellectual Property Description Generator |
-| Version | 0.3.6 |
+| Version | 0.3.7 |
 | Status | Approved baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT |
 | Reviewer | Human / Product Owner |
 | Created date | 18/09/2026 |
-| Last updated | 26/09/2026 |
+| Last updated | 28/09/2026 |
 | Related task ID | SPEC-001 |
 | Source of Truth | GitHub — `docs/system-specification.md` |
 | Confidentiality level | Internal; tài liệu nghiên cứu đầu vào phải được xử lý như Confidential |
@@ -41,6 +41,7 @@
 | 0.3.3 | 0.3.4 | 21/09/2026 | ChatGPT/Codex | Ghi AI-RUNTIME-001 Completed sau F-001 remediation, targeted PASS và Human merge PR #14 | Post-merge governance closeout; không đổi technical specification | AI-RUNTIME-001, REV-AI-RUNTIME-001, PR #14, merge commit `597f6c7b074eb2c5e445790b8c4f48f336f04da5` | No |
 | 0.3.4 | 0.3.5 | 22/09/2026 | Gemini 3.8 Flash High | Ghi AI-RUNTIME-002 Completed sau remediation, independent review APPROVED và Human merge PR #16 | Post-merge governance closeout; không đổi technical specification | AI-RUNTIME-002, REV-AI-RUNTIME-002, PR #16, merge commit `978516a4f5caa90bbd2189668237c6e028597361` | No |
 | 0.3.5 | 0.3.6 | 26/09/2026 | ChatGPT | Cập nhật stakeholder/agent operating model: tách ChatGPT, Codex, Antigravity reviewer và Project Orchestrator MCP; loại NotebookLM khỏi current workflow | Đồng bộ Human decision và tooling hiện hành | Human decision 26/09/2026 | No |
+| 0.3.6 | 0.3.7 | 28/09/2026 | Codex | Sửa factual implementation status cho local API/frontend/E2E, tách khỏi proposed production API; giữ technical requirements | P0-008 current-state reconciliation | P0-006/P0-007 merges; BLK-003 OPEN | No |
 
 ## 3. Tổng quan
 
@@ -317,7 +318,7 @@ Luồng kiến trúc định hướng:
 10. **Human review:** chỉnh sửa, xác nhận hoặc yêu cầu làm lại.
 11. **Export:** render version đã chọn và lưu audit event.
 
-Trạng thái triển khai hiện hành đạt `PDF/DOCX → APP-001 validation → APP-002 parsing/evidence envelope → AI-RUNTIME-001 OpenAI Structured Output → nullable normalization → canonical/grounding validation → validated Structured Invention Analysis → deterministic AI-003 Draft Input Envelope → AI-RUNTIME-002 OpenAI Structured Output → normalization → canonical Patent Draft validation → deterministic business/grounding validation → validated Patent Description Draft JSON`. AI-RUNTIME-001 và AI-RUNTIME-002 là internal services `Completed — Merged via PR #14` và `PR #16`; live provider smoke ghi nhận `NOT RUN — DEFERRED due to unavailable API funding`. Public analyze/draft endpoints/orchestration, DOCX export API, frontend và end-to-end workflow chưa được triển khai.
+Trạng thái triển khai hiện hành đạt `PDF/DOCX → APP-001 validation → APP-002 parsing/evidence envelope → AI-RUNTIME-001 extraction → canonical/grounding validation → validated Structured Invention Analysis → AI-003 Draft Input Envelope → AI-RUNTIME-002 draft → canonical/business validation → validated Patent Description Draft JSON`. APP-003 orchestration, P0-005 frontend, P0-006 local HTTP integration và P0-007 synthetic/offline E2E đã merge. Local metadata/process/draft-validation/DOCX-export routes chỉ bật bằng `AI_IP_ENABLE_LOCAL_ORCHESTRATION_API=1`; normal process path dùng provider runtimes, E2E harness inject fake runtimes. Đây không phải public production API/auth, live-provider validation hay chứng minh semantic quality. Live-provider smoke vẫn `UNVALIDATED / DEFERRED`; BLK-003 OPEN.
 
 AI-RUNTIME-001 dùng OpenAI Responses API, `gpt-5.6-sol`, reasoning `high`, `openai==3.16.2`, `store=false`, timeout mặc định 180 giây, SDK retries 2 và `max_output_tokens=48000`. AI-RUNTIME-002 dùng OpenAI Responses API, `gpt-5.6-sol`, reasoning `high`, `openai==3.16.2`, `store=false`, timeout mặc định 240 giây, SDK retries 2 và `max_output_tokens=64000`. Canonical schemas không đổi; provider schemas được sinh deterministically và canonical/business post-validation là authority cuối cùng. Runtimes không có tools, retrieval, conversation, background mode hoặc repair model call.
 
@@ -364,7 +365,7 @@ DOC-001 triển khai `templates/patent-docx/v1.0.0/patent-description-template.d
 
 ## 21. API dự kiến
 
-`GET /health` và local single-tenant `POST /api/documents` đã được triển khai và merge qua PR #10. APP-002, AI-RUNTIME-001 và AI-RUNTIME-002 chỉ thêm internal services; không có public parsing/analyze/draft endpoint. Các endpoint còn lại trong bảng vẫn là contract đề xuất, chưa được khẳng định đã triển khai; authentication/authorization production vẫn `[CẦN XÁC NHẬN]`.
+`GET /health` và local single-tenant `POST /api/documents` đã merge qua PR #10. APP-003/P0-006 thêm local opt-in `GET /api/documents/{id}`, `POST /api/documents/{id}/process`, `POST /api/drafts/validate`, `POST /api/exports/docx`; chúng không phải production-authenticated endpoints. Bảng sau vẫn là **proposed production contract**, không được đọc như inventory local routes hoặc bằng chứng auth/authorization; authentication/authorization production vẫn `[CẦN XÁC NHẬN]` và BLK-003 OPEN.
 
 | Endpoint | Mục đích | Input | Output | Authentication | Error responses | Idempotency |
 |---|---|---|---|---|---|---|

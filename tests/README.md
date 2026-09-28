@@ -20,9 +20,8 @@ jsonschema==4.26.0
 Setup và chạy test trên Windows PowerShell:
 
 ```powershell
-git check-ignore -v .venv/
-& "C:\Users\NguyenSongHaoKiet\AppData\Local\Programs\Python\Python312\python.exe" -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r tests/requirements.txt
+py -3.12 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r backend/requirements.txt -r tests/requirements.txt
 .\.venv\Scripts\python.exe -m unittest discover -s tests/schema -p "test_*.py" -v
 ```
 
@@ -30,15 +29,19 @@ Test AI-001 kiểm tra schema Draft 2020-12, hai fixture hợp lệ, nguyên nh�
 
 Fixtures là dữ liệu synthetic. Không đưa paper nghiên cứu, PII, secret hoặc output nhạy cảm vào test repository.
 
-## Planned future categories
+## Current test categories and handover matrix
 
-- File upload validation
-- Prompt regression tests
-- Downstream logical-ID and cross-reference validation
-- Missing-information handling
-- Source-grounding checks
-- DOCX field mapping
-- End-to-end sample-paper tests
+- `tests/backend/`: upload, parsing, orchestration, API validation, cleanup and
+  mocked provider-runtime behavior.
+- `tests/schema/`, `tests/prompt/`, `tests/draft/`, `tests/docx/`:
+  deterministic contracts, grounding, mapping and DOCX rendering.
+- `frontend/e2e/`: Playwright PDF/DOCX, error, keyboard and narrow-viewport
+  flows through the injected synthetic backend; no live model call.
+- `tests/live/`: separate opt-in provider tests, not part of the offline gate.
+
+The [authoritative MVP handover runbook](../docs/operations/MVP_HANDOVER_RUNBOOK.md)
+identifies canonical working directories, required fresh smoke and conditional
+regression commands. Historical P0-007 results are not fresh P0-008 executions.
 
 Golden set dùng research paper chỉ được tạo sau khi có quyền sử dụng và data policy được Human phê duyệt.
 
