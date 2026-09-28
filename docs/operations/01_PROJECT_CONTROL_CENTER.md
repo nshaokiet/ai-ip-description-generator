@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.21 |
+| Version | 0.3.22 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -59,6 +59,7 @@
 | 0.3.18 | 0.3.19 | 28/09/2026 | Codex | Register P0-008 local/synthetic release/handover readiness specification v0.1.0 for independent review; replace obsolete P0-007 closeout next action | Targeted documentation/readiness audit only; P0-007 closeout now on main, BLK-003 still open | P0-008; baseline `8142692c6e92670b4b09996d733f93c409e93e49` | No |
 | 0.3.19 | 0.3.20 | 28/09/2026 | Codex | Record P0-008 specification review PASS/Human implementation approval, fresh local/synthetic implementation evidence and pending implementation review; preserve MCP exception | Handoff without granting handover/production classification | P0-008, REV-P0-008-SPECIFICATION; spec `52d3c62d3741e9e7abc98c2bf2b300b4885f316c`; BLK-003 OPEN | No |
 | 0.3.20 | 0.3.21 | 28/09/2026 | Codex | Close P0-008 after independent implementation PASS, Human local/synthetic handover acceptance and merge; retain MCP exception and BLK-003 | Post-merge current-state reconciliation only, no production approval | P0-008, REV-P0-008-IMPLEMENTATION, DEC-014, merge `e6b2f665f6334047ec420c49d2097732f2917354` | No |
+| 0.3.21 | 0.3.22 | 28/09/2026 | Codex | Record Human-approved P0-009 offline CI implementation and narrow Playwright interpreter portability decision; hand off for independent review | Current-state traceability, not review or merge approval | P0-009, DEC-015; baseline `bf837ef10622160fc76f80227e23f81830d69f76` | No |
 
 ## 2. Project
 
@@ -87,8 +88,8 @@ Human / Product Owner chưa tuyên bố toàn bộ Phase 1, Phase 2, Phase 3 ho�
 ## 6. Current Objective
 
 - Preserve the Human-accepted **MVP HANDOVER READY — LOCAL/SYNTHETIC** baseline
-  after P0-008 review and merge; prepare P0-009 — CI Foundation as the next
-  separate task, without claiming its implementation has started.
+  after P0-008 review and merge; hand off P0-009 — CI Foundation on its own
+  branch for independent implementation review, without claiming merge.
 - Preserve Claims outside MVP, BLK-003 OPEN, live-provider smoke deferred, and
   no production/public deployment or real/confidential-data approval.
 - Keep production, public deployment and real/confidential-data approval
@@ -135,7 +136,8 @@ approved versions/contracts; this task does not re-approve or redesign them.
 - [x] P0-007 post-merge closeout fast-forwarded into `main` at `8142692c6e92670b4b09996d733f93c409e93e49`; implementation review CLOSED. No production-readiness or MVP-release approval.
 - [x] P0-008 specification v0.1.0 at `52d3c62d3741e9e7abc98c2bf2b300b4885f316c` received Google Antigravity (Advanced Agentic Coding) specification review PASS; reviewed implementation `956ba93048536d2a54d120752ade5540ecc0d901` received Google Antigravity / Gemini 1.5 Pro (Advanced Agentic Coding) independent implementation PASS, findings NONE; Human completed AC-16, accepted local/synthetic handover and approved merge `e6b2f665f6334047ec420c49d2097732f2917354`. **CLOSED / COMPLETED — MERGED; MVP HANDOVER READY — LOCAL/SYNTHETIC** only.
 - [x] Chạy core pipeline end-to-end **offline/synthetic** cho PDF/DOCX: APP-003 backend regression và P0-007 browser validation evidence; không phải live-provider hoặc production run.
-- [ ] P0-009 CI Foundation, EVAL-001 semantic evaluation, production security/BLK-003 and any separately approved deployment; P0-008 local/synthetic handover is accepted, not production readiness.
+- [x] P0-009 CI Foundation implemented on a separate branch from Human-approved baseline `bf837ef10622160fc76f80227e23f81830d69f76`; local offline gates PASS; independent review and Human merge decision pending.
+- [ ] EVAL-001 semantic evaluation, production security/BLK-003 and any separately approved deployment; P0-008 local/synthetic handover is accepted, not production readiness.
 
 Các ô `[x]` chỉ xác nhận bằng chứng được nêu ngay trên từng dòng; không suy rộng thành Human/Gemini approval cho các artefact hoặc phase khác.
 
@@ -178,7 +180,7 @@ APP-002 capability boundary: `Validated PDF/DOCX → deterministic text/table pa
 
 | Task ID | Task | Owner | Reviewer | Priority | Status | Dependency | Target date |
 |---|---|---|---|---|---|---|---|
-| P0-009 | CI Foundation | Not assigned | Gemini 3.1 Pro High for future independent review | High | NOT STARTED; design/implementation gate requires separate Human approval | P0-008 local/synthetic handover accepted; use final closeout main SHA as baseline; BLK-003 remains OPEN | To be decided by Human |
+| P0-009 | CI Foundation | GPT-6 Sol (Human-assigned role) | Gemini 3.1 Pro High | High | READY FOR INDEPENDENT IMPLEMENTATION REVIEW; not merged | Human-approved baseline `bf837ef10622160fc76f80227e23f81830d69f76` and narrow `PLAYWRIGHT_PYTHON` decision; local backend 380 passed/3 skipped, lint/build PASS, Playwright 11 passed; BLK-003 OPEN | Independent review, then Human merge decision |
 
 Mọi target date cụ thể cần được xếp trước deadline chung 02/10/2026 và do Human xác nhận.
 
@@ -364,6 +366,7 @@ Recommended next action: Post-merge governance closeout; await Human assignment 
 | 28/09/2026 | `docs/tasks/P0-008-mvp-release-handover-readiness.md` | Specification v0.1.0; Control Center 0.3.19; Project Context 0.4.6 | Targeted repository audit, stale-current-state inventory, 16 objective AC/trace rows and local/synthetic handover design; await independent specification review, not implementation | Codex | P0-008; base `8142692c6e92670b4b09996d733f93c409e93e49`; BLK-003 OPEN |
 | 28/09/2026 | P0-008 documentation/runbook and implementation handoff | Specification v0.1.0, evidence addendum 0.1.1; Control Center 0.3.20; Project Context 0.4.7; Review Log 0.3.10 | Reconcile current local status, record spec PASS/Human implementation approval/MCP exception, fresh isolated verification and pending independent implementation review | Codex | P0-008, REV-P0-008-SPECIFICATION; fresh verification `737edec7a134620285b368a9c57d08aa63829a0a`; BLK-003 OPEN |
 | 28/09/2026 | P0-008 post-merge documentation closeout | Task evidence addendum 0.1.2; runbook 0.1.2; Control Center 0.3.21; Context 0.4.8; Review Log 0.3.11 | Record fixed-SHA independent implementation PASS, Human AC-16/handover acceptance and merge; no production approval | Codex | P0-008, REV-P0-008-IMPLEMENTATION, DEC-014; merge `e6b2f665f6334047ec420c49d2097732f2917354`; BLK-003 OPEN |
+| 28/09/2026 | `.github/workflows/ci.yml`; `frontend/playwright.config.ts`; `docs/tasks/P0-009-ci-foundation.md` | P0-009 implementation; Control Center 0.3.22; Context 0.4.9 | Add offline CI gates and Human-approved interpreter override; record local evidence and pending independent review | Codex | P0-009, DEC-015; baseline `bf837ef10622160fc76f80227e23f81830d69f76` |
 
 ## 17. Prompt and Schema Versions
 
@@ -446,10 +449,11 @@ Human đã phê duyệt ADR-006 và Output Schema v1.0.0 cho AI-001, sau đó me
 | DEC-012 | Human / Product Owner accepted Google Antigravity (Advanced Agentic Coding) P0-007 independent implementation review `PASS`, AC-01…AC-16 `PASS`, findings `NONE`, and approved merge of accepted implementation/handoff `bd43a7e9875537c4f5ebdee53626542a11500636` into `main` | Recorded; merge `26b12450284b9331f79fbbffe3220d93e40c0916`; P0-007 CLOSED / COMPLETED — MERGED; BLK-003 OPEN; no production/MVP-release approval |
 | DEC-013 | Human / Product Owner approved P0-008 implementation after Google Antigravity (Advanced Agentic Coding) independent specification v0.1.0 PASS, AC-01…AC-16 PASS, findings NONE, Human decisions required NONE; Human also approved a non-blocking MCP reconciliation exception | Recorded at spec `52d3c62d3741e9e7abc98c2bf2b300b4885f316c`; MCP remains `Final hardening`/`PLANNED` with no metadata update/lease; implementation review, handover acceptance and production approval are separate future gates |
 | DEC-014 | Human / Product Owner accepted P0-008 independent implementation review PASS/findings NONE, completed AC-16, granted `MVP HANDOVER READY — LOCAL/SYNTHETIC` classification and approved implementation merge/post-merge closeout | Reviewed `956ba93048536d2a54d120752ade5540ecc0d901`; merged at `e6b2f665f6334047ec420c49d2097732f2917354`; BLK-003 OPEN; no production/public/confidential-data approval or MCP reconciliation |
+| DEC-015 | Human / Product Owner approved P0-009 offline CI design from reconciled main `bf837ef10622160fc76f80227e23f81830d69f76` and the narrow `PLAYWRIGHT_PYTHON` override in Playwright config | Local `.venv` default retained; CI uses setup-python 3.12 on PATH without repository `.venv`; no application/test-expectation change, provider calls, production approval or merge authorization |
 
 ## 22. Next Recommended Action
 
-1. P0-009 — CI Foundation is next project work, but its design/implementation requires its own Human gate. Use final P0-008 closeout `main` SHA as baseline; no P0-009 implementation is claimed here.
+1. GEMINI 3.1 PRO HIGH — INDEPENDENT IMPLEMENTATION REVIEW of P0-009 on `feat/p0-009-ci-foundation` at the fixed final SHA. Human merge approval remains a separate later gate; do not merge `main` here.
 2. Subsequent sequence: EVAL-001 semantic quality, SEC-001 production security/BLK-003, a separate Human-approved deployment/staging task, then UX hardening if approved. MCP reconciliation remains BLOCKED BY TOOL CAPABILITY under the Human-approved non-blocking governance exception; no fabricated MCP state/lease.
 3. BLK-003 remains OPEN and blocks production/real-data use; live-provider smoke remains UNVALIDATED / DEFERRED, public deployment NOT PERFORMED and production NOT APPROVED.
 
