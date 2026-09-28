@@ -2,7 +2,7 @@
 
 Evidence-grounded patent-description drafting support for research teams.
 
-Công cụ hỗ trợ chuyển bài báo khoa học thành dữ liệu có cấu trúc và bản mô tả sáng chế để con người rà soát.
+Công cụ hỗ trợ chuyển bài báo khoa học thành dữ liệu có cấu trúc và bản mô tả sáng chế để rà soát thủ công.
 
 ## Project status
 
