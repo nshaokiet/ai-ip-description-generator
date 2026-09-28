@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | SPEC-002 |
 | Document title | Project Context — AI Intellectual Property Description Generator |
-| Version | 0.4.8 |
+| Version | 0.4.9 |
 | Status | Approved baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT |
@@ -56,6 +56,7 @@
 | 0.4.5 | 0.4.6 | 28/09/2026 | Codex | Register P0-008 release/handover readiness specification v0.1.0 for independent review; supersede obsolete P0-007 closeout next action | Targeted local/synthetic handover audit and planning only; no implementation, release or production claim | P0-008; base main `8142692c6e92670b4b09996d733f93c409e93e49`; BLK-003 OPEN | No |
 | 0.4.6 | 0.4.7 | 28/09/2026 | Codex | Record P0-008 specification review PASS, Human implementation approval, fresh local/synthetic verification and pending implementation review; preserve MCP exception/BLK-003 | Implementation handoff without granting handover or production classification | P0-008; spec `52d3c62d3741e9e7abc98c2bf2b300b4885f316c`; `REV-P0-008-SPECIFICATION` | No |
 | 0.4.7 | 0.4.8 | 28/09/2026 | Codex | Record P0-008 independent implementation PASS, Human local/synthetic handover acceptance and implementation merge | Post-merge current-state closeout only; no production claim | P0-008, `REV-P0-008-IMPLEMENTATION`, merge `e6b2f665f6334047ec420c49d2097732f2917354` | No |
+| 0.4.8 | 0.4.9 | 28/09/2026 | Codex | Record Human-approved P0-009 CI implementation and Playwright interpreter portability decision; update next review gate | Current-state traceability without changing product scope or claiming review/merge | P0-009, DEC-015; baseline `bf837ef10622160fc76f80227e23f81830d69f76` | No |
 
 ## 2. Project name
 
@@ -255,6 +256,8 @@ P0-007 MVP End-to-End Validation & Stabilization có **approved specification v0
 
 P0-007 post-merge closeout was fast-forwarded into `main` at `8142692c6e92670b4b09996d733f93c409e93e49`. P0-008 **MVP Release & Handover Readiness Specification v0.1.0** at `52d3c62d3741e9e7abc98c2bf2b300b4885f316c` received independent Google Antigravity (Advanced Agentic Coding) specification review **PASS**, AC-01…AC-16 PASS, findings NONE, Human decisions required NONE. Human / Product Owner approved implementation. The subsequent independent **implementation** review of `956ba93048536d2a54d120752ade5540ecc0d901` was **PASS**, findings **NONE**; Human accepted the review, completed AC-16, approved the local/synthetic handover classification and merge. P0-008 is now **CLOSED / COMPLETED — MERGED** at `e6b2f665f6334047ec420c49d2097732f2917354`; the engineering baseline is **MVP HANDOVER READY — LOCAL/SYNTHETIC**. This does not grant production readiness, public deployment, real/confidential-data use, live-provider validation or real-paper semantic-quality acceptance. BLK-003 remains **OPEN** and live-provider smoke **UNVALIDATED / DEFERRED**. See the [runbook](docs/operations/MVP_HANDOVER_RUNBOOK.md) and P0-008 task closeout; historical pre-review records remain intact.
 
+P0-009 — CI Foundation uses Human-reconciled baseline `bf837ef10622160fc76f80227e23f81830d69f76` (a direct child of P0-008 closeout main with a README-only change). Human approved the offline single-job CI design and a narrow `PLAYWRIGHT_PYTHON` Playwright-config override, retaining the repository `.venv` default for local use. Implementation is on `feat/p0-009-ci-foundation`, **READY FOR INDEPENDENT IMPLEMENTATION REVIEW**, not merged or completed. Local Python 3.12 backend **380 passed/3 skipped**, frontend lint/build **PASS**, and synthetic Playwright **11 passed**. CI has not yet run on GitHub; Gemini 3.1 Pro High independent review and Human merge approval are pending. No provider key/call, production approval or BLK-003 resolution is claimed.
+
 Project Orchestrator MCP reconciliation was **BLOCKED BY TOOL CAPABILITY**: existing `P0-008` metadata remains `PLANNED` under “Final hardening”, with reviewed spec not recorded and no owner/lease. Human expressly approved a **non-blocking governance exception** for this Git-evidenced implementation. MCP is not claimed reconciled and no approval/lease/state is fabricated. A future safe admin update remains needed; this exception does not resolve BLK-003.
 
 ## 20. AI / Agent Roles
@@ -313,8 +316,8 @@ Project Orchestrator MCP là lớp điều phối dùng chung giữa VS Code/Cod
 |---|---|---|---|
 | System Specification | `docs/system-specification.md` | 0.3.7 | SPEC-001 Approved baseline; factual local API/frontend/E2E status updated, requirements unchanged |
 | AI Collaboration Rules | `AGENTS.md` | 0.3.1 | SPEC-003 Approved baseline; factual project-state correction only |
-| Project Context | `PROJECT_CONTEXT.md` | 0.4.8 | SPEC-002 Approved baseline; P0-008 CLOSED / COMPLETED — MERGED; local/synthetic handover accepted |
-| Project Control Center source | `docs/operations/01_PROJECT_CONTROL_CENTER.md` | 0.3.21 | P0-008 CLOSED / COMPLETED — MERGED; BLK-003 OPEN |
+| Project Context | `PROJECT_CONTEXT.md` | 0.4.9 | SPEC-002 Approved baseline; P0-009 implementation ready for independent review |
+| Project Control Center source | `docs/operations/01_PROJECT_CONTROL_CENTER.md` | 0.3.22 | P0-009 implementation ready for independent review; BLK-003 OPEN |
 | Gemini Review Log source | `docs/operations/02_GEMINI_REVIEW_LOG.md` | 0.3.11 | REV-P0-008-SPECIFICATION and REV-P0-008-IMPLEMENTATION CLOSED; prior history preserved |
 | Foundational ADRs | `docs/decisions/ADR-001…005-*.md` | ADR-001…ADR-005 | Accepted theo Human decisions ngày 20/09/2026 |
 | APP-001 backend | `backend/app/`, `backend/requirements.txt`, `tests/backend/` | Implementation head `bd39b9f7bdd9f7a1796d9a405e7998070e124e07` | Completed — Merged via PR #10; 24/24 APP-001 tests và 109/109 tổng tests pass |
@@ -325,6 +328,7 @@ Project Orchestrator MCP là lớp điều phối dùng chung giữa VS Code/Cod
 | P0-006 frontend/backend integration | `docs/tasks/P0-006-frontend-backend-integration.md`, `frontend/`, `backend/app/api/routes/local_orchestration.py` | Approved specification v0.2.0; implementation `0f1e94db438869a980db8a1cb1e06956de2d8d3e` | CLOSED / Completed — Merged at `3207479e5cca73da3e7facbc7c482d2ce5eba2b9`; independent Google Antigravity (Advanced Agentic Coding) PASS, AC-01…AC-17 PASS, findings NONE; BLK-003 OPEN; GOV-P0-006-01 RESOLVED separately |
 | P0-007 validation/stabilization | `docs/tasks/P0-007-mvp-e2e-validation-stabilization.md`; `frontend/e2e/`; `tests/e2e/` | Approved specification v0.1.0; implementation evidence revision 0.1.2; accepted implementation `bd43a7e9875537c4f5ebdee53626542a11500636`, final test-code `2638c620a36e6fb4016ed2efaeb788446a5b2eff` | CLOSED / COMPLETED — MERGED at `26b12450284b9331f79fbbffe3220d93e40c0916`; independent AC-01…AC-16 PASS, findings NONE; lint/build PASS, Playwright 11 passed; historical backend accepted without independent rerun; synthetic/offline only; BLK-003 OPEN |
 | P0-008 release/handover readiness | `docs/tasks/P0-008-mvp-release-handover-readiness.md`, `docs/operations/MVP_HANDOVER_RUNBOOK.md` | Approved specification v0.1.0 at `52d3c62d3741e9e7abc98c2bf2b300b4885f316c`; closeout addendum 0.1.2; reviewed implementation `956ba93048536d2a54d120752ade5540ecc0d901` | CLOSED / COMPLETED — MERGED at `e6b2f665f6334047ec420c49d2097732f2917354`; review PASS, findings NONE, Human handover accepted; MVP HANDOVER READY — LOCAL/SYNTHETIC only; BLK-003 OPEN |
+| P0-009 CI Foundation | `.github/workflows/ci.yml`, `frontend/playwright.config.ts`, `docs/tasks/P0-009-ci-foundation.md` | Human-approved baseline `bf837ef10622160fc76f80227e23f81830d69f76`; task record 0.1.0 | READY FOR INDEPENDENT IMPLEMENTATION REVIEW on `feat/p0-009-ci-foundation`; local offline gates PASS; not merged or production approval |
 | ADR | `docs/decisions/ADR-006-output-schema-v1.md` | ADR-006 | Accepted; Completed — Merged via PR #1 |
 | Production JSON Schema | `schemas/invention-output/v1.0.0/invention-output.schema.json` | 1.0.0 | Completed — Merged via PR #1; Gemini review PASS; 15/15 tests pass |
 | Production extraction prompt | `prompts/extraction/v1.0.0/extraction-prompt.md` | 1.0.0 | Completed — Merged via PR #3; canonical offline validation only |
@@ -356,7 +360,7 @@ Project Orchestrator MCP là lớp điều phối dùng chung giữa VS Code/Cod
 
 ## 28. Recommended next action
 
-1. P0-009 — CI Foundation is the next project work; implementation has not started here. Use the final P0-008 closeout main SHA as its baseline after this documentation merge.
+1. GEMINI 3.1 PRO HIGH — INDEPENDENT IMPLEMENTATION REVIEW of P0-009 at the fixed final feature-branch SHA. Human merge approval is a separate later gate; P0-009 has not been merged.
 2. Follow-on sequence: EVAL-001 — Semantic Quality Evaluation; SEC-001 — Production Security / BLK-003; separate Human-approved deployment/staging; UX hardening later if approved.
 3. BLK-003 remains OPEN: no real/confidential research data or production-readiness claim; live-provider smoke UNVALIDATED / DEFERRED. Claims, optional outputs and deployment require separate approval.
 

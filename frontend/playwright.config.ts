@@ -2,7 +2,7 @@ import path from "node:path";
 import { defineConfig, devices } from "@playwright/test";
 
 const repositoryRoot = path.resolve(__dirname, "..");
-const python = path.join(
+const python = process.env.PLAYWRIGHT_PYTHON ?? path.join(
   repositoryRoot,
   ".venv",
   process.platform === "win32" ? "Scripts/python.exe" : "bin/python",
