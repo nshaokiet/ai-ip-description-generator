@@ -1,0 +1,21 @@
+{
+  "case_id": "eval-en-003",
+  "source_sha256": "ed501b10d33e2b398c8776fbc090c449a7900bff8714088cc6638f7e26e7fce6",
+  "review_status": "PENDING_HUMAN",
+  "annotation_inventory_complete": false,
+  "reviewed_by": null,
+  "reviewed_at": null,
+  "items": [
+    {
+      "gold_id": "EN003-FIELD-01",
+      "category": "technical_field",
+      "normalized_proposition": "The paper concerns automated recognition of mulberry leaf diseases using computer vision.",
+      "importance": "KEY",
+      "source_locators": ["PDF p. 1, title and Abstract"],
+      "supporting_excerpts": ["Recognition of mulberry leaf diseases"],
+      "evaluator_note": "Candidate field item; not a Human-accepted gold fact yet.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    }
+  ]
+}

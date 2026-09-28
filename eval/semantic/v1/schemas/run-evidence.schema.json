@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:eval-001:run-evidence:v1",
+  "title": "EVAL-001 local run provenance and Human judgments",
+  "type": "object",
+  "required": ["runs"],
+  "properties": {
+    "runs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["metadata", "judgments"],
+        "properties": {
+          "metadata": {
+            "type": "object",
+            "required": ["run_id", "case_id", "source_sha256", "repository_baseline_sha", "prompt_version", "schema_version", "draft_contract_version", "model_identifier", "reasoning_config", "timestamp", "extraction_output_sha256", "draft_output_sha256", "run_source", "provider_authorization_reference"],
+            "properties": {
+              "run_id": {"type": "string", "minLength": 1},
+              "case_id": {"type": "string", "minLength": 1},
+              "source_sha256": {"$ref": "#/$defs/sha256"},
+              "repository_baseline_sha": {"const": "37d42fc8b07003aa2a67f2d1d32e64e69eb0ddb5"},
+              "prompt_version": {"type": "string", "minLength": 1},
+              "schema_version": {"type": "string", "minLength": 1},
+              "draft_contract_version": {"type": "string", "minLength": 1},
+              "model_identifier": {"type": "string", "minLength": 1},
+              "reasoning_config": {"type": "object"},
+              "timestamp": {"type": "string", "minLength": 1},
+              "extraction_output_sha256": {"$ref": "#/$defs/sha256"},
+              "draft_output_sha256": {"$ref": "#/$defs/sha256"},
+              "extraction_output_path": {"type": "string"},
+              "draft_output_path": {"type": "string"},
+              "run_source": {"enum": ["PRODUCT_RUNTIME", "SYNTHETIC_HARNESS", "MANUAL_UI"]},
+              "provider_authorization_reference": {"type": ["string", "null"]}
+            }
+          },
+          "judgments": {
+            "type": "object",
+            "required": ["review_status", "assertion_inventory_complete", "extraction_assertions", "draft_assertions", "gold_coverage", "system_gaps", "author_questions", "claims_violations", "legal_conclusion_violations", "abstract_word_count", "schema_business_rule_failures"],
+            "properties": {
+              "review_status": {"enum": ["PENDING_HUMAN", "ACCEPTED"]},
+              "reviewed_by": {"type": ["string", "null"]},
+              "reviewed_at": {"type": ["string", "null"]},
+              "assertion_inventory_complete": {"type": "boolean"},
+              "extraction_assertions": {"type": "array", "items": {"$ref": "#/$defs/assertion"}},
+              "draft_assertions": {"type": "array", "items": {"$ref": "#/$defs/assertion"}},
+              "gold_coverage": {"type": "array", "items": {"type": "object", "required": ["gold_id", "covered"], "properties": {"gold_id": {"type": "string"}, "covered": {"type": "boolean"}}}},
+              "system_gaps": {"type": "array", "items": {"type": "object", "required": ["gap_id", "relevant", "gold_ids"], "properties": {"gap_id": {"type": "string"}, "relevant": {"type": "boolean"}, "gold_ids": {"type": "array", "items": {"type": "string"}}}}},
+              "author_questions": {"type": "array", "items": {"type": "object", "required": ["question_id", "relevant_to_gap", "specific_actionable", "answerable_by_author", "no_unsupported_presupposition"], "properties": {"question_id": {"type": "string"}, "relevant_to_gap": {"type": "boolean"}, "specific_actionable": {"type": "boolean"}, "answerable_by_author": {"type": "boolean"}, "no_unsupported_presupposition": {"type": "boolean"}}}},
+              "conflict_handling": {"type": "array", "items": {"type": "object", "required": ["gold_id", "handled_accurately"], "properties": {"gold_id": {"type": "string"}, "handled_accurately": {"type": "boolean"}}}},
+              "claims_violations": {"type": "integer", "minimum": 0},
+              "legal_conclusion_violations": {"type": "integer", "minimum": 0},
+              "abstract_word_count": {"type": "integer", "minimum": 0},
+              "schema_business_rule_failures": {"type": "integer", "minimum": 0}
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "assertion": {
+      "type": "object",
+      "required": ["assertion_id", "support", "critical_categories", "cited_evidence_ids", "evidence_ids_exist", "cited_evidence_supports"],
+      "properties": {
+        "assertion_id": {"type": "string", "minLength": 1},
+        "support": {"enum": ["SUPPORTED_DIRECT", "SUPPORTED_PARAPHRASE", "SUPPORTED_INFERENCE", "UNSUPPORTED", "CONTRADICTED", "NOT_APPLICABLE"]},
+        "system_grounding_label": {"enum": ["SOURCE_FACT", "PARAPHRASE", "INFERENCE", null]},
+        "expected_grounding_label": {"enum": ["SOURCE_FACT", "PARAPHRASE", "INFERENCE", null]},
+        "critical_categories": {"type": "array", "items": {"enum": ["numeric_value", "unit", "parameter", "experimental_outcome", "component_material", "process_step", "causal_technical_effect", "comparison_superiority", "embodiment_variant", "source_attribution", "legal_patentability_conclusion"]}},
+        "cited_evidence_ids": {"type": "array", "items": {"type": "string"}},
+        "evidence_ids_exist": {"type": "boolean"},
+        "cited_evidence_supports": {"type": "boolean"}
+      }
+    }
+  }
+}

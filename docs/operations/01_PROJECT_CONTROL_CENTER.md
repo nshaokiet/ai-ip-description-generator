@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.23 |
+| Version | 0.3.24 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -61,6 +61,7 @@
 | 0.3.20 | 0.3.21 | 28/09/2026 | Codex | Close P0-008 after independent implementation PASS, Human local/synthetic handover acceptance and merge; retain MCP exception and BLK-003 | Post-merge current-state reconciliation only, no production approval | P0-008, REV-P0-008-IMPLEMENTATION, DEC-014, merge `e6b2f665f6334047ec420c49d2097732f2917354` | No |
 | 0.3.21 | 0.3.22 | 28/09/2026 | Codex | Record Human-approved P0-009 offline CI implementation and narrow Playwright interpreter portability decision; hand off for independent review | Current-state traceability, not review or merge approval | P0-009, DEC-015; baseline `bf837ef10622160fc76f80227e23f81830d69f76` | No |
 | 0.3.22 | 0.3.23 | 28/09/2026 | Codex | Close P0-009 after two-stage Gemini review, Human-approved PR #28 merge and successful PR/main CI | Post-merge governance closeout; offline regression only | P0-009, REV-P0-009-IMPLEMENTATION, DEC-016, merge `1f1754607152053ed4788f7fd5208c782432a320`; BLK-003 OPEN | No |
+| 0.3.23 | 0.3.24 | 28/09/2026 | Codex | Record EVAL-001 spec review/Human framework-only decisions and candidate corpus/scorer handoff without product-runtime acceptance | Prevent stale PLANNED/implementation-not-approved state while retaining provider/production blocks | EVAL-001, REV-EVAL-001-SPECIFICATION, DEC-017; spec `67c8d71f79712ede8780babf890a79fcbfd2769e` | No |
 
 ## 2. Project
 
@@ -90,8 +91,8 @@ Human / Product Owner chưa tuyên bố toàn bộ Phase 1, Phase 2, Phase 3 ho�
 
 - Preserve the Human-accepted **MVP HANDOVER READY — LOCAL/SYNTHETIC** baseline
   and the completed P0-009 offline CI Foundation. CI is active for
-  `pull_request(main)` and `push(main)`; EVAL-001 is the next planned task,
-  not yet approved for implementation.
+  `pull_request(main)` and `push(main)`; EVAL-001 specification v0.1.0 has
+  passed independent review and Human approved its framework phase only.
 - Preserve Claims outside MVP, BLK-003 OPEN, live-provider smoke deferred, and
   no production/public deployment or real/confidential-data approval.
 - Keep production, public deployment and real/confidential-data approval
@@ -139,6 +140,7 @@ approved versions/contracts; this task does not re-approve or redesign them.
 - [x] P0-008 specification v0.1.0 at `52d3c62d3741e9e7abc98c2bf2b300b4885f316c` received Google Antigravity (Advanced Agentic Coding) specification review PASS; reviewed implementation `956ba93048536d2a54d120752ade5540ecc0d901` received Google Antigravity / Gemini 1.5 Pro (Advanced Agentic Coding) independent implementation PASS, findings NONE; Human completed AC-16, accepted local/synthetic handover and approved merge `e6b2f665f6334047ec420c49d2097732f2917354`. **CLOSED / COMPLETED — MERGED; MVP HANDOVER READY — LOCAL/SYNTHETIC** only.
 - [x] Chạy core pipeline end-to-end **offline/synthetic** cho PDF/DOCX: APP-003 backend regression và P0-007 browser validation evidence; không phải live-provider hoặc production run.
 - [x] P0-009 CI Foundation **CLOSED / COMPLETED — MERGED** via PR #28 at `1f1754607152053ed4788f7fd5208c782432a320`; original `8979c72145d95f4f539b40e9e59b2d8af2f59fab`, accepted remediation `ce9f723e143671d4917bf0bf5885772af3b00f7b`; Gemini 3.1 Pro High initial PASS WITH NON-BLOCKING NOTES, targeted PASS/F-01 RESOLVED, findings NONE remaining; Human approved merge; PR CI `36396184226` and main CI `36397653688` SUCCESS. Offline/synthetic only; BLK-003 OPEN.
+- [x] EVAL-001 specification v0.1.0 at `67c8d71f79712ede8780babf890a79fcbfd2769e`: Gemini 3.1 Pro High `PASS WITH HUMAN DECISIONS REQUIRED`, AC-01…AC-18 PASS, findings NONE; Human approved seven decisions and framework-only implementation. Six local-only public/open-access candidate papers, six incomplete `PENDING_HUMAN` draft gold files, deterministic scorer and blocked-state report prepared; targeted evaluator 26 passed, full offline pytest 406 passed/3 skipped. Framework implementation review and Draft PR CI remain pending; product-runtime evidence blocked, provider budget 0.
 - [ ] EVAL-001 semantic evaluation, production security/BLK-003 and any separately approved deployment; P0-008 local/synthetic handover is accepted, not production readiness.
 
 Các ô `[x]` chỉ xác nhận bằng chứng được nêu ngay trên từng dòng; không suy rộng thành Human/Gemini approval cho các artefact hoặc phase khác.
@@ -183,7 +185,7 @@ APP-002 capability boundary: `Validated PDF/DOCX → deterministic text/table pa
 
 | Task ID | Task | Owner | Reviewer | Priority | Status | Dependency | Target date |
 |---|---|---|---|---|---|---|---|
-| EVAL-001 | Semantic Quality Evaluation | Not assigned | Not assigned | To be set by Human | PLANNED — implementation not approved | P0-009 CLOSED; use final closeout `main` SHA as baseline; separate Human-approved design/spec required | To be set by Human |
+| EVAL-001 | Semantic Quality Evaluation — framework phase | GPT-6 Sol | Gemini 3.1 Pro High | Human-approved framework only | IMPLEMENTING — independent framework review pending; BLOCKED FOR PRODUCT-RUNTIME EVIDENCE | Frozen product baseline `37d42fc8b07003aa2a67f2d1d32e64e69eb0ddb5`; approved spec `67c8d71f79712ede8780babf890a79fcbfd2769e`; provider access not authorized | To be set by Human |
 
 Mọi target date cụ thể cần được xếp trước deadline chung 02/10/2026 và do Human xác nhận.
 
@@ -456,10 +458,11 @@ Human đã phê duyệt ADR-006 và Output Schema v1.0.0 cho AI-001, sau đó me
 | DEC-014 | Human / Product Owner accepted P0-008 independent implementation review PASS/findings NONE, completed AC-16, granted `MVP HANDOVER READY — LOCAL/SYNTHETIC` classification and approved implementation merge/post-merge closeout | Reviewed `956ba93048536d2a54d120752ade5540ecc0d901`; merged at `e6b2f665f6334047ec420c49d2097732f2917354`; BLK-003 OPEN; no production/public/confidential-data approval or MCP reconciliation |
 | DEC-015 | Human / Product Owner approved P0-009 offline CI design from reconciled main `bf837ef10622160fc76f80227e23f81830d69f76` and the narrow `PLAYWRIGHT_PYTHON` override in Playwright config | Local `.venv` default retained; CI uses setup-python 3.12 on PATH without repository `.venv`; no application/test-expectation change, provider calls, production approval or merge authorization |
 | DEC-016 | Human / Product Owner approved F-01 test-helper interpreter-portability remediation, accepted Gemini 3.1 Pro High targeted PASS/F-01 RESOLVED and successful PR CI, and authorized PR #28 merge and post-merge closeout | Final accepted `ce9f723e143671d4917bf0bf5885772af3b00f7b`; normal merge `1f1754607152053ed4788f7fd5208c782432a320`; main CI `36397653688` SUCCESS; BLK-003 OPEN; no production/public/real-data approval |
+| DEC-017 | Human / Product Owner accepted Gemini 3.1 Pro High EVAL-001 specification `PASS WITH HUMAN DECISIONS REQUIRED` (AC-01…AC-18 PASS, findings NONE) and approved framework-phase implementation with seven bounded decisions | Corpus >=6 / >=1 Vietnamese / >=2 domains; Section 10 thresholds unchanged; AI-assisted gold requires Human acceptance; provider access NOT AUTHORIZED, budget 0, repeated live runs NOT AUTHORIZED, sources manifest/local-only; product-runtime evidence blocked; no EVAL-001 completion or production approval |
 
 ## 22. Next Recommended Action
 
-1. EVAL-001 — Semantic Quality Evaluation is next planned work; require its own Human-approved design/spec before implementation. Use final P0-009 closeout `main` SHA as baseline.
+1. EVAL-001 — complete Draft PR CI and Gemini 3.1 Pro High independent framework implementation review at a fixed SHA; obtain Human corpus/gold acceptance separately. Actual product-runtime semantic evaluation remains blocked pending separate provider authorization/budget and cannot be called PASS or Completed.
 2. Subsequent sequence: SEC-001 production security/BLK-003, a separate Human-approved deployment/staging task, then UX hardening if approved. MCP reconciliation remains BLOCKED BY TOOL CAPABILITY under the Human-approved non-blocking governance exception; no fabricated MCP state/lease.
 3. BLK-003 remains OPEN and blocks production/real-data use; live-provider smoke remains UNVALIDATED / DEFERRED, public deployment NOT PERFORMED and production NOT APPROVED.
 

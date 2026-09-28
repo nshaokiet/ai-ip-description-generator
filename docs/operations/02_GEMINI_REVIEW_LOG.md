@@ -10,14 +10,14 @@
 | Document title | Gemini Review Log |
 | Project | AI Intellectual Property Description Generator |
 | Project deadline | 02/10/2026 |
-| Version | 0.3.12 |
+| Version | 0.3.13 |
 | Status | Active review log |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
-| Reviewer | Gemini 3.1 Pro High + Gemini 3.8 Flash High (historical); Google Antigravity (Advanced Agentic Coding) for REV-P0-006-IMPLEMENTATION, REV-P0-007-SPECIFICATION, REV-P0-007-IMPLEMENTATION and REV-P0-008-SPECIFICATION; Google Antigravity / Gemini 1.5 Pro (Advanced Agentic Coding) for REV-P0-008-IMPLEMENTATION; Gemini 3.1 Pro High for REV-P0-009-IMPLEMENTATION |
+| Reviewer | Gemini 3.1 Pro High + Gemini 3.8 Flash High (historical); Google Antigravity (Advanced Agentic Coding) for REV-P0-006-IMPLEMENTATION, REV-P0-007-SPECIFICATION, REV-P0-007-IMPLEMENTATION and REV-P0-008-SPECIFICATION; Google Antigravity / Gemini 1.5 Pro (Advanced Agentic Coding) for REV-P0-008-IMPLEMENTATION; Gemini 3.1 Pro High for REV-P0-009-IMPLEMENTATION and REV-EVAL-001-SPECIFICATION |
 | Created date | 18/09/2026 |
 | Last updated | 28/09/2026 GMT+7 |
-| Related task ID | REVIEW-001; SPEC-001; SPEC-002; SPEC-003; AI-001; AI-002; AI-003; DOC-001; APP-001; APP-002; AI-RUNTIME-001; AI-RUNTIME-002; APP-003; P0-006; P0-007; P0-008; P0-009 |
+| Related task ID | REVIEW-001; SPEC-001; SPEC-002; SPEC-003; AI-001; AI-002; AI-003; DOC-001; APP-001; APP-002; AI-RUNTIME-001; AI-RUNTIME-002; APP-003; P0-006; P0-007; P0-008; P0-009; EVAL-001 |
 | Source of Truth | Review history; bản nguồn Git tại `docs/operations/02_GEMINI_REVIEW_LOG.md` |
 | Confidentiality level | Internal; findings về research input có thể là Confidential |
 
@@ -47,6 +47,7 @@
 | 0.3.9 | 0.3.10 | 28/09/2026 | Codex | Record Human-supplied P0-008 independent specification review PASS, AC-01…AC-16 PASS, findings NONE and subsequent Human implementation approval | Close the specification review gate without claiming implementation review or handover acceptance | P0-008, REV-P0-008-SPECIFICATION, `52d3c62d3741e9e7abc98c2bf2b300b4885f316c` | No |
 | 0.3.10 | 0.3.11 | 28/09/2026 | Codex | Record evidenced P0-008 independent implementation PASS, Human AC-16 handover acceptance and implementation merge; preserve historical reviewer model | Close implementation review after Human decision without claiming production readiness | P0-008, REV-P0-008-IMPLEMENTATION, merge `e6b2f665f6334047ec420c49d2097732f2917354` | No |
 | 0.3.11 | 0.3.12 | 28/09/2026 | Codex | Preserve P0-009 initial PASS WITH NON-BLOCKING NOTES/F-01, record approved remediation, targeted Gemini PASS, CI and Human merge disposition; close review | Post-merge review closeout without rewriting initial decision | P0-009, REV-P0-009-IMPLEMENTATION, PR #28, merge `1f1754607152053ed4788f7fd5208c782432a320` | No |
+| 0.3.12 | 0.3.13 | 28/09/2026 | Codex | Record Gemini 3.1 Pro High EVAL-001 specification review PASS WITH HUMAN DECISIONS REQUIRED and subsequent seven Human decisions; implementation review remains pending | Framework-phase governance handoff without semantic/product approval | EVAL-001, REV-EVAL-001-SPECIFICATION, spec `67c8d71f79712ede8780babf890a79fcbfd2769e` | No |
 
 ## 2. Review Rules
 
@@ -108,6 +109,7 @@
 | REV-P0-008-SPECIFICATION | 28/09/2026 record; independent review date not supplied | P0-008 | MVP Release & Handover Readiness specification v0.1.0 | Reviewed/resolved `52d3c62d3741e9e7abc98c2bf2b300b4885f316c`; no remediation reported | PASS (reported result; no separate recommendation supplied) | CLOSED — AC-01…AC-16 PASS; findings NONE; Human approved implementation; implementation review remains separate |
 | REV-P0-008-IMPLEMENTATION | 28/09/2026 closeout record; independent review date not supplied | P0-008 | MVP Release & Handover Readiness implementation | Reviewed `956ba93048536d2a54d120752ade5540ecc0d901`; resolved by merge `e6b2f665f6334047ec420c49d2097732f2917354` | PASS (reported result; no separate recommendation supplied) | CLOSED — AC-01…AC-15 independent PASS, AC-16 Human gate completed afterward; findings NONE; local/synthetic handover accepted |
 | REV-P0-009-IMPLEMENTATION | 28/09/2026 closeout record; independent review dates not supplied | P0-009 | CI Foundation implementation and targeted F-01 remediation | Initial `8979c72145d95f4f539b40e9e59b2d8af2f59fab`; accepted remediation `ce9f723e143671d4917bf0bf5885772af3b00f7b`; resolved by merge `1f1754607152053ed4788f7fd5208c782432a320` | Initial PASS WITH NON-BLOCKING NOTES; targeted PASS | CLOSED — F-01 RESOLVED; new findings NONE; Human-approved merge; PR/main CI SUCCESS |
+| REV-EVAL-001-SPECIFICATION | 28/09/2026 record; independent review date not supplied | EVAL-001 | Semantic Quality Evaluation specification v0.1.0 | Approved specification `67c8d71f79712ede8780babf890a79fcbfd2769e`; product baseline `37d42fc8b07003aa2a67f2d1d32e64e69eb0ddb5` | PASS WITH HUMAN DECISIONS REQUIRED | CLOSED — AC-01…AC-18 PASS; findings NONE; seven Human decisions recorded; framework implementation review separate |
 
 Các entry historical được ChatGPT/Codex ghi lại từ kết quả Gemini do Human / Product Owner xác nhận; Gemini không sửa production artefact. REV-P0-006-IMPLEMENTATION ghi đúng Google Antigravity (Advanced Agentic Coding) theo evidence Human cung cấp, không suy đoán model nền; reviewer modified NONE. REV-001/002/003 ghi verdict `PASS WITH HUMAN DECISIONS REQUIRED`, không có document finding; chúng được đóng sau khi Human phê duyệt baseline và ban hành DEC-001/002/003. REV-APP-001 đã `CLOSED` sau khi Human approve và merge PR #10 ngày 20/09/2026. REV-APP-002 bảo toàn initial `REQUEST CHANGES`, F-001/F-002 và remediation evidence; lifecycle được `CLOSED` sau targeted `PASS` và Human merge PR #12 ngày 21/09/2026. REV-AI-RUNTIME-001 bảo toàn specification initial `REQUEST CHANGES`, targeted specification `PASS`, implementation `PASS WITH NON-BLOCKING NOTES`, F-001 remediation, targeted remediation `PASS` và Human merge PR #14; F-002 live-provider evidence vẫn là non-blocking `NOTE` chưa chạy. REV-AI-RUNTIME-002 bảo toàn toàn bộ lifecycle review các checkpoints (A-E), remediation đợt cuối đạt độc lập APPROVED, Human merge PR #16 ngày 22/09/2026; ghi nhận live provider smoke NOT RUN — DEFERRED due to unavailable API funding mà không tạo false PASS.
 
@@ -2260,3 +2262,11 @@ supplied.
 #### 19. Closed By
 
 Human / Product Owner acceptance and merge authorization, recorded by Codex.
+
+## REV-EVAL-001-SPECIFICATION — EVAL-001 Semantic Quality Evaluation
+
+Review target: specification v0.1.0, approved-spec commit `67c8d71f79712ede8780babf890a79fcbfd2769e`; frozen product baseline `37d42fc8b07003aa2a67f2d1d32e64e69eb0ddb5`. Reviewer: **Gemini 3.1 Pro High**. Independent specification decision supplied by Human: **PASS WITH HUMAN DECISIONS REQUIRED**; AC-01…AC-18 **PASS**; findings **NONE**. Exact independent review date and separate review artefact were not supplied. This is a specification review, not a framework implementation or semantic-quality review.
+
+Human / Product Owner subsequently approved the seven decisions: (1) corpus minimum six, including at least one Vietnamese case and two technical domains; (2) Section 10 thresholds exactly; (3) AI-assisted gold drafts allowed but Human review/acceptance required; (4) product-runtime provider access not authorized; (5) provider/live budget 0 and no paid API call; (6) repeated live runs not authorized; (7) full papers manifest/local-only, with no Git commit absent a separate future decision. Framework-phase implementation approval is granted, not final product-runtime evaluation approval.
+
+Specification review **CLOSED** after these Human decisions. EVAL-001 framework implementation review by Gemini 3.1 Pro High is **PENDING**, with no verdict fabricated here. Product-runtime evidence is **BLOCKED FOR PRODUCT-RUNTIME EVIDENCE**; semantic acceptance **NOT DETERMINED**. BLK-003 remains **OPEN**, live-provider smoke **UNVALIDATED / DEFERRED**, and production/real-data authorization is **NO**.

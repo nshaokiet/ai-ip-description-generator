@@ -1,0 +1,21 @@
+{
+  "case_id": "eval-vi-001",
+  "source_sha256": "ce6b6f537b78337d52537fd6f7d50d7fd6684456ec73440cb6d9434f274c1040",
+  "review_status": "PENDING_HUMAN",
+  "annotation_inventory_complete": false,
+  "reviewed_by": null,
+  "reviewed_at": null,
+  "items": [
+    {
+      "gold_id": "VI001-FIELD-01",
+      "category": "technical_field",
+      "normalized_proposition": "The paper concerns a co-author collaboration recommendation system based on academic co-authorship links.",
+      "importance": "KEY",
+      "source_locators": ["PDF tr. 1, Tóm tắt"],
+      "supporting_excerpts": ["xây dựng hệ khuyến nghị đồng tác giả"],
+      "evaluator_note": "Bản nháp cần Human xác nhận nội dung, mức độ quan trọng và trích dẫn trước khi chấm điểm cuối.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    }
+  ]
+}

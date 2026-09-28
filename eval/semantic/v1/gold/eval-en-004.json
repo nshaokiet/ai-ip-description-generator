@@ -1,0 +1,21 @@
+{
+  "case_id": "eval-en-004",
+  "source_sha256": "36f700117f3b4d69051f1203d58cf44ec451ffdcdf96ef0a86adf1e37afc13a3",
+  "review_status": "PENDING_HUMAN",
+  "annotation_inventory_complete": false,
+  "reviewed_by": null,
+  "reviewed_at": null,
+  "items": [
+    {
+      "gold_id": "EN004-FIELD-01",
+      "category": "technical_field",
+      "normalized_proposition": "The study evaluates duckweed growth and nutrient removal from leachate.",
+      "importance": "KEY",
+      "source_locators": ["PDF p. 1, title and Abstract"],
+      "supporting_excerpts": ["Growth and nutrient removal efficiency of duckweed"],
+      "evaluator_note": "Candidate field item; experimental conditions and results still require Human gold expansion.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    }
+  ]
+}

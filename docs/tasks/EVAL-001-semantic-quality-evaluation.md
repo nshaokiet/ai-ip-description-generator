@@ -499,3 +499,13 @@ Live-provider smoke: UNVALIDATED / DEFERRED
 Production readiness: NO
 Next action: GEMINI 3.1 PRO HIGH — INDEPENDENT SPECIFICATION REVIEW
 ```
+
+## 22. Post-specification decision and framework implementation evidence addendum
+
+This addendum records later decisions and implementation evidence without changing the reviewed specification **v0.1.0** or rewriting its historical pre-review metadata/handoff above. Approved specification commit: `67c8d71f79712ede8780babf890a79fcbfd2769e` (documentation-only direct child of frozen product baseline `37d42fc8b07003aa2a67f2d1d32e64e69eb0ddb5`). Gemini 3.1 Pro High independent specification review: **PASS WITH HUMAN DECISIONS REQUIRED**, AC-01…AC-18 **PASS**, findings **NONE**. Exact review date was not supplied.
+
+Human / Product Owner approved all seven Section 19 decisions: corpus >=6 with >=1 Vietnamese and >=2 domains; thresholds exactly Section 10; AI-assisted gold drafts permissible only with Human review/acceptance; no product-runtime provider access; live/provider budget **0** and no paid API calls; repeated live runs not authorized; source papers **manifest/local-only** with no full-paper Git commit. Implementation approval is **GRANTED FOR FRAMEWORK PHASE ONLY**.
+
+Framework package: `eval/semantic/v1/`, with six public/open-access **candidate** PDFs recorded by provenance/hash in the manifest (five English, one Vietnamese, multiple domains) and locally ignored full sources. All six draft gold files remain `PENDING_HUMAN` and explicitly incomplete; candidate corpus Human acceptance: **PENDING**. The deterministic scorer and JSON/Markdown framework report return **BLOCKED FOR PRODUCT-RUNTIME EVIDENCE / SEMANTIC ACCEPTANCE NOT DETERMINED**. No product-runtime record, provider credential, provider API call or provider spend was created. Targeted synthetic evaluator tests: **26 passed**; full offline `python -m pytest tests -q -p no:cacheprovider` with live flags set to 0: **406 passed, 3 skipped, 1 warning**. These are implementation/regression evidence, not semantic product-quality evidence.
+
+Current framework lifecycle: **READY FOR INDEPENDENT FRAMEWORK IMPLEMENTATION REVIEW** after Draft PR CI, with Gemini 3.1 Pro High review still pending. Overall EVAL-001 remains **BLOCKED FOR PRODUCT-RUNTIME EVIDENCE**; not PASS or Completed. BLK-003 remains **OPEN**; live-provider smoke **UNVALIDATED / DEFERRED**. Production/public deployment, legal quality and real/confidential-data use are not approved. Future product-runtime evaluation, corpus/gold acceptance and final semantic decision require their separate Human gates.

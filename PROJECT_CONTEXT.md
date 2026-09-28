@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | SPEC-002 |
 | Document title | Project Context — AI Intellectual Property Description Generator |
-| Version | 0.4.10 |
+| Version | 0.4.11 |
 | Status | Approved baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT |
@@ -58,6 +58,7 @@
 | 0.4.7 | 0.4.8 | 28/09/2026 | Codex | Record P0-008 independent implementation PASS, Human local/synthetic handover acceptance and implementation merge | Post-merge current-state closeout only; no production claim | P0-008, `REV-P0-008-IMPLEMENTATION`, merge `e6b2f665f6334047ec420c49d2097732f2917354` | No |
 | 0.4.8 | 0.4.9 | 28/09/2026 | Codex | Record Human-approved P0-009 CI implementation and Playwright interpreter portability decision; update next review gate | Current-state traceability without changing product scope or claiming review/merge | P0-009, DEC-015; baseline `bf837ef10622160fc76f80227e23f81830d69f76` | No |
 | 0.4.9 | 0.4.10 | 28/09/2026 | Codex | Close P0-009 after Gemini re-review, Human-approved PR #28 merge and successful PR/main CI | Post-merge current-state reconciliation; offline CI only, no production approval | P0-009, REV-P0-009-IMPLEMENTATION, merge `1f1754607152053ed4788f7fd5208c782432a320`; BLK-003 OPEN | No |
+| 0.4.10 | 0.4.11 | 28/09/2026 | Codex | Record EVAL-001 specification review, seven Human decisions and framework-only implementation handoff; product-runtime semantic evidence remains blocked | Current-state reconciliation without changing approved technical requirements or claiming semantic acceptance | EVAL-001, REV-EVAL-001-SPECIFICATION, spec `67c8d71f79712ede8780babf890a79fcbfd2769e`; BLK-003 OPEN | No |
 
 ## 2. Project name
 
@@ -361,7 +362,7 @@ Project Orchestrator MCP là lớp điều phối dùng chung giữa VS Code/Cod
 
 ## 28. Recommended next action
 
-1. EVAL-001 — Semantic Quality Evaluation is the next planned task. Do not begin implementation without its own Human-approved design/spec; use the final P0-009 closeout `main` SHA as its eventual baseline.
+1. EVAL-001 — Semantic Quality Evaluation specification v0.1.0 at `67c8d71f79712ede8780babf890a79fcbfd2769e` received Gemini 3.1 Pro High `PASS WITH HUMAN DECISIONS REQUIRED`, AC-01…AC-18 PASS and findings NONE. Human approved seven decisions and **framework implementation only** against frozen product baseline `37d42fc8b07003aa2a67f2d1d32e64e69eb0ddb5`. Six candidate public/open-access papers and six incomplete draft gold annotations remain pending individual Human acceptance. Deterministic evaluator/blocked report are prepared; independent framework implementation review and Draft PR CI are next. Product-runtime evidence is **BLOCKED**: provider access not authorized, budget 0, repeated live runs not authorized, and semantic acceptance not determined. EVAL-001 is not Completed.
 2. Follow-on sequence: SEC-001 — Production Security / BLK-003; separate Human-approved deployment/staging; UX hardening later if approved.
 3. BLK-003 remains OPEN: no real/confidential research data or production-readiness claim; live-provider smoke UNVALIDATED / DEFERRED. Claims, optional outputs and deployment require separate approval.
 

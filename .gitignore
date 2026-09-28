@@ -41,6 +41,10 @@ generated/
 tmp/
 *.tmp
 
+# EVAL-001 local-only public corpus and unreviewed runtime material
+eval/semantic/v1/sources/
+eval/semantic/v1/runs/local/
+
 # Logs
 *.log
 logs/

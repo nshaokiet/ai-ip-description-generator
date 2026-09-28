@@ -1,0 +1,32 @@
+{
+  "case_id": "eval-en-007",
+  "source_sha256": "8b3914714ec446bf485c3af7dd371baae97920ac43e88ab1f38b2a877cef8483",
+  "review_status": "PENDING_HUMAN",
+  "annotation_inventory_complete": false,
+  "reviewed_by": null,
+  "reviewed_at": null,
+  "items": [
+    {
+      "gold_id": "EN007-FIELD-01",
+      "category": "technical_field",
+      "normalized_proposition": "The paper studies osmosis-based pressure generation in membrane-bound compartments.",
+      "importance": "KEY",
+      "source_locators": ["PDF p. 1, Abstract"],
+      "supporting_excerpts": ["osmotically-driven pressure generation in a membrane-bound compartment"],
+      "evaluator_note": "Candidate technical field; Human must confirm before gold acceptance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN007-GAP-01",
+      "category": "missing_information",
+      "normalized_proposition": "The standalone evaluated PDF points to Appendix S3 for supporting calibration details; the single-file input does not include that appendix.",
+      "importance": "SECONDARY",
+      "source_locators": ["PDF p. 3, reference to Appendix S3"],
+      "supporting_excerpts": ["see Appendix S3"],
+      "evaluator_note": "Candidate single-file disclosure gap. Human must verify that the missing supplement is material and define an author question; do not infer absent experimental results.",
+      "coverage_applicable": false,
+      "missing_information_target": true
+    }
+  ]
+}

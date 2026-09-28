@@ -1,0 +1,21 @@
+{
+  "case_id": "eval-en-002",
+  "source_sha256": "a1266d380df6decf29c15b7df8048381303e75252e7a4116f0715f67044ea0ea",
+  "review_status": "PENDING_HUMAN",
+  "annotation_inventory_complete": false,
+  "reviewed_by": null,
+  "reviewed_at": null,
+  "items": [
+    {
+      "gold_id": "EN002-SOLUTION-01",
+      "category": "technical_solution",
+      "normalized_proposition": "The study varies PLA specimen infill density and pattern to assess fatigue lifetime.",
+      "importance": "KEY",
+      "source_locators": ["PDF p. 1, Abstract"],
+      "supporting_excerpts": ["effect of filling density and infill pattern on the fatigue lifetime"],
+      "evaluator_note": "Candidate paraphrase; Human must check exact scope and importance before scoring.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    }
+  ]
+}

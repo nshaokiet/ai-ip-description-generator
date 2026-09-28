@@ -1,0 +1,21 @@
+{
+  "case_id": "eval-en-005",
+  "source_sha256": "b2fe4ce41cb393ccd5f7c9269412833a89670401a91062ecf620b8c44f7d1460",
+  "review_status": "PENDING_HUMAN",
+  "annotation_inventory_complete": false,
+  "reviewed_by": null,
+  "reviewed_at": null,
+  "items": [
+    {
+      "gold_id": "EN005-PROBLEM-01",
+      "category": "technical_problem",
+      "normalized_proposition": "Visual expert inspection for field pea leaf disease is described as costly and labor-intensive.",
+      "importance": "KEY",
+      "source_locators": ["PDF p. 1, Abstract"],
+      "supporting_excerpts": ["this approach is expensive, labor-intensive"],
+      "evaluator_note": "Candidate problem item; Human must adjudicate wording and coverage importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:eval-001:gold:v1",
+  "title": "EVAL-001 atomic gold annotation package",
+  "type": "object",
+  "required": ["case_id", "source_sha256", "review_status", "annotation_inventory_complete", "reviewed_by", "reviewed_at", "items"],
+  "properties": {
+    "case_id": {"type": "string", "minLength": 1},
+    "source_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "review_status": {"enum": ["PENDING_HUMAN", "ACCEPTED"]},
+    "annotation_inventory_complete": {"type": "boolean"},
+    "reviewed_by": {"type": ["string", "null"]},
+    "reviewed_at": {"type": ["string", "null"]},
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["gold_id", "category", "normalized_proposition", "importance", "source_locators", "supporting_excerpts", "evaluator_note", "coverage_applicable", "missing_information_target"],
+        "properties": {
+          "gold_id": {"type": "string", "minLength": 1},
+          "category": {"enum": ["technical_field", "technical_problem", "technical_solution", "component", "process_step", "distinguishing_feature", "technical_effect", "experimental_data", "embodiment_example", "missing_information", "ambiguity_conflict", "prohibited_conclusion"]},
+          "normalized_proposition": {"type": "string", "minLength": 1},
+          "importance": {"enum": ["KEY", "SECONDARY"]},
+          "source_locators": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+          "supporting_excerpts": {"type": "array", "items": {"type": "string"}},
+          "evaluator_note": {"type": "string", "minLength": 1},
+          "coverage_applicable": {"type": "boolean"},
+          "missing_information_target": {"type": "boolean"}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "allOf": [
+    {"if": {"properties": {"review_status": {"const": "ACCEPTED"}}}, "then": {"properties": {"annotation_inventory_complete": {"const": true}, "reviewed_by": {"type": "string", "minLength": 1}, "reviewed_at": {"type": "string", "minLength": 1}}}},
+    {"if": {"properties": {"review_status": {"const": "PENDING_HUMAN"}}}, "then": {"properties": {"reviewed_by": {"type": "null"}, "reviewed_at": {"type": "null"}}}}
+  ],
+  "additionalProperties": false
+}
