@@ -99,7 +99,7 @@ Riêng Output Schema v1.0.0 chỉ chấp nhận `SOURCE_FACT`, `PARAPHRASE`, `IN
 - Trích xuất vấn đề, giải pháp, thành phần, process steps, hiệu quả và dữ liệu thí nghiệm.
 - Evidence mapping, missing-information detection và author questions.
 - Draft patent specification và Abstract; không Claims.
-- Human review, chỉnh sửa, section status và version tracking.
+- Human review, chỉnh sửa, section status và immutable revision trong phiên trình duyệt hiện tại; chưa có durable audit/version store.
 - Grounding/consistency validation.
 - Xuất DOCX bằng `docxtpl`.
 
@@ -167,7 +167,7 @@ Bản đồ Anh–Việt đầy đủ: [`FOLDER_STRUCTURE.md`](FOLDER_STRUCTURE.
 | `tests/` | Tests / Kiểm thử | Automated tests và synthetic fixtures |
 | `docs/` | Documentation / Tài liệu dự án | Specification, ADR, task, operations, archive |
 | `tools/` | Tools / Công cụ nội bộ | Project Orchestrator MCP và developer tooling |
-| `.github/` | GitHub configuration / Cấu hình GitHub | PR/workflow repository configuration |
+| `.github/` | GitHub configuration / Cấu hình GitHub | PR template; chưa có offline CI workflow (P0-009) |
 
 ## 9. Tài liệu cần đọc
 
@@ -217,7 +217,7 @@ Project Orchestrator MCP
 - [x] Repository Private đã được khởi tạo.
 - [x] Cấu trúc `frontend`, `backend`, `prompts`, `templates`, `tests` và `.github`.
 - [x] SPEC-001 System Specification 0.3.7; SPEC-002 Project Context 0.4.7; SPEC-003 AGENTS.md 0.3.1 — approved technical/governance baselines with factual status updates.
-- [x] Project Control Center 0.3.20 và Gemini Review Log 0.3.9 tại P0-008 implementation handoff; historical reviews remain intact.
+- [x] Project Control Center 0.3.20 và Gemini Review Log 0.3.10 tại P0-008 implementation handoff; historical reviews remain intact.
 - [x] ADR-001…ADR-005 — Accepted theo Human decisions ngày 20/09/2026.
 - [x] Output Schema v1.0.0, fixtures và automated validation tests — Completed — Merged via PR #1; Gemini review `PASS`, 15/15 tests pass, không có finding.
 - [x] Extraction Prompt v1.0.0, ADR-007 và synthetic offline tests — Completed — Merged via PR #3; Gemini review `PASS`, AI-001 regression 15/15 và AI-002 tests 17/17 pass, không có finding; chưa tích hợp model/API thật.
@@ -280,7 +280,7 @@ npm ci
 cd ..
 ```
 
-Start normal backend (`.\.venv\Scripts\python.exe -m uvicorn backend.app.main:app --host 127.0.0.1 --port 8000`) from root, then `cd frontend; npm run dev` in a second terminal. Check `http://127.0.0.1:8000/health`, `http://localhost:3000` and `http://localhost:3000/backend/health`. Stop each controlled process with Ctrl+C. The normal process does **not** provide an offline full-processing demo; enabling local orchestration makes processing provider-dependent. Do not set a provider key for this local/synthetic handover.
+Start normal backend (`.\.venv\Scripts\python.exe -m uvicorn backend.app.main:app --host 127.0.0.1 --port 8000`) from root, then run `npm run dev -- --hostname 127.0.0.1` from `frontend/` in a second terminal for loopback-only access. Check `http://127.0.0.1:8000/health`, `http://127.0.0.1:3000` and `http://127.0.0.1:3000/backend/health`. Stop each controlled process with Ctrl+C. The normal process does **not** provide an offline full-processing demo; enabling local orchestration makes processing provider-dependent. Do not set a provider key for this local/synthetic handover.
 
 For the full synthetic flow, use the isolated offline E2E harness and commands in the [authoritative MVP handover runbook](docs/operations/MVP_HANDOVER_RUNBOOK.md). It covers browser/DOCX smoke, tests, configuration, temporary-data limitations and evidence. Claims, OCR, prior-art search and patentability scoring remain outside MVP; outputs require Human/SHTT specialist review. P0-009 offline CI, EVAL-001 semantic evaluation, SEC-001 production security/BLK-003 and later UX hardening are separate work.
 

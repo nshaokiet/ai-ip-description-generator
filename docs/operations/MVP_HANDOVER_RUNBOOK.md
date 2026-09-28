@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Task | P0-008 — MVP Release & Handover Readiness |
-| Runbook version | 0.1.0 |
+| Runbook version | 0.1.1 (fresh-verification evidence update; no product change) |
 | Date | 28/09/2026 |
 | Repository | Private `nshaokiet/ai-ip-description-generator` |
 | Approved specification | [P0-008 v0.1.0](../tasks/P0-008-mvp-release-handover-readiness.md) at `52d3c62d3741e9e7abc98c2bf2b300b4885f316c` |
@@ -16,6 +16,11 @@ limitations and handover evidence. The generated patent-description DOCX is a
 draft requiring Human/SHTT specialist review, not legal advice or filing-ready
 output. Neither a local/synthetic handover nor a `REVIEWED` browser-session flag
 is a production, legal or formal Human approval.
+
+Version history: 0.1.0 (28/09/2026, Codex) created the setup/acceptance
+runbook; 0.1.1 (28/09/2026, Codex) records fresh isolated verification and
+observed Windows launcher/server-teardown caveats for P0-008. No breaking
+change or approved technical contract change.
 
 ## Capability and boundary
 
@@ -59,6 +64,13 @@ exception silently counted as PASS. `npx playwright install chromium` supplies
 the browser for the synthetic smoke. Do not place a real provider key in the
 fresh environment.
 
+On the verified Windows host, `py -3.12` failed because the launcher registered
+only Python 3.14 even though Python 3.12.10 was installed. The fresh venv was
+created with that *installed* 3.12 executable instead; no existing venv was
+reused. A recipient whose launcher lacks 3.12 must locate a trusted installed
+Python 3.12 interpreter and invoke its `python.exe -m venv .venv` (or install
+3.12); a machine-specific path is not part of the portable command.
+
 ## Environment variables and secrets
 
 `.env.example` is a sample. Backend `Settings.from_environment()` reads the
@@ -101,6 +113,15 @@ enabled, processing uses the actual provider runtimes; do not exercise it
 without separate provider/data authorization. Stop both **controlled**
 terminals with Ctrl+C and verify ports 8000 and 3106 are free before E2E.
 Never kill an unidentified process to free a port.
+
+Observed on the verified host: plain `npm run dev` served localhost but also
+listened on `0.0.0.0:3000`. For a loopback-only manual session, prefer
+`npm run dev -- --hostname 127.0.0.1` and use
+`http://127.0.0.1:3000`; this is a launch option, not a production-security
+feature (`npx next dev --help` confirms the hostname option and default
+`0.0.0.0`). The automated shell's Ctrl+C did not stop the two owned servers;
+their exact PIDs were identified and stopped before E2E, with ports checked
+free. A normal interactive operator should first use Ctrl+C.
 
 ## Synthetic/offline tests and final smoke
 
@@ -173,12 +194,22 @@ data were used in those historical tests.
 
 | Fresh P0-008 gate | Result / evidence |
 |---|---|
-| Isolated SHA, OS/tool versions and clean install | PENDING fresh verification |
-| Normal backend, frontend and proxy | PENDING fresh verification |
-| Fresh lint/build and targeted PDF browser/DOCX smoke | PENDING fresh verification |
+| Isolated SHA, OS/tool versions and clean install | **PASS at `737edec7a134620285b368a9c57d08aa63829a0a`** in a new temporary detached worktree. Windows NT `10.0.26200.0`; Python `3.12.10`; pip `25.0.1`; Node `v24.18.0`; npm `11.16.0`. New `.venv`, pinned pip install, `npm ci` (348 packages) and Playwright Chromium install all succeeded. The `py -3.12` launcher discrepancy is documented above. |
+| Normal backend, frontend and proxy | **PASS at `737edec`**: ordinary `uvicorn` startup; `/health` returned `{"status":"ok"}`; `npm run dev` page HTTP 200; `/backend/health` returned `{"status":"ok"}`. Plain Next dev bound all interfaces; see loopback recommendation above. No normal provider-dependent `/process` call was made. |
+| Fresh lint/build and targeted PDF browser/DOCX smoke | **PASS at `737edec`**: `npm run lint` exit 0, `npm run build` exit 0, exact grep command above reported `1 passed (2.3m)` with test case `15.7s`. It downloaded and inspected the exact selected DOCX (test oracle in `frontend/e2e/integration.spec.ts:118-175`). Playwright shutdown stalled after the case passed; only its identified child server PIDs were stopped, then runner exited 0 and ports 8000/3106 were free. |
 | Exact AC-01…AC-16 implementation self-check | PENDING evidence addendum in P0-008 task |
 | Independent implementation review at fixed SHA | NOT STARTED; no verdict or findings claimed |
 | Human acceptance of local/synthetic handover | NOT GIVEN; proposed classification remains ungranted |
+
+Fresh worktree tracked files stayed clean. The Next dev process generated
+untracked `frontend/AGENTS.md` and `frontend/CLAUDE.md` **in the isolated
+worktree**; neither was staged or copied into the implementation branch. The
+implementation branch's pre-existing untracked patch/scratch and frontend
+agent files likewise remain untouched. There was no provider credential in
+the fresh shell, both opt-in live flags were unset (default false), the E2E
+backend injected offline fake runtimes, and browser requests to non-loopback
+hosts were aborted by the test helper. This supports provider calls **NONE**
+and synthetic data only; it does not prove live-model behavior.
 
 Project Orchestrator MCP reconciliation was **BLOCKED BY TOOL CAPABILITY**:
 its existing P0-008 record remains `Final hardening` / `PLANNED`, with no

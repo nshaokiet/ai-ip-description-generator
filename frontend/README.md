@@ -76,6 +76,9 @@ Start the normal backend first on loopback port 8000. Normal processing is
 provider-dependent when local orchestration is enabled; use Playwright's
 offline harness for a no-provider full-flow demonstration. Stop both terminals
 with Ctrl+C before E2E so its owned ports 8000/3106 are available.
+On the verified Windows host, plain `npm run dev` also listened on all
+interfaces; for a loopback-only local session use
+`npm run dev -- --hostname 127.0.0.1` and open `http://127.0.0.1:3000`.
 
 ## Quality checks and production build
 

@@ -6,10 +6,12 @@
 |---|---|
 | Task ID | P0-008 |
 | Specification version | 0.1.0 |
-| Status | READY FOR INDEPENDENT SPECIFICATION REVIEW; implementation NOT STARTED |
+| Status | Specification v0.1.0 reviewed PASS and Human-approved for implementation; implementation self-check READY FOR INDEPENDENT IMPLEMENTATION REVIEW; handover classification NOT GRANTED |
 | Owner / final decision authority | Human / Product Owner |
 | Author | Codex |
-| Independent reviewer | Antigravity Reviewer Agent; actual reviewer/model/profile and verdict to be recorded only after review |
+| Independent specification reviewer | Google Antigravity; profile Google Antigravity (Advanced Agentic Coding); PASS, AC-01…AC-16 PASS, findings NONE; underlying model not evidenced |
+| Independent implementation reviewer | Pending separate fixed-SHA review; no verdict claimed |
+| Implementation evidence revision | 0.1.1; approved technical specification remains v0.1.0 |
 | Date | 28/09/2026 |
 | Fixed audit baseline | `main` at `8142692c6e92670b4b09996d733f93c409e93e49` |
 | Branch | `docs/p0-008-mvp-release-handover-readiness-spec` |
@@ -18,6 +20,7 @@
 | From | To | Date | Author | Change | Reason | Related decision | Breaking change |
 |---|---|---|---|---|---|---|---|
 | None | 0.1.0 | 28/09/2026 | Codex | Define targeted release-readiness audit, documentation reconciliation, fresh-environment and synthetic handover gates | Specify a truthful local/synthetic baseline without implementing P0-008 or claiming production readiness | P0-007 closeout at `8142692c6e92670b4b09996d733f93c409e93e49`; BLK-003 OPEN | No |
+| 0.1.0 | 0.1.1 evidence addendum | 28/09/2026 | Codex | Record specification review PASS/Human implementation approval, documentation/runbook changes and fresh isolated self-check; do not change AC wording or technical requirements | Fixed-SHA implementation handoff for independent review | `REV-P0-008-SPECIFICATION`; Human-approved MCP exception; BLK-003 OPEN | No |
 
 ## 1. Purpose and exact classification
 
@@ -251,4 +254,124 @@ Decisions: No new product/security/provider decision; final handover classificat
 Issues: BLK-003 OPEN; live-provider smoke UNVALIDATED / DEFERRED; no real/confidential-data authorization; MCP P0-008 record remains PLANNED under older “Final hardening” title and needs Human-admin synchronization before implementation claim.
 Security impact: Documentation-only specification; no production-readiness claim.
 Recommended next action: ANTIGRAVITY INDEPENDENT SPECIFICATION REVIEW.
+```
+
+## 14. Implementation evidence addendum 0.1.1 — specification v0.1.0 unchanged
+
+Sections 1–13, including the exact AC and traceability wording, are the
+approved specification and historical specification-phase record. This
+addendum supersedes only their then-current lifecycle/next-action statements.
+Google Antigravity (profile: **Google Antigravity (Advanced Agentic Coding)**)
+independently reviewed specification v0.1.0 at
+`52d3c62d3741e9e7abc98c2bf2b300b4885f316c`: **PASS**, specification
+AC-01…AC-16 **PASS**, findings **NONE**, Human decisions required **NONE**.
+The exact underlying model, review date and primary per-file report were not
+supplied. Human / Product Owner explicitly approved implementation and a
+**non-blocking MCP governance exception**; this is not Human handover or
+production/public-deployment approval. See `REV-P0-008-SPECIFICATION` in the
+review log. Independent *implementation* review has not happened.
+
+### Implementation scope and documentation inventory
+
+Checkpoint A `2f57a87` reconciled `.env.example`, root/component/test READMEs,
+`docs/workflow.md`, `docs/system-specification.md`, `AGENTS.md` and the MCP
+protocol's stale APP-003 freeze prose. Checkpoint B
+`737edec7a134620285b368a9c57d08aa63829a0a` added the single
+`docs/operations/MVP_HANDOVER_RUNBOOK.md`. This final evidence addendum,
+`PROJECT_CONTEXT.md`, PCC and Review Log close the remaining current-state
+governance gaps. Section 4 inventory: **13/13 actionable items reconciled**;
+`FOLDER_STRUCTURE.md`/`docs/README.md` needed no edit. Historical changelog,
+review and task-handoff statements were retained. No production application
+code, test code, dependencies, prompt, schema or template changed.
+
+### Fresh verification versus historical evidence
+
+Fresh detached temporary worktree at `737edec7a134620285b368a9c57d08aa63829a0a`
+was tracked-clean before installation. Host: Windows NT `10.0.26200.0`,
+Python `3.12.10`, pip `25.0.1`, Node `v24.18.0`, npm `11.16.0`.
+`py -3.12 --version` failed because this Windows launcher registered only
+Python 3.14; the separately installed Python 3.12.10 executable created a
+**new** `.venv` in the isolated worktree. Pinned backend/test pip install,
+`npm ci` (348 packages), `npx playwright install chromium`, normal uvicorn
+startup, backend `/health`, `npm run dev`, frontend HTTP 200 and
+`/backend/health` proxy all **PASS**. Fresh `npm run lint` and `npm run build`
+**PASS**. Normal `/process` was **not** called: it remains provider-dependent.
+
+From fresh `frontend/`, the exact command
+`npm run test:e2e -- --grep "PDF session: cancel, immutable save, validate, review and exact UNREVIEWED export"`
+reported **1 passed (2.3m)**, case **15.7s**, exit **0** at `737edec`.
+`frontend/e2e/integration.spec.ts:118-175` uploaded synthetic PDF, processed
+through the injected fake runtimes and real HTTP/UI boundary, saved a selected
+immutable revision, validated/reviewed and downloaded/inspected the exact DOCX
+text and notices. Playwright teardown stalled on Windows *after* the case
+passed; only its two identified child server PIDs were stopped, then the
+runner exited 0. The ordinary `npm run dev` served localhost but listened on
+`0.0.0.0:3000`; the runbook recommends explicit loopback binding for a
+recipient. The fresh worktree retained only Next-generated, untracked
+`frontend/AGENTS.md`/`frontend/CLAUDE.md`; neither was staged. Ports were
+free afterward. No provider credential was present, live flags were unset,
+fake runtimes were injected and the browser test aborts non-loopback requests:
+provider calls **NONE**, real/confidential data **NONE**.
+
+Historical P0-007 evidence, **not rerun for P0-008**: accepted implementation
+`bd43a7e9875537c4f5ebdee53626542a11500636`, final test-code
+`2638c620a36e6fb4016ed2efaeb788446a5b2eff`, targeted backend
+**194 passed/1 skipped**, full offline backend **380 passed/3 skipped**,
+independent lint/build **PASS**, Playwright **11/11 PASS**, PDF and DOCX
+stability **3/3 each PASS**, source/export cleanup **PASS**, provider calls
+**NONE**, real/confidential data **NONE**. No affected backend/frontend product,
+config, test harness or dependency code changed in this P0-008 branch; fresh
+full regressions were therefore not repeated. The single fresh PDF case does
+not independently assert storage file counts; cleanup is historical evidence.
+
+### AC-01…AC-16 implementation self-check and traceability
+
+Exact requirement wording remains in section 9. The evidence below maps each
+approved AC to its source and fresh/historical provenance. A gate awaiting an
+independent reviewer or Human cannot be self-certified as PASS.
+
+| AC | Requirement (section 9) | Implementation evidence / exact source or command | Self-check |
+|---|---|---|---|
+| AC-01 | Fix repo identity, audit base and final handover SHA; differentiate P0-007 merge/closeout from P0-008 work. | Runbook identity/evidence ledger; `git rev-parse HEAD` at isolated `737edec`; P0-007 merge `26b1245` and closeout `8142692`; final handoff SHA in Git commit/report. | PASS |
+| AC-02 | A recipient can create a clean Python 3.12 virtual environment outside the author’s existing setup. | New temp worktree `.venv` created by installed Python 3.12.10 at `737edec`; `py -3.12` launcher variance documented in runbook. | PASS |
+| AC-03 | Install pinned backend/test dependencies and lockfile frontend/browser dependencies reproducibly. | Fresh `pip install -r backend/requirements.txt -r tests/requirements.txt`, `npm ci` and `npx playwright install chromium` all succeeded at `737edec`; no manifest/lock changes. | PASS |
+| AC-04 | Normal backend command, root working directory, loopback host/port and health/upload-only default are accurate. | Fresh root `python -m uvicorn backend.app.main:app --host 127.0.0.1 --port 8000`; `/health` returned `{"status":"ok"}`; `config.py` default flag `0`; runbook normal-vs-provider caveat. | PASS |
+| AC-05 | Normal frontend command, directory, port and same-origin rewrite are accurate. | Fresh `frontend/` `npm run dev`: HTTP 200 on localhost:3000, `/backend/health` returned `{"status":"ok"}`; `next.config.ts` server-side rewrite; all-interface bind caveat documented. | PASS |
+| AC-06 | Environment guide separates required, optional, unused/future and live-only variables; secrets stay backend-only. | `.env.example`, runbook variable table, `backend/app/core/config.py`, `frontend/next.config.ts`; unused `NEXT_PUBLIC_API_BASE_URL`/`SUPABASE_*` removed; no key in fresh shell. | PASS |
+| AC-07 | Offline/synthetic processing uses only injected fake runtimes and loopback, with zero provider calls and no confidential input. | `tests/e2e/offline_backend.py`, `frontend/playwright.config.ts`, `frontend/e2e/integration.spec.ts:26-32`; fresh key absent/live flags unset at `737edec`; synthetic PDF case PASS. | PASS |
+| AC-08 | Canonical test/install/start commands state directory, version, isolation and historical-substitution policy. | Runbook setup/normal startup/test table, component READMEs; fresh commands executed at `737edec`, launcher discrepancy and regression substitution documented. | PASS |
+| AC-09 | One fresh handover smoke proves synthetic PDF upload → process → browser display → edit/review → backend validation → exact DOCX export; cleanup provenance is explicit. | Exact targeted Playwright command above: 1 passed/2.3m, DOCX oracle `integration.spec.ts:118-175`; P0-007 cleanup 3/3 per format cited as historical, not fresh. | PASS |
+| AC-10 | Root/component/governance current-state prose agrees with merged capability and only planned production scope; historical entries remain intact. | Section 4 inventory 13/13 actionable items; README/component docs/workflow/System Spec/AGENTS/Context/PCC/protocol factual diffs only. | PASS |
+| AC-11 | A single handover package links capability, run/setup/test commands, review evidence, limitations, final SHA and Human sign-off. | One `MVP_HANDOVER_RUNBOOK.md` with evidence and explicit **pending** independent/Human sign-off gates; final branch SHA in implementation report; no duplicate checklist/evidence file. | PASS — package complete; sign-off pending as gate |
+| AC-12 | Repo hygiene excludes generated/build/cache/env/scratch/patch material and real secrets; protected local files remain untouched. | `git diff --cached --name-only/--stat/--check` and added-line secret-pattern scan passed; `git ls-files` found only `.env.example` among env/patch/scratch/generated paths; original six untracked files untouched, isolated generated files unstaged. | PASS |
+| AC-13 | Security/privacy copy states BLK-003 OPEN, no approved production auth/storage/retention or confidential-data use. | Runbook limitations, README, PCC blocker row and ADR-002/005 boundary; no production claim. | PASS |
+| AC-14 | Known limitations include deferred live smoke, fake semantic oracle, session-only edits/review, no Claims/OCR/prior-art/scoring and no production SLA. | Runbook limitations register; frontend/backend READMEs; P0-006/007 evidence. | PASS |
+| AC-15 | P0-009 → EVAL-001 → SEC-001 → UX hardening remains a post-P0-008 sequence, not P0-008 implementation. | Runbook roadmap and `git diff --name-only 52d3c62...HEAD`; no CI/eval/security/UX product files changed. | PASS |
+| AC-16 | Independent review and Human acceptance are recorded before declaring `MVP HANDOVER READY — LOCAL/SYNTHETIC`; no production/release approval inferred. | Runbook/Context/PCC mark classification **NOT GRANTED**; implementation review and Human acceptance not yet performed. | BLOCKED — future review/Human gate; no premature classification |
+
+Project Orchestrator MCP reconciliation remains **BLOCKED BY TOOL CAPABILITY**:
+existing task `P0-008` still has title “Final hardening”, state `PLANNED`, no
+spec/review metadata and no owner/lease. Human expressly approved this as a
+**non-blocking governance exception** for Git-evidenced implementation. No
+MCP metadata, state, approval or lease was invented. BLK-003 remains OPEN,
+live-provider smoke UNVALIDATED / DEFERRED, public deployment NOT PERFORMED,
+real/confidential data NONE, production readiness NOT APPROVED. No
+`MVP HANDOVER READY — LOCAL/SYNTHETIC` classification is granted yet.
+
+### Implementation handoff
+
+```text
+Task ID: P0-008
+Agent: Codex
+Reviewer: Google Antigravity (Advanced Agentic Coding) for specification; independent implementation reviewer pending
+Status: READY FOR INDEPENDENT IMPLEMENTATION REVIEW; not CLOSED/COMPLETED or handover-ready
+Version: Approved specification v0.1.0 at 52d3c62d3741e9e7abc98c2bf2b300b4885f316c; implementation evidence addendum 0.1.1
+Work completed: Current-state documentation/configuration reconciliation, one authoritative runbook, isolated fresh install/startup/proxy/lint/build/synthetic PDF-to-DOCX verification and AC self-check.
+Files affected: Documentation and .env.example only; exact paths in Git diff from approved spec SHA.
+Evidence checked: Fresh worktree at 737edec7a134620285b368a9c57d08aa63829a0a; targeted Playwright 1 passed (2.3m); historical P0-007 backend/browser/stability/cleanup results kept distinct.
+Findings: No self-check implementation finding; Windows Python launcher and controlled-server teardown caveats documented. Independent implementation review pending.
+Decisions: Human approved implementation and non-blocking MCP governance exception; no Human handover/production acceptance.
+Issues: AC-16 future gate; MCP reconciliation BLOCKED BY TOOL CAPABILITY; BLK-003 OPEN; live-provider smoke UNVALIDATED / DEFERRED.
+Security impact: Synthetic/offline only; no provider key/calls or real/confidential input; no production/public deployment approval.
+Recommended next action: ANTIGRAVITY INDEPENDENT IMPLEMENTATION REVIEW.
 ```
