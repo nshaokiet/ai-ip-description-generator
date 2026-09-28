@@ -3,12 +3,12 @@
 | Field | Value |
 |---|---|
 | Task | P0-008 — MVP Release & Handover Readiness |
-| Runbook version | 0.1.1 (fresh-verification evidence update; no product change) |
+| Runbook version | 0.1.2 (post-merge closeout; no product change) |
 | Date | 28/09/2026 |
 | Repository | Private `nshaokiet/ai-ip-description-generator` |
 | Approved specification | [P0-008 v0.1.0](../tasks/P0-008-mvp-release-handover-readiness.md) at `52d3c62d3741e9e7abc98c2bf2b300b4885f316c` |
 | Baseline main | `8142692c6e92670b4b09996d733f93c409e93e49` |
-| Handover classification | **NOT GRANTED** — proposed `MVP HANDOVER READY — LOCAL/SYNTHETIC`, pending independent implementation review and Human acceptance |
+| Handover classification | **MVP HANDOVER READY — LOCAL/SYNTHETIC** — Human accepted after independent implementation review; see final closeout below |
 | BLK-003 | **OPEN** |
 
 This is the single operational authority for P0-008 local setup, verification,
@@ -19,7 +19,9 @@ is a production, legal or formal Human approval.
 
 Version history: 0.1.0 (28/09/2026, Codex) created the setup/acceptance
 runbook; 0.1.1 (28/09/2026, Codex) records fresh isolated verification and
-observed Windows launcher/server-teardown caveats for P0-008. No breaking
+observed Windows launcher/server-teardown caveats for P0-008; 0.1.2
+(28/09/2026, Codex) records the final review, Human handover acceptance and
+implementation merge without changing the operational procedure. No breaking
 change or approved technical contract change.
 
 ## Capability and boundary
@@ -227,3 +229,27 @@ provider validation. Preserve future sequence: **P0-009** offline CI →
 **EVAL-001** semantic quality → **SEC-001** production security/BLK-003 →
 UX hardening as separately approved. Deployment/staging requires a separate
 Human decision and task.
+
+## Final P0-008 closeout — supersedes pending gates above
+
+The pending independent-review and Human-acceptance statements in the historical
+handover evidence above describe the pre-review state. At final closeout,
+P0-008 is **CLOSED / COMPLETED — MERGED**, with specification review **PASS**,
+independent implementation review **PASS** by Google Antigravity using
+**Gemini 1.5 Pro (Advanced Agentic Coding)**, findings **NONE**, AC-01…AC-15
+**PASS** at review time, and AC-16 **PASS** after Human / Product Owner
+handover acceptance **GRANTED**. The
+reviewed implementation SHA is
+`956ba93048536d2a54d120752ade5540ecc0d901`; its implementation merge
+SHA is `e6b2f665f6334047ec420c49d2097732f2917354`.
+
+The accepted classification is **MVP HANDOVER READY — LOCAL/SYNTHETIC** only.
+BLK-003 remains **OPEN**; live-provider smoke is **UNVALIDATED / DEFERRED**;
+public deployment was **NOT PERFORMED**; production readiness is **NO**;
+real/confidential-data authorization is **NO**. Synthetic evidence is not
+real-paper semantic-quality or legal/filing validation.
+
+Project Orchestrator MCP reconciliation remains **BLOCKED BY TOOL CAPABILITY**.
+Human approved a **non-blocking governance exception** for the Git-evidenced
+workflow. This closeout does not claim MCP task completion, approval, updated
+metadata, owner, lease or synchronization.

@@ -8,11 +8,11 @@ Công cụ hỗ trợ chuyển bài báo khoa học thành dữ liệu có cấu
 
 | Item | Status |
 | --- | --- |
-| MVP | Local / synthetic workflow implemented; handover classification pending |
-| P0-008 | Pending independent implementation review and Human acceptance |
+| MVP | **MVP HANDOVER READY — LOCAL/SYNTHETIC**; Human accepted this limited handover classification |
+| P0-008 | **CLOSED / COMPLETED — MERGED** |
 | Live-provider smoke | **UNVALIDATED / DEFERRED** |
 | BLK-003 | **OPEN** |
-| Production deployment | **NOT APPROVED** |
+| Production deployment | **NOT APPROVED / NOT PERFORMED** |
 | Public URL | **NOT AVAILABLE** |
 
 ## Overview
@@ -208,7 +208,7 @@ These are separate future gates, not a committed production release scope:
 
 | Step | Scope |
 | --- | --- |
-| P0-008 | Local/synthetic handover baseline; independent review and Human acceptance pending |
+| P0-008 | **CLOSED / COMPLETED — MERGED**; local/synthetic handover accepted |
 | P0-009 | Offline CI / regression automation |
 | EVAL-001 | Semantic quality evaluation |
 | SEC-001 | Production security / BLK-003 specification |

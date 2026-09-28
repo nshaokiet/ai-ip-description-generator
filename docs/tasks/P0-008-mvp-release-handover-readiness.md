@@ -21,6 +21,7 @@
 |---|---|---|---|---|---|---|---|
 | None | 0.1.0 | 28/09/2026 | Codex | Define targeted release-readiness audit, documentation reconciliation, fresh-environment and synthetic handover gates | Specify a truthful local/synthetic baseline without implementing P0-008 or claiming production readiness | P0-007 closeout at `8142692c6e92670b4b09996d733f93c409e93e49`; BLK-003 OPEN | No |
 | 0.1.0 | 0.1.1 evidence addendum | 28/09/2026 | Codex | Record specification review PASS/Human implementation approval, documentation/runbook changes and fresh isolated self-check; do not change AC wording or technical requirements | Fixed-SHA implementation handoff for independent review | `REV-P0-008-SPECIFICATION`; Human-approved MCP exception; BLK-003 OPEN | No |
+| 0.1.1 evidence addendum | 0.1.2 closeout addendum | 28/09/2026 | Codex | Record independent implementation PASS, Human handover acceptance and implementation merge; preserve specification v0.1.0 | Close P0-008 local/synthetic handover lifecycle without a production claim | `REV-P0-008-IMPLEMENTATION`; merge `e6b2f665f6334047ec420c49d2097732f2917354`; BLK-003 OPEN | No |
 
 ## 1. Purpose and exact classification
 
@@ -375,3 +376,30 @@ Issues: AC-16 future gate; MCP reconciliation BLOCKED BY TOOL CAPABILITY; BLK-00
 Security impact: Synthetic/offline only; no provider key/calls or real/confidential input; no production/public deployment approval.
 Recommended next action: ANTIGRAVITY INDEPENDENT IMPLEMENTATION REVIEW.
 ```
+
+## 15. Final lifecycle closeout 0.1.2 — specification v0.1.0 unchanged
+
+The preceding implementation handoff and its pending gates are historical;
+this section supersedes their current-state wording without changing any
+approved acceptance criterion or technical requirement. Specification review
+**PASS** and independent implementation review **PASS** have findings
+**NONE**. The implementation reviewer was **Google Antigravity**, using
+**Gemini 1.5 Pro (Advanced Agentic Coding)**; this is historical review
+metadata, not the model assigned to future reviews. AC-01…AC-15 passed
+independent review; Human / Product Owner
+completed AC-16 by explicitly accepting the review and granting local/synthetic
+handover. AC-01…AC-16 are therefore **PASS**. Human handover acceptance is
+**GRANTED**; Human also approved merging the exact reviewed implementation.
+
+Reviewed implementation SHA: `956ba93048536d2a54d120752ade5540ecc0d901`.
+Implementation merge SHA: `e6b2f665f6334047ec420c49d2097732f2917354`.
+Lifecycle: **CLOSED / COMPLETED — MERGED**. Classification:
+**MVP HANDOVER READY — LOCAL/SYNTHETIC**. The specification remains **v0.1.0**
+at `52d3c62d3741e9e7abc98c2bf2b300b4885f316c`. See
+`REV-P0-008-IMPLEMENTATION` in the review log and the final runbook closeout.
+
+BLK-003 remains **OPEN**; live-provider smoke **UNVALIDATED / DEFERRED**;
+public deployment **NOT PERFORMED**; production readiness **NO**;
+real/confidential-data authorization **NO**. MCP reconciliation remains
+**BLOCKED BY TOOL CAPABILITY** under a Human-approved **non-blocking governance
+exception**; no MCP owner, lease, metadata update or completion is claimed.
