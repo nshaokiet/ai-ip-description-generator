@@ -11,7 +11,8 @@ const mediaTypes = {
 
 async function downloadedDocxText(download: Download): Promise<string> {
   const root = path.resolve(__dirname, "../..");
-  const python = path.join(root, ".venv", process.platform === "win32" ? "Scripts/python.exe" : "bin/python");
+  const python = process.env.PLAYWRIGHT_PYTHON ??
+    path.join(root, ".venv", process.platform === "win32" ? "Scripts/python.exe" : "bin/python");
   const helper = path.join(root, "tests/e2e/inspect_docx.py");
   const output = execFileSync(python, [helper, await download.path()], { encoding: "utf8" });
   return (JSON.parse(output) as { text: string }).text;
