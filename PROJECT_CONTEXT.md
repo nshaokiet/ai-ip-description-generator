@@ -8,13 +8,13 @@
 |---|---|
 | Document ID | SPEC-002 |
 | Document title | Project Context — AI Intellectual Property Description Generator |
-| Version | 0.4.5 |
+| Version | 0.4.7 |
 | Status | Approved baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT |
 | Reviewer | Human / Product Owner |
 | Created date | 18/09/2026 |
-| Last updated | 27/09/2026 |
+| Last updated | 28/09/2026 |
 | Related task ID | SPEC-002 |
 | Source of Truth | GitHub — `PROJECT_CONTEXT.md` |
 | Confidentiality level | Internal; research inputs are Confidential by default |
@@ -53,6 +53,8 @@
 | 0.4.2 | 0.4.3 | 27/09/2026 | Codex | Register draft P0-007 MVP E2E Validation & Stabilization specification v0.1.0 for independent review | Plan synthetic/offline integration validation without starting implementation or changing product scope | P0-007; baseline `403deba9d33d1cc20c3d231bc08fa473420505ed`; BLK-003 OPEN | No |
 | 0.4.3 | 0.4.4 | 27/09/2026 | Codex | Record P0-007 specification review PASS/Human implementation approval and test-only implementation handoff for independent implementation review | Evidence-only lifecycle update; no production or release claim | P0-007; specification `f98cf600f47a6559175c10dc3498846a7ae4395b`; code `2638c620a36e6fb4016ed2efaeb788446a5b2eff`; BLK-003 OPEN | No |
 | 0.4.4 | 0.4.5 | 27/09/2026 | Codex | Record P0-007 independent implementation review PASS, Human merge approval and merge; close task while preserving production blockers | Post-merge governance closeout without technical or release change | P0-007, REV-P0-007-IMPLEMENTATION, merge `26b12450284b9331f79fbbffe3220d93e40c0916`; BLK-003 OPEN | No |
+| 0.4.5 | 0.4.6 | 28/09/2026 | Codex | Register P0-008 release/handover readiness specification v0.1.0 for independent review; supersede obsolete P0-007 closeout next action | Targeted local/synthetic handover audit and planning only; no implementation, release or production claim | P0-008; base main `8142692c6e92670b4b09996d733f93c409e93e49`; BLK-003 OPEN | No |
+| 0.4.6 | 0.4.7 | 28/09/2026 | Codex | Record P0-008 specification review PASS, Human implementation approval, fresh local/synthetic verification and pending implementation review; preserve MCP exception/BLK-003 | Implementation handoff without granting handover or production classification | P0-008; spec `52d3c62d3741e9e7abc98c2bf2b300b4885f316c`; `REV-P0-008-SPECIFICATION` | No |
 
 ## 2. Project name
 
@@ -250,6 +252,10 @@ P0-006 Frontend/backend integration là **CLOSED / Completed — Merged** tại 
 
 P0-007 MVP End-to-End Validation & Stabilization có **approved specification v0.1.0** tại `f98cf600f47a6559175c10dc3498846a7ae4395b`. Google Antigravity (Advanced Agentic Coding) independent **specification** review `PASS`, AC-01…AC-16 `PASS`, findings `NONE`, Human decisions required `NONE`; Human / Product Owner approved implementation. Sau historical test/harness handoff, Google Antigravity với reviewer profile Google Antigravity (Advanced Agentic Coding) independent **implementation** review accepted implementation/handoff SHA `bd43a7e9875537c4f5ebdee53626542a11500636` và final test-code SHA `2638c620a36e6fb4016ed2efaeb788446a5b2eff`: `PASS`, AC-01…AC-16 `PASS`, findings `NONE`, reviewer modified no files. Independent lint/build `PASS`, Playwright **11 passed**; reviewer accepted historical targeted backend **194 passed/1 skipped** and full offline backend **380 passed/3 skipped** because no production Python code changed, without independently rerunning those suites. Human accepted review and approved merge `26b12450284b9331f79fbbffe3220d93e40c0916`. Current P0-007 status **CLOSED / COMPLETED — MERGED**. Phạm vi local synthetic/offline; BLK-003 **OPEN**, live-provider smoke **UNVALIDATED / DEFERRED**, no real/confidential-data or production-readiness approval, Claims outside MVP.
 
+P0-007 post-merge closeout was fast-forwarded into `main` at `8142692c6e92670b4b09996d733f93c409e93e49`. P0-008 **MVP Release & Handover Readiness Specification v0.1.0** at `52d3c62d3741e9e7abc98c2bf2b300b4885f316c` received independent Google Antigravity (Advanced Agentic Coding) specification review **PASS**, AC-01…AC-16 PASS, findings NONE, Human decisions required NONE. Human / Product Owner approved implementation. P0-008 documentation/runbook reconciliation and fresh isolated local/synthetic verification are handed off for **independent implementation review**; no implementation review verdict or Human handover acceptance has been recorded. The proposed `MVP HANDOVER READY — LOCAL/SYNTHETIC` classification is **NOT GRANTED**; BLK-003 remains OPEN, live-provider smoke UNVALIDATED / DEFERRED, no real/confidential-data or production/public-deployment approval. See the [runbook](docs/operations/MVP_HANDOVER_RUNBOOK.md) and P0-008 task evidence addendum; historical records remain intact.
+
+Project Orchestrator MCP reconciliation was **BLOCKED BY TOOL CAPABILITY**: existing `P0-008` metadata remains `PLANNED` under “Final hardening”, with reviewed spec not recorded and no owner/lease. Human expressly approved a **non-blocking governance exception** for this Git-evidenced implementation. MCP is not claimed reconciled and no approval/lease/state is fabricated. A future safe admin update remains needed; this exception does not resolve BLK-003.
+
 ## 20. AI / Agent Roles
 
 - **Human / Product Owner — Governance & Final Approval Authority:** quyết định scope, architecture/security/data/provider policy, approve task/gate, merge và release.
@@ -304,10 +310,10 @@ Project Orchestrator MCP là lớp điều phối dùng chung giữa VS Code/Cod
 
 | Artefact | Location | Version | Status có bằng chứng |
 |---|---|---|---|
-| System Specification | `docs/system-specification.md` | 0.3.5 | SPEC-001 Approved baseline; AI-RUNTIME-002 post-merge state đã đồng bộ |
-| AI Collaboration Rules | `AGENTS.md` | 0.2.0 | SPEC-003 Approved baseline |
-| Project Context | `PROJECT_CONTEXT.md` | 0.4.5 | SPEC-002 Approved baseline; P0-007 CLOSED / COMPLETED — MERGED; P0-006 remains CLOSED |
-| Project Control Center source | `docs/operations/01_PROJECT_CONTROL_CENTER.md` | 0.3.18 | P0-007 CLOSED / COMPLETED — MERGED; APP-003 Completed, GOV-P0-006-01 RESOLVED, P0-006 CLOSED, BLK-003 OPEN; Phase 1/Phase 2/MVP chưa được tuyên bố hoàn tất |
+| System Specification | `docs/system-specification.md` | 0.3.7 | SPEC-001 Approved baseline; factual local API/frontend/E2E status updated, requirements unchanged |
+| AI Collaboration Rules | `AGENTS.md` | 0.3.1 | SPEC-003 Approved baseline; factual project-state correction only |
+| Project Context | `PROJECT_CONTEXT.md` | 0.4.7 | SPEC-002 Approved baseline; P0-008 implementation review pending, handover classification not granted |
+| Project Control Center source | `docs/operations/01_PROJECT_CONTROL_CENTER.md` | 0.3.20 | P0-008 specification review CLOSED/PASS; implementation review pending; BLK-003 OPEN |
 | Gemini Review Log source | `docs/operations/02_GEMINI_REVIEW_LOG.md` | 0.3.9 | REV-P0-007-SPECIFICATION and REV-P0-007-IMPLEMENTATION CLOSED; previous review history preserved |
 | Foundational ADRs | `docs/decisions/ADR-001…005-*.md` | ADR-001…ADR-005 | Accepted theo Human decisions ngày 20/09/2026 |
 | APP-001 backend | `backend/app/`, `backend/requirements.txt`, `tests/backend/` | Implementation head `bd39b9f7bdd9f7a1796d9a405e7998070e124e07` | Completed — Merged via PR #10; 24/24 APP-001 tests và 109/109 tổng tests pass |
@@ -317,6 +323,7 @@ Project Orchestrator MCP là lớp điều phối dùng chung giữa VS Code/Cod
 | Core pipeline orchestration | `docs/tasks/APP-003-core-pipeline-orchestration.md`, `backend/app/services/core_pipeline.py` | Specification v1.2.0; governance evidence revision 1.2.1 | APP-003 Completed — Merged; implementation `3e7c2910695eed9e5ef1d7d0ff11f8f0e3ac6c38`, merge `b5a47f6030441b438e7e1745b75b05d8b345d6c0`; merge message: 32/32 AC verified, independent Antigravity PASS; exact underlying model/profile not evidenced; BLK-003 OPEN |
 | P0-006 frontend/backend integration | `docs/tasks/P0-006-frontend-backend-integration.md`, `frontend/`, `backend/app/api/routes/local_orchestration.py` | Approved specification v0.2.0; implementation `0f1e94db438869a980db8a1cb1e06956de2d8d3e` | CLOSED / Completed — Merged at `3207479e5cca73da3e7facbc7c482d2ce5eba2b9`; independent Google Antigravity (Advanced Agentic Coding) PASS, AC-01…AC-17 PASS, findings NONE; BLK-003 OPEN; GOV-P0-006-01 RESOLVED separately |
 | P0-007 validation/stabilization | `docs/tasks/P0-007-mvp-e2e-validation-stabilization.md`; `frontend/e2e/`; `tests/e2e/` | Approved specification v0.1.0; implementation evidence revision 0.1.2; accepted implementation `bd43a7e9875537c4f5ebdee53626542a11500636`, final test-code `2638c620a36e6fb4016ed2efaeb788446a5b2eff` | CLOSED / COMPLETED — MERGED at `26b12450284b9331f79fbbffe3220d93e40c0916`; independent AC-01…AC-16 PASS, findings NONE; lint/build PASS, Playwright 11 passed; historical backend accepted without independent rerun; synthetic/offline only; BLK-003 OPEN |
+| P0-008 release/handover readiness | `docs/tasks/P0-008-mvp-release-handover-readiness.md`, `docs/operations/MVP_HANDOVER_RUNBOOK.md` | Approved specification v0.1.0 at `52d3c62d3741e9e7abc98c2bf2b300b4885f316c`; evidence addendum 0.1.1 | Specification review PASS/Human implementation approval; local/synthetic implementation self-check ready for independent implementation review; no handover/production claim; BLK-003 OPEN |
 | ADR | `docs/decisions/ADR-006-output-schema-v1.md` | ADR-006 | Accepted; Completed — Merged via PR #1 |
 | Production JSON Schema | `schemas/invention-output/v1.0.0/invention-output.schema.json` | 1.0.0 | Completed — Merged via PR #1; Gemini review PASS; 15/15 tests pass |
 | Production extraction prompt | `prompts/extraction/v1.0.0/extraction-prompt.md` | 1.0.0 | Completed — Merged via PR #3; canonical offline validation only |
@@ -348,9 +355,9 @@ Project Orchestrator MCP là lớp điều phối dùng chung giữa VS Code/Cod
 
 ## 28. Recommended next action
 
-1. HUMAN MERGE CLOSEOUT for documentation branch `docs/p0-007-post-merge-closeout`; P0-007 implementation and review are already CLOSED and merged.
-2. BLK-003 remains OPEN: no real research data or production-readiness claim before Human security/data decisions; live-provider smoke remains UNVALIDATED / DEFERRED.
-3. Claims, optional outputs and deployment require separate approval; P0-006 remains CLOSED and GOV-P0-006-01 RESOLVED without implying MVP completion.
+1. ANTIGRAVITY INDEPENDENT IMPLEMENTATION REVIEW for P0-008 on `feat/p0-008-mvp-release-handover-readiness`; review a fixed final SHA and fresh evidence in the runbook/task addendum.
+2. Human handover acceptance and `MVP HANDOVER READY — LOCAL/SYNTHETIC` classification remain future gates. P0-007 remains CLOSED at main `8142692c6e92670b4b09996d733f93c409e93e49`.
+3. BLK-003 remains OPEN: no real research data or production-readiness claim; live-provider smoke UNVALIDATED / DEFERRED. Claims, optional outputs and deployment require separate approval.
 
 AI-002 được merge với implementation commit `f8772b228a23bf7cdec10fa0c463e6d1f672c341` và governance commit `9f2a78b1396cdadb747c263a2bbbbacb8d7f4292`; Gemini review `PASS`, không có finding, AI-001 regression 15/15 và AI-002 tests 17/17 pass. AI-002 tự thân không chứng minh Responses API hoặc live-model integration; provider adapter/runtime sau đó được Human phê duyệt riêng trong AI-RUNTIME-001. Claims vẫn nằm ngoài Output Schema và Extraction Prompt v1.0.0.
 

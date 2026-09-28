@@ -1,8 +1,12 @@
 # Autonomous Agent Protocol — Project Orchestrator MCP
 
-Version: 0.1.0 | Status: tooling instructions | Date: 25/09/2026
-Scope: local task coordination only; production APP-003 remains frozen until
-26/09/2026 and is not implemented by this tooling task.
+Version: 0.1.1 | Status: tooling instructions | Date: 28/09/2026
+Scope: local task coordination only. APP-003 was historically deferred until
+26/09/2026 and has since been implemented/merged; this protocol does not
+authorize production operation or change task authority.
+
+Version 0.1.1 is a factual status correction for P0-008; no MCP authority,
+lease rule or product policy changes from 0.1.0.
 
 ## Authority and preflight
 
@@ -54,8 +58,10 @@ or activate a reset automatically. The server never scrapes an IDE quota UI.
 STOP and ask for Human decision before architecture changes, scope expansion,
 security/privacy choices, provider/model changes, paid APIs, confidential
 research inputs, canonical schema/prompt changes, main merge, destructive Git
-actions or quota reset activation. Keep APP-003 unmodified before 26/09/2026
-Vietnam time. Do not run the P0 seed tasks during orchestrator development.
+actions or quota reset activation. The historical APP-003 deferral before
+26/09/2026 Vietnam time no longer applies; do not infer authority for new
+implementation tasks from its expiration. Do not run P0 seed tasks during
+orchestrator development.
 
 Never force push, reset --hard, rewrite shared history, merge main, git add .,
 delete Human files/branches, or use unapproved paid services. No MCP tool

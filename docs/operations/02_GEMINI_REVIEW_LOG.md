@@ -10,14 +10,14 @@
 | Document title | Gemini Review Log |
 | Project | AI Intellectual Property Description Generator |
 | Project deadline | 02/10/2026 |
-| Version | 0.3.9 |
+| Version | 0.3.10 |
 | Status | Active review log |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
-| Reviewer | Gemini 3.1 Pro High + Gemini 3.8 Flash High (historical); Google Antigravity (Advanced Agentic Coding) for REV-P0-006-IMPLEMENTATION, REV-P0-007-SPECIFICATION and REV-P0-007-IMPLEMENTATION |
+| Reviewer | Gemini 3.1 Pro High + Gemini 3.8 Flash High (historical); Google Antigravity (Advanced Agentic Coding) for REV-P0-006-IMPLEMENTATION, REV-P0-007-SPECIFICATION, REV-P0-007-IMPLEMENTATION and REV-P0-008-SPECIFICATION |
 | Created date | 18/09/2026 |
-| Last updated | 27/09/2026 GMT+7 |
-| Related task ID | REVIEW-001; SPEC-001; SPEC-002; SPEC-003; AI-001; AI-002; AI-003; DOC-001; APP-001; APP-002; AI-RUNTIME-001; AI-RUNTIME-002; APP-003; P0-006; P0-007 |
+| Last updated | 28/09/2026 GMT+7 |
+| Related task ID | REVIEW-001; SPEC-001; SPEC-002; SPEC-003; AI-001; AI-002; AI-003; DOC-001; APP-001; APP-002; AI-RUNTIME-001; AI-RUNTIME-002; APP-003; P0-006; P0-007; P0-008 |
 | Source of Truth | Review history; bản nguồn Git tại `docs/operations/02_GEMINI_REVIEW_LOG.md` |
 | Confidentiality level | Internal; findings về research input có thể là Confidential |
 
@@ -44,6 +44,7 @@
 | 0.3.6 | 0.3.7 | 27/09/2026 | Codex | Bổ sung APP-003 implementation merge-evidence addendum; giữ nguyên lịch sử review đặc tả REV-APP-003, không tạo review record giả | Reconcile GOV-P0-006-01 from Git evidence; exact underlying reviewer model/profile not evidenced | APP-003, GOV-P0-006-01, merge `b5a47f6030441b438e7e1745b75b05d8b345d6c0` | No |
 | 0.3.7 | 0.3.8 | 27/09/2026 | Codex | Record Human-supplied P0-007 independent specification review PASS, no findings or Human decisions, and subsequent Human implementation approval | Preserve actual specification gate separately from pending implementation review | P0-007, REV-P0-007-SPECIFICATION, `f98cf600f47a6559175c10dc3498846a7ae4395b` | No |
 | 0.3.8 | 0.3.9 | 27/09/2026 | Codex | Record P0-007 independent implementation review PASS, Human merge approval and merge resolution; close review | Post-merge governance closeout without modifying historical specification review | P0-007, REV-P0-007-IMPLEMENTATION, merge `26b12450284b9331f79fbbffe3220d93e40c0916` | No |
+| 0.3.9 | 0.3.10 | 28/09/2026 | Codex | Record Human-supplied P0-008 independent specification review PASS, AC-01…AC-16 PASS, findings NONE and subsequent Human implementation approval | Close the specification review gate without claiming implementation review or handover acceptance | P0-008, REV-P0-008-SPECIFICATION, `52d3c62d3741e9e7abc98c2bf2b300b4885f316c` | No |
 
 ## 2. Review Rules
 
@@ -102,6 +103,7 @@
 | REV-P0-006-IMPLEMENTATION | 27/09/2026 closeout record; independent review date not supplied | P0-006 | Frontend/backend integration implementation | Reviewed `0f1e94db438869a980db8a1cb1e06956de2d8d3e`; resolved by merge `3207479e5cca73da3e7facbc7c482d2ce5eba2b9` | PASS (reported result; no separate recommendation supplied) | CLOSED |
 | REV-P0-007-SPECIFICATION | 27/09/2026 record; independent review date not supplied | P0-007 | MVP E2E Validation & Stabilization Specification v0.1.0 | Reviewed/resolved `f98cf600f47a6559175c10dc3498846a7ae4395b`; no remediation | PASS (reported result; no separate recommendation supplied) | CLOSED — Human approved implementation; subsequent implementation review closed separately in REV-P0-007-IMPLEMENTATION |
 | REV-P0-007-IMPLEMENTATION | 27/09/2026 closeout record; independent review date not supplied | P0-007 | MVP E2E Validation & Stabilization implementation | Reviewed `bd43a7e9875537c4f5ebdee53626542a11500636`; final test-code `2638c620a36e6fb4016ed2efaeb788446a5b2eff`; resolved by merge `26b12450284b9331f79fbbffe3220d93e40c0916` | PASS (reported result; no separate recommendation supplied) | CLOSED — AC-01…AC-16 PASS; findings NONE; Human accepted review and approved merge |
+| REV-P0-008-SPECIFICATION | 28/09/2026 record; independent review date not supplied | P0-008 | MVP Release & Handover Readiness specification v0.1.0 | Reviewed/resolved `52d3c62d3741e9e7abc98c2bf2b300b4885f316c`; no remediation reported | PASS (reported result; no separate recommendation supplied) | CLOSED — AC-01…AC-16 PASS; findings NONE; Human approved implementation; implementation review remains separate |
 
 Các entry historical được ChatGPT/Codex ghi lại từ kết quả Gemini do Human / Product Owner xác nhận; Gemini không sửa production artefact. REV-P0-006-IMPLEMENTATION ghi đúng Google Antigravity (Advanced Agentic Coding) theo evidence Human cung cấp, không suy đoán model nền; reviewer modified NONE. REV-001/002/003 ghi verdict `PASS WITH HUMAN DECISIONS REQUIRED`, không có document finding; chúng được đóng sau khi Human phê duyệt baseline và ban hành DEC-001/002/003. REV-APP-001 đã `CLOSED` sau khi Human approve và merge PR #10 ngày 20/09/2026. REV-APP-002 bảo toàn initial `REQUEST CHANGES`, F-001/F-002 và remediation evidence; lifecycle được `CLOSED` sau targeted `PASS` và Human merge PR #12 ngày 21/09/2026. REV-AI-RUNTIME-001 bảo toàn specification initial `REQUEST CHANGES`, targeted specification `PASS`, implementation `PASS WITH NON-BLOCKING NOTES`, F-001 remediation, targeted remediation `PASS` và Human merge PR #14; F-002 live-provider evidence vẫn là non-blocking `NOTE` chưa chạy. REV-AI-RUNTIME-002 bảo toàn toàn bộ lifecycle review các checkpoints (A-E), remediation đợt cuối đạt độc lập APPROVED, Human merge PR #16 ngày 22/09/2026; ghi nhận live provider smoke NOT RUN — DEFERRED due to unavailable API funding mà không tạo false PASS.
 
@@ -1898,3 +1900,44 @@ No finding required remediation. The accepted implementation/handoff SHA was mer
 #### 19. Closed By
 
 Human / Product Owner instruction to perform post-merge closeout, recorded by Codex.
+
+### REV-P0-008-SPECIFICATION — independent specification review
+
+#### Reviewer and date
+
+Reviewer: **Google Antigravity**. Reviewer profile: **Google Antigravity
+(Advanced Agentic Coding)**, exactly as provided by Human / Product Owner.
+Underlying model and exact independent review date were not supplied; this
+record was entered 28/09/2026. No model identity is inferred from the profile.
+
+#### Artefact, objective and evidence
+
+Reviewed P0-008 MVP Release & Handover Readiness specification v0.1.0 at
+`52d3c62d3741e9e7abc98c2bf2b300b4885f316c`, on
+`docs/p0-008-mvp-release-handover-readiness-spec`. The reviewed/resolved SHA
+is the same; no remediation was reported. A separate primary review report or
+per-file source list was not supplied and is not invented. This was a
+**specification** review of AC-01 through AC-16, not the later independent
+implementation review.
+
+#### Verdict, findings and Human decision
+
+Human-supplied verdict: **PASS**; specification AC-01…AC-16 **PASS**;
+findings **NONE**; Human decisions required **NONE**. Human / Product Owner
+subsequently approved P0-008 implementation and explicitly approved a
+**non-blocking MCP governance exception**: the existing operational record
+remains `Final hardening` / `PLANNED` because available MCP tools cannot
+administratively update its metadata. Git specification/review evidence is
+authoritative for this implementation; no MCP approval, owner, lease or
+reconciliation success is fabricated. No Human handover/production/public
+deployment approval was provided.
+
+#### Resolution and boundaries
+
+No finding required remediation. `REV-P0-008-SPECIFICATION` is **CLOSED**
+at the reviewed specification SHA by the Human-approved implementation gate,
+recorded by Codex on 28/09/2026. Independent **implementation** review is
+still pending. BLK-003 **OPEN**; live-provider smoke **UNVALIDATED / DEFERRED**;
+no real/confidential-data, production, public deployment, legal or filing
+readiness is authorized. The eventual local/synthetic handover classification
+requires independent implementation review and separate Human acceptance.
