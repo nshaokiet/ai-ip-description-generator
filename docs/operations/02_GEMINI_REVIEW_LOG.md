@@ -10,14 +10,14 @@
 | Document title | Gemini Review Log |
 | Project | AI Intellectual Property Description Generator |
 | Project deadline | 02/10/2026 |
-| Version | 0.3.11 |
+| Version | 0.3.12 |
 | Status | Active review log |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
-| Reviewer | Gemini 3.1 Pro High + Gemini 3.8 Flash High (historical); Google Antigravity (Advanced Agentic Coding) for REV-P0-006-IMPLEMENTATION, REV-P0-007-SPECIFICATION, REV-P0-007-IMPLEMENTATION and REV-P0-008-SPECIFICATION; Google Antigravity / Gemini 1.5 Pro (Advanced Agentic Coding) for REV-P0-008-IMPLEMENTATION |
+| Reviewer | Gemini 3.1 Pro High + Gemini 3.8 Flash High (historical); Google Antigravity (Advanced Agentic Coding) for REV-P0-006-IMPLEMENTATION, REV-P0-007-SPECIFICATION, REV-P0-007-IMPLEMENTATION and REV-P0-008-SPECIFICATION; Google Antigravity / Gemini 1.5 Pro (Advanced Agentic Coding) for REV-P0-008-IMPLEMENTATION; Gemini 3.1 Pro High for REV-P0-009-IMPLEMENTATION |
 | Created date | 18/09/2026 |
 | Last updated | 28/09/2026 GMT+7 |
-| Related task ID | REVIEW-001; SPEC-001; SPEC-002; SPEC-003; AI-001; AI-002; AI-003; DOC-001; APP-001; APP-002; AI-RUNTIME-001; AI-RUNTIME-002; APP-003; P0-006; P0-007; P0-008 |
+| Related task ID | REVIEW-001; SPEC-001; SPEC-002; SPEC-003; AI-001; AI-002; AI-003; DOC-001; APP-001; APP-002; AI-RUNTIME-001; AI-RUNTIME-002; APP-003; P0-006; P0-007; P0-008; P0-009 |
 | Source of Truth | Review history; bản nguồn Git tại `docs/operations/02_GEMINI_REVIEW_LOG.md` |
 | Confidentiality level | Internal; findings về research input có thể là Confidential |
 
@@ -46,6 +46,7 @@
 | 0.3.8 | 0.3.9 | 27/09/2026 | Codex | Record P0-007 independent implementation review PASS, Human merge approval and merge resolution; close review | Post-merge governance closeout without modifying historical specification review | P0-007, REV-P0-007-IMPLEMENTATION, merge `26b12450284b9331f79fbbffe3220d93e40c0916` | No |
 | 0.3.9 | 0.3.10 | 28/09/2026 | Codex | Record Human-supplied P0-008 independent specification review PASS, AC-01…AC-16 PASS, findings NONE and subsequent Human implementation approval | Close the specification review gate without claiming implementation review or handover acceptance | P0-008, REV-P0-008-SPECIFICATION, `52d3c62d3741e9e7abc98c2bf2b300b4885f316c` | No |
 | 0.3.10 | 0.3.11 | 28/09/2026 | Codex | Record evidenced P0-008 independent implementation PASS, Human AC-16 handover acceptance and implementation merge; preserve historical reviewer model | Close implementation review after Human decision without claiming production readiness | P0-008, REV-P0-008-IMPLEMENTATION, merge `e6b2f665f6334047ec420c49d2097732f2917354` | No |
+| 0.3.11 | 0.3.12 | 28/09/2026 | Codex | Preserve P0-009 initial PASS WITH NON-BLOCKING NOTES/F-01, record approved remediation, targeted Gemini PASS, CI and Human merge disposition; close review | Post-merge review closeout without rewriting initial decision | P0-009, REV-P0-009-IMPLEMENTATION, PR #28, merge `1f1754607152053ed4788f7fd5208c782432a320` | No |
 
 ## 2. Review Rules
 
@@ -106,6 +107,7 @@
 | REV-P0-007-IMPLEMENTATION | 27/09/2026 closeout record; independent review date not supplied | P0-007 | MVP E2E Validation & Stabilization implementation | Reviewed `bd43a7e9875537c4f5ebdee53626542a11500636`; final test-code `2638c620a36e6fb4016ed2efaeb788446a5b2eff`; resolved by merge `26b12450284b9331f79fbbffe3220d93e40c0916` | PASS (reported result; no separate recommendation supplied) | CLOSED — AC-01…AC-16 PASS; findings NONE; Human accepted review and approved merge |
 | REV-P0-008-SPECIFICATION | 28/09/2026 record; independent review date not supplied | P0-008 | MVP Release & Handover Readiness specification v0.1.0 | Reviewed/resolved `52d3c62d3741e9e7abc98c2bf2b300b4885f316c`; no remediation reported | PASS (reported result; no separate recommendation supplied) | CLOSED — AC-01…AC-16 PASS; findings NONE; Human approved implementation; implementation review remains separate |
 | REV-P0-008-IMPLEMENTATION | 28/09/2026 closeout record; independent review date not supplied | P0-008 | MVP Release & Handover Readiness implementation | Reviewed `956ba93048536d2a54d120752ade5540ecc0d901`; resolved by merge `e6b2f665f6334047ec420c49d2097732f2917354` | PASS (reported result; no separate recommendation supplied) | CLOSED — AC-01…AC-15 independent PASS, AC-16 Human gate completed afterward; findings NONE; local/synthetic handover accepted |
+| REV-P0-009-IMPLEMENTATION | 28/09/2026 closeout record; independent review dates not supplied | P0-009 | CI Foundation implementation and targeted F-01 remediation | Initial `8979c72145d95f4f539b40e9e59b2d8af2f59fab`; accepted remediation `ce9f723e143671d4917bf0bf5885772af3b00f7b`; resolved by merge `1f1754607152053ed4788f7fd5208c782432a320` | Initial PASS WITH NON-BLOCKING NOTES; targeted PASS | CLOSED — F-01 RESOLVED; new findings NONE; Human-approved merge; PR/main CI SUCCESS |
 
 Các entry historical được ChatGPT/Codex ghi lại từ kết quả Gemini do Human / Product Owner xác nhận; Gemini không sửa production artefact. REV-P0-006-IMPLEMENTATION ghi đúng Google Antigravity (Advanced Agentic Coding) theo evidence Human cung cấp, không suy đoán model nền; reviewer modified NONE. REV-001/002/003 ghi verdict `PASS WITH HUMAN DECISIONS REQUIRED`, không có document finding; chúng được đóng sau khi Human phê duyệt baseline và ban hành DEC-001/002/003. REV-APP-001 đã `CLOSED` sau khi Human approve và merge PR #10 ngày 20/09/2026. REV-APP-002 bảo toàn initial `REQUEST CHANGES`, F-001/F-002 và remediation evidence; lifecycle được `CLOSED` sau targeted `PASS` và Human merge PR #12 ngày 21/09/2026. REV-AI-RUNTIME-001 bảo toàn specification initial `REQUEST CHANGES`, targeted specification `PASS`, implementation `PASS WITH NON-BLOCKING NOTES`, F-001 remediation, targeted remediation `PASS` và Human merge PR #14; F-002 live-provider evidence vẫn là non-blocking `NOTE` chưa chạy. REV-AI-RUNTIME-002 bảo toàn toàn bộ lifecycle review các checkpoints (A-E), remediation đợt cuối đạt độc lập APPROVED, Human merge PR #16 ngày 22/09/2026; ghi nhận live provider smoke NOT RUN — DEFERRED due to unavailable API funding mà không tạo false PASS.
 
@@ -2089,3 +2091,172 @@ supplied.
 #### 19. Closed By
 
 Human / Product Owner acceptance and merge instruction, recorded by Codex.
+
+### REV-P0-009-IMPLEMENTATION — CI Foundation independent review and F-01 closeout
+
+#### Date
+
+Independent initial and targeted review dates were not supplied. Closeout
+recorded 28/09/2026.
+
+#### Reviewer
+
+**Gemini 3.1 Pro High** for both the initial implementation review and the
+targeted remediation re-review. Reviewer modified **NONE** files, per the
+Human-supplied review evidence.
+
+#### Task ID
+
+`P0-009 — CI Foundation`.
+
+#### Artefact reviewed
+
+PR [#28](https://github.com/nshaokiet/ai-ip-description-generator/pull/28),
+offline CI workflow and approved Playwright Python portability changes.
+
+#### Version reviewed
+
+Initial implementation `8979c72145d95f4f539b40e9e59b2d8af2f59fab`;
+targeted remediation `ce9f723e143671d4917bf0bf5885772af3b00f7b`.
+Resolved by normal merge `1f1754607152053ed4788f7fd5208c782432a320`.
+
+#### Review status
+
+**CLOSED** after targeted PASS, Human acceptance and merge.
+
+#### 1. Review Objective
+
+Independent implementation review and targeted verification of F-01 for the
+provider-isolated, local/synthetic CI Foundation. Not a production, live
+provider, real/confidential-data, semantic-quality or legal/filing review.
+
+#### 2. Sources Reviewed
+
+Human supplied both fixed-SHA reviewer decisions and finding disposition.
+GitHub PR #28 and Actions runs
+[36394799769](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/36394799769),
+[36396184226](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/36396184226)
+and post-merge [36397653688](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/36397653688)
+provide repository and execution evidence. A separate primary review report,
+per-file reviewer source list and review dates were not supplied; none are
+invented.
+
+#### 3. Summary
+
+Initial Gemini 3.1 Pro High decision on `8979c721…`:
+**PASS WITH NON-BLOCKING NOTES**. F-01 NOTE identified that real GitHub Actions execution
+was not yet verified. After the first CI run exposed a test-helper portability
+failure, Human approved a narrow remediation. Targeted Gemini 3.1 Pro High
+re-review of `ce9f723…`: **PASS**, F-01 **RESOLVED**, new findings **NONE**.
+The initial review is not retroactively relabeled as PASS.
+
+#### 4. Findings
+
+##### F-01 — GitHub Actions execution and test-helper portability
+
+| Field | Evidence |
+|---|---|
+| Finding ID | F-01 |
+| Severity | NOTE — non-blocking at initial review |
+| Category | Testing / CI portability |
+| Location | GitHub Actions execution; `frontend/e2e/integration.spec.ts` DOCX inspection helper |
+| Description | Initial review had no real CI execution evidence. First remote run `36394799769` failed at Playwright: 7 passed / 4 failed because the DOCX inspection helper selected repository `.venv` Python, absent in CI. |
+| Impact | CI could not pass the approved synthetic E2E gate despite earlier gates passing. |
+| Suggested change | Human-approved `PLAYWRIGHT_PYTHON` override in this helper only, retaining local `.venv` fallback and all test expectations. |
+| Requires Human decision | Yes — narrow remediation approval was granted. |
+| Resolution status | **RESOLVED** at `ce9f723e143671d4917bf0bf5885772af3b00f7b`; PR run `36396184226` SUCCESS, targeted Gemini re-review PASS; main run `36397653688` SUCCESS. |
+
+#### 5. Source-Grounding Issues
+
+No source-grounding finding was supplied for this CI review. Synthetic tests
+do not establish source entailment on real papers.
+
+#### 6. Hallucination Risks
+
+Do not extrapolate offline CI success into real-paper semantic quality,
+live-provider behavior or patent/legal correctness.
+
+#### 7. Missing Information
+
+Independent review dates and a primary report/per-file inspection list were
+not supplied. No unsupported reviewer execution details are attributed.
+
+#### 8. Technical Concerns
+
+F-01's CI-specific Python path failure was resolved without changing test
+expectations, the offline backend, dependencies or application behavior.
+Accepted PR run `36396184226` and post-merge `push`/`main` run `36397653688`
+both completed `CI / build-and-test` successfully. The latter reports backend
+**381 passed / 2 skipped**, lint/build **PASS**, Chromium install **PASS**
+and Playwright **11 passed**.
+
+#### 9. Security and Privacy Concerns
+
+Workflow live-test flags are `0`, no provider secret is configured and no
+provider API call was observed in the offline/synthetic gates. BLK-003 remains
+**OPEN**; no real/confidential-data or production/public deployment approval.
+
+#### 10. Consistency Issues
+
+The initial review and failing first run remain historical. This closeout
+adds their subsequent resolution rather than replacing them.
+
+#### 11. Suggested Changes
+
+The Human-approved F-01 remediation was implemented in
+`frontend/e2e/integration.spec.ts` only. No new finding or further change was
+reported in targeted re-review.
+
+#### 12. Recommendation
+
+Reported decisions: initial **PASS WITH NON-BLOCKING NOTES**; targeted
+remediation **PASS**. No separate recommendation label was supplied.
+
+#### 13. Handoff to ChatGPT/Codex
+
+```text
+Task ID: P0-009
+Agent: Gemini 3.1 Pro High — independent reviewer
+Reviewer: Human / Product Owner — final approval authority
+Status: CLOSED — F-01 RESOLVED; P0-009 CLOSED / COMPLETED — MERGED
+Version: Initial 8979c72145d95f4f539b40e9e59b2d8af2f59fab; remediation ce9f723e143671d4917bf0bf5885772af3b00f7b; merge 1f1754607152053ed4788f7fd5208c782432a320
+Work completed: Initial review, targeted F-01 re-review and Human-approved merge.
+Files affected: Reviewer modified NONE; remediation changed frontend/e2e/integration.spec.ts only.
+Evidence checked: PR CI 36396184226 SUCCESS; main CI 36397653688 SUCCESS, backend 381 passed/2 skipped, lint/build PASS, Playwright 11 passed.
+Findings: F-01 NOTE RESOLVED; new findings NONE.
+Decisions: Human accepted implementation, remediation, review, CI and merge.
+Issues: BLK-003 OPEN; live-provider smoke UNVALIDATED / DEFERRED.
+Security impact: No production, public deployment or real/confidential-data authorization.
+Recommended next action: EVAL-001 specification/design through a separate Human gate.
+```
+
+#### 14. ChatGPT/Codex Response
+
+The approved portability fix was committed as `ce9f723…` and checked by the
+successful PR and main CI runs. No additional implementation change is made
+in this documentation closeout.
+
+#### 15. Human Decision
+
+Human / Product Owner approved F-01 remediation, accepted the Gemini targeted
+PASS and successful CI, and explicitly authorized PR #28 merge and post-merge
+closeout. No production or public release decision was granted.
+
+#### 16. Resolution
+
+F-01 **RESOLVED**; new findings **NONE**. PR #28 was normally merged at
+`1f1754607152053ed4788f7fd5208c782432a320`; review **CLOSED**.
+
+#### 17. Resolved Version
+
+`ce9f723e143671d4917bf0bf5885772af3b00f7b` (remediation), merged at
+`1f1754607152053ed4788f7fd5208c782432a320`.
+
+#### 18. Closed Date
+
+`28/09/2026` — governance closeout record date; independent review dates not
+supplied.
+
+#### 19. Closed By
+
+Human / Product Owner acceptance and merge authorization, recorded by Codex.

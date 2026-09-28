@@ -3,20 +3,24 @@
 | Field | Value |
 |---|---|
 | Task ID | P0-009 |
-| Document version | 0.1.0 |
+| Document version | 0.1.1 |
 | Date | 28/09/2026 |
-| Status | READY FOR INDEPENDENT IMPLEMENTATION REVIEW — not merged or completed |
+| Status | CLOSED / COMPLETED — MERGED |
 | Approved baseline main | `bf837ef10622160fc76f80227e23f81830d69f76` |
 | Implementation branch | `feat/p0-009-ci-foundation` |
 | Human design approval | GRANTED |
 | Implementation agent | GPT-6 Sol (Human-assigned role) |
-| Independent reviewer | Gemini 3.1 Pro High — review pending |
+| Independent reviewer | Gemini 3.1 Pro High — targeted remediation re-review PASS |
 | Final merge authority | Human / Product Owner |
 
 Version history: 0.1.0 (28/09/2026, Codex) records the approved CI design,
 the narrow Playwright portability decision, implementation boundaries and local
 validation for independent review. No production contract or product behavior
 change; breaking change **No**.
+
+Version history: 0.1.1 (28/09/2026, Codex) adds the Human-approved F-01
+remediation, independent re-review, successful PR/main CI and merge closeout.
+Technical requirements unchanged; breaking change **No**.
 
 ## Approved design and Human decisions
 
@@ -96,3 +100,29 @@ Issues: GitHub Actions run and independent review pending; BLK-003 OPEN; live-pr
 Security impact: No provider credentials or calls; read-only workflow token; synthetic/offline tests only.
 Recommended next action: GEMINI 3.1 PRO HIGH — INDEPENDENT IMPLEMENTATION REVIEW.
 ```
+
+## Post-merge closeout — 28/09/2026
+
+The historical implementation and local results above remain as recorded at
+the original handoff. Current lifecycle: **CLOSED / COMPLETED — MERGED**.
+
+| Evidence | Final record |
+|---|---|
+| Baseline | `bf837ef10622160fc76f80227e23f81830d69f76` |
+| Original implementation | `8979c72145d95f4f539b40e9e59b2d8af2f59fab` |
+| Initial independent review | Gemini 3.1 Pro High: **PASS WITH NON-BLOCKING NOTES**; F-01 NOTE: GitHub Actions execution not yet verified. |
+| First remote run | [36394799769](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/36394799769): **FAILURE**; Playwright 7 passed / 4 failed. The DOCX inspection test helper hard-coded repository `.venv` Python, absent on the CI runner. Prior quality gates passed. |
+| Human remediation approval | **GRANTED** for interpreter selection in `frontend/e2e/integration.spec.ts` only; test expectations, offline harness, application behavior and dependencies unchanged. |
+| Final accepted remediation | `ce9f723e143671d4917bf0bf5885772af3b00f7b`; `PLAYWRIGHT_PYTHON` override with unchanged local `.venv` fallback. |
+| Accepted PR CI | [36396184226](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/36396184226): **SUCCESS**; backend 381 passed / 2 skipped, lint/build PASS, Playwright 11 passed. |
+| Targeted independent re-review | Gemini 3.1 Pro High: **PASS**; F-01 **RESOLVED**, new findings **NONE**; reviewer modified **NONE** files. |
+| Human disposition | Accepted final implementation, remediation, independent review, CI evidence and merge. |
+| PR and implementation merge | [#28](https://github.com/nshaokiet/ai-ip-description-generator/pull/28), normal merge `1f1754607152053ed4788f7fd5208c782432a320`. |
+| Post-merge main CI | [36397653688](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/36397653688): `push`/`main`, `CI` / `build-and-test`, **SUCCESS**; backend 381 passed / 2 skipped, lint/build PASS, Chromium install PASS, Playwright 11 passed. |
+
+CI protects `pull_request(main)` and `push(main)` for deterministic
+local/synthetic regression only. BLK-003 remains **OPEN**; live-provider smoke
+is **UNVALIDATED / DEFERRED**. Production/public deployment and use of real or
+confidential data are **not approved**; semantic quality on real papers and
+legal/filing readiness are not established. Next planned task is **EVAL-001 —
+Semantic Quality Evaluation**, subject to its own Human-approved design/spec.

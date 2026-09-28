@@ -10,6 +10,8 @@ Công cụ hỗ trợ chuyển bài báo khoa học thành dữ liệu có cấu
 | --- | --- |
 | MVP | **MVP HANDOVER READY — LOCAL/SYNTHETIC**; Human accepted this limited handover classification |
 | P0-008 | **CLOSED / COMPLETED — MERGED** |
+| P0-009 | **CLOSED / COMPLETED — MERGED**; CI Foundation |
+| CI | **ACTIVE** — offline regression gates on `pull_request(main)` and `push(main)` |
 | Live-provider smoke | **UNVALIDATED / DEFERRED** |
 | BLK-003 | **OPEN** |
 | Production deployment | **NOT APPROVED / NOT PERFORMED** |
@@ -99,7 +101,7 @@ boundaries. Fake output does not establish live-model or semantic quality. See t
 | Version control | GitHub |
 
 No database or deployment platform is active infrastructure in this local
-baseline. P0-009 owns future offline CI/regression automation.
+baseline. P0-009 CI covers deterministic local/synthetic regression only.
 
 ## Quick start
 
@@ -158,10 +160,15 @@ npm run build
 npm run test:e2e
 ```
 
-**Historical P0-007 evidence, not a fresh run of these commands:** offline backend
-**380 passed / 3 skipped**; Playwright **11 passed**. P0-008's fresh PDF-to-DOCX
-smoke and environment details are in the runbook. There is no current CI workflow
-or badge; P0-009 addresses automation.
+The active [CI workflow](.github/workflows/ci.yml) runs on pull requests targeting
+`main` and pushes to `main`: Python 3.12 full pytest, Node 24.18.0 `npm ci`,
+lint, build, Playwright Chromium, and synthetic E2E. The accepted post-merge
+[main run](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/36397653688)
+passed (backend **381 passed / 2 skipped**, lint/build PASS, Playwright
+**11 passed**). **Historical P0-007 evidence:** offline backend
+**380 passed / 3 skipped**; Playwright **11 passed**. P0-008's fresh PDF-to-DOCX smoke and
+environment details are in the runbook. CI does not validate a live provider
+or real-paper semantic quality.
 
 ## Repository structure
 
@@ -209,7 +216,7 @@ These are separate future gates, not a committed production release scope:
 | Step | Scope |
 | --- | --- |
 | P0-008 | **CLOSED / COMPLETED — MERGED**; local/synthetic handover accepted |
-| P0-009 | Offline CI / regression automation |
+| P0-009 | **CLOSED / COMPLETED — MERGED**; offline CI / regression automation |
 | EVAL-001 | Semantic quality evaluation |
 | SEC-001 | Production security / BLK-003 specification |
 | Deployment / staging | Separate Human-approved task if needed |
