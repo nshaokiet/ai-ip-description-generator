@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.24 |
+| Version | 0.3.25 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -62,6 +62,7 @@
 | 0.3.21 | 0.3.22 | 28/09/2026 | Codex | Record Human-approved P0-009 offline CI implementation and narrow Playwright interpreter portability decision; hand off for independent review | Current-state traceability, not review or merge approval | P0-009, DEC-015; baseline `bf837ef10622160fc76f80227e23f81830d69f76` | No |
 | 0.3.22 | 0.3.23 | 28/09/2026 | Codex | Close P0-009 after two-stage Gemini review, Human-approved PR #28 merge and successful PR/main CI | Post-merge governance closeout; offline regression only | P0-009, REV-P0-009-IMPLEMENTATION, DEC-016, merge `1f1754607152053ed4788f7fd5208c782432a320`; BLK-003 OPEN | No |
 | 0.3.23 | 0.3.24 | 28/09/2026 | Codex | Record EVAL-001 spec review/Human framework-only decisions and candidate corpus/scorer handoff without product-runtime acceptance | Prevent stale PLANNED/implementation-not-approved state while retaining provider/production blocks | EVAL-001, REV-EVAL-001-SPECIFICATION, DEC-017; spec `67c8d71f79712ede8780babf890a79fcbfd2769e` | No |
+| 0.3.24 | 0.3.25 | 28/09/2026 | Codex | Record successful EVAL-001 Draft PR #29 CI on fixed framework implementation SHA; independent framework review remains pending | Post-CI handoff evidence without product-runtime semantic claim | EVAL-001, PR #29, CI `36404294487`, framework `b8a7ede8f18ca50dedd669fcd47365dd8ed250bc` | No |
 
 ## 2. Project
 
@@ -140,7 +141,7 @@ approved versions/contracts; this task does not re-approve or redesign them.
 - [x] P0-008 specification v0.1.0 at `52d3c62d3741e9e7abc98c2bf2b300b4885f316c` received Google Antigravity (Advanced Agentic Coding) specification review PASS; reviewed implementation `956ba93048536d2a54d120752ade5540ecc0d901` received Google Antigravity / Gemini 1.5 Pro (Advanced Agentic Coding) independent implementation PASS, findings NONE; Human completed AC-16, accepted local/synthetic handover and approved merge `e6b2f665f6334047ec420c49d2097732f2917354`. **CLOSED / COMPLETED — MERGED; MVP HANDOVER READY — LOCAL/SYNTHETIC** only.
 - [x] Chạy core pipeline end-to-end **offline/synthetic** cho PDF/DOCX: APP-003 backend regression và P0-007 browser validation evidence; không phải live-provider hoặc production run.
 - [x] P0-009 CI Foundation **CLOSED / COMPLETED — MERGED** via PR #28 at `1f1754607152053ed4788f7fd5208c782432a320`; original `8979c72145d95f4f539b40e9e59b2d8af2f59fab`, accepted remediation `ce9f723e143671d4917bf0bf5885772af3b00f7b`; Gemini 3.1 Pro High initial PASS WITH NON-BLOCKING NOTES, targeted PASS/F-01 RESOLVED, findings NONE remaining; Human approved merge; PR CI `36396184226` and main CI `36397653688` SUCCESS. Offline/synthetic only; BLK-003 OPEN.
-- [x] EVAL-001 specification v0.1.0 at `67c8d71f79712ede8780babf890a79fcbfd2769e`: Gemini 3.1 Pro High `PASS WITH HUMAN DECISIONS REQUIRED`, AC-01…AC-18 PASS, findings NONE; Human approved seven decisions and framework-only implementation. Six local-only public/open-access candidate papers, six incomplete `PENDING_HUMAN` draft gold files, deterministic scorer and blocked-state report prepared; targeted evaluator 26 passed, full offline pytest 406 passed/3 skipped. Framework implementation review and Draft PR CI remain pending; product-runtime evidence blocked, provider budget 0.
+- [x] EVAL-001 specification v0.1.0 at `67c8d71f79712ede8780babf890a79fcbfd2769e`: Gemini 3.1 Pro High `PASS WITH HUMAN DECISIONS REQUIRED`, AC-01…AC-18 PASS, findings NONE; Human approved seven decisions and framework-only implementation. Six local-only public/open-access candidate papers, six incomplete `PENDING_HUMAN` draft gold files, deterministic scorer and blocked-state report prepared; targeted evaluator 26 passed, full offline pytest 406 passed/3 skipped. Draft PR #29 CI `36404294487` SUCCESS at framework SHA `b8a7ede8f18ca50dedd669fcd47365dd8ed250bc` (Linux backend 407 passed/2 skipped, lint/build PASS, Playwright 11 passed). Independent framework implementation review pending; product-runtime evidence blocked, provider budget 0.
 - [ ] EVAL-001 semantic evaluation, production security/BLK-003 and any separately approved deployment; P0-008 local/synthetic handover is accepted, not production readiness.
 
 Các ô `[x]` chỉ xác nhận bằng chứng được nêu ngay trên từng dòng; không suy rộng thành Human/Gemini approval cho các artefact hoặc phase khác.
@@ -154,10 +155,10 @@ Các deliverable Draft đã tạo, có bằng chứng file:
 | Task ID | Deliverable | Evidence | Kết luận được phép |
 |---|---|---|---|
 | SPEC-001 | System Specification 0.3.7 | Approved baseline; factual local implementation status updated without changing requirements | Approved baseline |
-| SPEC-002 | Project Context 0.4.8 | Approved baseline; P0-008 local/synthetic handover accepted | Approved baseline |
+| SPEC-002 | Project Context 0.4.12 | Approved baseline; EVAL-001 framework handoff recorded without semantic acceptance | Approved baseline |
 | SPEC-003 | AI Collaboration Rules 0.3.1 | Approved baseline; factual project-status sentence updated, rules unchanged | Approved baseline |
-| SPEC-004 | Project Control Center source 0.3.20 | File hiện tại | Active; Google Doc sync pending confirmation |
-| REVIEW-001 | Gemini Review Log source 0.3.11 | `REV-P0-008-SPECIFICATION` and `REV-P0-008-IMPLEMENTATION` CLOSED/PASS; prior history preserved | Active log |
+| SPEC-004 | Project Control Center source 0.3.25 | File hiện tại | Active; Google Doc sync pending confirmation |
+| REVIEW-001 | Gemini Review Log source 0.3.13 | `REV-EVAL-001-SPECIFICATION` CLOSED after Human decisions; framework implementation review pending; prior history preserved | Active log |
 | AI-001 | Output Schema v1.0.0 | PR [#1](https://github.com/nshaokiet/ai-ip-description-generator/pull/1), merge commit `49efead593437dfc5c88397ea6f335a2d4ff84d7`, 19/09/2026; Gemini review PASS; 15/15 tests pass; không có finding | Completed — Merged via PR #1 |
 | AI-002 | Extraction Prompt v1.0.0 | PR [#3](https://github.com/nshaokiet/ai-ip-description-generator/pull/3), merge commit `8f2b7082881961cc1a2cf7fa56ece81976759c7f`, 19/09/2026; implementation `f8772b228a23bf7cdec10fa0c463e6d1f672c341`; governance `9f2a78b1396cdadb747c263a2bbbbacb8d7f4292`; Gemini review PASS; AI-001 15/15 và AI-002 17/17 tests pass; không có finding | Completed — Merged via PR #3 |
 | AI-003 | Patent Draft Generation Contract v1.0.0 | PR [#5](https://github.com/nshaokiet/ai-ip-description-generator/pull/5), implementation `ae7e8fb573ea4681a9db1bafa711d19a3c598666`, merge commit `fb522bc5ecbb5ad66bab6226fa88ae51020cef52`, 20/09/2026; Gemini reviews PASS; 57/57 tests pass; không có finding hoặc required change | Completed — Merged via PR #5 |
@@ -462,7 +463,7 @@ Human đã phê duyệt ADR-006 và Output Schema v1.0.0 cho AI-001, sau đó me
 
 ## 22. Next Recommended Action
 
-1. EVAL-001 — complete Draft PR CI and Gemini 3.1 Pro High independent framework implementation review at a fixed SHA; obtain Human corpus/gold acceptance separately. Actual product-runtime semantic evaluation remains blocked pending separate provider authorization/budget and cannot be called PASS or Completed.
+1. EVAL-001 — Draft PR #29 CI succeeded; obtain Gemini 3.1 Pro High independent framework implementation review at the final fixed SHA and Human corpus/gold acceptance separately. Actual product-runtime semantic evaluation remains blocked pending separate provider authorization/budget and cannot be called PASS or Completed.
 2. Subsequent sequence: SEC-001 production security/BLK-003, a separate Human-approved deployment/staging task, then UX hardening if approved. MCP reconciliation remains BLOCKED BY TOOL CAPABILITY under the Human-approved non-blocking governance exception; no fabricated MCP state/lease.
 3. BLK-003 remains OPEN and blocks production/real-data use; live-provider smoke remains UNVALIDATED / DEFERRED, public deployment NOT PERFORMED and production NOT APPROVED.
 
