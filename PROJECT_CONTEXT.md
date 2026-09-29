@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | SPEC-002 |
 | Document title | Project Context — AI Intellectual Property Description Generator |
-| Version | 0.4.15 |
+| Version | 0.4.16 |
 | Status | Approved baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT |
@@ -63,6 +63,7 @@
 | 0.4.12 | 0.4.13 | 29/09/2026 | Codex | Record framework review PASS, Human corpus acceptance and authorized candidate-gold completion while preserving gold/provider blocks | EVAL-001 phased-state reconciliation | EVAL-001, reviewed `1c077bbb0d53304e44ad0ff7639ea3866b30fb5f`, PR #29; BLK-003 OPEN | No |
 | 0.4.13 | 0.4.14 | 29/09/2026 | Codex | Record Gemini targeted gold PASS/findings NONE and Human acceptance of all six gold packages; retain runtime/provider blockers | EVAL-001 acceptance-state transition only | EVAL-001, gold completion `98101a894b1a60b16adfd867d3276215635c26d0`, DEC-019; BLK-003 OPEN | No |
 | 0.4.14 | 0.4.15 | 29/09/2026 | Codex | Record EVAL-001 framework and accepted gold baseline merge plus successful main CI; retain product-runtime gate | Post-merge governance reconciliation without semantic or provider approval | EVAL-001, PR #29, merge `2caf3e6c698745a1c2b09d5605e8fba955bca2f9`, CI `36521178496`; BLK-003 OPEN | No |
+| 0.4.15 | 0.4.16 | 29/09/2026 | Codex | Record Human-approved local/synthetic MVP completion boundary and defer EVAL-001 product-runtime pending funding | P0-010 final closeout proposal; no semantic or production approval | P0-010, DEC-020, baseline `6136a0fe40a214ceec10f2f58aaa99497f62b09e`; BLK-003 OPEN | No |
 
 ## 2. Project name
 
@@ -254,7 +255,7 @@ Output Schema v1.0.0 có phạm vi hẹp hơn mô hình toàn hệ thống: grou
 
 Giai đoạn khởi tạo đề xuất: **Phase 1 — Specification & Architecture**.
 
-SPEC-001, SPEC-002 và SPEC-003 là **Approved baseline** sau Gemini 3.1 Pro High review và Human decisions ngày 20/09/2026. Implementation đã tiến vào các task thuộc Phase 2/Phase 3, nhưng Human / Product Owner chưa tuyên bố toàn bộ Phase 1, Phase 2, Phase 3 hoặc MVP `Completed`.
+SPEC-001, SPEC-002 và SPEC-003 là **Approved baseline** sau Gemini 3.1 Pro High review và Human decisions ngày 20/09/2026. Human / Product Owner nay đã quyết định phân loại hoàn thành **MVP COMPLETE — LOCAL/SYNTHETIC** cho phạm vi bounded hiện hành (DEC-020); điều này không tuyên bố mọi phase, semantic product-runtime validation hoặc production đã hoàn tất. P0-010 closeout branch vẫn chờ independent targeted review và Human merge.
 
 P0-006 Frontend/backend integration là **CLOSED / Completed — Merged** tại `3207479e5cca73da3e7facbc7c482d2ce5eba2b9` (accepted implementation `0f1e94db438869a980db8a1cb1e06956de2d8d3e`). Google Antigravity (Advanced Agentic Coding) independent review `PASS`, AC-01…AC-17 `PASS`, findings `NONE`; Human accepted review và approved merge. GOV-P0-006-01 được RESOLVED riêng bằng APP-003 governance reconciliation sau đó; BLK-003 vẫn OPEN. Không tuyên bố production/real-data readiness hay toàn bộ MVP Completed.
 
@@ -265,6 +266,8 @@ P0-007 post-merge closeout was fast-forwarded into `main` at `8142692c6e92670b4b
 P0-009 — CI Foundation uses Human-reconciled baseline `bf837ef10622160fc76f80227e23f81830d69f76`. Original implementation `8979c72145d95f4f539b40e9e59b2d8af2f59fab` received Gemini 3.1 Pro High **PASS WITH NON-BLOCKING NOTES**; F-01 noted GitHub Actions had not run. The first PR run `36394799769` failed in the DOCX inspection helper (Playwright 7 passed/4 failed). Human approved a narrow `PLAYWRIGHT_PYTHON` interpreter-portability remediation in the test helper; final accepted SHA `ce9f723e143671d4917bf0bf5885772af3b00f7b` received targeted Gemini 3.1 Pro High **PASS**, F-01 **RESOLVED**, new findings **NONE**. Accepted PR CI `36396184226` and post-merge `push`/`main` CI `36397653688` both **SUCCESS**; the latter ran backend **381 passed/2 skipped**, lint/build **PASS**, Chromium install **PASS**, Playwright **11 passed**. Human accepted review/CI and approved PR #28 normal merge `1f1754607152053ed4788f7fd5208c782432a320`. P0-009 is **CLOSED / COMPLETED — MERGED**; CI is **ACTIVE** for `pull_request(main)` and `push(main)` deterministic local/synthetic regression only. This does not establish semantic quality, production readiness or live-provider validation; BLK-003 remains **OPEN** and real/confidential data is not authorized.
 
 Project Orchestrator MCP reconciliation was **BLOCKED BY TOOL CAPABILITY**: existing `P0-008` metadata remains `PLANNED` under “Final hardening”, with reviewed spec not recorded and no owner/lease. Human expressly approved a **non-blocking governance exception** for this Git-evidenced implementation. MCP is not claimed reconciled and no approval/lease/state is fabricated. A future safe admin update remains needed; this exception does not resolve BLK-003.
+
+P0-010 final closeout decision (DEC-020, 29/09/2026): Human / Product Owner prioritizes finishing the approved local/synthetic MVP before optimization or production hardening. EVAL-001 framework and Human-accepted corpus/gold are merged (6/6 each; 154 gold items, 102 KEY/52 SECONDARY), but PRODUCT_RUNTIME semantic validation is **DEFERRED — AWAITING FUNDING**. Provider authorization **NOT GRANTED**, budget **0**, calls **NONE**; product-runtime evidence **NONE** and semantic acceptance **NOT_DETERMINED**. Consumer UI or synthetic outputs cannot substitute for PRODUCT_RUNTIME. SEC-001/BLK-003 remediation, public deployment, UX hardening and prompt/model/runtime optimization are Post-MVP work. BLK-003 remains **OPEN** and prohibits production or real/confidential-data use; it does not block this limited local/synthetic MVP classification. P0-010 closeout is awaiting independent review and Human merge. See [final handover](docs/operations/FINAL_MVP_CLOSEOUT.md).
 
 ## 20. AI / Agent Roles
 
@@ -366,8 +369,8 @@ Project Orchestrator MCP là lớp điều phối dùng chung giữa VS Code/Cod
 
 ## 28. Recommended next action
 
-1. EVAL-001 — Specification v0.1.0 `67c8d71f79712ede8780babf890a79fcbfd2769e` and frozen product baseline `37d42fc8b07003aa2a67f2d1d32e64e69eb0ddb5` remain unchanged. Gemini 3.1 Pro High framework review **PASS**, findings **NONE**, at `1c077bbb0d53304e44ad0ff7639ea3866b30fb5f`; targeted gold review **PASS**, findings **NONE**, after completion `98101a894b1a60b16adfd867d3276215635c26d0`. Human accepted the six-case public/open-access corpus and all six gold packages (154 items: 102 KEY, 52 SECONDARY). Human merged PR #29 at accepted head `c75a0c6adf4c30c50bcf7548298963e2c15995f2` into `main` at `2caf3e6c698745a1c2b09d5605e8fba955bca2f9`; main CI [`36521178496`](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/36521178496) **SUCCESS** (backend 408 passed/2 skipped, lint/build PASS, Playwright 11 passed). Framework + accepted gold baseline **MERGED**; overall EVAL-001 **IN PROGRESS — BLOCKED FOR PRODUCT-RUNTIME EVIDENCE**, not PASS/Completed. Provider authorization **NOT GRANTED**, budget **0**, provider calls **NONE**, product-runtime evidence **NONE**, semantic acceptance **NOT DETERMINED**, BLK-003 **OPEN**. Next gate: separate Human decision on product-runtime provider authorization; no production/public/confidential-data approval.
-2. Follow-on sequence: SEC-001 — Production Security / BLK-003; separate Human-approved deployment/staging; UX hardening later if approved.
+1. P0-010 — Complete the docs-only local/synthetic MVP closeout review on the dedicated branch, then seek Human merge approval. DEC-020 sets **MVP COMPLETE — LOCAL/SYNTHETIC** only; main baseline `6136a0fe40a214ceec10f2f58aaa99497f62b09e` passed CI [`36521893165`](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/36521893165). Local final regression: backend 407 passed/3 skipped, lint/build PASS, Playwright 11 passed. EVAL-001 framework/gold merged; PRODUCT_RUNTIME semantic validation **DEFERRED — AWAITING FUNDING**, evidence **NONE**, acceptance **NOT_DETERMINED**. No provider authorization or budget.
+2. Post-MVP / Future Work: Human funding/provider decision for EVAL-001 PRODUCT_RUNTIME; SEC-001/BLK-003 production security; separately approved deployment, UX hardening and optimization. None is an active local/synthetic MVP completion gate.
 3. BLK-003 remains OPEN: no real/confidential research data or production-readiness claim; live-provider smoke UNVALIDATED / DEFERRED. Claims, optional outputs and deployment require separate approval.
 
 AI-002 được merge với implementation commit `f8772b228a23bf7cdec10fa0c463e6d1f672c341` và governance commit `9f2a78b1396cdadb747c263a2bbbbacb8d7f4292`; Gemini review `PASS`, không có finding, AI-001 regression 15/15 và AI-002 tests 17/17 pass. AI-002 tự thân không chứng minh Responses API hoặc live-model integration; provider adapter/runtime sau đó được Human phê duyệt riêng trong AI-RUNTIME-001. Claims vẫn nằm ngoài Output Schema và Extraction Prompt v1.0.0.

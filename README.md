@@ -8,10 +8,12 @@ Công cụ hỗ trợ chuyển bài báo khoa học thành dữ liệu có cấu
 
 | Item | Status |
 | --- | --- |
-| MVP | **MVP HANDOVER READY — LOCAL/SYNTHETIC**; Human accepted this limited handover classification |
+| MVP | **MVP COMPLETE — LOCAL/SYNTHETIC**; Human-approved bounded classification (DEC-020); P0-010 documentation closeout awaits independent review and Human merge |
 | P0-008 | **CLOSED / COMPLETED — MERGED** |
 | P0-009 | **CLOSED / COMPLETED — MERGED**; CI Foundation |
 | CI | **ACTIVE** — offline regression gates on `pull_request(main)` and `push(main)` |
+| EVAL-001 PRODUCT_RUNTIME | **DEFERRED — AWAITING FUNDING**; no product-runtime evidence or semantic acceptance |
+| Provider authorization / budget | **NOT GRANTED / 0**; no paid calls authorized |
 | Live-provider smoke | **UNVALIDATED / DEFERRED** |
 | BLK-003 | **OPEN** |
 | Production deployment | **NOT APPROVED / NOT PERFORMED** |
@@ -163,9 +165,10 @@ npm run test:e2e
 The active [CI workflow](.github/workflows/ci.yml) runs on pull requests targeting
 `main` and pushes to `main`: Python 3.12 full pytest, Node 24.18.0 `npm ci`,
 lint, build, Playwright Chromium, and synthetic E2E. The accepted post-merge
-[main run](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/36397653688)
-passed (backend **381 passed / 2 skipped**, lint/build PASS, Playwright
-**11 passed**). **Historical P0-007 evidence:** offline backend
+[main run](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/36521893165)
+passed (backend **408 passed / 2 skipped**, lint/build PASS, Playwright
+**11 passed**). P0-010 local offline verification: backend **407 passed / 3 skipped**
+on Windows, lint/build PASS, Playwright **11 passed**. **Historical P0-007 evidence:** offline backend
 **380 passed / 3 skipped**; Playwright **11 passed**. P0-008's fresh PDF-to-DOCX smoke and
 environment details are in the runbook. CI does not validate a live provider
 or real-paper semantic quality.
@@ -189,6 +192,7 @@ tools/      Internal project coordination and developer tooling
 - [System specification](docs/system-specification.md)
 - [Processing workflow](docs/workflow.md)
 - [MVP handover runbook](docs/operations/MVP_HANDOVER_RUNBOOK.md)
+- [Final local/synthetic MVP closeout](docs/operations/FINAL_MVP_CLOSEOUT.md)
 - [Project Control Center](docs/operations/01_PROJECT_CONTROL_CENTER.md)
 - [Independent review log](docs/operations/02_GEMINI_REVIEW_LOG.md)
 - [AI collaboration rules](AGENTS.md)
@@ -203,13 +207,17 @@ Detailed task, commit, review, and governance history lives in those documents a
   scoring are outside the current MVP.
 - Live-provider smoke is **UNVALIDATED / DEFERRED**. Synthetic tests do not
   validate provider behavior or real-paper semantic quality.
+- EVAL-001 framework and Human-accepted six-case corpus/gold benchmark are merged;
+  PRODUCT_RUNTIME semantic validation is **DEFERRED — AWAITING FUNDING**.
+  Product-runtime evidence is **NONE** and semantic acceptance **NOT_DETERMINED**.
+  Consumer UI or synthetic output is not equivalent to product-runtime evidence.
 - Current file handling is local/ephemeral and cleanup is best effort. There is no
   approved private **production** storage or retention guarantee.
 - BLK-003 remains **OPEN** for production authentication, private production storage,
   and retention/deletion policy. Real or confidential research data is **not authorized**.
 - No public deployment, production approval, or public URL exists.
 
-## Roadmap
+## Future Work
 
 These are separate future gates, not a committed production release scope:
 
@@ -217,10 +225,12 @@ These are separate future gates, not a committed production release scope:
 | --- | --- |
 | P0-008 | **CLOSED / COMPLETED — MERGED**; local/synthetic handover accepted |
 | P0-009 | **CLOSED / COMPLETED — MERGED**; offline CI / regression automation |
-| EVAL-001 | Semantic quality evaluation |
-| SEC-001 | Production security / BLK-003 specification |
-| Deployment / staging | Separate Human-approved task if needed |
-| UX hardening | As needed after the baseline |
+| EVAL-001 PRODUCT_RUNTIME | **DEFERRED — AWAITING FUNDING**; separate Human provider/funding decision required |
+| SEC-001 / BLK-003 | Production security: auth/tenant model, private storage, retention/deletion; blocker stays OPEN |
+| Deployment / staging | Public deployment not performed; separate Human approval required |
+| UX hardening | Deferred beyond the local/synthetic MVP |
+| Prompt/model/runtime and performance/cost optimization | Deferred; no changes in P0-010 |
+| Claims | Excluded from current MVP; separate scope and Human/legal review required |
 
 ## License
 
