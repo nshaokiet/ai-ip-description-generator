@@ -88,31 +88,45 @@ point to the same build and the same user-local SQLite database.
   including task, branch, safe commit, completed work, tests, remaining work,
   blockers, stop reason and exact next action.
 
-The server seeds P0-001 through P0-008 as PLANNED only. P0-001 is frozen until
-26/09/2026 00:00 in Vietnam; the entire queue still requires recorded Human
-approval before any task can be claimed. A dependent task waits for the
-predecessor to reach COMPLETED. The database is initialized once; restarts
-never overwrite task or budget state. Quota cycles are labels for Human records,
-not additional balances. The two weekly and two banked cycles are never
-combined or activated automatically.
+The server seeds P0-001 through P0-008 and the zero-cost Post-MVP roadmap
+P1-001 through P1-006 as PLANNED only. The P1 tasks are, in priority order:
+Frontend accessibility and type-safety hardening; Offline adversarial regression
+expansion; Local security hardening; Developer experience and one-command local
+run; Offline performance baseline; and UX polish, responsive behavior and error
+recovery. Priority is not a technical dependency: P1 tasks have no seeded
+dependencies and each requires separate Human authorization before claim.
+Seeding is not authorization; PLANNED does not mean approved. In the current
+local project state P1-001 is COMPLETED and P1-002 through P1-006 remain PLANNED.
+An existing database may therefore already have P1-001 as COMPLETED. Seed
+insertion uses INSERT OR IGNORE: restarting with a new build adds missing task
+IDs without overwriting existing task state, owner, approval evidence,
+branch/worktree or budget/quota. P0-001 is frozen until 26/09/2026 00:00 in
+Vietnam; the entire queue requires recorded Human approval before claim. A
+dependent task waits for its predecessor to reach COMPLETED. Quota cycles are
+labels for Human records, not additional balances. The two weekly and two banked
+cycles are never combined or activated automatically.
 
 ## Human gates and lifecycle
 
-An authorized Human records approval using the local administrator CLI only,
-after reviewing a task and its scope:
+After pulling and building a version with new seed tasks, restart the MCP
+server so the existing local SQLite database receives any missing task IDs.
 
-    npm run admin -- approve P0-001 HUMAN-DECISION-REFERENCE
+An authorized Human records approval using the local administrator CLI only,
+after reviewing a task and its scope. The placeholder below is illustrative
+only; it is not an approval for any task:
+
+    npm run admin -- approve TASK_ID HUMAN-DECISION-REFERENCE
 
 It refuses approval of P0-001 before its freeze ends. Evidence-backed lifecycle
 transitions are administrative and never run Git operations:
 
-    npm run admin -- transition P0-001 AWAITING_REVIEW REVIEW-REFERENCE
+    npm run admin -- transition TASK_ID AWAITING_REVIEW REVIEW-REFERENCE
 
 States are distinct: PLANNED, APPROVED, CLAIMED, IN_PROGRESS, IMPLEMENTED,
 AWAITING_REVIEW, REVIEW_CHANGES_REQUIRED, REVIEW_PASS,
 AWAITING_HUMAN_APPROVAL, MERGED, COMPLETED, BLOCKED.
-The MERGED status only records independent Human-provided evidence; the
-software never merges a branch or touches Git history.
+The MERGED status only records evidence of a Git merge after applicable review
+and CI gates; the software never merges a branch or touches Git history.
 
 At <=8%, stop implementation and use checkpoint.create or
 project.stop_and_handoff. A Human can manually update 8 to 100 with
@@ -126,7 +140,8 @@ A handoff BLOCKED task requires a Human review and fresh approval to resume.
 The service does not scrape quota, manipulate Git/worktrees, start APP-003,
 approve its own tasks, authorize review/merge, inspect research data, or
 authenticate a purported Human calling the local administrative CLI. The
-Human must create a separate branch/worktree before editing, check the actual
-Git state, and record true commit/test evidence. Calls from trusted local IDE
-agents can change the manually recorded budget; treat IDE access as trusted.
+implementing agent must create a separate branch/worktree before editing, check
+the actual Git state, and record true commit/test evidence. Calls from trusted
+local IDE agents can change the manually recorded budget; treat IDE access as
+trusted.
 For rules and escalation, see docs/operations/AUTONOMOUS_AGENT_PROTOCOL.md.
