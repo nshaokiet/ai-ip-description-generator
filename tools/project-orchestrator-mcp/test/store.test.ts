@@ -48,8 +48,69 @@ test('future work is only seeded as PLANNED and never claimed automatically', ()
   try {
     assert.equal(f.store.nextTask(), null);
     assert.equal((f.store.getState('P0-001') as { tasks: Array<{ status: string }> }).tasks[0]!.status, 'PLANNED');
+    for (let i = 1; i <= 6; i++) {
+      const id = `P1-${String(i).padStart(3, '0')}`;
+      const task = (f.store.getState(id) as { tasks: Array<{
+        status: string; priority: number; owner: string | null; approval_ref: string | null
+      }> }).tasks[0]!;
+      assert.equal(task.status, 'PLANNED');
+      assert.equal(task.priority, i + 8);
+      assert.equal(task.owner, null);
+      assert.equal(task.approval_ref, null);
+      assert.throws(() => f.store.claim(id, 'agent', `feat/${id}`, `/worktree/${id}`));
+    }
     assert.throws(() => f.store.claim('P0-001','a','task/app003','/worktree/a'));
   } finally { f.cleanup(); }
+});
+test('P1 priority does not impose false technical dependencies', () => {
+  const f = fixture();
+  try {
+    f.store.approveTask('P1-002', 'human-approve-p1-002');
+    assert.equal(f.store.nextTask()?.id, 'P1-002');
+    f.store.approveTask('P1-001', 'human-approve-p1-001');
+    assert.equal(f.store.nextTask()?.id, 'P1-001');
+    f.store.claim('P1-001', 'agent', 'feat/p1-001', '/w/p1-001');
+    assert.equal(f.store.nextTask()?.id, 'P1-002');
+  } finally { f.cleanup(); }
+});
+test('restarting an existing database preserves completed P1 state and budget', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'orchestrator-restart-'));
+  const file = join(dir, 'state.sqlite');
+  const store = new Store(file);
+  let closed = false;
+  try {
+    store.approveTask('P1-001', 'human-approve-p1-001');
+    store.claim('P1-001', 'agent', 'feat/p1-001', '/w/p1-001');
+    store.finish('P1-001', 'agent', ['offline pass'], SHA);
+    for (const [state, evidence] of [
+      ['AWAITING_REVIEW', 'review opened'], ['REVIEW_PASS', 'review pass'],
+      ['AWAITING_HUMAN_APPROVAL', 'handoff'], ['MERGED', 'merge evidence'],
+      ['COMPLETED', 'closeout evidence']
+    ] as const) store.transition('P1-001', state, evidence);
+    store.setBudget(7, 'manual-test-cycle');
+    const before = store.getState('P1-001');
+    store.close();
+    closed = true;
+    const reopened = new Store(file);
+    try {
+      const after = reopened.getState('P1-001');
+      assert.deepEqual(after, before);
+      const task = (after as { tasks: Array<{
+        status: string; owner: string | null; branch: string | null;
+        worktree: string | null; approval_ref: string | null
+      }> }).tasks[0]!;
+      assert.equal(task.status, 'COMPLETED');
+      assert.equal(task.owner, 'agent');
+      assert.equal(task.branch, 'feat/p1-001');
+      assert.equal(task.worktree, '/w/p1-001');
+      assert.equal(task.approval_ref, 'closeout evidence');
+      assert.equal(reopened.budget().remaining, 7);
+      assert.equal((reopened.getState('P1-002') as { tasks: Array<{ status: string }> }).tasks[0]!.status, 'PLANNED');
+    } finally { reopened.close(); }
+  } finally {
+    if (!closed) store.close();
+    rmSync(dir, { recursive: true, force: true });
+  }
 });
 test('active task can only be claimed once across two SQLite connections', () => {
   const f = fixture();
