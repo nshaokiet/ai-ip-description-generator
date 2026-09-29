@@ -6,19 +6,41 @@ Công cụ hỗ trợ chuyển bài báo khoa học thành dữ liệu có cấu
 
 ## Project status
 
-| Item | Status |
-| --- | --- |
-| MVP | **MVP COMPLETE — LOCAL/SYNTHETIC**; P0-010 **CLOSED / COMPLETED — MERGED** via PR #30 at `9f31dae104438a598b0fe3c9bd09aba005f9026c`; final main CI `36526457334` SUCCESS |
-| P0-008 | **CLOSED / COMPLETED — MERGED** |
-| P0-009 | **CLOSED / COMPLETED — MERGED**; CI Foundation |
-| P0-010 | **CLOSED / COMPLETED — MERGED**; Gemini 3.1 Pro High final closeout review PASS, findings NONE |
-| CI | **ACTIVE** — offline regression gates on `pull_request(main)` and `push(main)` |
-| EVAL-001 PRODUCT_RUNTIME | **DEFERRED — AWAITING FUNDING**; no product-runtime evidence or semantic acceptance |
-| Provider authorization / budget | **NOT GRANTED / 0**; no paid calls authorized |
-| Live-provider smoke | **UNVALIDATED / DEFERRED** |
-| BLK-003 | **OPEN** |
-| Production deployment | **NOT APPROVED / NOT PERFORMED** |
-| Public URL | **NOT AVAILABLE** |
+| Task | Trạng thái | Chức năng |
+| --- | --- | --- |
+| **SPEC-001/002/003** | ✅ Completed | Xác định yêu cầu hệ thống, kiến trúc tổng thể, bối cảnh dự án và quy tắc phối hợp giữa Human, Codex và Gemini |
+| **AI-001** | ✅ Completed | Xây dựng schema chuẩn để biểu diễn thông tin sáng chế dưới dạng dữ liệu có cấu trúc |
+| **AI-002** | ✅ Completed | Xây dựng prompt trích xuất thông tin kỹ thuật từ bài báo khoa học |
+| **AI-003** | ✅ Completed | Xây dựng contract và prompt để tạo Patent Description Draft |
+| **DOC-001** | ✅ Completed | Xây dựng template và bộ render để xuất bản mô tả sáng chế sang file DOCX |
+| **APP-001** | ✅ Completed | Xây dựng backend nhận file PDF/DOCX, kiểm tra loại file, dung lượng và xử lý file an toàn |
+| **APP-002** | ✅ Completed | Phân tích PDF/DOCX thành văn bản, source units, evidence IDs và source locators để truy vết nguồn |
+| **AI-RUNTIME-001** | ✅ Completed | Thực thi quá trình trích xuất bằng OpenAI Responses API để chuyển bài báo thành Structured Invention Analysis |
+| **AI-RUNTIME-002** | ✅ Completed | Thực thi quá trình tạo bản mô tả sáng chế từ Structured Invention Analysis thành Patent Description Draft |
+| **APP-003** | ✅ Completed | Kết nối các thành phần thành core pipeline hoàn chỉnh và xây dựng offline E2E harness |
+| **P0-005** | ✅ Completed | Xây dựng frontend MVP gồm tải tài liệu, theo dõi workflow và xem kết quả |
+| **P0-006** | ✅ Completed | Kết nối frontend với FastAPI backend để vận hành luồng xử lý hoàn chỉnh |
+| **P0-007** | ✅ Completed | Kiểm thử toàn bộ luồng E2E, xử lý lỗi tích hợp và ổn định hệ thống |
+| **P0-008** | ✅ Completed | Kiểm tra mức độ sẵn sàng bàn giao của phiên bản local/synthetic MVP |
+| **P0-009** | ✅ Completed | Thiết lập GitHub Actions CI để tự động kiểm tra backend, frontend và Playwright |
+| **EVAL-001 Framework + Gold** | ✅ Completed (framework/gold) | Xây dựng bộ đánh giá chất lượng ngữ nghĩa, corpus/gold chuẩn và tiêu chí đo precision, coverage và grounding |
+| **P0-010** | ✅ Completed | Hoàn tất MVP closeout và xác nhận trạng thái `MVP COMPLETE — LOCAL/SYNTHETIC` |
+| **P1-001** | ✅ Completed | Cải thiện accessibility, điều hướng bàn phím, focus, TypeScript typecheck và tăng cường CI |
+| **Project Orchestrator MCP** | ✅ Completed | Quản lý task state, owner, lease, quota, checkpoint và handoff giữa các agent |
+| **P1 Task Catalog** | ✅ Completed | Đăng ký P1-001 đến P1-006 trong MCP và bảo toàn trạng thái task qua restart |
+| **P1-002** | 🟡 Incomplete — Planned | Mở rộng kiểm thử đối kháng offline để phát hiện edge case, input lỗi, dữ liệu không hợp lệ và lỗi validation |
+| **P1-003** | 🟡 Incomplete — Planned | Tăng cường bảo mật môi trường local gồm upload safety, path handling, kiểm soát thông tin lỗi và rà soát attack surface |
+| **P1-004** | 🟡 Incomplete — Planned | Đơn giản hóa việc chạy dự án theo hướng one-command local run cho frontend, backend và health check |
+| **P1-005** | 🟡 Incomplete — Planned | Xây dựng performance baseline cho upload, parsing, validation, DOCX rendering và luồng trình duyệt |
+| **P1-006** | 🟡 Incomplete — Planned | Hoàn thiện trải nghiệm người dùng gồm responsive, loading state, error state, retry/recovery và workflow clarity |
+| **DEPLOY-001** | 🟡 Incomplete — Planned | Triển khai demo/staging không tốn phí để tạo public HTTPS URL cho người khác truy cập bằng synthetic/demo data |
+| **EVAL-001 PRODUCT_RUNTIME** | ⏸ Incomplete — Deferred | Chạy benchmark trên provider/runtime thực tế để đánh giá chất lượng ngữ nghĩa của kết quả AI; đang chờ funding |
+| **SEC-001 / BLK-003** | 🔴 Incomplete — Open | Hoàn thiện bảo mật production gồm authentication, tenant isolation, private storage, retention và deletion policy |
+| **Production Deployment** | 🔴 Incomplete — Not approved | Triển khai production cho người dùng thật và dữ liệu thật sau khi hoàn tất các yêu cầu bảo mật, dữ liệu và vận hành |
+
+**Current classification:** `MVP COMPLETE — LOCAL/SYNTHETIC`. Public demo URL is not available yet; it is planned under DEPLOY-001. Production deployment and real/confidential-data use remain unauthorized while BLK-003 is open.
+
+> **README status-sync rule:** Bảng trên là bản tóm tắt trạng thái công khai của roadmap. Mỗi khi một task chuyển trạng thái (đặc biệt khi hoàn thành/merge, bị defer hoặc mở blocker), task closeout phải cập nhật đúng dòng tương ứng trong bảng này trong cùng thay đổi governance/closeout. Evidence chi tiết vẫn nằm trong Git history, task record và Project Control Center.
 
 ## Overview
 
