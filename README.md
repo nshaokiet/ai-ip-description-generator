@@ -222,16 +222,22 @@ Detailed task, commit, review, and governance history lives in those documents a
 
 These are separate future gates, not a committed production release scope:
 
-| Step | Scope |
-| --- | --- |
-| P0-008 | **CLOSED / COMPLETED — MERGED**; local/synthetic handover accepted |
-| P0-009 | **CLOSED / COMPLETED — MERGED**; offline CI / regression automation |
-| EVAL-001 PRODUCT_RUNTIME | **DEFERRED — AWAITING FUNDING**; separate Human provider/funding decision required |
-| SEC-001 / BLK-003 | Production security: auth/tenant model, private storage, retention/deletion; blocker stays OPEN |
-| Deployment / staging | Public deployment not performed; separate Human approval required |
-| UX hardening | Deferred beyond the local/synthetic MVP |
-| Prompt/model/runtime and performance/cost optimization | Deferred; no changes in P0-010 |
-| Claims | Excluded from current MVP; separate scope and Human/legal review required |
+| Step | Status | Function / scope |
+| --- | --- | --- |
+| P1-001 | **CLOSED / COMPLETED — MERGED** | Frontend accessibility, keyboard/focus behavior, TypeScript typecheck and CI hardening |
+| P1-002 | **PLANNED** | Expand deterministic offline adversarial regression coverage; no provider calls |
+| P1-003 | **PLANNED** | Local security hardening before any public demo; does not resolve production BLK-003 |
+| P1-004 | **PLANNED** | One-command local developer run/setup and DX improvements |
+| P1-005 | **PLANNED** | Offline performance baseline and repeatable local measurements |
+| P1-006 | **PLANNED** | UX polish, responsive behavior and error recovery |
+| DEPLOY-001 | **PLANNED — implementation not authorized** | Zero-cost demo/staging deployment that can provide a public HTTPS demo URL using synthetic/demo data only; platform selection and implementation require a separate Human decision |
+| EVAL-001 PRODUCT_RUNTIME | **DEFERRED — AWAITING FUNDING** | Product-runtime semantic validation; provider authorization/budget remain separate Human gates |
+| SEC-001 / BLK-003 | **OPEN / DEFERRED** | Production auth/tenant model, private storage, retention/deletion; required before production or real/confidential-data use |
+| Production deployment | **NOT APPROVED / NOT PERFORMED** | Separate from DEPLOY-001 demo/staging; requires security acceptance and Human approval |
+| Prompt/model/runtime optimization | **DEFERRED** | Separate scope; no paid/provider work authorized |
+| Claims | **OUT OF SCOPE** | Separate Human/legal scope and review required |
+
+DEPLOY-001 is a roadmap registration only. It does not select Vercel, Railway or another hosting platform, does not authorize deployment, does not resolve BLK-003, and does not permit real/confidential research data or paid provider/API calls.
 
 ## License
 
