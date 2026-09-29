@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, type KeyboardEvent } from "react";
 
 import { AnalysisView } from "@/components/AnalysisView";
 import { PatentDraftView } from "@/components/PatentDraftView";
@@ -47,6 +47,7 @@ export function ResultWorkspace({ result, state, onExport, onReset }: ResultWork
   const [validating, setValidating] = useState(false);
   const [validationError, setValidationError] = useState<NormalizedApiError | null>(null);
   const errorHeadingRef = useRef<HTMLHeadingElement>(null);
+  const tabRefs = useRef<Record<ResultTab, HTMLButtonElement | null>>({ analysis: null, draft: null, review: null });
   const revision = selectedRevision(session);
   const originalDraft = session.revisions[0].draft;
   const editing = editBuffer !== null;
@@ -70,6 +71,20 @@ export function ResultWorkspace({ result, state, onExport, onReset }: ResultWork
     { key: "draft", label: "Patent Draft" },
     { key: "review", label: "Review Items" },
   ];
+
+  function handleTabKeyDown(event: KeyboardEvent<HTMLButtonElement>) {
+    if (!["ArrowRight", "ArrowLeft", "Home", "End"].includes(event.key)) return;
+    event.preventDefault();
+    const enabledTabs = tabs.filter((tab) => !editing || tab.key === "draft");
+    const currentIndex = enabledTabs.findIndex((tab) => tab.key === activeTab);
+    const nextIndex = event.key === "Home" ? 0
+      : event.key === "End" ? enabledTabs.length - 1
+        : event.key === "ArrowRight" ? (currentIndex + 1) % enabledTabs.length
+          : (currentIndex - 1 + enabledTabs.length) % enabledTabs.length;
+    const nextTab = enabledTabs[nextIndex].key;
+    setActiveTab(nextTab);
+    tabRefs.current[nextTab]?.focus();
+  }
 
   function beginEdit() {
     setEditBuffer(structuredClone(revision.draft));
@@ -199,8 +214,11 @@ export function ResultWorkspace({ result, state, onExport, onReset }: ResultWork
             disabled={editing && tab.key !== "draft"}
             id={`tab-${tab.key}`}
             key={tab.key}
+            onKeyDown={handleTabKeyDown}
             onClick={() => setActiveTab(tab.key)}
+            ref={(node) => { tabRefs.current[tab.key] = node; }}
             role="tab"
+            tabIndex={activeTab === tab.key ? 0 : -1}
             type="button"
           >{tab.label}</button>
         ))}

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { ResultWorkspace } from "@/components/ResultWorkspace";
 import { UploadPanel } from "@/components/UploadPanel";
@@ -35,6 +35,13 @@ export default function Home() {
   const [result, setResult] = useState<ProcessResult | null>(null);
   const [error, setError] = useState<NormalizedApiError | null>(null);
   const [recoveryState, setRecoveryState] = useState<WorkflowState>("IDLE");
+  const errorHeadingRef = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    if (!error) return;
+    const frame = window.requestAnimationFrame(() => errorHeadingRef.current?.focus());
+    return () => window.cancelAnimationFrame(frame);
+  }, [error]);
 
   function reset() {
     setState("IDLE");
@@ -165,7 +172,7 @@ export default function Home() {
           <section className="error-banner" role="alert" aria-labelledby="error-heading">
             <div>
               <p className="eyebrow">Request not completed · {error.code}</p>
-              <h2 id="error-heading">We could not complete that operation</h2>
+              <h2 id="error-heading" ref={errorHeadingRef} tabIndex={-1}>We could not complete that operation</h2>
               <p>{error.message}</p>
               {error.correlation_id && (
                 <p className="reference-id">Reference ID: <code>{error.correlation_id}</code></p>

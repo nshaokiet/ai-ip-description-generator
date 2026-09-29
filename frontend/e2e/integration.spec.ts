@@ -73,6 +73,79 @@ async function saveParagraphRevision(page: Page, replacement: string) {
   await expect(page.getByLabel("Selected revision")).toHaveValue("revision-2");
 }
 
+test("result tabs support roving focus and Arrow/Home/End navigation", async ({ page }) => {
+  await processSynthetic(page, "pdf");
+  const analysis = page.getByRole("tab", { name: "Analysis" });
+  const draft = page.getByRole("tab", { name: "Patent Draft" });
+  const review = page.getByRole("tab", { name: "Review Items" });
+
+  await draft.focus();
+  await expect(draft).toBeFocused();
+  await expect(draft).toHaveAttribute("tabindex", "0");
+  await expect(analysis).toHaveAttribute("tabindex", "-1");
+  await page.keyboard.press("ArrowRight");
+  await expect(review).toBeFocused();
+  await expect(review).toHaveAttribute("aria-selected", "true");
+  await expect(review).toHaveAttribute("tabindex", "0");
+  await expect(draft).toHaveAttribute("aria-selected", "false");
+  await page.keyboard.press("ArrowRight");
+  await expect(analysis).toBeFocused();
+  await expect(analysis).toHaveAttribute("aria-selected", "true");
+  await page.keyboard.press("ArrowLeft");
+  await expect(review).toBeFocused();
+  await page.keyboard.press("Home");
+  await expect(analysis).toBeFocused();
+  await page.keyboard.press("End");
+  await expect(review).toBeFocused();
+  await expect(review).toHaveAttribute("aria-selected", "true");
+});
+
+test("editing keeps keyboard navigation on the only enabled draft tab", async ({ page }) => {
+  await processSynthetic(page, "pdf");
+  await page.getByRole("button", { name: "Edit prose" }).click();
+  const draft = page.getByRole("tab", { name: "Patent Draft" });
+  await expect(page.getByRole("tab", { name: "Analysis" })).toBeDisabled();
+  await expect(page.getByRole("tab", { name: "Review Items" })).toBeDisabled();
+  await draft.focus();
+  for (const key of ["ArrowRight", "ArrowLeft", "Home", "End"]) {
+    await page.keyboard.press(key);
+    await expect(draft).toBeFocused();
+    await expect(draft).toHaveAttribute("aria-selected", "true");
+  }
+});
+
+test("new global operation error focuses its heading", async ({ page }) => {
+  await uploadSynthetic(page, "pdf");
+  await page.route("**/backend/api/documents/*/process", async (route) => {
+    const processed = await route.fetch();
+    expect(processed.ok()).toBeTruthy();
+    await route.fulfill({ status: 502, contentType: "text/plain", body: "synthetic proxy fault" });
+  });
+  await page.getByRole("button", { name: "Analyze & Generate Draft" }).click();
+  const heading = page.getByRole("heading", { name: "We could not complete that operation" });
+  await expect(heading).toBeVisible();
+  await expect(heading).toBeFocused();
+  await expect(heading).toHaveAttribute("tabindex", "-1");
+  await expect(page.locator(".error-banner[role='alert']")).toContainText("The local service could not complete the request.");
+});
+
+test("only the current workflow step exposes aria-current", async ({ page }) => {
+  await page.goto("/");
+  const upload = page.getByRole("listitem").filter({ hasText: "Validate source document" });
+  const process = page.getByRole("listitem").filter({ hasText: "Analyze and generate draft" });
+  const review = page.getByRole("listitem").filter({ hasText: "Inspect grounded output" });
+  await expect(upload).toHaveAttribute("aria-current", "step");
+  await expect(process).not.toHaveAttribute("aria-current");
+  await expect(review).not.toHaveAttribute("aria-current");
+  await uploadSynthetic(page, "pdf");
+  await expect(upload).not.toHaveAttribute("aria-current");
+  await expect(process).toHaveAttribute("aria-current", "step");
+  await page.getByRole("button", { name: "Analyze & Generate Draft" }).click();
+  await expect(page.getByRole("heading", { name: "Grounded draft workspace" })).toBeVisible();
+  await expect(process).not.toHaveAttribute("aria-current");
+  await expect(review).toHaveAttribute("aria-current", "step");
+});
+
 test("six fresh synthetic runs keep deterministic shape and clean source/export storage", async ({ page }) => {
   const shapes = new Map<string, string>();
   for (const format of ["pdf", "docx"] as const) {

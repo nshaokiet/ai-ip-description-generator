@@ -59,7 +59,12 @@ input:focus-visible,
 summary:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-  outline: 3px solid rgb(39 163 227 / 35%);
+  outline: 3px solid var(--color-primary-700);
+  outline-offset: 3px;
+}
+
+.drop-zone:has(input[type="file"]:focus-visible) {
+  outline: 3px solid var(--color-primary-700);
   outline-offset: 3px;
 }
 
