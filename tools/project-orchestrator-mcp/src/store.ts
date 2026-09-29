@@ -42,7 +42,8 @@ const SEED: Array<[string, string, string | null]> = [
   ['P1-003', 'Local security hardening', null],
   ['P1-004', 'Developer experience and one-command local run', null],
   ['P1-005', 'Offline performance baseline', null],
-  ['P1-006', 'UX polish, responsive behavior and error recovery', null]
+  ['P1-006', 'UX polish, responsive behavior and error recovery', null],
+  ['DEPLOY-001', 'Zero-cost demo/staging deployment', null]
 ];
 const SHA = /^[a-f0-9]{40}$/i;
 

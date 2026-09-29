@@ -88,15 +88,18 @@ point to the same build and the same user-local SQLite database.
   including task, branch, safe commit, completed work, tests, remaining work,
   blockers, stop reason and exact next action.
 
-The server seeds P0-001 through P0-008 and the zero-cost Post-MVP roadmap
-P1-001 through P1-006 as PLANNED only. The P1 tasks are, in priority order:
+The server seeds P0-001 through P0-008, the zero-cost Post-MVP roadmap
+P1-001 through P1-006, and DEPLOY-001 as PLANNED only. The P1 tasks are, in priority order:
 Frontend accessibility and type-safety hardening; Offline adversarial regression
 expansion; Local security hardening; Developer experience and one-command local
 run; Offline performance baseline; and UX polish, responsive behavior and error
-recovery. Priority is not a technical dependency: P1 tasks have no seeded
-dependencies and each requires separate Human authorization before claim.
+recovery. DEPLOY-001 is a separate planned zero-cost demo/staging deployment task
+for a synthetic/demo-only public URL; it has no seeded dependency and does not
+select a hosting platform or authorize implementation. Priority is not a technical
+dependency: P1 tasks and DEPLOY-001 require separate Human authorization before claim.
 Seeding is not authorization; PLANNED does not mean approved. In the current
-local project state P1-001 is COMPLETED and P1-002 through P1-006 remain PLANNED.
+local project state P1-001 is COMPLETED while P1-002 through P1-006 remain PLANNED;
+DEPLOY-001 is newly registered as PLANNED and is added to an existing database on restart.
 An existing database may therefore already have P1-001 as COMPLETED. Seed
 insertion uses INSERT OR IGNORE: restarting with a new build adds missing task
 IDs without overwriting existing task state, owner, approval evidence,

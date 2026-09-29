@@ -59,6 +59,14 @@ test('future work is only seeded as PLANNED and never claimed automatically', ()
       assert.equal(task.approval_ref, null);
       assert.throws(() => f.store.claim(id, 'agent', `feat/${id}`, `/worktree/${id}`));
     }
+    const deploy = (f.store.getState('DEPLOY-001') as { tasks: Array<{
+      status: string; priority: number; owner: string | null; approval_ref: string | null
+    }> }).tasks[0]!;
+    assert.equal(deploy.status, 'PLANNED');
+    assert.equal(deploy.priority, 15);
+    assert.equal(deploy.owner, null);
+    assert.equal(deploy.approval_ref, null);
+    assert.throws(() => f.store.claim('DEPLOY-001', 'agent', 'feat/deploy-001', '/worktree/deploy-001'));
     assert.throws(() => f.store.claim('P0-001','a','task/app003','/worktree/a'));
   } finally { f.cleanup(); }
 });
@@ -106,6 +114,7 @@ test('restarting an existing database preserves completed P1 state and budget', 
       assert.equal(task.approval_ref, 'closeout evidence');
       assert.equal(reopened.budget().remaining, 7);
       assert.equal((reopened.getState('P1-002') as { tasks: Array<{ status: string }> }).tasks[0]!.status, 'PLANNED');
+      assert.equal((reopened.getState('DEPLOY-001') as { tasks: Array<{ status: string }> }).tasks[0]!.status, 'PLANNED');
     } finally { reopened.close(); }
   } finally {
     if (!closed) store.close();

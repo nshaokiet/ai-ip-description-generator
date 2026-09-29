@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | SPEC-002 |
 | Document title | Project Context — AI Intellectual Property Description Generator |
-| Version | 0.4.18 |
+| Version | 0.4.19 |
 | Status | Approved baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT |
@@ -66,6 +66,7 @@
 | 0.4.15 | 0.4.16 | 29/09/2026 | Codex | Record Human-approved local/synthetic MVP completion boundary and defer EVAL-001 product-runtime pending funding | P0-010 final closeout proposal; no semantic or production approval | P0-010, DEC-020, baseline `6136a0fe40a214ceec10f2f58aaa99497f62b09e`; BLK-003 OPEN | No |
 | 0.4.16 | 0.4.17 | 29/09/2026 | ChatGPT | Record P0-010 independent final closeout PASS, Human-approved PR #30 merge and successful main CI; finalize bounded local/synthetic MVP classification | Post-merge final project governance reconciliation; no semantic/provider/production approval | P0-010, REV-P0-010-FINAL-CLOSEOUT, PR #30, merge `9f31dae104438a598b0fe3c9bd09aba005f9026c`, CI `36526457334`, DEC-021; BLK-003 OPEN | No |
 | 0.4.17 | 0.4.18 | 29/09/2026 | ChatGPT | Record P1-001 independent review PASS/findings NONE, Human-approved PR #33 merge and successful final main CI | Post-MVP zero-cost accessibility/type-safety hardening closeout; preserve provider/semantic/production boundaries | P1-001, REV-P1-001-IMPLEMENTATION, DEC-022, merge `56d7217c0f09fe591585cb298e0b4df0c92f8aa4`, CI `36536768516`; BLK-003 OPEN | No |
+| 0.4.18 | 0.4.19 | 29/09/2026 | ChatGPT | Register DEPLOY-001 as a planned zero-cost demo/staging deployment task with synthetic/demo-only public URL boundary | Make public-demo work explicit without granting production, provider, platform or real-data authorization | HUMAN-DEPLOY-001-ROADMAP-REGISTRATION-2026-09-29; baseline `166691bcdcb84636f02c3cd24631a5ad51fe3c44`; BLK-003 OPEN | No |
 
 ## 2. Project name
 
@@ -150,8 +151,8 @@ Pipeline MVP ưu tiên một paper cho một hồ sơ. Nội dung thiếu không
 | Retrieval | Không dùng trong Extraction Runtime v1 hoặc Draft Runtime v1 | AI-RUNTIME-001/AI-RUNTIME-002 chỉ dùng input envelopes; task tương lai cần approval riêng |
 | Database | Supabase/PostgreSQL | Optional/MVP+ hoặc khi được phê duyệt |
 | DOCX | `docxtpl==0.20.2`, `python-docx==1.2.0` | Patent DOCX Template v1.0.0 — Completed — Merged via PR #7 |
-| Frontend deployment | Vercel | Định hướng; config `[FILE CHƯA TỒN TẠI]` |
-| Backend deployment | Railway | Định hướng; config `[FILE CHƯA TỒN TẠI]` |
+| Demo/staging deployment | Platform TBD | DEPLOY-001 **PLANNED — implementation not authorized**; zero-cost public demo URL, synthetic/demo data only; platform selection requires separate Human approval |
+| Production deployment | Platform TBD | **NOT APPROVED / NOT PERFORMED**; requires SEC-001/BLK-003 resolution, real-data/security acceptance and separate Human approval |
 | Version control | GitHub | Technical Source of Truth |
 
 Không tự ý thêm framework, dịch vụ hoặc dependency.
