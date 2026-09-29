@@ -88,20 +88,29 @@ point to the same build and the same user-local SQLite database.
   including task, branch, safe commit, completed work, tests, remaining work,
   blockers, stop reason and exact next action.
 
-The server seeds P0-001 through P0-008 as PLANNED only. P0-001 is frozen until
-26/09/2026 00:00 in Vietnam; the entire queue still requires recorded Human
-approval before any task can be claimed. A dependent task waits for the
-predecessor to reach COMPLETED. The database is initialized once; restarts
-never overwrite task or budget state. Quota cycles are labels for Human records,
-not additional balances. The two weekly and two banked cycles are never
-combined or activated automatically.
+The server seeds P0-001 through P0-008 and the zero-cost Post-MVP roadmap
+P1-001 through P1-006 as PLANNED only. P1-001 is Frontend Accessibility +
+Type Safety Hardening; P1-002 Offline Adversarial Regression Expansion;
+P1-003 Local Security Hardening; P1-004 Developer Experience / One-command
+Local Run; P1-005 Offline Performance Baseline; and P1-006 UX Polish /
+Responsive / Error Recovery. P1-002 through P1-006 are dependency-gated in
+that order. P0-001 is frozen until 26/09/2026 00:00 in Vietnam; the entire
+queue still requires recorded Human approval before any task can be claimed.
+A dependent task waits for the predecessor to reach COMPLETED. Seed insertion
+uses INSERT OR IGNORE, so restarting an existing database adds newly introduced
+task IDs without overwriting recorded task or budget state. Quota cycles are
+labels for Human records, not additional balances. The two weekly and two banked
+cycles are never combined or activated automatically.
 
 ## Human gates and lifecycle
+
+After pulling/building a version containing new seed tasks, restart the MCP
+server once so the existing local SQLite database receives the new task IDs.
 
 An authorized Human records approval using the local administrator CLI only,
 after reviewing a task and its scope:
 
-    npm run admin -- approve P0-001 HUMAN-DECISION-REFERENCE
+    npm run admin -- approve P1-001 HUMAN-DECISION-REFERENCE
 
 It refuses approval of P0-001 before its freeze ends. Evidence-backed lifecycle
 transitions are administrative and never run Git operations:
