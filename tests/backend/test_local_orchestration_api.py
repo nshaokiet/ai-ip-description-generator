@@ -349,6 +349,25 @@ class LocalOrchestrationAPITests(unittest.TestCase):
         response = self.client.post("/api/drafts/validate", json=over_limit)
         self.assertEqual(422, response.status_code, response.text)
 
+    def test_malformed_json_validation_and_export_requests_fail_safely(self) -> None:
+        for path in ("/api/drafts/validate", "/api/exports/docx"):
+            with self.subTest(path=path):
+                response = self.client.post(
+                    path,
+                    content=b'{"revision_id":"synthetic",',
+                    headers={"content-type": "application/json"},
+                )
+                self.assertEqual(422, response.status_code, response.text)
+                self.assertEqual("invalid_request", response.json()["error"]["code"])
+                self.assertEqual(
+                    response.headers["x-correlation-id"],
+                    response.json()["error"]["correlation_id"],
+                )
+                self.assertNotIn("Traceback", response.text)
+                self.assertNotIn(str(self.root), response.text)
+        self.assertEqual([], self.draft_runtime.invocations)
+        self.assertEqual([], list(self.export_root.glob("*.docx")))
+
     def test_export_requires_exact_validated_revision_and_revalidates(self) -> None:
         body = self.validated_export_context(self.draft_context())
         stale = copy.deepcopy(body)
@@ -379,6 +398,16 @@ class LocalOrchestrationAPITests(unittest.TestCase):
         over_limit["validated_digest"] = draft_digest(over_limit["draft"], over_limit["revision_id"])
         response = self.client.post("/api/exports/docx", json=over_limit)
         self.assertEqual(422, response.status_code, response.text)
+        self.assertEqual([], list(self.export_root.glob("*.docx")))
+
+    def test_revision_id_change_invalidates_previously_validated_digest(self) -> None:
+        body = self.validated_export_context(self.draft_context())
+        body["revision_id"] = "revision-2"
+        with patch.object(self.app.state.patent_docx_renderer, "render") as render:
+            response = self.client.post("/api/exports/docx", json=body)
+        render.assert_not_called()
+        self.assertEqual(409, response.status_code, response.text)
+        self.assertEqual("stale_draft_revision", response.json()["error"]["code"])
         self.assertEqual([], list(self.export_root.glob("*.docx")))
 
     def test_export_returns_editable_docx_and_removes_temporary_file(self) -> None:

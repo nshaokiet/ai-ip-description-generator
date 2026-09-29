@@ -206,10 +206,44 @@ class DocumentUploadTests(unittest.TestCase):
         self.assert_error(response, 413, "file_too_large")
         self.assert_storage_empty()
 
+    def test_storage_accepts_exact_upload_limit_without_off_by_one_rejection(self) -> None:
+        class ExactLimitUpload:
+            def __init__(self, size: int) -> None:
+                self.remaining = size
+
+            async def read(self, size: int) -> bytes:
+                count = min(size, self.remaining)
+                self.remaining -= count
+                return b"A" * count
+
+        storage = DocumentStorage(
+            self.storage_root,
+            ttl_seconds=60,
+            max_upload_bytes=10 * MEBIBYTE,
+            read_chunk_bytes=64 * 1024,
+        )
+        document_id = storage.allocate_id()
+        path, size = asyncio.run(
+            storage.stream_to_disk(ExactLimitUpload(10 * MEBIBYTE), document_id)
+        )
+        self.assertEqual(10 * MEBIBYTE, size)
+        self.assertEqual(size, path.stat().st_size)
+        self.assertTrue(storage.delete(document_id))
+        self.assert_storage_empty()
+
     def test_pdf_over_fifty_pages_is_rejected(self) -> None:
         response = self.upload("long.pdf", synthetic_pdf(pages=51, text_page=None), PDF_MEDIA_TYPE)
         self.assert_error(response, 422, "pdf_page_limit_exceeded")
         self.assert_storage_empty()
+
+    def test_pdf_at_exact_fifty_page_limit_is_accepted(self) -> None:
+        response = self.upload(
+            "boundary.pdf",
+            synthetic_pdf(pages=50, text_page=49),
+            PDF_MEDIA_TYPE,
+        )
+        self.assertEqual(201, response.status_code, response.text)
+        self.assertEqual(50, response.json()["page_count"])
 
     def test_scanned_only_pdf_is_rejected(self) -> None:
         response = self.upload("scan.pdf", synthetic_pdf(text_page=None), PDF_MEDIA_TYPE)
@@ -230,6 +264,17 @@ class DocumentUploadTests(unittest.TestCase):
         self.assert_error(fake_pdf, 415, "format_mismatch")
         unsupported = self.upload("paper.txt", b"synthetic", "text/plain")
         self.assert_error(unsupported, 415, "unsupported_extension")
+        self.assert_storage_empty()
+
+    def test_disguised_double_extension_is_rejected_without_parsing(self) -> None:
+        with patch("backend.app.services.document_validation.PdfReader") as reader:
+            response = self.upload(
+                "paper.pdf.exe",
+                synthetic_pdf(),
+                PDF_MEDIA_TYPE,
+            )
+        reader.assert_not_called()
+        self.assert_error(response, 415, "unsupported_extension")
         self.assert_storage_empty()
 
     def test_macro_docm_and_renamed_macro_are_rejected(self) -> None:
