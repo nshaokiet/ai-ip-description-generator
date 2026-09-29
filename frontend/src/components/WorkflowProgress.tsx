@@ -20,7 +20,7 @@ export function WorkflowProgress({ state }: { state: WorkflowState }) {
         {STEPS.map((step, index) => {
           const status = index < current ? "complete" : index === current ? "current" : "upcoming";
           return (
-            <li className={`workflow-step workflow-step-${status}`} key={step.key}>
+            <li aria-current={index === current ? "step" : undefined} className={`workflow-step workflow-step-${status}`} key={step.key}>
               <span className="step-marker" aria-hidden="true">
                 {index < current ? "✓" : index + 1}
               </span>
