@@ -3,12 +3,15 @@
 | Field | Value |
 |---|---|
 | Task | P0-010 — Final Project / MVP Closeout |
-| Version | 0.1.0 |
-| Status | Closeout proposal — independent targeted review and Human merge pending |
+| Version | 0.1.1 |
+| Status | **CLOSED / COMPLETED — MERGED** |
 | Human decision | DEC-020, 29/09/2026 |
 | Classification | **MVP COMPLETE — LOCAL/SYNTHETIC** |
 | Approved pre-closeout main baseline | `6136a0fe40a214ceec10f2f58aaa99497f62b09e` |
-| Final closeout SHA | To be recorded from Git/PR after commit and Human-approved merge; not fabricated in this document |
+| Reviewed closeout SHA | `4601d6da60926ce2b2f0425e1432405f0b019fe9` |
+| PR / merge SHA | #30 / `9f31dae104438a598b0fe3c9bd09aba005f9026c` |
+| Independent review | Gemini 3.1 Pro High — **PASS**, findings **NONE** |
+| Final main CI | `36526457334` — **SUCCESS** |
 | Production / public deployment | **NOT APPROVED / NOT PERFORMED** |
 | Real/confidential-data authorization | **NO** |
 | BLK-003 | **OPEN** — blocks production and real/confidential-data use, not this local/synthetic MVP |
@@ -21,7 +24,7 @@ Input limits: PDF/DOCX, **at most 10 MiB**; PDF **at most 50 pages**; text-based
 
 ## Verification and local operation
 
-- Accepted `main` [CI run `36521893165`](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/36521893165): **SUCCESS** on `6136a0fe40a214ceec10f2f58aaa99497f62b09e`; Linux backend **408 passed, 2 skipped**, frontend lint/build **PASS**, Playwright **11 passed**.
+- P0-010 PR #30 merged at `9f31dae104438a598b0fe3c9bd09aba005f9026c` after Gemini 3.1 Pro High targeted final closeout review **PASS**, findings **NONE**, and Human merge approval. Final `main` [CI run `36526457334`](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/36526457334): **SUCCESS**; Linux backend **408 passed, 2 skipped**, frontend lint/build **PASS**, Playwright **11 passed**, live-test flags **0/0**, provider calls **NONE**.
 - P0-010 local offline regression on Windows/Python 3.12.10 with `RUN_OPENAI_LIVE_TESTS=0`, `RUN_OPENAI_DRAFT_LIVE_TESTS=0`, no provider credential: backend **407 passed, 3 skipped, 1 deprecation warning**, lint **PASS**, build **PASS**, Playwright synthetic E2E **11 passed**. The known Windows server teardown wait ended after stopping only the two identified servers from this run; the runner exited `0`.
 - EVAL-001 evaluator without product evidence: `BLOCKED_FOR_PRODUCT_RUNTIME_EVIDENCE`; **0** product runs; corpus/gold **6/6** accepted; semantic acceptance **NOT_DETERMINED**; budget **0**. This is the expected technical blocked state, not a failure of the bounded local/synthetic MVP.
 - For setup, run commands, environment isolation and limitations, use the existing [README](../../README.md) and [MVP handover runbook](MVP_HANDOVER_RUNBOOK.md). Do not supply provider credentials or real/confidential papers for this handover.
@@ -36,14 +39,14 @@ Also deferred: SEC-001 / BLK-003 production security; authentication and tenant 
 
 - Task ID: P0-010
 - Agent: GPT-6 Sol (primary closeout)
-- Reviewer: Gemini 3.1 Pro High — **PENDING** targeted final closeout review
-- Status: Documentation closeout candidate; PR CI, independent review and Human merge are separate gates
+- Reviewer: Gemini 3.1 Pro High — **PASS**, findings **NONE**
+- Status: **CLOSED / COMPLETED — MERGED**; bounded local/synthetic MVP closeout complete
 - Version: Final closeout document v0.1.0
 - Work completed: DEC-020 reconciliation, bounded classification, offline verification and deferred-work inventory
 - Files affected: Governance, README and this handover only; no product/evaluator/test/workflow changes
-- Evidence checked: PR #29 merge; main CI `36521893165`; local pytest/lint/build/Playwright; evaluator blocked report
-- Findings: No product-runtime evidence; no semantic verdict
+- Evidence checked: reviewed SHA `4601d6da60926ce2b2f0425e1432405f0b019fe9`; PR #30 merge `9f31dae104438a598b0fe3c9bd09aba005f9026c`; PR CI `36524472405`; final main CI `36526457334`; local pytest/lint/build/Playwright; evaluator blocked report
+- Findings: Independent closeout review **NONE**; product-runtime evidence remains NONE and no semantic verdict is claimed
 - Decisions: DEC-020 — Human-approved local/synthetic completion and funding-dependent deferral
 - Issues: BLK-003 OPEN; provider funding unavailable; Project Orchestrator returned `Unknown task: P0-010`, with no lease/state fabricated
 - Security impact: None from this docs-only closeout; production/confidential-data prohibition remains
-- Recommended next action: Gemini 3.1 Pro High targeted final closeout review after PR CI; then Human merge decision.
+- Recommended next action: No further active local/synthetic MVP closeout work. Post-MVP work requires separate Human approval/funding: EVAL-001 PRODUCT_RUNTIME, SEC-001/BLK-003 remediation, deployment, UX hardening or optimization.
