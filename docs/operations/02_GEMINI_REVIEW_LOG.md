@@ -10,14 +10,14 @@
 | Document title | Gemini Review Log |
 | Project | AI Intellectual Property Description Generator |
 | Project deadline | 02/10/2026 |
-| Version | 0.3.18 |
+| Version | 0.3.19 |
 | Status | Active review log |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
-| Reviewer | Gemini 3.1 Pro High + Gemini 3.8 Flash High (historical); Google Antigravity (Advanced Agentic Coding) for REV-P0-006-IMPLEMENTATION, REV-P0-007-SPECIFICATION, REV-P0-007-IMPLEMENTATION and REV-P0-008-SPECIFICATION; Google Antigravity / Gemini 1.5 Pro (Advanced Agentic Coding) for REV-P0-008-IMPLEMENTATION; Gemini 3.1 Pro High for REV-P0-009-IMPLEMENTATION, REV-EVAL-001-SPECIFICATION, REV-EVAL-001-FRAMEWORK-IMPLEMENTATION, REV-EVAL-001-GOLD, REV-P0-010-FINAL-CLOSEOUT and REV-P1-001-IMPLEMENTATION |
+| Reviewer | Gemini 3.1 Pro High + Gemini 3.8 Flash High (historical); Google Antigravity (Advanced Agentic Coding) for REV-P0-006-IMPLEMENTATION, REV-P0-007-SPECIFICATION, REV-P0-007-IMPLEMENTATION and REV-P0-008-SPECIFICATION; Google Antigravity / Gemini 1.5 Pro (Advanced Agentic Coding) for REV-P0-008-IMPLEMENTATION; Gemini 3.1 Pro High for REV-P0-009-IMPLEMENTATION, REV-EVAL-001-SPECIFICATION, REV-EVAL-001-FRAMEWORK-IMPLEMENTATION, REV-EVAL-001-GOLD, REV-P0-010-FINAL-CLOSEOUT, REV-P1-001-IMPLEMENTATION and REV-DEPLOY-001-ROADMAP |
 | Created date | 18/09/2026 |
 | Last updated | 29/09/2026 GMT+7 |
-| Related task ID | REVIEW-001; SPEC-001; SPEC-002; SPEC-003; AI-001; AI-002; AI-003; DOC-001; APP-001; APP-002; AI-RUNTIME-001; AI-RUNTIME-002; APP-003; P0-006; P0-007; P0-008; P0-009; EVAL-001; P0-010; P1-001 |
+| Related task ID | REVIEW-001; SPEC-001; SPEC-002; SPEC-003; AI-001; AI-002; AI-003; DOC-001; APP-001; APP-002; AI-RUNTIME-001; AI-RUNTIME-002; APP-003; P0-006; P0-007; P0-008; P0-009; EVAL-001; P0-010; P1-001; DEPLOY-001 |
 | Source of Truth | Review history; bản nguồn Git tại `docs/operations/02_GEMINI_REVIEW_LOG.md` |
 | Confidentiality level | Internal; findings về research input có thể là Confidential |
 
@@ -53,6 +53,7 @@
 | 0.3.15 | 0.3.16 | 29/09/2026 | Codex | Append EVAL-001 PR #29 merge and successful main CI resolution evidence without changing historical review verdicts | Post-merge review-log reconciliation only | REV-EVAL-001-FRAMEWORK-IMPLEMENTATION, REV-EVAL-001-GOLD, merge `2caf3e6c698745a1c2b09d5605e8fba955bca2f9`, CI `36521178496`; BLK-003 OPEN | No |
 | 0.3.16 | 0.3.17 | 29/09/2026 | ChatGPT | Record Human-supplied Gemini 3.1 Pro High P0-010 targeted final closeout PASS/findings NONE, Human merge approval and successful final main CI | Close P0-010 review gate without expanding local/synthetic classification | P0-010, REV-P0-010-FINAL-CLOSEOUT, PR #30, merge `9f31dae104438a598b0fe3c9bd09aba005f9026c`, CI `36526457334`, DEC-021; BLK-003 OPEN | No |
 | 0.3.17 | 0.3.18 | 29/09/2026 | ChatGPT | Record Human-supplied Gemini 3.1 Pro High P1-001 targeted implementation PASS/findings NONE, Human merge approval and successful final main CI | Close P1-001 independent review gate and Post-MVP zero-cost hardening task | P1-001, REV-P1-001-IMPLEMENTATION, PR #33, merge `56d7217c0f09fe591585cb298e0b4df0c92f8aa4`, CI `36536768516`, DEC-022; BLK-003 OPEN | No |
+| 0.3.18 | 0.3.19 | 29/09/2026 | Codex | Record Human-supplied Gemini 3.1 Pro High review PASS/findings NONE for PR #38 and verified merge/main CI | Post-merge governance evidence for DEPLOY-001 roadmap registration; no implementation authorization | DEPLOY-001, REV-DEPLOY-001-ROADMAP, PR #38, merge `d55b9ede1a3ba063a7965f00477bea5d7fdefb7d`, CI `36552444542`; BLK-003 OPEN | No |
 
 ## 2. Review Rules
 
@@ -2315,3 +2316,11 @@ Reviewed PR CI `36535345379` on exact final reviewed SHA `a2d7f8933554ee3675251b
 Human / Product Owner accepted the review and approved merge. PR #33 merged into `main` at `56d7217c0f09fe591585cb298e0b4df0c92f8aa4`. Final main push CI `36536768516` was **SUCCESS** on that merge SHA: backend **408 passed / 2 skipped**, `pip check` **PASS**, frontend lint/typecheck/build **PASS**, Playwright **15 passed**, live flags **0/0**, provider calls **NONE**.
 
 Review status: **CLOSED — PASS / findings NONE**. P1-001 is **CLOSED / COMPLETED — MERGED**. This does not establish PRODUCT_RUNTIME semantic acceptance, live-provider validation, production readiness, deployment approval or real/confidential-data authorization. Project classification remains **MVP COMPLETE — LOCAL/SYNTHETIC**; EVAL-001 PRODUCT_RUNTIME remains **DEFERRED — AWAITING FUNDING**; provider authorization **NOT GRANTED**, provider/API budget **0**, BLK-003 **OPEN**. P1-002 through P1-006 remain **PLANNED** and require separate Human authorization.
+
+## REV-DEPLOY-001-ROADMAP — DEPLOY-001 Catalog and README Review
+
+Review target: PR [#38](https://github.com/nshaokiet/ai-ip-description-generator/pull/38), final reviewed SHA `8bf19bcbab1459c7ce791a2af53ada3989d8de18` against main baseline `166691bcdcb84636f02c3cd24631a5ad51fe3c44`. Reviewer/model profile: **Gemini 3.1 Pro High**. Human supplied the independent review decision: **PASS**, findings **NONE**, suitable for merge **YES**. The exact independent review date and separate reviewer artefact were not supplied. This records the Human-supplied outcome; it is not a new review of this closeout entry.
+
+PR CI `36549507504` was **SUCCESS** on the exact reviewed SHA. PR #38 merged normally at `d55b9ede1a3ba063a7965f00477bea5d7fdefb7d`; final `main` push CI [`36552444542`](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/36552444542) was **SUCCESS** on that merge SHA: backend **408 passed / 2 skipped**, `pip check` **PASS**, frontend lint/typecheck/build **PASS**, Playwright **15 passed**, live flags **0/0**. No provider calls were observed in the CI evidence.
+
+Review status: **CLOSED — PASS / findings NONE** for the roadmap/catalog and README status change only. DEPLOY-001 is registered as **PLANNED**, not implementation-approved or deployed; MCP seeding in the user-local database remains subject to server restart and read-only verification. P1-002 through P1-006 remain **PLANNED** without authorization. Project classification remains **MVP COMPLETE — LOCAL/SYNTHETIC**; EVAL-001 PRODUCT_RUNTIME **DEFERRED — AWAITING FUNDING**; BLK-003 **OPEN**. No production, public deployment, paid-provider, real/confidential-data, or semantic-acceptance claim is made.
