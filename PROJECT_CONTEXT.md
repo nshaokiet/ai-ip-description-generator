@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | SPEC-002 |
 | Document title | Project Context — AI Intellectual Property Description Generator |
-| Version | 0.4.14 |
+| Version | 0.4.15 |
 | Status | Approved baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT |
@@ -62,6 +62,7 @@
 | 0.4.11 | 0.4.12 | 28/09/2026 | Codex | Record EVAL-001 Draft PR #29 CI success and independent framework review handoff | Add verified CI evidence without changing semantic/provider authorization state | EVAL-001, CI `36404294487`, framework `b8a7ede8f18ca50dedd669fcd47365dd8ed250bc` | No |
 | 0.4.12 | 0.4.13 | 29/09/2026 | Codex | Record framework review PASS, Human corpus acceptance and authorized candidate-gold completion while preserving gold/provider blocks | EVAL-001 phased-state reconciliation | EVAL-001, reviewed `1c077bbb0d53304e44ad0ff7639ea3866b30fb5f`, PR #29; BLK-003 OPEN | No |
 | 0.4.13 | 0.4.14 | 29/09/2026 | Codex | Record Gemini targeted gold PASS/findings NONE and Human acceptance of all six gold packages; retain runtime/provider blockers | EVAL-001 acceptance-state transition only | EVAL-001, gold completion `98101a894b1a60b16adfd867d3276215635c26d0`, DEC-019; BLK-003 OPEN | No |
+| 0.4.14 | 0.4.15 | 29/09/2026 | Codex | Record EVAL-001 framework and accepted gold baseline merge plus successful main CI; retain product-runtime gate | Post-merge governance reconciliation without semantic or provider approval | EVAL-001, PR #29, merge `2caf3e6c698745a1c2b09d5605e8fba955bca2f9`, CI `36521178496`; BLK-003 OPEN | No |
 
 ## 2. Project name
 
@@ -365,7 +366,7 @@ Project Orchestrator MCP là lớp điều phối dùng chung giữa VS Code/Cod
 
 ## 28. Recommended next action
 
-1. EVAL-001 — Semantic Quality Evaluation specification v0.1.0 at `67c8d71f79712ede8780babf890a79fcbfd2769e` received Gemini 3.1 Pro High `PASS WITH HUMAN DECISIONS REQUIRED`, AC-01…AC-18 PASS and findings NONE. Human approved seven framework-only decisions against frozen product baseline `37d42fc8b07003aa2a67f2d1d32e64e69eb0ddb5`. Framework implementation `b8a7ede8f18ca50dedd669fcd47365dd8ed250bc` reached Draft PR #29 CI SUCCESS; final framework SHA `1c077bbb0d53304e44ad0ff7639ea3866b30fb5f` received Gemini 3.1 Pro High independent **PASS**, findings **NONE**, which Human accepted. Human accepted the exact six-case public/open-access corpus. Gold completion `98101a894b1a60b16adfd867d3276215635c26d0` contains 154 items (102 KEY, 52 SECONDARY); Gemini 3.1 Pro High targeted gold review **PASS**, findings **NONE**, and Human gold acceptance **6/6 GRANTED** without changing semantic items. Provider access **NOT AUTHORIZED**, budget **0**, product-runtime evidence **NONE**, semantic acceptance **NOT DETERMINED** and EVAL-001 **NOT COMPLETED**. BLK-003 **OPEN**; next gate is Human merge decision for Draft PR #29, not product-runtime use.
+1. EVAL-001 — Specification v0.1.0 `67c8d71f79712ede8780babf890a79fcbfd2769e` and frozen product baseline `37d42fc8b07003aa2a67f2d1d32e64e69eb0ddb5` remain unchanged. Gemini 3.1 Pro High framework review **PASS**, findings **NONE**, at `1c077bbb0d53304e44ad0ff7639ea3866b30fb5f`; targeted gold review **PASS**, findings **NONE**, after completion `98101a894b1a60b16adfd867d3276215635c26d0`. Human accepted the six-case public/open-access corpus and all six gold packages (154 items: 102 KEY, 52 SECONDARY). Human merged PR #29 at accepted head `c75a0c6adf4c30c50bcf7548298963e2c15995f2` into `main` at `2caf3e6c698745a1c2b09d5605e8fba955bca2f9`; main CI [`36521178496`](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/36521178496) **SUCCESS** (backend 408 passed/2 skipped, lint/build PASS, Playwright 11 passed). Framework + accepted gold baseline **MERGED**; overall EVAL-001 **IN PROGRESS — BLOCKED FOR PRODUCT-RUNTIME EVIDENCE**, not PASS/Completed. Provider authorization **NOT GRANTED**, budget **0**, provider calls **NONE**, product-runtime evidence **NONE**, semantic acceptance **NOT DETERMINED**, BLK-003 **OPEN**. Next gate: separate Human decision on product-runtime provider authorization; no production/public/confidential-data approval.
 2. Follow-on sequence: SEC-001 — Production Security / BLK-003; separate Human-approved deployment/staging; UX hardening later if approved.
 3. BLK-003 remains OPEN: no real/confidential research data or production-readiness claim; live-provider smoke UNVALIDATED / DEFERRED. Claims, optional outputs and deployment require separate approval.
 

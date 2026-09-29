@@ -10,7 +10,7 @@
 | Document title | Gemini Review Log |
 | Project | AI Intellectual Property Description Generator |
 | Project deadline | 02/10/2026 |
-| Version | 0.3.15 |
+| Version | 0.3.16 |
 | Status | Active review log |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -50,6 +50,7 @@
 | 0.3.12 | 0.3.13 | 28/09/2026 | Codex | Record Gemini 3.1 Pro High EVAL-001 specification review PASS WITH HUMAN DECISIONS REQUIRED and subsequent seven Human decisions; implementation review remains pending | Framework-phase governance handoff without semantic/product approval | EVAL-001, REV-EVAL-001-SPECIFICATION, spec `67c8d71f79712ede8780babf890a79fcbfd2769e` | No |
 | 0.3.13 | 0.3.14 | 29/09/2026 | Codex | Append Human-supplied Gemini 3.1 Pro High EVAL-001 framework implementation PASS/findings NONE and Human acceptance; keep new gold review pending | Resolve earlier pending framework state without asserting gold or semantic acceptance | EVAL-001, REV-EVAL-001-FRAMEWORK-IMPLEMENTATION, reviewed `1c077bbb0d53304e44ad0ff7639ea3866b30fb5f`; BLK-003 OPEN | No |
 | 0.3.14 | 0.3.15 | 29/09/2026 | Codex | Append Human-supplied Gemini 3.1 Pro High targeted gold PASS/findings NONE and Human gold acceptance 6/6 | Close gold review gate without implying product-runtime semantic acceptance | EVAL-001, REV-EVAL-001-GOLD, completion `98101a894b1a60b16adfd867d3276215635c26d0`; BLK-003 OPEN | No |
+| 0.3.15 | 0.3.16 | 29/09/2026 | Codex | Append EVAL-001 PR #29 merge and successful main CI resolution evidence without changing historical review verdicts | Post-merge review-log reconciliation only | REV-EVAL-001-FRAMEWORK-IMPLEMENTATION, REV-EVAL-001-GOLD, merge `2caf3e6c698745a1c2b09d5605e8fba955bca2f9`, CI `36521178496`; BLK-003 OPEN | No |
 
 ## 2. Review Rules
 
@@ -2284,3 +2285,7 @@ Human authorized the subsequent **gold annotation completion phase only**. Candi
 Review target: completed candidate gold at `98101a894b1a60b16adfd867d3276215635c26d0`, six fixed cases, 154 items (102 KEY, 52 SECONDARY). Human supplied the targeted independent review outcome: **Gemini 3.1 Pro High — PASS**, findings **NONE**, gold suitable for Human acceptance **YES**. Exact independent review date and separate report were not supplied; do not infer a fresh review from this log entry.
 
 Human / Product Owner subsequently accepted all six gold packages. Acceptance metadata identifies Human / Product Owner, not Gemini, as gold reviewer/authority; semantic gold content is unchanged. Gold review gate **CLOSED**; corpus and gold both **6/6 ACCEPTED**. This is not product-runtime validation: provider authorization **NOT GRANTED**, budget **0**, product-runtime evidence **NONE**, semantic acceptance **NOT DETERMINED**, EVAL-001 **NOT COMPLETED**, BLK-003 **OPEN**. Draft PR #29 remains unmerged pending Human decision.
+
+### Post-merge resolution (29/09/2026)
+
+The earlier unmerged status above is historical. Human merged PR [#29](https://github.com/nshaokiet/ai-ip-description-generator/pull/29) at final head `c75a0c6adf4c30c50bcf7548298963e2c15995f2` into `main` at `2caf3e6c698745a1c2b09d5605e8fba955bca2f9`. Gemini 3.1 Pro High framework review at `1c077bbb0d53304e44ad0ff7639ea3866b30fb5f` and targeted gold review after `98101a894b1a60b16adfd867d3276215635c26d0` remain **PASS**, findings **NONE**; both review gates **CLOSED**. Main CI [`36521178496`](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/36521178496) **SUCCESS**: backend **408 passed, 2 skipped**; lint/build **PASS**; Playwright **11 passed**. No provider calls. Framework and Human-accepted gold baseline **MERGED**, while EVAL-001 overall remains **IN PROGRESS — BLOCKED FOR PRODUCT-RUNTIME EVIDENCE**; provider authorization **NOT GRANTED**, budget **0**, product-runtime evidence **NONE**, semantic acceptance **NOT DETERMINED**, BLK-003 **OPEN**. No production/public/confidential-data approval.
