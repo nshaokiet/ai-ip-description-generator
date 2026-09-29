@@ -55,23 +55,16 @@ test('future work is only seeded as PLANNED and never claimed automatically', ()
   } finally { f.cleanup(); }
 });
 
-test('P1 roadmap is seeded in order and dependency-gated', () => {
+test('P1 roadmap is seeded in priority order without false technical dependencies', () => {
   const f = fixture();
   try {
     f.store.approveTask('P1-002','human-approve-p1-002');
-    assert.equal(f.store.nextTask(), null);
+    assert.equal(f.store.nextTask()?.id, 'P1-002');
 
     f.store.approveTask('P1-001','human-approve-p1-001');
     assert.equal(f.store.nextTask()?.id, 'P1-001');
 
     f.store.claim('P1-001','agent','feat/p1-001','/w/p1-001');
-    f.store.finish('P1-001','agent',['offline pass'],SHA);
-    for (const [state,evidence] of [
-      ['AWAITING_REVIEW','review opened'], ['REVIEW_PASS','review pass'],
-      ['AWAITING_HUMAN_APPROVAL','human gate'], ['MERGED','human merge evidence'],
-      ['COMPLETED','closeout evidence']
-    ] as const) f.store.transition('P1-001',state,evidence);
-
     assert.equal(f.store.nextTask()?.id, 'P1-002');
   } finally { f.cleanup(); }
 });
