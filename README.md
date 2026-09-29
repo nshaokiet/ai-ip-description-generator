@@ -8,9 +8,10 @@ Công cụ hỗ trợ chuyển bài báo khoa học thành dữ liệu có cấu
 
 | Item | Status |
 | --- | --- |
-| MVP | **MVP COMPLETE — LOCAL/SYNTHETIC**; Human-approved bounded classification (DEC-020); P0-010 documentation closeout awaits independent review and Human merge |
+| MVP | **MVP COMPLETE — LOCAL/SYNTHETIC**; P0-010 **CLOSED / COMPLETED — MERGED** via PR #30 at `9f31dae104438a598b0fe3c9bd09aba005f9026c`; final main CI `36526457334` SUCCESS |
 | P0-008 | **CLOSED / COMPLETED — MERGED** |
 | P0-009 | **CLOSED / COMPLETED — MERGED**; CI Foundation |
+| P0-010 | **CLOSED / COMPLETED — MERGED**; Gemini 3.1 Pro High final closeout review PASS, findings NONE |
 | CI | **ACTIVE** — offline regression gates on `pull_request(main)` and `push(main)` |
 | EVAL-001 PRODUCT_RUNTIME | **DEFERRED — AWAITING FUNDING**; no product-runtime evidence or semantic acceptance |
 | Provider authorization / budget | **NOT GRANTED / 0**; no paid calls authorized |
@@ -164,10 +165,10 @@ npm run test:e2e
 
 The active [CI workflow](.github/workflows/ci.yml) runs on pull requests targeting
 `main` and pushes to `main`: Python 3.12 full pytest, Node 24.18.0 `npm ci`,
-lint, build, Playwright Chromium, and synthetic E2E. The accepted post-merge
-[main run](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/36521893165)
-passed (backend **408 passed / 2 skipped**, lint/build PASS, Playwright
-**11 passed**). P0-010 local offline verification: backend **407 passed / 3 skipped**
+lint, build, Playwright Chromium, and synthetic E2E. The final P0-010 post-merge
+[main run](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/36526457334)
+passed on merge SHA `9f31dae104438a598b0fe3c9bd09aba005f9026c` (backend **408 passed / 2 skipped**, lint/build PASS, Playwright
+**11 passed**, live-test flags 0/0). P0-010 local offline verification: backend **407 passed / 3 skipped**
 on Windows, lint/build PASS, Playwright **11 passed**. **Historical P0-007 evidence:** offline backend
 **380 passed / 3 skipped**; Playwright **11 passed**. P0-008's fresh PDF-to-DOCX smoke and
 environment details are in the runbook. CI does not validate a live provider

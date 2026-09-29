@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | SPEC-002 |
 | Document title | Project Context — AI Intellectual Property Description Generator |
-| Version | 0.4.16 |
+| Version | 0.4.17 |
 | Status | Approved baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT |
@@ -64,6 +64,7 @@
 | 0.4.13 | 0.4.14 | 29/09/2026 | Codex | Record Gemini targeted gold PASS/findings NONE and Human acceptance of all six gold packages; retain runtime/provider blockers | EVAL-001 acceptance-state transition only | EVAL-001, gold completion `98101a894b1a60b16adfd867d3276215635c26d0`, DEC-019; BLK-003 OPEN | No |
 | 0.4.14 | 0.4.15 | 29/09/2026 | Codex | Record EVAL-001 framework and accepted gold baseline merge plus successful main CI; retain product-runtime gate | Post-merge governance reconciliation without semantic or provider approval | EVAL-001, PR #29, merge `2caf3e6c698745a1c2b09d5605e8fba955bca2f9`, CI `36521178496`; BLK-003 OPEN | No |
 | 0.4.15 | 0.4.16 | 29/09/2026 | Codex | Record Human-approved local/synthetic MVP completion boundary and defer EVAL-001 product-runtime pending funding | P0-010 final closeout proposal; no semantic or production approval | P0-010, DEC-020, baseline `6136a0fe40a214ceec10f2f58aaa99497f62b09e`; BLK-003 OPEN | No |
+| 0.4.16 | 0.4.17 | 29/09/2026 | ChatGPT | Record P0-010 independent final closeout PASS, Human-approved PR #30 merge and successful main CI; finalize bounded local/synthetic MVP classification | Post-merge final project governance reconciliation; no semantic/provider/production approval | P0-010, REV-P0-010-FINAL-CLOSEOUT, PR #30, merge `9f31dae104438a598b0fe3c9bd09aba005f9026c`, CI `36526457334`, DEC-021; BLK-003 OPEN | No |
 
 ## 2. Project name
 
@@ -255,7 +256,7 @@ Output Schema v1.0.0 có phạm vi hẹp hơn mô hình toàn hệ thống: grou
 
 Giai đoạn khởi tạo đề xuất: **Phase 1 — Specification & Architecture**.
 
-SPEC-001, SPEC-002 và SPEC-003 là **Approved baseline** sau Gemini 3.1 Pro High review và Human decisions ngày 20/09/2026. Human / Product Owner nay đã quyết định phân loại hoàn thành **MVP COMPLETE — LOCAL/SYNTHETIC** cho phạm vi bounded hiện hành (DEC-020); điều này không tuyên bố mọi phase, semantic product-runtime validation hoặc production đã hoàn tất. P0-010 closeout branch vẫn chờ independent targeted review và Human merge.
+SPEC-001, SPEC-002 và SPEC-003 là **Approved baseline** sau Gemini 3.1 Pro High review và Human decisions ngày 20/09/2026. Human / Product Owner đã chốt phân loại **MVP COMPLETE — LOCAL/SYNTHETIC** cho phạm vi bounded hiện hành (DEC-020/DEC-021). P0-010 đã **CLOSED / COMPLETED — MERGED** qua PR #30 tại `9f31dae104438a598b0fe3c9bd09aba005f9026c` sau Gemini 3.1 Pro High targeted final closeout review **PASS**, findings **NONE**; main CI `36526457334` **SUCCESS**. Điều này không tuyên bố semantic PRODUCT_RUNTIME validation, production readiness, public deployment hoặc real/confidential-data readiness.
 
 P0-006 Frontend/backend integration là **CLOSED / Completed — Merged** tại `3207479e5cca73da3e7facbc7c482d2ce5eba2b9` (accepted implementation `0f1e94db438869a980db8a1cb1e06956de2d8d3e`). Google Antigravity (Advanced Agentic Coding) independent review `PASS`, AC-01…AC-17 `PASS`, findings `NONE`; Human accepted review và approved merge. GOV-P0-006-01 được RESOLVED riêng bằng APP-003 governance reconciliation sau đó; BLK-003 vẫn OPEN. Không tuyên bố production/real-data readiness hay toàn bộ MVP Completed.
 
@@ -369,7 +370,7 @@ Project Orchestrator MCP là lớp điều phối dùng chung giữa VS Code/Cod
 
 ## 28. Recommended next action
 
-1. P0-010 — Complete the docs-only local/synthetic MVP closeout review on the dedicated branch, then seek Human merge approval. DEC-020 sets **MVP COMPLETE — LOCAL/SYNTHETIC** only; main baseline `6136a0fe40a214ceec10f2f58aaa99497f62b09e` passed CI [`36521893165`](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/36521893165). Local final regression: backend 407 passed/3 skipped, lint/build PASS, Playwright 11 passed. EVAL-001 framework/gold merged; PRODUCT_RUNTIME semantic validation **DEFERRED — AWAITING FUNDING**, evidence **NONE**, acceptance **NOT_DETERMINED**. No provider authorization or budget.
+1. P0-010 — **CLOSED / COMPLETED — MERGED** via PR #30 at `9f31dae104438a598b0fe3c9bd09aba005f9026c`. Gemini 3.1 Pro High targeted final closeout review: **PASS**, findings **NONE**; Human approved merge. Final main CI [`36526457334`](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/36526457334) **SUCCESS**: backend 408 passed/2 skipped, lint/build PASS, Playwright 11 passed, live flags 0/0. Project classification is **MVP COMPLETE — LOCAL/SYNTHETIC**. No active local/synthetic MVP implementation gate remains.
 2. Post-MVP / Future Work: Human funding/provider decision for EVAL-001 PRODUCT_RUNTIME; SEC-001/BLK-003 production security; separately approved deployment, UX hardening and optimization. None is an active local/synthetic MVP completion gate.
 3. BLK-003 remains OPEN: no real/confidential research data or production-readiness claim; live-provider smoke UNVALIDATED / DEFERRED. Claims, optional outputs and deployment require separate approval.
 
