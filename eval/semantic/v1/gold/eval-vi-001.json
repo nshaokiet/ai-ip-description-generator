@@ -1,0 +1,400 @@
+{
+  "case_id": "eval-vi-001",
+  "source_sha256": "ce6b6f537b78337d52537fd6f7d50d7fd6684456ec73440cb6d9434f274c1040",
+  "review_status": "ACCEPTED",
+  "annotation_inventory_complete": true,
+  "reviewed_by": "Human / Product Owner",
+  "reviewed_at": "2026-09-29T11:06:56+07:00",
+  "items": [
+    {
+      "gold_id": "VI001-FIELD-01",
+      "category": "technical_field",
+      "normalized_proposition": "The paper concerns co-author collaboration recommendation using academic co-authorship links.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF tr. 1, Tóm tắt"
+      ],
+      "supporting_excerpts": [
+        "hệ khuyến nghị đồng tác giả"
+      ],
+      "evaluator_note": "Candidate annotation; Human must verify exact support, scope and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "VI001-PROBLEM-01",
+      "category": "technical_problem",
+      "normalized_proposition": "A fixed future-time labeling window can mark later co-author pairs negative and worsen candidate-label imbalance.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF tr. 7, Mục 3.2"
+      ],
+      "supporting_excerpts": [
+        "vẫn lấy nhãn –1"
+      ],
+      "evaluator_note": "Candidate annotation; Human must verify exact support, scope and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "VI001-SOLUTION-01",
+      "category": "technical_solution",
+      "normalized_proposition": "The method adds author-community link measures to traditional co-authorship-network measures.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF tr. 2, phần đóng góp"
+      ],
+      "supporting_excerpts": [
+        "độ đo về cộng đồng nghiên cứu"
+      ],
+      "evaluator_note": "Candidate annotation; Human must verify exact support, scope and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "VI001-SOLUTION-02",
+      "category": "technical_solution",
+      "normalized_proposition": "The method constructs a dynamic time-dependent candidate table to retain more positive links.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF tr. 7, Mục 3.2"
+      ],
+      "supporting_excerpts": [
+        "kịch bản cải tiến mới"
+      ],
+      "evaluator_note": "Candidate annotation; Human must verify exact support, scope and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "VI001-COMPONENT-01",
+      "category": "component",
+      "normalized_proposition": "The co-authorship graph represents authors as vertices and joint-publication relationships as edges.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF tr. 2–3, Mục 2.1"
+      ],
+      "supporting_excerpts": [
+        "mỗi nút đại diện cho một tác giả"
+      ],
+      "evaluator_note": "Candidate annotation; Human must verify exact support, scope and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "VI001-COMPONENT-02",
+      "category": "component",
+      "normalized_proposition": "A candidate table contains author pairs, historical link-measure values and a subsequent positive or negative label.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF tr. 4, Mục 2.3, Bảng 1"
+      ],
+      "supporting_excerpts": [
+        "Giá trị các độ đo liên kết"
+      ],
+      "evaluator_note": "Candidate annotation; Human must verify exact support, scope and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "VI001-FEATURE-01",
+      "category": "distinguishing_feature",
+      "normalized_proposition": "CommCountry combines pairwise institution/country similarity with similarity involving their common neighbors.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF tr. 5–6, Mục 3.1a, công thức (8)–(9)"
+      ],
+      "supporting_excerpts": [
+        "CommCountry"
+      ],
+      "evaluator_note": "Candidate annotation; Human must verify exact support, scope and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "VI001-FEATURE-02",
+      "category": "distinguishing_feature",
+      "normalized_proposition": "CommTopic counts shared research topics of a pair and of their common neighbors.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF tr. 6, Mục 3.1b, công thức (12)"
+      ],
+      "supporting_excerpts": [
+        "C𝑜mmTopic"
+      ],
+      "evaluator_note": "Candidate annotation; Human must verify exact support, scope and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "VI001-STEP-01",
+      "category": "process_step",
+      "normalized_proposition": "The traditional candidate-generation procedure includes prior co-authors or pairs with a common neighbor.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF tr. 5, Thủ tục 1, Bước 1"
+      ],
+      "supporting_excerpts": [
+        "cặp ứng viên đồng tác giả"
+      ],
+      "evaluator_note": "Candidate annotation; Human must verify exact support, scope and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "VI001-STEP-02",
+      "category": "process_step",
+      "normalized_proposition": "The traditional procedure labels a pair positive only if it co-authors in the later T2 interval.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF tr. 5, Thủ tục 1, Bước 3"
+      ],
+      "supporting_excerpts": [
+        "gán nhãn 1"
+      ],
+      "evaluator_note": "Candidate annotation; Human must verify exact support, scope and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "VI001-STEP-03",
+      "category": "process_step",
+      "normalized_proposition": "The dynamic procedure scans time labels backward from tk to t1.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF tr. 7, Thủ tục 2, Bước 2"
+      ],
+      "supporting_excerpts": [
+        "bắt đầu từ tk đến t1"
+      ],
+      "evaluator_note": "Candidate annotation; Human must verify exact support, scope and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "VI001-STEP-04",
+      "category": "process_step",
+      "normalized_proposition": "At each first observed co-authorship, the dynamic procedure computes measures from the preceding interval and labels the pair positive once.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF tr. 7, Thủ tục 2, Bước 2"
+      ],
+      "supporting_excerpts": [
+        "không tính lại với cặp"
+      ],
+      "evaluator_note": "Candidate annotation; Human must verify exact support, scope and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "VI001-STEP-05",
+      "category": "process_step",
+      "normalized_proposition": "The dynamic procedure labels all still-unlabeled candidate pairs negative.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF tr. 7, Thủ tục 2, Bước 3"
+      ],
+      "supporting_excerpts": [
+        "đều gán nhãn –1"
+      ],
+      "evaluator_note": "Candidate annotation; Human must verify exact support, scope and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "VI001-STEP-06",
+      "category": "process_step",
+      "normalized_proposition": "The recommender vectorizes paper titles and abstracts using TF-IDF.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF tr. 10, Mục 4"
+      ],
+      "supporting_excerpts": [
+        "Tf -Idf để vector hóa"
+      ],
+      "evaluator_note": "Candidate annotation; Human must verify exact support, scope and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "VI001-STEP-07",
+      "category": "process_step",
+      "normalized_proposition": "The recommender derives topic features using non-negative matrix factorization with 40 topics.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF tr. 10, Mục 4"
+      ],
+      "supporting_excerpts": [
+        "n_topics = 40"
+      ],
+      "evaluator_note": "Candidate annotation; Human must verify exact support, scope and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "VI001-COMPONENT-03",
+      "category": "component",
+      "normalized_proposition": "The recommendation classifier is a support vector machine trained on labeled candidate pairs.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF tr. 10, Mục 4"
+      ],
+      "supporting_excerpts": [
+        "Support Vector Machine (SVM)"
+      ],
+      "evaluator_note": "Candidate annotation; Human must verify exact support, scope and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "VI001-COMPONENT-04",
+      "category": "component",
+      "normalized_proposition": "The implemented recommender uses MySQL, Python, Django and Scikit-learn in an MVC design.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF tr. 10, Mục 4"
+      ],
+      "supporting_excerpts": [
+        "mô hình MVC"
+      ],
+      "evaluator_note": "Candidate annotation; Human must verify exact support, scope and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "VI001-EXP-01",
+      "category": "experimental_data",
+      "normalized_proposition": "The evaluation data comprise articles from three ScienceDirect journals dated 2000–2017.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF tr. 7, Mục 3.2, Bảng 2"
+      ],
+      "supporting_excerpts": [
+        "năm 2000 cho đến hết năm 2017"
+      ],
+      "evaluator_note": "Candidate annotation; Human must verify exact support, scope and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "VI001-EXP-02",
+      "category": "experimental_data",
+      "normalized_proposition": "For chem_letter, dynamic labeling yielded 1,460 positive pairs versus 1,250 with traditional labeling.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF tr. 8, Bảng 3"
+      ],
+      "supporting_excerpts": [
+        "1250"
+      ],
+      "evaluator_note": "Candidate annotation; Human must verify exact support, scope and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "VI001-EXP-03",
+      "category": "experimental_data",
+      "normalized_proposition": "For mole_bio, dynamic labeling yielded 910 positive pairs versus 780 with traditional labeling.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF tr. 8, Bảng 3"
+      ],
+      "supporting_excerpts": [
+        "780"
+      ],
+      "evaluator_note": "Candidate annotation; Human must verify exact support, scope and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "VI001-EXP-04",
+      "category": "experimental_data",
+      "normalized_proposition": "For biophy_chem, dynamic labeling yielded 2,110 positive pairs versus 1,780 with traditional labeling.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF tr. 8, Bảng 3"
+      ],
+      "supporting_excerpts": [
+        "1780"
+      ],
+      "evaluator_note": "Candidate annotation; Human must verify exact support, scope and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "VI001-EXP-05",
+      "category": "experimental_data",
+      "normalized_proposition": "For chem_letter, combining CN, Katz, CommTopic and CommCountry achieved AUC 0.8651.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF tr. 8, Bảng 4"
+      ],
+      "supporting_excerpts": [
+        "0,8651"
+      ],
+      "evaluator_note": "Candidate annotation; Human must verify exact support, scope and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "VI001-EXP-06",
+      "category": "experimental_data",
+      "normalized_proposition": "For biophy_chem, that four-measure combination achieved F1-score 0.8710.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF tr. 9, Bảng 5"
+      ],
+      "supporting_excerpts": [
+        "0,8710"
+      ],
+      "evaluator_note": "Candidate annotation; Human must verify exact support, scope and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "VI001-EXAMPLE-01",
+      "category": "embodiment_example",
+      "normalized_proposition": "The system displays ranked top-N candidate co-authors for a specified author.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF tr. 10–11, Mục 4, Hình 1"
+      ],
+      "supporting_excerpts": [
+        "top -N ứng viên"
+      ],
+      "evaluator_note": "Candidate annotation; Human must verify exact support, scope and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "VI001-GAP-01",
+      "category": "missing_information",
+      "normalized_proposition": "The PDF does not specify the exact training/test partition or SVM hyperparameters required to reproduce the reported classifier scores.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF tr. 8, Mục 3.3; PDF tr. 10, Mục 4"
+      ],
+      "supporting_excerpts": [
+        "bộ dữ liệu huấn luyện và bộ dữ liệu kiểm tra"
+      ],
+      "evaluator_note": "Material reproducibility gap candidate; Human to confirm whether an author question is warranted.",
+      "coverage_applicable": false,
+      "missing_information_target": true
+    },
+    {
+      "gold_id": "VI001-PROHIBITED-01",
+      "category": "prohibited_conclusion",
+      "normalized_proposition": "The evaluator must reject any patentability, novelty, inventive-step, freedom-to-operate, filing-readiness or legal-advice conclusion inferred from this paper.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF tr. 11, Mục 5 — technical conclusion only"
+      ],
+      "supporting_excerpts": [
+        "Bài báo đã trình bày"
+      ],
+      "evaluator_note": "Evaluator safety expectation, not a paper claim.",
+      "coverage_applicable": false,
+      "missing_information_target": false
+    }
+  ]
+}

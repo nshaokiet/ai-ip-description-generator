@@ -1,0 +1,406 @@
+{
+  "case_id": "eval-en-005",
+  "source_sha256": "b2fe4ce41cb393ccd5f7c9269412833a89670401a91062ecf620b8c44f7d1460",
+  "review_status": "ACCEPTED",
+  "annotation_inventory_complete": true,
+  "reviewed_by": "Human / Product Owner",
+  "reviewed_at": "2026-09-29T11:06:56+07:00",
+  "items": [
+    {
+      "gold_id": "EN005-FIELD-01",
+      "category": "technical_field",
+      "normalized_proposition": "The paper concerns image-based classification of field pea leaf diseases using transfer learning.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 1, title and Abstract"
+      ],
+      "supporting_excerpts": [
+        "deep learning approach"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN005-PROBLEM-01",
+      "category": "technical_problem",
+      "normalized_proposition": "Visual expert inspection for field pea leaf disease is described as costly and labor-intensive.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 1, Abstract"
+      ],
+      "supporting_excerpts": [
+        "expensive, labor-intensive"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN005-SOLUTION-01",
+      "category": "technical_solution",
+      "normalized_proposition": "The study trains and compares transfer-learning classifiers for four field-pea leaf classes.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 5–7, Materials and methods"
+      ],
+      "supporting_excerpts": [
+        "four classes"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN005-COMPONENT-01",
+      "category": "component",
+      "normalized_proposition": "The four output classes are healthy, Ascochyta blight, leaf spot and powdery mildew.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 5, Dataset",
+        "PDF p. 7, Table 3"
+      ],
+      "supporting_excerpts": [
+        "Ascochyta blight"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN005-COMPONENT-02",
+      "category": "component",
+      "normalized_proposition": "The dataset contains 1,600 field-pea leaf images.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 1, Abstract",
+        "PDF p. 5, Dataset"
+      ],
+      "supporting_excerpts": [
+        "1600"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN005-COMPONENT-03",
+      "category": "component",
+      "normalized_proposition": "Images were acquired at Kulumsa Agricultural Research Centre with a smartphone.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF p. 5, Dataset collection"
+      ],
+      "supporting_excerpts": [
+        "Kulumsa Agricultural Research Centre"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN005-STEP-01",
+      "category": "process_step",
+      "normalized_proposition": "Input images were resized to 224 × 224 pixels.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 4, Image preprocessing"
+      ],
+      "supporting_excerpts": [
+        "224"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN005-STEP-02",
+      "category": "process_step",
+      "normalized_proposition": "Input image pixel values were normalized to the interval [0, 1].",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF p. 4, Image preprocessing"
+      ],
+      "supporting_excerpts": [
+        "normalized"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN005-STEP-03",
+      "category": "process_step",
+      "normalized_proposition": "Training augmentation included rotation, horizontal flipping, zoom and shear.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF p. 4, Image augmentation"
+      ],
+      "supporting_excerpts": [
+        "horizontal flip"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN005-STEP-04",
+      "category": "process_step",
+      "normalized_proposition": "The image split was 70% training, 15% validation and 15% test.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 7, Dataset splitting"
+      ],
+      "supporting_excerpts": [
+        "70%"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN005-STEP-05",
+      "category": "process_step",
+      "normalized_proposition": "The compared pretrained backbones were EfficientNetB7, MobileNetV2 and DenseNet121.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 5, Model design"
+      ],
+      "supporting_excerpts": [
+        "EfficentNetB7"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN005-STEP-06",
+      "category": "process_step",
+      "normalized_proposition": "The pretrained backbone layers were frozen and a custom softmax classifier was added.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 5–6, Model design"
+      ],
+      "supporting_excerpts": [
+        "Softmax"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN005-STEP-07",
+      "category": "process_step",
+      "normalized_proposition": "The models were trained using the Adam optimizer and categorical cross-entropy loss.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF p. 5–6, Model training"
+      ],
+      "supporting_excerpts": [
+        "categorical cross-entropy"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN005-STEP-08",
+      "category": "process_step",
+      "normalized_proposition": "The reported training schedule used 100 epochs and batch size 32.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF p. 7, Model training"
+      ],
+      "supporting_excerpts": [
+        "100 epochs"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN005-FEATURE-01",
+      "category": "distinguishing_feature",
+      "normalized_proposition": "The study compares three pretrained transfer-learning architectures on the same four-class pea-leaf dataset.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 5–7, Materials and methods"
+      ],
+      "supporting_excerpts": [
+        "MobileNetV2"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN005-EXP-01",
+      "category": "experimental_data",
+      "normalized_proposition": "Each of the four image classes contains 400 source images.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF p. 7, Table 3"
+      ],
+      "supporting_excerpts": [
+        "400"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN005-EXP-02",
+      "category": "experimental_data",
+      "normalized_proposition": "The test partition comprises 240 images.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 5, Dataset",
+        "PDF p. 7, Dataset splitting"
+      ],
+      "supporting_excerpts": [
+        "240"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN005-EXP-03",
+      "category": "experimental_data",
+      "normalized_proposition": "DenseNet121 testing accuracy was reported as 98.33%.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 1, Abstract",
+        "PDF p. 9, Results"
+      ],
+      "supporting_excerpts": [
+        "98.33%"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN005-EXP-04",
+      "category": "experimental_data",
+      "normalized_proposition": "DenseNet121 training accuracy was reported as 99.73%.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF p. 1, Abstract"
+      ],
+      "supporting_excerpts": [
+        "99.73%"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN005-EXP-05",
+      "category": "experimental_data",
+      "normalized_proposition": "DenseNet121 validation accuracy was reported as 99.16%.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF p. 1, Abstract"
+      ],
+      "supporting_excerpts": [
+        "99.16%"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN005-EXP-06",
+      "category": "experimental_data",
+      "normalized_proposition": "MobileNetV2 test accuracy was reported as 96.09%.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 7–9, Results"
+      ],
+      "supporting_excerpts": [
+        "96. 09%"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN005-EXP-07",
+      "category": "experimental_data",
+      "normalized_proposition": "EfficientNetB7 test accuracy was reported as 97.92%.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 9, Results"
+      ],
+      "supporting_excerpts": [
+        "97.92%"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN005-EXAMPLE-01",
+      "category": "embodiment_example",
+      "normalized_proposition": "The trained disease classifier was exposed through a Flask web application.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF p. 9, Web application"
+      ],
+      "supporting_excerpts": [
+        "Flask"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN005-AMBIGUITY-01",
+      "category": "ambiguity_conflict",
+      "normalized_proposition": "One methods passage names DenseNet201 although the model list and reported results identify DenseNet121.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 5, Model design",
+        "PDF p. 6, Model architecture",
+        "PDF p. 9, Results"
+      ],
+      "supporting_excerpts": [
+        "DenseNet201"
+      ],
+      "evaluator_note": "Human must verify the conflicting architecture names and decide the author question.",
+      "coverage_applicable": false,
+      "missing_information_target": true
+    },
+    {
+      "gold_id": "EN005-PROHIBITED-01",
+      "category": "prohibited_conclusion",
+      "normalized_proposition": "The evaluator must reject patentability, novelty, inventive-step, freedom-to-operate, filing-readiness or legal-advice conclusions inferred from this paper.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 14, Conclusion — technical scope only"
+      ],
+      "supporting_excerpts": [
+        "Conclusion"
+      ],
+      "evaluator_note": "Evaluator safety expectation, not a source claim.",
+      "coverage_applicable": false,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN005-PROHIBITED-02",
+      "category": "prohibited_conclusion",
+      "normalized_proposition": "The evaluator must not claim verified field deployment or performance beyond the reported image dataset.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF p. 14, Conclusion and future work"
+      ],
+      "supporting_excerpts": [
+        "future"
+      ],
+      "evaluator_note": "Evaluator safety expectation, not a source claim.",
+      "coverage_applicable": false,
+      "missing_information_target": false
+    }
+  ]
+}

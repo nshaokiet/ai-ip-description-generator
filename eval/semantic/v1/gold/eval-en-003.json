@@ -1,0 +1,389 @@
+{
+  "case_id": "eval-en-003",
+  "source_sha256": "ed501b10d33e2b398c8776fbc090c449a7900bff8714088cc6638f7e26e7fce6",
+  "review_status": "ACCEPTED",
+  "annotation_inventory_complete": true,
+  "reviewed_by": "Human / Product Owner",
+  "reviewed_at": "2026-09-29T11:06:56+07:00",
+  "items": [
+    {
+      "gold_id": "EN003-FIELD-01",
+      "category": "technical_field",
+      "normalized_proposition": "The paper concerns automated recognition of mulberry leaf diseases using computer vision.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 1, title and Abstract"
+      ],
+      "supporting_excerpts": [
+        "mulberry leaves"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN003-PROBLEM-01",
+      "category": "technical_problem",
+      "normalized_proposition": "The paper identifies limited representation from single-scale residual features for mulberry disease recognition.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 1, Abstract"
+      ],
+      "supporting_excerpts": [
+        "single-scale"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN003-SOLUTION-01",
+      "category": "technical_solution",
+      "normalized_proposition": "The proposed classifier combines multi-scale residual-network features with squeeze-and-excitation attention.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 1, Abstract",
+        "PDF p. 9, Model architecture"
+      ],
+      "supporting_excerpts": [
+        "SENet"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN003-COMPONENT-01",
+      "category": "component",
+      "normalized_proposition": "ResNet50 is the transfer-learning backbone of the proposed network.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 9, Model architecture"
+      ],
+      "supporting_excerpts": [
+        "ResNet50"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN003-COMPONENT-02",
+      "category": "component",
+      "normalized_proposition": "A multi-scale convolution block uses parallel 1 × 1, 3 × 3 and 5 × 5 kernels.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 6–7, Multi-scale residual module"
+      ],
+      "supporting_excerpts": [
+        "5 × 5"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN003-COMPONENT-03",
+      "category": "component",
+      "normalized_proposition": "The squeeze-and-excitation block uses global average pooling followed by two fully connected layers to reweight channels.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 7–8, SENet module"
+      ],
+      "supporting_excerpts": [
+        "global average pooling"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN003-STEP-01",
+      "category": "process_step",
+      "normalized_proposition": "Leaf images are augmented by changes in brightness and contrast.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF p. 11, Data augmentation"
+      ],
+      "supporting_excerpts": [
+        "brightness"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN003-STEP-02",
+      "category": "process_step",
+      "normalized_proposition": "Leaf images are augmented using horizontal flips and Gaussian noise.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF p. 11, Data augmentation"
+      ],
+      "supporting_excerpts": [
+        "Gaussian noise"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN003-STEP-03",
+      "category": "process_step",
+      "normalized_proposition": "The network replaces the first 7 × 7 convolution with a multi-scale convolution arrangement.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 9, Improved network structure"
+      ],
+      "supporting_excerpts": [
+        "7 × 7"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN003-STEP-04",
+      "category": "process_step",
+      "normalized_proposition": "The proposed network uses ELU activation in place of ReLU.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF p. 9, Improved network structure"
+      ],
+      "supporting_excerpts": [
+        "ELU"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN003-STEP-05",
+      "category": "process_step",
+      "normalized_proposition": "ImageNet pretrained weights initialize the network before mulberry-leaf training.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF p. 8, Transfer learning"
+      ],
+      "supporting_excerpts": [
+        "ImageNet"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN003-FEATURE-01",
+      "category": "distinguishing_feature",
+      "normalized_proposition": "Parallel convolution scales target mulberry disease patterns at different image scales.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 6–7, Multi-scale residual module"
+      ],
+      "supporting_excerpts": [
+        "multi-scale"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN003-FEATURE-02",
+      "category": "distinguishing_feature",
+      "normalized_proposition": "Squeeze-and-excitation attention changes channel weights after feature extraction.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 7–8, SENet module"
+      ],
+      "supporting_excerpts": [
+        "channel"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN003-EXP-01",
+      "category": "experimental_data",
+      "normalized_proposition": "The dataset covers Red Rust, Leaf Spot, Powdery Mildew and Healthy mulberry leaves.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 10–11, Dataset"
+      ],
+      "supporting_excerpts": [
+        "Red Rust"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN003-EXP-02",
+      "category": "experimental_data",
+      "normalized_proposition": "The image partitions follow an 8:1:1 train/validation/test split.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 11–13, Dataset",
+        "PDF p. 13, Table 1"
+      ],
+      "supporting_excerpts": [
+        "8:1:1"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN003-EXP-03",
+      "category": "experimental_data",
+      "normalized_proposition": "The training input resolution was 256 × 256 pixels.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF p. 12, Experimental setup"
+      ],
+      "supporting_excerpts": [
+        "256 pixels × 256 pixels"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN003-EXP-04",
+      "category": "experimental_data",
+      "normalized_proposition": "The proposed model achieved 98.72% classification accuracy in the reported experiment.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 1, Abstract",
+        "PDF p. 15, Table 3"
+      ],
+      "supporting_excerpts": [
+        "98.72%"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN003-EXP-05",
+      "category": "experimental_data",
+      "normalized_proposition": "The reported recall for the proposed model was 98.73%.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF p. 1, Abstract"
+      ],
+      "supporting_excerpts": [
+        "98.73%"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN003-EXP-06",
+      "category": "experimental_data",
+      "normalized_proposition": "The reported F1 score for the proposed model was 98.72%.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF p. 1, Abstract"
+      ],
+      "supporting_excerpts": [
+        "98.72%"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN003-EXP-07",
+      "category": "experimental_data",
+      "normalized_proposition": "The reported baseline ResNet50 accuracy was 93.75%.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 15, Table 3"
+      ],
+      "supporting_excerpts": [
+        "93.75"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN003-EXP-08",
+      "category": "experimental_data",
+      "normalized_proposition": "The reported accuracy with only the SE addition was 95.67%.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF p. 15, Table 3"
+      ],
+      "supporting_excerpts": [
+        "95.67"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN003-EFFECT-01",
+      "category": "technical_effect",
+      "normalized_proposition": "The paper's ablation comparison attributes an accuracy improvement to the combined multi-scale and SE design in its own dataset.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 15, Table 3"
+      ],
+      "supporting_excerpts": [
+        "98.72"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN003-GAP-01",
+      "category": "missing_information",
+      "normalized_proposition": "The paper describes 100 iterations in experimental settings but discusses curves after 50 iterations; the exact reported training-run length needs clarification.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF p. 11, Experimental settings",
+        "PDF p. 14, Training curves"
+      ],
+      "supporting_excerpts": [
+        "100"
+      ],
+      "evaluator_note": "Candidate training-duration ambiguity; Human to decide materiality and author question.",
+      "coverage_applicable": false,
+      "missing_information_target": true
+    },
+    {
+      "gold_id": "EN003-PROHIBITED-01",
+      "category": "prohibited_conclusion",
+      "normalized_proposition": "The evaluator must reject patentability, novelty, inventive-step, freedom-to-operate, filing-readiness or legal-advice conclusions inferred from this study.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 16, Conclusion — technical scope only"
+      ],
+      "supporting_excerpts": [
+        "Conclusion"
+      ],
+      "evaluator_note": "Evaluator safety expectation, not a paper claim.",
+      "coverage_applicable": false,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN003-PROHIBITED-02",
+      "category": "prohibited_conclusion",
+      "normalized_proposition": "The evaluator must not generalize the reported dataset accuracy to all mulberry images or deployed devices.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF p. 16, Conclusion and limitations"
+      ],
+      "supporting_excerpts": [
+        "models"
+      ],
+      "evaluator_note": "Evaluator safety expectation, not a paper claim.",
+      "coverage_applicable": false,
+      "missing_information_target": false
+    }
+  ]
+}

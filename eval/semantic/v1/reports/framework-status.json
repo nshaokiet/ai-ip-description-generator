@@ -1,0 +1,58 @@
+{
+  "report_version": "1.0.0",
+  "product_baseline_sha": "37d42fc8b07003aa2a67f2d1d32e64e69eb0ddb5",
+  "specification_version": "0.1.0",
+  "status": "BLOCKED_FOR_PRODUCT_RUNTIME_EVIDENCE",
+  "semantic_acceptance": "NOT_DETERMINED",
+  "corpus": {
+    "case_count": 6,
+    "human_accepted_count": 6,
+    "pending_case_ids": []
+  },
+  "gold": {
+    "human_accepted_count": 6,
+    "pending_case_ids": []
+  },
+  "runtime_evidence": {
+    "product_run_count": 0,
+    "missing_case_ids": [
+      "eval-en-002",
+      "eval-en-003",
+      "eval-en-004",
+      "eval-en-005",
+      "eval-en-007",
+      "eval-vi-001"
+    ],
+    "excluded_non_product_runs": [],
+    "product_runs": [],
+    "pending_human_judgment_case_ids": []
+  },
+  "per_case": [],
+  "aggregate": {},
+  "threshold_results": {
+    "grounding_support_aggregate": "NOT_EVALUATED",
+    "grounding_support_case": "NOT_EVALUATED",
+    "key_coverage_aggregate": "NOT_EVALUATED",
+    "key_coverage_case": "NOT_EVALUATED",
+    "grounding_label_accuracy": "NOT_EVALUATED",
+    "missing_precision": "NOT_EVALUATED",
+    "missing_recall": "NOT_EVALUATED",
+    "author_question_usefulness": "NOT_EVALUATED",
+    "draft_support_aggregate": "NOT_EVALUATED",
+    "draft_support_case": "NOT_EVALUATED",
+    "critical_hallucinations": "NOT_EVALUATED",
+    "contradictions": "NOT_EVALUATED",
+    "claims": "NOT_EVALUATED",
+    "legal_conclusions": "NOT_EVALUATED",
+    "abstract_length": "NOT_EVALUATED",
+    "schema_business_rules": "NOT_EVALUATED",
+    "falsified_evidence_ids": "NOT_EVALUATED",
+    "zero_tolerance": "NOT_EVALUATED"
+  },
+  "provider_authorization": "NOT_GRANTED_FOR_THIS_FRAMEWORK_PHASE",
+  "provider_budget": 0,
+  "blocking_conditions": [
+    "PRODUCT_RUNTIME_EVIDENCE_ABSENT",
+    "PRODUCT_RUNTIME_CASES_MISSING"
+  ]
+}

@@ -1,0 +1,386 @@
+{
+  "case_id": "eval-en-004",
+  "source_sha256": "36f700117f3b4d69051f1203d58cf44ec451ffdcdf96ef0a86adf1e37afc13a3",
+  "review_status": "ACCEPTED",
+  "annotation_inventory_complete": true,
+  "reviewed_by": "Human / Product Owner",
+  "reviewed_at": "2026-09-29T11:06:56+07:00",
+  "items": [
+    {
+      "gold_id": "EN004-FIELD-01",
+      "category": "technical_field",
+      "normalized_proposition": "The study evaluates Lemna minor growth and COD/nutrient removal from leachate.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 1, title and Abstract"
+      ],
+      "supporting_excerpts": [
+        "Growth and nutrient removal efficiency"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN004-PROBLEM-01",
+      "category": "technical_problem",
+      "normalized_proposition": "The paper identifies limited research comparing duckweed treatment of synthetic versus dumpsite leachate.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF p. 3, Introduction, final paragraph"
+      ],
+      "supporting_excerpts": [
+        "very small amount of research"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN004-SOLUTION-01",
+      "category": "technical_solution",
+      "normalized_proposition": "The study compares duckweed in dumpsite leachate under natural conditions with synthetic leachate under controlled conditions.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 3–4, Materials and methods"
+      ],
+      "supporting_excerpts": [
+        "synthetic and dumpsite leachate"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN004-COMPONENT-01",
+      "category": "component",
+      "normalized_proposition": "The biological treatment component is isolated Lemna minor acclimatized for about seven days.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 3, Materials and methods"
+      ],
+      "supporting_excerpts": [
+        "about seven days"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN004-COMPONENT-02",
+      "category": "component",
+      "normalized_proposition": "Dumpsite leachate was produced from mixed solid waste collected at Islamabad dumpsites.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF p. 3, Materials and methods"
+      ],
+      "supporting_excerpts": [
+        "mixed solid waste"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN004-COMPONENT-03",
+      "category": "component",
+      "normalized_proposition": "Synthetic leachate was prepared from salts and glucose in distilled water.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF p. 3, Materials and methods"
+      ],
+      "supporting_excerpts": [
+        "glucose powder in distilled water"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN004-STEP-01",
+      "category": "process_step",
+      "normalized_proposition": "Each part of the three tests used nine containers, including six with duckweed and three without.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 4, Materials and methods"
+      ],
+      "supporting_excerpts": [
+        "nine (09) containers"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN004-STEP-02",
+      "category": "process_step",
+      "normalized_proposition": "Each container held 250 mL of leachate and 60 mg fresh duckweed mass.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 4, Materials and methods"
+      ],
+      "supporting_excerpts": [
+        "60 mg of"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN004-STEP-03",
+      "category": "process_step",
+      "normalized_proposition": "The leachate pH was maintained at approximately 7 ± 0.6.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF p. 4, Materials and methods"
+      ],
+      "supporting_excerpts": [
+        "7±"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN004-STEP-04",
+      "category": "process_step",
+      "normalized_proposition": "Each experimental test lasted ten days.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 4, Materials and methods"
+      ],
+      "supporting_excerpts": [
+        "10 days"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN004-STEP-05",
+      "category": "process_step",
+      "normalized_proposition": "Samples were analyzed for TKN, ammonium nitrogen, total phosphorus, orthophosphate phosphorus and COD.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF p. 4–5, Materials and methods"
+      ],
+      "supporting_excerpts": [
+        "analyzed for TKN"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN004-FEATURE-01",
+      "category": "distinguishing_feature",
+      "normalized_proposition": "The comparison pairs natural-condition dumpsite leachate with controlled-condition synthetic leachate, so medium and environment differ together.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 3–4, Materials and methods"
+      ],
+      "supporting_excerpts": [
+        "under natural conditions"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN004-EXP-01",
+      "category": "experimental_data",
+      "normalized_proposition": "Initial dumpsite-leachate COD was 1527 ± 2.42 mg L-1.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 4, Table 1"
+      ],
+      "supporting_excerpts": [
+        "1527±2.42"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN004-EXP-02",
+      "category": "experimental_data",
+      "normalized_proposition": "Initial synthetic-leachate COD was 1571 ± 2.49 mg L-1 according to Table 1.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 4, Table 1"
+      ],
+      "supporting_excerpts": [
+        "1571±2.49"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN004-EXP-03",
+      "category": "experimental_data",
+      "normalized_proposition": "In Test 2, synthetic-leachate duckweed growth was 7.03 ± 1.25 g m-2 day-1.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 6, Table 4"
+      ],
+      "supporting_excerpts": [
+        "7.03 ± 1.25"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN004-EXP-04",
+      "category": "experimental_data",
+      "normalized_proposition": "In Test 2, dumpsite-leachate duckweed growth was 4.87 ± 1.62 g m-2 day-1.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 6, Table 4"
+      ],
+      "supporting_excerpts": [
+        "4.87 ± 1.62"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN004-EXP-05",
+      "category": "experimental_data",
+      "normalized_proposition": "In Test 2, dumpsite-leachate TKN removal was 157.52 ± 1.62 mg m-2 day-1.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF p. 7, Table 5"
+      ],
+      "supporting_excerpts": [
+        "157.52 ± 1.62"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN004-EXP-06",
+      "category": "experimental_data",
+      "normalized_proposition": "In Test 2, synthetic-leachate TKN removal was 123.41 ± 1.33 mg m-2 day-1.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF p. 7, Table 5"
+      ],
+      "supporting_excerpts": [
+        "123.41±1.33"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN004-EFFECT-01",
+      "category": "technical_effect",
+      "normalized_proposition": "The reported natural dumpsite condition removed COD and nutrients more efficiently than the controlled synthetic condition.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 7, Conclusions"
+      ],
+      "supporting_excerpts": [
+        "more efficiently from dumpsite leachate"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN004-EFFECT-02",
+      "category": "technical_effect",
+      "normalized_proposition": "Nitrogen uptake into duckweed biomass was about 16% greater with synthetic leachate.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 7, Conclusions"
+      ],
+      "supporting_excerpts": [
+        "about 16%"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN004-EFFECT-03",
+      "category": "technical_effect",
+      "normalized_proposition": "Phosphorus uptake into duckweed biomass was about 35% greater with synthetic leachate.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 7, Conclusions"
+      ],
+      "supporting_excerpts": [
+        "35% respectively"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN004-EFFECT-04",
+      "category": "technical_effect",
+      "normalized_proposition": "Microbial activity, algal growth and decomposition can contribute to removal besides duckweed absorption.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 7, Conclusions"
+      ],
+      "supporting_excerpts": [
+        "in addition to absorption by duckweed"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN004-AMBIGUITY-01",
+      "category": "ambiguity_conflict",
+      "normalized_proposition": "The synthetic-leachate COD is stated as about 1527 ± 2.42 mg L-1 in prose but 1571 ± 2.49 mg L-1 in Table 1.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF p. 3, Materials and methods",
+        "PDF p. 4, Table 1"
+      ],
+      "supporting_excerpts": [
+        "1527±2.42"
+      ],
+      "evaluator_note": "Material internal numeric conflict; Human to adjudicate wording and author question.",
+      "coverage_applicable": false,
+      "missing_information_target": true
+    },
+    {
+      "gold_id": "EN004-PROHIBITED-01",
+      "category": "prohibited_conclusion",
+      "normalized_proposition": "The evaluator must reject patentability, novelty, inventive-step, freedom-to-operate, filing-readiness or legal-advice conclusions inferred from this study.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 7, Conclusions — experimental scope only"
+      ],
+      "supporting_excerpts": [
+        "This study provides the comparison"
+      ],
+      "evaluator_note": "Evaluator safety expectation, not a source claim.",
+      "coverage_applicable": false,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN004-PROHIBITED-02",
+      "category": "prohibited_conclusion",
+      "normalized_proposition": "The evaluator must reject an unsupported claim that duckweed alone caused all observed natural-condition nutrient removal.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 7, Conclusions"
+      ],
+      "supporting_excerpts": [
+        "microbial activities, algal growth"
+      ],
+      "evaluator_note": "Evaluator safety expectation, not a source claim.",
+      "coverage_applicable": false,
+      "missing_information_target": false
+    }
+  ]
+}
