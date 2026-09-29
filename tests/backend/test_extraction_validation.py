@@ -179,6 +179,10 @@ class GroundingBusinessValidationTests(unittest.TestCase):
         self.analysis["technical_problems"].append(problem)
         self.assert_grounding_failure(self.analysis, "/technical_problems/1/problem_id")
 
+    def test_duplicate_emitted_evidence_ids_are_rejected_at_second_entry(self) -> None:
+        self.analysis["evidence"].append(copy.deepcopy(self.analysis["evidence"][0]))
+        self.assert_grounding_failure(self.analysis, "/evidence/1/evidence_id")
+
     def test_invalid_cross_references_are_rejected(self) -> None:
         cases = (
             (
