@@ -36,7 +36,13 @@ const SEED: Array<[string, string, string | null]> = [
   ['P0-005', 'Frontend MVP', 'P0-004'],
   ['P0-006', 'Frontend/backend integration', 'P0-005'],
   ['P0-007', 'Full offline E2E', 'P0-006'],
-  ['P0-008', 'Final hardening', 'P0-007']
+  ['P0-008', 'Final hardening', 'P0-007'],
+  ['P1-001', 'Frontend accessibility and type-safety hardening', null],
+  ['P1-002', 'Offline adversarial regression expansion', 'P1-001'],
+  ['P1-003', 'Local security hardening', 'P1-002'],
+  ['P1-004', 'Developer experience and one-command local run', 'P1-003'],
+  ['P1-005', 'Offline performance baseline', 'P1-004'],
+  ['P1-006', 'UX polish, responsive behavior and error recovery', 'P1-005']
 ];
 const SHA = /^[a-f0-9]{40}$/i;
 
