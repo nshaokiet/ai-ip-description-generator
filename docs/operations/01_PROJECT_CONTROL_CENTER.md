@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.31 |
+| Version | 0.3.32 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -69,6 +69,7 @@
 | 0.3.28 | 0.3.29 | 29/09/2026 | Codex | Record Human DEC-020 local/synthetic MVP completion boundary and funding-dependent EVAL-001 deferment | P0-010 final closeout proposal; preserve BLK-003 and semantic/production limits | P0-010, DEC-020, main `6136a0fe40a214ceec10f2f58aaa99497f62b09e`; BLK-003 OPEN | No |
 | 0.3.29 | 0.3.30 | 29/09/2026 | ChatGPT | Record P0-010 targeted final review PASS/findings NONE, Human-approved PR #30 merge and successful final main CI | Final local/synthetic MVP post-merge governance closeout; preserve all production/provider limits | P0-010, REV-P0-010-FINAL-CLOSEOUT, DEC-021, merge `9f31dae104438a598b0fe3c9bd09aba005f9026c`, CI `36526457334`; BLK-003 OPEN | No |
 | 0.3.30 | 0.3.31 | 29/09/2026 | ChatGPT | Record P1-001 independent implementation review PASS/findings NONE, Human-approved PR #33 merge and successful final main CI | Close zero-cost Post-MVP accessibility/type-safety hardening without expanding provider/production scope | P1-001, REV-P1-001-IMPLEMENTATION, DEC-022, merge `56d7217c0f09fe591585cb298e0b4df0c92f8aa4`, CI `36536768516`; BLK-003 OPEN | No |
+| 0.3.31 | 0.3.32 | 29/09/2026 | ChatGPT | Register DEPLOY-001 as PLANNED zero-cost demo/staging deployment work | Make the public-demo URL path explicit while preserving no-production/no-real-data/no-paid-provider boundaries | HUMAN-DEPLOY-001-ROADMAP-REGISTRATION-2026-09-29; main `166691bcdcb84636f02c3cd24631a5ad51fe3c44`; BLK-003 OPEN | No |
 
 ## 2. Project
 
@@ -480,8 +481,9 @@ Human đã phê duyệt ADR-006 và Output Schema v1.0.0 cho AI-001, sau đó me
 ## 22. Next Recommended Action
 
 1. P1-001 — **CLOSED / COMPLETED — MERGED** via PR #33 at `56d7217c0f09fe591585cb298e0b4df0c92f8aa4`; Gemini 3.1 Pro High review PASS/findings NONE; final main CI `36536768516` SUCCESS. Project classification remains **MVP COMPLETE — LOCAL/SYNTHETIC**.
-2. P1-002 through P1-006 remain **PLANNED** and require separate Human authorization. No later P1 task is active by implication.
-3. EVAL-001 PRODUCT_RUNTIME remains **DEFERRED — AWAITING FUNDING** with evidence NONE and semantic acceptance NOT_DETERMINED; provider authorization NOT GRANTED / budget 0. BLK-003 remains OPEN and blocks production/real-data use; public deployment remains NOT PERFORMED.
+2. P1-002 through P1-006 remain **PLANNED** and require separate Human authorization. Their intended sequence is adversarial regression → local security → developer experience → offline performance → UX polish; roadmap order is not automatic approval.
+3. DEPLOY-001 — **PLANNED — implementation not authorized**. Function: create a zero-cost demo/staging deployment and public HTTPS demo URL for synthetic/demo data only. It does not authorize a hosting platform, provider/API spend, production release, real/confidential data, or BLK-003 closure. Recommended after P1-006 for a polished demo, but no hard technical dependency is recorded.
+4. EVAL-001 PRODUCT_RUNTIME remains **DEFERRED — AWAITING FUNDING** with evidence NONE and semantic acceptance NOT_DETERMINED; provider authorization NOT GRANTED / budget 0. BLK-003 remains OPEN and blocks production/real-data use. Production deployment remains NOT APPROVED / NOT PERFORMED.
 
 ## 23. Last Updated
 
