@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | SPEC-003 |
 | Document title | AGENTS.md — Quy tắc phối hợp AI của dự án |
-| Version | 0.4.0 |
+| Version | 0.4.1 |
 | Status | Proposed update — pending PR merge |
 | Owner | Human / Product Owner |
 | Author | ChatGPT |
@@ -29,6 +29,7 @@
 | 0.2.0 | 0.3.0 | 26/09/2026 | ChatGPT | Tách rõ Human, ChatGPT, Codex, Antigravity Reviewer Agent và Project Orchestrator MCP; loại NotebookLM khỏi operating model | Đồng bộ workflow thực tế sau khi MCP được tích hợp vào VS Code/Codex và Antigravity | Human decision 26/09/2026 | No |
 | 0.3.0 | 0.3.1 | 28/09/2026 | Codex | Sửa riêng factual project-status sentence sau các implementation merges; không đổi vai trò hoặc quyền hạn | P0-008 current-state reconciliation | P0-007 closeout `8142692c6e92670b4b09996d733f93c409e93e49` | No |
 | 0.3.1 | 0.4.0 | 29/09/2026 | Codex | Đề xuất standing delegation cho Codex, Antigravity read-only review và merge gate có evidence; đối chiếu lại trạng thái P1-001 trên main mới | Human yêu cầu giảm xác nhận lặp trong task; chuyển đề xuất PR #34 sang baseline hiện hành | Human instruction 29/09/2026; main `88f38851a7c61966eb409172979c62a08fa9e646`; pending independent review/PR merge | Yes — governance workflow |
+| 0.4.0 | 0.4.1 | 29/09/2026 | ChatGPT | Bắt buộc đồng bộ bảng Project status trong README khi task đổi trạng thái, đặc biệt tại closeout/merge | Human yêu cầu README luôn phản ánh tiến độ task hiện hành | Human instruction 29/09/2026; PR #38 | No |
 
 ## 1. Project identity
 
@@ -285,6 +286,8 @@ Recommended next action:
 
 `Status: Completed` chỉ hợp lệ khi có ít nhất một bằng chứng: file tồn tại, commit/PR, test đạt, output được kiểm tra hoặc Human xác nhận.
 
+Khi handoff/closeout làm thay đổi trạng thái task, Codex phải kiểm tra và đồng bộ bảng `README.md` → `Project status` trong cùng scope trước khi task được coi là hoàn tất.
+
 ## 21. Conflict resolution
 
 Khi Codex và Antigravity không thống nhất:
@@ -298,6 +301,8 @@ Khi Codex và Antigravity không thống nhất:
 ## 22. Definition of Done
 
 Một task chỉ `Completed` khi:
+
+- Dòng tương ứng trong bảng `README.md` → `Project status` đã được cập nhật theo trạng thái cuối có bằng chứng của task; README chỉ là status summary và không thay thế task record/Project Control Center/Git evidence.
 
 - Output và acceptance criteria được kiểm chứng bằng evidence.
 - Test/lint/validation và required CI đạt hoặc có exception cụ thể được Human chấp thuận.
