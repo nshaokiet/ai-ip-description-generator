@@ -10,15 +10,8 @@
     "pending_case_ids": []
   },
   "gold": {
-    "human_accepted_count": 0,
-    "pending_case_ids": [
-      "eval-en-002",
-      "eval-en-003",
-      "eval-en-004",
-      "eval-en-005",
-      "eval-en-007",
-      "eval-vi-001"
-    ]
+    "human_accepted_count": 6,
+    "pending_case_ids": []
   },
   "runtime_evidence": {
     "product_run_count": 0,
@@ -60,7 +53,6 @@
   "provider_budget": 0,
   "blocking_conditions": [
     "PRODUCT_RUNTIME_EVIDENCE_ABSENT",
-    "PRODUCT_RUNTIME_CASES_MISSING",
-    "GOLD_HUMAN_ACCEPTANCE_PENDING"
+    "PRODUCT_RUNTIME_CASES_MISSING"
   ]
 }

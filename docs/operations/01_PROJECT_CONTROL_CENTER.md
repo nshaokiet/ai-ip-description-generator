@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.26 |
+| Version | 0.3.27 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -64,6 +64,7 @@
 | 0.3.23 | 0.3.24 | 28/09/2026 | Codex | Record EVAL-001 spec review/Human framework-only decisions and candidate corpus/scorer handoff without product-runtime acceptance | Prevent stale PLANNED/implementation-not-approved state while retaining provider/production blocks | EVAL-001, REV-EVAL-001-SPECIFICATION, DEC-017; spec `67c8d71f79712ede8780babf890a79fcbfd2769e` | No |
 | 0.3.24 | 0.3.25 | 28/09/2026 | Codex | Record successful EVAL-001 Draft PR #29 CI on fixed framework implementation SHA; independent framework review remains pending | Post-CI handoff evidence without product-runtime semantic claim | EVAL-001, PR #29, CI `36404294487`, framework `b8a7ede8f18ca50dedd669fcd47365dd8ed250bc` | No |
 | 0.3.25 | 0.3.26 | 29/09/2026 | Codex | Record framework review PASS, Human acceptance of framework and exact six-case corpus, and authorized candidate-gold completion; keep gold/provider gates open | EVAL-001 staged governance reconciliation | EVAL-001, `1c077bbb0d53304e44ad0ff7639ea3866b30fb5f`, PR #29; BLK-003 OPEN | No |
+| 0.3.26 | 0.3.27 | 29/09/2026 | Codex | Record Gemini targeted gold PASS/findings NONE and Human gold acceptance 6/6 without product-runtime or semantic-quality claim | EVAL-001 gold acceptance state transition | EVAL-001, completion `98101a894b1a60b16adfd867d3276215635c26d0`, DEC-019; BLK-003 OPEN | No |
 
 ## 2. Project
 
@@ -187,7 +188,7 @@ APP-002 capability boundary: `Validated PDF/DOCX → deterministic text/table pa
 
 | Task ID | Task | Owner | Reviewer | Priority | Status | Dependency | Target date |
 |---|---|---|---|---|---|---|---|
-| EVAL-001 | Semantic Quality Evaluation — gold completion phase | GPT-6 Sol | Gemini 3.1 Pro High | Human-authorized candidate gold completion only | Framework PASS/findings NONE; corpus 6/6 HUMAN_ACCEPTED; candidate gold inventory 6/6 complete but gold 0/6 PENDING_HUMAN; BLOCKED FOR PRODUCT-RUNTIME EVIDENCE; NOT COMPLETED | Frozen baseline `37d42fc8b07003aa2a67f2d1d32e64e69eb0ddb5`; framework reviewed `1c077bbb0d53304e44ad0ff7639ea3866b30fb5f`; provider NOT AUTHORIZED/budget 0; BLK-003 OPEN | To be set by Human |
+| EVAL-001 | Semantic Quality Evaluation — gold accepted, product-runtime pending | GPT-6 Sol | Gemini 3.1 Pro High | Gold gate accepted; product-runtime not authorized | Framework PASS/findings NONE; targeted gold PASS/findings NONE; corpus/gold 6/6 HUMAN_ACCEPTED; BLOCKED_FOR_PRODUCT_RUNTIME_EVIDENCE; semantic acceptance NOT_DETERMINED; NOT COMPLETED | Frozen baseline `37d42fc8b07003aa2a67f2d1d32e64e69eb0ddb5`; gold completion `98101a894b1a60b16adfd867d3276215635c26d0`; provider NOT AUTHORIZED/budget 0; BLK-003 OPEN | To be set by Human |
 
 Mọi target date cụ thể cần được xếp trước deadline chung 02/10/2026 và do Human xác nhận.
 
@@ -462,10 +463,11 @@ Human đã phê duyệt ADR-006 và Output Schema v1.0.0 cho AI-001, sau đó me
 | DEC-016 | Human / Product Owner approved F-01 test-helper interpreter-portability remediation, accepted Gemini 3.1 Pro High targeted PASS/F-01 RESOLVED and successful PR CI, and authorized PR #28 merge and post-merge closeout | Final accepted `ce9f723e143671d4917bf0bf5885772af3b00f7b`; normal merge `1f1754607152053ed4788f7fd5208c782432a320`; main CI `36397653688` SUCCESS; BLK-003 OPEN; no production/public/real-data approval |
 | DEC-017 | Human / Product Owner accepted Gemini 3.1 Pro High EVAL-001 specification `PASS WITH HUMAN DECISIONS REQUIRED` (AC-01…AC-18 PASS, findings NONE) and approved framework-phase implementation with seven bounded decisions | Corpus >=6 / >=1 Vietnamese / >=2 domains; Section 10 thresholds unchanged; AI-assisted gold requires Human acceptance; provider access NOT AUTHORIZED, budget 0, repeated live runs NOT AUTHORIZED, sources manifest/local-only; product-runtime evidence blocked; no EVAL-001 completion or production approval |
 | DEC-018 | Human / Product Owner accepted EVAL-001 framework implementation review by Gemini 3.1 Pro High (PASS, findings NONE), accepted exact six-case corpus and authorized gold annotation completion phase only | Reviewed framework `1c077bbb0d53304e44ad0ff7639ea3866b30fb5f`; candidate gold inventory completed 6/6 but Human gold acceptance 0/6; provider NOT AUTHORIZED, budget 0, semantic acceptance NOT DETERMINED, EVAL-001 NOT COMPLETED, BLK-003 OPEN |
+| DEC-019 | Human / Product Owner accepted all six EVAL-001 gold packages after Gemini 3.1 Pro High targeted gold review PASS/findings NONE | Reviewed candidate gold completion `98101a894b1a60b16adfd867d3276215635c26d0`; 154 semantic items unchanged (102 KEY, 52 SECONDARY); gold 6/6 ACCEPTED; provider NOT AUTHORIZED/budget 0, product-runtime evidence NONE, semantic acceptance NOT DETERMINED, EVAL-001 NOT COMPLETED, BLK-003 OPEN |
 
 ## 22. Next Recommended Action
 
-1. EVAL-001 — Framework review PASS/findings NONE and Human corpus acceptance 6/6 are recorded. Obtain Gemini 3.1 Pro High targeted **gold completion** review, then Human gold acceptance (currently 0/6). Actual product-runtime semantic evaluation remains blocked pending separate provider authorization/budget and cannot be called PASS or Completed.
+1. EVAL-001 — Framework and targeted gold reviews PASS/findings NONE; Human corpus and gold acceptance both 6/6. PR #29 remains Draft pending a Human merge decision. Product-runtime semantic evaluation remains blocked pending separate provider authorization/budget and cannot be called PASS or Completed.
 2. Subsequent sequence: SEC-001 production security/BLK-003, a separate Human-approved deployment/staging task, then UX hardening if approved. MCP reconciliation remains BLOCKED BY TOOL CAPABILITY under the Human-approved non-blocking governance exception; no fabricated MCP state/lease.
 3. BLK-003 remains OPEN and blocks production/real-data use; live-provider smoke remains UNVALIDATED / DEFERRED, public deployment NOT PERFORMED and production NOT APPROVED.
 

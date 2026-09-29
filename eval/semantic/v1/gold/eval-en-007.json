@@ -1,10 +1,10 @@
 {
   "case_id": "eval-en-007",
   "source_sha256": "8b3914714ec446bf485c3af7dd371baae97920ac43e88ab1f38b2a877cef8483",
-  "review_status": "PENDING_HUMAN",
+  "review_status": "ACCEPTED",
   "annotation_inventory_complete": true,
-  "reviewed_by": null,
-  "reviewed_at": null,
+  "reviewed_by": "Human / Product Owner",
+  "reviewed_at": "2026-09-29T11:06:56+07:00",
   "items": [
     {
       "gold_id": "EN007-FIELD-01",

@@ -1,10 +1,10 @@
 {
   "case_id": "eval-vi-001",
   "source_sha256": "ce6b6f537b78337d52537fd6f7d50d7fd6684456ec73440cb6d9434f274c1040",
-  "review_status": "PENDING_HUMAN",
+  "review_status": "ACCEPTED",
   "annotation_inventory_complete": true,
-  "reviewed_by": null,
-  "reviewed_at": null,
+  "reviewed_by": "Human / Product Owner",
+  "reviewed_at": "2026-09-29T11:06:56+07:00",
   "items": [
     {
       "gold_id": "VI001-FIELD-01",

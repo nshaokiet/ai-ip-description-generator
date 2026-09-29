@@ -1,11 +1,11 @@
 # EVAL-001 semantic quality framework v1
 
-This package implements evaluation accounting for frozen product baseline `37d42fc8b07003aa2a67f2d1d32e64e69eb0ddb5` and approved specification v0.1.0. It does **not** run the product, call a provider, or establish semantic quality. Human accepted the exact six-case corpus on 2026-09-29; the six completed **candidate** gold inventories remain `PENDING_HUMAN` (0/6 accepted). Only public/open-access papers were considered; all full PDFs are local-only under ignored `sources/`.
+This package implements evaluation accounting for frozen product baseline `37d42fc8b07003aa2a67f2d1d32e64e69eb0ddb5` and approved specification v0.1.0. It does **not** run the product, call a provider, or establish semantic quality. Human accepted the exact six-case corpus and, after Gemini 3.1 Pro High targeted review PASS/findings NONE, all six gold inventories (6/6 `ACCEPTED`). Only public/open-access papers were considered; all full PDFs are local-only under ignored `sources/`.
 
 ## Contents
 
 - `manifest.json`: source provenance, license evidence, exact local file hashes, selection rationale and objective exclusion log.
-- `gold/*.json`: atomic AI-assisted candidate inventories for each full paper, each `PENDING_HUMAN`; inventory completion is not gold acceptance.
+- `gold/*.json`: atomic inventories for each full paper, Human-accepted after targeted independent review; acceptance metadata is distinct from semantic item content.
 - `GOLD_REVIEW_GUIDE.md`: per-case inventory counts, gap targets and Human review checklist.
 - `rubric.md`: Human-approved thresholds, atomic semantic labels and deterministic formulas.
 - `tools/evaluator.py`: strict input validation, arithmetic, non-averagable safety gates and JSON/Markdown reports.
@@ -37,7 +37,7 @@ The CLI refuses malformed inputs. It cannot independently establish whether a Hu
 ## Limitations / next gates
 
 1. Gemini 3.1 Pro High independently reviewed the fixed framework implementation SHA `1c077bbb0d53304e44ad0ff7639ea3866b30fb5f`: PASS, findings NONE. Human accepted the framework and six-case corpus.
-2. Gemini 3.1 Pro High targeted review of candidate gold completion, then Human review of each complete inventory, its source support and gaps. No final scoring before Human gold acceptance.
+2. Gemini 3.1 Pro High targeted gold-completion review PASS/findings NONE and Human gold acceptance 6/6 are recorded. Gold completion SHA: `98101a894b1a60b16adfd867d3276215635c26d0`. This does not provide product-runtime outputs or a final semantic decision.
 3. A separate Human decision may authorize product-runtime provider use and a budget; until then, product-runtime evidence is absent and semantic acceptance is not determined.
 
 BLK-003 remains OPEN; live-provider smoke remains unvalidated/deferred. Neither this framework nor future bounded quality results establish production or legal readiness.

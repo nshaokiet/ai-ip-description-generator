@@ -1,6 +1,6 @@
 # EVAL-001 candidate gold review guide
 
-Corpus selection: **6/6 HUMAN_ACCEPTED** (Human / Product Owner, 2026-09-29). Candidate annotation inventories: **6/6 complete**. Gold acceptance: **0/6**; every package remains `PENDING_HUMAN` with null reviewer/date. Completion here means an implementation-agent inventory of the full single-PDF input, not Human validation or semantic acceptance.
+Corpus selection: **6/6 HUMAN_ACCEPTED** (Human / Product Owner, 2026-09-29). Candidate annotation inventories: **6/6 complete**. After Gemini 3.1 Pro High targeted gold review **PASS**, findings **NONE**, Human / Product Owner accepted all six gold packages on **2026-09-29T11:06:56+07:00**. Gold content remains exactly the 154-item inventory from completion SHA `98101a894b1a60b16adfd867d3276215635c26d0`; this acceptance does not establish product-runtime semantic quality.
 
 | Case | Paper / domain | Items | KEY | SECONDARY | Missing-information target(s) |
 |---|---|---:|---:|---:|---|
@@ -23,6 +23,6 @@ Categories represented:
 
 ## Human review
 
-Open each local-only source PDF alongside its `gold/<case-id>.json`. For **each** item, verify the atomic normalized proposition, KEY/SECONDARY importance, precise page/section/table locator, and short source-language excerpt. Check that numerical values, units and comparison baselines are exact; decide whether each gap/conflict is material and warrants an author question. Review prohibited-conclusion items as **evaluator safety expectations**, not assertions made by the paper. Resolve any omission, overreach or combined proposition before marking a package `ACCEPTED` with a real Human reviewer and date. Corpus acceptance does not imply gold acceptance.
+Historical review checklist: open each local-only source PDF alongside its `gold/<case-id>.json`; check the atomic normalized proposition, KEY/SECONDARY importance, precise page/section/table locator, short source-language excerpt, numerical values/units, comparison baselines and material gaps/conflicts. Prohibited-conclusion items are **evaluator safety expectations**, not assertions made by the paper. Gemini targeted review and subsequent Human acceptance satisfied the gold gate without changing any semantic gold item. Corpus acceptance and gold acceptance remain distinct decisions.
 
 No provider call or product-runtime evaluation is authorized (budget 0). Product-runtime evidence is absent; semantic acceptance is NOT DETERMINED; EVAL-001 is not Completed; BLK-003 remains OPEN. Do not commit the local PDFs.

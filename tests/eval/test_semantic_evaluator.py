@@ -311,7 +311,7 @@ def test_26_local_source_tampering_detected(tmp_path):
         ev.verify_local_sources([case], tmp_path)
 
 
-def test_27_human_accepted_corpus_does_not_accept_candidate_gold():
+def test_27_human_accepted_gold_without_product_runs_remains_blocked():
     manifest, gold = manifest_and_gold()
     assert {c["case_id"] for c in manifest["cases"]} == {
         "eval-en-002", "eval-en-003", "eval-en-004",
@@ -319,14 +319,17 @@ def test_27_human_accepted_corpus_does_not_accept_candidate_gold():
     }
     assert all(c["selection_status"] == "HUMAN_ACCEPTED" for c in manifest["cases"])
     assert all(g["annotation_inventory_complete"] for g in gold.values())
-    assert all(g["review_status"] == "PENDING_HUMAN" for g in gold.values())
-    assert all(g["reviewed_by"] is None and g["reviewed_at"] is None for g in gold.values())
+    assert all(g["review_status"] == "ACCEPTED" for g in gold.values())
+    assert all(g["reviewed_by"] == "Human / Product Owner" and g["reviewed_at"]
+               for g in gold.values())
 
     report = ev.evaluate(manifest, gold)
     assert report["corpus"]["human_accepted_count"] == 6
-    assert report["gold"]["human_accepted_count"] == 0
+    assert report["gold"]["human_accepted_count"] == 6
     assert report["runtime_evidence"]["product_run_count"] == 0
+    assert report["status"] == "BLOCKED_FOR_PRODUCT_RUNTIME_EVIDENCE"
     assert report["semantic_acceptance"] == "NOT_DETERMINED"
     assert "CORPUS_HUMAN_ACCEPTANCE_PENDING" not in report["blocking_conditions"]
-    assert {"GOLD_HUMAN_ACCEPTANCE_PENDING", "PRODUCT_RUNTIME_EVIDENCE_ABSENT",
-            "PRODUCT_RUNTIME_CASES_MISSING"} <= set(report["blocking_conditions"])
+    assert "GOLD_HUMAN_ACCEPTANCE_PENDING" not in report["blocking_conditions"]
+    assert set(report["blocking_conditions"]) == {
+        "PRODUCT_RUNTIME_EVIDENCE_ABSENT", "PRODUCT_RUNTIME_CASES_MISSING"}
