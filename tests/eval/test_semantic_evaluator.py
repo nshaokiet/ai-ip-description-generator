@@ -58,6 +58,10 @@ def judgments(items=None):
         "system_gaps": [{"gap_id": "gap-1", "relevant": True, "gold_ids": gaps}] if gaps else [],
         "author_questions": [{"question_id": "q1", "relevant_to_gap": True, "specific_actionable": True,
                               "answerable_by_author": True, "no_unsupported_presupposition": True}] if gaps else [],
+        "conflict_handling": [
+            {"gold_id": i["gold_id"], "handled_accurately": True}
+            for i in items if i["category"] == "ambiguity_conflict"
+        ],
         "claims_violations": 0,
         "legal_conclusion_violations": 0,
         "abstract_word_count": 150,
@@ -305,3 +309,24 @@ def test_26_local_source_tampering_detected(tmp_path):
     source.write_bytes(b"not the approved paper")
     with pytest.raises(ev.EvaluationInputError, match="source size mismatch"):
         ev.verify_local_sources([case], tmp_path)
+
+
+def test_27_human_accepted_corpus_does_not_accept_candidate_gold():
+    manifest, gold = manifest_and_gold()
+    assert {c["case_id"] for c in manifest["cases"]} == {
+        "eval-en-002", "eval-en-003", "eval-en-004",
+        "eval-en-005", "eval-en-007", "eval-vi-001",
+    }
+    assert all(c["selection_status"] == "HUMAN_ACCEPTED" for c in manifest["cases"])
+    assert all(g["annotation_inventory_complete"] for g in gold.values())
+    assert all(g["review_status"] == "PENDING_HUMAN" for g in gold.values())
+    assert all(g["reviewed_by"] is None and g["reviewed_at"] is None for g in gold.values())
+
+    report = ev.evaluate(manifest, gold)
+    assert report["corpus"]["human_accepted_count"] == 6
+    assert report["gold"]["human_accepted_count"] == 0
+    assert report["runtime_evidence"]["product_run_count"] == 0
+    assert report["semantic_acceptance"] == "NOT_DETERMINED"
+    assert "CORPUS_HUMAN_ACCEPTANCE_PENDING" not in report["blocking_conditions"]
+    assert {"GOLD_HUMAN_ACCEPTANCE_PENDING", "PRODUCT_RUNTIME_EVIDENCE_ABSENT",
+            "PRODUCT_RUNTIME_CASES_MISSING"} <= set(report["blocking_conditions"])

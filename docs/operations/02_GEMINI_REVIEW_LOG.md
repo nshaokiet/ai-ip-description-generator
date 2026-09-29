@@ -10,13 +10,13 @@
 | Document title | Gemini Review Log |
 | Project | AI Intellectual Property Description Generator |
 | Project deadline | 02/10/2026 |
-| Version | 0.3.13 |
+| Version | 0.3.14 |
 | Status | Active review log |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High + Gemini 3.8 Flash High (historical); Google Antigravity (Advanced Agentic Coding) for REV-P0-006-IMPLEMENTATION, REV-P0-007-SPECIFICATION, REV-P0-007-IMPLEMENTATION and REV-P0-008-SPECIFICATION; Google Antigravity / Gemini 1.5 Pro (Advanced Agentic Coding) for REV-P0-008-IMPLEMENTATION; Gemini 3.1 Pro High for REV-P0-009-IMPLEMENTATION and REV-EVAL-001-SPECIFICATION |
 | Created date | 18/09/2026 |
-| Last updated | 28/09/2026 GMT+7 |
+| Last updated | 29/09/2026 GMT+7 |
 | Related task ID | REVIEW-001; SPEC-001; SPEC-002; SPEC-003; AI-001; AI-002; AI-003; DOC-001; APP-001; APP-002; AI-RUNTIME-001; AI-RUNTIME-002; APP-003; P0-006; P0-007; P0-008; P0-009; EVAL-001 |
 | Source of Truth | Review history; bản nguồn Git tại `docs/operations/02_GEMINI_REVIEW_LOG.md` |
 | Confidentiality level | Internal; findings về research input có thể là Confidential |
@@ -48,6 +48,7 @@
 | 0.3.10 | 0.3.11 | 28/09/2026 | Codex | Record evidenced P0-008 independent implementation PASS, Human AC-16 handover acceptance and implementation merge; preserve historical reviewer model | Close implementation review after Human decision without claiming production readiness | P0-008, REV-P0-008-IMPLEMENTATION, merge `e6b2f665f6334047ec420c49d2097732f2917354` | No |
 | 0.3.11 | 0.3.12 | 28/09/2026 | Codex | Preserve P0-009 initial PASS WITH NON-BLOCKING NOTES/F-01, record approved remediation, targeted Gemini PASS, CI and Human merge disposition; close review | Post-merge review closeout without rewriting initial decision | P0-009, REV-P0-009-IMPLEMENTATION, PR #28, merge `1f1754607152053ed4788f7fd5208c782432a320` | No |
 | 0.3.12 | 0.3.13 | 28/09/2026 | Codex | Record Gemini 3.1 Pro High EVAL-001 specification review PASS WITH HUMAN DECISIONS REQUIRED and subsequent seven Human decisions; implementation review remains pending | Framework-phase governance handoff without semantic/product approval | EVAL-001, REV-EVAL-001-SPECIFICATION, spec `67c8d71f79712ede8780babf890a79fcbfd2769e` | No |
+| 0.3.13 | 0.3.14 | 29/09/2026 | Codex | Append Human-supplied Gemini 3.1 Pro High EVAL-001 framework implementation PASS/findings NONE and Human acceptance; keep new gold review pending | Resolve earlier pending framework state without asserting gold or semantic acceptance | EVAL-001, REV-EVAL-001-FRAMEWORK-IMPLEMENTATION, reviewed `1c077bbb0d53304e44ad0ff7639ea3866b30fb5f`; BLK-003 OPEN | No |
 
 ## 2. Review Rules
 
@@ -2270,3 +2271,9 @@ Review target: specification v0.1.0, approved-spec commit `67c8d71f79712ede8780b
 Human / Product Owner subsequently approved the seven decisions: (1) corpus minimum six, including at least one Vietnamese case and two technical domains; (2) Section 10 thresholds exactly; (3) AI-assisted gold drafts allowed but Human review/acceptance required; (4) product-runtime provider access not authorized; (5) provider/live budget 0 and no paid API call; (6) repeated live runs not authorized; (7) full papers manifest/local-only, with no Git commit absent a separate future decision. Framework-phase implementation approval is granted, not final product-runtime evaluation approval.
 
 Specification review **CLOSED** after these Human decisions. EVAL-001 framework implementation review by Gemini 3.1 Pro High is **PENDING**, with no verdict fabricated here. Product-runtime evidence is **BLOCKED FOR PRODUCT-RUNTIME EVIDENCE**; semantic acceptance **NOT DETERMINED**. BLK-003 remains **OPEN**, live-provider smoke **UNVALIDATED / DEFERRED**, and production/real-data authorization is **NO**.
+
+## REV-EVAL-001-FRAMEWORK-IMPLEMENTATION — later review resolution
+
+Gemini 3.1 Pro High independently reviewed final framework SHA `1c077bbb0d53304e44ad0ff7639ea3866b30fb5f` and returned **PASS**, findings **NONE**. Human / Product Owner accepted this framework review and separately accepted the exact six-case EVAL-001 corpus. Exact independent review date and a separate reviewer report were not supplied here; this records the Human-supplied decision, not a fresh independent review. Framework review is **CLOSED**; it does not review the newly completed candidate gold inventories or establish product-runtime semantic quality.
+
+Human authorized the subsequent **gold annotation completion phase only**. Candidate inventories are 6/6 complete, but Human gold acceptance remains **0/6 PENDING_HUMAN**. Next independent gate: Gemini 3.1 Pro High targeted gold-completion review, then Human gold adjudication. Provider access **NOT AUTHORIZED**, budget **0**, product-runtime evidence **NONE**, semantic acceptance **NOT DETERMINED**, EVAL-001 **NOT COMPLETED** and BLK-003 **OPEN**.

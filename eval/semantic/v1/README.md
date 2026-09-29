@@ -1,11 +1,12 @@
 # EVAL-001 semantic quality framework v1
 
-This package implements evaluation accounting for frozen product baseline `37d42fc8b07003aa2a67f2d1d32e64e69eb0ddb5` and approved specification v0.1.0. It does **not** run the product, call a provider, or establish semantic quality. The six manifest entries and their draft gold items are candidates pending individual Human acceptance. Only public/open-access papers were considered; all full PDFs are local-only under ignored `sources/`.
+This package implements evaluation accounting for frozen product baseline `37d42fc8b07003aa2a67f2d1d32e64e69eb0ddb5` and approved specification v0.1.0. It does **not** run the product, call a provider, or establish semantic quality. Human accepted the exact six-case corpus on 2026-09-29; the six completed **candidate** gold inventories remain `PENDING_HUMAN` (0/6 accepted). Only public/open-access papers were considered; all full PDFs are local-only under ignored `sources/`.
 
 ## Contents
 
 - `manifest.json`: source provenance, license evidence, exact local file hashes, selection rationale and objective exclusion log.
-- `gold/*.json`: short, atomic AI-assisted draft annotations, each `PENDING_HUMAN`. These are illustrative starting points, **not complete gold sets**.
+- `gold/*.json`: atomic AI-assisted candidate inventories for each full paper, each `PENDING_HUMAN`; inventory completion is not gold acceptance.
+- `GOLD_REVIEW_GUIDE.md`: per-case inventory counts, gap targets and Human review checklist.
 - `rubric.md`: Human-approved thresholds, atomic semantic labels and deterministic formulas.
 - `tools/evaluator.py`: strict input validation, arithmetic, non-averagable safety gates and JSON/Markdown reports.
 - `reports/framework-status.*`: reproducible blocked-state report with no product-run evidence.
@@ -19,7 +20,7 @@ Obtain public papers from the manifest URLs into `sources/<case_id>.pdf` only af
 .\.venv\Scripts\python.exe eval/semantic/v1/tools/evaluator.py --verify-local-sources
 ```
 
-The source verifier checks SHA-256 and bytes. Local PDFs were inspected as text-based and <=50 pages; this is a candidate-source check, not Human corpus approval. CI need not download copyrighted papers.
+The source verifier checks SHA-256 and bytes. All six local PDFs were verified as text-extractable and <=50 pages before gold annotation. The Human accepted this fixed corpus; CI need not download the PDFs.
 
 ## Framework report
 
@@ -35,9 +36,8 @@ The CLI refuses malformed inputs. It cannot independently establish whether a Hu
 
 ## Limitations / next gates
 
-1. Human reviews each source/license and accepts or rejects the candidate corpus.
-2. Human expands the deliberately sparse draft gold items into a complete atomic set and records acceptance; no final scoring before this gate.
-3. Gemini 3.1 Pro High independently reviews the fixed framework implementation SHA; reviewer makes no production edits.
-4. A separate Human decision may authorize product-runtime provider use and a budget; until then, product-runtime evidence is absent and semantic acceptance is not determined.
+1. Gemini 3.1 Pro High independently reviewed the fixed framework implementation SHA `1c077bbb0d53304e44ad0ff7639ea3866b30fb5f`: PASS, findings NONE. Human accepted the framework and six-case corpus.
+2. Gemini 3.1 Pro High targeted review of candidate gold completion, then Human review of each complete inventory, its source support and gaps. No final scoring before Human gold acceptance.
+3. A separate Human decision may authorize product-runtime provider use and a budget; until then, product-runtime evidence is absent and semantic acceptance is not determined.
 
 BLK-003 remains OPEN; live-provider smoke remains unvalidated/deferred. Neither this framework nor future bounded quality results establish production or legal readiness.

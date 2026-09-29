@@ -2,19 +2,439 @@
   "case_id": "eval-en-002",
   "source_sha256": "a1266d380df6decf29c15b7df8048381303e75252e7a4116f0715f67044ea0ea",
   "review_status": "PENDING_HUMAN",
-  "annotation_inventory_complete": false,
+  "annotation_inventory_complete": true,
   "reviewed_by": null,
   "reviewed_at": null,
   "items": [
+    {
+      "gold_id": "EN002-FIELD-01",
+      "category": "technical_field",
+      "normalized_proposition": "The study concerns design optimization of 3D-printed PLA bio-metamaterial cylinders.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 1, title and Abstract"
+      ],
+      "supporting_excerpts": [
+        "PLA"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN002-PROBLEM-01",
+      "category": "technical_problem",
+      "normalized_proposition": "The design must balance specimen mass against predicted fatigue lifetime.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 1, Abstract",
+        "PDF p. 8–10, Optimization objectives"
+      ],
+      "supporting_excerpts": [
+        "fatigue lifetime and mass"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
     {
       "gold_id": "EN002-SOLUTION-01",
       "category": "technical_solution",
       "normalized_proposition": "The study varies PLA specimen infill density and pattern to assess fatigue lifetime.",
       "importance": "KEY",
-      "source_locators": ["PDF p. 1, Abstract"],
-      "supporting_excerpts": ["effect of filling density and infill pattern on the fatigue lifetime"],
-      "evaluator_note": "Candidate paraphrase; Human must check exact scope and importance before scoring.",
+      "source_locators": [
+        "PDF p. 1, Abstract"
+      ],
+      "supporting_excerpts": [
+        "effect of filling density and infill pattern"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
       "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN002-SOLUTION-02",
+      "category": "technical_solution",
+      "normalized_proposition": "The workflow combines finite-element analysis, Pareto selection, topology optimization and shape refinement.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 8–12, Methods"
+      ],
+      "supporting_excerpts": [
+        "topology optimization"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN002-COMPONENT-01",
+      "category": "component",
+      "normalized_proposition": "The modeled base geometry is a PLA cylinder 9 mm in outside diameter and 78 mm high.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 4–5, Geometry and materials"
+      ],
+      "supporting_excerpts": [
+        "9 mm"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN002-COMPONENT-02",
+      "category": "component",
+      "normalized_proposition": "The design space includes honeycomb, rectangular, triangular, regular-octagon and irregular-octagon infill patterns.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 4–5, Filling parameters"
+      ],
+      "supporting_excerpts": [
+        "honeycomb"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN002-COMPONENT-03",
+      "category": "component",
+      "normalized_proposition": "The numerical model uses PLA filament properties supplied for YouSu material.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF p. 3–4, Materials, Table 1"
+      ],
+      "supporting_excerpts": [
+        "YouSu"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN002-STEP-01",
+      "category": "process_step",
+      "normalized_proposition": "The study evaluates 40%, 60%, 80% and 100% infill levels.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 4–5, Filling parameters"
+      ],
+      "supporting_excerpts": [
+        "40%"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN002-STEP-02",
+      "category": "process_step",
+      "normalized_proposition": "A cantilever load case fixes one end and applies a 10 N load at the other.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 4, Boundary conditions"
+      ],
+      "supporting_excerpts": [
+        "10 N"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN002-STEP-03",
+      "category": "process_step",
+      "normalized_proposition": "The finite-element model uses C3D8R elements with a 0.7 mm global mesh size.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF p. 6–7, Finite-element model"
+      ],
+      "supporting_excerpts": [
+        "C3D8R"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN002-STEP-04",
+      "category": "process_step",
+      "normalized_proposition": "The topology-optimization stage uses the SIMP technique in ABAQUS.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 8–9, Topology optimization",
+        "PDF p. 20, Results"
+      ],
+      "supporting_excerpts": [
+        "SIMP"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN002-STEP-05",
+      "category": "process_step",
+      "normalized_proposition": "Shape optimization smooths topology-generated sharp edges and reduces stress concentration.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 22, Shape optimization"
+      ],
+      "supporting_excerpts": [
+        "smoothing"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN002-STEP-06",
+      "category": "process_step",
+      "normalized_proposition": "The study uses a Pareto front and bias/sensitivity assessment to select a mass–fatigue tradeoff.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF p. 10–12, Multi-objective decision procedure"
+      ],
+      "supporting_excerpts": [
+        "Pareto"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN002-STEP-07",
+      "category": "process_step",
+      "normalized_proposition": "FESEM images and ImageJ measurements compare printed infill geometry with CAD targets.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF p. 25–26, Microscopy",
+        "PDF p. 30, Table 10"
+      ],
+      "supporting_excerpts": [
+        "ImageJ"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN002-FEATURE-01",
+      "category": "distinguishing_feature",
+      "normalized_proposition": "The paper selects horizontal rectangular infill at 60% as its preferred design tradeoff.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 19–20, Fig. 10",
+        "PDF p. 30, Conclusions"
+      ],
+      "supporting_excerpts": [
+        "rectangular pattern with 60%"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN002-FEATURE-02",
+      "category": "distinguishing_feature",
+      "normalized_proposition": "The topology-optimized geometry has a quadruple thread-like pattern surrounded by a shell.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF p. 20, Topology results"
+      ],
+      "supporting_excerpts": [
+        "quadruple thread-like pattern"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN002-EXP-01",
+      "category": "experimental_data",
+      "normalized_proposition": "For rectangular 60% infill, the paper reports a 39% mass reduction relative to the solid sample.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 19, Pareto results",
+        "PDF p. 30, Conclusions"
+      ],
+      "supporting_excerpts": [
+        "39% reduction"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN002-EXP-02",
+      "category": "experimental_data",
+      "normalized_proposition": "For rectangular 60% infill, predicted fatigue lifetime decreased 22% relative to the solid sample.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 19, Pareto results",
+        "PDF p. 30, Conclusions"
+      ],
+      "supporting_excerpts": [
+        "decreased by only 22%"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN002-EXP-03",
+      "category": "experimental_data",
+      "normalized_proposition": "Topology optimization reported a 1.1767 g mass after 50 design cycles.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 20, Topology results",
+        "PDF p. 30, Conclusions"
+      ],
+      "supporting_excerpts": [
+        "1.1767 g"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN002-EXP-04",
+      "category": "experimental_data",
+      "normalized_proposition": "Topology optimization reported 0.056 J total strain energy after 50 design cycles.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF p. 20, Topology results",
+        "PDF p. 30, Conclusions"
+      ],
+      "supporting_excerpts": [
+        "0.056 J"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN002-EXP-05",
+      "category": "experimental_data",
+      "normalized_proposition": "The topology-optimized geometry had 97.08 MPa maximum von Mises stress in the static analysis.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 22, Fig. 15",
+        "PDF p. 26, Table 8"
+      ],
+      "supporting_excerpts": [
+        "97.08 MPa"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN002-EXP-06",
+      "category": "experimental_data",
+      "normalized_proposition": "After 15 shape-design cycles, maximum von Mises stress decreased to 44.30 MPa in the model.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 22, Fig. 15",
+        "PDF p. 26, Table 8"
+      ],
+      "supporting_excerpts": [
+        "44.30 MPa"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN002-EXP-07",
+      "category": "experimental_data",
+      "normalized_proposition": "The realized design's modeled mass was 3.56 g.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF p. 26, Table 8"
+      ],
+      "supporting_excerpts": [
+        "3.56"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN002-EFFECT-01",
+      "category": "technical_effect",
+      "normalized_proposition": "Horizontal print orientation was preferred for mechanical strength under the analyzed bending-load setup.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 19, Fig. 10 discussion"
+      ],
+      "supporting_excerpts": [
+        "horizontal orientation"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN002-EXAMPLE-01",
+      "category": "embodiment_example",
+      "normalized_proposition": "The authors 3D-printed a realized topology-optimized specimen shown in Fig. 14.",
+      "importance": "SECONDARY",
+      "source_locators": [
+        "PDF p. 21, Fig. 14"
+      ],
+      "supporting_excerpts": [
+        "printed specimen"
+      ],
+      "evaluator_note": "Candidate; Human to verify exact support and importance.",
+      "coverage_applicable": true,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN002-GAP-01",
+      "category": "missing_information",
+      "normalized_proposition": "The reported optimized-design fatigue lifetimes are numerical predictions; experimental fatigue testing of topology-optimized samples is deferred.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 22, Static analysis",
+        "PDF p. 30, Future work"
+      ],
+      "supporting_excerpts": [
+        "Examine the fatigue lifetime experimentally"
+      ],
+      "evaluator_note": "Material validation boundary; Human to decide exact missing-information target and importance.",
+      "coverage_applicable": false,
+      "missing_information_target": true
+    },
+    {
+      "gold_id": "EN002-PROHIBITED-01",
+      "category": "prohibited_conclusion",
+      "normalized_proposition": "The evaluator must reject patentability, novelty, inventive-step, freedom-to-operate, filing-readiness or legal-advice conclusions inferred from this paper.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 30, Conclusions — engineering scope only"
+      ],
+      "supporting_excerpts": [
+        "Conclusions"
+      ],
+      "evaluator_note": "Evaluator safety expectation, not a source claim.",
+      "coverage_applicable": false,
+      "missing_information_target": false
+    },
+    {
+      "gold_id": "EN002-PROHIBITED-02",
+      "category": "prohibited_conclusion",
+      "normalized_proposition": "The evaluator must not describe predicted optimized-sample fatigue life as experimentally validated.",
+      "importance": "KEY",
+      "source_locators": [
+        "PDF p. 30, Future work"
+      ],
+      "supporting_excerpts": [
+        "fatigue lifetime experimentally"
+      ],
+      "evaluator_note": "Evaluator safety expectation, not a source claim.",
+      "coverage_applicable": false,
       "missing_information_target": false
     }
   ]

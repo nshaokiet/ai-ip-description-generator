@@ -6,7 +6,7 @@ Semantic acceptance: **NOT DETERMINED**
 
 Frozen product baseline: `37d42fc8b07003aa2a67f2d1d32e64e69eb0ddb5`
 
-Corpus candidates: 6; Human-accepted: 0
+Corpus candidates: 6; Human-accepted: 6
 Human-accepted gold packages: 0
 Actual product-runtime runs: 0
 Excluded manual/synthetic runs: 0
@@ -17,7 +17,6 @@ Provider access: NOT AUTHORIZED; budget: 0; BLK-003: OPEN.
 
 - PRODUCT_RUNTIME_EVIDENCE_ABSENT
 - PRODUCT_RUNTIME_CASES_MISSING
-- CORPUS_HUMAN_ACCEPTANCE_PENDING
 - GOLD_HUMAN_ACCEPTANCE_PENDING
 
 ## Threshold results
