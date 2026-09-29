@@ -28,7 +28,7 @@ Công cụ hỗ trợ chuyển bài báo khoa học thành dữ liệu có cấu
 | **P1-001** | ✅ Completed | Cải thiện accessibility, điều hướng bàn phím, focus, TypeScript typecheck và tăng cường CI |
 | **Project Orchestrator MCP** | ✅ Completed | Quản lý task state, owner, lease, quota, checkpoint và handoff giữa các agent |
 | **P1 Task Catalog** | ✅ Completed | Đăng ký P1-001 đến P1-006 trong MCP và bảo toàn trạng thái task qua restart |
-| **P1-002** | 🟡 Incomplete — Planned | Mở rộng kiểm thử đối kháng offline để phát hiện edge case, input lỗi, dữ liệu không hợp lệ và lỗi validation |
+| **P1-002** | ✅ Completed | Mở rộng kiểm thử đối kháng offline để phát hiện edge case, input lỗi, dữ liệu không hợp lệ và lỗi validation |
 | **P1-003** | 🟡 Incomplete — Planned | Tăng cường bảo mật môi trường local gồm upload safety, path handling, kiểm soát thông tin lỗi và rà soát attack surface |
 | **P1-004** | 🟡 Incomplete — Planned | Đơn giản hóa việc chạy dự án theo hướng one-command local run cho frontend, backend và health check |
 | **P1-005** | 🟡 Incomplete — Planned | Xây dựng performance baseline cho upload, parsing, validation, DOCX rendering và luồng trình duyệt |
@@ -247,7 +247,7 @@ These are separate future gates, not a committed production release scope:
 | Step | Status | Function / scope |
 | --- | --- | --- |
 | P1-001 | **CLOSED / COMPLETED — MERGED** | Frontend accessibility, keyboard/focus behavior, TypeScript typecheck and CI hardening |
-| P1-002 | **PLANNED** | Expand deterministic offline adversarial regression coverage; no provider calls |
+| P1-002 | **CLOSED / COMPLETED — MERGED** | Six deterministic offline adversarial regressions merged via PR #40; main CI `36583295714` SUCCESS; no provider calls |
 | P1-003 | **PLANNED** | Local security hardening before any public demo; does not resolve production BLK-003 |
 | P1-004 | **PLANNED** | One-command local developer run/setup and DX improvements |
 | P1-005 | **PLANNED** | Offline performance baseline and repeatable local measurements |

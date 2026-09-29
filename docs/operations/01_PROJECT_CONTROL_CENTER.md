@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.32 |
+| Version | 0.3.33 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -70,6 +70,7 @@
 | 0.3.29 | 0.3.30 | 29/09/2026 | ChatGPT | Record P0-010 targeted final review PASS/findings NONE, Human-approved PR #30 merge and successful final main CI | Final local/synthetic MVP post-merge governance closeout; preserve all production/provider limits | P0-010, REV-P0-010-FINAL-CLOSEOUT, DEC-021, merge `9f31dae104438a598b0fe3c9bd09aba005f9026c`, CI `36526457334`; BLK-003 OPEN | No |
 | 0.3.30 | 0.3.31 | 29/09/2026 | ChatGPT | Record P1-001 independent implementation review PASS/findings NONE, Human-approved PR #33 merge and successful final main CI | Close zero-cost Post-MVP accessibility/type-safety hardening without expanding provider/production scope | P1-001, REV-P1-001-IMPLEMENTATION, DEC-022, merge `56d7217c0f09fe591585cb298e0b4df0c92f8aa4`, CI `36536768516`; BLK-003 OPEN | No |
 | 0.3.31 | 0.3.32 | 29/09/2026 | ChatGPT | Register DEPLOY-001 as PLANNED zero-cost demo/staging deployment work | Make the public-demo URL path explicit while preserving no-production/no-real-data/no-paid-provider boundaries | HUMAN-DEPLOY-001-ROADMAP-REGISTRATION-2026-09-29; main `166691bcdcb84636f02c3cd24631a5ad51fe3c44`; BLK-003 OPEN | No |
+| 0.3.32 | 0.3.33 | 29/09/2026 | Codex | Record P1-002 fixed-SHA review PASS/findings NONE, PR #40 implementation merge and successful main CI; hand off the governance-only closeout for independent review | Reconcile implementation evidence without prematurely completing MCP lifecycle or authorizing the next task | P1-002, REV-P1-002-IMPLEMENTATION, reviewed `4742b0f8a88a51d4e085b209bceeec1f942a8deb`, merge `f568df382a07f38b03dfb8aaddebf8dc6accf6b7`, CI `36583295714`; BLK-003 OPEN | No |
 
 ## 2. Project
 
@@ -95,6 +96,8 @@ Trạng thái hiện hành: specification/architecture baseline đã được ph
 
 Human / Product Owner has finalized the bounded **MVP COMPLETE — LOCAL/SYNTHETIC** classification (DEC-020/DEC-021). P0-010 is **CLOSED / COMPLETED — MERGED** via PR #30 at `9f31dae104438a598b0fe3c9bd09aba005f9026c`; Gemini 3.1 Pro High targeted final closeout review was **PASS**, findings **NONE**, and final main CI `36526457334` was **SUCCESS**. This does not mark EVAL-001 PRODUCT_RUNTIME validation, production security or public deployment completed.
 
+P1-002 implementation is merged via PR #40 at `f568df382a07f38b03dfb8aaddebf8dc6accf6b7` after Gemini 3.1 Pro High **PASS**, findings **NONE**, on exact SHA `4742b0f8a88a51d4e085b209bceeec1f942a8deb`; implementation main CI `36583295714` is **SUCCESS**. The governance-only closeout is pending fixed-SHA independent review and is not yet final MCP completion.
+
 ## 6. Current Objective
 
 - Preserve the finalized **MVP COMPLETE — LOCAL/SYNTHETIC** boundary after
@@ -105,6 +108,8 @@ Human / Product Owner has finalized the bounded **MVP COMPLETE — LOCAL/SYNTHET
   no production/public deployment or real/confidential-data approval.
 - Keep production, public deployment and real/confidential-data approval
   separate from this limited handover classification.
+- Complete the documentation-only P1-002 governance closeout after fixed-SHA
+  independent review; do not authorize or claim P1-003 automatically.
 
 SPEC-001/002/003, schema, prompts and DOCX template retain their previously
 approved versions/contracts; this task does not re-approve or redesign them.
@@ -152,6 +157,7 @@ approved versions/contracts; this task does not re-approve or redesign them.
 - [x] EVAL-001 framework + Human-accepted gold baseline **MERGED** via PR #29 (head `c75a0c6adf4c30c50bcf7548298963e2c15995f2`, merge `2caf3e6c698745a1c2b09d5605e8fba955bca2f9`). Gemini 3.1 Pro High framework and targeted gold reviews **PASS**, findings **NONE**; corpus/gold **6/6 Human accepted**, 154 items (102 KEY, 52 SECONDARY). Main CI `36521178496` **SUCCESS**: backend 408 passed/2 skipped, lint/build PASS, Playwright 11 passed. This checks the merged framework/gold deliverable only, not semantic acceptance.
 - [x] P0-010 final offline verification on baseline `6136a0fe40a214ceec10f2f58aaa99497f62b09e`: `main` CI `36521893165` SUCCESS; local Windows backend 407 passed/3 skipped, lint/build PASS, Playwright synthetic 11 passed (runner exit 0), evaluator product runs 0/semantic acceptance NOT_DETERMINED. This is closeout evidence, not independent P0-010 review or Human merge approval.
 - [x] P0-010 final closeout **CLOSED / COMPLETED — MERGED**: reviewed SHA `4601d6da60926ce2b2f0425e1432405f0b019fe9`; Gemini 3.1 Pro High targeted final closeout review **PASS**, findings **NONE**; Human approved PR #30 merge `9f31dae104438a598b0fe3c9bd09aba005f9026c`; main CI `36526457334` **SUCCESS** (backend 408 passed/2 skipped, lint/build PASS, Playwright 11 passed, live flags 0/0). Classification remains bounded to **MVP COMPLETE — LOCAL/SYNTHETIC**.
+- [x] P1-002 offline adversarial regression implementation merged via PR #40 at `f568df382a07f38b03dfb8aaddebf8dc6accf6b7`; Gemini 3.1 Pro High reviewed exact SHA `4742b0f8a88a51d4e085b209bceeec1f942a8deb` with **PASS**, findings **NONE**; main CI `36583295714` **SUCCESS** (backend 413 passed/3 skipped/1 warning, `pip check` PASS, lint/typecheck/build PASS, Playwright 15 passed, live flags 0/0, provider calls NONE). Governance closeout review remains pending.
 - [ ] EVAL-001 PRODUCT_RUNTIME semantic validation **DEFERRED — AWAITING FUNDING** to Post-MVP, not an active local/synthetic MVP gate. Provider authorization NOT GRANTED, budget 0, calls NONE, product-runtime evidence NONE, semantic acceptance NOT_DETERMINED. SEC-001/BLK-003 and public deployment remain deferred, not closed.
 
 Các ô `[x]` chỉ xác nhận bằng chứng được nêu ngay trên từng dòng; không suy rộng thành Human/Gemini approval cho các artefact hoặc phase khác.
@@ -191,6 +197,7 @@ APP-002 capability boundary: `Validated PDF/DOCX → deterministic text/table pa
 | Task ID | Công việc | Owner | Reviewer | Status | Evidence/Blocker |
 |---|---|---|---|---|---|
 | SPEC-004 | Đồng bộ Project Control Center sang Google Docs | Human / Product Owner | ChatGPT/Codex | `[CẦN XÁC NHẬN TRẠNG THÁI]` | Chưa có bằng chứng Google Doc/link |
+| P1-002-CLOSEOUT | Documentation-only post-merge governance closeout | Codex | Gemini 3.1 Pro High | **AWAITING FIXED-SHA REVIEW** | Implementation PR #40 merged; main CI `36583295714` SUCCESS; closeout review/merge/final main CI pending |
 
 ## 10. Next Tasks
 
@@ -198,6 +205,7 @@ APP-002 capability boundary: `Validated PDF/DOCX → deterministic text/table pa
 |---|---|---|---|---|---|---|---|
 | P0-010 | Final Project / MVP Closeout — docs/handover only | GPT-6 Sol | Gemini 3.1 Pro High | Final local/synthetic closeout | **CLOSED / COMPLETED — MERGED**; targeted review PASS/findings NONE; Human merge approved; final main CI SUCCESS | Reviewed `4601d6da60926ce2b2f0425e1432405f0b019fe9`; PR #30 merge `9f31dae104438a598b0fe3c9bd09aba005f9026c`; CI `36526457334`; BLK-003 OPEN | 29/09/2026 |
 | P1-001 | Frontend Accessibility + Type Safety Hardening | Codex (GPT-6 Sol) | Gemini 3.1 Pro High | Post-MVP zero-cost hardening | **CLOSED / COMPLETED — MERGED**; review PASS/findings NONE; Human merge approved; final main CI SUCCESS | Implementation `beefd4d8bd8bdf753688ffef2e8870e5800f7574`; reviewed `a2d7f8933554ee3675251b5f15afe47fabb81e3f`; PR #33 merge `56d7217c0f09fe591585cb298e0b4df0c92f8aa4`; CI `36536768516`; no provider calls | 29/09/2026 |
+| P1-002 | Offline Adversarial Regression Expansion | Codex | Gemini 3.1 Pro High | Post-MVP zero-cost hardening | **IMPLEMENTATION MERGED — CLOSEOUT REVIEW PENDING** | Reviewed `4742b0f8a88a51d4e085b209bceeec1f942a8deb`; PR #40 merge `f568df382a07f38b03dfb8aaddebf8dc6accf6b7`; main CI `36583295714` SUCCESS; provider calls NONE | 29/09/2026 |
 | EVAL-001 | Semantic Quality Evaluation — framework/gold merged; PRODUCT_RUNTIME deferred | GPT-6 Sol | Gemini 3.1 Pro High | Post-MVP — AWAITING FUNDING; no active runtime work | Framework/gold reviews PASS/findings NONE; corpus/gold 6/6 HUMAN_ACCEPTED; baseline MERGED; PRODUCT_RUNTIME DEFERRED; product evidence NONE; semantic acceptance NOT_DETERMINED, not PASS/Completed | Frozen product `37d42fc8b07003aa2a67f2d1d32e64e69eb0ddb5`; PR #29 merge `2caf3e6c698745a1c2b09d5605e8fba955bca2f9`; DEC-020; provider NOT GRANTED/budget 0; BLK-003 OPEN | Post-MVP Human funding decision |
 
 Mọi target date cụ thể cần được xếp trước deadline chung 02/10/2026 và do Human xác nhận.
@@ -477,13 +485,15 @@ Human đã phê duyệt ADR-006 và Output Schema v1.0.0 cho AI-001, sau đó me
 | DEC-020 | Human / Product Owner prioritizes completion of the current local/synthetic MVP before optimization or production hardening, authorizing the bounded classification **MVP COMPLETE — LOCAL/SYNTHETIC** | No API funding: provider authorization NOT GRANTED; budget 0; paid calls prohibited; EVAL-001 PRODUCT_RUNTIME semantic validation DEFERRED — AWAITING FUNDING, evidence NONE, semantic acceptance NOT_DETERMINED. Consumer UI/synthetic output cannot be relabeled PRODUCT_RUNTIME. SEC-001/BLK-003 remediation, deployment, UX hardening and prompt/model/runtime optimization move to Post-MVP. BLK-003 OPEN; production/public/confidential-data use prohibited. Decision does not approve P0-010 PR merge or independent review. |
 | DEC-021 | Human / Product Owner accepted Gemini 3.1 Pro High P0-010 targeted final closeout review **PASS**, findings **NONE**, and approved PR #30 merge/post-merge verification | Reviewed `4601d6da60926ce2b2f0425e1432405f0b019fe9`; merged at `9f31dae104438a598b0fe3c9bd09aba005f9026c`; main CI `36526457334` SUCCESS. Final project classification **MVP COMPLETE — LOCAL/SYNTHETIC**; EVAL-001 PRODUCT_RUNTIME remains DEFERRED — AWAITING FUNDING, provider NOT GRANTED/budget 0, BLK-003 OPEN, no production/deployment/confidential-data approval. |
 | DEC-022 | Human / Product Owner accepted Gemini 3.1 Pro High P1-001 targeted implementation review **PASS**, findings **NONE**, and approved PR #33 merge/post-merge verification | Reviewed `a2d7f8933554ee3675251b5f15afe47fabb81e3f`; merged at `56d7217c0f09fe591585cb298e0b4df0c92f8aa4`; main CI `36536768516` SUCCESS. P1-001 CLOSED / COMPLETED — MERGED. Classification remains **MVP COMPLETE — LOCAL/SYNTHETIC**; EVAL-001 PRODUCT_RUNTIME DEFERRED — AWAITING FUNDING; provider NOT GRANTED/budget 0; BLK-003 OPEN; P1-002…P1-006 remain PLANNED. |
+| DEC-023 | Human / Product Owner supplied Gemini 3.1 Pro High P1-002 implementation review **PASS**, findings **NONE**, and authorized PR #40 merge plus post-merge governance closeout | Reviewed `4742b0f8a88a51d4e085b209bceeec1f942a8deb`; merged at `f568df382a07f38b03dfb8aaddebf8dc6accf6b7`; main CI `36583295714` SUCCESS. Governance closeout review/merge and final MCP completion remain separate gates; no provider, production, P1-003, real-data or Claims authorization. |
 
 ## 22. Next Recommended Action
 
 1. P1-001 — **CLOSED / COMPLETED — MERGED** via PR #33 at `56d7217c0f09fe591585cb298e0b4df0c92f8aa4`; Gemini 3.1 Pro High review PASS/findings NONE; final main CI `36536768516` SUCCESS. Project classification remains **MVP COMPLETE — LOCAL/SYNTHETIC**.
-2. P1-002 through P1-006 remain **PLANNED** and require separate Human authorization. Their intended sequence is adversarial regression → local security → developer experience → offline performance → UX polish; roadmap order is not automatic approval.
-3. DEPLOY-001 — **PLANNED — implementation not authorized**. Function: create a zero-cost demo/staging deployment and public HTTPS demo URL for synthetic/demo data only. It does not authorize a hosting platform, provider/API spend, production release, real/confidential data, or BLK-003 closure. Recommended after P1-006 for a polished demo, but no hard technical dependency is recorded.
-4. EVAL-001 PRODUCT_RUNTIME remains **DEFERRED — AWAITING FUNDING** with evidence NONE and semantic acceptance NOT_DETERMINED; provider authorization NOT GRANTED / budget 0. BLK-003 remains OPEN and blocks production/real-data use. Production deployment remains NOT APPROVED / NOT PERFORMED.
+2. P1-002 implementation is **MERGED** with successful main CI; obtain Gemini 3.1 Pro High fixed-SHA review of the documentation-only closeout, then merge it and complete the final MCP transition only after final main CI succeeds.
+3. P1-003 through P1-006 remain **PLANNED** and require separate Human authorization. Their intended sequence is local security → developer experience → offline performance → UX polish; roadmap order is not automatic approval.
+4. DEPLOY-001 — **PLANNED — implementation not authorized**. Function: create a zero-cost demo/staging deployment and public HTTPS demo URL for synthetic/demo data only. It does not authorize a hosting platform, provider/API spend, production release, real/confidential data, or BLK-003 closure. Recommended after P1-006 for a polished demo, but no hard technical dependency is recorded.
+5. EVAL-001 PRODUCT_RUNTIME remains **DEFERRED — AWAITING FUNDING** with evidence NONE and semantic acceptance NOT_DETERMINED; provider authorization NOT GRANTED / budget 0. BLK-003 remains OPEN and blocks production/real-data use. Production deployment remains NOT APPROVED / NOT PERFORMED.
 
 ## 23. Last Updated
 

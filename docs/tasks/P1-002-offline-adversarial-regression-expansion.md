@@ -2,13 +2,21 @@
 
 | Field | Value |
 |---|---|
-| Version | 0.1.1 |
-| Status | **IMPLEMENTED LOCALLY — AWAITING PR CI / INDEPENDENT REVIEW** |
+| Version | 0.2.0 |
+| Status | **IMPLEMENTATION MERGED — GOVERNANCE CLOSEOUT REVIEW PENDING** |
 | Owner | Codex |
 | Baseline | `f065ad8b9bd7644df050e3697685d27d7b45ea32` |
 | Human authorization | `HUMAN-P1-002-OFFLINE-ADVERSARIAL-2026-09-29` |
 | Branch | `feat/p1-002-offline-adversarial` |
 | Independent reviewer | Gemini 3.1 Pro High |
+| Reviewed implementation SHA | `4742b0f8a88a51d4e085b209bceeec1f942a8deb` |
+| Review decision | **PASS** |
+| Findings | **NONE** |
+| Implementation PR | [#40](https://github.com/nshaokiet/ai-ip-description-generator/pull/40) |
+| Implementation merge / main SHA | `f568df382a07f38b03dfb8aaddebf8dc6accf6b7` |
+| Implementation main CI | `36583295714` — **SUCCESS** |
+
+Version 0.2.0 (29/09/2026): record Gemini 3.1 Pro High fixed-SHA PASS/findings NONE, PR #40 merge, successful main CI, and governance-closeout handoff; final task completion remains gated on review and merge of the closeout PR, final main CI, and MCP completion.
 
 Version 0.1.1 (29/09/2026): record six implemented regressions and the final green local verification matrix; merge and completion remain blocked on fixed-SHA independent review, PR CI, merge, and main CI.
 
@@ -61,4 +69,13 @@ The implementation therefore targets six concrete gaps:
 - Live flags: `RUN_OPENAI_LIVE_TESTS=0`, `RUN_OPENAI_DRAFT_LIVE_TESTS=0`.
 - Provider/API calls: **NONE**.
 
-README remains `Incomplete — Planned` until the required fixed-SHA review, CI, merge, final main CI, and post-merge closeout gates are complete.
+## Implementation review and merge evidence
+
+- Gemini 3.1 Pro High reviewed exact SHA `4742b0f8a88a51d4e085b209bceeec1f942a8deb`: **PASS**; findings **NONE**.
+- PR CI `36580517321`: **SUCCESS** on the exact reviewed SHA.
+- PR [#40](https://github.com/nshaokiet/ai-ip-description-generator/pull/40) merged normally at `f568df382a07f38b03dfb8aaddebf8dc6accf6b7`.
+- Resulting `main`: `f568df382a07f38b03dfb8aaddebf8dc6accf6b7`.
+- Push/main CI `36583295714`: **SUCCESS** on the exact merge SHA.
+- Final implementation evidence: backend **413 passed / 3 skipped / 1 warning**; `pip check` **PASS**; frontend lint/typecheck/build **PASS**; synthetic Playwright **15 passed**; live flags `0 / 0`; provider/API calls **NONE**.
+
+README now proposes P1-002 as `Completed` in this governance-only closeout branch. Final task closeout remains pending fixed-SHA independent review of these governance changes, closeout PR merge, final main CI, and evidence-backed MCP transition to `COMPLETED`.
