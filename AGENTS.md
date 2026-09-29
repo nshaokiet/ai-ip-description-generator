@@ -8,13 +8,13 @@
 |---|---|
 | Document ID | SPEC-003 |
 | Document title | AGENTS.md — Quy tắc phối hợp AI của dự án |
-| Version | 0.3.1 |
-| Status | Approved baseline |
+| Version | 0.4.0 |
+| Status | Proposed update — pending PR merge |
 | Owner | Human / Product Owner |
 | Author | ChatGPT |
 | Reviewer | Human / Product Owner |
 | Created date | 18/09/2026 |
-| Last updated | 28/09/2026 |
+| Last updated | 29/09/2026 |
 | Related task ID | SPEC-003 |
 | Source of Truth | GitHub — `AGENTS.md` |
 | Confidentiality level | Internal |
@@ -28,6 +28,7 @@
 | 0.1.1 | 0.2.0 | 20/09/2026 | ChatGPT/Codex | Ghi nhận SPEC-003 là approved baseline sau independent review và Human decisions | Khóa quy tắc phối hợp trước APP-001 | SPEC-003, REV-002, DEC-001/002/003 | No |
 | 0.2.0 | 0.3.0 | 26/09/2026 | ChatGPT | Tách rõ Human, ChatGPT, Codex, Antigravity Reviewer Agent và Project Orchestrator MCP; loại NotebookLM khỏi operating model | Đồng bộ workflow thực tế sau khi MCP được tích hợp vào VS Code/Codex và Antigravity | Human decision 26/09/2026 | No |
 | 0.3.0 | 0.3.1 | 28/09/2026 | Codex | Sửa riêng factual project-status sentence sau các implementation merges; không đổi vai trò hoặc quyền hạn | P0-008 current-state reconciliation | P0-007 closeout `8142692c6e92670b4b09996d733f93c409e93e49` | No |
+| 0.3.1 | 0.4.0 | 29/09/2026 | Codex | Đề xuất standing delegation cho Codex, Antigravity read-only review và merge gate có evidence | Human yêu cầu giảm xác nhận lặp trong task | Human instruction 29/09/2026; pending PR merge | Yes — governance workflow |
 
 ## 1. Project identity
 
@@ -36,12 +37,12 @@
 - **GitHub:** `https://github.com/nshaokiet/ai-ip-description-generator` — Private, đã xác minh ngày 18/09/2026.
 - **Mục tiêu MVP:** nhận một bài báo khoa học PDF/DOCX, tạo Structured JSON có source evidence, bản dự thảo patent specification cần Human review và DOCX.
 - **Deadline MVP:** 02/10/2026.
-- **Trạng thái dự án:** SPEC-001/002/003 là approved baseline; APP-001/002/003, P0-005/006/007 đã triển khai và merge cho local/synthetic workflow. Chưa có Human approval cho production/public deployment hoặc dữ liệu nghiên cứu thật; BLK-003 vẫn OPEN. Không suy diễn toàn bộ phase hoặc release đã hoàn tất.
+- **Trạng thái dự án:** MVP COMPLETE — LOCAL/SYNTHETIC theo P0-010 closeout trên `main`; EVAL-001 PRODUCT_RUNTIME vẫn deferred, provider authorization/budget chưa được cấp; BLK-003 OPEN. Không suy diễn production/public deployment, dữ liệu nghiên cứu thật hoặc semantic acceptance đã được phê duyệt.
 - **Nguyên tắc pháp lý:** output là bản dự thảo, không phải bằng sáng chế, kết luận patentability, tư vấn pháp lý hoặc hồ sơ được bảo đảm chấp thuận.
 
 ## 2. Mục tiêu của AGENTS.md
 
-Tài liệu này quy định quyền hạn, thứ tự đọc, workflow, review, versioning, source grounding, bảo mật và handoff cho mọi Human hoặc AI làm việc trong repository. Mọi agent phải tuân thủ tài liệu này trước khi sửa artefact. Nếu task của Human xung đột với quy tắc hiện hành, agent phải nêu xung đột và xin quyết định thay vì âm thầm chọn.
+Tài liệu này quy định quyền hạn, workflow, review, versioning, source grounding, bảo mật và handoff. Agent đọc tài liệu trước khi hành động. Human instruction mới hơn, rõ phạm vi là authorization evidence; khi có xung đột hoặc phần việc vượt quyền, agent áp dụng Sections 8 và 19, tiếp tục phần độc lập đã được phép và chỉ chuyển Human quyết định phần bị chặn. Không hỏi lại cho từng thao tác đã thuộc standing delegation.
 
 ## 3. Source of Truth
 
@@ -66,64 +67,68 @@ Mọi mâu thuẫn phải được ghi thành issue, finding, open question ho�
 
 ## 4. Vai trò Human
 
-Human / Product Owner là **Governance & Final Approval Authority**:
+Human / Product Owner là **Governance & Exception Authority**:
 
-- Xác nhận requirement, scope, deadline, chi phí và release.
-- Phê duyệt thay đổi kiến trúc chính, tech stack, security/data policy, provider/model policy và breaking change.
-- Phê duyệt task/gate, quyết định merge `main`, release và output cuối.
-- Giải quyết bất đồng CRITICAL/HIGH hoặc bất đồng ảnh hưởng kiến trúc/pháp lý/scope.
-- Xác nhận việc xử lý tài liệu chưa công bố và nhà cung cấp dữ liệu.
-- Không mặc định đã phê duyệt chỉ vì một đề xuất xuất hiện trong tài liệu.
+- Xác nhận mục tiêu, scope, deadline, ngân sách và phạm vi ủy quyền; quyết định ngoại lệ ở Section 19.
+- Phê duyệt thay đổi kiến trúc chính, tech stack, security/data policy, provider/model policy, breaking change, production deployment/release và việc sử dụng dữ liệu thật.
+- Giải quyết bất đồng CRITICAL/HIGH không thể xử lý trong scope đã duyệt hoặc ảnh hưởng kiến trúc, pháp lý, scope.
+- Có thể thu hồi/thu hẹp standing delegation bằng instruction rõ ràng; quyết định mới hơn được ưu tiên theo Source of Truth.
+- Không cần duyệt lại claim, commit, push, PR, remediation, merge hoặc closeout khi toàn bộ điều kiện của task và quality gates đã đạt.
+- Task xuất hiện trong backlog/đề xuất không tự động được phê duyệt.
 
 ## 5. Vai trò ChatGPT và Codex
 
 ### ChatGPT — Technical Coordinator & Architecture Advisor
 
-- Chuyển mục tiêu Human thành specification, task scope, prompt, review checklist và handoff rõ ràng.
-- Hỗ trợ kiến trúc, integration planning, governance, evidence reconciliation và quyết định kỹ thuật cần trình Human.
+- Chuyển mục tiêu Human thành specification, scope, checklist, handoff; hỗ trợ architecture, governance và evidence reconciliation.
 - Có thể chuẩn bị/cập nhật tài liệu governance khi được Human yêu cầu.
-- Không tự thay Human phê duyệt scope, security/data policy, paid API, merge hoặc release.
+- Không tự thay Human quyết định các ngoại lệ Section 19.
 
-### Codex (VS Code) — Primary Implementation Agent
+### Codex (VS Code) — Primary Implementation & Integration Owner
 
-- Claim task đã được Human approve thông qua Project Orchestrator MCP.
-- Viết/sửa code, test, debug, refactor trong approved scope.
-- Làm việc trên branch/worktree riêng; commit/push evidence thật.
-- Chạy targeted/regression/E2E tests phù hợp và báo progress/checkpoint qua MCP.
-- Xử lý remediation sau independent review.
-- Không tự approve review, không tự chuyển task thành MERGED/COMPLETED và không merge `main`.
+- Tự claim task đủ điều kiện theo authorization/delegation evidence đã ghi, không xin lại quyền cho từng bước trong scope.
+- Viết/sửa code và tài liệu, test, debug, refactor, cập nhật version/changelog; tạo branch/worktree, commit, push, mở/cập nhật PR và checkpoint/handoff.
+- Xử lý finding trong scope, chạy lại kiểm tra phù hợp và yêu cầu re-review trên SHA mới khi implementation thay đổi.
+- Được merge `main` và thực hiện post-merge closeout khi merge eligibility ở Sections 8 và 11 được chứng minh.
+- Cập nhật MCP state theo evidence thật; không tự tạo approval, review PASS, CI result hoặc project status.
+- Dừng phần việc vượt quyền theo Section 19, trình Human quyết định cụ thể và tiếp tục phần độc lập đã được phép khi an toàn.
 
 ## 6. Vai trò Antigravity Reviewer Agent
 
 Antigravity là **Independent Review & QA Environment**:
 
-- Review độc lập một branch/commit SHA cố định sau implementation.
-- Kiểm tra acceptance criteria, regression, scope compliance, security/privacy, failure handling và evidence.
-- Trả kết quả `PASS`, `REQUEST CHANGES` hoặc blocker có bằng chứng.
-- Không sửa trực tiếp production artefact trong vai trò reviewer; remediation quay lại Codex trừ khi Human giao task riêng.
-- Tên vai trò không gắn cứng với một model/provider. **Mỗi review record phải ghi exact Antigravity model/profile thực tế được sử dụng.**
-- Reviewer approval không thay thế Human merge/release approval.
+- Được truy cập đọc toàn bộ repository, Git history, diff, specifications, tests và evidence cần cho review mà không xin lại theo từng file/lệnh đọc; quyền thực tế và policy đối với secret/dữ liệu thật vẫn áp dụng.
+- Review một branch/commit SHA cố định, kiểm tra acceptance criteria, regression, scope, security/privacy và failure handling; có thể chạy tests trong checkout tách biệt, chỉ tạo output tạm không đổi tracked files hoặc shared branch.
+- Trả `PASS`, `REQUEST CHANGES` hoặc blocker với bằng chứng, branch/SHA và exact model/profile.
+- Chỉ gửi review report qua kênh review/handoff được phép. Không sửa tracked/production artefact, implementation branch hoặc approval/task state; không commit, push, merge, deploy hay remediate trong reviewer role.
+- Codex ghi report vào Review Log/MCP và giữ nguyên nội dung/attribution. Reviewer PASS không miễn trừ CI, scope gate hay ngoại lệ Human.
 
 ## 7. Vai trò Project Orchestrator MCP
 
-Project Orchestrator MCP là **Coordination & State Management Layer**, không phải implementation/review agent:
+Project Orchestrator MCP là **Coordination & State Management Layer**:
 
-- Quản lý task queue, lifecycle, dependencies và eligibility.
-- Cấp/renew/release task lease để tránh hai agent cùng sửa một task.
-- Lưu budget/quota state thủ công và thực thi stop threshold.
-- Lưu checkpoint/handoff để Codex và Antigravity dùng chung trạng thái.
-- Ghi branch/worktree/owner/blocker/next action dưới dạng operational state.
-- Không viết code, không review artefact, không approve task, không merge Git, không force/reset history và không tự kích hoạt banked quota reset.
+- Quản lý queue/lifecycle/dependencies, authorization reference/delegation scope, task lease và manual budget/quota.
+- Lưu checkpoint/handoff, branch/worktree/owner/blocker/next action, reviewed SHA, required CI, blocking findings và merge evidence khi tool hỗ trợ.
+- Nếu tool thiếu một trường hoặc transition, ghi `BLOCKED BY TOOL CAPABILITY` và đối chiếu Git evidence; không bịa state/lease.
+- Không viết code, review, tự approve task, merge Git, force/reset history hoặc tự kích hoạt quota reset.
 
-## 8. Ma trận quyền hạn
+## 8. Ma trận quyền hạn và standing delegation
 
-| Actor | Implement/Edit production | Independent review | Approve scope/gate | Merge `main` / Release | MCP task state |
-|---|---|---|---|---|---|
-| Human / Product Owner | Theo nhu cầu | Có | **Có** | **Có** | Admin/approval transitions |
-| ChatGPT | Tài liệu/đề xuất khi được giao | Advisory | Không | Không | Không claim implementation task |
-| Codex | **Có, trong approved task** | Self-check, không phải independent approval | Không | Không | Claim / progress / finish / checkpoint |
-| Antigravity Reviewer Agent | Không trong reviewer role | **Có** | Không | Không | Review evidence / handoff |
-| Project Orchestrator MCP | Không | Không | Không | Không | **Lưu và enforce workflow state** |
+| Actor | Implement/Edit | Independent review | Approve scope/exception | Merge `main` | Production release | MCP task state |
+|---|---|---|---|---|---|---|
+| Human / Product Owner | Theo nhu cầu | Có | **Có** | Có | **Có** | Admin/approval transitions |
+| ChatGPT | Tài liệu/đề xuất khi được giao | Advisory | Không | Không | Không | Không claim implementation task |
+| Codex | **Có, trong authorized scope** | Self-check | Không tự mở rộng scope | **Có, khi đủ merge eligibility** | Chỉ khi có approval riêng | Claim/progress/evidence/closeout |
+| Antigravity Reviewer Agent | Không trong reviewer role | **Có, read-only repository** | Không | Không | Không | Review evidence/handoff, không đổi approval |
+| Project Orchestrator MCP | Không | Không | Không | Không | Không | Lưu và enforce state |
+
+### 8.1 Standing delegation
+
+Human ủy quyền cho Codex thực hiện trọn vòng đời **task đã được Human phê duyệt rõ bằng task ID, scope, acceptance criteria và authorization reference**, từ claim đến post-merge closeout. Quyền bao gồm sửa chữa hợp lý để đạt acceptance criteria, tests, tài liệu liên quan và remediation trong cùng scope. Không cần xin lại quyền cho từng thao tác. Task mới chỉ ở `PLANNED`, backlog hoặc do Codex đề xuất không tự thành approved. Không hồi tố phê duyệt task khác và không vượt stop conditions ở Section 19.
+
+### 8.2 Merge eligibility
+
+Codex được merge PR khi **đồng thời** có: (1) diff chỉ thuộc authorized scope; (2) independent review `PASS` trên đúng final implementation SHA, ghi exact model/profile và không còn blocking finding; (3) required PR CI `SUCCESS` hoặc exception CI cụ thể được Human chấp thuận; (4) không có secret/confidential data exposure, unresolved conflict hay stop condition Section 19; (5) branch/PR state được kiểm tra ngay trước merge. Commit mới làm thay đổi implementation sau PASS phải được re-review. Sau merge, Codex xác minh main/CI phù hợp, cập nhật governance/MCP theo evidence rồi closeout. Không force-push/rewrite shared history để đạt gate.
 
 ## 9. Tài liệu bắt buộc phải đọc
 
@@ -132,49 +137,40 @@ Trước khi hành động, đọc theo thứ tự:
 1. `AGENTS.md`.
 2. `PROJECT_CONTEXT.md`.
 3. `docs/system-specification.md`.
-4. ADR liên quan trong `docs/decisions/`, nếu tồn tại.
-5. Project Control Center, nếu có quyền truy cập.
-6. Gemini Review Log, nếu task liên quan review.
+4. ADR, task specification và authorization liên quan trong `docs/decisions/`, `docs/tasks/`.
+5. `docs/operations/01_PROJECT_CONTROL_CENTER.md` và MCP state nếu truy cập được.
+6. `docs/operations/02_GEMINI_REVIEW_LOG.md` (legacy filename) khi có review.
 
-Trạng thái tại phiên bản 0.2.0:
-
-- `AGENTS.md`: tồn tại.
-- `PROJECT_CONTEXT.md`: tồn tại trong cùng commit khởi tạo; nếu checkout riêng không thấy thì ghi `[FILE CHƯA TỒN TẠI]`.
-- `docs/system-specification.md`: tồn tại.
-- ADR-001…ADR-005 trong `docs/decisions/`: tồn tại và `Accepted` theo Human decisions ngày 20/09/2026; các ADR runtime artefact khác tiếp tục theo history riêng.
-- Bản nguồn Git của Project Control Center: `docs/operations/01_PROJECT_CONTROL_CENTER.md`.
-- Bản nguồn Git của Gemini Review Log: `docs/operations/02_GEMINI_REVIEW_LOG.md`.
-- Trạng thái đồng bộ hai bản nguồn sang Google Docs: `[CẦN XÁC NHẬN TRẠNG THÁI]`.
+Nếu không truy cập được nguồn, ghi giới hạn evidence; không suy diễn approval, lease hoặc state. Bản Git là source of truth cho artefact kỹ thuật.
 
 ## 10. Workflow làm việc
 
-`Task → Assign → Execute → Review → Decision → Update state → Next task`
+`Human authorization/delegation → Codex claim/implement/test/PR → Antigravity review fixed SHA → Codex remediation + re-review nếu cần → PASS + CI + eligibility → Codex merge → post-merge verify/closeout → next authorized task`
 
-1. Task phải có ID, owner, output và acceptance criteria.
-2. Agent kiểm tra artefact hiện có và dependencies trước khi sửa.
-3. Tạo thay đổi nhỏ, có thể review, đúng phạm vi.
-4. Chạy kiểm tra phù hợp và lưu bằng chứng.
-5. Review độc lập khi task yêu cầu.
-6. Finding cần quyết định được chuyển Human.
-7. Cập nhật version, change log, state và handoff.
-8. Không ghi `Completed` nếu không có file/commit/test/output/Human confirmation làm bằng chứng.
+1. Task có ID, scope, owner, output, acceptance criteria và authorization reference rõ ràng.
+2. Codex kiểm tra dependencies, Git status, MCP state/lease và file của người khác; không stage/sửa file ngoài task.
+3. Codex làm trên branch/worktree riêng, commit có thể review, chạy kiểm tra phù hợp và lưu evidence.
+4. Antigravity chỉ review fixed SHA và gửi report; không sửa implementation.
+5. Codex xử lý finding trong scope, re-review khi SHA đổi và đối chiếu merge eligibility.
+6. Codex merge/closeout khi đủ gate; nếu gate không đạt thì ghi blocker và chỉ hỏi Human về quyết định vượt quyền.
+7. Không ghi `Completed` khi thiếu evidence. Không suy diễn task kế tiếp từ `PLANNED` thành approved.
 
 ## 11. Quy tắc review giữa AI
 
-`Human approve task → Codex implement/test → Antigravity independent review → Codex remediation nếu cần → Human approve merge/release`
+`Codex implement/test → Antigravity independent review → Codex remediation/re-review → Codex merge khi đủ gates`
 
-- Antigravity reviewer ghi branch/SHA, exact model/profile, evidence, impact và suggested change cho từng finding.
-- Codex xử lý remediation trong approved scope; ChatGPT hỗ trợ đánh giá/escalation khi finding chạm kiến trúc, scope hoặc governance.
-- Finding CRITICAL/HIGH không được bỏ qua, sửa im lặng hoặc đóng khi chưa có resolution evidence.
-- `APPROVE` của reviewer không thay thế release approval của Human.
+- Reviewer ghi branch/SHA, exact model/profile, acceptance criteria, evidence, impact và suggested change.
+- Codex trả lời từng finding bằng `ACCEPT`, `PARTIALLY ACCEPT`, `REJECT WITH REASON` hoặc `ESCALATE TO HUMAN`.
+- CRITICAL/HIGH không được bỏ qua hoặc đóng khi chưa có resolution evidence; bất đồng chưa giải được hoặc vượt scope chuyển Human.
+- PASS trên SHA cũ không phê duyệt commit implementation mới; remediation phải re-review final SHA.
+- Reviewer PASS là điều kiện merge trong delegation, không phải production release approval.
 
 ## 12. Quy tắc không overwrite
 
-- Antigravity không sửa trực tiếp artefact production khi đang thực hiện independent review.
-- Mọi agent phải kiểm tra file hiện có và diff trước khi sửa.
-- Không ghi đè chỉnh sửa của Human/agent khác; nếu có xung đột, dừng và ghi rõ conflict.
-- Thay đổi production artefact phải tạo version mới theo chính sách, bảo toàn history trong Git.
-- Review log là append-oriented; không xóa finding cũ để làm sạch trạng thái.
+- Antigravity không sửa tracked files, implementation branch hoặc production artefact trong reviewer role; test output tạm phải nằm ngoài tracked worktree hoặc được dọn trước handoff.
+- Mọi agent kiểm tra file hiện có và diff trước khi sửa; không ghi đè chỉnh sửa của Human/agent khác.
+- Khi có conflict, dừng phần xung đột và ghi rõ; thay đổi production artefact phải bảo toàn Git history và version.
+- Review Log append-oriented; Codex ghi report/resolution có attribution, không xóa finding cũ.
 
 ## 13. Quy tắc versioning
 
@@ -252,18 +248,19 @@ Khi chưa đủ dữ liệu:
 - Trước commit: kiểm tra `git diff`, secret exposure, file list và test phù hợp.
 - Không rewrite lịch sử shared branch nếu chưa được Human cho phép.
 
-## 19. Quy tắc thay đổi scope
+## 19. Stop conditions và thay đổi scope
 
-Các thay đổi sau cần Human approval trước khi triển khai:
+Codex chỉ cần Human decision **trước phần việc bị ảnh hưởng** khi:
 
-- Thêm/bỏ chức năng MVP hoặc đổi deadline.
-- Đổi tech stack, provider, kiến trúc chính hoặc deployment platform.
-- Breaking change API/schema/template.
-- Thay đổi cấu trúc patent specification hoặc phạm vi Draft Claims.
-- Thay đổi auth, data handling, retention, privacy hoặc security policy.
-- Tăng chi phí đáng kể hoặc thêm dịch vụ/dependency mới.
+- Task chưa được phê duyệt hoặc yêu cầu vượt ID/scope/acceptance criteria/authorization hiện có.
+- Thêm/bỏ chức năng sản phẩm, đổi deadline, tech stack, provider/model policy, kiến trúc chính hoặc deployment platform.
+- Breaking change API/schema/template; thay đổi patent specification, Claims/Draft Claims.
+- Thay đổi auth, data handling, retention, privacy/security policy; dùng dữ liệu nghiên cứu thật hoặc chưa công bố.
+- Paid API/provider call, tăng chi phí, mua dịch vụ hoặc thêm external dependency/service chưa nằm trong authorization/budget.
+- Production/public deployment, production security acceptance, legal/filing decision; BLK-003 và EVAL-001 PRODUCT_RUNTIME chỉ mở theo approval riêng.
+- Required review/CI không đạt, unresolved CRITICAL/HIGH finding, nghi secret/data exposure hoặc conflict chưa giải được.
 
-Agent phải trình bày lựa chọn, lý do, ảnh hưởng, rủi ro, migration và recommendation; không được coi im lặng là chấp thuận.
+Codex chuẩn bị lựa chọn, evidence, ảnh hưởng, rủi ro và recommendation để Human quyết định đúng phần bị chặn. Không coi im lặng là approval; tiếp tục phần độc lập đã được phép nếu an toàn. `AGENTS.md` không vượt quyền hệ thống, GitHub branch protection hoặc approval bắt buộc của nền tảng.
 
 ## 20. Handoff format
 
@@ -289,37 +286,31 @@ Recommended next action:
 
 ## 21. Conflict resolution
 
-Khi implementation evidence của Codex và finding của Antigravity không thống nhất:
+Khi Codex và Antigravity không thống nhất:
 
-1. Ghi hai quan điểm mà không xóa quan điểm còn lại.
-2. Ghi nguồn/bằng chứng, assumption và độ tin cậy của mỗi bên.
-3. Đánh giá ảnh hưởng tới requirement, kiến trúc, bảo mật, pháp lý, chi phí và deadline.
-4. Thử giải quyết bằng Source of Truth/ADR đã phê duyệt.
-5. Chuyển Human quyết định nếu severity CRITICAL/HIGH hoặc ảnh hưởng kiến trúc/pháp lý/scope.
-6. Ghi decision và artefact/version chịu ảnh hưởng sau khi Human trả lời.
+1. Ghi cả hai quan điểm, evidence và assumptions.
+2. Đánh giá ảnh hưởng tới requirement, kiến trúc, bảo mật, pháp lý, chi phí và deadline.
+3. Thử giải quyết bằng Source of Truth/ADR đã duyệt và targeted verification.
+4. Chuyển Human quyết định nếu CRITICAL/HIGH vẫn bất đồng hoặc ảnh hưởng kiến trúc/pháp lý/scope; không merge khi còn blocker.
+5. Ghi decision và artefact/version chịu ảnh hưởng.
 
 ## 22. Definition of Done
 
 Một task chỉ `Completed` khi:
 
-- Output đúng đường dẫn/tên và không thiếu phần bắt buộc.
-- Acceptance criteria được kiểm chứng và evidence được ghi.
-- Test/lint/validation phù hợp đạt hoặc có exception được Human chấp thuận.
-- Diff đã được review; không có secret hoặc dữ liệu nghiên cứu mật.
-- Version/change log/API docs liên quan đã cập nhật.
-- Finding CRITICAL/HIGH đã resolved hoặc có Human decision.
-- Handoff đầy đủ và project state được cập nhật bằng bằng chứng.
-- Output AI/SHTT có disclaimer và Human review status phù hợp.
+- Output và acceptance criteria được kiểm chứng bằng evidence.
+- Test/lint/validation và required CI đạt hoặc có exception cụ thể được Human chấp thuận.
+- Independent review PASS trên final implementation SHA; blocking findings resolved.
+- Diff đúng scope, không secret/dữ liệu nghiên cứu mật; version/docs liên quan cập nhật.
+- PR đã merge theo Section 8.2, post-merge evidence được kiểm tra, handoff và project/MCP state cập nhật trung thực.
+- Output AI/SHTT có disclaimer/Human review status phù hợp; task completion không đồng nghĩa production release hoặc semantic acceptance.
 
 ## 23. Các hành vi bị cấm
 
-- Tự bịa requirement, trạng thái, nguồn, quyết định, test result hoặc approval.
-- Tự thêm framework, dependency, dịch vụ hoặc thay đổi tech stack.
-- Commit secret, paper mật hoặc generated data nhạy cảm.
-- Chuyển inference thành fact hoặc bỏ source warning.
-- Tự đóng finding chưa xử lý hoặc xóa review history.
-- Tuyên bố output có giá trị pháp lý, chắc chắn đủ điều kiện nộp hoặc được cấp bằng.
-- Tự thay đổi scope, deadline, architecture, claim scope hoặc data policy.
-- Antigravity reviewer ghi đè production artefact; Codex bỏ qua finding HIGH/CRITICAL không có resolution/evidence.
-- Đánh dấu `Completed` khi không có bằng chứng.
+- Bịa requirement, trạng thái, nguồn, decision, test, review PASS, CI hoặc approval.
+- Tự mở rộng task, dependency/service, tech stack, paid provider, dữ liệu thật, production hoặc Claims ngoài authorization.
+- Commit secret, paper mật hoặc generated data nhạy cảm; chuyển inference thành fact.
+- Đóng finding chưa xử lý hoặc xóa review history; tuyên bố output có giá trị pháp lý hay chắc chắn được cấp bằng.
+- Antigravity reviewer sửa tracked files, commit/push/merge hoặc đổi approval; Codex bỏ qua HIGH/CRITICAL thiếu resolution.
+- Merge thiếu fixed-SHA PASS/required CI hoặc còn blocker; đánh dấu `Completed` khi thiếu evidence.
 - Tự động nộp hồ sơ lên USPTO.
