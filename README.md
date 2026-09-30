@@ -29,7 +29,7 @@ Công cụ hỗ trợ chuyển bài báo khoa học thành dữ liệu có cấu
 | **Project Orchestrator MCP** | ✅ Completed | Quản lý task state, owner, lease, quota, checkpoint và handoff giữa các agent |
 | **P1 Task Catalog** | ✅ Completed | Đăng ký P1-001 đến P1-006 trong MCP và bảo toàn trạng thái task qua restart |
 | **P1-002** | ✅ Completed | Mở rộng kiểm thử đối kháng offline để phát hiện edge case, input lỗi, dữ liệu không hợp lệ và lỗi validation |
-| **P1-003** | ✅ Completed | Tăng cường bảo mật môi trường local gồm upload safety, path handling, kiểm soát thông tin lỗi và rà soát attack surface; governance closeout review/merge pending |
+| **P1-003** | ✅ Completed | Tăng cường bảo mật môi trường local gồm upload safety, path handling, kiểm soát thông tin lỗi và rà soát attack surface; PR #43 merged and final main CI succeeded, with MCP completion blocked by tool capability |
 | **P1-004** | 🟡 Incomplete — Planned | Đơn giản hóa việc chạy dự án theo hướng one-command local run cho frontend, backend và health check |
 | **P1-005** | 🟡 Incomplete — Planned | Xây dựng performance baseline cho upload, parsing, validation, DOCX rendering và luồng trình duyệt |
 | **P1-006** | 🟡 Incomplete — Planned | Hoàn thiện trải nghiệm người dùng gồm responsive, loading state, error state, retry/recovery và workflow clarity |
@@ -248,7 +248,7 @@ These are separate future gates, not a committed production release scope:
 | --- | --- | --- |
 | P1-001 | **CLOSED / COMPLETED — MERGED** | Frontend accessibility, keyboard/focus behavior, TypeScript typecheck and CI hardening |
 | P1-002 | **CLOSED / COMPLETED — MERGED** | Six deterministic offline adversarial regressions merged via PR #40; main CI `36583295714` SUCCESS; no provider calls |
-| P1-003 | **IMPLEMENTATION MERGED — GOVERNANCE CLOSEOUT PENDING** | Local security hardening merged via PR #42; main CI `36659558740` SUCCESS. Does not resolve production BLK-003 |
+| P1-003 | **CLOSED / COMPLETED — MERGED; MCP TOOL LIMITATION** | Implementation PR #42 and governance closeout PR #43 merged; final main CI `36681005158` SUCCESS. MCP remains `IMPLEMENTED` because its post-finish transition/checkpoint is blocked by tool capability. Does not resolve production BLK-003 |
 | P1-004 | **PLANNED** | One-command local developer run/setup and DX improvements |
 | P1-005 | **PLANNED** | Offline performance baseline and repeatable local measurements |
 | P1-006 | **PLANNED** | UX polish, responsive behavior and error recovery |
