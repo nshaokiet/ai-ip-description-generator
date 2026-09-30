@@ -73,8 +73,12 @@ Local implementation verification on Windows 30/09/2026:
 | Live flags | `RUN_OPENAI_LIVE_TESTS=0`; `RUN_OPENAI_DRAFT_LIVE_TESTS=0` |
 | Provider/API calls | **NONE** |
 
-Exact implementation SHA and PR CI remain pending until the implementation is
-committed and pushed.
+Implementation SHA: `379367d2899ae11409e2b053d62370d7590a1970`.
+PR: [#45](https://github.com/nshaokiet/ai-ip-description-generator/pull/45).
+PR CI: [`36710329258`](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/36710329258)
+— **SUCCESS** on the exact implementation SHA: backend **431 passed / 2 skipped**;
+`pip check`, lint, typecheck and build **PASS**; Playwright **17 passed**; live
+flags **0 / 0**; provider/API calls **NONE**.
 
 ## Implementation self-review findings matrix
 

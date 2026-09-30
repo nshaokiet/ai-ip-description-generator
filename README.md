@@ -272,7 +272,7 @@ These are separate future gates, not a committed production release scope:
 | P1-001 | **CLOSED / COMPLETED — MERGED** | Frontend accessibility, keyboard/focus behavior, TypeScript typecheck and CI hardening |
 | P1-002 | **CLOSED / COMPLETED — MERGED** | Six deterministic offline adversarial regressions merged via PR #40; main CI `36583295714` SUCCESS; no provider calls |
 | P1-003 | **CLOSED / COMPLETED — MERGED; MCP TOOL LIMITATION** | Implementation PR #42 and governance closeout PR #43 merged; final main CI `36681005158` SUCCESS. MCP remains `IMPLEMENTED` because its post-finish transition/checkpoint is blocked by tool capability. Does not resolve production BLK-003 |
-| P1-004 | **PLANNED** | One-command local developer run/setup and DX improvements |
+| P1-004 | **IMPLEMENTED — REVIEW PENDING** | One-command local developer run/setup and DX improvements; PR #45 CI `36710329258` SUCCESS on implementation SHA `379367d2899ae11409e2b053d62370d7590a1970`; independent fixed-SHA review pending |
 | P1-005 | **PLANNED** | Offline performance baseline and repeatable local measurements |
 | P1-006 | **PLANNED** | UX polish, responsive behavior and error recovery |
 | DEPLOY-001 | **PLANNED — implementation not authorized** | Zero-cost demo/staging deployment that can provide a public HTTPS demo URL using synthetic/demo data only; platform selection and implementation require a separate Human decision |
