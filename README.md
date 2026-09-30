@@ -30,7 +30,7 @@ Công cụ hỗ trợ chuyển bài báo khoa học thành dữ liệu có cấu
 | **P1 Task Catalog** | ✅ Completed | Đăng ký P1-001 đến P1-006 trong MCP và bảo toàn trạng thái task qua restart |
 | **P1-002** | ✅ Completed | Mở rộng kiểm thử đối kháng offline để phát hiện edge case, input lỗi, dữ liệu không hợp lệ và lỗi validation |
 | **P1-003** | ✅ Completed | Tăng cường bảo mật môi trường local gồm upload safety, path handling, kiểm soát thông tin lỗi và rà soát attack surface; PR #43 merged and final main CI succeeded, with MCP completion blocked by tool capability |
-| **P1-004** | 🟡 Incomplete — Planned | Đơn giản hóa việc chạy dự án theo hướng one-command local run cho frontend, backend và health check |
+| **P1-004** | 🟠 Implemented — Review pending | One-command local run cho frontend/backend, readiness checks và shutdown tiến trình do launcher sở hữu; chưa hoàn tất trước independent review/merge |
 | **P1-005** | 🟡 Incomplete — Planned | Xây dựng performance baseline cho upload, parsing, validation, DOCX rendering và luồng trình duyệt |
 | **P1-006** | 🟡 Incomplete — Planned | Hoàn thiện trải nghiệm người dùng gồm responsive, loading state, error state, retry/recovery và workflow clarity |
 | **DEPLOY-001** | 🟡 Incomplete — Planned | Triển khai demo/staging không tốn phí để tạo public HTTPS URL cho người khác truy cập bằng synthetic/demo data |
@@ -145,13 +145,36 @@ If `py -3.12` cannot locate an installed Python 3.12, invoke that trusted
 interpreter's `python.exe -m venv .venv` directly. The backend reads process
 environment variables; it does not automatically load `.env.example`.
 
-Start the backend from the repository root in one terminal:
+Start both servers from the repository root with one command:
+
+```powershell
+.\.venv\Scripts\python.exe tools\local_dev.py
+```
+
+POSIX equivalent: `.venv/bin/python tools/local_dev.py`.
+
+The launcher checks Python/backend/frontend prerequisites and ports before it
+starts anything. It binds both servers to `127.0.0.1`, waits for backend,
+frontend, and proxy readiness, and owns their process groups. Press Ctrl+C once
+to request graceful shutdown; any remaining owned process tree is stopped after
+a bounded wait. It never requires `OPENAI_API_KEY`, rejects enabled live-test
+flags, and leaves `AI_IP_ENABLE_LOCAL_ORCHESTRATION_API` at its safe default `0`
+unless the caller explicitly supplied the existing supported `0`/`1` value.
+
+Use `--check` to validate prerequisites and port availability without starting
+servers:
+
+```powershell
+.\.venv\Scripts\python.exe tools\local_dev.py --check
+```
+
+For troubleshooting, start the backend manually from the repository root in one terminal:
 
 ```powershell
 .\.venv\Scripts\python.exe -m uvicorn backend.app.main:app --host 127.0.0.1 --port 8000
 ```
 
-Start the frontend from `frontend/` in another terminal, bound to loopback:
+Then start the frontend manually from `frontend/` in another terminal, bound to loopback:
 
 ```powershell
 cd frontend
@@ -249,7 +272,7 @@ These are separate future gates, not a committed production release scope:
 | P1-001 | **CLOSED / COMPLETED — MERGED** | Frontend accessibility, keyboard/focus behavior, TypeScript typecheck and CI hardening |
 | P1-002 | **CLOSED / COMPLETED — MERGED** | Six deterministic offline adversarial regressions merged via PR #40; main CI `36583295714` SUCCESS; no provider calls |
 | P1-003 | **CLOSED / COMPLETED — MERGED; MCP TOOL LIMITATION** | Implementation PR #42 and governance closeout PR #43 merged; final main CI `36681005158` SUCCESS. MCP remains `IMPLEMENTED` because its post-finish transition/checkpoint is blocked by tool capability. Does not resolve production BLK-003 |
-| P1-004 | **PLANNED** | One-command local developer run/setup and DX improvements |
+| P1-004 | **IMPLEMENTED — REVIEW PENDING** | One-command local developer run/setup and DX improvements; PR #45 CI `36710329258` SUCCESS on implementation SHA `379367d2899ae11409e2b053d62370d7590a1970`; independent fixed-SHA review pending |
 | P1-005 | **PLANNED** | Offline performance baseline and repeatable local measurements |
 | P1-006 | **PLANNED** | UX polish, responsive behavior and error recovery |
 | DEPLOY-001 | **PLANNED — implementation not authorized** | Zero-cost demo/staging deployment that can provide a public HTTPS demo URL using synthetic/demo data only; platform selection and implementation require a separate Human decision |

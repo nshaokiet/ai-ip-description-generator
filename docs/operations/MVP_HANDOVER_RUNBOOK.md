@@ -93,6 +93,25 @@ secrets out of Git and the frontend. Local/synthetic acceptance needs no
 
 ## Normal local startup and shutdown
 
+After installing the prerequisites below, the recommended P1-004 developer path
+starts both existing servers from the repository root:
+
+```powershell
+.\.venv\Scripts\python.exe tools\local_dev.py
+```
+
+On POSIX, use `.venv/bin/python tools/local_dev.py`.
+
+The launcher performs bounded backend, frontend and proxy readiness checks and
+keeps both loopback-only process groups attached. Press Ctrl+C once; it stops
+only the exact process groups it created. `--check` validates prerequisites and
+ports without starting servers. An occupied port is an error and the launcher
+does not terminate its pre-existing owner. This tooling does not call a provider,
+does not require `OPENAI_API_KEY`, rejects enabled live-test flags, and does not
+silently opt into the local orchestration API.
+
+The two-terminal procedure below remains the manual troubleshooting fallback.
+
 Use two terminals after fresh installation. In terminal A, from repo root:
 
 ```powershell

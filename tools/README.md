@@ -7,6 +7,7 @@ Thư mục này chứa tooling hỗ trợ phát triển và điều phối dự 
 | Folder / Thư mục | Nhiệm vụ |
 |---|---|
 | `project-orchestrator-mcp/` | MCP điều phối task, quota guard, task lease, checkpoint/handoff và phối hợp Codex/VS Code/Antigravity |
+| `local_dev.py` | Launcher stdlib cho backend + frontend local, readiness và shutdown cây tiến trình do launcher sở hữu |
 
 ## Quy tắc
 
