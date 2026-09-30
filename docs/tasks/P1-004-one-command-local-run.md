@@ -3,12 +3,13 @@
 | Field | Value |
 |---|---|
 | Task | P1-004 |
-| Status | IMPLEMENTED — REVIEW PENDING |
+| Status | IMPLEMENTATION MERGED — CLOSEOUT REVIEW PENDING |
 | Authorization | `HUMAN-P1-004-ONE-COMMAND-LOCAL-RUN-2026-09-30` |
 | Baseline | `208f17344b429c50ffa181d986511fc9f120efce` |
 | Branch | `feat/p1-004-one-command-local-run` |
+| Closeout branch | `docs/p1-004-post-merge-closeout` |
 | Owner | Codex |
-| Reviewer gate | Gemini 3.1 Pro High fixed-SHA review — PENDING |
+| Reviewer gate | Implementation review PASS / findings NONE; governance closeout fixed-SHA review — PENDING |
 | Classification | MVP COMPLETE — LOCAL/SYNTHETIC |
 
 ## Scope and exclusions
@@ -73,12 +74,30 @@ Local implementation verification on Windows 30/09/2026:
 | Live flags | `RUN_OPENAI_LIVE_TESTS=0`; `RUN_OPENAI_DRAFT_LIVE_TESTS=0` |
 | Provider/API calls | **NONE** |
 
-Implementation SHA: `379367d2899ae11409e2b053d62370d7590a1970`.
+Original implementation SHA: `379367d2899ae11409e2b053d62370d7590a1970`.
+Final reviewed implementation SHA: `f446b514721ec795ce74ed0fa0f7c9ce85bc3ba8`.
 PR: [#45](https://github.com/nshaokiet/ai-ip-description-generator/pull/45).
-PR CI: [`36710329258`](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/36710329258)
-— **SUCCESS** on the exact implementation SHA: backend **431 passed / 2 skipped**;
+PR CI: [`36725600323`](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/36725600323)
+— **SUCCESS** on the exact reviewed SHA: backend **431 passed / 2 skipped**;
 `pip check`, lint, typecheck and build **PASS**; Playwright **17 passed**; live
 flags **0 / 0**; provider/API calls **NONE**.
+
+## Independent implementation review and merge evidence
+
+- Reviewer/model profile: **Gemini 3.1 Pro High**.
+- Exact reviewed SHA: `f446b514721ec795ce74ed0fa0f7c9ce85bc3ba8`.
+- Decision: **PASS**.
+- Findings: **NONE**.
+- No implementation-changing commit followed the review before merge.
+- PR #45 merged normally at `76b33b436c6408b1076a1ec97fda5a700517cd5d`.
+- Push/main CI [`36727200539`](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/36727200539)
+  was **SUCCESS** on that exact merge SHA: backend **431 passed, 2 skipped**
+  with no warning summary displayed; `pip check` **PASS**; frontend lint,
+  typecheck and build **PASS**; synthetic Playwright **17 passed**; live flags
+  `0 / 0`; provider/API calls **NONE**.
+- The implementation review gate is closed. The documentation-only governance
+  closeout remains pending Gemini 3.1 Pro High fixed-SHA review and must not be
+  merged before that review is returned.
 
 ## Implementation self-review findings matrix
 
@@ -96,11 +115,19 @@ flags **0 / 0**; provider/API calls **NONE**.
 | Test determinism | NOTE | Process/HTTP failure regressions use fakes; real smoke is separate evidence |
 | Documentation accuracy | NOTE | Recommended path added; historical/manual instructions retained |
 
-No evidence-backed CRITICAL, HIGH, MEDIUM or LOW finding remains open after the
-two remediations above. Independent review is not claimed.
+No evidence-backed CRITICAL, HIGH, MEDIUM or LOW finding remained open after the
+two implementation remediations above. The subsequent independent implementation
+review is recorded in the preceding section as **PASS / findings NONE**.
 
 ## Governance boundary
 
 Provider/API calls: **NONE**. BLK-003: **OPEN**. P1-005, P1-006 and DEPLOY-001:
-**PLANNED / NOT AUTHORIZED**. P1-004 must not be marked Completed before the
-fixed-SHA independent review, merge, successful main CI and closeout evidence.
+**PLANNED / NOT AUTHORIZED**. EVAL-001 PRODUCT_RUNTIME remains **DEFERRED —
+AWAITING FUNDING**. Production remains **NOT APPROVED / NOT PERFORMED**.
+
+Git/README implementation status is **CLOSED / COMPLETED — MERGED; CLOSEOUT
+REVIEW PENDING**. MCP continues to report P1-004 as `IMPLEMENTED`; the public MCP
+surface exposes no supported review/merge transition, so repository-equivalent
+`MERGED` cannot be recorded there and is **BLOCKED BY TOOL CAPABILITY**. No MCP
+`COMPLETED` state is fabricated. Budget remains **100**, threshold **8**, decision
+**CONTINUE**.

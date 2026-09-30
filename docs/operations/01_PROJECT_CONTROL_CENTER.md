@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.35 |
+| Version | 0.3.36 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -73,6 +73,7 @@
 | 0.3.32 | 0.3.33 | 29/09/2026 | Codex | Record P1-002 fixed-SHA review PASS/findings NONE, PR #40 implementation merge and successful main CI; hand off the governance-only closeout for independent review | Reconcile implementation evidence without prematurely completing MCP lifecycle or authorizing the next task | P1-002, REV-P1-002-IMPLEMENTATION, reviewed `4742b0f8a88a51d4e085b209bceeec1f942a8deb`, merge `f568df382a07f38b03dfb8aaddebf8dc6accf6b7`, CI `36583295714`; BLK-003 OPEN | No |
 | 0.3.33 | 0.3.34 | 30/09/2026 | Codex | Reconcile completed P1-002 closeout and record P1-003 fixed-SHA implementation PASS, PR #42 merge and successful main CI; hand off documentation-only P1-003 closeout | Current-state governance sync without production or next-task authorization | P1-002 PR #41 merge `cbe0e9520ff3e0162e8917052c153cfe58829c4a`, CI `36585724418`; P1-003 reviewed `44ee7dcc2d459d97446a52f86bbc839c4036caf5`, merge `3fa1519ee31f6d2b3d6ffc7dbdc39ff56462e966`, CI `36659558740`; BLK-003 OPEN | No |
 | 0.3.34 | 0.3.35 | 30/09/2026 | Codex | Record P1-003 closeout review PASS/findings NONE, PR #43 merge and successful final main CI; retain explicit MCP tool limitation | Correct stale pending-closeout wording after verified merge without authorizing P1-004 or production | P1-003 closeout reviewed `4ccb9ba5cb4f088f3568f182fe5eb03b381d4a05`, merge `8bd677475c5791f1947319f9e084fe455d19b421`, CI `36681005158`; MCP IMPLEMENTED / BLOCKED BY TOOL CAPABILITY; BLK-003 OPEN | No |
+| 0.3.35 | 0.3.36 | 30/09/2026 | Codex | Record P1-004 fixed-SHA implementation PASS/findings NONE, PR #45 merge and successful implementation main CI; hand off the documentation-only closeout for review | Reconcile implementation evidence without fabricating MCP completion or authorizing P1-005 | P1-004, REV-P1-004-IMPLEMENTATION, reviewed `f446b514721ec795ce74ed0fa0f7c9ce85bc3ba8`, merge `76b33b436c6408b1076a1ec97fda5a700517cd5d`, CI `36727200539`; MCP IMPLEMENTED / BLOCKED BY TOOL CAPABILITY; BLK-003 OPEN | No |
 
 ## 2. Project
 
@@ -102,6 +103,8 @@ P1-002 is **COMPLETED**: implementation PR #40 merged at `f568df382a07f38b03dfb8
 
 P1-003 is **COMPLETED WITH MCP TOOL LIMITATION**. Implementation PR #42 merged at `3fa1519ee31f6d2b3d6ffc7dbdc39ff56462e966` after Gemini 3.1 Pro High **PASS**, findings **NONE**, on exact SHA `44ee7dcc2d459d97446a52f86bbc839c4036caf5`; implementation main CI `36659558740` succeeded. Governance closeout PR #43 received Gemini 3.1 Pro High **PASS**, findings **NONE**, on exact SHA `4ccb9ba5cb4f088f3568f182fe5eb03b381d4a05`, merged at `8bd677475c5791f1947319f9e084fe455d19b421`, and final main CI `36681005158` succeeded on that exact merge. MCP checkpoint/transition is **BLOCKED BY TOOL CAPABILITY**: MCP reports `IMPLEMENTED`, not `COMPLETED`; its checkpoint tool requires an active lease after `finish_task` removed it, and no Codex-facing post-merge transition exists. Project classification remains **MVP COMPLETE — LOCAL/SYNTHETIC**.
 
+P1-004 implementation is **CLOSED / COMPLETED — MERGED; CLOSEOUT REVIEW PENDING**. Implementation PR #45 merged at `76b33b436c6408b1076a1ec97fda5a700517cd5d` after Gemini 3.1 Pro High **PASS**, findings **NONE**, on exact SHA `f446b514721ec795ce74ed0fa0f7c9ce85bc3ba8`; implementation main CI `36727200539` succeeded on that exact merge with backend 431 passed / 2 skipped, `pip check`, lint, typecheck and build PASS, and Playwright 17 passed. MCP continues to report `IMPLEMENTED`; no public supported review/merge transition exists, so repository-equivalent `MERGED` is **BLOCKED BY TOOL CAPABILITY**. The documentation-only governance closeout is pending fixed-SHA review.
+
 ## 6. Current Objective
 
 - Preserve the finalized **MVP COMPLETE — LOCAL/SYNTHETIC** boundary after
@@ -112,8 +115,9 @@ P1-003 is **COMPLETED WITH MCP TOOL LIMITATION**. Implementation PR #42 merged a
   no production/public deployment or real/confidential-data approval.
 - Keep production, public deployment and real/confidential-data approval
   separate from this limited handover classification.
-- Preserve the completed P1-003 Git/governance evidence and explicit MCP tool
-  limitation; do not authorize or claim P1-004 automatically.
+- Preserve the P1-004 implementation merge/review/main-CI evidence and explicit
+  MCP tool limitation while the documentation-only closeout awaits fixed-SHA
+  review; do not authorize or claim P1-005 automatically.
 
 SPEC-001/002/003, schema, prompts and DOCX template retain their previously
 approved versions/contracts; this task does not re-approve or redesign them.
@@ -211,7 +215,8 @@ APP-002 capability boundary: `Validated PDF/DOCX → deterministic text/table pa
 | P1-001 | Frontend Accessibility + Type Safety Hardening | Codex (GPT-6 Sol) | Gemini 3.1 Pro High | Post-MVP zero-cost hardening | **CLOSED / COMPLETED — MERGED**; review PASS/findings NONE; Human merge approved; final main CI SUCCESS | Implementation `beefd4d8bd8bdf753688ffef2e8870e5800f7574`; reviewed `a2d7f8933554ee3675251b5f15afe47fabb81e3f`; PR #33 merge `56d7217c0f09fe591585cb298e0b4df0c92f8aa4`; CI `36536768516`; no provider calls | 29/09/2026 |
 | P1-002 | Offline Adversarial Regression Expansion | Codex | Gemini 3.1 Pro High | Post-MVP zero-cost hardening | **CLOSED / COMPLETED — MERGED** | PR #40 merge `f568df382a07f38b03dfb8aaddebf8dc6accf6b7`; closeout PR #41 merge `cbe0e9520ff3e0162e8917052c153cfe58829c4a`; final main CI `36585724418` SUCCESS; MCP COMPLETED | 29/09/2026 |
 | P1-003 | Local Security Hardening | Codex | Gemini 3.1 Pro High | Post-MVP local/synthetic hardening | **CLOSED / COMPLETED — MERGED; MCP TOOL LIMITATION** | PR #42 merge `3fa1519ee31f6d2b3d6ffc7dbdc39ff56462e966`; closeout reviewed `4ccb9ba5cb4f088f3568f182fe5eb03b381d4a05` PASS/NONE; PR #43 merge `8bd677475c5791f1947319f9e084fe455d19b421`; final CI `36681005158` SUCCESS; MCP IMPLEMENTED / BLOCKED BY TOOL CAPABILITY | 30/09/2026 |
-| P1-004…P1-006 | Remaining Post-MVP hardening | Human decision pending | — | Separate task authorizations | **PLANNED — NOT AUTHORIZED** | No claim, implementation or implicit approval from P1-003 | Post-MVP |
+| P1-004 | Developer Experience / One-command Local Run | Codex | Gemini 3.1 Pro High | Post-MVP local/synthetic DevEx | **CLOSED / COMPLETED — MERGED; CLOSEOUT REVIEW PENDING; MCP TOOL LIMITATION** | Reviewed `f446b514721ec795ce74ed0fa0f7c9ce85bc3ba8` PASS/NONE; PR #45 merge `76b33b436c6408b1076a1ec97fda5a700517cd5d`; main CI `36727200539` SUCCESS; MCP IMPLEMENTED / BLOCKED BY TOOL CAPABILITY | 30/09/2026 |
+| P1-005…P1-006 | Remaining Post-MVP hardening | Human decision pending | — | Separate task authorizations | **PLANNED — NOT AUTHORIZED** | No claim, implementation or implicit approval from P1-004 | Post-MVP |
 | DEPLOY-001 | Zero-cost synthetic demo/staging roadmap | Human decision pending | — | Separate deployment decision | **PLANNED — IMPLEMENTATION NOT AUTHORIZED** | No public URL, production approval, real/confidential data or paid provider call | Post-MVP |
 | EVAL-001 | Semantic Quality Evaluation — framework/gold merged; PRODUCT_RUNTIME deferred | GPT-6 Sol | Gemini 3.1 Pro High | Post-MVP — AWAITING FUNDING; no active runtime work | Framework/gold reviews PASS/findings NONE; corpus/gold 6/6 HUMAN_ACCEPTED; baseline MERGED; PRODUCT_RUNTIME DEFERRED; product evidence NONE; semantic acceptance NOT_DETERMINED, not PASS/Completed | Frozen product `37d42fc8b07003aa2a67f2d1d32e64e69eb0ddb5`; PR #29 merge `2caf3e6c698745a1c2b09d5605e8fba955bca2f9`; DEC-020; provider NOT GRANTED/budget 0; BLK-003 OPEN | Post-MVP Human funding decision |
 
@@ -495,14 +500,16 @@ Human đã phê duyệt ADR-006 và Output Schema v1.0.0 cho AI-001, sau đó me
 | DEC-023 | Human / Product Owner supplied Gemini 3.1 Pro High P1-002 implementation review **PASS**, findings **NONE**, and authorized PR #40 merge plus post-merge governance closeout | Reviewed `4742b0f8a88a51d4e085b209bceeec1f942a8deb`; merged at `f568df382a07f38b03dfb8aaddebf8dc6accf6b7`; main CI `36583295714` SUCCESS. Governance closeout review/merge and final MCP completion remain separate gates; no provider, production, P1-003, real-data or Claims authorization. |
 | DEC-024 | Human / Product Owner authorized P1-003 local security hardening under `HUMAN-P1-003-LOCAL-SECURITY-HARDENING-2026-09-29`, supplied Gemini 3.1 Pro High implementation review **PASS**, findings **NONE**, and requested PR #42 merge plus post-merge governance closeout | Reviewed `44ee7dcc2d459d97446a52f86bbc839c4036caf5`; merged at `3fa1519ee31f6d2b3d6ffc7dbdc39ff56462e966`; main CI `36659558740` SUCCESS. Governance closeout review/merge and final MCP completion remain separate gates; BLK-003 OPEN; no provider, production, P1-004, real-data or Claims authorization. |
 | DEC-025 | Human / Product Owner supplied Gemini 3.1 Pro High P1-003 closeout review **PASS**, findings **NONE**, and authorized PR #43 merge plus final main verification | Reviewed `4ccb9ba5cb4f088f3568f182fe5eb03b381d4a05`; PR #43 merged at `8bd677475c5791f1947319f9e084fe455d19b421`; final main CI `36681005158` SUCCESS. P1-003 is completed in Git/governance with MCP `IMPLEMENTED` / **BLOCKED BY TOOL CAPABILITY**; BLK-003 OPEN; no provider, production, P1-004, real-data or Claims authorization. |
+| DEC-026 | Human / Product Owner authorized P1-004 under `HUMAN-P1-004-ONE-COMMAND-LOCAL-RUN-2026-09-30`, supplied Gemini 3.1 Pro High implementation review **PASS**, findings **NONE**, and requested PR #45 merge plus post-merge governance closeout | Reviewed `f446b514721ec795ce74ed0fa0f7c9ce85bc3ba8`; PR #45 merged at `76b33b436c6408b1076a1ec97fda5a700517cd5d`; main CI `36727200539` SUCCESS. Governance closeout review/merge and final MCP completion remain separate gates; BLK-003 OPEN; no provider, production, P1-005, real-data or Claims authorization. |
 
 ## 22. Next Recommended Action
 
 1. P1-002 — **CLOSED / COMPLETED — MERGED** via implementation PR #40 and closeout PR #41; final main CI `36585724418` SUCCESS; MCP `COMPLETED` verified.
 2. P1-003 is **COMPLETED WITH MCP TOOL LIMITATION** via implementation PR #42 and governance closeout PR #43; final main CI `36681005158` SUCCESS. MCP remains `IMPLEMENTED` because transition/checkpoint is **BLOCKED BY TOOL CAPABILITY**.
-3. P1-004 through P1-006 remain **PLANNED** and require separate Human authorization. Next Human action: authorize or decline P1-004; roadmap order is not automatic approval.
-4. DEPLOY-001 — **PLANNED — implementation not authorized**. Function: create a zero-cost demo/staging deployment and public HTTPS demo URL for synthetic/demo data only. It does not authorize a hosting platform, provider/API spend, production release, real/confidential data, or BLK-003 closure. Recommended after P1-006 for a polished demo, but no hard technical dependency is recorded.
-5. EVAL-001 PRODUCT_RUNTIME remains **DEFERRED — AWAITING FUNDING** with evidence NONE and semantic acceptance NOT_DETERMINED; provider authorization NOT GRANTED / budget 0. BLK-003 remains OPEN and blocks production/real-data use. Production deployment remains NOT APPROVED / NOT PERFORMED.
+3. P1-004 implementation is **CLOSED / COMPLETED — MERGED; CLOSEOUT REVIEW PENDING** via PR #45; implementation main CI `36727200539` SUCCESS. MCP remains `IMPLEMENTED` because the repository-equivalent merge transition is **BLOCKED BY TOOL CAPABILITY**. Next action: Gemini 3.1 Pro High fixed-SHA review of the documentation-only closeout PR; do not merge before review.
+4. P1-005 and P1-006 remain **PLANNED — NOT AUTHORIZED**. Roadmap order is not automatic approval.
+5. DEPLOY-001 — **PLANNED — implementation not authorized**. Function: create a zero-cost demo/staging deployment and public HTTPS demo URL for synthetic/demo data only. It does not authorize a hosting platform, provider/API spend, production release, real/confidential data, or BLK-003 closure. Recommended after P1-006 for a polished demo, but no hard technical dependency is recorded.
+6. EVAL-001 PRODUCT_RUNTIME remains **DEFERRED — AWAITING FUNDING** with evidence NONE and semantic acceptance NOT_DETERMINED; provider authorization NOT GRANTED / budget 0. BLK-003 remains OPEN and blocks production/real-data use. Production deployment remains NOT APPROVED / NOT PERFORMED.
 
 ## 23. Last Updated
 

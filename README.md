@@ -30,9 +30,9 @@ Công cụ hỗ trợ chuyển bài báo khoa học thành dữ liệu có cấu
 | **P1 Task Catalog** | ✅ Completed | Đăng ký P1-001 đến P1-006 trong MCP và bảo toàn trạng thái task qua restart |
 | **P1-002** | ✅ Completed | Mở rộng kiểm thử đối kháng offline để phát hiện edge case, input lỗi, dữ liệu không hợp lệ và lỗi validation |
 | **P1-003** | ✅ Completed | Tăng cường bảo mật môi trường local gồm upload safety, path handling, kiểm soát thông tin lỗi và rà soát attack surface; PR #43 merged and final main CI succeeded, with MCP completion blocked by tool capability |
-| **P1-004** | 🟠 Implemented — Review pending | One-command local run cho frontend/backend, readiness checks và shutdown tiến trình do launcher sở hữu; chưa hoàn tất trước independent review/merge |
-| **P1-005** | 🟡 Incomplete — Planned | Xây dựng performance baseline cho upload, parsing, validation, DOCX rendering và luồng trình duyệt |
-| **P1-006** | 🟡 Incomplete — Planned | Hoàn thiện trải nghiệm người dùng gồm responsive, loading state, error state, retry/recovery và workflow clarity |
+| **P1-004** | ✅ Completed | One-command local run cho frontend/backend, readiness checks và shutdown tiến trình do launcher sở hữu; implementation PR #45 merged and implementation main CI succeeded; governance closeout review remains pending |
+| **P1-005** | 🟡 Incomplete — Planned / Not authorized | Xây dựng performance baseline cho upload, parsing, validation, DOCX rendering và luồng trình duyệt |
+| **P1-006** | 🟡 Incomplete — Planned / Not authorized | Hoàn thiện trải nghiệm người dùng gồm responsive, loading state, error state, retry/recovery và workflow clarity |
 | **DEPLOY-001** | 🟡 Incomplete — Planned | Triển khai demo/staging không tốn phí để tạo public HTTPS URL cho người khác truy cập bằng synthetic/demo data |
 | **EVAL-001 PRODUCT_RUNTIME** | ⏸ Incomplete — Deferred | Chạy benchmark trên provider/runtime thực tế để đánh giá chất lượng ngữ nghĩa của kết quả AI; đang chờ funding |
 | **SEC-001 / BLK-003** | 🔴 Incomplete — Open | Hoàn thiện bảo mật production gồm authentication, tenant isolation, private storage, retention và deletion policy |
@@ -272,9 +272,9 @@ These are separate future gates, not a committed production release scope:
 | P1-001 | **CLOSED / COMPLETED — MERGED** | Frontend accessibility, keyboard/focus behavior, TypeScript typecheck and CI hardening |
 | P1-002 | **CLOSED / COMPLETED — MERGED** | Six deterministic offline adversarial regressions merged via PR #40; main CI `36583295714` SUCCESS; no provider calls |
 | P1-003 | **CLOSED / COMPLETED — MERGED; MCP TOOL LIMITATION** | Implementation PR #42 and governance closeout PR #43 merged; final main CI `36681005158` SUCCESS. MCP remains `IMPLEMENTED` because its post-finish transition/checkpoint is blocked by tool capability. Does not resolve production BLK-003 |
-| P1-004 | **IMPLEMENTED — REVIEW PENDING** | One-command local developer run/setup and DX improvements; PR #45 CI `36710329258` SUCCESS on implementation SHA `379367d2899ae11409e2b053d62370d7590a1970`; independent fixed-SHA review pending |
-| P1-005 | **PLANNED** | Offline performance baseline and repeatable local measurements |
-| P1-006 | **PLANNED** | UX polish, responsive behavior and error recovery |
+| P1-004 | **CLOSED / COMPLETED — MERGED; CLOSEOUT REVIEW PENDING** | One-command local developer run/setup and DX improvements; Gemini 3.1 Pro High implementation review PASS/findings NONE on `f446b514721ec795ce74ed0fa0f7c9ce85bc3ba8`; PR #45 merged at `76b33b436c6408b1076a1ec97fda5a700517cd5d`; main CI `36727200539` SUCCESS; MCP remains `IMPLEMENTED` pending a supported post-implementation transition |
+| P1-005 | **PLANNED — NOT AUTHORIZED** | Offline performance baseline and repeatable local measurements |
+| P1-006 | **PLANNED — NOT AUTHORIZED** | UX polish, responsive behavior and error recovery |
 | DEPLOY-001 | **PLANNED — implementation not authorized** | Zero-cost demo/staging deployment that can provide a public HTTPS demo URL using synthetic/demo data only; platform selection and implementation require a separate Human decision |
 | EVAL-001 PRODUCT_RUNTIME | **DEFERRED — AWAITING FUNDING** | Product-runtime semantic validation; provider authorization/budget remain separate Human gates |
 | SEC-001 / BLK-003 | **OPEN / DEFERRED** | Production auth/tenant model, private storage, retention/deletion; required before production or real/confidential-data use |
