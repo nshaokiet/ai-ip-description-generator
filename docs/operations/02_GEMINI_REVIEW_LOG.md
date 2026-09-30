@@ -10,14 +10,14 @@
 | Document title | Gemini Review Log |
 | Project | AI Intellectual Property Description Generator |
 | Project deadline | 02/10/2026 |
-| Version | 0.3.20 |
+| Version | 0.3.21 |
 | Status | Active review log |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
-| Reviewer | Gemini 3.1 Pro High + Gemini 3.8 Flash High (historical); Google Antigravity (Advanced Agentic Coding) for REV-P0-006-IMPLEMENTATION, REV-P0-007-SPECIFICATION, REV-P0-007-IMPLEMENTATION and REV-P0-008-SPECIFICATION; Google Antigravity / Gemini 1.5 Pro (Advanced Agentic Coding) for REV-P0-008-IMPLEMENTATION; Gemini 3.1 Pro High for REV-P0-009-IMPLEMENTATION, REV-EVAL-001-SPECIFICATION, REV-EVAL-001-FRAMEWORK-IMPLEMENTATION, REV-EVAL-001-GOLD, REV-P0-010-FINAL-CLOSEOUT, REV-P1-001-IMPLEMENTATION, REV-DEPLOY-001-ROADMAP and REV-P1-002-IMPLEMENTATION |
+| Reviewer | Gemini 3.1 Pro High + Gemini 3.8 Flash High (historical); Google Antigravity (Advanced Agentic Coding) for REV-P0-006-IMPLEMENTATION, REV-P0-007-SPECIFICATION, REV-P0-007-IMPLEMENTATION and REV-P0-008-SPECIFICATION; Google Antigravity / Gemini 1.5 Pro (Advanced Agentic Coding) for REV-P0-008-IMPLEMENTATION; Gemini 3.1 Pro High for REV-P0-009-IMPLEMENTATION, REV-EVAL-001-SPECIFICATION, REV-EVAL-001-FRAMEWORK-IMPLEMENTATION, REV-EVAL-001-GOLD, REV-P0-010-FINAL-CLOSEOUT, REV-P1-001-IMPLEMENTATION, REV-DEPLOY-001-ROADMAP, REV-P1-002-IMPLEMENTATION and REV-P1-003-IMPLEMENTATION |
 | Created date | 18/09/2026 |
-| Last updated | 29/09/2026 GMT+7 |
-| Related task ID | REVIEW-001; SPEC-001; SPEC-002; SPEC-003; AI-001; AI-002; AI-003; DOC-001; APP-001; APP-002; AI-RUNTIME-001; AI-RUNTIME-002; APP-003; P0-006; P0-007; P0-008; P0-009; EVAL-001; P0-010; P1-001; P1-002; DEPLOY-001 |
+| Last updated | 30/09/2026 GMT+7 |
+| Related task ID | REVIEW-001; SPEC-001; SPEC-002; SPEC-003; AI-001; AI-002; AI-003; DOC-001; APP-001; APP-002; AI-RUNTIME-001; AI-RUNTIME-002; APP-003; P0-006; P0-007; P0-008; P0-009; EVAL-001; P0-010; P1-001; P1-002; P1-003; DEPLOY-001 |
 | Source of Truth | Review history; bản nguồn Git tại `docs/operations/02_GEMINI_REVIEW_LOG.md` |
 | Confidentiality level | Internal; findings về research input có thể là Confidential |
 
@@ -55,6 +55,7 @@
 | 0.3.17 | 0.3.18 | 29/09/2026 | ChatGPT | Record Human-supplied Gemini 3.1 Pro High P1-001 targeted implementation PASS/findings NONE, Human merge approval and successful final main CI | Close P1-001 independent review gate and Post-MVP zero-cost hardening task | P1-001, REV-P1-001-IMPLEMENTATION, PR #33, merge `56d7217c0f09fe591585cb298e0b4df0c92f8aa4`, CI `36536768516`, DEC-022; BLK-003 OPEN | No |
 | 0.3.18 | 0.3.19 | 29/09/2026 | Codex | Record Human-supplied Gemini 3.1 Pro High review PASS/findings NONE for PR #38 and verified merge/main CI | Post-merge governance evidence for DEPLOY-001 roadmap registration; no implementation authorization | DEPLOY-001, REV-DEPLOY-001-ROADMAP, PR #38, merge `d55b9ede1a3ba063a7965f00477bea5d7fdefb7d`, CI `36552444542`; BLK-003 OPEN | No |
 | 0.3.19 | 0.3.20 | 29/09/2026 | Codex | Record Human-supplied Gemini 3.1 Pro High P1-002 implementation PASS/findings NONE, PR #40 merge and successful implementation main CI | Close the implementation review gate while keeping the governance closeout review and final completion separate | P1-002, REV-P1-002-IMPLEMENTATION, reviewed `4742b0f8a88a51d4e085b209bceeec1f942a8deb`, merge `f568df382a07f38b03dfb8aaddebf8dc6accf6b7`, CI `36583295714`; BLK-003 OPEN | No |
+| 0.3.20 | 0.3.21 | 30/09/2026 | Codex | Record P1-002 closeout merge resolution and Human-supplied Gemini 3.1 Pro High P1-003 implementation PASS/findings NONE, PR #42 merge and successful main CI | Preserve fixed-SHA review evidence while keeping P1-003 governance closeout review separate | P1-002 PR #41 merge `cbe0e9520ff3e0162e8917052c153cfe58829c4a`, CI `36585724418`; P1-003, REV-P1-003-IMPLEMENTATION, reviewed `44ee7dcc2d459d97446a52f86bbc839c4036caf5`, merge `3fa1519ee31f6d2b3d6ffc7dbdc39ff56462e966`, CI `36659558740`; BLK-003 OPEN | No |
 
 ## 2. Review Rules
 
@@ -2336,3 +2337,17 @@ The reviewed delta added six deterministic offline/synthetic regressions and the
 PR #40 merged normally at `f568df382a07f38b03dfb8aaddebf8dc6accf6b7`. Push/main CI [`36583295714`](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/36583295714) was **SUCCESS** on that exact merge SHA with the same required offline gates: backend **413 passed / 3 skipped / 1 warning**, `pip check` **PASS**, frontend lint/typecheck/build **PASS**, synthetic Playwright **15 passed**, live flags **0/0**, provider/API calls **NONE**.
 
 Implementation review status: **CLOSED — PASS / findings NONE**. The dedicated documentation-only governance closeout remains pending fixed-SHA independent review and merge. Project classification remains **MVP COMPLETE — LOCAL/SYNTHETIC**; P1-003 through P1-006 and DEPLOY-001 remain **PLANNED**; EVAL-001 PRODUCT_RUNTIME remains **DEFERRED — AWAITING FUNDING**; BLK-003 remains **OPEN**; production/public deployment, provider use, real/confidential data and Claims remain unauthorized.
+
+### P1-002 post-merge closeout resolution (30/09/2026)
+
+The pending closeout state immediately above is historical. The Human supplied Gemini 3.1 Pro High fixed-SHA closeout review **PASS**, findings **NONE**, on `36f4f28977841b738ca83f5a027e42bb6b36dd2e`; documentation-only PR [#41](https://github.com/nshaokiet/ai-ip-description-generator/pull/41) merged at `cbe0e9520ff3e0162e8917052c153cfe58829c4a`. Push/main CI [`36585724418`](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/36585724418) **SUCCESS** on that exact SHA; MCP P1-002 **COMPLETED** was verified on 30/09/2026. This retrospective status correction does not authorize P1-003 or production work by itself.
+
+## REV-P1-003-IMPLEMENTATION — Local Security Hardening
+
+Review target: P1-003 implementation PR [#42](https://github.com/nshaokiet/ai-ip-description-generator/pull/42), exact reviewed SHA `44ee7dcc2d459d97446a52f86bbc839c4036caf5` against baseline `cbe0e9520ff3e0162e8917052c153cfe58829c4a`. Human authorization: `HUMAN-P1-003-LOCAL-SECURITY-HARDENING-2026-09-29`. Reviewer/model profile: **Gemini 3.1 Pro High**. Human supplied the independent review decision: **PASS**, findings **NONE**. The exact independent review date, separate reviewer report and itemized PASS-area verdicts were not supplied; this entry records the Human-supplied overall outcome, not a new review of the governance closeout changes.
+
+The implementation delta covered seven expected files: `backend/app/main.py`, `backend/app/services/document_storage.py`, `backend/app/services/document_validation.py`, `docs/tasks/P1-003-local-security-hardening.md`, `frontend/e2e/integration.spec.ts`, `frontend/next.config.ts`, and `tests/backend/test_document_upload.py`. It added bounded local DOCX ZIP-member collision validation, temporary-upload cleanup isolation, defensive local HTTP headers, and deterministic regressions for filename/path handling, multipart/error mapping and frontend untrusted-text rendering. Production controls remained outside scope.
+
+Reviewed PR CI [`36658496058`](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/36658496058) was **SUCCESS** on the exact reviewed SHA. PR #42 merged normally at `3fa1519ee31f6d2b3d6ffc7dbdc39ff56462e966`; push/main CI [`36659558740`](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/36659558740) was **SUCCESS** on that exact merge SHA: backend **419 passed / 2 skipped** (no warning summary displayed), `pip check` **PASS**, frontend lint/typecheck/build **PASS**, synthetic Playwright **17 passed**, live flags **0/0**, provider/API calls **NONE**.
+
+Implementation review status: **CLOSED — PASS / findings NONE**. Documentation-only P1-003 governance closeout awaits its own fixed-SHA independent review and merge; MCP P1-003 remains `IMPLEMENTED`, not `COMPLETED`. Project classification remains **MVP COMPLETE — LOCAL/SYNTHETIC**; P1-004 through P1-006 and DEPLOY-001 remain **PLANNED**; EVAL-001 PRODUCT_RUNTIME remains **DEFERRED — AWAITING FUNDING**; BLK-003 remains **OPEN**. Production authentication, tenant isolation, private production storage, production retention/deletion policy, production deployment, real/confidential data and Claims are not authorized or completed.
