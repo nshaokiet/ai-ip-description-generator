@@ -2,13 +2,15 @@
 
 | Field | Value |
 |---|---|
-| Version | 0.1.1 |
-| Status | **IMPLEMENTATION VERIFIED — PR/CI PENDING** |
+| Version | 0.2.0 |
+| Status | **IMPLEMENTATION MERGED — GOVERNANCE CLOSEOUT REVIEW PENDING** |
 | Owner | Codex |
 | Baseline | `cbe0e9520ff3e0162e8917052c153cfe58829c4a` |
 | Human authorization | `HUMAN-P1-003-LOCAL-SECURITY-HARDENING-2026-09-29` |
 | Branch | `feat/p1-003-local-security-hardening` |
 | Independent reviewer | Gemini 3.1 Pro High |
+
+Version 0.2.0 (30/09/2026): record exact-SHA independent implementation review, PR #42 merge, successful push/main CI, and documentation-only governance closeout handoff. The implementation is merged; final governance review/merge and MCP completion remain pending.
 
 Version 0.1.1 (30/09/2026): record the bounded remediations, seven deterministic security regression tests, and final green local verification matrix; merge and completion remain blocked on exact-SHA PR CI, fixed-SHA independent review, merge, main CI, and governance closeout.
 
@@ -69,4 +71,15 @@ Project classification remains **MVP COMPLETE — LOCAL/SYNTHETIC**. EVAL-001 PR
 - Stability/cleanup oracle: PDF **3/3** and DOCX **3/3**, with zero source/export files after every run.
 - Live flags: `RUN_OPENAI_LIVE_TESTS=0`, `RUN_OPENAI_DRAFT_LIVE_TESTS=0`.
 - Provider/API calls: **NONE**; paid services: **NONE**; real/confidential data: **NONE**.
-- README P1-003 remains **Incomplete — Planned** during implementation/review as required.
+- At the implementation handoff, README P1-003 remained **Incomplete — Planned**; this is historical local evidence. The post-merge governance branch updates the canonical status summary.
+
+## Implementation merge and main CI evidence
+
+- Authorization: `HUMAN-P1-003-LOCAL-SECURITY-HARDENING-2026-09-29`.
+- Implementation PR [#42](https://github.com/nshaokiet/ai-ip-description-generator/pull/42) reviewed head: `44ee7dcc2d459d97446a52f86bbc839c4036caf5`; baseline: `cbe0e9520ff3e0162e8917052c153cfe58829c4a`. No later implementation-changing commit was present at merge gate.
+- Human-supplied independent reviewer/result: **Gemini 3.1 Pro High — PASS**, findings **NONE**, on that exact reviewed SHA. The separate reviewer report/date was not supplied with this closeout instruction; this record does not claim a new review.
+- PR CI [`36658496058`](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/36658496058): **SUCCESS** on the reviewed SHA. PR #42 merged normally at `3fa1519ee31f6d2b3d6ffc7dbdc39ff56462e966`; resulting `main` is that exact SHA.
+- Push/main CI [`36659558740`](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/36659558740): **SUCCESS** on `3fa1519ee31f6d2b3d6ffc7dbdc39ff56462e966`. Linux backend **419 passed / 2 skipped** (no warning summary displayed); `pip check` **PASS**; frontend lint, typecheck and build **PASS**; synthetic Playwright **17 passed**.
+- Live flags: `RUN_OPENAI_LIVE_TESTS=0`, `RUN_OPENAI_DRAFT_LIVE_TESTS=0`; provider/API calls **NONE**. No paid service or real/confidential data was used.
+- The implementation resolves the bounded local findings `SEC-P1-003-01` through `SEC-P1-003-06`; `SEC-P1-003-07` remains an out-of-scope production boundary. BLK-003 **OPEN**. Production authentication, tenant isolation, private production storage, and production retention/deletion policy remain unimplemented; production deployment is **NOT APPROVED**.
+- Governance closeout in `docs/p1-003-post-merge-closeout` still requires its own exact-SHA independent review, successful CI and merge before final lifecycle completion. MCP checkpoint/transition: **BLOCKED BY TOOL CAPABILITY** — the MCP currently reports `IMPLEMENTED`, its checkpoint tool requires an active lease after `finish_task` has removed that lease, and it offers no Codex-facing post-merge transition. Git PR #42/CI evidence above is the repository-equivalent post-merge record. No MCP `COMPLETED` claim is made.
