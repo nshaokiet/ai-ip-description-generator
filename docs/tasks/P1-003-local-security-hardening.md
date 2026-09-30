@@ -2,13 +2,15 @@
 
 | Field | Value |
 |---|---|
-| Version | 0.2.0 |
-| Status | **IMPLEMENTATION MERGED — GOVERNANCE CLOSEOUT REVIEW PENDING** |
+| Version | 0.2.1 |
+| Status | **COMPLETED WITH MCP TOOL LIMITATION** |
 | Owner | Codex |
 | Baseline | `cbe0e9520ff3e0162e8917052c153cfe58829c4a` |
 | Human authorization | `HUMAN-P1-003-LOCAL-SECURITY-HARDENING-2026-09-29` |
 | Branch | `feat/p1-003-local-security-hardening` |
 | Independent reviewer | Gemini 3.1 Pro High |
+
+Version 0.2.1 (30/09/2026): close the Git/governance lifecycle after Gemini 3.1 Pro High PASS/findings NONE on exact closeout SHA `4ccb9ba5cb4f088f3568f182fe5eb03b381d4a05`, PR #43 merge, and successful final main CI; preserve MCP `IMPLEMENTED` and the explicit `BLOCKED BY TOOL CAPABILITY` limitation.
 
 Version 0.2.0 (30/09/2026): record exact-SHA independent implementation review, PR #42 merge, successful push/main CI, and documentation-only governance closeout handoff. The implementation is merged; final governance review/merge and MCP completion remain pending.
 
@@ -82,4 +84,5 @@ Project classification remains **MVP COMPLETE — LOCAL/SYNTHETIC**. EVAL-001 PR
 - Push/main CI [`36659558740`](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/36659558740): **SUCCESS** on `3fa1519ee31f6d2b3d6ffc7dbdc39ff56462e966`. Linux backend **419 passed / 2 skipped** (no warning summary displayed); `pip check` **PASS**; frontend lint, typecheck and build **PASS**; synthetic Playwright **17 passed**.
 - Live flags: `RUN_OPENAI_LIVE_TESTS=0`, `RUN_OPENAI_DRAFT_LIVE_TESTS=0`; provider/API calls **NONE**. No paid service or real/confidential data was used.
 - The implementation resolves the bounded local findings `SEC-P1-003-01` through `SEC-P1-003-06`; `SEC-P1-003-07` remains an out-of-scope production boundary. BLK-003 **OPEN**. Production authentication, tenant isolation, private production storage, and production retention/deletion policy remain unimplemented; production deployment is **NOT APPROVED**.
-- Governance closeout in `docs/p1-003-post-merge-closeout` still requires its own exact-SHA independent review, successful CI and merge before final lifecycle completion. MCP checkpoint/transition: **BLOCKED BY TOOL CAPABILITY** — the MCP currently reports `IMPLEMENTED`, its checkpoint tool requires an active lease after `finish_task` has removed that lease, and it offers no Codex-facing post-merge transition. Git PR #42/CI evidence above is the repository-equivalent post-merge record. No MCP `COMPLETED` claim is made.
+- Governance closeout PR [#43](https://github.com/nshaokiet/ai-ip-description-generator/pull/43) received Human-supplied **Gemini 3.1 Pro High — PASS**, findings **NONE**, on exact reviewed SHA `4ccb9ba5cb4f088f3568f182fe5eb03b381d4a05`; exact-SHA PR CI `36679703167` was **SUCCESS**. PR #43 merged normally at `8bd677475c5791f1947319f9e084fe455d19b421`; final push/main CI [`36681005158`](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/36681005158) was **SUCCESS** on that exact SHA: backend **419 passed / 2 skipped** with no warning summary, `pip check` **PASS**, frontend lint/typecheck/build **PASS**, synthetic Playwright **17 passed**, live flags **0/0**, provider/API calls **NONE**.
+- MCP checkpoint/transition remains **BLOCKED BY TOOL CAPABILITY** — MCP reports `IMPLEMENTED`, its checkpoint tool requires an active lease after `finish_task` removed that lease, and it offers no Codex-facing post-merge transition. Git evidence establishes P1-003 **COMPLETED WITH MCP TOOL LIMITATION**; no false MCP `COMPLETED` claim is made. BLK-003 remains **OPEN**, production remains **NOT APPROVED**, and P1-004 is **PLANNED / NOT AUTHORIZED**.
