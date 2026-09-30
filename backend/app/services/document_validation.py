@@ -154,13 +154,22 @@ class DocumentValidator:
         if len(infos) > self.settings.max_docx_entries:
             raise DocumentValidationError("unsafe_docx_package", "The DOCX package contains too many entries.")
         total_uncompressed = 0
+        normalized_names: set[str] = set()
         for info in infos:
             name = info.filename
-            path = PurePosixPath(name.replace("\\", "/"))
+            normalized_name = name.replace("\\", "/")
+            path = PurePosixPath(normalized_name)
             if path.is_absolute() or ".." in path.parts or ":" in name:
                 raise DocumentValidationError(
                     "unsafe_docx_package", "The DOCX package contains an unsafe entry path."
                 )
+            canonical_name = path.as_posix().casefold()
+            if canonical_name in normalized_names:
+                raise DocumentValidationError(
+                    "unsafe_docx_package",
+                    "The DOCX package contains duplicate or ambiguous entry names.",
+                )
+            normalized_names.add(canonical_name)
             if info.file_size > self.settings.max_docx_entry_bytes:
                 raise DocumentValidationError("unsafe_docx_package", "A DOCX package entry is too large.")
             total_uncompressed += info.file_size

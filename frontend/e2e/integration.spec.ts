@@ -65,6 +65,16 @@ function firstParagraph(page: Page) {
   return page.getByLabel("Paragraph paragraph-field prose");
 }
 
+test("local document response includes defensive security headers", async ({ page }) => {
+  const response = await page.goto("/");
+  expect(response).not.toBeNull();
+  expect(response?.headers()["cache-control"]).toBe("no-store");
+  expect(response?.headers()["x-content-type-options"]).toBe("nosniff");
+  expect(response?.headers()["referrer-policy"]).toBe("no-referrer");
+  expect(response?.headers()["x-frame-options"]).toBe("DENY");
+  expect(response?.headers()["permissions-policy"]).toBe("camera=(), geolocation=(), microphone=()");
+});
+
 async function saveParagraphRevision(page: Page, replacement: string) {
   await page.getByRole("button", { name: "Edit prose" }).click();
   await firstParagraph(page).fill(replacement);
@@ -127,6 +137,24 @@ test("new global operation error focuses its heading", async ({ page }) => {
   await expect(heading).toBeFocused();
   await expect(heading).toHaveAttribute("tabindex", "-1");
   await expect(page.locator(".error-banner[role='alert']")).toContainText("The local service could not complete the request.");
+});
+
+test("backend error text is rendered as text and cannot inject HTML", async ({ page }) => {
+  await uploadSynthetic(page, "pdf");
+  const untrusted = '<img data-p1-003-injected src=x onerror="document.body.dataset.pwned=\'yes\'">';
+  await page.route("**/backend/api/documents/*/process", async (route) => {
+    const processed = await route.fetch();
+    expect(processed.ok()).toBeTruthy();
+    await route.fulfill({
+      status: 422,
+      contentType: "application/json",
+      body: JSON.stringify({ error: { code: "synthetic_error", message: untrusted } }),
+    });
+  });
+  await page.getByRole("button", { name: "Analyze & Generate Draft" }).click();
+  await expect(page.locator(".error-banner")).toContainText(untrusted);
+  await expect(page.locator("[data-p1-003-injected]")).toHaveCount(0);
+  await expect(page.locator("body")).not.toHaveAttribute("data-pwned", "yes");
 });
 
 test("only the current workflow step exposes aria-current", async ({ page }) => {

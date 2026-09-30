@@ -54,10 +54,16 @@ class DocumentStorage:
             if document_id[0] in "abcdef":
                 return document_id
 
+    @staticmethod
+    def _is_document_id(document_id: str) -> bool:
+        return len(document_id) == 32 and all(
+            ch in "0123456789abcdef" for ch in document_id
+        )
+
     def path_for(self, document_id: str) -> Path:
-        if len(document_id) != 32 or any(ch not in "0123456789abcdef" for ch in document_id):
+        if not self._is_document_id(document_id):
             raise ValueError("Invalid opaque document identifier")
-        candidate = (self.root / document_id).resolve()
+        candidate = self.root / document_id
         if candidate.parent != self.root:
             raise ValueError("Document path escaped storage root")
         return candidate
@@ -129,7 +135,11 @@ class DocumentStorage:
             return removed
         for path in candidates:
             document_id = path.name
-            if not path.is_file() or len(document_id) != 32:
+            if (
+                not self._is_document_id(document_id)
+                or path.is_symlink()
+                or not path.is_file()
+            ):
                 continue
             with self._lock:
                 if document_id in self._active_ids:
