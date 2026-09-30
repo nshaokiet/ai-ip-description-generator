@@ -8,6 +8,7 @@ import tempfile
 import time
 import unittest
 import uuid
+import warnings
 import zipfile
 from pathlib import Path
 from unittest.mock import patch
@@ -303,6 +304,28 @@ class DocumentUploadTests(unittest.TestCase):
                 self.assert_error(response, 422, expected_code)
                 self.assert_storage_empty()
 
+    def test_duplicate_and_case_colliding_docx_members_are_rejected_before_parse(self) -> None:
+        cases = [
+            ("word/document.xml", b"<duplicate/>"),
+            ("WORD/DOCUMENT.XML", b"<case-collision/>"),
+            ("word//document.xml", b"<separator-collision/>"),
+        ]
+        for duplicate_name, duplicate_payload in cases:
+            with self.subTest(duplicate_name=duplicate_name):
+                payload = io.BytesIO()
+                with warnings.catch_warnings():
+                    warnings.simplefilter("ignore", UserWarning)
+                    with zipfile.ZipFile(payload, "w", zipfile.ZIP_DEFLATED) as package:
+                        package.writestr(
+                            "[Content_Types].xml",
+                            CONTENT_TYPES.format(main_type=MAIN_TYPE),
+                        )
+                        package.writestr("word/document.xml", DOCUMENT_XML)
+                        package.writestr(duplicate_name, duplicate_payload)
+                response = self.upload("ambiguous.docx", payload.getvalue(), DOCX_MEDIA_TYPE)
+                self.assert_error(response, 422, "unsafe_docx_package")
+                self.assert_storage_empty()
+
     def test_corrupt_docx_is_rejected(self) -> None:
         response = self.upload("broken.docx", b"PK\x03\x04not-a-zip", DOCX_MEDIA_TYPE)
         self.assert_error(response, 422, "corrupt_docx")
@@ -339,6 +362,23 @@ class DocumentUploadTests(unittest.TestCase):
         body = response.json()
         self.assertEqual("paper.pdf", body["original_filename"])
         self.assertEqual([body["document_id"]], [path.name for path in self.storage_root.iterdir()])
+
+    def test_platform_paths_and_unicode_filename_never_control_storage_path(self) -> None:
+        cases = [
+            (r"C:\private\paper.pdf", "paper.pdf"),
+            (r"\\server\share/mixed\paper.pdf", "paper.pdf"),
+            ("研究資料.pdf", "_.pdf"),
+        ]
+        for filename, expected_display_name in cases:
+            with self.subTest(filename=filename):
+                response = self.upload(filename, synthetic_pdf(), PDF_MEDIA_TYPE)
+                self.assertEqual(201, response.status_code, response.text)
+                body = response.json()
+                self.assertEqual(expected_display_name, body["original_filename"])
+                stored = self.storage_root / body["document_id"]
+                self.assertTrue(stored.is_file())
+                self.assertNotIn("paper.pdf", stored.name)
+                self.assertTrue(self.app.state.document_storage.delete(body["document_id"]))
 
     def test_success_cleanup_ttl_and_active_lease_are_idempotent(self) -> None:
         response = self.upload("paper.pdf", synthetic_pdf(), PDF_MEDIA_TYPE)
@@ -396,6 +436,56 @@ class DocumentUploadTests(unittest.TestCase):
         self.client_context = TestClient(create_app(self.settings))
         self.client = self.client_context.__enter__()
         self.assertFalse(stale_path.exists())
+
+    def test_expiry_sweep_preserves_non_identifier_and_symlink_entries(self) -> None:
+        expired_time = time.time() - self.settings.upload_ttl_seconds
+        sentinel = self.storage_root / ("z" * 32)
+        sentinel.write_bytes(b"unmanaged synthetic sentinel")
+        os.utime(sentinel, (expired_time, expired_time))
+
+        target = self.storage_root / "unmanaged-target"
+        target.write_bytes(b"unmanaged synthetic target")
+        symlink = self.storage_root / ("b" * 32)
+        try:
+            symlink.symlink_to(target)
+        except (OSError, NotImplementedError):
+            symlink = None
+
+        stale_id = "a" * 32
+        stale_path = self.storage_root / stale_id
+        stale_path.write_bytes(b"managed synthetic stale upload")
+        os.utime(stale_path, (expired_time, expired_time))
+
+        self.assertEqual([stale_id], self.app.state.document_storage.sweep_expired())
+        self.assertTrue(sentinel.exists())
+        self.assertTrue(target.exists())
+        if symlink is not None:
+            self.assertTrue(symlink.is_symlink())
+
+    def test_malformed_multipart_is_rejected_without_parser_detail_or_trace(self) -> None:
+        marker = "DO_NOT_REFLECT_MULTIPART_SECRET"
+        response = self.client.post(
+            "/api/documents",
+            content=(f"--broken\r\n{marker}").encode(),
+            headers={"Content-Type": "multipart/form-data; boundary=broken"},
+        )
+        self.assert_error(response, 400, "single_file_required")
+        self.assertNotIn(marker, response.text)
+
+    def test_backend_responses_include_local_security_headers(self) -> None:
+        for response in (
+            self.client.get("/health"),
+            self.upload("unsupported.txt", b"synthetic", "text/plain"),
+        ):
+            with self.subTest(status=response.status_code):
+                self.assertEqual("no-store", response.headers["cache-control"])
+                self.assertEqual("nosniff", response.headers["x-content-type-options"])
+                self.assertEqual("no-referrer", response.headers["referrer-policy"])
+                self.assertEqual("DENY", response.headers["x-frame-options"])
+                self.assertEqual(
+                    "camera=(), geolocation=(), microphone=()",
+                    response.headers["permissions-policy"],
+                )
 
     def test_logs_and_errors_do_not_disclose_content_filename_or_path(self) -> None:
         marker = "DO_NOT_LOG_SYNTHETIC_SECRET"

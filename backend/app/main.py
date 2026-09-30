@@ -29,6 +29,14 @@ from backend.app.services.patent_docx_renderer import PatentDocxRenderer
 
 LOGGER = logging.getLogger(__name__)
 
+LOCAL_SECURITY_HEADERS = {
+    "Cache-Control": "no-store",
+    "Permissions-Policy": "camera=(), geolocation=(), microphone=()",
+    "Referrer-Policy": "no-referrer",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+}
+
 
 def _correlation_id(request: Request) -> str:
     existing = getattr(request.state, "correlation_id", None)
@@ -91,10 +99,12 @@ def create_app(
         application.include_router(local_orchestration_router)
 
     @application.middleware("http")
-    async def add_correlation_id(request: Request, call_next):
+    async def add_local_security_headers(request: Request, call_next):
         correlation_id = _correlation_id(request)
         response = await call_next(request)
         response.headers["X-Correlation-ID"] = correlation_id
+        for name, value in LOCAL_SECURITY_HEADERS.items():
+            response.headers[name] = value
         return response
 
     @application.exception_handler(APIError)
