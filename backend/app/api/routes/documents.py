@@ -38,7 +38,11 @@ async def upload_document(request: Request) -> dict[str, object]:
     storage = request.app.state.document_storage
     validator = request.app.state.document_validator
     registry = request.app.state.document_registry
+    upload_guard = getattr(request.app.state, "document_upload_guard", None)
     storage.sweep_expired()
+
+    if upload_guard is not None:
+        upload_guard.validate_request(request.headers)
 
     try:
         form_context = request.form(
@@ -63,6 +67,14 @@ async def upload_document(request: Request) -> dict[str, object]:
                     declared_mime=upload.content_type,
                 )
                 safe_filename = sanitize_filename(upload.filename)
+                sha256 = compute_sha256(path)
+                if upload_guard is not None:
+                    upload_guard.validate_document(
+                        sample_id=request.headers.get(upload_guard.header_name),
+                        filename=safe_filename,
+                        media_type=result.media_type,
+                        sha256=sha256,
+                    )
                 registry.register(
                     DocumentRecord(
                         document_id=document_id,
@@ -70,7 +82,7 @@ async def upload_document(request: Request) -> dict[str, object]:
                         media_type=result.media_type,
                         size_bytes=size_bytes,
                         page_count=result.page_count,
-                        sha256=compute_sha256(path),
+                        sha256=sha256,
                     )
                 )
             except UploadTooLargeError as exc:
