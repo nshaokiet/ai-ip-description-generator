@@ -5,7 +5,7 @@
 | Field | Value |
 | --- | --- |
 | Task | P1-005 |
-| Status | **CLOSED / COMPLETED — MERGED; CLOSEOUT REVIEW PENDING; MCP TOOL LIMITATION** |
+| Status | **CLOSED / COMPLETED — MERGED; MCP TOOL LIMITATION** |
 | Authorization | `HUMAN-P1-005-OFFLINE-PERFORMANCE-BASELINE-2026-10-01` |
 | Baseline main | `a44d26d895724a254cb5e598047baaed32f7087d` |
 | Branch | `feat/p1-005-offline-performance-baseline` |
@@ -21,7 +21,7 @@
 
 This task establishes a repeatable performance baseline for the existing local/synthetic MVP. It does not set a production service-level objective, prove semantic quality, authorize a provider call, or change prompt/schema/model/runtime policy. The harness removes `OPENAI_API_KEY`, forces both live-test flags to `0`, and blocks non-loopback browser traffic.
 
-Existing limits remain authoritative: upload size is 10 MiB, PDF page count is 50, and OCR is unsupported. BLK-003 remains OPEN; EVAL-001 PRODUCT_RUNTIME remains DEFERRED — AWAITING FUNDING; P1-006 and DEPLOY-001 remain PLANNED / NOT AUTHORIZED.
+Existing limits remain authoritative: upload size is 10 MiB, PDF page count is 50, and OCR is unsupported. BLK-003 remains OPEN; EVAL-001 PRODUCT_RUNTIME remains DEFERRED — AWAITING FUNDING; P1-006 is separately authorized under `HUMAN-P1-006-UX-POLISH-2026-10-01`; DEPLOY-001 remains NOT AUTHORIZED.
 
 ## Developer command
 
@@ -106,7 +106,10 @@ Implementation review and merge evidence:
 - Final review-head CI `36808292952`: **SUCCESS** with backend **443 passed / 2 skipped**, `pip check` **PASS**, frontend lint/typecheck/build **PASS**, Playwright **18 passed**, live flags **0 / 0**, provider/API calls **NONE**.
 - PR #48 merged at `3641c7ed91636d8480226d931b719cdcf28b17e0`.
 - Push/main CI `36809603707`: **SUCCESS** on the exact merge SHA with backend **443 passed / 2 skipped**, `pip check` **PASS**, frontend lint/typecheck/build **PASS**, Playwright **18 passed**, live flags **0 / 0**, provider/API calls **NONE**.
-- Git/governance implementation status: **CLOSED / COMPLETED — MERGED**; documentation-only governance closeout review remains pending.
+- Governance closeout reviewed SHA `2765dde0eaa99e9d8d9f989876d1310b1843424e`: Gemini 3.1 Pro High **PASS**, findings **NONE**, reviewer modified tracked files **NO**.
+- Closeout PR #49 merged at `90ead2c0f26f17c617cfa71e6d7b3d16808d46e1`.
+- Final push/main CI `36811043597`: **SUCCESS** on the exact merge SHA; dependency consistency, backend offline regression, frontend lint/typecheck/build and synthetic browser E2E all completed successfully.
+- Git/governance status: **CLOSED / COMPLETED — MERGED; MCP TOOL LIMITATION**.
 - MCP remains `PLANNED` / **BLOCKED BY TOOL CAPABILITY**; no MCP `IMPLEMENTED` or `COMPLETED` state is fabricated.
 
 ## Safety and handoff
@@ -116,5 +119,5 @@ Implementation review and merge evidence:
 - Production/deployment/auth/storage/retention changes: **NONE**.
 - Real/confidential/unpublished data: **NONE**.
 - Claims changes: **NONE**.
-- Next gate: **GEMINI 3.1 PRO HIGH FIXED-SHA GOVERNANCE CLOSEOUT REVIEW** of the documentation-only closeout PR.
-- Do not merge the closeout PR before that review returns PASS on its exact head SHA.
+- P1-005 has no remaining Git/review/CI gate.
+- P1-006 is a separate Human-authorized task and does not alter the P1-005 performance-baseline contract.
