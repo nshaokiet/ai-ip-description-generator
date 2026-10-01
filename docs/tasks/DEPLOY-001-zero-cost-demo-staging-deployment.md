@@ -2,12 +2,12 @@
 
 | Field | Value |
 |---|---|
-| Version | 0.1.0 |
-| Status | **PLANNED — IMPLEMENTATION NOT AUTHORIZED** |
-| Owner | Unassigned |
-| Baseline | `166691bcdcb84636f02c3cd24631a5ad51fe3c44` |
+| Version | 0.2.0 |
+| Status | **AUTHORIZED — PLATFORM DECISION REQUIRED BEFORE CODE/DEPLOY** |
+| Owner | ChatGPT/Codex under AGENTS.md standing delegation |
+| Baseline | `ed16fbc24d0ee06d7c2294a49bf243a448e6df87` |
 | Human roadmap registration | `HUMAN-DEPLOY-001-ROADMAP-REGISTRATION-2026-09-29` |
-| Implementation authorization | **NOT GRANTED** |
+| Implementation authorization | **GRANTED** — `HUMAN-DEPLOY-001-IMPLEMENTATION-2026-10-01` |
 | Independent reviewer | Gemini 3.1 Pro High when implementation is authorized |
 | Project classification | **MVP COMPLETE — LOCAL/SYNTHETIC** |
 
@@ -43,7 +43,7 @@ Any platform selection, paid service, security-policy change, real-data use, or 
 
 Roadmap position: after P1-006 for a polished public demo.
 
-This is a recommendation only, not a hard technical dependency. DEPLOY-001 remains independently PLANNED until explicitly authorized.
+This sequencing recommendation is now satisfied. DEPLOY-001 implementation is Human-authorized under `HUMAN-DEPLOY-001-IMPLEMENTATION-2026-10-01`, but code/deploy work remains blocked until the Human selects the hosting platform as required by the scope boundary.
 
 ## Future implementation acceptance criteria
 
@@ -64,12 +64,24 @@ When implementation is separately authorized, it should demonstrate all of the f
 
 ## Current blockers / prerequisites
 
-- Implementation authorization: **NOT GRANTED**.
-- Hosting platform: **TBD — Human decision required before implementation**.
+- Implementation authorization: **GRANTED** under `HUMAN-DEPLOY-001-IMPLEMENTATION-2026-10-01`.
+- Hosting platform: **TBD — Section 19 Human decision required before code/deploy implementation**.
 - BLK-003: **OPEN**; does not block a synthetic/demo-only staging design, but blocks production/real-data use.
 - Provider authorization: **NOT GRANTED**; budget **0**.
 - EVAL-001 PRODUCT_RUNTIME: **DEFERRED — AWAITING FUNDING**.
 
 ## Current state
 
-Task registration only. No deployment configuration, public URL, provider call, platform selection, production approval or real-data authorization is created by this document.
+DEPLOY-001 is **AUTHORIZED — PLATFORM DECISION REQUIRED BEFORE CODE/DEPLOY**. Governance preparation may proceed on `feat/deploy-001-demo-staging`, but no platform-specific deployment configuration, public URL, provider call, production approval or real-data authorization is created until the Human explicitly selects a hosting platform.
+
+Authorization scope remains limited to a zero-cost synthetic/demo-only staging deployment. The authorization does not approve production, paid services, provider/API calls, real/confidential research data, BLK-003 closure, Claims, or EVAL-001 PRODUCT_RUNTIME.
+
+
+## Authorization record — 01/10/2026
+
+- Human instruction: continue with the next roadmap task after P1-006 closeout.
+- Authorization reference: `HUMAN-DEPLOY-001-IMPLEMENTATION-2026-10-01`.
+- Authorized baseline: `ed16fbc24d0ee06d7c2294a49bf243a448e6df87`.
+- Implementation branch: `feat/deploy-001-demo-staging`.
+- Platform selection remains a separate Section 19 Human decision and is **not inferred** from this authorization.
+- No deployment code/configuration has been created at this authorization checkpoint.
