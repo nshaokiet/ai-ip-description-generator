@@ -1,19 +1,15 @@
-import type { WorkflowState } from "@/lib/types/contracts";
+import type { WorkflowPhase } from "@/lib/types/contracts";
 
 const STEPS = [
-  { key: "upload", label: "Upload", description: "Validate source document" },
-  { key: "process", label: "Process", description: "Analyze and generate draft" },
-  { key: "review", label: "Review & export", description: "Inspect grounded output" },
+  { key: "upload", label: "Upload", description: "Choose and check source" },
+  { key: "analyze", label: "Analyze", description: "Generate grounded draft" },
+  { key: "review", label: "Review / Edit", description: "Inspect and revise prose" },
+  { key: "validate", label: "Validate", description: "Check the exact revision" },
+  { key: "export", label: "Export", description: "Download editable DOCX" },
 ] as const;
 
-function activeIndex(state: WorkflowState): number {
-  if (state === "IDLE" || state === "UPLOADING") return 0;
-  if (state === "UPLOADED" || state === "PROCESSING") return 1;
-  return 2;
-}
-
-export function WorkflowProgress({ state }: { state: WorkflowState }) {
-  const current = activeIndex(state);
+export function WorkflowProgress({ phase }: { phase: WorkflowPhase }) {
+  const current = STEPS.findIndex((step) => step.key === phase);
   return (
     <nav className="workflow-progress" aria-label="Document workflow">
       <ol>

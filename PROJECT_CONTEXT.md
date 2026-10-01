@@ -8,13 +8,13 @@
 |---|---|
 | Document ID | SPEC-002 |
 | Document title | Project Context — AI Intellectual Property Description Generator |
-| Version | 0.4.19 |
+| Version | 0.4.20 |
 | Status | Approved baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT |
 | Reviewer | Human / Product Owner |
 | Created date | 18/09/2026 |
-| Last updated | 29/09/2026 |
+| Last updated | 01/10/2026 |
 | Related task ID | SPEC-002 |
 | Source of Truth | GitHub — `PROJECT_CONTEXT.md` |
 | Confidentiality level | Internal; research inputs are Confidential by default |
@@ -67,6 +67,7 @@
 | 0.4.16 | 0.4.17 | 29/09/2026 | ChatGPT | Record P0-010 independent final closeout PASS, Human-approved PR #30 merge and successful main CI; finalize bounded local/synthetic MVP classification | Post-merge final project governance reconciliation; no semantic/provider/production approval | P0-010, REV-P0-010-FINAL-CLOSEOUT, PR #30, merge `9f31dae104438a598b0fe3c9bd09aba005f9026c`, CI `36526457334`, DEC-021; BLK-003 OPEN | No |
 | 0.4.17 | 0.4.18 | 29/09/2026 | ChatGPT | Record P1-001 independent review PASS/findings NONE, Human-approved PR #33 merge and successful final main CI | Post-MVP zero-cost accessibility/type-safety hardening closeout; preserve provider/semantic/production boundaries | P1-001, REV-P1-001-IMPLEMENTATION, DEC-022, merge `56d7217c0f09fe591585cb298e0b4df0c92f8aa4`, CI `36536768516`; BLK-003 OPEN | No |
 | 0.4.18 | 0.4.19 | 29/09/2026 | ChatGPT | Register DEPLOY-001 as a planned zero-cost demo/staging deployment task with synthetic/demo-only public URL boundary | Make public-demo work explicit without granting production, provider, platform or real-data authorization | HUMAN-DEPLOY-001-ROADMAP-REGISTRATION-2026-09-29; baseline `166691bcdcb84636f02c3cd24631a5ad51fe3c44`; BLK-003 OPEN | No |
+| 0.4.19 | 0.4.20 | 01/10/2026 | ChatGPT | Record final P1-005 closeout PASS/merge/CI and Human authorization of P1-006 UX Polish | Reconcile current Post-MVP task state before P1-006 implementation | P1-005 closeout reviewed `2765dde0eaa99e9d8d9f989876d1310b1843424e`, merge `90ead2c0f26f17c617cfa71e6d7b3d16808d46e1`, CI `36811043597`; `HUMAN-P1-006-UX-POLISH-2026-10-01`; BLK-003 OPEN | No |
 
 ## 2. Project name
 
@@ -373,7 +374,7 @@ Project Orchestrator MCP là lớp điều phối dùng chung giữa VS Code/Cod
 ## 28. Recommended next action
 
 1. P1-001 — **CLOSED / COMPLETED — MERGED** via PR #33 at `56d7217c0f09fe591585cb298e0b4df0c92f8aa4`; Gemini 3.1 Pro High targeted implementation review **PASS**, findings **NONE**; final main CI [`36536768516`](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/36536768516) **SUCCESS**: backend 408 passed/2 skipped, pip check/lint/typecheck/build PASS, Playwright 15 passed, live flags 0/0. Project classification remains **MVP COMPLETE — LOCAL/SYNTHETIC**.
-2. P1-002 through P1-006 remain **PLANNED** and require separate Human authorization; no later Post-MVP task is active by implication.
+2. P1-002 through P1-005 are **CLOSED / COMPLETED** in Git/governance (P1-003…P1-005 retain documented MCP tool limitations where applicable). P1-006 is **AUTHORIZED FOR IMPLEMENTATION** under `HUMAN-P1-006-UX-POLISH-2026-10-01` from baseline `90ead2c0f26f17c617cfa71e6d7b3d16808d46e1`; branch `feat/p1-006-ux-polish`; implementation/review/merge evidence is not yet claimed.
 3. EVAL-001 PRODUCT_RUNTIME remains **DEFERRED — AWAITING FUNDING**, evidence NONE, semantic acceptance NOT_DETERMINED; provider authorization NOT GRANTED / budget 0. BLK-003 remains OPEN; no production/real-confidential-data/public-deployment approval.
 
 AI-002 được merge với implementation commit `f8772b228a23bf7cdec10fa0c463e6d1f672c341` và governance commit `9f2a78b1396cdadb747c263a2bbbbacb8d7f4292`; Gemini review `PASS`, không có finding, AI-001 regression 15/15 và AI-002 tests 17/17 pass. AI-002 tự thân không chứng minh Responses API hoặc live-model integration; provider adapter/runtime sau đó được Human phê duyệt riêng trong AI-RUNTIME-001. Claims vẫn nằm ngoài Output Schema và Extraction Prompt v1.0.0.

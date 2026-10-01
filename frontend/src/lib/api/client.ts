@@ -41,10 +41,21 @@ function fallbackMessage(status: number): string {
   if (status === 413) return "The selected file exceeds the 10 MiB limit.";
   if (status === 415) return "Select a supported PDF or DOCX document.";
   if (status === 422) return "The submitted data could not be validated.";
-  if (status === 429) return "The AI provider is temporarily rate limited. Try again later.";
+  if (status === 429) return "The local service is temporarily rate limited. Try again later.";
   if (status === 504) return "Processing timed out. Start again with a new document.";
   if (status >= 500) return "The local service could not complete the request.";
   return "The request could not be completed.";
+}
+
+function safeServerMessage(value: unknown, status: number): string {
+  if (typeof value !== "string") return fallbackMessage(status);
+  const message = value.trim();
+  const exposesInternalDetail =
+    message.length > 500 ||
+    /\b(?:provider|openai|api[_ -]?key|traceback|stack trace)\b/i.test(message) ||
+    /\b[A-Za-z]:\\/.test(message) ||
+    /\/(?:Users|home|var|tmp|etc)\//i.test(message);
+  return !message || exposesInternalDetail ? fallbackMessage(status) : message;
 }
 
 async function toApiError(response: Response): Promise<ApiClientError> {
@@ -59,10 +70,7 @@ async function toApiError(response: Response): Promise<ApiClientError> {
   return new ApiClientError({
     status: response.status,
     code: typeof candidate?.code === "string" ? candidate.code : "request_failed",
-    message:
-      typeof candidate?.message === "string"
-        ? candidate.message
-        : fallbackMessage(response.status),
+    message: safeServerMessage(candidate?.message, response.status),
     correlation_id:
       typeof candidate?.correlation_id === "string"
         ? candidate.correlation_id
