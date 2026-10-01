@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.41 |
+| Version | 0.3.42 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -79,6 +79,7 @@
 | 0.3.38 | 0.3.39 | 01/10/2026 | Codex | Reconcile P1-005 exact executable SHA and successful PR CI before independent review | Remove stale CI-pending wording while preserving review, merge, MCP, provider and production gates | P1-005 implementation `e4db6b231bf99b3227f6a3e331479356cbcd869e`; PR #48; CI `36807093817` SUCCESS; Gemini review pending; BLK-003 OPEN | No |
 | 0.3.39 | 0.3.40 | 01/10/2026 | ChatGPT | Record P1-005 fixed-SHA implementation PASS/findings NONE, PR #48 merge and successful implementation main CI; hand off documentation-only governance closeout | Reconcile verified implementation evidence without fabricating MCP state or authorizing P1-006/DEPLOY-001 | P1-005, REV-P1-005-IMPLEMENTATION, reviewed `2c3e03ed8faf7bb929cfe38e7131108c6f57426b`, merge `3641c7ed91636d8480226d931b719cdcf28b17e0`, CI `36809603707`; MCP PLANNED / BLOCKED BY TOOL CAPABILITY; BLK-003 OPEN | No |
 | 0.3.40 | 0.3.41 | 01/10/2026 | ChatGPT | Record P1-005 governance closeout PASS/merge/final CI and Human authorization of P1-006 UX Polish | Reconcile final P1-005 evidence and open the next task without widening production/provider/data scope | REV-P1-005-CLOSEOUT reviewed `2765dde0eaa99e9d8d9f989876d1310b1843424e`; PR #49 merge `90ead2c0f26f17c617cfa71e6d7b3d16808d46e1`; CI `36811043597` SUCCESS; `HUMAN-P1-006-UX-POLISH-2026-10-01`; BLK-003 OPEN | No |
+| 0.3.41 | 0.3.42 | 01/10/2026 | Codex | Record P1-006 implementation and successful executable-SHA PR CI; hand off fixed-SHA independent review | Reconcile verified UX/test evidence without claiming review, merge, production readiness or DEPLOY-001 authorization | P1-006 executable `78772761f9a4081686db4977547ea89c96288f27`; PR #50; CI `36831688815` SUCCESS; Gemini fixed-SHA review pending; BLK-003 OPEN | No |
 
 ## 2. Project
 
@@ -113,6 +114,8 @@ P1-004 is **CLOSED / COMPLETED — MERGED WITH MCP TOOL LIMITATION**. Implementa
 
 P1-005 is **CLOSED / COMPLETED — MERGED; MCP TOOL LIMITATION**. Human authorization `HUMAN-P1-005-OFFLINE-PERFORMANCE-BASELINE-2026-10-01` produced executable SHA `e4db6b231bf99b3227f6a3e331479356cbcd869e`; final implementation review head `2c3e03ed8faf7bb929cfe38e7131108c6f57426b` received Gemini 3.1 Pro High **PASS**, findings **NONE**. PR #48 merged at `3641c7ed91636d8480226d931b719cdcf28b17e0`; implementation main CI `36809603707` succeeded. Documentation-only closeout SHA `2765dde0eaa99e9d8d9f989876d1310b1843424e` also received Gemini 3.1 Pro High **PASS**, findings **NONE**; PR #49 merged at `90ead2c0f26f17c617cfa71e6d7b3d16808d46e1`; final push/main CI `36811043597` succeeded on that exact merge. MCP remains `PLANNED` / **BLOCKED BY TOOL CAPABILITY**, so no unsupported MCP completion state is fabricated.
 
+P1-006 is **IMPLEMENTED — REVIEW PENDING** under `HUMAN-P1-006-UX-POLISH-2026-10-01`. Executable implementation `78772761f9a4081686db4977547ea89c96288f27` is on PR #50; exact-SHA PR CI `36831688815` succeeded with backend 443 passed / 2 skipped, Python dependency consistency, frontend lint/typecheck/build PASS and synthetic Playwright 19 passed. The final documentation-reconciled PR head still requires its own successful CI and Gemini 3.1 Pro High / Antigravity fixed-SHA read-only review. No provider/API call, production/deployment, real/confidential data, Claims, prompt/schema/model/runtime-policy or backend/DOCX semantic change occurred. MCP remains `PLANNED` / **BLOCKED BY TOOL CAPABILITY** because the public tool exposes no approval transition for the recorded Human authorization.
+
 ## 6. Current Objective
 
 - Preserve the finalized **MVP COMPLETE — LOCAL/SYNTHETIC** boundary after
@@ -124,7 +127,7 @@ P1-005 is **CLOSED / COMPLETED — MERGED; MCP TOOL LIMITATION**. Human authoriz
 - Keep production, public deployment and real/confidential-data approval
   separate from this limited handover classification.
 - Preserve the completed P1-005 implementation/closeout evidence and explicit MCP tool limitation.
-- Execute Human-authorized P1-006 UX Polish from baseline `90ead2c0f26f17c617cfa71e6d7b3d16808d46e1` under `HUMAN-P1-006-UX-POLISH-2026-10-01`, without widening provider, production, data, Claims, prompt/schema/model or DEPLOY-001 scope.
+- Hold P1-006 at **IMPLEMENTED — REVIEW PENDING** after executable SHA `78772761f9a4081686db4977547ea89c96288f27` and PR CI `36831688815` SUCCESS; require final-head CI and fixed-SHA Gemini 3.1 Pro High / Antigravity review before any merge action.
 
 SPEC-001/002/003, schema, prompts and DOCX template retain their previously
 approved versions/contracts; this task does not re-approve or redesign them.
@@ -224,7 +227,7 @@ APP-002 capability boundary: `Validated PDF/DOCX → deterministic text/table pa
 | P1-003 | Local Security Hardening | Codex | Gemini 3.1 Pro High | Post-MVP local/synthetic hardening | **CLOSED / COMPLETED — MERGED; MCP TOOL LIMITATION** | PR #42 merge `3fa1519ee31f6d2b3d6ffc7dbdc39ff56462e966`; closeout reviewed `4ccb9ba5cb4f088f3568f182fe5eb03b381d4a05` PASS/NONE; PR #43 merge `8bd677475c5791f1947319f9e084fe455d19b421`; final CI `36681005158` SUCCESS; MCP IMPLEMENTED / BLOCKED BY TOOL CAPABILITY | 30/09/2026 |
 | P1-004 | Developer Experience / One-command Local Run | Codex | Gemini 3.1 Pro High | Post-MVP local/synthetic DevEx | **CLOSED / COMPLETED — MERGED; MCP TOOL LIMITATION** | PR #45 merge `76b33b436c6408b1076a1ec97fda5a700517cd5d`; closeout reviewed `5fe704f927cc978f44550ff28bb23bb8c01e4db6` PASS/NONE; PR #46 merge `8d69bef5e1fe30b8a48d706d5a345be61639a963`; final CI `36732793377` SUCCESS; MCP IMPLEMENTED / BLOCKED BY TOOL CAPABILITY | 30/09/2026 |
 | P1-005 | Offline Performance Baseline | ChatGPT/Codex | Gemini 3.1 Pro High | Post-MVP local/synthetic measurement | **CLOSED / COMPLETED — MERGED; MCP TOOL LIMITATION** | Implementation reviewed `2c3e03ed8faf7bb929cfe38e7131108c6f57426b` PASS/NONE; PR #48 merge `3641c7ed91636d8480226d931b719cdcf28b17e0`; closeout reviewed `2765dde0eaa99e9d8d9f989876d1310b1843424e` PASS/NONE; PR #49 merge `90ead2c0f26f17c617cfa71e6d7b3d16808d46e1`; final CI `36811043597` SUCCESS; MCP PLANNED / BLOCKED BY TOOL CAPABILITY | 01/10/2026 |
-| P1-006 | UX Polish | Codex | Gemini 3.1 Pro High / Antigravity read-only | Post-MVP local/synthetic UX hardening | **AUTHORIZED FOR IMPLEMENTATION — SPECIFICATION CREATED** | `HUMAN-P1-006-UX-POLISH-2026-10-01`; baseline `90ead2c0f26f17c617cfa71e6d7b3d16808d46e1`; branch `feat/p1-006-ux-polish`; no implementation/review/merge evidence claimed yet | 01/10/2026 |
+| P1-006 | UX Polish | Codex | Gemini 3.1 Pro High / Antigravity read-only | Post-MVP local/synthetic UX hardening | **IMPLEMENTED — REVIEW PENDING** | Executable `78772761f9a4081686db4977547ea89c96288f27`; PR #50; CI `36831688815` SUCCESS; final-head fixed-SHA review pending; MCP PLANNED / BLOCKED BY TOOL CAPABILITY | 01/10/2026 |
 | DEPLOY-001 | Zero-cost synthetic demo/staging roadmap | Human decision pending | — | Separate deployment decision | **PLANNED — IMPLEMENTATION NOT AUTHORIZED** | No public URL, production approval, real/confidential data or paid provider call | Post-MVP |
 | EVAL-001 | Semantic Quality Evaluation — framework/gold merged; PRODUCT_RUNTIME deferred | GPT-6 Sol | Gemini 3.1 Pro High | Post-MVP — AWAITING FUNDING; no active runtime work | Framework/gold reviews PASS/findings NONE; corpus/gold 6/6 HUMAN_ACCEPTED; baseline MERGED; PRODUCT_RUNTIME DEFERRED; product evidence NONE; semantic acceptance NOT_DETERMINED, not PASS/Completed | Frozen product `37d42fc8b07003aa2a67f2d1d32e64e69eb0ddb5`; PR #29 merge `2caf3e6c698745a1c2b09d5605e8fba955bca2f9`; DEC-020; provider NOT GRANTED/budget 0; BLK-003 OPEN | Post-MVP Human funding decision |
 
@@ -521,7 +524,7 @@ Human đã phê duyệt ADR-006 và Output Schema v1.0.0 cho AI-001, sau đó me
 2. P1-003 is **COMPLETED WITH MCP TOOL LIMITATION** via implementation PR #42 and governance closeout PR #43; final main CI `36681005158` SUCCESS. MCP remains `IMPLEMENTED` because transition/checkpoint is **BLOCKED BY TOOL CAPABILITY**.
 3. P1-004 is **CLOSED / COMPLETED — MERGED WITH MCP TOOL LIMITATION** via implementation PR #45 and governance closeout PR #46; final main CI `36732793377` SUCCESS. MCP remains `IMPLEMENTED` because completion is **BLOCKED BY TOOL CAPABILITY**.
 4. P1-005 is **CLOSED / COMPLETED — MERGED; MCP TOOL LIMITATION** after implementation PR #48 and governance closeout PR #49; closeout reviewed SHA `2765dde0eaa99e9d8d9f989876d1310b1843424e` PASS/NONE; final merge/main `90ead2c0f26f17c617cfa71e6d7b3d16808d46e1`; final CI `36811043597` SUCCESS.
-5. P1-006 is **AUTHORIZED FOR IMPLEMENTATION — SPECIFICATION CREATED** under `HUMAN-P1-006-UX-POLISH-2026-10-01`; implementation branch `feat/p1-006-ux-polish`. Next gate: implement/test, obtain successful PR CI on final head, then fixed-SHA Gemini 3.1 Pro High / Antigravity read-only review.
+5. P1-006 is **IMPLEMENTED — REVIEW PENDING** under `HUMAN-P1-006-UX-POLISH-2026-10-01`; executable SHA `78772761f9a4081686db4977547ea89c96288f27`, PR #50 and CI `36831688815` SUCCESS are recorded. Next gate: successful CI on the final documentation-reconciled head, then Gemini 3.1 Pro High / Antigravity fixed-SHA read-only review. Do not merge before PASS/findings NONE.
 6. DEPLOY-001 — **PLANNED — implementation not authorized**. Function: create a zero-cost demo/staging deployment and public HTTPS demo URL for synthetic/demo data only. It does not authorize a hosting platform, provider/API spend, production release, real/confidential data, or BLK-003 closure. Recommended after P1-006 for a polished demo, but no hard technical dependency is recorded.
 7. EVAL-001 PRODUCT_RUNTIME remains **DEFERRED — AWAITING FUNDING** with evidence NONE and semantic acceptance NOT_DETERMINED; provider authorization NOT GRANTED / budget 0. BLK-003 remains OPEN and blocks production/real-data use. Production deployment remains NOT APPROVED / NOT PERFORMED.
 

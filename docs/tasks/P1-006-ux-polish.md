@@ -5,7 +5,7 @@
 | Field | Value |
 | --- | --- |
 | Task | P1-006 |
-| Status | **AUTHORIZED FOR IMPLEMENTATION — HANDOFF READY** |
+| Status | **IMPLEMENTED — REVIEW PENDING** |
 | Authorization | `HUMAN-P1-006-UX-POLISH-2026-10-01` |
 | Baseline main | `90ead2c0f26f17c617cfa71e6d7b3d16808d46e1` |
 | Branch | `feat/p1-006-ux-polish` |
@@ -191,16 +191,62 @@ Escalate to the Human / Product Owner before the affected work if P1-006 would r
 
 Routine implementation, test, commit, push, PR, in-scope remediation, merge after eligible PASS, and post-merge closeout remain covered by AGENTS.md standing delegation.
 
-## Initial handoff state
+## Implementation evidence
 
 - Human authorization: **GRANTED** under `HUMAN-P1-006-UX-POLISH-2026-10-01`.
 - Baseline main: `90ead2c0f26f17c617cfa71e6d7b3d16808d46e1`.
 - Branch: `feat/p1-006-ux-polish`.
-- Governance reconciliation: **COMPLETE** on the task branch before code handoff; current repository docs record P1-005 final closeout and P1-006 authorization.
-- Implementation: **NOT STARTED** at code handoff.
-- Independent review: **NOT STARTED**.
-- PR: **NOT OPENED**.
-- CI evidence for P1-006 implementation: **NONE YET**.
+- Executable implementation SHA: `78772761f9a4081686db4977547ea89c96288f27`.
+- PR: #50.
+- Exact executable-SHA PR CI: `36831688815` — **SUCCESS**.
+- Local backend regression: **442 passed / 3 skipped / 1 third-party deprecation warning**.
+- PR CI backend regression: **443 passed / 2 skipped**.
+- Python dependency consistency: **PASS**.
+- Frontend lint: **PASS**.
+- Frontend typecheck: **PASS**.
+- Frontend production build: **PASS**.
+- Synthetic Playwright: **19 passed** locally and in PR CI.
+- Live flags: `RUN_OPENAI_LIVE_TESTS=0`; `RUN_OPENAI_DRAFT_LIVE_TESTS=0`.
+- Provider/API calls: **NONE**.
+- Independent review: **PENDING** on the final PR head after this governance reconciliation.
+
+### Acceptance-criteria gap matrix
+
+| AC | Pre-implementation gap | Implemented evidence | State |
+| --- | --- | --- | --- |
+| AC-01 | Existing 390 px coverage did not exercise the new five-stage treatment and all guarded operations. | Responsive five-stage progress CSS plus the retained 390 px edit/validate/export/error regression. | PASS |
+| AC-02 | Button disabling depended on rerender timing; upload/export/validation feedback was uneven. | Immediate in-flight refs guard upload, process, validation and export; controls expose disabled and `aria-busy` state; operation callouts use live status semantics. | PASS |
+| AC-03 | A JSON error message could disclose provider or internal path/stack details. | Client redacts provider, API-key, stack/trace and common internal-path patterns to safe local fallbacks; regression verifies provider/path text is absent. | PASS |
+| AC-04 | Existing recovery behavior needed preservation. | Invalid upload retains document selection recovery; process failure clears the consumed source and requires re-upload. | PASS |
+| AC-05 | Existing export recovery needed preservation. | Failed export creates no download, retains exact validated revision, and keeps `Return to results` retry flow. | PASS |
+| AC-06 | Validation preserved context but lacked a direct recovery action. | Validation error retains the selected revision and exposes `Edit this revision`; regression uses that path. | PASS |
+| AC-07 | Progress collapsed the intended sequence into three steps. | Visible `Upload → Analyze → Review / Edit → Validate → Export` progress with current/completed/upcoming semantics. | PASS |
+| AC-08 | Existing keyboard and focus behavior needed preservation. | Roving tabs, keyboard-only workflow, focus-visible styling and error-heading focus remain covered. | PASS |
+| AC-09 | Contract preservation required audit. | No backend, prompt, schema, model, runtime-policy, validation-rule or DOCX semantic change. | PASS |
+| AC-10 | Safety notices required preservation. | Human-review, not-legal-advice and not-filing-ready wording remains in hero, draft and footer. | PASS |
+| AC-11 | No deterministic duplicate-request test covered all four operations. | Controlled route promises verify one request, explicit busy state and duplicate blocking without fixed sleeps. | PASS |
+| AC-12 | Final local and PR quality evidence was pending. | Local gates pass; PR CI `36831688815` succeeded on the executable implementation SHA. | PASS |
+| AC-13 | Independent fixed-SHA review not yet performed. | Final PR head will be handed to Gemini 3.1 Pro High / Antigravity after the documentation commit and exact-head CI. | PENDING |
+
+### Implementation changed files
+
+- `frontend/src/app/page.tsx`
+- `frontend/src/app/globals.css`
+- `frontend/src/components/UploadPanel.tsx`
+- `frontend/src/components/WorkflowProgress.tsx`
+- `frontend/src/components/ResultWorkspace.tsx`
+- `frontend/src/lib/api/client.ts`
+- `frontend/src/lib/types/contracts.ts`
+- `frontend/e2e/integration.spec.ts`
+- `frontend/e2e/performance.spec.ts`
+- `frontend/playwright.config.ts`
+
+## Current handoff state
+
+- P1-006: **IMPLEMENTED — REVIEW PENDING**.
+- The governance reconciliation commit is documentation-only and does not change the executable implementation recorded above.
 - BLK-003 remains **OPEN**.
 - DEPLOY-001 remains **NOT AUTHORIZED**.
+- EVAL-001 PRODUCT_RUNTIME remains **DEFERRED — AWAITING FUNDING**.
 - Production deployment remains **NOT APPROVED / NOT PERFORMED**.
+- Next gate: successful CI on the final exact PR head, then Gemini 3.1 Pro High / Antigravity fixed-SHA read-only implementation review.
