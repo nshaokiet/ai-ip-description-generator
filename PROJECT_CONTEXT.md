@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | SPEC-002 |
 | Document title | Project Context — AI Intellectual Property Description Generator |
-| Version | 0.4.22 |
+| Version | 0.4.23 |
 | Status | Approved baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT |
@@ -70,6 +70,7 @@
 | 0.4.19 | 0.4.20 | 01/10/2026 | ChatGPT | Record final P1-005 closeout PASS/merge/CI and Human authorization of P1-006 UX Polish | Reconcile current Post-MVP task state before P1-006 implementation | P1-005 closeout reviewed `2765dde0eaa99e9d8d9f989876d1310b1843424e`, merge `90ead2c0f26f17c617cfa71e6d7b3d16808d46e1`, CI `36811043597`; `HUMAN-P1-006-UX-POLISH-2026-10-01`; BLK-003 OPEN | No |
 | 0.4.20 | 0.4.21 | 01/10/2026 | ChatGPT | Record P1-006 implementation PASS/merge/main-CI, governance closeout PASS/merge and successful final main CI | Final post-MVP UX task reconciliation without widening provider, production, data or deployment scope | P1-006 implementation reviewed `59c65deec60ae80e3ba6d28220466c2bdbfed815`, merge `659e46fa80321e037f384e0e8a09bbe90646da35`; closeout reviewed `d46a7101d8aefedd14ece29db50c8f3b00ebbde9`, merge `829c83130c6eb6018897cd5a8f62332408193142`; final CI `36834543602`; BLK-003 OPEN | No |
 | 0.4.21 | 0.4.22 | 01/10/2026 | ChatGPT | Record Human authorization of DEPLOY-001 implementation while retaining the separate hosting-platform decision gate | Open the next roadmap task after P1-006 without inferring a platform, production, provider or real-data approval | `HUMAN-DEPLOY-001-IMPLEMENTATION-2026-10-01`; baseline `ed16fbc24d0ee06d7c2294a49bf243a448e6df87`; branch `feat/deploy-001-demo-staging`; BLK-003 OPEN | No |
+| 0.4.22 | 0.4.23 | 01/10/2026 | ChatGPT | Record Human selection of Render for DEPLOY-001 and hand off platform-specific implementation | Resolve the Section 19 platform gate without widening zero-cost synthetic/demo boundaries | `HUMAN-DEPLOY-001-PLATFORM-RENDER-2026-10-01`; Render; branch `feat/deploy-001-demo-staging`; BLK-003 OPEN | No |
 
 ## 2. Project name
 
@@ -154,7 +155,7 @@ Pipeline MVP ưu tiên một paper cho một hồ sơ. Nội dung thiếu không
 | Retrieval | Không dùng trong Extraction Runtime v1 hoặc Draft Runtime v1 | AI-RUNTIME-001/AI-RUNTIME-002 chỉ dùng input envelopes; task tương lai cần approval riêng |
 | Database | Supabase/PostgreSQL | Optional/MVP+ hoặc khi được phê duyệt |
 | DOCX | `docxtpl==0.20.2`, `python-docx==1.2.0` | Patent DOCX Template v1.0.0 — Completed — Merged via PR #7 |
-| Demo/staging deployment | Platform TBD | DEPLOY-001 **AUTHORIZED — PLATFORM DECISION REQUIRED BEFORE CODE/DEPLOY** under `HUMAN-DEPLOY-001-IMPLEMENTATION-2026-10-01`; zero-cost public demo URL, synthetic/demo data only; platform selection remains separate Human approval |
+| Demo/staging deployment | Render | DEPLOY-001 **AUTHORIZED — RENDER SELECTED; IMPLEMENTATION HANDOFF READY** under `HUMAN-DEPLOY-001-IMPLEMENTATION-2026-10-01` and `HUMAN-DEPLOY-001-PLATFORM-RENDER-2026-10-01`; zero-cost public demo URL, synthetic/demo data only |
 | Production deployment | Platform TBD | **NOT APPROVED / NOT PERFORMED**; requires SEC-001/BLK-003 resolution, real-data/security acceptance and separate Human approval |
 | Version control | GitHub | Technical Source of Truth |
 
