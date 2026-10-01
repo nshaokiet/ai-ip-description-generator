@@ -5,7 +5,7 @@
 | Field | Value |
 | --- | --- |
 | Task | P1-006 |
-| Status | **IMPLEMENTED — REVIEW PENDING** |
+| Status | **CLOSED / COMPLETED — MERGED; CLOSEOUT REVIEW PENDING; MCP TOOL LIMITATION** |
 | Authorization | `HUMAN-P1-006-UX-POLISH-2026-10-01` |
 | Baseline main | `90ead2c0f26f17c617cfa71e6d7b3d16808d46e1` |
 | Branch | `feat/p1-006-ux-polish` |
@@ -208,7 +208,11 @@ Routine implementation, test, commit, push, PR, in-scope remediation, merge afte
 - Synthetic Playwright: **19 passed** locally and in PR CI.
 - Live flags: `RUN_OPENAI_LIVE_TESTS=0`; `RUN_OPENAI_DRAFT_LIVE_TESTS=0`.
 - Provider/API calls: **NONE**.
-- Independent review: **PENDING** on the final PR head after this governance reconciliation.
+- Independent review: Gemini 3.1 Pro High / Antigravity read-only — **PASS**, findings **NONE**, reviewed exact SHA `59c65deec60ae80e3ba6d28220466c2bdbfed815`; reviewer modified repository files: **NO**.
+- Final exact-head PR CI `36832264774`: **SUCCESS** on `59c65deec60ae80e3ba6d28220466c2bdbfed815`.
+- PR #50 merged at `659e46fa80321e037f384e0e8a09bbe90646da35`.
+- Post-merge main CI `36833210498`: **SUCCESS** on exact merge SHA with backend **443 passed / 2 skipped**, Python dependency consistency **PASS**, frontend lint/typecheck/build **PASS**, synthetic Playwright **19 passed**, live flags **0 / 0**, provider/API calls **NONE**.
+- MCP remains `PLANNED` with owner/approval reference unavailable; claim is **BLOCKED BY TOOL CAPABILITY** and no unsupported state is fabricated.
 
 ### Acceptance-criteria gap matrix
 
@@ -226,7 +230,7 @@ Routine implementation, test, commit, push, PR, in-scope remediation, merge afte
 | AC-10 | Safety notices required preservation. | Human-review, not-legal-advice and not-filing-ready wording remains in hero, draft and footer. | PASS |
 | AC-11 | No deterministic duplicate-request test covered all four operations. | Controlled route promises verify one request, explicit busy state and duplicate blocking without fixed sleeps. | PASS |
 | AC-12 | Final local and PR quality evidence was pending. | Local gates pass; PR CI `36831688815` succeeded on the executable implementation SHA. | PASS |
-| AC-13 | Independent fixed-SHA review not yet performed. | Final PR head will be handed to Gemini 3.1 Pro High / Antigravity after the documentation commit and exact-head CI. | PENDING |
+| AC-13 | Independent fixed-SHA review required. | Gemini 3.1 Pro High / Antigravity reviewed exact final SHA `59c65deec60ae80e3ba6d28220466c2bdbfed815`: PASS, findings NONE; reviewer modified tracked files NO. | PASS |
 
 ### Implementation changed files
 
@@ -243,10 +247,12 @@ Routine implementation, test, commit, push, PR, in-scope remediation, merge afte
 
 ## Current handoff state
 
-- P1-006: **IMPLEMENTED — REVIEW PENDING**.
-- The governance reconciliation commit is documentation-only and does not change the executable implementation recorded above.
+- P1-006 implementation is **CLOSED / COMPLETED — MERGED; CLOSEOUT REVIEW PENDING; MCP TOOL LIMITATION**.
+- Reviewed exact SHA `59c65deec60ae80e3ba6d28220466c2bdbfed815`: Gemini 3.1 Pro High **PASS**, findings **NONE**.
+- PR #50 merged at `659e46fa80321e037f384e0e8a09bbe90646da35`; post-merge main CI `36833210498` **SUCCESS**.
+- MCP remains `PLANNED` / **BLOCKED BY TOOL CAPABILITY**; no fabricated `IMPLEMENTED`/`COMPLETED` state.
 - BLK-003 remains **OPEN**.
 - DEPLOY-001 remains **NOT AUTHORIZED**.
 - EVAL-001 PRODUCT_RUNTIME remains **DEFERRED — AWAITING FUNDING**.
 - Production deployment remains **NOT APPROVED / NOT PERFORMED**.
-- Next gate: successful CI on the final exact PR head, then Gemini 3.1 Pro High / Antigravity fixed-SHA read-only implementation review.
+- Next gate: Gemini 3.1 Pro High fixed-SHA review of the documentation-only governance closeout PR; do not merge closeout before PASS.
