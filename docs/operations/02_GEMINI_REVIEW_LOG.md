@@ -10,7 +10,7 @@
 | Document title | Gemini Review Log |
 | Project | AI Intellectual Property Description Generator |
 | Project deadline | 02/10/2026 |
-| Version | 0.3.26 |
+| Version | 0.3.27 |
 | Status | Active review log |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -61,6 +61,7 @@
 | 0.3.23 | 0.3.24 | 30/09/2026 | Codex | Record Human-supplied Gemini 3.1 Pro High P1-004 closeout PASS/findings NONE, PR #46 merge and successful final main CI | Close the Git/governance lifecycle while preserving the MCP tool limitation and project boundaries | P1-004, REV-P1-004-CLOSEOUT, reviewed `5fe704f927cc978f44550ff28bb23bb8c01e4db6`, merge `8d69bef5e1fe30b8a48d706d5a345be61639a963`, CI `36732793377`; MCP IMPLEMENTED / BLOCKED BY TOOL CAPABILITY; BLK-003 OPEN | No |
 | 0.3.24 | 0.3.25 | 01/10/2026 | ChatGPT | Record Human-supplied Gemini 3.1 Pro High P1-005 implementation PASS/findings NONE, PR #48 merge and successful implementation main CI | Close implementation review gate while keeping documentation-only governance closeout and MCP completion separate | P1-005, REV-P1-005-IMPLEMENTATION, reviewed `2c3e03ed8faf7bb929cfe38e7131108c6f57426b`, merge `3641c7ed91636d8480226d931b719cdcf28b17e0`, CI `36809603707`; MCP PLANNED / BLOCKED BY TOOL CAPABILITY; BLK-003 OPEN | No |
 | 0.3.25 | 0.3.26 | 01/10/2026 | ChatGPT | Record Human-supplied Gemini 3.1 Pro High P1-005 governance closeout PASS/findings NONE, PR #49 merge and successful final main CI | Close final P1-005 Git/review/CI gate while preserving MCP and production/provider/data boundaries | P1-005, REV-P1-005-CLOSEOUT, reviewed `2765dde0eaa99e9d8d9f989876d1310b1843424e`, merge `90ead2c0f26f17c617cfa71e6d7b3d16808d46e1`, CI `36811043597`; MCP PLANNED / BLOCKED BY TOOL CAPABILITY; BLK-003 OPEN | No |
+| 0.3.26 | 0.3.27 | 01/10/2026 | ChatGPT | Record Human-supplied Gemini 3.1 Pro High P1-006 implementation PASS/findings NONE, PR #50 merge and successful implementation main CI | Close implementation review gate while keeping documentation-only governance closeout and MCP completion separate | P1-006, REV-P1-006-IMPLEMENTATION, reviewed `59c65deec60ae80e3ba6d28220466c2bdbfed815`, merge `659e46fa80321e037f384e0e8a09bbe90646da35`, CI `36833210498`; MCP PLANNED / BLOCKED BY TOOL CAPABILITY; BLK-003 OPEN | No |
 
 ## 2. Review Rules
 
@@ -2405,3 +2406,16 @@ The review explicitly confirmed: BLK-003 remains **OPEN**; P1-006 authorization 
 PR #49 merged at `90ead2c0f26f17c617cfa71e6d7b3d16808d46e1`. Final push/main CI `36811043597` completed **SUCCESS** on that exact merge SHA. The build-and-test job completed successfully, including Python dependency consistency, offline backend regression, frontend lint, typecheck, build and synthetic browser E2E.
 
 Closeout review status: **CLOSED — PASS / findings NONE**. P1-005 is **CLOSED / COMPLETED — MERGED; MCP TOOL LIMITATION**. MCP remains `PLANNED` / **BLOCKED BY TOOL CAPABILITY**; no unsupported MCP completion state is fabricated. BLK-003 remains **OPEN**; production deployment remains **NOT APPROVED / NOT PERFORMED**; provider/API calls remain unauthorized; real/confidential data and Claims remain unauthorized. P1-006 authorization is a separate later Human decision under `HUMAN-P1-006-UX-POLISH-2026-10-01`.
+
+
+## REV-P1-006-IMPLEMENTATION — UX Polish
+
+Review target: P1-006 implementation PR #50 against baseline `90ead2c0f26f17c617cfa71e6d7b3d16808d46e1`. Executable implementation SHA: `78772761f9a4081686db4977547ea89c96288f27`. Exact reviewed SHA: `59c65deec60ae80e3ba6d28220466c2bdbfed815`. Human authorization: `HUMAN-P1-006-UX-POLISH-2026-10-01`. Reviewer/model profile: **Gemini 3.1 Pro High** in Antigravity read-only reviewer mode. Human supplied the independent implementation decision: **PASS**, findings **NONE**. Reviewer modified repository files: **NO**.
+
+Acceptance review: AC-01 through AC-13 **PASS**. Security/privacy boundaries **PASS**; MCP limitation handling **PASS**; scope containment **PASS**. The review explicitly confirmed BLK-003 remains **OPEN**; DEPLOY-001 authorization introduced **NO**; provider/API authorization introduced **NO**; production authorization introduced **NO**; real/confidential data authorization introduced **NO**; Claims/prompt/schema/model/runtime semantic change introduced **NO**; application/backend API/DOCX semantic regression found **NO**; suitable for merge under AGENTS.md **YES**.
+
+Exact-head PR CI `36832264774`: **SUCCESS** on `59c65deec60ae80e3ba6d28220466c2bdbfed815` with backend **443 passed / 2 skipped**, Python dependency consistency **PASS**, frontend lint/typecheck/build **PASS**, synthetic Playwright **19 passed**, live flags **0 / 0**, provider/API calls **NONE**.
+
+PR #50 merged at `659e46fa80321e037f384e0e8a09bbe90646da35`. Post-merge main CI `36833210498`: **SUCCESS** on the exact merge SHA with backend **443 passed / 2 skipped**, Python dependency consistency **PASS**, frontend lint/typecheck/build **PASS**, Playwright **19 passed**, live flags **0 / 0**, provider/API calls **NONE**.
+
+Implementation review status: **CLOSED — PASS / findings NONE**. Git/governance implementation status is **CLOSED / COMPLETED — MERGED; CLOSEOUT REVIEW PENDING**. MCP remains `PLANNED` / **BLOCKED BY TOOL CAPABILITY** because the available task transition/claim surface does not accept P1-006; no `IMPLEMENTED` or `COMPLETED` MCP state is fabricated. Project classification remains **MVP COMPLETE — LOCAL/SYNTHETIC**; BLK-003 remains **OPEN**; DEPLOY-001 remains **PLANNED / NOT AUTHORIZED**; EVAL-001 PRODUCT_RUNTIME remains **DEFERRED — AWAITING FUNDING**; production deployment remains **NOT APPROVED / NOT PERFORMED**. No provider/API authorization, paid service, real/confidential data, Claims, prompt/schema/model/runtime-policy change, backend API semantic change, or DOCX semantic change occurred.
