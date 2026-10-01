@@ -31,7 +31,7 @@ Công cụ hỗ trợ chuyển bài báo khoa học thành dữ liệu có cấu
 | **P1-002** | ✅ Completed | Mở rộng kiểm thử đối kháng offline để phát hiện edge case, input lỗi, dữ liệu không hợp lệ và lỗi validation |
 | **P1-003** | ✅ Completed | Tăng cường bảo mật môi trường local gồm upload safety, path handling, kiểm soát thông tin lỗi và rà soát attack surface; PR #43 merged and final main CI succeeded, with MCP completion blocked by tool capability |
 | **P1-004** | ✅ Completed | One-command local run cho frontend/backend, readiness checks và shutdown tiến trình do launcher sở hữu; implementation PR #45 and governance closeout PR #46 merged with successful final main CI; MCP completion remains blocked by tool capability |
-| **P1-005** | 🟡 Incomplete — Planned / Not authorized | Xây dựng performance baseline cho upload, parsing, validation, DOCX rendering và luồng trình duyệt |
+| **P1-005** | 🟠 Implemented — Review pending | Deterministic offline baseline cho upload, PDF/DOCX parsing, structured validation, DOCX rendering, backend E2E và local browser workflow; provider calls NONE |
 | **P1-006** | 🟡 Incomplete — Planned / Not authorized | Hoàn thiện trải nghiệm người dùng gồm responsive, loading state, error state, retry/recovery và workflow clarity |
 | **DEPLOY-001** | 🟡 Incomplete — Planned | Triển khai demo/staging không tốn phí để tạo public HTTPS URL cho người khác truy cập bằng synthetic/demo data |
 | **EVAL-001 PRODUCT_RUNTIME** | ⏸ Incomplete — Deferred | Chạy benchmark trên provider/runtime thực tế để đánh giá chất lượng ngữ nghĩa của kết quả AI; đang chờ funding |
@@ -273,7 +273,7 @@ These are separate future gates, not a committed production release scope:
 | P1-002 | **CLOSED / COMPLETED — MERGED** | Six deterministic offline adversarial regressions merged via PR #40; main CI `36583295714` SUCCESS; no provider calls |
 | P1-003 | **CLOSED / COMPLETED — MERGED; MCP TOOL LIMITATION** | Implementation PR #42 and governance closeout PR #43 merged; final main CI `36681005158` SUCCESS. MCP remains `IMPLEMENTED` because its post-finish transition/checkpoint is blocked by tool capability. Does not resolve production BLK-003 |
 | P1-004 | **CLOSED / COMPLETED — MERGED; MCP TOOL LIMITATION** | Gemini 3.1 Pro High implementation review PASS/NONE on `f446b514721ec795ce74ed0fa0f7c9ce85bc3ba8`; PR #45 merge `76b33b436c6408b1076a1ec97fda5a700517cd5d`; closeout review PASS/NONE on `5fe704f927cc978f44550ff28bb23bb8c01e4db6`; PR #46 merge `8d69bef5e1fe30b8a48d706d5a345be61639a963`; final main CI `36732793377` SUCCESS. MCP remains `IMPLEMENTED` because no supported post-implementation transition is exposed |
-| P1-005 | **PLANNED — NOT AUTHORIZED** | Offline performance baseline and repeatable local measurements |
+| P1-005 | **IMPLEMENTED — REVIEW PENDING** | Authorized by `HUMAN-P1-005-OFFLINE-PERFORMANCE-BASELINE-2026-10-01`; repeatable synthetic/offline measurements and correctness tests implemented; fixed-SHA Gemini review and CI remain required before merge/closeout |
 | P1-006 | **PLANNED — NOT AUTHORIZED** | UX polish, responsive behavior and error recovery |
 | DEPLOY-001 | **PLANNED — implementation not authorized** | Zero-cost demo/staging deployment that can provide a public HTTPS demo URL using synthetic/demo data only; platform selection and implementation require a separate Human decision |
 | EVAL-001 PRODUCT_RUNTIME | **DEFERRED — AWAITING FUNDING** | Product-runtime semantic validation; provider authorization/budget remain separate Human gates |

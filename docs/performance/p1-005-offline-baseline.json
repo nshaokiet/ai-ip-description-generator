@@ -1,0 +1,418 @@
+{
+  "schema_version": "1.0.0",
+  "task_id": "P1-005",
+  "authorization": "HUMAN-P1-005-OFFLINE-PERFORMANCE-BASELINE-2026-10-01",
+  "generated_at": "2026-10-01T02:39:02.581616+00:00",
+  "environment": {
+    "python": "3.12.10",
+    "implementation": "CPython",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "processor": "Intel64 Family 6 Model 140 Stepping 1, GenuineIntel",
+    "logical_cpu_count": 8,
+    "clock": "time.perf_counter_ns",
+    "live_flags": {
+      "RUN_OPENAI_LIVE_TESTS": "0",
+      "RUN_OPENAI_DRAFT_LIVE_TESTS": "0"
+    },
+    "provider_api_calls": "NONE"
+  },
+  "config": {
+    "warmups": 1,
+    "samples": 5,
+    "profile": "baseline",
+    "include_browser": true,
+    "timing_thresholds_enforced": false
+  },
+  "cases": [
+    {
+      "name": "upload_document_validation_pdf_small",
+      "status": "MEASURED",
+      "workload": {
+        "size_bytes": 1481,
+        "sha256": "23bc7529af29cfb9f49b93fed091b1a4babdf203f567d1c04fdf1eb5e718f12d",
+        "format": "PDF",
+        "page_count": 1
+      },
+      "observed": {
+        "stored_size_bytes": 1481,
+        "page_count": 1
+      },
+      "timing": {
+        "sample_count": 5,
+        "median_ms": 6.136,
+        "p95_ms": 7.072,
+        "min_ms": 5.225,
+        "max_ms": 7.072,
+        "samples_ms": [
+          7.036,
+          5.246,
+          7.072,
+          6.136,
+          5.225
+        ]
+      }
+    },
+    {
+      "name": "pdf_parsing_small",
+      "status": "MEASURED",
+      "workload": {
+        "size_bytes": 1481,
+        "sha256": "23bc7529af29cfb9f49b93fed091b1a4babdf203f567d1c04fdf1eb5e718f12d",
+        "format": "PDF",
+        "page_count": 1
+      },
+      "observed": {
+        "source_unit_count": 1,
+        "parsed_character_count": 819
+      },
+      "timing": {
+        "sample_count": 5,
+        "median_ms": 1.003,
+        "p95_ms": 1.868,
+        "min_ms": 0.918,
+        "max_ms": 1.868,
+        "samples_ms": [
+          1.003,
+          1.579,
+          1.868,
+          0.98,
+          0.918
+        ]
+      }
+    },
+    {
+      "name": "docx_parsing_small",
+      "status": "MEASURED",
+      "workload": {
+        "size_bytes": 1927,
+        "sha256": "9d313bb90d320817c30b7b126d7c8b6b6e5f03db70c3fef133614619af7cbf5f",
+        "format": "DOCX",
+        "paragraph_count": 10
+      },
+      "observed": {
+        "source_unit_count": 10,
+        "parsed_character_count": 1850
+      },
+      "timing": {
+        "sample_count": 5,
+        "median_ms": 0.294,
+        "p95_ms": 0.349,
+        "min_ms": 0.266,
+        "max_ms": 0.349,
+        "samples_ms": [
+          0.349,
+          0.275,
+          0.294,
+          0.297,
+          0.266
+        ]
+      }
+    },
+    {
+      "name": "upload_document_validation_pdf_medium",
+      "status": "MEASURED",
+      "workload": {
+        "size_bytes": 12054,
+        "sha256": "8af57cecc0a85a43e3518db1ac083c5417803cf7dfe97daa832099e6e7d6feea",
+        "format": "PDF",
+        "page_count": 10
+      },
+      "observed": {
+        "stored_size_bytes": 12054,
+        "page_count": 10
+      },
+      "timing": {
+        "sample_count": 5,
+        "median_ms": 46.116,
+        "p95_ms": 49.184,
+        "min_ms": 42.997,
+        "max_ms": 49.184,
+        "samples_ms": [
+          46.116,
+          48.302,
+          49.184,
+          44.446,
+          42.997
+        ]
+      }
+    },
+    {
+      "name": "pdf_parsing_medium",
+      "status": "MEASURED",
+      "workload": {
+        "size_bytes": 12054,
+        "sha256": "8af57cecc0a85a43e3518db1ac083c5417803cf7dfe97daa832099e6e7d6feea",
+        "format": "PDF",
+        "page_count": 10
+      },
+      "observed": {
+        "source_unit_count": 10,
+        "parsed_character_count": 8190
+      },
+      "timing": {
+        "sample_count": 5,
+        "median_ms": 8.136,
+        "p95_ms": 9.191,
+        "min_ms": 7.394,
+        "max_ms": 9.191,
+        "samples_ms": [
+          9.191,
+          7.394,
+          8.457,
+          7.862,
+          8.136
+        ]
+      }
+    },
+    {
+      "name": "docx_parsing_medium",
+      "status": "MEASURED",
+      "workload": {
+        "size_bytes": 25833,
+        "sha256": "12afda53848076c62a562345c2d4aa7252131563f5751967dba7f7295047604b",
+        "format": "DOCX",
+        "paragraph_count": 250
+      },
+      "observed": {
+        "source_unit_count": 250,
+        "parsed_character_count": 46250
+      },
+      "timing": {
+        "sample_count": 5,
+        "median_ms": 3.022,
+        "p95_ms": 4.203,
+        "min_ms": 2.869,
+        "max_ms": 4.203,
+        "samples_ms": [
+          3.022,
+          4.203,
+          2.994,
+          2.869,
+          3.052
+        ]
+      }
+    },
+    {
+      "name": "upload_document_validation_pdf_near_limit",
+      "status": "MEASURED",
+      "workload": {
+        "size_bytes": 59164,
+        "sha256": "a02083d7731d901d3d2cc96ca8e6335acee0a2992a8e70085e7ae327fb9c8e13",
+        "format": "PDF",
+        "page_count": 50
+      },
+      "observed": {
+        "stored_size_bytes": 59164,
+        "page_count": 50
+      },
+      "timing": {
+        "sample_count": 5,
+        "median_ms": 163.916,
+        "p95_ms": 167.831,
+        "min_ms": 154.316,
+        "max_ms": 167.831,
+        "samples_ms": [
+          163.916,
+          167.831,
+          161.771,
+          167.236,
+          154.316
+        ]
+      }
+    },
+    {
+      "name": "pdf_parsing_near_limit",
+      "status": "MEASURED",
+      "workload": {
+        "size_bytes": 59164,
+        "sha256": "a02083d7731d901d3d2cc96ca8e6335acee0a2992a8e70085e7ae327fb9c8e13",
+        "format": "PDF",
+        "page_count": 50
+      },
+      "observed": {
+        "source_unit_count": 50,
+        "parsed_character_count": 40950
+      },
+      "timing": {
+        "sample_count": 5,
+        "median_ms": 38.446,
+        "p95_ms": 40.354,
+        "min_ms": 37.659,
+        "max_ms": 40.354,
+        "samples_ms": [
+          38.446,
+          38.688,
+          37.659,
+          38.077,
+          40.354
+        ]
+      }
+    },
+    {
+      "name": "docx_parsing_near_limit",
+      "status": "MEASURED",
+      "workload": {
+        "size_bytes": 197380,
+        "sha256": "96219f022135ccc67043f6277ce808e970567362310975c9e6e2f4f3a31606b7",
+        "format": "DOCX",
+        "paragraph_count": 2000
+      },
+      "observed": {
+        "source_unit_count": 2000,
+        "parsed_character_count": 370000
+      },
+      "timing": {
+        "sample_count": 5,
+        "median_ms": 26.192,
+        "p95_ms": 39.575,
+        "min_ms": 24.76,
+        "max_ms": 39.575,
+        "samples_ms": [
+          24.76,
+          29.592,
+          39.575,
+          26.192,
+          25.216
+        ]
+      }
+    },
+    {
+      "name": "upload_document_validation_pdf_near_10_mib",
+      "status": "MEASURED",
+      "workload": {
+        "size_bytes": 9438743,
+        "sha256": "99709369e6355b4772cfe24ac969e16e19d7105cf7c76873eece9038c47f8062",
+        "format": "PDF",
+        "page_count": 1,
+        "configured_max_bytes": 10485760
+      },
+      "observed": {
+        "stored_size_bytes": 9438743,
+        "page_count": 1
+      },
+      "timing": {
+        "sample_count": 5,
+        "median_ms": 42.1,
+        "p95_ms": 64.431,
+        "min_ms": 37.944,
+        "max_ms": 64.431,
+        "samples_ms": [
+          49.906,
+          37.944,
+          42.1,
+          64.431,
+          40.774
+        ]
+      }
+    },
+    {
+      "name": "structured_draft_validation",
+      "status": "MEASURED",
+      "workload": {
+        "schema_version": "1.0.0",
+        "input_size_bytes": 9142
+      },
+      "observed": {
+        "top_level_fields": 13
+      },
+      "timing": {
+        "sample_count": 5,
+        "median_ms": 89.869,
+        "p95_ms": 121.734,
+        "min_ms": 87.565,
+        "max_ms": 121.734,
+        "samples_ms": [
+          121.734,
+          93.275,
+          87.565,
+          89.869,
+          89.731
+        ]
+      }
+    },
+    {
+      "name": "docx_render_export",
+      "status": "MEASURED",
+      "workload": {
+        "template": "patent-template-v1",
+        "draft_sections": 6
+      },
+      "observed": {
+        "output_size_bytes": 39762
+      },
+      "timing": {
+        "sample_count": 5,
+        "median_ms": 137.193,
+        "p95_ms": 138.94,
+        "min_ms": 133.58,
+        "max_ms": 138.94,
+        "samples_ms": [
+          137.193,
+          138.94,
+          133.58,
+          135.522,
+          137.681
+        ]
+      }
+    },
+    {
+      "name": "representative_offline_backend_e2e",
+      "status": "MEASURED",
+      "workload": {
+        "size_bytes": 12054,
+        "sha256": "8af57cecc0a85a43e3518db1ac083c5417803cf7dfe97daa832099e6e7d6feea",
+        "format": "PDF",
+        "page_count": 10,
+        "stages": 4
+      },
+      "observed": {
+        "page_count": 10,
+        "source_unit_count": 10,
+        "parsed_character_count": 8190,
+        "output_size_bytes": 39762
+      },
+      "timing": {
+        "sample_count": 5,
+        "median_ms": 245.61,
+        "p95_ms": 252.828,
+        "min_ms": 234.707,
+        "max_ms": 252.828,
+        "samples_ms": [
+          252.828,
+          234.707,
+          245.61,
+          237.965,
+          247.594
+        ]
+      }
+    },
+    {
+      "name": "local_browser_workflow",
+      "status": "MEASURED",
+      "workload": {
+        "format": "PDF",
+        "file_size_bytes": 754,
+        "workflow": "upload-process-validate-export"
+      },
+      "observed": {
+        "completed_downloads": 5,
+        "outbound_network": "BLOCKED",
+        "provider_api_calls": "NONE"
+      },
+      "timing": {
+        "sample_count": 5,
+        "median_ms": 1087.81,
+        "p95_ms": 1108.514,
+        "min_ms": 1062.074,
+        "max_ms": 1108.514,
+        "samples_ms": [
+          1062.656,
+          1087.81,
+          1106.441,
+          1108.514,
+          1062.074
+        ]
+      }
+    }
+  ]
+}
