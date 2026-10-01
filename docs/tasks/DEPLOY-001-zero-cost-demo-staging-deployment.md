@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Version | 0.2.0 |
-| Status | **AUTHORIZED — PLATFORM DECISION REQUIRED BEFORE CODE/DEPLOY** |
+| Status | **AUTHORIZED — RENDER SELECTED; IMPLEMENTATION HANDOFF READY** |
 | Owner | ChatGPT/Codex under AGENTS.md standing delegation |
 | Baseline | `ed16fbc24d0ee06d7c2294a49bf243a448e6df87` |
 | Human roadmap registration | `HUMAN-DEPLOY-001-ROADMAP-REGISTRATION-2026-09-29` |
@@ -65,14 +65,14 @@ When implementation is separately authorized, it should demonstrate all of the f
 ## Current blockers / prerequisites
 
 - Implementation authorization: **GRANTED** under `HUMAN-DEPLOY-001-IMPLEMENTATION-2026-10-01`.
-- Hosting platform: **TBD — Section 19 Human decision required before code/deploy implementation**.
+- Hosting platform: **Render — selected by Human on 01/10/2026** under `HUMAN-DEPLOY-001-PLATFORM-RENDER-2026-10-01`.
 - BLK-003: **OPEN**; does not block a synthetic/demo-only staging design, but blocks production/real-data use.
 - Provider authorization: **NOT GRANTED**; budget **0**.
 - EVAL-001 PRODUCT_RUNTIME: **DEFERRED — AWAITING FUNDING**.
 
 ## Current state
 
-DEPLOY-001 is **AUTHORIZED — PLATFORM DECISION REQUIRED BEFORE CODE/DEPLOY**. Governance preparation may proceed on `feat/deploy-001-demo-staging`, but no platform-specific deployment configuration, public URL, provider call, production approval or real-data authorization is created until the Human explicitly selects a hosting platform.
+DEPLOY-001 is **AUTHORIZED — RENDER SELECTED; IMPLEMENTATION HANDOFF READY**. Platform-specific implementation may now proceed on `feat/deploy-001-demo-staging` using Render only. No public URL, provider call, production approval or real-data authorization is claimed until verified deployment evidence exists.
 
 Authorization scope remains limited to a zero-cost synthetic/demo-only staging deployment. The authorization does not approve production, paid services, provider/API calls, real/confidential research data, BLK-003 closure, Claims, or EVAL-001 PRODUCT_RUNTIME.
 
@@ -83,5 +83,17 @@ Authorization scope remains limited to a zero-cost synthetic/demo-only staging d
 - Authorization reference: `HUMAN-DEPLOY-001-IMPLEMENTATION-2026-10-01`.
 - Authorized baseline: `ed16fbc24d0ee06d7c2294a49bf243a448e6df87`.
 - Implementation branch: `feat/deploy-001-demo-staging`.
-- Platform selection remains a separate Section 19 Human decision and is **not inferred** from this authorization.
-- No deployment code/configuration has been created at this authorization checkpoint.
+- Platform decision: **Render**, explicitly selected by the Human under `HUMAN-DEPLOY-001-PLATFORM-RENDER-2026-10-01`.
+- No deployment code/configuration had been created before this platform-selection checkpoint.
+
+
+## Platform decision — Render
+
+- Decision reference: `HUMAN-DEPLOY-001-PLATFORM-RENDER-2026-10-01`.
+- Selected platform: **Render**.
+- Target architecture: a **Render Static Site** for the exported Next.js frontend plus a single **Render Free Web Service** for the FastAPI synthetic/demo backend, unless implementation evidence shows a documented Render limitation that requires a narrower alternative.
+- The hosted backend must remain deterministic/offline and must not instantiate or call OpenAI/provider runtimes.
+- The public demo must clearly identify itself as synthetic/demo staging and must include a technical guard that prevents accidental real/confidential document use rather than relying only on warning text.
+- Prefer same-origin or tightly restricted origin routing. Do not use wildcard CORS.
+- Free-tier limitations are acceptable for staging, including spin-down/cold-start behavior and ephemeral filesystem, but must be documented as demo constraints rather than production guarantees.
+- If Render Blueprint wiring cannot express a safe dynamic frontend/backend URL relationship, document the minimum manual Dashboard wiring step instead of hard-coding or guessing an unverified public hostname.
