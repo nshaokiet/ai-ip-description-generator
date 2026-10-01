@@ -3,6 +3,7 @@
 import { useRef, useState, type ChangeEvent, type DragEvent } from "react";
 
 import type { UploadedDocument, WorkflowState } from "@/lib/types/contracts";
+import type { DemoSampleId } from "@/lib/api/client";
 
 const MAX_BYTES = 10 * 1024 * 1024;
 const ALLOWED_EXTENSIONS = [".pdf", ".docx"];
@@ -28,9 +29,18 @@ interface UploadPanelProps {
   document: UploadedDocument | null;
   onUpload: (file: File) => Promise<void>;
   onProcess: () => Promise<void>;
+  demoStaging?: boolean;
+  onUseDemoSample?: (sampleId: DemoSampleId) => Promise<void>;
 }
 
-export function UploadPanel({ state, document, onUpload, onProcess }: UploadPanelProps) {
+export function UploadPanel({
+  state,
+  document,
+  onUpload,
+  onProcess,
+  demoStaging = false,
+  onUseDemoSample,
+}: UploadPanelProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [localError, setLocalError] = useState<string | null>(null);
@@ -86,8 +96,9 @@ export function UploadPanel({ state, document, onUpload, onProcess }: UploadPane
           <div>
             <h3>Analyze &amp; Generate Draft</h3>
             <p>
-              Runs the synchronous local pipeline. The source is removed when processing
-              completes or fails, according to the approved cleanup policy.
+              {demoStaging
+                ? "Runs the deterministic synthetic demo pipeline. No live AI provider is used."
+                : "Runs the synchronous local pipeline. The source is removed when processing completes or fails, according to the approved cleanup policy."}
             </p>
           </div>
           <button
@@ -117,39 +128,70 @@ export function UploadPanel({ state, document, onUpload, onProcess }: UploadPane
       <div className="workspace-card-header">
         <div>
           <p className="eyebrow">Step 1</p>
-          <h2 id="upload-heading">Upload a research document</h2>
+          <h2 id="upload-heading">
+            {demoStaging ? "Choose a controlled synthetic sample" : "Upload a research document"}
+          </h2>
         </div>
-        <span className="file-limit">PDF or DOCX · 10 MiB max</span>
+        <span className="file-limit">
+          {demoStaging ? "Synthetic samples only" : "PDF or DOCX · 10 MiB max"}
+        </span>
       </div>
-      <div
-        className={`drop-zone ${dragActive ? "drop-zone-active" : ""}`}
-        onDragEnter={(event) => { event.preventDefault(); setDragActive(true); }}
-        onDragOver={(event) => event.preventDefault()}
-        onDragLeave={() => setDragActive(false)}
-        onDrop={handleDrop}
-      >
-        <div className="upload-symbol" aria-hidden="true">↑</div>
-        <h3>Choose a document or drop it here</h3>
-        <p>One text-based PDF or DOCX. Scanned PDF and OCR are not supported.</p>
-        <label className="sr-only" htmlFor="document-file">Research document</label>
-        <input
-          accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-          className="sr-only"
-          id="document-file"
-          disabled={busy}
-          onChange={handleChange}
-          ref={inputRef}
-          type="file"
-        />
-        <button
-          className="secondary-button"
-          disabled={busy}
-          onClick={() => inputRef.current?.click()}
-          type="button"
+      {demoStaging ? (
+        <div className="demo-sample-panel">
+          <div className="demo-boundary-notice" role="note">
+            <strong>Do not upload real, confidential, unpublished, or sensitive research.</strong>
+            <p>No live AI provider is used in this demo. Analysis and draft content are deterministic synthetic fixtures.</p>
+          </div>
+          <div className="demo-sample-actions">
+            <button
+              className="primary-button"
+              disabled={busy}
+              onClick={() => void onUseDemoSample?.("synthetic-pdf-v1")}
+              type="button"
+            >
+              Use synthetic PDF demo
+            </button>
+            <button
+              className="secondary-button"
+              disabled={busy}
+              onClick={() => void onUseDemoSample?.("synthetic-docx-v1")}
+              type="button"
+            >
+              Use synthetic DOCX demo
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div
+          className={`drop-zone ${dragActive ? "drop-zone-active" : ""}`}
+          onDragEnter={(event) => { event.preventDefault(); setDragActive(true); }}
+          onDragOver={(event) => event.preventDefault()}
+          onDragLeave={() => setDragActive(false)}
+          onDrop={handleDrop}
         >
-          Select document
-        </button>
-      </div>
+          <div className="upload-symbol" aria-hidden="true">↑</div>
+          <h3>Choose a document or drop it here</h3>
+          <p>One text-based PDF or DOCX. Scanned PDF and OCR are not supported.</p>
+          <label className="sr-only" htmlFor="document-file">Research document</label>
+          <input
+            accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            className="sr-only"
+            id="document-file"
+            disabled={busy}
+            onChange={handleChange}
+            ref={inputRef}
+            type="file"
+          />
+          <button
+            className="secondary-button"
+            disabled={busy}
+            onClick={() => inputRef.current?.click()}
+            type="button"
+          >
+            Select document
+          </button>
+        </div>
+      )}
       {selectedFile && (
         <div className="selected-file" aria-live="polite">
           <div>
@@ -177,7 +219,9 @@ export function UploadPanel({ state, document, onUpload, onProcess }: UploadPane
       )}
       {localError && <p className="field-error" role="alert">{localError}</p>}
       <p className="source-of-truth-note">
-        Client checks are for convenience. The backend remains the validation source of truth.
+        {demoStaging
+          ? "The staging backend verifies the exact sample filename and SHA-256 digest before accepting it."
+          : "Client checks are for convenience. The backend remains the validation source of truth."}
       </p>
     </section>
   );

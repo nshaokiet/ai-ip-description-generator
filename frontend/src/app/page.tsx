@@ -9,9 +9,11 @@ import { WorkflowProgress } from "@/components/WorkflowProgress";
 import {
   ApiClientError,
   exportDocx,
+  fetchDemoSample,
   processDocument,
   uploadDocument,
 } from "@/lib/api/client";
+import type { DemoSampleId } from "@/lib/api/client";
 import type {
   NormalizedApiError,
   ExportDocxRequest,
@@ -20,6 +22,8 @@ import type {
   WorkflowPhase,
   WorkflowState,
 } from "@/lib/types/contracts";
+
+const DEMO_STAGING = process.env.NEXT_PUBLIC_DEMO_STAGING === "1";
 
 function normalizeClientError(error: unknown): NormalizedApiError {
   if (error instanceof ApiClientError) return error;
@@ -69,6 +73,25 @@ export default function Home() {
     setState("UPLOADING");
     try {
       const uploaded = await uploadDocument(file);
+      setDocument(uploaded);
+      setWorkflowPhase("analyze");
+      setState("UPLOADED");
+    } catch (issue) {
+      showError(issue, "IDLE");
+    } finally {
+      if (operationRef.current === "upload") operationRef.current = null;
+    }
+  }
+
+  async function handleDemoSample(sampleId: DemoSampleId) {
+    if (operationRef.current) return;
+    operationRef.current = "upload";
+    setError(null);
+    setWorkflowPhase("upload");
+    setState("UPLOADING");
+    try {
+      const sample = await fetchDemoSample(sampleId);
+      const uploaded = await uploadDocument(sample, sampleId);
       setDocument(uploaded);
       setWorkflowPhase("analyze");
       setState("UPLOADED");
@@ -161,7 +184,7 @@ export default function Home() {
           </div>
           <div className="environment-badge">
             <span aria-hidden="true" />
-            Local MVP
+            {DEMO_STAGING ? "Synthetic Demo / Staging" : "Local MVP"}
           </div>
         </div>
       </header>
@@ -172,13 +195,17 @@ export default function Home() {
             <p className="eyebrow">Grounded invention documentation</p>
             <h1 id="page-title">From research document to reviewable patent draft</h1>
             <p>
-              Upload one supported document, run the local evidence-grounded pipeline,
-              inspect every review item, and export an editable DOCX.
+              {DEMO_STAGING
+                ? "Use a controlled synthetic sample, inspect the deterministic review workflow, and export an editable DOCX."
+                : "Upload one supported document, run the local evidence-grounded pipeline, inspect every review item, and export an editable DOCX."}
             </p>
           </div>
           <aside className="hero-notice" aria-label="Important use notice">
             <strong>Human review required</strong>
             <p>AI-generated draft for human review. Not legal advice and not filing-ready.</p>
+            {DEMO_STAGING && (
+              <p><strong>No live AI provider is used in this demo.</strong> This does not validate model quality or prove patentability.</p>
+            )}
           </aside>
         </section>
 
@@ -209,6 +236,8 @@ export default function Home() {
             document={document}
             onProcess={handleProcess}
             onUpload={handleUpload}
+            demoStaging={DEMO_STAGING}
+            onUseDemoSample={handleDemoSample}
             state={state}
           />
         ) : (
@@ -227,7 +256,11 @@ export default function Home() {
           <strong>AI-generated draft for human review.</strong>
           <span>Not legal advice and not filing-ready.</span>
         </div>
-        <p>Local single-tenant MVP · Session data is not persisted by this frontend.</p>
+        <p>
+          {DEMO_STAGING
+            ? "Synthetic Demo / Staging · Controlled samples only · Session data is not persisted by this frontend."
+            : "Local single-tenant MVP · Session data is not persisted by this frontend."}
+        </p>
       </footer>
     </div>
   );

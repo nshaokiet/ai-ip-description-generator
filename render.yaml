@@ -1,0 +1,52 @@
+# yaml-language-server: $schema=https://render.com/schema/render.yaml.json
+services:
+  - type: web
+    name: ai-ip-synthetic-demo-frontend
+    runtime: static
+    buildCommand: cd frontend && npm ci && npm run build
+    staticPublishPath: frontend/out
+    autoDeployTrigger: checksPass
+    envVars:
+      - key: RENDER_STATIC_EXPORT
+        value: "1"
+      - key: NEXT_PUBLIC_DEMO_STAGING
+        value: "1"
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: no-store
+      - path: /*
+        name: Permissions-Policy
+        value: camera=(), geolocation=(), microphone=()
+      - path: /*
+        name: Referrer-Policy
+        value: no-referrer
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: X-Frame-Options
+        value: DENY
+
+  - type: web
+    name: ai-ip-synthetic-demo-backend
+    runtime: python
+    plan: free
+    region: singapore
+    buildCommand: python -m pip install -r backend/requirements.txt
+    startCommand: python -m uvicorn backend.app.demo_staging:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    autoDeployTrigger: checksPass
+    envVars:
+      - key: AI_IP_ENABLE_LOCAL_ORCHESTRATION_API
+        value: "0"
+      - key: RUN_OPENAI_LIVE_TESTS
+        value: "0"
+      - key: RUN_OPENAI_DRAFT_LIVE_TESTS
+        value: "0"
+      - key: PYTHONDONTWRITEBYTECODE
+        value: "1"
+
+# The frontend /backend/* rewrite is intentionally configured after creation in
+# the Render Dashboard. Blueprint routes do not interpolate the provisioned
+# backend's public hostname; see docs/operations/DEPLOY_001_RENDER_RUNBOOK.md.

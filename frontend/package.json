@@ -9,6 +9,7 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test:e2e": "playwright test",
+    "test:e2e:demo": "node e2e-demo/run-demo-e2e.mjs",
     "test:e2e:performance": "playwright test e2e/performance.spec.ts"
   },
   "dependencies": {

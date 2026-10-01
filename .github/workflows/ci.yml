@@ -85,3 +85,23 @@ jobs:
         env:
           PLAYWRIGHT_PYTHON: python
         run: npm run test:e2e
+
+      - name: Build Render static demo export
+        working-directory: frontend
+        env:
+          RENDER_STATIC_EXPORT: "1"
+          NEXT_PUBLIC_DEMO_STAGING: "1"
+        run: npm run build
+
+      - name: Verify static demo output contains no provider secret markers
+        working-directory: frontend
+        run: |
+          test -f out/index.html
+          test -f out/brand/vnuhcm-innovation-hub-logo.png
+          ! grep -R -E 'OPENAI_API_KEY|sk-[A-Za-z0-9_-]{20,}|gpt-5\.6-sol' out
+
+      - name: Run Render synthetic demo browser E2E
+        working-directory: frontend
+        env:
+          PLAYWRIGHT_PYTHON: python
+        run: npm run test:e2e:demo
