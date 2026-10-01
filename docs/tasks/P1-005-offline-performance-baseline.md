@@ -9,9 +9,13 @@
 | Authorization | `HUMAN-P1-005-OFFLINE-PERFORMANCE-BASELINE-2026-10-01` |
 | Baseline main | `a44d26d895724a254cb5e598047baaed32f7087d` |
 | Branch | `feat/p1-005-offline-performance-baseline` |
+| Executable implementation SHA | `e4db6b231bf99b3227f6a3e331479356cbcd869e` |
+| Pull request | #48 |
+| PR CI | `36807093817` — **SUCCESS** on executable implementation SHA |
 | Scope | Deterministic offline measurement only; no product-semantic optimization |
 | Data | Synthetic and reproducible only |
 | Independent review | Gemini 3.1 Pro High fixed-SHA review pending |
+| MCP | `PLANNED` / **BLOCKED BY TOOL CAPABILITY** |
 
 ## Purpose and boundaries
 
@@ -72,18 +76,34 @@ CI verifies benchmark correctness rather than local speed: deterministic fixture
 
 Optional local thresholds may be supplied with `--thresholds`. They are explicit environment-specific absolute ceilings and cause exit code `2` on breach. A threshold must not be promoted to shared CI until repeated evidence on a controlled runner supports a broad, stable ceiling. Cross-machine results must be compared only after checking environment metadata and workload hashes.
 
-## Safety and handoff
+## Verification evidence
+
+Local Windows evidence:
 
 - Targeted benchmark tests: **12 passed**.
 - Full offline backend: **442 passed / 3 skipped / 1 third-party deprecation warning**.
+- Actual complete baseline: **SUCCESS**, 14 measured cases.
 - `pip check`: **PASS**.
 - Frontend lint / typecheck / build: **PASS / PASS / PASS**.
 - Synthetic Playwright: **18 passed**.
-- Actual complete baseline: **SUCCESS**, 14 measured cases.
+
+PR CI `36807093817` on executable implementation `e4db6b231bf99b3227f6a3e331479356cbcd869e`:
+
+- Backend: **443 passed / 2 skipped**.
+- `pip check`: **PASS**.
+- Frontend lint / typecheck / build: **PASS / PASS / PASS**.
+- Playwright: **18 passed**.
+- Live flags: **0 / 0**.
+- Provider/API calls: **NONE**.
+
+The local and CI counts are separate environment-specific evidence; neither is substituted for the other.
+
+## Safety and handoff
+
 - Provider/API calls: **NONE**.
 - Live flags: **0 / 0**.
 - Production/deployment/auth/storage/retention changes: **NONE**.
 - Real/confidential/unpublished data: **NONE**.
 - Claims changes: **NONE**.
 - Next gate: **GEMINI 3.1 PRO HIGH FIXED-SHA IMPLEMENTATION REVIEW**.
-- Do not merge before that review returns PASS on the exact implementation SHA and required CI succeeds.
+- Do not merge before that review returns PASS on the final fixed PR head. PR CI on the executable implementation is already SUCCESS; this documentation-only reconciliation requires fresh exact-head CI before review.
