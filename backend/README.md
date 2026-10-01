@@ -55,6 +55,18 @@ enabled, `/process` uses actual provider runtimes and needs a backend-only
 provider processing as part of the local/synthetic handover. Stop the server
 with Ctrl+C; do not terminate an unidentified process.
 
+## Render synthetic demo entrypoint
+
+DEPLOY-001 adds the separate `backend.app.demo_staging:app` entrypoint for the
+public Render demo/staging service. It injects deterministic synthetic runtimes,
+sets no provider key, and accepts only the exact PDF/DOCX samples served by
+`/api/demo/samples/{sample_id}`. The technical upload guard checks sample ID,
+filename, media type, and SHA-256 digest; arbitrary uploads are rejected.
+
+This entrypoint is demo plumbing, not production security or model-quality
+evidence. Do not use it with real/confidential data. See the
+[Render runbook](../docs/operations/DEPLOY_001_RENDER_RUNBOOK.md).
+
 ## Endpoints
 
 - `GET /health` returns `{"status":"ok"}`.

@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | SPEC-002 |
 | Document title | Project Context — AI Intellectual Property Description Generator |
-| Version | 0.4.23 |
+| Version | 0.4.24 |
 | Status | Approved baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT |
@@ -71,6 +71,7 @@
 | 0.4.20 | 0.4.21 | 01/10/2026 | ChatGPT | Record P1-006 implementation PASS/merge/main-CI, governance closeout PASS/merge and successful final main CI | Final post-MVP UX task reconciliation without widening provider, production, data or deployment scope | P1-006 implementation reviewed `59c65deec60ae80e3ba6d28220466c2bdbfed815`, merge `659e46fa80321e037f384e0e8a09bbe90646da35`; closeout reviewed `d46a7101d8aefedd14ece29db50c8f3b00ebbde9`, merge `829c83130c6eb6018897cd5a8f62332408193142`; final CI `36834543602`; BLK-003 OPEN | No |
 | 0.4.21 | 0.4.22 | 01/10/2026 | ChatGPT | Record Human authorization of DEPLOY-001 implementation while retaining the separate hosting-platform decision gate | Open the next roadmap task after P1-006 without inferring a platform, production, provider or real-data approval | `HUMAN-DEPLOY-001-IMPLEMENTATION-2026-10-01`; baseline `ed16fbc24d0ee06d7c2294a49bf243a448e6df87`; branch `feat/deploy-001-demo-staging`; BLK-003 OPEN | No |
 | 0.4.22 | 0.4.23 | 01/10/2026 | ChatGPT | Record Human selection of Render for DEPLOY-001 and hand off platform-specific implementation | Resolve the Section 19 platform gate without widening zero-cost synthetic/demo boundaries | `HUMAN-DEPLOY-001-PLATFORM-RENDER-2026-10-01`; Render; branch `feat/deploy-001-demo-staging`; BLK-003 OPEN | No |
+| 0.4.23 | 0.4.24 | 01/10/2026 | Codex | Record provider-free Render demo implementation and local verification; retain review/merge/live-deploy gates | Current-state reconciliation before fixed-SHA review | DEPLOY-001; backend 447 passed / 3 skipped; Playwright 19 + 3 passed; public URLs NOT DEPLOYED / NOT RECORDED; BLK-003 OPEN | No |
 
 ## 2. Project name
 
@@ -155,7 +156,7 @@ Pipeline MVP ưu tiên một paper cho một hồ sơ. Nội dung thiếu không
 | Retrieval | Không dùng trong Extraction Runtime v1 hoặc Draft Runtime v1 | AI-RUNTIME-001/AI-RUNTIME-002 chỉ dùng input envelopes; task tương lai cần approval riêng |
 | Database | Supabase/PostgreSQL | Optional/MVP+ hoặc khi được phê duyệt |
 | DOCX | `docxtpl==0.20.2`, `python-docx==1.2.0` | Patent DOCX Template v1.0.0 — Completed — Merged via PR #7 |
-| Demo/staging deployment | Render | DEPLOY-001 **AUTHORIZED — RENDER SELECTED; IMPLEMENTATION HANDOFF READY** under `HUMAN-DEPLOY-001-IMPLEMENTATION-2026-10-01` and `HUMAN-DEPLOY-001-PLATFORM-RENDER-2026-10-01`; zero-cost public demo URL, synthetic/demo data only |
+| Demo/staging deployment | Render | DEPLOY-001 **IMPLEMENTED — EXACT-HEAD CI/REVIEW, MERGE AND LIVE DEPLOYMENT PENDING** under `HUMAN-DEPLOY-001-IMPLEMENTATION-2026-10-01` and `HUMAN-DEPLOY-001-PLATFORM-RENDER-2026-10-01`; provider-free controlled synthetic demo only; public URLs NOT DEPLOYED / NOT RECORDED |
 | Production deployment | Platform TBD | **NOT APPROVED / NOT PERFORMED**; requires SEC-001/BLK-003 resolution, real-data/security acceptance and separate Human approval |
 | Version control | GitHub | Technical Source of Truth |
 
@@ -378,7 +379,8 @@ Project Orchestrator MCP là lớp điều phối dùng chung giữa VS Code/Cod
 
 1. P1-001 — **CLOSED / COMPLETED — MERGED** via PR #33 at `56d7217c0f09fe591585cb298e0b4df0c92f8aa4`; Gemini 3.1 Pro High targeted implementation review **PASS**, findings **NONE**; final main CI [`36536768516`](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/36536768516) **SUCCESS**: backend 408 passed/2 skipped, pip check/lint/typecheck/build PASS, Playwright 15 passed, live flags 0/0. Project classification remains **MVP COMPLETE — LOCAL/SYNTHETIC**.
 2. P1-002 through P1-006 are **CLOSED / COMPLETED** in Git/governance. P1-003 through P1-006 retain their documented MCP tool limitations where applicable. P1-006 implementation review PASS/NONE on `59c65deec60ae80e3ba6d28220466c2bdbfed815`, PR #50 merge `659e46fa80321e037f384e0e8a09bbe90646da35`, closeout review PASS/NONE on `d46a7101d8aefedd14ece29db50c8f3b00ebbde9`, PR #51 merge `829c83130c6eb6018897cd5a8f62332408193142`, final main CI `36834543602` SUCCESS.
-3. EVAL-001 PRODUCT_RUNTIME remains **DEFERRED — AWAITING FUNDING**, evidence NONE, semantic acceptance NOT_DETERMINED; provider authorization NOT GRANTED / budget 0. BLK-003 remains OPEN; no production/real-confidential-data/public-deployment approval.
+3. DEPLOY-001 repository implementation is ready for exact-head CI and fixed-SHA Gemini review: Render Blueprint, controlled synthetic-only backend/UI, static export, browser regression and deployment runbook are present. Live deployment and public URLs remain **NOT DEPLOYED / NOT RECORDED** until review/merge and connected-account verification.
+4. EVAL-001 PRODUCT_RUNTIME remains **DEFERRED — AWAITING FUNDING**, evidence NONE, semantic acceptance NOT_DETERMINED; provider authorization NOT GRANTED / budget 0. BLK-003 remains OPEN; no production/real-confidential-data authorization.
 
 AI-002 được merge với implementation commit `f8772b228a23bf7cdec10fa0c463e6d1f672c341` và governance commit `9f2a78b1396cdadb747c263a2bbbbacb8d7f4292`; Gemini review `PASS`, không có finding, AI-001 regression 15/15 và AI-002 tests 17/17 pass. AI-002 tự thân không chứng minh Responses API hoặc live-model integration; provider adapter/runtime sau đó được Human phê duyệt riêng trong AI-RUNTIME-001. Claims vẫn nằm ngoài Output Schema và Extraction Prompt v1.0.0.
 
