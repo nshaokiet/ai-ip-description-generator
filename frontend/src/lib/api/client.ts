@@ -10,6 +10,18 @@ import type {
 
 const API_BASE = "/backend";
 const DOCX_FILENAME = "patent-description-draft.docx" as const;
+export type DemoSampleId = "synthetic-pdf-v1" | "synthetic-docx-v1";
+
+const DEMO_SAMPLES: Record<DemoSampleId, { filename: string; mediaType: string }> = {
+  "synthetic-pdf-v1": {
+    filename: "ai-ip-synthetic-demo.pdf",
+    mediaType: "application/pdf",
+  },
+  "synthetic-docx-v1": {
+    filename: "ai-ip-synthetic-demo.docx",
+    mediaType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  },
+};
 
 interface ErrorEnvelope {
   error?: {
@@ -102,10 +114,23 @@ async function request(input: string, init?: RequestInit): Promise<Response> {
   }
 }
 
-export async function uploadDocument(file: File): Promise<UploadedDocument> {
+export async function fetchDemoSample(sampleId: DemoSampleId): Promise<File> {
+  const response = await request(`/api/demo/samples/${sampleId}`);
+  const sample = DEMO_SAMPLES[sampleId];
+  return new File([await response.blob()], sample.filename, { type: sample.mediaType });
+}
+
+export async function uploadDocument(
+  file: File,
+  demoSampleId?: DemoSampleId,
+): Promise<UploadedDocument> {
   const form = new FormData();
   form.append("file", file);
-  const response = await request("/api/documents", { method: "POST", body: form });
+  const response = await request("/api/documents", {
+    method: "POST",
+    body: form,
+    headers: demoSampleId ? { "X-AI-IP-Demo-Sample": demoSampleId } : undefined,
+  });
   return (await response.json()) as UploadedDocument;
 }
 

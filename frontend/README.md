@@ -96,6 +96,24 @@ the repository Python environment and a Playwright Chromium install
 Next.js server uses port 3106 and the synthetic backend uses port 8000. The
 build does not add or approve deployment configuration.
 
+## Render static demo mode
+
+DEPLOY-001 uses an opt-in static export and controlled synthetic UI:
+
+```powershell
+$env:RENDER_STATIC_EXPORT="1"
+$env:NEXT_PUBLIC_DEMO_STAGING="1"
+npm run build
+npm run test:e2e:demo
+```
+
+The export is written to `out/`. Demo mode removes the arbitrary file picker,
+offers only the backend-issued synthetic PDF/DOCX samples, and retains the real
+validation/revision/DOCX-export path. The public build contains no provider key
+or backend hostname. Render must provide the documented same-origin
+`/backend/*` rewrite after the real backend hostname is known. See the
+[DEPLOY-001 Render runbook](../docs/operations/DEPLOY_001_RENDER_RUNBOOK.md).
+
 ## P0-005 scope
 
 Implemented:

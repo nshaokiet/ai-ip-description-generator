@@ -33,12 +33,12 @@ Công cụ hỗ trợ chuyển bài báo khoa học thành dữ liệu có cấu
 | **P1-004** | ✅ Completed | One-command local run cho frontend/backend, readiness checks và shutdown tiến trình do launcher sở hữu; implementation PR #45 and governance closeout PR #46 merged with successful final main CI; MCP completion remains blocked by tool capability |
 | **P1-005** | ✅ Completed | Implementation and governance closeout reviewed by Gemini 3.1 Pro High PASS/findings NONE; PR #48 merged at `3641c7ed91636d8480226d931b719cdcf28b17e0`, closeout PR #49 merged at `90ead2c0f26f17c617cfa71e6d7b3d16808d46e1`; final main CI `36811043597` SUCCESS; MCP remains `PLANNED` / BLOCKED BY TOOL CAPABILITY |
 | **P1-006** | ✅ Completed | Implementation review PASS/NONE on `59c65deec60ae80e3ba6d28220466c2bdbfed815`; PR #50 merge `659e46fa80321e037f384e0e8a09bbe90646da35`; closeout review PASS/NONE on `d46a7101d8aefedd14ece29db50c8f3b00ebbde9`; PR #51 merge `829c83130c6eb6018897cd5a8f62332408193142`; final main CI `36834543602` SUCCESS; MCP remains `PLANNED` / BLOCKED BY TOOL CAPABILITY |
-| **DEPLOY-001** | 🟡 Incomplete — Planned | Triển khai demo/staging không tốn phí để tạo public HTTPS URL cho người khác truy cập bằng synthetic/demo data |
+| **DEPLOY-001** | 🟠 Implemented — review/deployment pending | Render Blueprint, provider-free synthetic backend, controlled demo UI, CI coverage and runbook are implemented; exact-head CI/review, merge and live Render deployment remain pending, with no public URL claimed |
 | **EVAL-001 PRODUCT_RUNTIME** | ⏸ Incomplete — Deferred | Chạy benchmark trên provider/runtime thực tế để đánh giá chất lượng ngữ nghĩa của kết quả AI; đang chờ funding |
 | **SEC-001 / BLK-003** | 🔴 Incomplete — Open | Hoàn thiện bảo mật production gồm authentication, tenant isolation, private storage, retention và deletion policy |
 | **Production Deployment** | 🔴 Incomplete — Not approved | Triển khai production cho người dùng thật và dữ liệu thật sau khi hoàn tất các yêu cầu bảo mật, dữ liệu và vận hành |
 
-**Current classification:** `MVP COMPLETE — LOCAL/SYNTHETIC`. Public demo URL is not available yet; it is planned under DEPLOY-001. Production deployment and real/confidential-data use remain unauthorized while BLK-003 is open.
+**Current classification:** `MVP COMPLETE — LOCAL/SYNTHETIC`. DEPLOY-001 repository implementation is ready for exact-head CI and independent review, but the public demo is **NOT DEPLOYED** and no URL is recorded. Production deployment and real/confidential-data use remain unauthorized while BLK-003 is open.
 
 > **README status-sync rule:** Bảng trên là bản tóm tắt trạng thái công khai của roadmap. Mỗi khi một task chuyển trạng thái (đặc biệt khi hoàn thành/merge, bị defer hoặc mở blocker), task closeout phải cập nhật đúng dòng tương ứng trong bảng này trong cùng thay đổi governance/closeout. Evidence chi tiết vẫn nằm trong Git history, task record và Project Control Center.
 
@@ -238,6 +238,7 @@ tools/      Internal project coordination and developer tooling
 - [System specification](docs/system-specification.md)
 - [Processing workflow](docs/workflow.md)
 - [MVP handover runbook](docs/operations/MVP_HANDOVER_RUNBOOK.md)
+- [DEPLOY-001 Render demo/staging runbook](docs/operations/DEPLOY_001_RENDER_RUNBOOK.md)
 - [Final local/synthetic MVP closeout](docs/operations/FINAL_MVP_CLOSEOUT.md)
 - [Project Control Center](docs/operations/01_PROJECT_CONTROL_CENTER.md)
 - [Independent review log](docs/operations/02_GEMINI_REVIEW_LOG.md)
@@ -275,14 +276,14 @@ These are separate future gates, not a committed production release scope:
 | P1-004 | **CLOSED / COMPLETED — MERGED; MCP TOOL LIMITATION** | Gemini 3.1 Pro High implementation review PASS/NONE on `f446b514721ec795ce74ed0fa0f7c9ce85bc3ba8`; PR #45 merge `76b33b436c6408b1076a1ec97fda5a700517cd5d`; closeout review PASS/NONE on `5fe704f927cc978f44550ff28bb23bb8c01e4db6`; PR #46 merge `8d69bef5e1fe30b8a48d706d5a345be61639a963`; final main CI `36732793377` SUCCESS. MCP remains `IMPLEMENTED` because no supported post-implementation transition is exposed |
 | P1-005 | **CLOSED / COMPLETED — MERGED; MCP TOOL LIMITATION** | Implementation review PASS/NONE on `2c3e03ed8faf7bb929cfe38e7131108c6f57426b`; PR #48 merge `3641c7ed91636d8480226d931b719cdcf28b17e0`; closeout review PASS/NONE on `2765dde0eaa99e9d8d9f989876d1310b1843424e`; PR #49 merge/current baseline `90ead2c0f26f17c617cfa71e6d7b3d16808d46e1`; final CI `36811043597` SUCCESS; MCP remains `PLANNED` / BLOCKED BY TOOL CAPABILITY |
 | P1-006 | **CLOSED / COMPLETED — MERGED; MCP TOOL LIMITATION** | `HUMAN-P1-006-UX-POLISH-2026-10-01`; executable `78772761f9a4081686db4977547ea89c96288f27`; implementation reviewed `59c65deec60ae80e3ba6d28220466c2bdbfed815` PASS/NONE; PR #50 merge `659e46fa80321e037f384e0e8a09bbe90646da35`; closeout reviewed `d46a7101d8aefedd14ece29db50c8f3b00ebbde9` PASS/NONE; PR #51 merge `829c83130c6eb6018897cd5a8f62332408193142`; final CI `36834543602` SUCCESS with backend 443 passed / 2 skipped, lint/typecheck/build PASS and Playwright 19 passed; MCP PLANNED / BLOCKED BY TOOL CAPABILITY |
-| DEPLOY-001 | **PLANNED — implementation not authorized** | Zero-cost demo/staging deployment that can provide a public HTTPS demo URL using synthetic/demo data only; platform selection and implementation require a separate Human decision |
+| DEPLOY-001 | **IMPLEMENTED — EXACT-HEAD CI/REVIEW AND DEPLOYMENT PENDING** | `HUMAN-DEPLOY-001-IMPLEMENTATION-2026-10-01`; platform `Render` via `HUMAN-DEPLOY-001-PLATFORM-RENDER-2026-10-01`; Blueprint/provider-free controlled demo/tests/runbook implemented on `feat/deploy-001-demo-staging`; local evidence: backend 447 passed / 3 skipped, `pip check`, lint, typecheck and both builds PASS, existing Playwright 19 passed, Render demo Playwright 3 passed; public URLs **NOT DEPLOYED / NOT RECORDED** |
 | EVAL-001 PRODUCT_RUNTIME | **DEFERRED — AWAITING FUNDING** | Product-runtime semantic validation; provider authorization/budget remain separate Human gates |
 | SEC-001 / BLK-003 | **OPEN / DEFERRED** | Production auth/tenant model, private storage, retention/deletion; required before production or real/confidential-data use |
 | Production deployment | **NOT APPROVED / NOT PERFORMED** | Separate from DEPLOY-001 demo/staging; requires security acceptance and Human approval |
 | Prompt/model/runtime optimization | **DEFERRED** | Separate scope; no paid/provider work authorized |
 | Claims | **OUT OF SCOPE** | Separate Human/legal scope and review required |
 
-DEPLOY-001 is a roadmap registration only. It does not select Vercel, Railway or another hosting platform, does not authorize deployment, does not resolve BLK-003, and does not permit real/confidential research data or paid provider/API calls.
+DEPLOY-001 implementation is Human-authorized and **Render is the selected platform**. Repository implementation is complete but fixed-SHA review, merge and verified live deployment are pending. The task remains synthetic/demo staging only; it does not resolve BLK-003 and does not permit production release, real/confidential research data, paid hosting, or provider/API calls.
 
 ## License
 

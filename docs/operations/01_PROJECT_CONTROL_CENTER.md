@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.44 |
+| Version | 0.3.48 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -82,6 +82,10 @@
 | 0.3.41 | 0.3.42 | 01/10/2026 | Codex | Record P1-006 implementation and successful executable-SHA PR CI; hand off fixed-SHA independent review | Reconcile verified UX/test evidence without claiming review, merge, production readiness or DEPLOY-001 authorization | P1-006 executable `78772761f9a4081686db4977547ea89c96288f27`; PR #50; CI `36831688815` SUCCESS; Gemini fixed-SHA review pending; BLK-003 OPEN | No |
 | 0.3.42 | 0.3.43 | 01/10/2026 | ChatGPT | Record P1-006 fixed-SHA implementation PASS/findings NONE, PR #50 merge and successful implementation main CI; hand off documentation-only governance closeout | Reconcile verified implementation evidence without fabricating MCP state or authorizing DEPLOY-001/production/provider/data changes | P1-006, REV-P1-006-IMPLEMENTATION, reviewed `59c65deec60ae80e3ba6d28220466c2bdbfed815`, merge `659e46fa80321e037f384e0e8a09bbe90646da35`, CI `36833210498`; MCP PLANNED / BLOCKED BY TOOL CAPABILITY; BLK-003 OPEN | No |
 | 0.3.43 | 0.3.44 | 01/10/2026 | ChatGPT | Record P1-006 closeout review PASS/findings NONE, PR #51 merge and successful final main CI | Close final P1-006 Git/review/CI gate while preserving MCP, production, provider, data and DEPLOY-001 boundaries | P1-006, REV-P1-006-CLOSEOUT, reviewed `d46a7101d8aefedd14ece29db50c8f3b00ebbde9`, merge `829c83130c6eb6018897cd5a8f62332408193142`, CI `36834543602`; MCP PLANNED / BLOCKED BY TOOL CAPABILITY; BLK-003 OPEN | No |
+| 0.3.44 | 0.3.45 | 01/10/2026 | ChatGPT | Record Human authorization of DEPLOY-001 implementation and retain platform selection as a Section 19 Human gate | Start next roadmap task without fabricating a hosting-platform decision or widening production/provider/data scope | `HUMAN-DEPLOY-001-IMPLEMENTATION-2026-10-01`; baseline `ed16fbc24d0ee06d7c2294a49bf243a448e6df87`; branch `feat/deploy-001-demo-staging`; BLK-003 OPEN | No |
+| 0.3.45 | 0.3.46 | 01/10/2026 | ChatGPT | Record Human selection of Render for DEPLOY-001 and open platform-specific implementation handoff | Resolve the required hosting-platform decision while preserving zero-cost synthetic/demo-only staging scope | `HUMAN-DEPLOY-001-PLATFORM-RENDER-2026-10-01`; Render; branch `feat/deploy-001-demo-staging`; BLK-003 OPEN | No |
+| 0.3.46 | 0.3.47 | 01/10/2026 | ChatGPT | Start DEPLOY-001 implementation handoff after Human directive to begin deployment | Begin Codex implementation while keeping live Render service creation dependent on verified account connection and later review/merge gates | branch `feat/deploy-001-demo-staging`; start head `13cebe50fe28482f84eb60f15434b32edf63fb47`; Render selected; BLK-003 OPEN | No |
+| 0.3.47 | 0.3.48 | 01/10/2026 | Codex | Record DEPLOY-001 provider-free Render implementation and local verification | Prepare exact-head CI and independent review without claiming deployment | backend 447 passed / 3 skipped; Playwright 19 + 3 passed; public URLs NOT DEPLOYED / NOT RECORDED; BLK-003 OPEN | No |
 
 ## 2. Project
 
@@ -129,7 +133,7 @@ P1-006 is **CLOSED / COMPLETED — MERGED; MCP TOOL LIMITATION** under `HUMAN-P1
 - Keep production, public deployment and real/confidential-data approval
   separate from this limited handover classification.
 - Preserve the completed P1-005 implementation/closeout evidence and explicit MCP tool limitation.
-- Preserve completed P1-006 implementation and closeout evidence plus the explicit MCP tool limitation. P1-006 has no remaining Git/review/CI gate. Do not authorize DEPLOY-001, production, provider/API use or real/confidential-data handling implicitly.
+- Preserve completed P1-006 evidence. DEPLOY-001 is Human-authorized and Render is selected under `HUMAN-DEPLOY-001-PLATFORM-RENDER-2026-10-01`; platform-specific implementation may proceed on `feat/deploy-001-demo-staging`. Production, provider/API use, real/confidential-data handling and BLK-003 closure remain unauthorized.
 
 SPEC-001/002/003, schema, prompts and DOCX template retain their previously
 approved versions/contracts; this task does not re-approve or redesign them.
@@ -230,7 +234,7 @@ APP-002 capability boundary: `Validated PDF/DOCX → deterministic text/table pa
 | P1-004 | Developer Experience / One-command Local Run | Codex | Gemini 3.1 Pro High | Post-MVP local/synthetic DevEx | **CLOSED / COMPLETED — MERGED; MCP TOOL LIMITATION** | PR #45 merge `76b33b436c6408b1076a1ec97fda5a700517cd5d`; closeout reviewed `5fe704f927cc978f44550ff28bb23bb8c01e4db6` PASS/NONE; PR #46 merge `8d69bef5e1fe30b8a48d706d5a345be61639a963`; final CI `36732793377` SUCCESS; MCP IMPLEMENTED / BLOCKED BY TOOL CAPABILITY | 30/09/2026 |
 | P1-005 | Offline Performance Baseline | ChatGPT/Codex | Gemini 3.1 Pro High | Post-MVP local/synthetic measurement | **CLOSED / COMPLETED — MERGED; MCP TOOL LIMITATION** | Implementation reviewed `2c3e03ed8faf7bb929cfe38e7131108c6f57426b` PASS/NONE; PR #48 merge `3641c7ed91636d8480226d931b719cdcf28b17e0`; closeout reviewed `2765dde0eaa99e9d8d9f989876d1310b1843424e` PASS/NONE; PR #49 merge `90ead2c0f26f17c617cfa71e6d7b3d16808d46e1`; final CI `36811043597` SUCCESS; MCP PLANNED / BLOCKED BY TOOL CAPABILITY | 01/10/2026 |
 | P1-006 | UX Polish | ChatGPT/Codex | Gemini 3.1 Pro High / Antigravity read-only | Post-MVP local/synthetic UX hardening | **CLOSED / COMPLETED — MERGED; MCP TOOL LIMITATION** | Implementation reviewed `59c65deec60ae80e3ba6d28220466c2bdbfed815` PASS/NONE; PR #50 merge `659e46fa80321e037f384e0e8a09bbe90646da35`; closeout reviewed `d46a7101d8aefedd14ece29db50c8f3b00ebbde9` PASS/NONE; PR #51 merge `829c83130c6eb6018897cd5a8f62332408193142`; final CI `36834543602` SUCCESS; MCP PLANNED / BLOCKED BY TOOL CAPABILITY | 01/10/2026 |
-| DEPLOY-001 | Zero-cost synthetic demo/staging roadmap | Human decision pending | — | Separate deployment decision | **PLANNED — IMPLEMENTATION NOT AUTHORIZED** | No public URL, production approval, real/confidential data or paid provider call | Post-MVP |
+| DEPLOY-001 | Zero-cost synthetic demo/staging | ChatGPT/Codex | Gemini 3.1 Pro High — pending fixed-SHA review | Authorized zero-cost synthetic/demo staging | **IMPLEMENTED — EXACT-HEAD CI/REVIEW, MERGE AND LIVE DEPLOYMENT PENDING** | `HUMAN-DEPLOY-001-IMPLEMENTATION-2026-10-01`; `HUMAN-DEPLOY-001-PLATFORM-RENDER-2026-10-01`; Render Blueprint/provider-free controlled demo/tests/runbook implemented; local gates PASS; public URLs NOT DEPLOYED / NOT RECORDED; BLK-003 OPEN | Post-MVP |
 | EVAL-001 | Semantic Quality Evaluation — framework/gold merged; PRODUCT_RUNTIME deferred | GPT-6 Sol | Gemini 3.1 Pro High | Post-MVP — AWAITING FUNDING; no active runtime work | Framework/gold reviews PASS/findings NONE; corpus/gold 6/6 HUMAN_ACCEPTED; baseline MERGED; PRODUCT_RUNTIME DEFERRED; product evidence NONE; semantic acceptance NOT_DETERMINED, not PASS/Completed | Frozen product `37d42fc8b07003aa2a67f2d1d32e64e69eb0ddb5`; PR #29 merge `2caf3e6c698745a1c2b09d5605e8fba955bca2f9`; DEC-020; provider NOT GRANTED/budget 0; BLK-003 OPEN | Post-MVP Human funding decision |
 
 Mọi target date cụ thể cần được xếp trước deadline chung 02/10/2026 và do Human xác nhận.
@@ -290,6 +294,24 @@ ADR-001 đến ADR-010 đã được Human phê duyệt trong phạm vi từng d
 | DOC-001 | Patent DOCX Template v1.0.0 | ChatGPT/Codex | Gemini 3.1 Pro High + Human | Completed — Merged via PR #7 | Implementation `d3f7c7d9596b77a39e9a56fcdf97c76cb972612a`; merge `d208a7925da844c5b43578bac8ebdbb1c5c6b5b8`; Human Visual QA/Gemini reviews PASS; 85/85 tests pass |
 
 ## 14. ChatGPT/Codex Handoffs
+
+Current DEPLOY-001 pre-review handoff:
+
+```text
+Task ID: DEPLOY-001
+Agent: Codex
+Reviewer: Gemini 3.1 Pro High — pending fixed-SHA independent review
+Status: IMPLEMENTED — exact-head CI/review, merge and live deployment pending
+Version: DEPLOY-001 task record 0.2.1; Render runbook 0.1.0
+Work completed: Added the Render Blueprint, opt-in static demo UI, dedicated provider-free backend, technical controlled-sample upload guard, offline tests/CI and deployment runbook.
+Files affected: render.yaml; backend/app/demo_staging.py; backend/app/services/synthetic_demo.py; backend upload route; frontend demo/static-export files; CI/tests; README and DEPLOY-001 governance/runbook files.
+Evidence checked: Backend 447 passed / 3 skipped; pip check PASS; lint/typecheck/normal build/static export PASS; existing Playwright 19 passed; Render demo Playwright 3 passed; static-output secret-marker scan PASS.
+Findings: Independent review not yet performed; no PASS is claimed.
+Decisions: Human authorized implementation and selected Render under the recorded authorization references; no additional scope decision made.
+Issues: Exact-head PR CI, fixed-SHA review, merge, Render account deployment and public URL verification remain pending; BLK-003 OPEN.
+Security impact: Public path accepts only exact backend-issued synthetic samples; no provider credential/call, wildcard CORS, database, persistent disk or production/real-data authorization.
+Recommended next action: Commit/push the final branch, open/update PR, require exact-head CI SUCCESS, then request Gemini 3.1 Pro High fixed-SHA review. Do not deploy before review and merge.
+```
 
 The current P0-008 implementation handoff is in the evidence addendum of `docs/tasks/P0-008-mvp-release-handover-readiness.md` and the [runbook](MVP_HANDOVER_RUNBOOK.md). P0-007 post-merge closeout/handoff remains in section 16 of its task file; sections 14 and 15 preserve historical pre-review handoffs. The P0-006 and APP-003 handoffs below are historical records; their then-current next actions are superseded. The P0-006 `GOV-P0-006-01 OPEN` statement was true at that closeout, before the separate reconciliation.
 
@@ -521,6 +543,8 @@ Human đã phê duyệt ADR-006 và Output Schema v1.0.0 cho AI-001, sau đó me
 | DEC-031 | Human / Product Owner authorized P1-006 UX Polish under `HUMAN-P1-006-UX-POLISH-2026-10-01` | Authorized responsive/loading/error/recovery/workflow-clarity hardening plus deterministic UX regressions from baseline `90ead2c0f26f17c617cfa71e6d7b3d16808d46e1`; no provider/API, production, DEPLOY-001, real/confidential data, Claims, prompt/schema/model/runtime-policy or auth/storage/retention authorization. |
 | DEC-032 | Human / Product Owner supplied Gemini 3.1 Pro High P1-006 implementation review **PASS**, findings **NONE**, enabling standing-delegation merge and post-merge governance closeout | Reviewed `59c65deec60ae80e3ba6d28220466c2bdbfed815`; AC-01…AC-13 PASS; scope/security/MCP handling PASS; PR #50 merged at `659e46fa80321e037f384e0e8a09bbe90646da35`; main CI `36833210498` SUCCESS with backend 443 passed / 2 skipped, `pip check`, lint, typecheck and build PASS, Playwright 19 passed, live flags 0/0 and provider/API calls NONE. Governance closeout review/merge remains separate; MCP PLANNED / BLOCKED BY TOOL CAPABILITY; BLK-003 OPEN; no DEPLOY-001, production, provider, real-data, Claims, prompt/schema/model/runtime or backend/DOCX semantic authorization/change. |
 | DEC-033 | Human / Product Owner supplied Gemini 3.1 Pro High P1-006 governance closeout review **PASS**, findings **NONE**, enabling closeout merge and final verification | Reviewed `d46a7101d8aefedd14ece29db50c8f3b00ebbde9`; README/task record/Project Control Center/Review Log/evidence/MCP limitation/scope/closeout CI PASS; application/test/benchmark/runtime behavior changed NO; PR #51 merged at `829c83130c6eb6018897cd5a8f62332408193142`; final main CI `36834543602` SUCCESS with backend 443 passed / 2 skipped, `pip check`, lint, typecheck and build PASS, Playwright 19 passed, live flags 0/0. P1-006 CLOSED / COMPLETED — MERGED with MCP tool limitation; BLK-003 OPEN; no DEPLOY-001, provider, production, real-data, Claims or semantic authorization/change. |
+| DEC-034 | Human / Product Owner authorized DEPLOY-001 implementation under `HUMAN-DEPLOY-001-IMPLEMENTATION-2026-10-01` | Authorizes zero-cost synthetic/demo-only staging work from main `ed16fbc24d0ee06d7c2294a49bf243a448e6df87`. Hosting platform remains a separate Section 19 Human decision before platform-specific code/deploy. No paid hosting, provider/API call, production release, real/confidential data, Claims, EVAL-001 PRODUCT_RUNTIME, auth/storage/retention acceptance or BLK-003 closure. |
+| DEC-035 | Human / Product Owner selected **Render** for DEPLOY-001 under `HUMAN-DEPLOY-001-PLATFORM-RENDER-2026-10-01` | Resolves the platform gate. Implementation may proceed on `feat/deploy-001-demo-staging` using Render free-tier staging only. No production/provider/real-data/paid-service/BLK-003 expansion is introduced. |
 
 ## 22. Next Recommended Action
 
@@ -529,7 +553,7 @@ Human đã phê duyệt ADR-006 và Output Schema v1.0.0 cho AI-001, sau đó me
 3. P1-004 is **CLOSED / COMPLETED — MERGED WITH MCP TOOL LIMITATION** via implementation PR #45 and governance closeout PR #46; final main CI `36732793377` SUCCESS. MCP remains `IMPLEMENTED` because completion is **BLOCKED BY TOOL CAPABILITY**.
 4. P1-005 is **CLOSED / COMPLETED — MERGED; MCP TOOL LIMITATION** after implementation PR #48 and governance closeout PR #49; closeout reviewed SHA `2765dde0eaa99e9d8d9f989876d1310b1843424e` PASS/NONE; final merge/main `90ead2c0f26f17c617cfa71e6d7b3d16808d46e1`; final CI `36811043597` SUCCESS.
 5. P1-006 is **CLOSED / COMPLETED — MERGED; MCP TOOL LIMITATION**. Implementation reviewed `59c65deec60ae80e3ba6d28220466c2bdbfed815` PASS/NONE; PR #50 merge `659e46fa80321e037f384e0e8a09bbe90646da35`; closeout reviewed `d46a7101d8aefedd14ece29db50c8f3b00ebbde9` PASS/NONE; PR #51 merge `829c83130c6eb6018897cd5a8f62332408193142`; final main CI `36834543602` SUCCESS. No remaining P1-006 Git/review/CI gate.
-6. DEPLOY-001 — **PLANNED — implementation not authorized**. Function: create a zero-cost demo/staging deployment and public HTTPS demo URL for synthetic/demo data only. It does not authorize a hosting platform, provider/API spend, production release, real/confidential data, or BLK-003 closure. Recommended after P1-006 for a polished demo, but no hard technical dependency is recorded.
+6. DEPLOY-001 — **IMPLEMENTED — EXACT-HEAD CI/REVIEW, MERGE AND LIVE DEPLOYMENT PENDING** under `HUMAN-DEPLOY-001-IMPLEMENTATION-2026-10-01` + `HUMAN-DEPLOY-001-PLATFORM-RENDER-2026-10-01`. Branch `feat/deploy-001-demo-staging`; local backend/frontend/demo gates PASS. Next gates: commit/push/open PR → exact-head CI SUCCESS → fixed-SHA Gemini review → merge → verified Render deployment using the connected account. Public URLs are NOT DEPLOYED / NOT RECORDED.
 7. EVAL-001 PRODUCT_RUNTIME remains **DEFERRED — AWAITING FUNDING** with evidence NONE and semantic acceptance NOT_DETERMINED; provider authorization NOT GRANTED / budget 0. BLK-003 remains OPEN and blocks production/real-data use. Production deployment remains NOT APPROVED / NOT PERFORMED.
 
 ## 23. Last Updated

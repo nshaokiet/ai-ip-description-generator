@@ -455,6 +455,27 @@ main {
   background: #eef7ff;
 }
 
+.demo-sample-panel {
+  display: grid;
+  gap: 22px;
+  padding: clamp(24px, 4vw, 36px);
+  margin-top: 28px;
+  border: 2px solid #f0b37d;
+  border-radius: var(--radius-md);
+  background: #fffaf5;
+}
+
+.demo-boundary-notice p {
+  margin: 6px 0 0;
+  color: var(--color-text-secondary);
+}
+
+.demo-sample-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
 .drop-zone h3,
 .drop-zone p {
   margin: 0;
