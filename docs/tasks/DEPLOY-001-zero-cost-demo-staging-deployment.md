@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Version | 0.2.0 |
-| Status | **AUTHORIZED — RENDER SELECTED; IMPLEMENTATION HANDOFF READY** |
+| Status | **IMPLEMENTATION STARTED — CODEX HANDOFF / RENDER CONNECTION REQUIRED FOR LIVE DEPLOY** |
 | Owner | ChatGPT/Codex under AGENTS.md standing delegation |
 | Baseline | `ed16fbc24d0ee06d7c2294a49bf243a448e6df87` |
 | Human roadmap registration | `HUMAN-DEPLOY-001-ROADMAP-REGISTRATION-2026-09-29` |
@@ -97,3 +97,12 @@ Authorization scope remains limited to a zero-cost synthetic/demo-only staging d
 - Prefer same-origin or tightly restricted origin routing. Do not use wildcard CORS.
 - Free-tier limitations are acceptable for staging, including spin-down/cold-start behavior and ephemeral filesystem, but must be documented as demo constraints rather than production guarantees.
 - If Render Blueprint wiring cannot express a safe dynamic frontend/backend URL relationship, document the minimum manual Dashboard wiring step instead of hard-coding or guessing an unverified public hostname.
+
+
+## Implementation start — 01/10/2026
+
+- Human instruction: begin the Render deployment work now.
+- Code implementation owner remains **Codex** under AGENTS.md standing delegation.
+- Repository implementation begins from branch head `13cebe50fe28482f84eb60f15434b32edf63fb47` on `feat/deploy-001-demo-staging`.
+- Live Render service creation/deployment requires the user's Render account connection; no service or public URL is claimed before that connection and verified Render evidence exist.
+- Until the fixed-SHA implementation review and merge gates are satisfied, repository work is limited to staging-safe code/config/tests/runbook and no production/provider/real-data authorization is implied.
