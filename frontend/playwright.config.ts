@@ -19,7 +19,7 @@ export default defineConfig({
     ...devices["Desktop Chrome"],
     acceptDownloads: true,
   },
-  webServer: [
+  webServer: process.env.P1_005_EXTERNAL_SERVERS === "1" ? [] : [
     {
       command: `"${python}" -m uvicorn tests.e2e.offline_backend:app --host 127.0.0.1 --port 8000`,
       cwd: repositoryRoot,
