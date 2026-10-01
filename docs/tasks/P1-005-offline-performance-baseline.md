@@ -5,16 +5,16 @@
 | Field | Value |
 | --- | --- |
 | Task | P1-005 |
-| Status | **IMPLEMENTED — REVIEW PENDING** |
+| Status | **CLOSED / COMPLETED — MERGED; CLOSEOUT REVIEW PENDING; MCP TOOL LIMITATION** |
 | Authorization | `HUMAN-P1-005-OFFLINE-PERFORMANCE-BASELINE-2026-10-01` |
 | Baseline main | `a44d26d895724a254cb5e598047baaed32f7087d` |
 | Branch | `feat/p1-005-offline-performance-baseline` |
 | Executable implementation SHA | `e4db6b231bf99b3227f6a3e331479356cbcd869e` |
-| Pull request | #48 |
-| PR CI | `36807093817` — **SUCCESS** on executable implementation SHA |
+| Pull request | #48 — merged at `3641c7ed91636d8480226d931b719cdcf28b17e0` |
+| PR CI | `36807093817` — **SUCCESS** on executable implementation SHA; final review-head CI `36808292952` — **SUCCESS** |
 | Scope | Deterministic offline measurement only; no product-semantic optimization |
 | Data | Synthetic and reproducible only |
-| Independent review | Gemini 3.1 Pro High fixed-SHA review pending |
+| Independent review | Gemini 3.1 Pro High — **PASS**, findings **NONE**, reviewed `2c3e03ed8faf7bb929cfe38e7131108c6f57426b` |
 | MCP | `PLANNED` / **BLOCKED BY TOOL CAPABILITY** |
 
 ## Purpose and boundaries
@@ -98,6 +98,17 @@ PR CI `36807093817` on executable implementation `e4db6b231bf99b3227f6a3e3314793
 
 The local and CI counts are separate environment-specific evidence; neither is substituted for the other.
 
+Implementation review and merge evidence:
+
+- Final reviewed SHA: `2c3e03ed8faf7bb929cfe38e7131108c6f57426b`.
+- Reviewer: **Gemini 3.1 Pro High**.
+- Decision: **PASS**; findings **NONE**.
+- Final review-head CI `36808292952`: **SUCCESS** with backend **443 passed / 2 skipped**, `pip check` **PASS**, frontend lint/typecheck/build **PASS**, Playwright **18 passed**, live flags **0 / 0**, provider/API calls **NONE**.
+- PR #48 merged at `3641c7ed91636d8480226d931b719cdcf28b17e0`.
+- Push/main CI `36809603707`: **SUCCESS** on the exact merge SHA with backend **443 passed / 2 skipped**, `pip check` **PASS**, frontend lint/typecheck/build **PASS**, Playwright **18 passed**, live flags **0 / 0**, provider/API calls **NONE**.
+- Git/governance implementation status: **CLOSED / COMPLETED — MERGED**; documentation-only governance closeout review remains pending.
+- MCP remains `PLANNED` / **BLOCKED BY TOOL CAPABILITY**; no MCP `IMPLEMENTED` or `COMPLETED` state is fabricated.
+
 ## Safety and handoff
 
 - Provider/API calls: **NONE**.
@@ -105,5 +116,5 @@ The local and CI counts are separate environment-specific evidence; neither is s
 - Production/deployment/auth/storage/retention changes: **NONE**.
 - Real/confidential/unpublished data: **NONE**.
 - Claims changes: **NONE**.
-- Next gate: **GEMINI 3.1 PRO HIGH FIXED-SHA IMPLEMENTATION REVIEW**.
-- Do not merge before that review returns PASS on the final fixed PR head. PR CI on the executable implementation is already SUCCESS; this documentation-only reconciliation requires fresh exact-head CI before review.
+- Next gate: **GEMINI 3.1 PRO HIGH FIXED-SHA GOVERNANCE CLOSEOUT REVIEW** of the documentation-only closeout PR.
+- Do not merge the closeout PR before that review returns PASS on its exact head SHA.
