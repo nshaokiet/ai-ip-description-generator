@@ -5,7 +5,7 @@
 | Field | Value |
 | --- | --- |
 | Task | P1-006 |
-| Status | **CLOSED / COMPLETED — MERGED; CLOSEOUT REVIEW PENDING; MCP TOOL LIMITATION** |
+| Status | **CLOSED / COMPLETED — MERGED; MCP TOOL LIMITATION** |
 | Authorization | `HUMAN-P1-006-UX-POLISH-2026-10-01` |
 | Baseline main | `90ead2c0f26f17c617cfa71e6d7b3d16808d46e1` |
 | Branch | `feat/p1-006-ux-polish` |
@@ -247,12 +247,15 @@ Routine implementation, test, commit, push, PR, in-scope remediation, merge afte
 
 ## Current handoff state
 
-- P1-006 implementation is **CLOSED / COMPLETED — MERGED; CLOSEOUT REVIEW PENDING; MCP TOOL LIMITATION**.
-- Reviewed exact SHA `59c65deec60ae80e3ba6d28220466c2bdbfed815`: Gemini 3.1 Pro High **PASS**, findings **NONE**.
-- PR #50 merged at `659e46fa80321e037f384e0e8a09bbe90646da35`; post-merge main CI `36833210498` **SUCCESS**.
+- P1-006 is **CLOSED / COMPLETED — MERGED; MCP TOOL LIMITATION**.
+- Implementation reviewed exact SHA `59c65deec60ae80e3ba6d28220466c2bdbfed815`: Gemini 3.1 Pro High **PASS**, findings **NONE**, AC-01…AC-13 PASS.
+- Implementation PR #50 merged at `659e46fa80321e037f384e0e8a09bbe90646da35`; implementation main CI `36833210498` **SUCCESS**.
+- Governance closeout reviewed exact SHA `d46a7101d8aefedd14ece29db50c8f3b00ebbde9`: Gemini 3.1 Pro High **PASS**, findings **NONE**; README/task record/Control Center/Review Log/evidence/MCP handling/scope/CI all PASS; reviewer modified tracked files **NO**.
+- Closeout PR #51 merged at `829c83130c6eb6018897cd5a8f62332408193142`.
+- Final main CI `36834543602` **SUCCESS** on the exact closeout merge SHA with backend **443 passed / 2 skipped**, Python dependency consistency **PASS**, frontend lint/typecheck/build **PASS**, synthetic Playwright **19 passed**, live flags **0 / 0**, provider/API calls **NONE**.
 - MCP remains `PLANNED` / **BLOCKED BY TOOL CAPABILITY**; no fabricated `IMPLEMENTED`/`COMPLETED` state.
 - BLK-003 remains **OPEN**.
 - DEPLOY-001 remains **NOT AUTHORIZED**.
 - EVAL-001 PRODUCT_RUNTIME remains **DEFERRED — AWAITING FUNDING**.
 - Production deployment remains **NOT APPROVED / NOT PERFORMED**.
-- Next gate: Gemini 3.1 Pro High fixed-SHA review of the documentation-only governance closeout PR; do not merge closeout before PASS.
+- P1-006 has no remaining Git/review/CI gate.
