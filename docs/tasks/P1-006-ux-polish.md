@@ -5,7 +5,7 @@
 | Field | Value |
 | --- | --- |
 | Task | P1-006 |
-| Status | **AUTHORIZED FOR IMPLEMENTATION — SPECIFICATION CREATED** |
+| Status | **AUTHORIZED FOR IMPLEMENTATION — HANDOFF READY** |
 | Authorization | `HUMAN-P1-006-UX-POLISH-2026-10-01` |
 | Baseline main | `90ead2c0f26f17c617cfa71e6d7b3d16808d46e1` |
 | Branch | `feat/p1-006-ux-polish` |
@@ -196,7 +196,8 @@ Routine implementation, test, commit, push, PR, in-scope remediation, merge afte
 - Human authorization: **GRANTED** under `HUMAN-P1-006-UX-POLISH-2026-10-01`.
 - Baseline main: `90ead2c0f26f17c617cfa71e6d7b3d16808d46e1`.
 - Branch: `feat/p1-006-ux-polish`.
-- Implementation: **NOT STARTED** at specification creation.
+- Governance reconciliation: **COMPLETE** on the task branch before code handoff; current repository docs record P1-005 final closeout and P1-006 authorization.
+- Implementation: **NOT STARTED** at code handoff.
 - Independent review: **NOT STARTED**.
 - PR: **NOT OPENED**.
 - CI evidence for P1-006 implementation: **NONE YET**.
