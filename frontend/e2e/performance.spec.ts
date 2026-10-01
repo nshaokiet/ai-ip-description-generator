@@ -2,7 +2,7 @@ import fs from "node:fs";
 import { performance } from "node:perf_hooks";
 import { expect, test } from "@playwright/test";
 
-const backend = "http://127.0.0.1:8000";
+const backend = `http://127.0.0.1:${process.env.PLAYWRIGHT_BACKEND_PORT ?? "8000"}`;
 
 test("P1-005 synthetic local browser workflow measurement", async ({ page }) => {
   await page.route("**/*", async (route) => {

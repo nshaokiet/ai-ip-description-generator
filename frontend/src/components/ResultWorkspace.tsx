@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, type KeyboardEvent } from "react";
+import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 
 import { AnalysisView } from "@/components/AnalysisView";
 import { PatentDraftView } from "@/components/PatentDraftView";
@@ -23,6 +23,7 @@ import type {
   NormalizedApiError,
   PatentDraft,
   ProcessResult,
+  WorkflowPhase,
   WorkflowState,
 } from "@/lib/types/contracts";
 
@@ -32,6 +33,7 @@ interface ResultWorkspaceProps {
   result: ProcessResult;
   state: WorkflowState;
   onExport: (request: ExportDocxRequest) => Promise<void>;
+  onProgressChange: (phase: WorkflowPhase) => void;
   onReset: () => void;
 }
 
@@ -40,12 +42,14 @@ function safeValidationError(issue: unknown): NormalizedApiError {
   return { status: 0, code: "unexpected_client_error", message: "Validation could not be completed safely." };
 }
 
-export function ResultWorkspace({ result, state, onExport, onReset }: ResultWorkspaceProps) {
+export function ResultWorkspace({ result, state, onExport, onProgressChange, onReset }: ResultWorkspaceProps) {
   const [activeTab, setActiveTab] = useState<ResultTab>("analysis");
   const [session, setSession] = useState(() => createDraftSession(result.draft));
   const [editBuffer, setEditBuffer] = useState<PatentDraft | null>(null);
   const [validating, setValidating] = useState(false);
   const [validationError, setValidationError] = useState<NormalizedApiError | null>(null);
+  const validationLockRef = useRef(false);
+  const exportLockRef = useRef(false);
   const errorHeadingRef = useRef<HTMLHeadingElement>(null);
   const tabRefs = useRef<Record<ResultTab, HTMLButtonElement | null>>({ analysis: null, draft: null, review: null });
   const revision = selectedRevision(session);
@@ -71,6 +75,18 @@ export function ResultWorkspace({ result, state, onExport, onReset }: ResultWork
     { key: "draft", label: "Patent Draft" },
     { key: "review", label: "Review Items" },
   ];
+
+  useEffect(() => {
+    if (state === "EXPORTING") {
+      onProgressChange("export");
+    } else if (validating || validationError) {
+      onProgressChange("validate");
+    } else if (revision.validation) {
+      onProgressChange("export");
+    } else {
+      onProgressChange("review");
+    }
+  }, [onProgressChange, revision.validation, state, validating, validationError]);
 
   function handleTabKeyDown(event: KeyboardEvent<HTMLButtonElement>) {
     if (!["ArrowRight", "ArrowLeft", "Home", "End"].includes(event.key)) return;
@@ -105,7 +121,8 @@ export function ResultWorkspace({ result, state, onExport, onReset }: ResultWork
   }
 
   async function handleValidate() {
-    if (editing || busy) return;
+    if (editing || busy || validationLockRef.current) return;
+    validationLockRef.current = true;
     setValidationError(null);
     setValidating(true);
     try {
@@ -120,6 +137,7 @@ export function ResultWorkspace({ result, state, onExport, onReset }: ResultWork
       setActiveTab("draft");
       window.requestAnimationFrame(() => errorHeadingRef.current?.focus());
     } finally {
+      validationLockRef.current = false;
       setValidating(false);
     }
   }
@@ -129,12 +147,14 @@ export function ResultWorkspace({ result, state, onExport, onReset }: ResultWork
   }
 
   function handleExport() {
-    if (editing || busy || !revision.validation) return;
-    void onExport({ ...requestBody, validated_digest: revision.validation.draft_digest });
+    if (editing || busy || !revision.validation || exportLockRef.current) return;
+    exportLockRef.current = true;
+    void onExport({ ...requestBody, validated_digest: revision.validation.draft_digest })
+      .finally(() => { exportLockRef.current = false; });
   }
 
   return (
-    <section className="results-workspace" aria-labelledby="results-heading">
+    <section aria-busy={busy} className="results-workspace" aria-labelledby="results-heading">
       <div className="results-toolbar">
         <div>
           <p className="eyebrow">Processing complete</p>
@@ -188,6 +208,25 @@ export function ResultWorkspace({ result, state, onExport, onReset }: ResultWork
         <span>Export target: {revision.id}{revision.validation ? " · eligible after server revalidation" : " · validation required"}</span>
       </div>
 
+      {validating && (
+        <div className="processing-callout workspace-operation" role="status" aria-live="polite">
+          <span className="spinner" aria-hidden="true" />
+          <div>
+            <strong>Validating {revision.id}…</strong>
+            <p>The selected revision is preserved and duplicate validation requests are blocked.</p>
+          </div>
+        </div>
+      )}
+      {state === "EXPORTING" && (
+        <div className="processing-callout workspace-operation" role="status" aria-live="polite">
+          <span className="spinner" aria-hidden="true" />
+          <div>
+            <strong>Preparing {revision.id} for DOCX download…</strong>
+            <p>Keep this page open. Another export cannot start until this request finishes.</p>
+          </div>
+        </div>
+      )}
+
       {unverifiedPaths.length > 0 && (
         <p className="edit-support-warning" role="note">
           {unverifiedPaths.length} edited prose field(s) have unchanged evidence links, but semantic source support is unverified. Technical validation is not Human or legal approval.
@@ -202,6 +241,9 @@ export function ResultWorkspace({ result, state, onExport, onReset }: ResultWork
             {validationError.correlation_id && <p>Reference ID: <code>{validationError.correlation_id}</code></p>}
             <p>The saved revision remains available for correction.</p>
           </div>
+          <button className="secondary-button" onClick={beginEdit} type="button">
+            Edit this revision
+          </button>
         </section>
       )}
 

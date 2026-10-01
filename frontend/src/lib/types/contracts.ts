@@ -7,6 +7,13 @@ export type WorkflowState =
   | "EXPORTING"
   | "ERROR";
 
+export type WorkflowPhase =
+  | "upload"
+  | "analyze"
+  | "review"
+  | "validate"
+  | "export";
+
 export type GroundingLabel = "SOURCE_FACT" | "PARAPHRASE" | "INFERENCE";
 
 export interface Grounding {

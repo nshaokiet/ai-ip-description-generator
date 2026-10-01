@@ -3,11 +3,17 @@ import path from "node:path";
 
 import { expect, test, type Download, type Page } from "@playwright/test";
 
-const backend = "http://127.0.0.1:8000";
+const backend = `http://127.0.0.1:${process.env.PLAYWRIGHT_BACKEND_PORT ?? "8000"}`;
 const mediaTypes = {
   pdf: "application/pdf",
   docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
 };
+
+function deferred() {
+  let release!: () => void;
+  const promise = new Promise<void>((resolve) => { release = resolve; });
+  return { promise, release };
+}
 
 async function downloadedDocxText(download: Download): Promise<string> {
   const root = path.resolve(__dirname, "../..");
@@ -159,19 +165,106 @@ test("backend error text is rendered as text and cannot inject HTML", async ({ p
 
 test("only the current workflow step exposes aria-current", async ({ page }) => {
   await page.goto("/");
-  const upload = page.getByRole("listitem").filter({ hasText: "Validate source document" });
-  const process = page.getByRole("listitem").filter({ hasText: "Analyze and generate draft" });
-  const review = page.getByRole("listitem").filter({ hasText: "Inspect grounded output" });
+  const upload = page.getByRole("listitem").filter({ hasText: "Choose and check source" });
+  const analyze = page.getByRole("listitem").filter({ hasText: "Generate grounded draft" });
+  const review = page.getByRole("listitem").filter({ hasText: "Inspect and revise prose" });
+  const validate = page.getByRole("listitem").filter({ hasText: "Check the exact revision" });
+  const exportStep = page.getByRole("listitem").filter({ hasText: "Download editable DOCX" });
   await expect(upload).toHaveAttribute("aria-current", "step");
-  await expect(process).not.toHaveAttribute("aria-current");
+  await expect(analyze).not.toHaveAttribute("aria-current");
   await expect(review).not.toHaveAttribute("aria-current");
+  await expect(validate).not.toHaveAttribute("aria-current");
+  await expect(exportStep).not.toHaveAttribute("aria-current");
   await uploadSynthetic(page, "pdf");
   await expect(upload).not.toHaveAttribute("aria-current");
-  await expect(process).toHaveAttribute("aria-current", "step");
+  await expect(analyze).toHaveAttribute("aria-current", "step");
   await page.getByRole("button", { name: "Analyze & Generate Draft" }).click();
   await expect(page.getByRole("heading", { name: "Grounded draft workspace" })).toBeVisible();
-  await expect(process).not.toHaveAttribute("aria-current");
+  await expect(analyze).not.toHaveAttribute("aria-current");
   await expect(review).toHaveAttribute("aria-current", "step");
+  await page.getByRole("button", { name: "Validate revision-1" }).click();
+  await expect(page.getByText("Backend validation: PASSED for this exact revision")).toBeVisible();
+  await expect(review).not.toHaveAttribute("aria-current");
+  await expect(exportStep).toHaveAttribute("aria-current", "step");
+});
+
+test("upload, analysis, validation and export allow only one in-flight request", async ({ page }) => {
+  const fixtureResponse = await page.request.get(`${backend}/__test/pdf`);
+  expect(fixtureResponse.ok()).toBeTruthy();
+  await page.goto("/");
+  await page.locator("#document-file").setInputFiles({
+    name: "synthetic.pdf", mimeType: mediaTypes.pdf, buffer: await fixtureResponse.body(),
+  });
+
+  const uploadGate = deferred();
+  let uploadRequests = 0;
+  await page.route("**/backend/api/documents", async (route) => {
+    if (route.request().method() !== "POST") return route.continue();
+    uploadRequests += 1;
+    await uploadGate.promise;
+    await route.continue();
+  });
+  const uploadButton = page.locator(".selected-file .primary-button");
+  await uploadButton.evaluate((button: HTMLButtonElement) => { button.click(); button.click(); });
+  await expect.poll(() => uploadRequests).toBe(1);
+  await expect(uploadButton).toBeDisabled();
+  await expect(page.getByText("Uploading and checking the selected document…")).toBeVisible();
+  uploadGate.release();
+  await expect(page.getByRole("heading", { name: "Ready for analysis" })).toBeVisible();
+  expect(uploadRequests).toBe(1);
+  await page.unroute("**/backend/api/documents");
+
+  const processGate = deferred();
+  let processRequests = 0;
+  await page.route("**/backend/api/documents/*/process", async (route) => {
+    processRequests += 1;
+    await processGate.promise;
+    await route.continue();
+  });
+  const processButton = page.locator(".action-panel .primary-button");
+  await processButton.evaluate((button: HTMLButtonElement) => { button.click(); button.click(); });
+  await expect.poll(() => processRequests).toBe(1);
+  await expect(processButton).toBeDisabled();
+  await expect(page.getByText("Analyzing the document and generating the patent draft…")).toBeVisible();
+  processGate.release();
+  await expect(page.getByRole("heading", { name: "Grounded draft workspace" })).toBeVisible();
+  expect(processRequests).toBe(1);
+  await page.unroute("**/backend/api/documents/*/process");
+
+  const validationGate = deferred();
+  let validationRequests = 0;
+  await page.route("**/backend/api/drafts/validate", async (route) => {
+    validationRequests += 1;
+    await validationGate.promise;
+    await route.continue();
+  });
+  const validateButton = page.locator(".revision-actions button").nth(1);
+  await validateButton.evaluate((button: HTMLButtonElement) => { button.click(); button.click(); });
+  await expect.poll(() => validationRequests).toBe(1);
+  await expect(validateButton).toBeDisabled();
+  await expect(page.getByText("Validating revision-1…")).toBeVisible();
+  await expect(page.getByRole("listitem").filter({ hasText: "Check the exact revision" })).toHaveAttribute("aria-current", "step");
+  validationGate.release();
+  await expect(page.getByText("Backend validation: PASSED for this exact revision")).toBeVisible();
+  expect(validationRequests).toBe(1);
+  await page.unroute("**/backend/api/drafts/validate");
+
+  const exportGate = deferred();
+  let exportRequests = 0;
+  await page.route("**/backend/api/exports/docx", async (route) => {
+    exportRequests += 1;
+    await exportGate.promise;
+    await route.continue();
+  });
+  const downloadPromise = page.waitForEvent("download");
+  const exportButton = page.locator(".toolbar-actions .primary-button");
+  await exportButton.evaluate((button: HTMLButtonElement) => { button.click(); button.click(); });
+  await expect.poll(() => exportRequests).toBe(1);
+  await expect(exportButton).toBeDisabled();
+  await expect(page.getByText("Preparing revision-1 for DOCX download…")).toBeVisible();
+  exportGate.release();
+  expect((await downloadPromise).suggestedFilename()).toBe("patent-description-draft.docx");
+  expect(exportRequests).toBe(1);
 });
 
 test("six fresh synthetic runs keep deterministic shape and clean source/export storage", async ({ page }) => {
@@ -338,8 +431,9 @@ test("invalid edit and rejected export preserve selected revision", async ({ pag
   await expect(page.getByRole("heading", { name: /Draft validation failed/ })).toBeVisible();
   await expect(page.getByText("This invention is patentable.", { exact: true })).toBeVisible();
   await expect(page.getByRole("button", { name: "Export revision-2 DOCX" })).toBeDisabled();
+  await expect(page.getByLabel("Selected revision")).toHaveValue("revision-2");
 
-  await page.getByRole("button", { name: "Edit prose" }).click();
+  await page.getByRole("button", { name: "Edit this revision" }).click();
   await firstParagraph(page).fill("The optical sensor is calibrated across temperature bands.");
   await page.getByRole("button", { name: "Save new revision" }).click();
   await page.getByRole("button", { name: "Validate revision-3" }).click();
@@ -431,13 +525,18 @@ test("process proxy failure is safe and requires a new upload before retry", asy
   await page.route("**/backend/api/documents/*/process", async (route) => {
     const processed = await route.fetch();
     expect(processed.ok()).toBeTruthy();
-    await route.fulfill({ status: 502, contentType: "text/plain", body: "raw C:\\private\\paper.pdf" });
+    await route.fulfill({
+      status: 502,
+      contentType: "application/json",
+      body: JSON.stringify({ error: { code: "upstream_failure", message: "Provider OpenAI failed at C:\\private\\paper.pdf" } }),
+    });
   });
   await page.getByRole("button", { name: "Analyze & Generate Draft" }).click();
   await expect(page.getByText("The local service could not complete the request.")).toBeVisible();
   await expect(page.getByRole("heading", { name: "Ready for analysis" })).toHaveCount(0);
   await expect(page.getByRole("heading", { name: "Grounded draft workspace" })).toHaveCount(0);
   await expect(page.locator(".error-banner")).not.toContainText("C:\\private");
+  await expect(page.locator(".error-banner")).not.toContainText("OpenAI");
   await page.unroute("**/backend/api/documents/*/process");
   await page.getByRole("button", { name: "Choose another document" }).click();
   const fixture = await page.request.get(`${backend}/__test/pdf`);

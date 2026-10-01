@@ -51,6 +51,7 @@ export function UploadPanel({ state, document, onUpload, onProcess }: UploadPane
   function handleDrop(event: DragEvent<HTMLDivElement>) {
     event.preventDefault();
     setDragActive(false);
+    if (busy) return;
     if (event.dataTransfer.files.length !== 1) {
       setSelectedFile(null);
       setLocalError("Choose exactly one document.");
@@ -61,7 +62,7 @@ export function UploadPanel({ state, document, onUpload, onProcess }: UploadPane
 
   if (document) {
     return (
-      <section className="workspace-card" aria-labelledby="validated-document-heading">
+      <section aria-busy={busy} className="workspace-card" aria-labelledby="validated-document-heading">
         <div className="workspace-card-header">
           <div>
             <p className="eyebrow">Validated document</p>
@@ -112,7 +113,7 @@ export function UploadPanel({ state, document, onUpload, onProcess }: UploadPane
   }
 
   return (
-    <section className="workspace-card" aria-labelledby="upload-heading">
+    <section aria-busy={busy} className="workspace-card" aria-labelledby="upload-heading">
       <div className="workspace-card-header">
         <div>
           <p className="eyebrow">Step 1</p>
@@ -135,6 +136,7 @@ export function UploadPanel({ state, document, onUpload, onProcess }: UploadPane
           accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
           className="sr-only"
           id="document-file"
+          disabled={busy}
           onChange={handleChange}
           ref={inputRef}
           type="file"
@@ -162,6 +164,15 @@ export function UploadPanel({ state, document, onUpload, onProcess }: UploadPane
           >
             {state === "UPLOADING" ? "Uploading…" : "Upload & Validate"}
           </button>
+        </div>
+      )}
+      {state === "UPLOADING" && (
+        <div className="processing-callout" role="status" aria-live="polite">
+          <span className="spinner" aria-hidden="true" />
+          <div>
+            <strong>Uploading and checking the selected document…</strong>
+            <p>Another upload cannot start until this request finishes.</p>
+          </div>
         </div>
       )}
       {localError && <p className="field-error" role="alert">{localError}</p>}

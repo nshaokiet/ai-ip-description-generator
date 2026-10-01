@@ -17,6 +17,7 @@ import type {
   ExportDocxRequest,
   ProcessResult,
   UploadedDocument,
+  WorkflowPhase,
   WorkflowState,
 } from "@/lib/types/contracts";
 
@@ -35,6 +36,8 @@ export default function Home() {
   const [result, setResult] = useState<ProcessResult | null>(null);
   const [error, setError] = useState<NormalizedApiError | null>(null);
   const [recoveryState, setRecoveryState] = useState<WorkflowState>("IDLE");
+  const [workflowPhase, setWorkflowPhase] = useState<WorkflowPhase>("upload");
+  const operationRef = useRef<"upload" | "process" | "export" | null>(null);
   const errorHeadingRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
@@ -49,6 +52,7 @@ export default function Home() {
     setResult(null);
     setError(null);
     setRecoveryState("IDLE");
+    setWorkflowPhase("upload");
   }
 
   function showError(issue: unknown, recoverTo: WorkflowState) {
@@ -58,35 +62,49 @@ export default function Home() {
   }
 
   async function handleUpload(file: File) {
+    if (operationRef.current) return;
+    operationRef.current = "upload";
     setError(null);
+    setWorkflowPhase("upload");
     setState("UPLOADING");
     try {
       const uploaded = await uploadDocument(file);
       setDocument(uploaded);
+      setWorkflowPhase("analyze");
       setState("UPLOADED");
     } catch (issue) {
       showError(issue, "IDLE");
+    } finally {
+      if (operationRef.current === "upload") operationRef.current = null;
     }
   }
 
   async function handleProcess() {
-    if (!document) return;
+    if (!document || operationRef.current) return;
+    operationRef.current = "process";
     setError(null);
+    setWorkflowPhase("analyze");
     setState("PROCESSING");
     try {
       const processed = await processDocument(document.document_id);
       setResult(processed);
+      setWorkflowPhase("review");
       setState("READY");
     } catch (issue) {
       // APP-003 may have removed the source once processing began. A new upload is required.
       setDocument(null);
+      setWorkflowPhase("upload");
       showError(issue, "IDLE");
+    } finally {
+      if (operationRef.current === "process") operationRef.current = null;
     }
   }
 
   async function handleExport(requestBody: ExportDocxRequest) {
-    if (!result) return;
+    if (!result || operationRef.current) return;
+    operationRef.current = "export";
     setError(null);
+    setWorkflowPhase("export");
     setState("EXPORTING");
     try {
       const exported = await exportDocx(requestBody);
@@ -101,6 +119,8 @@ export default function Home() {
       setState("READY");
     } catch (issue) {
       showError(issue, "READY");
+    } finally {
+      if (operationRef.current === "export") operationRef.current = null;
     }
   }
 
@@ -162,7 +182,7 @@ export default function Home() {
           </aside>
         </section>
 
-        <WorkflowProgress state={state === "ERROR" ? recoveryState : state} />
+        <WorkflowProgress phase={workflowPhase} />
 
         <p className="sr-only" aria-live="polite" aria-atomic="true">
           {statusMessage}
@@ -194,6 +214,7 @@ export default function Home() {
         ) : (
           <ResultWorkspace
             onExport={handleExport}
+            onProgressChange={setWorkflowPhase}
             onReset={reset}
             result={result}
             state={state}

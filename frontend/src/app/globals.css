@@ -321,8 +321,8 @@ main {
 
 .workflow-progress ol {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 14px;
   padding: 0;
   margin: 0;
   list-style: none;
@@ -339,8 +339,8 @@ main {
 .workflow-step:not(:last-child)::after {
   position: absolute;
   top: 19px;
-  right: -10px;
-  width: 20px;
+  right: -7px;
+  width: 14px;
   height: 1px;
   background: var(--color-border);
   content: "";
@@ -507,6 +507,13 @@ main {
   background: #f2f8fd;
 }
 
+.primary-button:disabled,
+.secondary-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.58;
+  box-shadow: none;
+}
+
 .selected-file {
   padding: 18px 20px;
   margin-top: 18px;
@@ -614,6 +621,14 @@ main {
   margin: 2px 0 0;
   color: var(--color-text-secondary);
   font-size: 0.86rem;
+}
+
+.workspace-operation {
+  margin: 16px 32px 0;
+}
+
+.results-workspace > .error-banner {
+  margin: 16px 32px 0;
 }
 
 .spinner {
@@ -1103,6 +1118,16 @@ main {
     gap: 10px;
   }
 
+  .workflow-step {
+    gap: 8px;
+  }
+
+  .step-marker {
+    flex-basis: 32px;
+    height: 32px;
+    font-size: 0.82rem;
+  }
+
   .workflow-step small {
     display: none;
   }
@@ -1169,6 +1194,16 @@ main {
 
   .workflow-progress ol {
     grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .workflow-step {
+    gap: 12px;
+  }
+
+  .workflow-step small {
+    display: block;
+    white-space: normal;
   }
 
   .workflow-step:not(:last-child)::after {
@@ -1207,6 +1242,11 @@ main {
   .results-toolbar,
   .result-view {
     padding: 22px 18px;
+  }
+
+  .workspace-operation,
+  .results-workspace > .error-banner {
+    margin: 14px 18px 0;
   }
 
   .tab-list {
