@@ -3,13 +3,13 @@
 | Field | Value |
 |---|---|
 | Task | P1-004 |
-| Status | IMPLEMENTATION MERGED — CLOSEOUT REVIEW PENDING |
+| Status | CLOSED / COMPLETED — MERGED; MCP TOOL LIMITATION |
 | Authorization | `HUMAN-P1-004-ONE-COMMAND-LOCAL-RUN-2026-09-30` |
 | Baseline | `208f17344b429c50ffa181d986511fc9f120efce` |
 | Branch | `feat/p1-004-one-command-local-run` |
 | Closeout branch | `docs/p1-004-post-merge-closeout` |
 | Owner | Codex |
-| Reviewer gate | Implementation review PASS / findings NONE; governance closeout fixed-SHA review — PENDING |
+| Reviewer gate | Implementation and governance closeout reviews PASS / findings NONE — CLOSED |
 | Classification | MVP COMPLETE — LOCAL/SYNTHETIC |
 
 ## Scope and exclusions
@@ -96,8 +96,24 @@ flags **0 / 0**; provider/API calls **NONE**.
   typecheck and build **PASS**; synthetic Playwright **17 passed**; live flags
   `0 / 0`; provider/API calls **NONE**.
 - The implementation review gate is closed. The documentation-only governance
-  closeout remains pending Gemini 3.1 Pro High fixed-SHA review and must not be
-  merged before that review is returned.
+  closeout gate and final resolution are recorded below.
+
+## Governance closeout evidence
+
+- Closeout PR: [#46](https://github.com/nshaokiet/ai-ip-description-generator/pull/46).
+- Exact reviewed closeout SHA: `5fe704f927cc978f44550ff28bb23bb8c01e4db6`.
+- Reviewer/model profile: **Gemini 3.1 Pro High**.
+- Closeout decision: **PASS**.
+- Closeout findings: **NONE**.
+- Exact-SHA closeout CI [`36729402244`](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/36729402244):
+  **SUCCESS**.
+- Closeout PR #46 merged normally at
+  `8d69bef5e1fe30b8a48d706d5a345be61639a963`.
+- Final push/main CI [`36732793377`](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/36732793377)
+  was **SUCCESS** on that exact merge SHA: backend **431 passed, 2 skipped**
+  with no warning summary displayed; `pip check` **PASS**; frontend lint,
+  typecheck and build **PASS**; synthetic Playwright **17 passed**; live flags
+  `0 / 0`; provider/API calls **NONE**.
 
 ## Implementation self-review findings matrix
 
@@ -125,9 +141,9 @@ Provider/API calls: **NONE**. BLK-003: **OPEN**. P1-005, P1-006 and DEPLOY-001:
 **PLANNED / NOT AUTHORIZED**. EVAL-001 PRODUCT_RUNTIME remains **DEFERRED —
 AWAITING FUNDING**. Production remains **NOT APPROVED / NOT PERFORMED**.
 
-Git/README implementation status is **CLOSED / COMPLETED — MERGED; CLOSEOUT
-REVIEW PENDING**. MCP continues to report P1-004 as `IMPLEMENTED`; the public MCP
+Git/README/governance status is **CLOSED / COMPLETED — MERGED; MCP TOOL
+LIMITATION**. MCP continues to report P1-004 as `IMPLEMENTED`; the public MCP
 surface exposes no supported review/merge transition, so repository-equivalent
-`MERGED` cannot be recorded there and is **BLOCKED BY TOOL CAPABILITY**. No MCP
-`COMPLETED` state is fabricated. Budget remains **100**, threshold **8**, decision
-**CONTINUE**.
+`MERGED` or `COMPLETED` cannot be recorded there and is **BLOCKED BY TOOL
+CAPABILITY**. No MCP `COMPLETED` state is fabricated. Budget remains **100**,
+threshold **8**, decision **CONTINUE**.
