@@ -4,6 +4,7 @@ async function runSampleFlow(page: Page, buttonName: string) {
   await page.goto("/");
   await page.getByRole("button", { name: buttonName }).click();
   await expect(page.getByRole("heading", { name: "Paper uploaded successfully" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Go back" })).toBeEnabled();
   await page.getByRole("button", { name: "Continue to AI Extraction" }).click();
   await expect(page.getByRole("heading", { name: "Review & Refine" })).toBeVisible();
   await page.getByRole("tab", { name: "Patent Draft" }).click();
@@ -19,16 +20,35 @@ async function runSampleFlow(page: Page, buttonName: string) {
   expect((await downloadPromise).suggestedFilename()).toBe("patent-description-draft.docx");
 }
 
-test("static demo exposes only controlled synthetic choices and clear boundaries", async ({ page }) => {
+test("static demo exposes PDF DOCX selection first and keeps controlled samples secondary", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", {
     name: "From Scientific Research Paper to USPTO-Style Patent Specification",
   })).toBeVisible();
-  await expect(page.getByText("Public demo: synthetic samples only.", { exact: false })).toBeVisible();
-  await expect(page.getByText("No live AI provider is used.", { exact: false })).toBeVisible();
-  await expect(page.locator('input[type="file"]')).toHaveCount(0);
+
+  const logo = page.getByRole("img", { name: "VNUHCM Innovation Hub" });
+  await expect(logo).toBeVisible();
+  await expect(logo).toHaveCSS("object-fit", "contain");
+
+  await expect(page.locator('input[type="file"]')).toHaveCount(1);
+  await expect(page.getByRole("button", { name: "Select document" })).toBeVisible();
+  await expect(page.getByText("PDF or DOCX · Max 10 MB")).toBeVisible();
+
+  const backButton = page.getByRole("button", { name: "Go back" });
+  await expect(backButton).toBeVisible();
+  await expect(backButton).toBeDisabled();
+
+  await page.locator("#document-file").setInputFiles({
+    name: "research-paper.docx",
+    mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    buffer: Buffer.from("ui-only-selection"),
+  });
+  await expect(page.getByText("research-paper.docx", { exact: true })).toBeVisible();
+  await expect(page.getByText("AI conversion pending funding", { exact: false })).toBeVisible();
+
   await expect(page.getByRole("button", { name: "Use synthetic PDF demo" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Use synthetic DOCX demo" })).toBeVisible();
+  await expect(page.getByText("No live AI provider is used", { exact: false })).toBeVisible();
   await expect(page.locator(".environment-badge")).toHaveCount(0);
 });
 
