@@ -283,9 +283,9 @@ These are separate future gates, not a committed production release scope:
 | SEC-001 / BLK-003 | **OPEN / DEFERRED** | Production auth/tenant model, private storage, retention/deletion; required before production or real/confidential-data use |
 | Production deployment | **NOT APPROVED / NOT PERFORMED** | Separate from DEPLOY-001 demo/staging; requires security acceptance and Human approval |
 | Prompt/model/runtime optimization | **DEFERRED** | Separate scope; no paid/provider work authorized |
-| Claims | **OUT OF SCOPE** | Separate Human/legal scope and review required |
+| Claims | **OUT OF SCOPE FOR CURRENT v1 RUNTIME; TARGETED BY FUTURE P2-004** | P2-001 defines Claims as part of the v2 target only; no Claims generation/runtime is implemented yet |
 
-DEPLOY-001 implementation is Human-authorized and **Render is the selected platform**. The reviewed implementation and rewrite remediation are merged, both Render services are live on `3a31bc7c26cd14c2529c7381e96c32fa3f1a1e0c`, and public same-origin synthetic PDF/DOCX smoke flows passed. The task remains synthetic/demo staging only; it does not resolve BLK-003 and does not permit production release, real/confidential research data, paid hosting, or provider/API calls. Governance closeout review remains a separate final documentation gate.
+DEPLOY-001 implementation is Human-authorized and **Render is the selected platform**. The reviewed implementation and rewrite remediation are merged, both Render services are live on `3a31bc7c26cd14c2529c7381e96c32fa3f1a1e0c`, and public same-origin synthetic PDF/DOCX smoke flows passed. The task remains synthetic/demo staging only; it does not resolve BLK-003 and does not permit production release, real/confidential research data, paid hosting, or provider/API calls. DEPLOY-001 governance closeout is complete via PR #55; P2-001 is now the active specification task.
 
 ## License
 
