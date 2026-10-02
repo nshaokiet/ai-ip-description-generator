@@ -5,10 +5,16 @@
 | Field | Value |
 | --- | --- |
 | Task ID | P2-000 |
-| Status | **AUTHORIZED — IMPLEMENTATION-READY SPECIFICATION; SPEC PR REVIEW PENDING** |
+| Status | **CLOSED / COMPLETED — MERGED; GOVERNANCE CLOSEOUT REVIEW PENDING** |
 | Authorization | `HUMAN-P2-000-WEBAPP-SIMPLIFICATION-2026-10-02` |
 | Latest Human design decision | 02/10/2026 — approve the reviewed Enterprise SaaS layout, preserve existing VNUHCM Innovation Hub logo/color system, add backward/forward step navigation and wrong-paper removal |
-| Baseline main | `461d9b33b07bb39aad11aa47b84f678e232d80a8` |
+| Specification baseline | `461d9b33b07bb39aad11aa47b84f678e232d80a8` |
+| Specification reviewed SHA | `5c57c47d562fa3d003850faf5820ffd17a3be385` — PASS / findings NONE |
+| Specification PR / merge | `#59` / `3a11d358ba65bb5a83345a96f1e3f464a1a3abc0` |
+| Implementation baseline | `3a11d358ba65bb5a83345a96f1e3f464a1a3abc0` |
+| Implementation reviewed SHA | `8d63f19ebb755dafef1eafdb47874553be1fcdd3` — PASS / findings NONE |
+| Implementation PR / merge | `#60` / `d0ffd09e0fe29e8a46c04e14b392e3c4aea22731` |
+| Post-merge main CI | `36982485345` — **SUCCESS** |
 | Specification branch | `docs/p2-000-product-webapp-simplification-spec` |
 | Primary implementation owner | Codex under AGENTS.md |
 | Independent reviewer | Gemini 3.1 Pro High / Antigravity read-only |
@@ -907,3 +913,35 @@ After P2-000:
 7. **P2-008 — paper↔patent benchmark**
 8. **P2-009 — live product runtime**
 9. **P2-010 — end-to-end product acceptance**
+
+
+---
+
+## 22. Post-merge closeout evidence
+
+P2-000 specification was independently reviewed by **Gemini 3.1 Pro High / Antigravity** on exact SHA `5c57c47d562fa3d003850faf5820ffd17a3be385` with **PASS**, findings **NONE**. PR #59 merged at `3a11d358ba65bb5a83345a96f1e3f464a1a3abc0`.
+
+P2-000 implementation was independently reviewed by **Gemini 3.1 Pro High / Antigravity** on exact SHA `8d63f19ebb755dafef1eafdb47874553be1fcdd3` with **PASS**, findings **NONE**. Implementation CI `36980893272` was **SUCCESS**.
+
+Human / Product Owner then explicitly authorized ChatGPT to merge PR #60, verify post-merge main CI, and perform the P2-000 governance closeout as a **one-time exception** to the current AGENTS.md ChatGPT merge-role restriction.
+
+PR #60 merged at `d0ffd09e0fe29e8a46c04e14b392e3c4aea22731`.
+
+Post-merge main CI `36982485345` completed **SUCCESS** on the exact merge SHA with:
+
+- backend: **467 passed / 2 skipped**;
+- Python dependency consistency: **PASS**;
+- frontend lint: **PASS**;
+- frontend typecheck: **PASS**;
+- frontend production build: **PASS**;
+- standard Playwright: **24 passed**;
+- public sample/demo Playwright: **3 passed**;
+- `RUN_OPENAI_LIVE_TESTS=0`;
+- `RUN_OPENAI_DRAFT_LIVE_TESTS=0`;
+- provider/API calls: **NONE**.
+
+Implementation scope remained exactly the reviewed eight frontend/test files. No backend/runtime semantics, Claims runtime, P2-001 schema, DOCX renderer semantics, production/deployment configuration, provider authorization, or real/confidential-data authorization changed.
+
+BLK-003 remains **OPEN**. EVAL-001 PRODUCT_RUNTIME remains **DEFERRED — AWAITING FUNDING**. Production remains **NOT APPROVED / NOT PERFORMED**.
+
+P2-000 implementation is complete and merged. The remaining lifecycle gate is independent fixed-SHA review and merge of the documentation-only governance closeout.
