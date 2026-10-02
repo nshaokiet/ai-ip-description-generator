@@ -1,30 +1,51 @@
 import type { WorkflowPhase } from "@/lib/types/contracts";
 
 const STEPS = [
-  { key: "upload", label: "Upload", description: "Choose and check source" },
-  { key: "analyze", label: "Analyze", description: "Generate grounded draft" },
-  { key: "review", label: "Review / Edit", description: "Inspect and revise prose" },
-  { key: "validate", label: "Validate", description: "Check the exact revision" },
-  { key: "export", label: "Export", description: "Download editable DOCX" },
-] as const;
+  { key: "upload", label: "Source Upload", description: "Upload PDF or DOCX" },
+  { key: "analyze", label: "AI Extraction", description: "Extract key content" },
+  { key: "review", label: "Review & Refine", description: "Rà soát & hoàn thiện" },
+  { key: "validate", label: "Validation", description: "Check required sections" },
+  { key: "export", label: "DOCX Export", description: "Download editable file" },
+] as const satisfies ReadonlyArray<{ key: WorkflowPhase; label: string; description: string }>;
 
-export function WorkflowProgress({ phase }: { phase: WorkflowPhase }) {
+interface WorkflowProgressProps {
+  phase: WorkflowPhase;
+  reachablePhases: WorkflowPhase[];
+  onNavigate: (phase: WorkflowPhase) => void;
+}
+
+export function WorkflowProgress({ phase, reachablePhases, onNavigate }: WorkflowProgressProps) {
   const current = STEPS.findIndex((step) => step.key === phase);
   return (
     <nav className="workflow-progress" aria-label="Document workflow">
       <ol>
         {STEPS.map((step, index) => {
-          const status = index < current ? "complete" : index === current ? "current" : "upcoming";
+          const reachable = reachablePhases.includes(step.key);
+          const status = index === current
+            ? "current"
+            : reachable && index < current
+              ? "complete"
+              : reachable
+                ? "reachable"
+                : "upcoming";
           return (
-            <li aria-current={index === current ? "step" : undefined} className={`workflow-step workflow-step-${status}`} key={step.key}>
-              <span className="step-marker" aria-hidden="true">
-                {index < current ? "✓" : index + 1}
-              </span>
-              <span>
-                <strong>{step.label}</strong>
-                <small>{step.description}</small>
-              </span>
-              <span className="sr-only">{status}</span>
+            <li className={`workflow-step workflow-step-${status}`} key={step.key}>
+              <button
+                aria-current={index === current ? "step" : undefined}
+                aria-label={`${index + 1}. ${step.label}: ${step.description}`}
+                disabled={!reachable || index === current}
+                onClick={() => onNavigate(step.key)}
+                type="button"
+              >
+                <span className="step-marker" aria-hidden="true">
+                  {status === "complete" ? "✓" : index + 1}
+                </span>
+                <span className="step-copy">
+                  <strong>{step.label}</strong>
+                  <small>{step.description}</small>
+                </span>
+                <span className="sr-only">{status}</span>
+              </button>
             </li>
           );
         })}

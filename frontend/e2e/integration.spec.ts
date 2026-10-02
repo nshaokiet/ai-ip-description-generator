@@ -52,15 +52,15 @@ async function uploadSynthetic(page: Page, format: "pdf" | "docx", options: { mi
     await page.locator("#document-file").setInputFiles(file);
   }
   await page.getByRole("button", { name: "Upload & Validate" }).click();
-  await expect(page.getByRole("heading", { name: "Ready for analysis" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Paper uploaded successfully" })).toBeVisible();
 }
 
 async function processSynthetic(page: Page, format: "pdf" | "docx", options: { missing?: boolean; keyboard?: boolean } = {}) {
   await uploadSynthetic(page, format, options);
   const processResponse = page.waitForResponse((response) => response.url().includes("/process") && response.request().method() === "POST");
-  await page.getByRole("button", { name: "Analyze & Generate Draft" }).click();
+  await page.getByRole("button", { name: "Continue to AI Extraction" }).click();
   const processed = await (await processResponse).json() as { draft: Record<string, unknown> };
-  await expect(page.getByRole("heading", { name: "Grounded draft workspace" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Review & Refine" })).toBeVisible();
   await page.getByRole("tab", { name: "Patent Draft" }).click();
   await expect(page.getByRole("heading", { name: "Title: MISSING" })).toBeVisible();
   await expect(page.getByText("[AUTHOR CONFIRMATION REQUIRED]").first()).toBeVisible();
@@ -81,12 +81,96 @@ test("local document response includes defensive security headers", async ({ pag
   expect(response?.headers()["permissions-policy"]).toBe("camera=(), geolocation=(), microphone=()");
 });
 
+test("P2-000 home presents the approved enterprise workflow and gated stages", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.getByRole("heading", {
+    name: "From Scientific Research Paper to USPTO-Style Patent Specification",
+  })).toBeVisible();
+  const workflow = page.getByRole("navigation", { name: "Document workflow" });
+  await expect(workflow.getByRole("button")).toHaveCount(5);
+  for (const [index, label] of [
+    "Source Upload",
+    "AI Extraction",
+    "Review & Refine",
+    "Validation",
+    "DOCX Export",
+  ].entries()) {
+    const step = workflow.getByRole("button", { name: new RegExp(`${index + 1}\\. ${label}`) });
+    await expect(step).toBeVisible();
+    if (index === 0) await expect(step).toHaveAttribute("aria-current", "step");
+    else await expect(step).toBeDisabled();
+  }
+  await expect(page.locator(".hero-notice")).toHaveCount(0);
+  await expect(page.locator(".environment-badge")).toHaveCount(0);
+  await expect(page.getByRole("img", { name: "VNUHCM Innovation Hub" })).toBeVisible();
+  expect(await page.getByRole("img", { name: "VNUHCM Innovation Hub" }).evaluate(
+    (logo) => getComputedStyle(logo).backgroundImage.includes("vnuhcm-innovation-hub-logo.png"),
+  )).toBe(true);
+  await expect(page.getByRole("button", { name: "Go back" })).toHaveCount(0);
+});
+
+test("uploaded paper can be removed before extraction", async ({ page }) => {
+  await uploadSynthetic(page, "pdf");
+  await expect(page.getByText("synthetic.pdf", { exact: true })).toBeVisible();
+  await page.getByRole("button", { name: "Remove paper" }).click();
+  await expect(page.getByRole("heading", { name: "Upload a research document" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Continue to AI Extraction" })).toHaveCount(0);
+  await expect(page.getByRole("button", { name: /2\. AI Extraction/ })).toBeDisabled();
+});
+
+test("uploaded paper can be replaced before extraction without stale source state", async ({ page }) => {
+  await uploadSynthetic(page, "pdf");
+  const docx = await page.request.get(`${backend}/__test/docx`);
+  expect(docx.ok()).toBeTruthy();
+  await page.locator("#replacement-document-file").setInputFiles({
+    name: "replacement.docx",
+    mimeType: mediaTypes.docx,
+    buffer: await docx.body(),
+  });
+  await expect(page.getByText("replacement.docx", { exact: true })).toBeVisible();
+  await expect(page.getByText("synthetic.pdf", { exact: true })).toHaveCount(0);
+});
+
+test("reached-step navigation reuses results and product Go back does not reprocess", async ({ page }) => {
+  await uploadSynthetic(page, "pdf");
+  let processRequests = 0;
+  page.on("request", (request) => {
+    if (request.method() === "POST" && request.url().includes("/process")) processRequests += 1;
+  });
+  await page.getByRole("button", { name: "Continue to AI Extraction" }).click();
+  await expect(page.getByRole("heading", { name: "Review & Refine" })).toBeVisible();
+  expect(processRequests).toBe(1);
+
+  await page.getByRole("button", { name: /2\. AI Extraction/ }).click();
+  await expect(page.getByRole("heading", { name: "Extraction complete" })).toBeVisible();
+  await page.getByRole("button", { name: /3\. Review & Refine/ }).click();
+  await expect(page.getByRole("heading", { name: "Review & Refine" })).toBeVisible();
+  await page.getByRole("button", { name: "Go back" }).click();
+  await expect(page.getByRole("heading", { name: "Extraction complete" })).toBeVisible();
+  expect(processRequests).toBe(1);
+});
+
+test("new paper and downstream source removal require explicit session reset", async ({ page }) => {
+  await processSynthetic(page, "pdf");
+  await page.getByRole("button", { name: /1\. Source Upload/ }).click();
+  await page.getByRole("button", { name: "Remove paper" }).click();
+  await expect(page.getByText("Current analysis, draft revisions, review status, and validation will be cleared", { exact: false })).toBeVisible();
+  await page.getByRole("button", { name: "Keep current paper" }).click();
+  await expect(page.getByText("synthetic.pdf", { exact: true })).toBeVisible();
+  await page.getByRole("button", { name: /3\. Review & Refine/ }).click();
+  await page.getByRole("button", { name: "New paper" }).click();
+  await expect(page.getByText("Clear this session and start a new paper?", { exact: true })).toBeVisible();
+  await page.getByRole("button", { name: "Clear session and start over" }).click();
+  await expect(page.getByRole("heading", { name: "Upload a research document" })).toBeVisible();
+  await expect(page.getByLabel("Selected revision")).toHaveCount(0);
+});
+
 async function saveParagraphRevision(page: Page, replacement: string) {
   await page.getByRole("button", { name: "Edit prose" }).click();
   await firstParagraph(page).fill(replacement);
   await expect(page.getByText("Unsaved changes")).toBeVisible();
   await page.getByRole("button", { name: "Save new revision" }).click();
-  await expect(page.getByLabel("Selected revision")).toHaveValue("revision-2");
+  await expect(page.getByLabel("Selected revision", { exact: true })).toHaveValue("revision-2");
 }
 
 test("result tabs support roving focus and Arrow/Home/End navigation", async ({ page }) => {
@@ -110,10 +194,10 @@ test("result tabs support roving focus and Arrow/Home/End navigation", async ({ 
   await page.keyboard.press("ArrowLeft");
   await expect(review).toBeFocused();
   await page.keyboard.press("Home");
-  await expect(analysis).toBeFocused();
+  await expect(draft).toBeFocused();
   await page.keyboard.press("End");
-  await expect(review).toBeFocused();
-  await expect(review).toHaveAttribute("aria-selected", "true");
+  await expect(analysis).toBeFocused();
+  await expect(analysis).toHaveAttribute("aria-selected", "true");
 });
 
 test("editing keeps keyboard navigation on the only enabled draft tab", async ({ page }) => {
@@ -137,7 +221,7 @@ test("new global operation error focuses its heading", async ({ page }) => {
     expect(processed.ok()).toBeTruthy();
     await route.fulfill({ status: 502, contentType: "text/plain", body: "synthetic proxy fault" });
   });
-  await page.getByRole("button", { name: "Analyze & Generate Draft" }).click();
+  await page.getByRole("button", { name: "Continue to AI Extraction" }).click();
   const heading = page.getByRole("heading", { name: "We could not complete that operation" });
   await expect(heading).toBeVisible();
   await expect(heading).toBeFocused();
@@ -157,7 +241,7 @@ test("backend error text is rendered as text and cannot inject HTML", async ({ p
       body: JSON.stringify({ error: { code: "synthetic_error", message: untrusted } }),
     });
   });
-  await page.getByRole("button", { name: "Analyze & Generate Draft" }).click();
+  await page.getByRole("button", { name: "Continue to AI Extraction" }).click();
   await expect(page.locator(".error-banner")).toContainText(untrusted);
   await expect(page.locator("[data-p1-003-injected]")).toHaveCount(0);
   await expect(page.locator("body")).not.toHaveAttribute("data-pwned", "yes");
@@ -165,11 +249,11 @@ test("backend error text is rendered as text and cannot inject HTML", async ({ p
 
 test("only the current workflow step exposes aria-current", async ({ page }) => {
   await page.goto("/");
-  const upload = page.getByRole("listitem").filter({ hasText: "Choose and check source" });
-  const analyze = page.getByRole("listitem").filter({ hasText: "Generate grounded draft" });
-  const review = page.getByRole("listitem").filter({ hasText: "Inspect and revise prose" });
-  const validate = page.getByRole("listitem").filter({ hasText: "Check the exact revision" });
-  const exportStep = page.getByRole("listitem").filter({ hasText: "Download editable DOCX" });
+  const upload = page.getByRole("button", { name: /1\. Source Upload/ });
+  const analyze = page.getByRole("button", { name: /2\. AI Extraction/ });
+  const review = page.getByRole("button", { name: /3\. Review & Refine/ });
+  const validate = page.getByRole("button", { name: /4\. Validation/ });
+  const exportStep = page.getByRole("button", { name: /5\. DOCX Export/ });
   await expect(upload).toHaveAttribute("aria-current", "step");
   await expect(analyze).not.toHaveAttribute("aria-current");
   await expect(review).not.toHaveAttribute("aria-current");
@@ -178,14 +262,14 @@ test("only the current workflow step exposes aria-current", async ({ page }) => 
   await uploadSynthetic(page, "pdf");
   await expect(upload).not.toHaveAttribute("aria-current");
   await expect(analyze).toHaveAttribute("aria-current", "step");
-  await page.getByRole("button", { name: "Analyze & Generate Draft" }).click();
-  await expect(page.getByRole("heading", { name: "Grounded draft workspace" })).toBeVisible();
+  await page.getByRole("button", { name: "Continue to AI Extraction" }).click();
+  await expect(page.getByRole("heading", { name: "Review & Refine" })).toBeVisible();
   await expect(analyze).not.toHaveAttribute("aria-current");
   await expect(review).toHaveAttribute("aria-current", "step");
   await page.getByRole("button", { name: "Validate revision-1" }).click();
   await expect(page.getByText("Backend validation: PASSED for this exact revision")).toBeVisible();
-  await expect(review).not.toHaveAttribute("aria-current");
-  await expect(exportStep).toHaveAttribute("aria-current", "step");
+  await expect(review).toHaveAttribute("aria-current", "step");
+  await expect(exportStep).toBeEnabled();
 });
 
 test("upload, analysis, validation and export allow only one in-flight request", async ({ page }) => {
@@ -210,7 +294,7 @@ test("upload, analysis, validation and export allow only one in-flight request",
   await expect(uploadButton).toBeDisabled();
   await expect(page.getByText("Uploading and checking the selected document…")).toBeVisible();
   uploadGate.release();
-  await expect(page.getByRole("heading", { name: "Ready for analysis" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Paper uploaded successfully" })).toBeVisible();
   expect(uploadRequests).toBe(1);
   await page.unroute("**/backend/api/documents");
 
@@ -221,13 +305,13 @@ test("upload, analysis, validation and export allow only one in-flight request",
     await processGate.promise;
     await route.continue();
   });
-  const processButton = page.locator(".action-panel .primary-button");
+  const processButton = page.getByRole("button", { name: "Continue to AI Extraction" });
   await processButton.evaluate((button: HTMLButtonElement) => { button.click(); button.click(); });
   await expect.poll(() => processRequests).toBe(1);
   await expect(processButton).toBeDisabled();
-  await expect(page.getByText("Analyzing the document and generating the patent draft…")).toBeVisible();
+  await expect(page.getByText("Extracting invention-relevant content", { exact: true })).toBeVisible();
   processGate.release();
-  await expect(page.getByRole("heading", { name: "Grounded draft workspace" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Review & Refine" })).toBeVisible();
   expect(processRequests).toBe(1);
   await page.unroute("**/backend/api/documents/*/process");
 
@@ -241,9 +325,9 @@ test("upload, analysis, validation and export allow only one in-flight request",
   const validateButton = page.locator(".revision-actions button").nth(1);
   await validateButton.evaluate((button: HTMLButtonElement) => { button.click(); button.click(); });
   await expect.poll(() => validationRequests).toBe(1);
-  await expect(validateButton).toBeDisabled();
   await expect(page.getByText("Validating revision-1…")).toBeVisible();
-  await expect(page.getByRole("listitem").filter({ hasText: "Check the exact revision" })).toHaveAttribute("aria-current", "step");
+  await expect(page.getByRole("button", { name: "Validate revision-1" })).toHaveCount(0);
+  await expect(page.getByRole("button", { name: /4\. Validation/ })).toHaveAttribute("aria-current", "step");
   validationGate.release();
   await expect(page.getByText("Backend validation: PASSED for this exact revision")).toBeVisible();
   expect(validationRequests).toBe(1);
@@ -257,7 +341,7 @@ test("upload, analysis, validation and export allow only one in-flight request",
     await route.continue();
   });
   const downloadPromise = page.waitForEvent("download");
-  const exportButton = page.locator(".toolbar-actions .primary-button");
+  const exportButton = page.getByRole("button", { name: "Export revision-1 DOCX" });
   await exportButton.evaluate((button: HTMLButtonElement) => { button.click(); button.click(); });
   await expect.poll(() => exportRequests).toBe(1);
   await expect(exportButton).toBeDisabled();
@@ -269,18 +353,22 @@ test("upload, analysis, validation and export allow only one in-flight request",
 
 test("six fresh synthetic runs keep deterministic shape and clean source/export storage", async ({ page }) => {
   const shapes = new Map<string, string>();
+  const initialStorageResponse = await page.request.get(`${backend}/__test/storage`);
+  expect(initialStorageResponse.ok()).toBeTruthy();
+  const initialStorage = await initialStorageResponse.json() as { source_files: number; export_files: number };
+  expect(initialStorage.export_files).toBe(0);
   for (const format of ["pdf", "docx"] as const) {
     for (let run = 1; run <= 3; run += 1) {
       const start = Date.now();
       await uploadSynthetic(page, format);
       const uploaded = Date.now();
       const processResponse = page.waitForResponse((response) => response.url().includes("/process") && response.request().method() === "POST");
-      await page.getByRole("button", { name: "Analyze & Generate Draft" }).click();
+      await page.getByRole("button", { name: "Continue to AI Extraction" }).click();
       const processed = await (await processResponse).json() as { draft: {
         section_order: unknown; draft_sections: Array<{ section_id: string; status: string }>;
         missing_information: Array<{ missing_id: string }>; output_notice: unknown;
       } };
-      await expect(page.getByRole("heading", { name: "Grounded draft workspace" })).toBeVisible();
+      await expect(page.getByRole("heading", { name: "Review & Refine" })).toBeVisible();
       const processedAt = Date.now();
       const shape = JSON.stringify({
         order: processed.draft.section_order,
@@ -300,7 +388,7 @@ test("six fresh synthetic runs keep deterministic shape and clean source/export 
       const exportedAt = Date.now();
       const storage = await page.request.get(`${backend}/__test/storage`);
       expect(storage.ok()).toBeTruthy();
-      expect(await storage.json()).toEqual({ source_files: 0, export_files: 0 });
+      expect(await storage.json()).toEqual({ source_files: initialStorage.source_files, export_files: 0 });
       console.log(`P0-007 stability ${JSON.stringify({
         format, run, upload_ms: uploaded - start, process_ms: processedAt - uploaded,
         validation_ms: validatedAt - processedAt, export_ms: exportedAt - validatedAt,
@@ -345,7 +433,7 @@ test("PDF session: cancel, immutable save, validate, review and exact UNREVIEWED
 
   await page.getByRole("button", { name: "Edit prose" }).click();
   await firstParagraph(page).fill("Unsaved export substitution.");
-  await expect(page.getByRole("button", { name: "Export revision-2 DOCX" })).toBeDisabled();
+  await expect(page.getByRole("button", { name: "Export revision-2 DOCX" })).toHaveCount(0);
   await page.getByRole("button", { name: "Cancel edit" }).click();
 
   let exported: Record<string, unknown> | undefined;
@@ -429,11 +517,11 @@ test("invalid edit and rejected export preserve selected revision", async ({ pag
   await saveParagraphRevision(page, "This invention is patentable.");
   await page.getByRole("button", { name: "Validate revision-2" }).click();
   await expect(page.getByRole("heading", { name: /Draft validation failed/ })).toBeVisible();
-  await expect(page.getByText("This invention is patentable.", { exact: true })).toBeVisible();
-  await expect(page.getByRole("button", { name: "Export revision-2 DOCX" })).toBeDisabled();
-  await expect(page.getByLabel("Selected revision")).toHaveValue("revision-2");
-
+  await expect(page.getByRole("button", { name: "Export revision-2 DOCX" })).toHaveCount(0);
+  await expect(page.getByLabel("Selected revision", { exact: true })).toHaveValue("revision-2");
   await page.getByRole("button", { name: "Edit this revision" }).click();
+  await expect(page.getByText("This invention is patentable.", { exact: true })).toBeVisible();
+
   await firstParagraph(page).fill("The optical sensor is calibrated across temperature bands.");
   await page.getByRole("button", { name: "Save new revision" }).click();
   await page.getByRole("button", { name: "Validate revision-3" }).click();
@@ -490,7 +578,7 @@ test("narrow viewport keeps editing, warnings, validation and export usable", as
   const errorWidth = await page.evaluate(() => ({ body: document.body.scrollWidth, viewport: innerWidth }));
   expect(errorWidth.body).toBeLessThanOrEqual(errorWidth.viewport);
   await page.getByRole("button", { name: "Return to results" }).click();
-  await expect(page.getByLabel("Selected revision")).toHaveValue("revision-2");
+  await expect(page.getByLabel("Selected revision", { exact: true })).toHaveValue("revision-2");
 });
 
 test("corrupt upload is rejected safely and a valid synthetic document can be retried", async ({ page }) => {
@@ -500,8 +588,8 @@ test("corrupt upload is rejected safely and a valid synthetic document can be re
   });
   await page.getByRole("button", { name: "Upload & Validate" }).click();
   await expect(page.getByRole("heading", { name: "We could not complete that operation" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Ready for analysis" })).toHaveCount(0);
-  await expect(page.getByRole("heading", { name: "Grounded draft workspace" })).toHaveCount(0);
+  await expect(page.getByRole("heading", { name: "Paper uploaded successfully" })).toHaveCount(0);
+  await expect(page.getByRole("heading", { name: "Review & Refine" })).toHaveCount(0);
   await expect(page.locator(".error-banner")).not.toContainText("not a valid PDF");
   await page.getByRole("button", { name: "Choose another document" }).click();
   const fixture = await page.request.get(`${backend}/__test/pdf`);
@@ -515,9 +603,9 @@ test("corrupt upload is rejected safely and a valid synthetic document can be re
     name: "synthetic.pdf", mimeType: mediaTypes.pdf, buffer: await fixture.body(),
   });
   await page.getByRole("button", { name: "Upload & Validate" }).click();
-  await expect(page.getByRole("heading", { name: "Ready for analysis" })).toBeVisible();
-  await page.getByRole("button", { name: "Analyze & Generate Draft" }).click();
-  await expect(page.getByRole("heading", { name: "Grounded draft workspace" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Paper uploaded successfully" })).toBeVisible();
+  await page.getByRole("button", { name: "Continue to AI Extraction" }).click();
+  await expect(page.getByRole("heading", { name: "Review & Refine" })).toBeVisible();
 });
 
 test("process proxy failure is safe and requires a new upload before retry", async ({ page }) => {
@@ -531,10 +619,10 @@ test("process proxy failure is safe and requires a new upload before retry", asy
       body: JSON.stringify({ error: { code: "upstream_failure", message: "Provider OpenAI failed at C:\\private\\paper.pdf" } }),
     });
   });
-  await page.getByRole("button", { name: "Analyze & Generate Draft" }).click();
+  await page.getByRole("button", { name: "Continue to AI Extraction" }).click();
   await expect(page.getByText("The local service could not complete the request.")).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Ready for analysis" })).toHaveCount(0);
-  await expect(page.getByRole("heading", { name: "Grounded draft workspace" })).toHaveCount(0);
+  await expect(page.getByRole("heading", { name: "Paper uploaded successfully" })).toHaveCount(0);
+  await expect(page.getByRole("heading", { name: "Review & Refine" })).toHaveCount(0);
   await expect(page.locator(".error-banner")).not.toContainText("C:\\private");
   await expect(page.locator(".error-banner")).not.toContainText("OpenAI");
   await page.unroute("**/backend/api/documents/*/process");
@@ -544,8 +632,8 @@ test("process proxy failure is safe and requires a new upload before retry", asy
     name: "synthetic-retry.pdf", mimeType: mediaTypes.pdf, buffer: await fixture.body(),
   });
   await page.getByRole("button", { name: "Upload & Validate" }).click();
-  await page.getByRole("button", { name: "Analyze & Generate Draft" }).click();
-  await expect(page.getByRole("heading", { name: "Grounded draft workspace" })).toBeVisible();
+  await page.getByRole("button", { name: "Continue to AI Extraction" }).click();
+  await expect(page.getByRole("heading", { name: "Review & Refine" })).toBeVisible();
 });
 
 test("export failure creates no download and preserves the validated revision for retry", async ({ page }) => {
@@ -578,10 +666,10 @@ test("non-JSON and network backend failures are safe and keep the revision", asy
   await expect(page.getByRole("heading", { name: /Draft validation failed/ })).toBeVisible();
   await expect(page.getByText("The local service could not complete the request.")).toBeVisible();
   await expect(page.getByText("proxy fault with no JSON")).toHaveCount(0);
-  await expect(page.getByLabel("Selected revision")).toHaveValue("revision-2");
+  await expect(page.getByLabel("Selected revision", { exact: true })).toHaveValue("revision-2");
   await page.unroute("**/backend/api/drafts/validate");
   await page.route("**/backend/api/drafts/validate", (route) => route.abort());
   await page.getByRole("button", { name: "Validate revision-2" }).click();
   await expect(page.getByText("The local backend is unavailable. Confirm that FastAPI is running.")).toBeVisible();
-  await expect(page.getByLabel("Selected revision")).toHaveValue("revision-2");
+  await expect(page.getByLabel("Selected revision", { exact: true })).toHaveValue("revision-2");
 });
