@@ -204,7 +204,7 @@ export default function Home() {
           : state === "READY"
             ? "The patent draft is ready for human review."
             : "";
-  const showBack = workflowPhase !== "upload";
+  const canGoBack = workflowPhase !== "upload";
   const resultPhase = workflowPhase === "review" || workflowPhase === "validate" || workflowPhase === "export";
 
   return (
@@ -212,10 +212,9 @@ export default function Home() {
       <header className="site-header">
         <div className="header-inner">
           <div className="brand-group">
-            <span aria-label="VNUHCM Innovation Hub" className="brand-logo-frame" role="img">
+            <span className="brand-logo-frame">
               <Image
-                alt=""
-                aria-hidden="true"
+                alt="VNUHCM Innovation Hub"
                 className="brand-logo"
                 height={84}
                 priority
@@ -241,11 +240,16 @@ export default function Home() {
         </section>
 
         <section className="workflow-shell" aria-label="Patent drafting workflow">
-          {showBack && (
-            <div className="workflow-nav-row">
-              <button className="back-button" onClick={goBack} type="button">← Go back</button>
-            </div>
-          )}
+          <div className="workflow-nav-row">
+            <button
+              className="back-button"
+              disabled={!canGoBack}
+              onClick={goBack}
+              type="button"
+            >
+              ← Go back
+            </button>
+          </div>
 
           <WorkflowProgress
             phase={workflowPhase}
