@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| Version | 0.1.0 |
+| Version | 0.1.1 |
 | Status | Implementation complete — review and deployment pending |
 | Task | DEPLOY-001 |
 | Platform | Render |
@@ -154,20 +154,20 @@ Do not paste a real document into this check.
 
 ## 10. Configure the same-origin frontend rewrite
 
-Render Blueprint variables cannot safely interpolate the provisioned backend's
-public hostname into a static-site rewrite. After the backend hostname has been
-verified, configure one rule on the **frontend Static Site** in the Render
-Dashboard:
+The verified backend hostname is version-controlled in `render.yaml` as one
+rule on the **frontend Static Site**:
 
 ```text
 Type: Rewrite
 Source: /backend/*
-Destination: https://<verified-backend-host>/*
+Destination: https://ai-ip-synthetic-demo-backend.onrender.com/*
 ```
 
-Use the exact hostname displayed by Render; do not guess it and do not commit a
-placeholder hostname. Save the rule, redeploy the frontend, and check the
-deployed rule before continuing.
+After this reviewed remediation is merged, use Render Blueprint sync to apply
+the rule and redeploy the frontend from the approved merged SHA. Manual
+Dashboard routing is no longer the primary configuration path. Do not apply or
+deploy this remediation branch before its exact-head CI and fixed-SHA review
+gates pass.
 
 ## 11. Security headers
 
@@ -280,8 +280,9 @@ non-sensitive incident evidence. Do not delete Git history or review records.
 
 - **Initial 502/timeout:** wait for the documented free-service cold start, then
   recheck backend `/health` before retrying the frontend.
-- **Frontend 404 under `/backend/*`:** verify the manual rewrite source,
-  destination hostname, and rule type; redeploy the static site after saving.
+- **Frontend 404 under `/backend/*`:** verify the Blueprint-managed rewrite
+  source, destination hostname, and rule type; sync the reviewed Blueprint and
+  redeploy the static site after merge.
 - **403 on controlled flow:** verify the frontend and backend are deployed from
   the same reviewed revision and the sample header survives the rewrite.
 - **422 invalid sample:** redeploy both services; do not weaken the digest,
