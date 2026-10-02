@@ -10,13 +10,13 @@
 | Document title | Gemini Review Log |
 | Project | AI Intellectual Property Description Generator |
 | Project deadline | 02/10/2026 |
-| Version | 0.3.28 |
+| Version | 0.3.29 |
 | Status | Active review log |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
-| Reviewer | Gemini 3.1 Pro High + Gemini 3.8 Flash High (historical); Google Antigravity (Advanced Agentic Coding) for REV-P0-006-IMPLEMENTATION, REV-P0-007-SPECIFICATION, REV-P0-007-IMPLEMENTATION and REV-P0-008-SPECIFICATION; Google Antigravity / Gemini 1.5 Pro (Advanced Agentic Coding) for REV-P0-008-IMPLEMENTATION; Gemini 3.1 Pro High for REV-P0-009-IMPLEMENTATION, REV-EVAL-001-SPECIFICATION, REV-EVAL-001-FRAMEWORK-IMPLEMENTATION, REV-EVAL-001-GOLD, REV-P0-010-FINAL-CLOSEOUT, REV-P1-001-IMPLEMENTATION, REV-DEPLOY-001-ROADMAP, REV-P1-002-IMPLEMENTATION, REV-P1-003-IMPLEMENTATION, REV-P1-003-CLOSEOUT, REV-P1-004-IMPLEMENTATION, REV-P1-004-CLOSEOUT, REV-P1-005-IMPLEMENTATION, REV-P1-005-CLOSEOUT, REV-P1-006-IMPLEMENTATION and REV-P1-006-CLOSEOUT |
+| Reviewer | Gemini 3.1 Pro High + Gemini 3.8 Flash High (historical); Google Antigravity (Advanced Agentic Coding) for REV-P0-006-IMPLEMENTATION, REV-P0-007-SPECIFICATION, REV-P0-007-IMPLEMENTATION and REV-P0-008-SPECIFICATION; Google Antigravity / Gemini 1.5 Pro (Advanced Agentic Coding) for REV-P0-008-IMPLEMENTATION; Gemini 3.1 Pro High for REV-P0-009-IMPLEMENTATION, REV-EVAL-001-SPECIFICATION, REV-EVAL-001-FRAMEWORK-IMPLEMENTATION, REV-EVAL-001-GOLD, REV-P0-010-FINAL-CLOSEOUT, REV-P1-001-IMPLEMENTATION, REV-DEPLOY-001-ROADMAP, REV-P1-002-IMPLEMENTATION, REV-P1-003-IMPLEMENTATION, REV-P1-003-CLOSEOUT, REV-P1-004-IMPLEMENTATION, REV-P1-004-CLOSEOUT, REV-P1-005-IMPLEMENTATION, REV-P1-005-CLOSEOUT, REV-P1-006-IMPLEMENTATION, REV-P1-006-CLOSEOUT, REV-DEPLOY-001-IMPLEMENTATION and REV-DEPLOY-001-REWRITE-REMEDIATION |
 | Created date | 18/09/2026 |
-| Last updated | 01/10/2026 GMT+7 |
+| Last updated | 02/10/2026 GMT+7 |
 | Related task ID | REVIEW-001; SPEC-001; SPEC-002; SPEC-003; AI-001; AI-002; AI-003; DOC-001; APP-001; APP-002; AI-RUNTIME-001; AI-RUNTIME-002; APP-003; P0-006; P0-007; P0-008; P0-009; EVAL-001; P0-010; P1-001; P1-002; P1-003; P1-004; P1-005; P1-006; DEPLOY-001 |
 | Source of Truth | Review history; bản nguồn Git tại `docs/operations/02_GEMINI_REVIEW_LOG.md` |
 | Confidentiality level | Internal; findings về research input có thể là Confidential |
@@ -63,6 +63,7 @@
 | 0.3.25 | 0.3.26 | 01/10/2026 | ChatGPT | Record Human-supplied Gemini 3.1 Pro High P1-005 governance closeout PASS/findings NONE, PR #49 merge and successful final main CI | Close final P1-005 Git/review/CI gate while preserving MCP and production/provider/data boundaries | P1-005, REV-P1-005-CLOSEOUT, reviewed `2765dde0eaa99e9d8d9f989876d1310b1843424e`, merge `90ead2c0f26f17c617cfa71e6d7b3d16808d46e1`, CI `36811043597`; MCP PLANNED / BLOCKED BY TOOL CAPABILITY; BLK-003 OPEN | No |
 | 0.3.26 | 0.3.27 | 01/10/2026 | ChatGPT | Record Human-supplied Gemini 3.1 Pro High P1-006 implementation PASS/findings NONE, PR #50 merge and successful implementation main CI | Close implementation review gate while keeping documentation-only governance closeout and MCP completion separate | P1-006, REV-P1-006-IMPLEMENTATION, reviewed `59c65deec60ae80e3ba6d28220466c2bdbfed815`, merge `659e46fa80321e037f384e0e8a09bbe90646da35`, CI `36833210498`; MCP PLANNED / BLOCKED BY TOOL CAPABILITY; BLK-003 OPEN | No |
 | 0.3.27 | 0.3.28 | 01/10/2026 | ChatGPT | Record Human-supplied Gemini 3.1 Pro High P1-006 governance closeout PASS/findings NONE, PR #51 merge and successful final main CI | Close final P1-006 Git/review/CI gate while preserving MCP, production/provider/data and deployment boundaries | P1-006, REV-P1-006-CLOSEOUT, reviewed `d46a7101d8aefedd14ece29db50c8f3b00ebbde9`, merge `829c83130c6eb6018897cd5a8f62332408193142`, CI `36834543602`; MCP PLANNED / BLOCKED BY TOOL CAPABILITY; BLK-003 OPEN | No |
+| 0.3.28 | 0.3.29 | 02/10/2026 | ChatGPT | Record Human-supplied Gemini 3.1 Pro High DEPLOY-001 implementation and rewrite-remediation PASS/findings NONE plus verified Render deployment evidence | Close implementation/remediation review records while keeping final documentation-only governance closeout separate | REV-DEPLOY-001-IMPLEMENTATION, REV-DEPLOY-001-REWRITE-REMEDIATION; reviewed `d76089e49ccd4aa268375cf44ae994c04e3b9c58` and `755239a49e13775b9b2b904f38fd192f63f4264c`; deployed main `3a31bc7c26cd14c2529c7381e96c32fa3f1a1e0c`; CI `36952647096`; BLK-003 OPEN | No |
 
 ## 2. Review Rules
 
@@ -2433,3 +2434,24 @@ Closeout-head PR CI `36833802817`: **SUCCESS** on `d46a7101d8aefedd14ece29db50c8
 PR #51 merged at `829c83130c6eb6018897cd5a8f62332408193142`. Final push/main CI `36834543602`: **SUCCESS** on the exact closeout merge SHA with backend **443 passed / 2 skipped**, Python dependency consistency **PASS**, frontend lint/typecheck/build **PASS**, synthetic Playwright **19 passed**, live flags **0 / 0**, provider/API calls **NONE**.
 
 Closeout review status: **CLOSED — PASS / findings NONE**. P1-006 is **CLOSED / COMPLETED — MERGED; MCP TOOL LIMITATION**. MCP remains `PLANNED` / **BLOCKED BY TOOL CAPABILITY**; no unsupported `IMPLEMENTED` or `COMPLETED` state is fabricated. Project classification remains **MVP COMPLETE — LOCAL/SYNTHETIC**; BLK-003 remains **OPEN**; DEPLOY-001 remains **PLANNED / NOT AUTHORIZED**; EVAL-001 PRODUCT_RUNTIME remains **DEFERRED — AWAITING FUNDING**; production deployment remains **NOT APPROVED / NOT PERFORMED**. No provider/API authorization, paid service, real/confidential data, Claims, prompt/schema/model/runtime-policy change, backend API semantic change, DOCX semantic change, or production readiness claim occurred.
+
+
+## REV-DEPLOY-001-IMPLEMENTATION — Render Synthetic Demo Implementation
+
+Review target: DEPLOY-001 implementation PR #53, baseline `ed16fbc24d0ee06d7c2294a49bf243a448e6df87`, exact reviewed SHA `d76089e49ccd4aa268375cf44ae994c04e3b9c58`. Reviewer/model profile: **Gemini 3.1 Pro High** in Antigravity read-only mode. Human supplied the independent decision: **PASS**, findings **NONE**. AC-01 through AC-16 **PASS**; provider/runtime isolation, synthetic-only data boundary, free-tier boundary, scope containment and exact-head CI **PASS**. Reviewer modified repository files: **NO**. Suitable for merge under AGENTS.md: **YES**.
+
+PR #53 merged at `b72efa0579aacbb4887b30e6bd8eab49ed5e8d60`. Initial Render deployment created the expected Free backend Web Service and Static Site and verified direct backend health/sample/upload-guard/PDF/DOCX behavior. Public same-origin frontend flow remained blocked because the frontend `/backend/*` rewrite was missing; this was correctly retained as an open deployment blocker rather than a false completion claim.
+
+The review explicitly confirmed: BLK-003 **OPEN**; production authorization introduced **NO**; real/confidential-data authorization introduced **NO**; provider/API authorization introduced **NO**; `OPENAI_API_KEY` required **NO**; paid Render resource introduced **NO**; wildcard CORS introduced **NO**; Claims/prompt/schema/model/runtime semantic change introduced **NO**; actual Render deployment at review time **NO**; public URLs recorded at review time **NO**.
+
+## REV-DEPLOY-001-REWRITE-REMEDIATION — Render Frontend Rewrite Remediation
+
+Review target: PR #54, baseline `b72efa0579aacbb4887b30e6bd8eab49ed5e8d60`, exact reviewed SHA `755239a49e13775b9b2b904f38fd192f63f4264c`. Reviewer/model profile: **Gemini 3.1 Pro High** in Antigravity read-only mode. Human supplied the independent decision: **PASS**, findings **NONE**. Exact rewrite, frontend config preservation, backend config preservation, no CORS/cost/resource expansion, runbook consistency, scope containment, governance boundaries and post-merge expectation all **PASS**. Reviewer modified repository files: **NO**. Suitable for merge under AGENTS.md: **YES**.
+
+PR #54 merged at `3a31bc7c26cd14c2529c7381e96c32fa3f1a1e0c`. Main CI `36952647096` **SUCCESS**: backend **448 passed / 2 skipped**, Python dependency consistency **PASS**, frontend lint/typecheck/build **PASS**, existing Playwright **19 passed**, Render demo Playwright **3 passed**, live flags **0 / 0**.
+
+Post-merge operational verification on Render: both services are `live` on deployed SHA `3a31bc7c26cd14c2529c7381e96c32fa3f1a1e0c`. Backend: `https://ai-ip-synthetic-demo-backend.onrender.com`; frontend: `https://ai-ip-synthetic-demo-frontend.onrender.com`. Frontend same-origin `/backend/health` returned HTTP 200 `{"status":"ok"}`; PDF and DOCX sample endpoints passed; arbitrary upload without the synthetic-demo contract returned HTTP 403 `synthetic_demo_sample_required`; required security headers passed; public synthetic PDF and DOCX upload/analyze/edit/validate/export flows passed with valid DOCX outputs.
+
+Provider/API calls: **NONE observed**, but Render MCP does not expose live in-memory provider counters. Environment-key enumeration is **NOT AVAILABLE THROUGH CURRENT RENDER MCP**, so absence of a manually entered Dashboard provider credential is not independently enumerable; repository configuration contains no `OPENAI_API_KEY` and deployed behavior remained provider-free. Billing/Usage inspection is also **MCP LIMITATION**; inventory showed only the expected Static Site and Free Web Service and no Postgres, Key Value/Redis, worker, cron, persistent disk or paid compute upgrade. No zero-overage claim is made.
+
+Review status: **CLOSED — PASS / findings NONE** for implementation and rewrite remediation. DEPLOY-001 public synthetic/demo staging is verified; the documentation-only governance closeout remains a separate fixed-SHA review gate. BLK-003 remains **OPEN**; production remains **NOT APPROVED / NOT PERFORMED**; real/confidential data remains **NOT AUTHORIZED**; EVAL-001 PRODUCT_RUNTIME remains **DEFERRED — AWAITING FUNDING**.

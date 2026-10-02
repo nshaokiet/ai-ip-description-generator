@@ -2,13 +2,13 @@
 
 | Field | Value |
 |---|---|
-| Version | 0.2.1 |
-| Status | **IMPLEMENTED — EXACT-HEAD CI/REVIEW, MERGE AND LIVE DEPLOYMENT PENDING** |
+| Version | 0.2.2 |
+| Status | **CLOSED / COMPLETED — PUBLIC SYNTHETIC DEMO VERIFIED; CLOSEOUT REVIEW PENDING** |
 | Owner | ChatGPT/Codex under AGENTS.md standing delegation |
 | Baseline | `ed16fbc24d0ee06d7c2294a49bf243a448e6df87` |
 | Human roadmap registration | `HUMAN-DEPLOY-001-ROADMAP-REGISTRATION-2026-09-29` |
 | Implementation authorization | **GRANTED** — `HUMAN-DEPLOY-001-IMPLEMENTATION-2026-10-01` |
-| Independent reviewer | Gemini 3.1 Pro High — pending on final implementation SHA |
+| Independent reviewer | Gemini 3.1 Pro High — implementation PASS/NONE; rewrite remediation PASS/NONE; closeout review pending |
 | Project classification | **MVP COMPLETE — LOCAL/SYNTHETIC** |
 
 ## Purpose
@@ -72,7 +72,7 @@ The implementation and subsequent verified deployment must demonstrate all of th
 
 ## Current state
 
-DEPLOY-001 repository work is **IMPLEMENTED — EXACT-HEAD CI/REVIEW, MERGE AND LIVE DEPLOYMENT PENDING** on `feat/deploy-001-demo-staging`. No public URL, provider call, production approval or real-data authorization is claimed. The public URL acceptance criterion remains unmet until a reviewed/merged revision is deployed and verified through the connected Render account.
+DEPLOY-001 is **CLOSED / COMPLETED — PUBLIC SYNTHETIC DEMO VERIFIED; CLOSEOUT REVIEW PENDING**. Implementation and rewrite remediation were independently reviewed and merged; Render frontend/backend are live on verified main `3a31bc7c26cd14c2529c7381e96c32fa3f1a1e0c`; same-origin synthetic PDF/DOCX flows passed. This does not authorize production, provider/API calls, real/confidential data, paid resources or BLK-003 closure.
 
 Authorization scope remains limited to a zero-cost synthetic/demo-only staging deployment. The authorization does not approve production, paid services, provider/API calls, real/confidential research data, BLK-003 closure, Claims, or EVAL-001 PRODUCT_RUNTIME.
 
@@ -129,8 +129,24 @@ Authorization scope remains limited to a zero-cost synthetic/demo-only staging d
   regression `19 passed`; Render synthetic demo browser regression `3 passed`.
 - Provider/API calls: **NONE**. Provider runtime constructors are asserted not
   called for the staging app; sample-flow provider counters remain zero.
-- Public frontend/backend URLs: **NOT DEPLOYED / NOT RECORDED**.
-- Independent review: **PENDING**. Pull-request exact-head CI: **PENDING**.
+- Implementation review: Gemini 3.1 Pro High **PASS / findings NONE** on `d76089e49ccd4aa268375cf44ae994c04e3b9c58`.
+- PR #53 merged at `b72efa0579aacbb4887b30e6bd8eab49ed5e8d60`; exact-head/main CI evidence includes backend **448 passed / 2 skipped**, pip check/lint/typecheck/build PASS, Playwright **19 passed**, Render demo Playwright **3 passed**, live flags 0/0.
+- Rewrite remediation review: Gemini 3.1 Pro High **PASS / findings NONE** on `755239a49e13775b9b2b904f38fd192f63f4264c`.
+- PR #54 merged at `3a31bc7c26cd14c2529c7381e96c32fa3f1a1e0c`; main CI `36952647096` **SUCCESS**.
+- Public frontend: `https://ai-ip-synthetic-demo-frontend.onrender.com`.
+- Public backend: `https://ai-ip-synthetic-demo-backend.onrender.com`.
+- Render services both `live` on deployed SHA `3a31bc7c26cd14c2529c7381e96c32fa3f1a1e0c`.
+- Frontend `/backend/health`: HTTP 200 `{"status":"ok"}`.
+- Same-origin synthetic PDF and DOCX sample endpoints: PASS.
+- Arbitrary upload without the synthetic-demo contract: HTTP 403 `synthetic_demo_sample_required`.
+- Public same-origin synthetic PDF flow: PASS through upload/analyze/edit/validate/export; exported DOCX valid.
+- Public same-origin synthetic DOCX flow: PASS through upload/analyze/edit/validate/export; exported DOCX valid.
+- Required static-site security headers: PASS.
+- Provider/API calls: **NONE observed**; live in-memory provider counters are not exposed by Render MCP.
+- Render MCP cannot enumerate environment-variable keys; absence of a manually entered Dashboard credential is therefore **NOT independently enumerable**. Repository deployment configuration contains no `OPENAI_API_KEY` and runtime evidence shows provider-free staging behavior.
+- Resource inventory shows only the expected Static Site + Free Web Service and no Postgres/Key Value/worker/cron/persistent disk/paid compute upgrade. Billing/Usage remains **MCP LIMITATION** and zero overage is not claimed.
+- BLK-003 remains **OPEN**; production remains **NOT APPROVED / NOT PERFORMED**; real/confidential data remains **NOT AUTHORIZED**.
+- Final remaining gate: documentation-only governance closeout fixed-SHA review and merge.
 - BLK-003: **OPEN**. Production and real/confidential-data use: **NOT
   AUTHORIZED**.
 
@@ -139,3 +155,13 @@ Authorization scope remains limited to a zero-cost synthetic/demo-only staging d
 | Previous | New | Date | Actor | Change | Reason | Related evidence | Breaking change |
 |---|---|---|---|---|---|---|---|
 | 0.2.0 | 0.2.1 | 01/10/2026 | Codex | Record Render implementation and local evidence; keep review/merge/deployment pending | Fixed-SHA implementation handoff | DEPLOY-001; `HUMAN-DEPLOY-001-IMPLEMENTATION-2026-10-01`; `HUMAN-DEPLOY-001-PLATFORM-RENDER-2026-10-01` | No — opt-in staging path |
+
+
+## Post-deploy verification — 02/10/2026
+
+- Workspace: `My Workspace` (`tea-dav602rncjis739cu580`).
+- Backend service: `srv-dav6uqvpn0mc73af2j9g`; deploy `dep-davgs8dckfvc73bp1ktg`; URL `https://ai-ip-synthetic-demo-backend.onrender.com`; Web Service / Free / Singapore / live.
+- Frontend service: `srv-dav6uqnpn0mc73af2hp0`; deploy `dep-davgs8dckfvc73bp1l20`; URL `https://ai-ip-synthetic-demo-frontend.onrender.com`; Static Site / live.
+- Both services report deployed Git SHA `3a31bc7c26cd14c2529c7381e96c32fa3f1a1e0c`.
+- Blueprint-managed `/backend/*` rewrite is verified in production-like staging traffic; no manual Dashboard action remains.
+- This verification establishes only the authorized public **synthetic/demo staging** path. It is not production approval, semantic-quality evidence, provider-runtime validation, legal advice, patentability evidence or permission for real/confidential data.
