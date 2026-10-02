@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | SPEC-002 |
 | Document title | Project Context — AI Intellectual Property Description Generator |
-| Version | 0.4.25 |
+| Version | 0.4.26 |
 | Status | Approved baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT |
@@ -73,6 +73,7 @@
 | 0.4.22 | 0.4.23 | 01/10/2026 | ChatGPT | Record Human selection of Render for DEPLOY-001 and hand off platform-specific implementation | Resolve the Section 19 platform gate without widening zero-cost synthetic/demo boundaries | `HUMAN-DEPLOY-001-PLATFORM-RENDER-2026-10-01`; Render; branch `feat/deploy-001-demo-staging`; BLK-003 OPEN | No |
 | 0.4.23 | 0.4.24 | 01/10/2026 | Codex | Record provider-free Render demo implementation and local verification; retain review/merge/live-deploy gates | Current-state reconciliation before fixed-SHA review | DEPLOY-001; backend 447 passed / 3 skipped; Playwright 19 + 3 passed; public URLs NOT DEPLOYED / NOT RECORDED; BLK-003 OPEN | No |
 | 0.4.24 | 0.4.25 | 02/10/2026 | ChatGPT | Record DEPLOY-001 implementation/rewrite reviews, merges, successful main CI, verified Render deployment and public same-origin smoke evidence | Reconcile completed public synthetic demo evidence while preserving non-production/provider/data boundaries | DEPLOY-001; reviews `d76089e49ccd4aa268375cf44ae994c04e3b9c58` and `755239a49e13775b9b2b904f38fd192f63f4264c`; merges `b72efa0579aacbb4887b30e6bd8eab49ed5e8d60` and `3a31bc7c26cd14c2529c7381e96c32fa3f1a1e0c`; CI `36952647096`; public frontend/backend verified; BLK-003 OPEN | No |
+| 0.4.25 | 0.4.26 | 02/10/2026 | ChatGPT | Start P2-001 USPTO Patent Specification Target v2.0.0 and reference-corpus definition after Human authorization | Align the next productization phase with the clarified scientific-paper → USPTO-style specification objective while keeping runtime/provider/data boundaries unchanged | `HUMAN-P2-001-USPTO-TARGET-2026-10-02`; baseline `eab9cd8d9421cb5bc40dc18134716febc16ac7cd`; P2-001 specification only; BLK-003 OPEN | No |
 
 ## 2. Project name
 
@@ -380,8 +381,9 @@ Project Orchestrator MCP là lớp điều phối dùng chung giữa VS Code/Cod
 
 1. P1-001 — **CLOSED / COMPLETED — MERGED** via PR #33 at `56d7217c0f09fe591585cb298e0b4df0c92f8aa4`; Gemini 3.1 Pro High targeted implementation review **PASS**, findings **NONE**; final main CI [`36536768516`](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/36536768516) **SUCCESS**: backend 408 passed/2 skipped, pip check/lint/typecheck/build PASS, Playwright 15 passed, live flags 0/0. Project classification remains **MVP COMPLETE — LOCAL/SYNTHETIC**.
 2. P1-002 through P1-006 are **CLOSED / COMPLETED** in Git/governance. P1-003 through P1-006 retain their documented MCP tool limitations where applicable. P1-006 implementation review PASS/NONE on `59c65deec60ae80e3ba6d28220466c2bdbfed815`, PR #50 merge `659e46fa80321e037f384e0e8a09bbe90646da35`, closeout review PASS/NONE on `d46a7101d8aefedd14ece29db50c8f3b00ebbde9`, PR #51 merge `829c83130c6eb6018897cd5a8f62332408193142`, final main CI `36834543602` SUCCESS.
-3. DEPLOY-001 is **CLOSED / COMPLETED — PUBLIC SYNTHETIC DEMO VERIFIED; CLOSEOUT REVIEW PENDING**. Implementation review PASS/NONE on `d76089e49ccd4aa268375cf44ae994c04e3b9c58`; PR #53 merge `b72efa0579aacbb4887b30e6bd8eab49ed5e8d60`; rewrite-remediation review PASS/NONE on `755239a49e13775b9b2b904f38fd192f63f4264c`; PR #54 merge/deployed main `3a31bc7c26cd14c2529c7381e96c32fa3f1a1e0c`; main CI `36952647096` SUCCESS. Public frontend/backend and same-origin PDF/DOCX flows are verified. Final governance closeout review remains pending.
-4. EVAL-001 PRODUCT_RUNTIME remains **DEFERRED — AWAITING FUNDING**, evidence NONE, semantic acceptance NOT_DETERMINED; provider authorization NOT GRANTED / budget 0. BLK-003 remains OPEN; no production/real-confidential-data authorization.
+3. DEPLOY-001 is **CLOSED / COMPLETED — PUBLIC SYNTHETIC DEMO VERIFIED**. Implementation review PASS/NONE on `d76089e49ccd4aa268375cf44ae994c04e3b9c58`; PR #53 merge `b72efa0579aacbb4887b30e6bd8eab49ed5e8d60`; rewrite-remediation review PASS/NONE on `755239a49e13775b9b2b904f38fd192f63f4264c`; PR #54 merge/deployed main `3a31bc7c26cd14c2529c7381e96c32fa3f1a1e0c`; main CI `36952647096` SUCCESS. Public frontend/backend and same-origin PDF/DOCX flows are verified. Final governance closeout review remains pending.
+4. P2-001 is **IN PROGRESS — SPECIFICATION / FIXED-SHA REVIEW PENDING** under `HUMAN-P2-001-USPTO-TARGET-2026-10-02`. It defines USPTO Patent Specification Target v2.0.0, the initial B2 reference corpus, the Claims target boundary, filing-style/review-package separation and v1→v2 compatibility direction. No provider/API spend, real/confidential data, Claims runtime or production change is authorized by P2-001.
+5. EVAL-001 PRODUCT_RUNTIME remains **DEFERRED — AWAITING FUNDING**, evidence NONE, semantic acceptance NOT_DETERMINED; provider authorization NOT GRANTED / budget 0. BLK-003 remains OPEN; no production/real-confidential-data authorization.
 
 AI-002 được merge với implementation commit `f8772b228a23bf7cdec10fa0c463e6d1f672c341` và governance commit `9f2a78b1396cdadb747c263a2bbbbacb8d7f4292`; Gemini review `PASS`, không có finding, AI-001 regression 15/15 và AI-002 tests 17/17 pass. AI-002 tự thân không chứng minh Responses API hoặc live-model integration; provider adapter/runtime sau đó được Human phê duyệt riêng trong AI-RUNTIME-001. Claims vẫn nằm ngoài Output Schema và Extraction Prompt v1.0.0.
 
