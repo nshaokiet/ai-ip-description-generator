@@ -216,10 +216,10 @@ export default function Home() {
               <Image
                 alt="VNUHCM Innovation Hub"
                 className="brand-logo"
-                height={84}
+                height={107}
                 priority
                 src="/brand/vnuhcm-innovation-hub-logo.png"
-                width={150}
+                width={190}
               />
             </span>
             <div className="brand-divider" aria-hidden="true" />

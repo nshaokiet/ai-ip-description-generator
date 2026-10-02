@@ -1,141 +1,81 @@
+<p align="center">
+  <img src="frontend/public/brand/vnuhcm-innovation-hub-logo.png" alt="VNUHCM Innovation Hub" width="190" />
+</p>
+
 # AI Intellectual Property Description Generator
 
-Evidence-grounded patent-description drafting support for research teams.
+Evidence-grounded drafting support that helps research and innovation teams turn a scientific paper into structured invention information, a reviewable USPTO-style patent-specification draft, and an editable DOCX.
 
-Công cụ hỗ trợ chuyển bài báo khoa học thành dữ liệu có cấu trúc và bản mô tả sáng chế để rà soát thủ công.
+The repository combines a Next.js interface, a FastAPI processing architecture, versioned data contracts, source-linked evidence, Human review controls, validation, and deterministic synthetic tests.
 
-## Project status
+> **Important:** Generated content is a draft for Human and qualified intellectual-property specialist review. It is not legal advice, a patentability conclusion, an inventorship determination, a filing-ready application, or a guarantee of acceptance.
 
-| Task | Trạng thái | Chức năng |
-| --- | --- | --- |
-| **SPEC-001/002/003** | ✅ Completed | Xác định yêu cầu hệ thống, kiến trúc tổng thể, bối cảnh dự án và quy tắc phối hợp giữa Human, Codex và Gemini |
-| **AI-001** | ✅ Completed | Xây dựng schema chuẩn để biểu diễn thông tin sáng chế dưới dạng dữ liệu có cấu trúc |
-| **AI-002** | ✅ Completed | Xây dựng prompt trích xuất thông tin kỹ thuật từ bài báo khoa học |
-| **AI-003** | ✅ Completed | Xây dựng contract và prompt để tạo Patent Description Draft |
-| **DOC-001** | ✅ Completed | Xây dựng template và bộ render để xuất bản mô tả sáng chế sang file DOCX |
-| **APP-001** | ✅ Completed | Xây dựng backend nhận file PDF/DOCX, kiểm tra loại file, dung lượng và xử lý file an toàn |
-| **APP-002** | ✅ Completed | Phân tích PDF/DOCX thành văn bản, source units, evidence IDs và source locators để truy vết nguồn |
-| **AI-RUNTIME-001** | ✅ Completed | Thực thi quá trình trích xuất bằng OpenAI Responses API để chuyển bài báo thành Structured Invention Analysis |
-| **AI-RUNTIME-002** | ✅ Completed | Thực thi quá trình tạo bản mô tả sáng chế từ Structured Invention Analysis thành Patent Description Draft |
-| **APP-003** | ✅ Completed | Kết nối các thành phần thành core pipeline hoàn chỉnh và xây dựng offline E2E harness |
-| **P0-005** | ✅ Completed | Xây dựng frontend MVP gồm tải tài liệu, theo dõi workflow và xem kết quả |
-| **P0-006** | ✅ Completed | Kết nối frontend với FastAPI backend để vận hành luồng xử lý hoàn chỉnh |
-| **P0-007** | ✅ Completed | Kiểm thử toàn bộ luồng E2E, xử lý lỗi tích hợp và ổn định hệ thống |
-| **P0-008** | ✅ Completed | Kiểm tra mức độ sẵn sàng bàn giao của phiên bản local/synthetic MVP |
-| **P0-009** | ✅ Completed | Thiết lập GitHub Actions CI để tự động kiểm tra backend, frontend và Playwright |
-| **EVAL-001 Framework + Gold** | ✅ Completed (framework/gold) | Xây dựng bộ đánh giá chất lượng ngữ nghĩa, corpus/gold chuẩn và tiêu chí đo precision, coverage và grounding |
-| **P0-010** | ✅ Completed | Hoàn tất MVP closeout và xác nhận trạng thái `MVP COMPLETE — LOCAL/SYNTHETIC` |
-| **P1-001** | ✅ Completed | Cải thiện accessibility, điều hướng bàn phím, focus, TypeScript typecheck và tăng cường CI |
-| **Project Orchestrator MCP** | ✅ Completed | Quản lý task state, owner, lease, quota, checkpoint và handoff giữa các agent |
-| **P1 Task Catalog** | ✅ Completed | Đăng ký P1-001 đến P1-006 trong MCP và bảo toàn trạng thái task qua restart |
-| **P1-002** | ✅ Completed | Mở rộng kiểm thử đối kháng offline để phát hiện edge case, input lỗi, dữ liệu không hợp lệ và lỗi validation |
-| **P1-003** | ✅ Completed | Tăng cường bảo mật môi trường local gồm upload safety, path handling, kiểm soát thông tin lỗi và rà soát attack surface; PR #43 merged and final main CI succeeded, with MCP completion blocked by tool capability |
-| **P1-004** | ✅ Completed | One-command local run cho frontend/backend, readiness checks và shutdown tiến trình do launcher sở hữu; implementation PR #45 and governance closeout PR #46 merged with successful final main CI; MCP completion remains blocked by tool capability |
-| **P1-005** | ✅ Completed | Implementation and governance closeout reviewed by Gemini 3.1 Pro High PASS/findings NONE; PR #48 merged at `3641c7ed91636d8480226d931b719cdcf28b17e0`, closeout PR #49 merged at `90ead2c0f26f17c617cfa71e6d7b3d16808d46e1`; final main CI `36811043597` SUCCESS; MCP remains `PLANNED` / BLOCKED BY TOOL CAPABILITY |
-| **P1-006** | ✅ Completed | Implementation review PASS/NONE on `59c65deec60ae80e3ba6d28220466c2bdbfed815`; PR #50 merge `659e46fa80321e037f384e0e8a09bbe90646da35`; closeout review PASS/NONE on `d46a7101d8aefedd14ece29db50c8f3b00ebbde9`; PR #51 merge `829c83130c6eb6018897cd5a8f62332408193142`; final main CI `36834543602` SUCCESS; MCP remains `PLANNED` / BLOCKED BY TOOL CAPABILITY |
-| **DEPLOY-001** | ✅ Closed / completed — public synthetic demo verified | Governance closeout review PASS/NONE; PR #55 merged at `eab9cd8d9421cb5bc40dc18134716febc16ac7cd`; final main CI `36954939862` SUCCESS; Render public synthetic demo remains non-production |
-| **P2-001** | ✅ Completed | USPTO Patent Specification Target v2.0.0 schema/template, structural reference maps, synthetic fixtures and offline contract tests reviewed PASS/NONE; PR #56 and governance closeout PR #58 merged; final main CI `36965942755` SUCCESS |
-| **P2-000** | ✅ CLOSED / COMPLETED — MERGED | Enterprise SaaS workflow implemented and independently reviewed PASS/NONE; PR #60 merged at `d0ffd09e0fe29e8a46c04e14b392e3c4aea22731`; governance closeout reviewed `ddd96548c939bffe71f395011c0b98147cb2f797` PASS/NONE; PR #61 merged at `1bc4f56444451f8fd42f3cc8b8e741b3d0045fa5`; UI remediation PR #63 merged at `fe1b0d52ea4c90fd87ba3ec6139d63e1fa359cd1` |
-| **EVAL-001 PRODUCT_RUNTIME** | ⏸ Incomplete — Deferred | Chạy benchmark trên provider/runtime thực tế để đánh giá chất lượng ngữ nghĩa của kết quả AI; đang chờ funding |
-| **SEC-001 / BLK-003** | 🔴 Incomplete — Open | Hoàn thiện bảo mật production gồm authentication, tenant isolation, private storage, retention và deletion policy |
-| **Production Deployment** | 🔴 Incomplete — Not approved | Triển khai production cho người dùng thật và dữ liệu thật sau khi hoàn tất các yêu cầu bảo mật, dữ liệu và vận hành |
+## Public Demo
 
-**Current classification:** `MVP COMPLETE — LOCAL/SYNTHETIC` with a verified **public synthetic/demo staging** deployment. **P2-001 and P2-000 are both CLOSED / COMPLETED — MERGED.** DEPLOY-001 public frontend: `https://ai-ip-synthetic-demo-frontend.onrender.com`; backend: `https://ai-ip-synthetic-demo-backend.onrender.com`. This remains non-production: BLK-003 is OPEN, real/confidential data is unauthorized, provider/API use is not authorized, and production is NOT APPROVED / NOT PERFORMED.
+**Demo:** https://ai-ip-synthetic-demo-frontend.onrender.com
 
-> **README status-sync rule:** Bảng trên là bản tóm tắt trạng thái công khai của roadmap. Mỗi khi một task chuyển trạng thái (đặc biệt khi hoàn thành/merge, bị defer hoặc mở blocker), task closeout phải cập nhật đúng dòng tương ứng trong bảng này trong cùng thay đổi governance/closeout. Evidence chi tiết vẫn nằm trong Git history, task record và Project Control Center.
+The public interface supports PDF/DOCX selection. Real-paper AI conversion is not enabled yet; controlled synthetic samples remain available for the working demonstration flow. Selected arbitrary files remain in the browser UI and are not connected to synthetic results.
 
-## Overview
+The deployment is non-production. Do not use real, confidential, unpublished, sensitive, or regulated research data.
 
-The application helps researchers, innovation teams, and IP/patent drafting support
-teams turn one text-based scientific PDF or DOCX into structured invention
-information, source-linked evidence, a patent-description draft, and an editable
-DOCX. It highlights missing information for the author and keeps review with people.
+## Current Status
 
-This is **drafting support, not legal advice**. Generated content requires
-Human or IP-specialist review before any use. The current validated end-to-end
-path is local and synthetic; it does not establish real-paper accuracy or
-production readiness.
+- **P2-001:** CLOSED / COMPLETED — MERGED. The USPTO Patent Specification Target v2 contract, template, reference maps, fixtures, and offline tests are established.
+- **P2-000:** CLOSED / COMPLETED — MERGED. The enterprise five-stage web workflow and its reviewed P2-000-R1 interface remediation are on `main`.
+- **BLK-003:** OPEN. Production authentication, tenant isolation, private storage, retention, and deletion controls are not approved.
+- **EVAL-001 PRODUCT_RUNTIME:** DEFERRED / AWAITING FUNDING. Real-paper provider/runtime semantic validation has not been performed.
+- **Claims runtime:** NOT IMPLEMENTED. Claims exist only in the P2-001 target contract.
+- **Production security and real/confidential-data use:** NOT APPROVED.
 
-## Key capabilities
+Detailed task, SHA, pull-request, CI, and review evidence remains in the [Project Control Center](docs/operations/01_PROJECT_CONTROL_CENTER.md), [review log](docs/operations/02_GEMINI_REVIEW_LOG.md), task records, and Git history.
 
-- PDF/DOCX upload with file validation and safe local handling.
-- Deterministic parsing into ordered source and evidence units.
-- Structured invention extraction with source/evidence grounding.
-- Missing-information detection and questions for the author.
-- Patent-description draft generation, with no Claims in the current MVP.
-- Human review, prose editing, and immutable revisions within one browser session.
-- Backend validation of the selected draft before export.
-- Editable DOCX export of the exact validated revision.
+## Main Features
 
-**Claims are outside the current MVP.** Browser edits and review markers are
-session-only, not a durable audit trail or formal approval.
+### Currently working demo flow
 
-## End-to-end workflow
+- PDF/DOCX selection and client-side validation UI.
+- Controlled synthetic PDF and DOCX end-to-end samples.
+- Source parsing and traceable evidence architecture.
+- Structured invention-analysis architecture.
+- USPTO-style patent-draft workflow.
+- Human review, prose revision, and immutable session revisions.
+- Exact-revision backend validation before export.
+- Editable DOCX export.
+- Deterministic backend, frontend, and browser regression coverage.
+- USPTO Patent Specification Target v2 contract and template.
+
+### Deferred real-paper AI runtime
+
+- Arbitrary selected papers are not currently sent through provider-backed AI conversion in the public demo.
+- Live provider evaluation and semantic acceptance remain deferred pending explicit funding and authorization.
+- Production use, confidential-data processing, and Claims generation require separate approved work.
+
+## Current Workflow
 
 ```text
-Scientific Paper (PDF/DOCX)
-          ↓
-Upload & Validation
-          ↓
-Parsing & Evidence Units
-          ↓
-Structured Extraction
-          ↓
-Grounding & Validation
-          ↓
-Missing Information
-          ↓
-Draft Generation
-          ↓
-Human Review
-          ↓
-DOCX Export
+1. Source Upload
+2. AI Extraction
+3. Review & Refine
+4. Validation
+5. DOCX Export
 ```
 
-## Architecture
+The controlled samples exercise the complete workflow. Reached-step navigation reuses the current session without replaying processing requests, while reset and source-removal actions keep local selection, uploaded-document, and generated-result lifecycles distinct.
 
-```text
-Browser
-   ↓
-Next.js / TypeScript
-   ↓  same-origin /backend/* proxy
-FastAPI / Python
-   ↓
-OpenAI Responses API
-   ↓
-Validation / Grounding
-   ↓
-DOCX Renderer
-```
+## Prerequisites
 
-The **normal application path** uses provider-backed extraction and drafting when
-local orchestration is enabled; starting the servers does not make processing
-offline. The **offline/synthetic test path** injects fake extraction/draft runtimes
-while exercising the actual browser, HTTP, upload, parsing, validation, and DOCX
-boundaries. Fake output does not establish live-model or semantic quality. See the
-[MVP handover runbook](docs/operations/MVP_HANDOVER_RUNBOOK.md).
+- Python 3.12
+- Node.js 24+
+- npm
+- Git
 
-## Tech stack
+Windows PowerShell is the primary documented local environment.
 
-| Layer | Technology |
-| --- | --- |
-| Frontend | Next.js 16, React, TypeScript |
-| Backend | FastAPI, Python 3.12 |
-| Provider-backed AI | OpenAI Responses API |
-| Validation | JSON Schema and deterministic grounding/business rules |
-| Document generation | `docxtpl`, `python-docx` |
-| Testing | pytest, unittest, Playwright, ESLint |
-| Version control | GitHub |
-
-No database or deployment platform is active infrastructure in this local
-baseline. P0-009 CI covers deterministic local/synthetic regression only.
-
-## Quick start
-
-Use Windows PowerShell from the repository root. Python 3.12 and compatible Node/npm
-are required; the repository does not pin an exact Node/npm pair.
+## Installation
 
 ```powershell
+git clone https://github.com/nshaokiet/ai-ip-description-generator.git
+cd ai-ip-description-generator
 py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r backend/requirements.txt -r tests/requirements.txt
 cd frontend
@@ -143,152 +83,113 @@ npm ci
 cd ..
 ```
 
-If `py -3.12` cannot locate an installed Python 3.12, invoke that trusted
-interpreter's `python.exe -m venv .venv` directly. The backend reads process
-environment variables; it does not automatically load `.env.example`.
+Do not add an `OPENAI_API_KEY` for the documented offline/synthetic workflow.
 
-Start both servers from the repository root with one command:
+## Usage
+
+Start the local frontend and backend from the repository root:
 
 ```powershell
 .\.venv\Scripts\python.exe tools\local_dev.py
 ```
 
-POSIX equivalent: `.venv/bin/python tools/local_dev.py`.
+Open:
 
-The launcher checks Python/backend/frontend prerequisites and ports before it
-starts anything. It binds both servers to `127.0.0.1`, waits for backend,
-frontend, and proxy readiness, and owns their process groups. Press Ctrl+C once
-to request graceful shutdown; any remaining owned process tree is stopped after
-a bounded wait. It never requires `OPENAI_API_KEY`, rejects enabled live-test
-flags, and leaves `AI_IP_ENABLE_LOCAL_ORCHESTRATION_API` at its safe default `0`
-unless the caller explicitly supplied the existing supported `0`/`1` value.
+- Web application: http://127.0.0.1:3000
+- Backend health: http://127.0.0.1:8000/health
+- Frontend proxy health: http://127.0.0.1:3000/backend/health
 
-Use `--check` to validate prerequisites and port availability without starting
-servers:
+Check prerequisites and ports without starting services:
 
 ```powershell
 .\.venv\Scripts\python.exe tools\local_dev.py --check
 ```
 
-For troubleshooting, start the backend manually from the repository root in one terminal:
-
-```powershell
-.\.venv\Scripts\python.exe -m uvicorn backend.app.main:app --host 127.0.0.1 --port 8000
-```
-
-Then start the frontend manually from `frontend/` in another terminal, bound to loopback:
-
-```powershell
-cd frontend
-npm run dev -- --hostname 127.0.0.1
-```
-
-Check the [frontend](http://127.0.0.1:3000),
-[backend health](http://127.0.0.1:8000/health), and
-[frontend-to-backend proxy](http://127.0.0.1:3000/backend/health).
-Next.js rewrites `/backend/*` using server-side `BACKEND_URL` (default
-`http://127.0.0.1:8000`). Stop both controlled servers with Ctrl+C. For the
-isolated synthetic full-flow setup and environment-variable matrix, follow
-the [runbook](docs/operations/MVP_HANDOVER_RUNBOOK.md); do not supply a
-provider key or real/confidential paper for this handover.
+Press `Ctrl+C` to stop the services owned by the launcher.
 
 ## Testing
 
-From the repository root, run the offline backend regression with the local
-virtual environment:
+Backend regression:
 
 ```powershell
 .\.venv\Scripts\python.exe -m pytest tests -q -p no:cacheprovider
 ```
 
-From `frontend/`, install Playwright Chromium once, then run:
+Frontend and standard browser workflow:
 
 ```powershell
-npx playwright install chromium
+cd frontend
+npm ci
 npm run lint
+npm run typecheck
 npm run build
 npm run test:e2e
 ```
 
-The active [CI workflow](.github/workflows/ci.yml) runs on pull requests targeting
-`main` and pushes to `main`: Python 3.12 full pytest, Node 24.18.0 `npm ci`,
-lint, build, Playwright Chromium, and synthetic E2E. The final P0-010 post-merge
-[main run](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/36526457334)
-passed on merge SHA `9f31dae104438a598b0fe3c9bd09aba005f9026c` (backend **408 passed / 2 skipped**, lint/build PASS, Playwright
-**11 passed**, live-test flags 0/0). P0-010 local offline verification: backend **407 passed / 3 skipped**
-on Windows, lint/build PASS, Playwright **11 passed**. **Historical P0-007 evidence:** offline backend
-**380 passed / 3 skipped**; Playwright **11 passed**. P0-008's fresh PDF-to-DOCX smoke and
-environment details are in the runbook. CI does not validate a live provider
-or real-paper semantic quality.
+Static public-demo workflow:
 
-## Repository structure
+```powershell
+$env:RENDER_STATIC_EXPORT = "1"
+$env:NEXT_PUBLIC_DEMO_STAGING = "1"
+npm run build
+npm run test:e2e:demo
+```
+
+All repository CI paths keep `RUN_OPENAI_LIVE_TESTS=0` and `RUN_OPENAI_DRAFT_LIVE_TESTS=0`.
+
+## Project Structure
 
 ```text
-backend/    FastAPI routes, parsing, orchestration, validation
-frontend/   Next.js UI and Playwright browser tests
-prompts/    Versioned extraction and drafting prompts
-schemas/    Structured JSON contracts
-templates/  Patent-description DOCX template
-tests/      Offline backend, contract, DOCX, and synthetic fixtures
-docs/       Specifications, decisions, tasks, and operations
-tools/      Internal project coordination and developer tooling
+backend/     FastAPI routes, parsing, orchestration, and validation
+frontend/    Next.js application and Playwright browser tests
+prompts/     Versioned extraction and drafting prompts
+schemas/     Structured analysis and patent-specification contracts
+templates/   Editable DOCX templates
+tests/       Offline backend, schema, integration, and synthetic fixtures
+docs/        Specifications, decisions, task records, reviews, and runbooks
+tools/       Local development and project tooling
 ```
 
 ## Documentation
 
-- [Project context](PROJECT_CONTEXT.md)
-- [System specification](docs/system-specification.md)
-- [Processing workflow](docs/workflow.md)
-- [MVP handover runbook](docs/operations/MVP_HANDOVER_RUNBOOK.md)
-- [DEPLOY-001 Render demo/staging runbook](docs/operations/DEPLOY_001_RENDER_RUNBOOK.md)
-- [Final local/synthetic MVP closeout](docs/operations/FINAL_MVP_CLOSEOUT.md)
+- [Project Context](PROJECT_CONTEXT.md)
+- [System Specification](docs/system-specification.md)
+- [P2-000 Product Workflow Specification](docs/tasks/P2-000-product-webapp-simplification.md)
 - [Project Control Center](docs/operations/01_PROJECT_CONTROL_CENTER.md)
-- [Independent review log](docs/operations/02_GEMINI_REVIEW_LOG.md)
-- [AI collaboration rules](AGENTS.md)
+- [Independent Review Log](docs/operations/02_GEMINI_REVIEW_LOG.md)
+- [MVP Handover Runbook](docs/operations/MVP_HANDOVER_RUNBOOK.md)
+- [Render Demo Runbook](docs/operations/DEPLOY_001_RENDER_RUNBOOK.md)
+- [AI Collaboration Rules](AGENTS.md)
 
-Detailed task, commit, review, and governance history lives in those documents and Git history.
+## Troubleshooting
 
-## Safety and current limitations
+### Python 3.12 is not found
 
-- Generated output is a **draft** requiring Human/IP-specialist review. It is not
-  legal advice, a patentability or novelty/inventive-step conclusion, an inventorship determination, or a filing guarantee.
-- Claims, OCR/scanned-PDF processing, prior-art search, and patentability
-  scoring are outside the current MVP.
-- Live-provider smoke is **UNVALIDATED / DEFERRED**. Synthetic tests do not
-  validate provider behavior or real-paper semantic quality.
-- EVAL-001 framework and Human-accepted six-case corpus/gold benchmark are merged;
-  PRODUCT_RUNTIME semantic validation is **DEFERRED — AWAITING FUNDING**.
-  Product-runtime evidence is **NONE** and semantic acceptance **NOT_DETERMINED**.
-  Consumer UI or synthetic output is not equivalent to product-runtime evidence.
-- Current file handling is local/ephemeral and cleanup is best effort. There is no
-  approved private **production** storage or retention guarantee.
-- BLK-003 remains **OPEN** for production authentication, private production storage,
-  and retention/deletion policy. Real or confidential research data is **not authorized**.
-- No public deployment, production approval, or public URL exists.
+Run `py -0p`, then create `.venv` with the full path to an installed Python 3.12 interpreter if necessary.
 
-## Future Work
+### Port 3000 or 8000 is already in use
 
-These are separate future gates, not a committed production release scope:
+Run `.\.venv\Scripts\python.exe tools\local_dev.py --check`, stop the process using the required loopback port, and retry.
 
-| Step | Status | Function / scope |
-| --- | --- | --- |
-| P1-001 | **CLOSED / COMPLETED — MERGED** | Frontend accessibility, keyboard/focus behavior, TypeScript typecheck and CI hardening |
-| P1-002 | **CLOSED / COMPLETED — MERGED** | Six deterministic offline adversarial regressions merged via PR #40; main CI `36583295714` SUCCESS; no provider calls |
-| P1-003 | **CLOSED / COMPLETED — MERGED; MCP TOOL LIMITATION** | Implementation PR #42 and governance closeout PR #43 merged; final main CI `36681005158` SUCCESS. MCP remains `IMPLEMENTED` because its post-finish transition/checkpoint is blocked by tool capability. Does not resolve production BLK-003 |
-| P1-004 | **CLOSED / COMPLETED — MERGED; MCP TOOL LIMITATION** | Gemini 3.1 Pro High implementation review PASS/NONE on `f446b514721ec795ce74ed0fa0f7c9ce85bc3ba8`; PR #45 merge `76b33b436c6408b1076a1ec97fda5a700517cd5d`; closeout review PASS/NONE on `5fe704f927cc978f44550ff28bb23bb8c01e4db6`; PR #46 merge `8d69bef5e1fe30b8a48d706d5a345be61639a963`; final main CI `36732793377` SUCCESS. MCP remains `IMPLEMENTED` because no supported post-implementation transition is exposed |
-| P1-005 | **CLOSED / COMPLETED — MERGED; MCP TOOL LIMITATION** | Implementation review PASS/NONE on `2c3e03ed8faf7bb929cfe38e7131108c6f57426b`; PR #48 merge `3641c7ed91636d8480226d931b719cdcf28b17e0`; closeout review PASS/NONE on `2765dde0eaa99e9d8d9f989876d1310b1843424e`; PR #49 merge/current baseline `90ead2c0f26f17c617cfa71e6d7b3d16808d46e1`; final CI `36811043597` SUCCESS; MCP remains `PLANNED` / BLOCKED BY TOOL CAPABILITY |
-| P1-006 | **CLOSED / COMPLETED — MERGED; MCP TOOL LIMITATION** | `HUMAN-P1-006-UX-POLISH-2026-10-01`; executable `78772761f9a4081686db4977547ea89c96288f27`; implementation reviewed `59c65deec60ae80e3ba6d28220466c2bdbfed815` PASS/NONE; PR #50 merge `659e46fa80321e037f384e0e8a09bbe90646da35`; closeout reviewed `d46a7101d8aefedd14ece29db50c8f3b00ebbde9` PASS/NONE; PR #51 merge `829c83130c6eb6018897cd5a8f62332408193142`; final CI `36834543602` SUCCESS with backend 443 passed / 2 skipped, lint/typecheck/build PASS and Playwright 19 passed; MCP PLANNED / BLOCKED BY TOOL CAPABILITY |
-| DEPLOY-001 | **CLOSED / COMPLETED — PUBLIC SYNTHETIC DEMO VERIFIED** | Implementation review PASS/NONE on `d76089e49ccd4aa268375cf44ae994c04e3b9c58`; PR #53 merge `b72efa0579aacbb4887b30e6bd8eab49ed5e8d60`; rewrite remediation review PASS/NONE on `755239a49e13775b9b2b904f38fd192f63f4264c`; PR #54 merge/current deployed main `3a31bc7c26cd14c2529c7381e96c32fa3f1a1e0c`; main CI `36952647096` SUCCESS; frontend/backend public synthetic demo verified; provider/API calls NONE observed with environment-key and Billing/Usage MCP limitations preserved |
-| P2-001 | **CLOSED / COMPLETED — MERGED** | Implementation reviewed `8b55fd84ab1625bf918192c889dafe64825858b4` PASS/NONE; PR #56 merge `4cb0e9501c13b9d25b427bbaf7d50c37ab6ab329`; closeout reviewed `a95ac5c9d5e19dc04216a8f945ff38f1872c39a9` PASS/NONE; PR #58 merge `461d9b33b07bb39aad11aa47b84f678e232d80a8`; final main CI `36965942755` SUCCESS |
-| P2-000 | **CLOSED / COMPLETED — MERGED** | Specification reviewed `5c57c47d562fa3d003850faf5820ffd17a3be385` PASS/NONE; PR #59 merge `3a11d358ba65bb5a83345a96f1e3f464a1a3abc0`; implementation reviewed `8d63f19ebb755dafef1eafdb47874553be1fcdd3` PASS/NONE; PR #60 merge `d0ffd09e0fe29e8a46c04e14b392e3c4aea22731`; governance closeout reviewed `ddd96548c939bffe71f395011c0b98147cb2f797` PASS/NONE; PR #61 merge `1bc4f56444451f8fd42f3cc8b8e741b3d0045fa5`; P2-000-R1 UI remediation reviewed `cdb5e5bd2cc8f0ef5464bbc11550ad0c34673851` PASS/NONE and merged via PR #63 at `fe1b0d52ea4c90fd87ba3ec6139d63e1fa359cd1` |
-| EVAL-001 PRODUCT_RUNTIME | **DEFERRED — AWAITING FUNDING** | Product-runtime semantic validation; provider authorization/budget remain separate Human gates |
-| SEC-001 / BLK-003 | **OPEN / DEFERRED** | Production auth/tenant model, private storage, retention/deletion; required before production or real/confidential-data use |
-| Production deployment | **NOT APPROVED / NOT PERFORMED** | Separate from DEPLOY-001 demo/staging; requires security acceptance and Human approval |
-| Prompt/model/runtime optimization | **DEFERRED** | Separate scope; no paid/provider work authorized |
-| Claims | **OUT OF SCOPE FOR CURRENT v1 RUNTIME; TARGETED BY FUTURE P2-004** | P2-001 defines Claims as part of the v2 target only; no Claims generation/runtime is implemented yet |
+### Frontend dependencies are inconsistent
 
-DEPLOY-001 implementation is Human-authorized and **Render is the selected platform**. The reviewed implementation and rewrite remediation are merged, both Render services are live on `3a31bc7c26cd14c2529c7381e96c32fa3f1a1e0c`, and public same-origin synthetic PDF/DOCX smoke flows passed. The task remains synthetic/demo staging only; it does not resolve BLK-003 and does not permit production release, real/confidential research data, paid hosting, or provider/API calls. DEPLOY-001 governance closeout is complete via PR #55. P2-001 is fully closed after governance closeout PR #58 and final main CI `36965942755`. P2-000 is fully closed after governance closeout review PASS/NONE and PR #61 merge `1bc4f56444451f8fd42f3cc8b8e741b3d0045fa5`; UI remediation PR #63 is also merged at `fe1b0d52ea4c90fd87ba3ec6139d63e1fa359cd1`.
+Run `npm ci` from `frontend/`.
 
-## License
+### The backend is unavailable
 
-No repository license has been published yet.
+Check http://127.0.0.1:8000/health and follow the [MVP Handover Runbook](docs/operations/MVP_HANDOVER_RUNBOOK.md).
+
+## Contributing
+
+1. Branch from the current `main`.
+2. Keep changes within an explicitly authorized task.
+3. Run relevant offline tests before opening a pull request.
+4. Do not commit secrets, API keys, private research papers, or generated confidential data.
+5. Include exact verification evidence and request independent fixed-SHA review.
+
+## License / Contact
+
+No open-source license has been published. Do not assume permission to reuse, modify, or redistribute this repository outside the authorized project scope.
+
+- GitHub: [@nshaokiet](https://github.com/nshaokiet)
+- Support: [GitHub Issues](https://github.com/nshaokiet/ai-ip-description-generator/issues)

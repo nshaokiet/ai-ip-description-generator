@@ -104,13 +104,57 @@ test("P2-000 home presents the approved enterprise workflow and gated stages", a
   await expect(page.locator(".environment-badge")).toHaveCount(0);
   const logo = page.getByRole("img", { name: "VNUHCM Innovation Hub" });
   await expect(logo).toBeVisible();
+  await logo.evaluate((image: HTMLImageElement) => image.decode());
   await expect(logo).toHaveCSS("object-fit", "contain");
   const logoBox = await logo.boundingBox();
-  expect(logoBox?.width ?? 0).toBeGreaterThan(80);
-  expect(logoBox?.height ?? 0).toBeGreaterThan(30);
+  expect(logoBox?.width ?? 0).toBeGreaterThanOrEqual(175);
+  expect(logoBox?.height ?? 0).toBeGreaterThanOrEqual(50);
+  const uploadCardBox = await page.locator(".upload-card").boundingBox();
+  expect(uploadCardBox?.width ?? 0).toBeGreaterThanOrEqual(900);
+  await expect(page.locator("#document-file")).toHaveAttribute(
+    "accept",
+    ".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  );
+  const headerWidth = await page.locator(".site-header").evaluate((header) => ({
+    content: header.scrollWidth,
+    viewport: window.innerWidth,
+  }));
+  expect(headerWidth.content).toBeLessThanOrEqual(headerWidth.viewport);
   const backButton = page.getByRole("button", { name: "Go back" });
   await expect(backButton).toBeVisible();
   await expect(backButton).toBeDisabled();
+});
+
+test("local PDF and DOCX selections can be cleared and immediately re-selected", async ({ page }) => {
+  let uploadRequests = 0;
+  page.on("request", (request) => {
+    if (request.method() === "POST" && request.url().endsWith("/backend/api/documents")) {
+      uploadRequests += 1;
+    }
+  });
+
+  for (const file of [
+    { name: "same-local-paper.pdf", mimeType: mediaTypes.pdf, buffer: Buffer.from("%PDF-1.7\nlocal-selection") },
+    { name: "same-local-paper.docx", mimeType: mediaTypes.docx, buffer: Buffer.from("local-docx-selection") },
+  ]) {
+    await page.goto("/");
+    const input = page.locator("#document-file");
+    await input.setInputFiles(file);
+    await expect(page.getByText(file.name, { exact: true })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Upload & Validate" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Remove selected file" })).toBeVisible();
+
+    await page.getByRole("button", { name: "Remove selected file" }).click();
+    await expect(page.getByText(file.name, { exact: true })).toHaveCount(0);
+    await expect(input).toHaveValue("");
+
+    await input.setInputFiles(file);
+    await expect(page.getByText(file.name, { exact: true })).toBeVisible();
+    await page.getByRole("button", { name: "Remove selected file" }).click();
+    await expect(input).toHaveValue("");
+  }
+
+  expect(uploadRequests).toBe(0);
 });
 
 test("uploaded paper can be removed before extraction", async ({ page }) => {

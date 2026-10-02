@@ -74,6 +74,12 @@ export function UploadPanel({
     chooseFile(event.target.files?.[0]);
   }
 
+  function clearSelectedFile() {
+    setSelectedFile(null);
+    setLocalError(null);
+    if (inputRef.current) inputRef.current.value = "";
+  }
+
   async function handleReplacement(event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
     event.target.value = "";
@@ -272,7 +278,7 @@ export function UploadPanel({
 
       {selectedFile && (
         <div className="selected-file" aria-live="polite">
-          <div>
+          <div className="selected-file-details">
             <strong>{selectedFile.name}</strong>
             <span>{formatBytes(selectedFile.size)}</span>
           </div>
@@ -280,7 +286,7 @@ export function UploadPanel({
             <span className="upload-ui-only-note">Selected locally · AI conversion pending funding</span>
           ) : (
             <button
-              className="primary-button"
+              className="primary-button selected-file-action"
               disabled={busy}
               onClick={() => void onUpload(selectedFile)}
               type="button"
@@ -288,6 +294,16 @@ export function UploadPanel({
               {state === "UPLOADING" ? "Uploading…" : "Upload & Validate"}
             </button>
           )}
+          <button
+            aria-label="Remove selected file"
+            className="icon-button danger-icon-button selected-file-remove"
+            disabled={busy}
+            onClick={clearSelectedFile}
+            title="Remove selected file"
+            type="button"
+          >
+            <span aria-hidden="true">×</span>
+          </button>
         </div>
       )}
       {state === "UPLOADING" && (
