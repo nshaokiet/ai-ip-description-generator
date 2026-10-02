@@ -208,11 +208,40 @@ export function UploadPanel({
     <section aria-busy={busy} className="workspace-card upload-card" aria-labelledby="upload-heading">
       <h2 className="sr-only" id="upload-heading">Upload a research document</h2>
 
-      {demoStaging ? (
+      <div
+        className={`drop-zone ${dragActive ? "drop-zone-active" : ""}`}
+        onDragEnter={(event) => { event.preventDefault(); setDragActive(true); }}
+        onDragOver={(event) => event.preventDefault()}
+        onDragLeave={() => setDragActive(false)}
+        onDrop={handleDrop}
+      >
+        <span className="document-symbol" aria-hidden="true">▤</span>
+        <h3>Drag &amp; drop your research paper here</h3>
+        <p>or</p>
+        <label className="sr-only" htmlFor="document-file">Research document</label>
+        <input
+          accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+          className="sr-only"
+          id="document-file"
+          disabled={busy}
+          onChange={handleChange}
+          ref={inputRef}
+          type="file"
+        />
+        <button
+          aria-label="Select document"
+          className="primary-button select-file-button"
+          disabled={busy}
+          onClick={() => inputRef.current?.click()}
+          type="button"
+        >
+          Select file
+        </button>
+        <span className="upload-constraints">PDF or DOCX · Max 10 MB</span>
+      </div>
+
+      {demoStaging && (
         <div className="demo-upload-state">
-          <span className="document-symbol" aria-hidden="true">▤</span>
-          <h3>Choose a controlled synthetic sample</h3>
-          <p className="demo-boundary-note">Public demo: synthetic samples only. Do not use real, confidential, unpublished, or sensitive research. No live AI provider is used.</p>
           <div className="sample-actions" aria-label="Synthetic sample papers">
             <span>Thử nhanh bài báo mẫu:</span>
             <button
@@ -235,41 +264,10 @@ export function UploadPanel({
               Sample DOCX (.docx)
             </button>
           </div>
+          <p className="demo-boundary-note">
+            Real-paper AI conversion is not enabled in this public demo yet. No live AI provider is used; controlled samples remain available for the working demo flow.
+          </p>
         </div>
-      ) : (
-        <>
-          <div
-            className={`drop-zone ${dragActive ? "drop-zone-active" : ""}`}
-            onDragEnter={(event) => { event.preventDefault(); setDragActive(true); }}
-            onDragOver={(event) => event.preventDefault()}
-            onDragLeave={() => setDragActive(false)}
-            onDrop={handleDrop}
-          >
-            <span className="document-symbol" aria-hidden="true">▤</span>
-            <h3>Drag &amp; drop your research paper here</h3>
-            <p>or</p>
-            <label className="sr-only" htmlFor="document-file">Research document</label>
-            <input
-              accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-              className="sr-only"
-              id="document-file"
-              disabled={busy}
-              onChange={handleChange}
-              ref={inputRef}
-              type="file"
-            />
-            <button
-              aria-label="Select document"
-              className="primary-button select-file-button"
-              disabled={busy}
-              onClick={() => inputRef.current?.click()}
-              type="button"
-            >
-              Select file
-            </button>
-            <span className="upload-constraints">PDF or DOCX · Max 10 MB</span>
-          </div>
-        </>
       )}
 
       {selectedFile && (
@@ -278,14 +276,18 @@ export function UploadPanel({
             <strong>{selectedFile.name}</strong>
             <span>{formatBytes(selectedFile.size)}</span>
           </div>
-          <button
-            className="primary-button"
-            disabled={busy}
-            onClick={() => void onUpload(selectedFile)}
-            type="button"
-          >
-            {state === "UPLOADING" ? "Uploading…" : "Upload & Validate"}
-          </button>
+          {demoStaging ? (
+            <span className="upload-ui-only-note">Selected locally · AI conversion pending funding</span>
+          ) : (
+            <button
+              className="primary-button"
+              disabled={busy}
+              onClick={() => void onUpload(selectedFile)}
+              type="button"
+            >
+              {state === "UPLOADING" ? "Uploading…" : "Upload & Validate"}
+            </button>
+          )}
         </div>
       )}
       {state === "UPLOADING" && (
@@ -301,7 +303,7 @@ export function UploadPanel({
       {!demoStaging && <p className="privacy-note"><span aria-hidden="true">⌁</span> Tài liệu được xử lý trong phạm vi phiên làm việc.</p>}
       <p className="source-of-truth-note">
         {demoStaging
-          ? "The backend verifies the exact approved sample before accepting it."
+          ? "You can select a PDF or DOCX in the interface now; arbitrary papers are not sent for AI conversion in this public demo yet."
           : "Client checks are for convenience. The backend remains the validation source of truth."}
       </p>
     </section>

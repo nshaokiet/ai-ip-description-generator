@@ -1317,19 +1317,22 @@ body {
   min-height: 66px;
 }
 
-.brand-logo {
-  display: none;
-}
-
 .brand-logo-frame {
-  display: block;
+  display: flex;
   flex: 0 0 150px;
   width: 150px;
-  height: 38px;
-  background-image: url("/brand/vnuhcm-innovation-hub-logo.png");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 150px auto;
+  height: 48px;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: visible;
+}
+
+.brand-logo {
+  display: block;
+  width: 150px;
+  height: 48px;
+  object-fit: contain;
+  object-position: left center;
 }
 
 .brand-divider {
@@ -1402,6 +1405,11 @@ main {
 .back-button {
   min-height: 40px;
   padding: 7px 4px;
+}
+
+.back-button:disabled {
+  opacity: 0.45;
+  text-decoration: none;
 }
 
 .back-button:hover,
@@ -1619,13 +1627,22 @@ main {
 }
 
 .demo-upload-state {
-  padding: 12px 0;
+  padding: 18px 0 0;
 }
 
 .demo-boundary-note {
   max-width: 590px;
-  margin: 8px auto 24px;
+  margin: 10px auto 0;
   color: var(--color-text-secondary);
+  font-size: 0.78rem;
+}
+
+.upload-ui-only-note {
+  max-width: 260px;
+  color: var(--color-text-secondary);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-align: right;
 }
 
 .sample-actions {
@@ -1970,10 +1987,14 @@ main {
   }
 
   .brand-logo-frame {
-    flex-basis: 104px;
-    width: 104px;
-    height: 28px;
-    background-size: 104px auto;
+    flex-basis: 112px;
+    width: 112px;
+    height: 40px;
+  }
+
+  .brand-logo {
+    width: 112px;
+    height: 40px;
   }
 
   .brand-divider {
@@ -2045,6 +2066,16 @@ main {
 
   .uploaded-file-row {
     grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+
+  .selected-file {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .upload-ui-only-note {
+    max-width: none;
+    text-align: left;
   }
 
   .upload-success-actions,
