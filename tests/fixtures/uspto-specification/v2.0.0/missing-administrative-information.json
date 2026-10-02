@@ -1,0 +1,353 @@
+{
+  "schema_version": "2.0.0",
+  "output_type": "USPTO_SPECIFICATION_DRAFT",
+  "document_metadata": {
+    "draft_id": "synthetic-missing-admin-v2",
+    "language": "en",
+    "target_jurisdiction": "US",
+    "specification_kind": "NONPROVISIONAL_UTILITY_PATENT_SPECIFICATION_DRAFT",
+    "source_document": {
+      "document_id": "SYNTHETIC-DOC-002",
+      "file_name": "synthetic-incomplete-paper.docx",
+      "media_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "synthetic": true
+    }
+  },
+  "section_order": [
+    "TITLE_OF_THE_INVENTION",
+    "CROSS_REFERENCE_TO_RELATED_APPLICATIONS",
+    "STATEMENT_REGARDING_FEDERALLY_SPONSORED_RESEARCH_OR_DEVELOPMENT",
+    "NAMES_OF_PARTIES_TO_JOINT_RESEARCH_AGREEMENT",
+    "INCORPORATION_BY_REFERENCE",
+    "STATEMENT_REGARDING_PRIOR_DISCLOSURES",
+    "BACKGROUND_OF_THE_INVENTION",
+    "BRIEF_SUMMARY_OF_THE_INVENTION",
+    "BRIEF_DESCRIPTION_OF_THE_DRAWINGS",
+    "DETAILED_DESCRIPTION_OF_THE_INVENTION",
+    "CLAIMS",
+    "ABSTRACT_OF_THE_DISCLOSURE",
+    "SEQUENCE_LISTING"
+  ],
+  "sections": [
+    {
+      "section_id": "TITLE_OF_THE_INVENTION",
+      "sequence": 1,
+      "heading": "TITLE OF THE INVENTION",
+      "status": "PRESENT",
+      "paragraphs": [
+        {
+          "paragraph_id": "P-TITLE-002",
+          "sequence": 1,
+          "text": "Synthetic Incomplete Disclosure",
+          "support": {
+            "source_paths": [
+              "/title"
+            ],
+            "evidence_ids": [
+              "EV-SOURCE-TITLE"
+            ],
+            "grounding_class": "SOURCE_FACT"
+          }
+        }
+      ],
+      "subsections": [],
+      "figures": [],
+      "missing_information_ids": []
+    },
+    {
+      "section_id": "CROSS_REFERENCE_TO_RELATED_APPLICATIONS",
+      "sequence": 2,
+      "heading": "CROSS-REFERENCE TO RELATED APPLICATIONS",
+      "status": "MISSING",
+      "paragraphs": [],
+      "subsections": [],
+      "figures": [],
+      "missing_information_ids": [
+        "MI-RELATED-APPLICATIONS"
+      ]
+    },
+    {
+      "section_id": "STATEMENT_REGARDING_FEDERALLY_SPONSORED_RESEARCH_OR_DEVELOPMENT",
+      "sequence": 3,
+      "heading": "STATEMENT REGARDING FEDERALLY SPONSORED RESEARCH OR DEVELOPMENT",
+      "status": "HUMAN_CONFIRMATION_REQUIRED",
+      "paragraphs": [],
+      "subsections": [],
+      "figures": [],
+      "missing_information_ids": [
+        "MI-FEDERAL-FUNDING"
+      ]
+    },
+    {
+      "section_id": "NAMES_OF_PARTIES_TO_JOINT_RESEARCH_AGREEMENT",
+      "sequence": 4,
+      "heading": "NAMES OF PARTIES TO A JOINT RESEARCH AGREEMENT",
+      "status": "HUMAN_CONFIRMATION_REQUIRED",
+      "paragraphs": [],
+      "subsections": [],
+      "figures": [],
+      "missing_information_ids": [
+        "MI-JOINT-RESEARCH"
+      ]
+    },
+    {
+      "section_id": "INCORPORATION_BY_REFERENCE",
+      "sequence": 5,
+      "heading": "INCORPORATION BY REFERENCE",
+      "status": "HUMAN_CONFIRMATION_REQUIRED",
+      "paragraphs": [],
+      "subsections": [],
+      "figures": [],
+      "missing_information_ids": [
+        "MI-INCORPORATION"
+      ]
+    },
+    {
+      "section_id": "STATEMENT_REGARDING_PRIOR_DISCLOSURES",
+      "sequence": 6,
+      "heading": "STATEMENT REGARDING PRIOR DISCLOSURES",
+      "status": "HUMAN_CONFIRMATION_REQUIRED",
+      "paragraphs": [],
+      "subsections": [],
+      "figures": [],
+      "missing_information_ids": [
+        "MI-PRIOR-DISCLOSURES"
+      ]
+    },
+    {
+      "section_id": "BACKGROUND_OF_THE_INVENTION",
+      "sequence": 7,
+      "heading": "BACKGROUND OF THE INVENTION",
+      "status": "PRESENT",
+      "paragraphs": [],
+      "subsections": [
+        {
+          "section_id": "FIELD_OF_THE_INVENTION",
+          "sequence": 1,
+          "heading": "FIELD OF THE INVENTION",
+          "status": "MISSING",
+          "paragraphs": [],
+          "missing_information_ids": [
+            "MI-FIELD"
+          ]
+        },
+        {
+          "section_id": "DESCRIPTION_OF_RELATED_ART",
+          "sequence": 2,
+          "heading": "DESCRIPTION OF RELATED ART",
+          "status": "MISSING",
+          "paragraphs": [],
+          "missing_information_ids": [
+            "MI-RELATED-ART"
+          ]
+        }
+      ],
+      "figures": [],
+      "missing_information_ids": []
+    },
+    {
+      "section_id": "BRIEF_SUMMARY_OF_THE_INVENTION",
+      "sequence": 8,
+      "heading": "BRIEF SUMMARY OF THE INVENTION",
+      "status": "MISSING",
+      "paragraphs": [],
+      "subsections": [],
+      "figures": [],
+      "missing_information_ids": [
+        "MI-SUMMARY"
+      ]
+    },
+    {
+      "section_id": "BRIEF_DESCRIPTION_OF_THE_DRAWINGS",
+      "sequence": 9,
+      "heading": "BRIEF DESCRIPTION OF THE DRAWINGS",
+      "status": "MISSING",
+      "paragraphs": [],
+      "subsections": [],
+      "figures": [],
+      "missing_information_ids": [
+        "MI-DRAWINGS"
+      ]
+    },
+    {
+      "section_id": "DETAILED_DESCRIPTION_OF_THE_INVENTION",
+      "sequence": 10,
+      "heading": "DETAILED DESCRIPTION OF THE INVENTION",
+      "status": "MISSING",
+      "paragraphs": [],
+      "subsections": [],
+      "figures": [],
+      "missing_information_ids": [
+        "MI-DETAIL"
+      ]
+    },
+    {
+      "section_id": "SEQUENCE_LISTING",
+      "sequence": 13,
+      "heading": "SEQUENCE LISTING",
+      "status": "NOT_APPLICABLE",
+      "paragraphs": [],
+      "subsections": [],
+      "figures": [],
+      "missing_information_ids": [],
+      "not_applicable_basis": {
+        "rule_id": "NO-BIOLOGICAL-SEQUENCES-IN-SUPPORTED-DISCLOSURE",
+        "decision_source": "APPROVED_DETERMINISTIC_RULE",
+        "rationale": "The synthetic source contains no nucleotide or amino-acid sequence disclosure.",
+        "evidence_ids": [
+          "EV-RULE-SEQUENCE"
+        ]
+      }
+    }
+  ],
+  "claims": {
+    "section_id": "CLAIMS",
+    "sequence": 11,
+    "heading": "CLAIMS",
+    "status": "HUMAN_CONFIRMATION_REQUIRED",
+    "claims": [],
+    "missing_information_ids": [
+      "MI-CLAIMS"
+    ]
+  },
+  "abstract": {
+    "section_id": "ABSTRACT_OF_THE_DISCLOSURE",
+    "sequence": 12,
+    "heading": "ABSTRACT OF THE DISCLOSURE",
+    "status": "MISSING",
+    "text": "",
+    "word_count": 0,
+    "support": {
+      "source_paths": [],
+      "evidence_ids": [],
+      "grounding_class": "MISSING"
+    },
+    "missing_information_ids": [
+      "MI-ABSTRACT"
+    ]
+  },
+  "review_boundary": {
+    "filing_content_fields": [
+      "sections",
+      "claims",
+      "abstract"
+    ],
+    "review_support_field": "review_package",
+    "render_review_metadata_as_filing_content": false,
+    "human_review_required": true,
+    "filing_ready": false,
+    "legal_advice": false,
+    "patentability_assessment_included": false,
+    "claims_runtime_implemented": false
+  },
+  "review_package": {
+    "evidence": [
+      {
+        "evidence_id": "EV-SOURCE-TITLE",
+        "evidence_type": "SOURCE_DOCUMENT",
+        "source_paths": [
+          "/title"
+        ],
+        "description": "Synthetic source title."
+      },
+      {
+        "evidence_id": "EV-RULE-SEQUENCE",
+        "evidence_type": "APPROVED_RULE",
+        "source_paths": [
+          "/approved_rules/no-biological-sequences"
+        ],
+        "description": "Synthetic fixture rule for sequence-listing non-applicability."
+      }
+    ],
+    "missing_information": [
+      {
+        "missing_id": "MI-RELATED-APPLICATIONS",
+        "target_section_id": "CROSS_REFERENCE_TO_RELATED_APPLICATIONS",
+        "description": "Related-application status is absent.",
+        "author_question_ids": []
+      },
+      {
+        "missing_id": "MI-FEDERAL-FUNDING",
+        "target_section_id": "STATEMENT_REGARDING_FEDERALLY_SPONSORED_RESEARCH_OR_DEVELOPMENT",
+        "description": "Federal-funding status is absent.",
+        "author_question_ids": []
+      },
+      {
+        "missing_id": "MI-JOINT-RESEARCH",
+        "target_section_id": "NAMES_OF_PARTIES_TO_JOINT_RESEARCH_AGREEMENT",
+        "description": "Joint-research-agreement status is absent.",
+        "author_question_ids": []
+      },
+      {
+        "missing_id": "MI-INCORPORATION",
+        "target_section_id": "INCORPORATION_BY_REFERENCE",
+        "description": "Incorporation-by-reference status is absent.",
+        "author_question_ids": []
+      },
+      {
+        "missing_id": "MI-PRIOR-DISCLOSURES",
+        "target_section_id": "STATEMENT_REGARDING_PRIOR_DISCLOSURES",
+        "description": "Prior-disclosure status is absent.",
+        "author_question_ids": []
+      },
+      {
+        "missing_id": "MI-FIELD",
+        "target_section_id": "FIELD_OF_THE_INVENTION",
+        "description": "Technical field is absent.",
+        "author_question_ids": []
+      },
+      {
+        "missing_id": "MI-RELATED-ART",
+        "target_section_id": "DESCRIPTION_OF_RELATED_ART",
+        "description": "Related-art discussion is absent.",
+        "author_question_ids": []
+      },
+      {
+        "missing_id": "MI-SUMMARY",
+        "target_section_id": "BRIEF_SUMMARY_OF_THE_INVENTION",
+        "description": "Invention summary is absent.",
+        "author_question_ids": []
+      },
+      {
+        "missing_id": "MI-DRAWINGS",
+        "target_section_id": "BRIEF_DESCRIPTION_OF_THE_DRAWINGS",
+        "description": "Drawing plan is absent.",
+        "author_question_ids": []
+      },
+      {
+        "missing_id": "MI-DETAIL",
+        "target_section_id": "DETAILED_DESCRIPTION_OF_THE_INVENTION",
+        "description": "Detailed description is absent.",
+        "author_question_ids": []
+      },
+      {
+        "missing_id": "MI-CLAIMS",
+        "target_section_id": "CLAIMS",
+        "description": "Claim candidates are absent and require later authorized work.",
+        "author_question_ids": []
+      },
+      {
+        "missing_id": "MI-ABSTRACT",
+        "target_section_id": "ABSTRACT_OF_THE_DISCLOSURE",
+        "description": "Abstract is absent.",
+        "author_question_ids": []
+      }
+    ],
+    "author_questions": [],
+    "claim_support": [],
+    "warnings": [
+      {
+        "warning_id": "W-ADMIN-MISSING",
+        "code": "ADMINISTRATIVE_INFORMATION_NOT_CONFIRMED",
+        "message": "Administrative statements remain missing or require Human confirmation and must not be rendered as factual statements.",
+        "affected_paths": [
+          "/sections/1",
+          "/sections/2",
+          "/sections/3",
+          "/sections/4",
+          "/sections/5"
+        ]
+      }
+    ]
+  }
+}

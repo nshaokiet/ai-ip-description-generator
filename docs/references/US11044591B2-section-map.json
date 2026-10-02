@@ -1,0 +1,136 @@
+{
+  "map_version": "1.0.0",
+  "patent_number": "US11044591",
+  "kind_code": "B2",
+  "title": "Cloud based phone services accessible in the cloud by a remote device",
+  "source_url": "https://patents.google.com/patent/US11044591B2/en",
+  "pdf_url": "https://patentimages.storage.googleapis.com/42/19/af/1c5089854ab9d4/US11044591.pdf",
+  "structural_reference_only": true,
+  "sections": [
+    {
+      "canonical_section": "TITLE_OF_THE_INVENTION",
+      "source_heading": "Front-page title",
+      "present": true,
+      "notes": "Observed as grant bibliographic/title content; not a model for fabricating grant metadata."
+    },
+    {
+      "canonical_section": "CROSS_REFERENCE_TO_RELATED_APPLICATIONS",
+      "source_heading": null,
+      "present": false,
+      "notes": "No standalone heading observed in the specification text."
+    },
+    {
+      "canonical_section": "STATEMENT_REGARDING_FEDERALLY_SPONSORED_RESEARCH_OR_DEVELOPMENT",
+      "source_heading": null,
+      "present": false,
+      "notes": "No standalone heading observed in the specification text."
+    },
+    {
+      "canonical_section": "NAMES_OF_PARTIES_TO_JOINT_RESEARCH_AGREEMENT",
+      "source_heading": null,
+      "present": false,
+      "notes": "No standalone heading observed."
+    },
+    {
+      "canonical_section": "INCORPORATION_BY_REFERENCE",
+      "source_heading": null,
+      "present": false,
+      "notes": "No standalone heading observed."
+    },
+    {
+      "canonical_section": "STATEMENT_REGARDING_PRIOR_DISCLOSURES",
+      "source_heading": null,
+      "present": false,
+      "notes": "No standalone heading observed."
+    },
+    {
+      "canonical_section": "BACKGROUND_OF_THE_INVENTION",
+      "source_heading": "BACKGROUND",
+      "present": true,
+      "notes": "Observed as a compact Background without separate Field or Related Art headings.",
+      "subsections": [
+        {
+          "canonical_section": "FIELD_OF_THE_INVENTION",
+          "source_heading": null,
+          "present": false
+        },
+        {
+          "canonical_section": "DESCRIPTION_OF_RELATED_ART",
+          "source_heading": null,
+          "present": false
+        }
+      ]
+    },
+    {
+      "canonical_section": "BRIEF_SUMMARY_OF_THE_INVENTION",
+      "source_heading": "BRIEF SUMMARY",
+      "present": true,
+      "notes": "Observed as multiple embodiment perspectives."
+    },
+    {
+      "canonical_section": "BRIEF_DESCRIPTION_OF_THE_DRAWINGS",
+      "source_heading": "BRIEF DESCRIPTION OF THE DRAWINGS",
+      "present": true,
+      "notes": "Describes system, environment, data-flow, method, and network-device figures."
+    },
+    {
+      "canonical_section": "DETAILED_DESCRIPTION_OF_THE_INVENTION",
+      "source_heading": "DETAILED DESCRIPTION",
+      "present": true,
+      "notes": "Source wording differs from the canonical v2 heading."
+    },
+    {
+      "canonical_section": "CLAIMS",
+      "source_heading": "Claims (21)",
+      "present": true,
+      "notes": "Twenty-one issued claims are observable; claim text is not copied into P2-001 fixtures."
+    },
+    {
+      "canonical_section": "ABSTRACT_OF_THE_DISCLOSURE",
+      "source_heading": "Abstract",
+      "present": true,
+      "notes": "Observed in the published grant record."
+    },
+    {
+      "canonical_section": "SEQUENCE_LISTING",
+      "source_heading": null,
+      "present": false,
+      "notes": "No sequence-listing section observed."
+    }
+  ],
+  "drawing_summary": {
+    "present": true,
+    "observed_figure_labels": [
+      "FIG. 1",
+      "FIG. 2",
+      "FIG. 3",
+      "FIG. 4",
+      "FIG. 5A",
+      "FIG. 5B",
+      "FIG. 5C",
+      "FIG. 6"
+    ],
+    "notes": "Observed descriptions cover systems, a cloud-computing environment, a data flow, method flows, and a network device."
+  },
+  "claims_summary": {
+    "count": 21,
+    "independent_claim_numbers": [
+      1,
+      10,
+      15
+    ],
+    "observed_claim_families": [
+      "METHOD",
+      "NON_TRANSITORY_COMPUTER_READABLE_MEDIUM",
+      "NETWORK_DEVICE"
+    ],
+    "notes": "Structural observation only; no family is required unless supported for a different invention."
+  },
+  "administrative_sections_present": [],
+  "limitations": [
+    "The absence of an observed standalone administrative heading is not evidence that a new draft may omit Human confirmation.",
+    "Issued-grant structure does not establish a required template for a new application.",
+    "No patentability, validity, infringement, enablement, or legal-sufficiency conclusion is drawn.",
+    "No substantive patent passage is used as generated fixture content."
+  ]
+}
