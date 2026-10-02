@@ -5,11 +5,15 @@
 | Field | Value |
 | --- | --- |
 | Task ID | P2-001 |
-| Status | **READY FOR INDEPENDENT FIXED-SHA REVIEW** |
+| Status | **CLOSED / COMPLETED — MERGED; GOVERNANCE CLOSEOUT REVIEW PENDING** |
 | Authorization | `HUMAN-P2-001-USPTO-TARGET-2026-10-02` |
 | Authorization evidence | Human directive on 02/10/2026: “bắt đầu p2 - 001”, following the agreed P2-001 scope in the same project conversation |
 | Baseline main | `eab9cd8d9421cb5bc40dc18134716febc16ac7cd` |
-| Branch | `docs/p2-001-uspto-target-spec-v2` |
+| Implementation branch | `docs/p2-001-uspto-target-spec-v2` |
+| Reviewed implementation SHA | `8b55fd84ab1625bf918192c889dafe64825858b4` |
+| Implementation PR | `#56` |
+| Merge SHA | `4cb0e9501c13b9d25b427bbaf7d50c37ab6ab329` |
+| Post-merge main CI | `36962586792` — **SUCCESS** |
 | Owner | ChatGPT/Codex under AGENTS.md standing delegation |
 | Independent reviewer | Gemini 3.1 Pro High / Antigravity read-only |
 | Target version | `2.0.0` |
@@ -309,6 +313,31 @@ Local evidence on 02/10/2026, with `RUN_OPENAI_LIVE_TESTS=0` and `RUN_OPENAI_DRA
 The released v1 schema files are pinned by SHA-256 in the new offline test. No current prompt, runtime, DOCX v1 renderer, frontend, backend, or `render.yaml` file is changed. Provider/API calls: **0**. Claims runtime introduced: **NO**. Real/confidential data used: **NO**. Production/deployment changed: **NO**.
 
 Project Orchestrator evidence is unavailable for this identifier: the connected state tool returned `Unknown task: P2-001`. This is recorded as **BLOCKED BY TOOL CAPABILITY** and does not replace Git/task/CI evidence or fabricate lifecycle state.
+
+## Post-merge closeout evidence
+
+Gemini 3.1 Pro High / Antigravity independently reviewed the exact implementation SHA `8b55fd84ab1625bf918192c889dafe64825858b4` and returned **PASS**, findings **NONE**, with no repository modification by the reviewer.
+
+PR #56 merged to `main` at `4cb0e9501c13b9d25b427bbaf7d50c37ab6ab329`.
+
+Post-merge push/main CI `36962586792` completed **SUCCESS** on the exact merge SHA with:
+
+- backend: **467 passed / 2 skipped**;
+- Python dependency consistency: **PASS**;
+- frontend lint: **PASS**;
+- frontend typecheck: **PASS**;
+- frontend build: **PASS**;
+- standard synthetic Playwright: **19 passed**;
+- Render synthetic-demo Playwright: **3 passed**;
+- `RUN_OPENAI_LIVE_TESTS=0`;
+- `RUN_OPENAI_DRAFT_LIVE_TESTS=0`;
+- provider/API calls: **NONE**.
+
+The merge did not introduce Claims runtime, real/confidential-data processing, provider/API authorization, paid-resource authorization, production approval, or deployment change. BLK-003 remains **OPEN** and EVAL-001 PRODUCT_RUNTIME remains **DEFERRED — AWAITING FUNDING**.
+
+Project Orchestrator still has no P2-001 task surface and remains recorded as **BLOCKED BY TOOL CAPABILITY**; no lifecycle state is fabricated.
+
+This task's implementation is complete and merged. The remaining gate is documentation-only governance closeout review/merge.
 
 ## Acceptance criteria
 
