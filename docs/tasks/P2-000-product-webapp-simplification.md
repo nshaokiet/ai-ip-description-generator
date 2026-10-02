@@ -125,11 +125,11 @@ Centered layout.
 
 Approved title:
 
-> **From Research Paper to Reviewable IP Draft**
+> **From Scientific Research Paper to USPTO-Style Patent Specification**
 
 Approved supporting copy:
 
-> Upload a research paper in PDF or DOCX format to extract technical content, review and refine the generated draft, validate required sections, and export an editable DOCX for further refinement.
+> Upload one scientific research paper in PDF or DOCX format to extract invention-relevant content, review and refine the generated patent specification draft, validate required sections, and export an editable DOCX for further expert review.
 
 Requirements:
 
