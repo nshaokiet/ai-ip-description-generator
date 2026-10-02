@@ -5,7 +5,7 @@
 | Field | Value |
 | --- | --- |
 | Task ID | P2-001 |
-| Status | **IN PROGRESS — SPECIFICATION / FIXED-SHA REVIEW PENDING** |
+| Status | **READY FOR INDEPENDENT FIXED-SHA REVIEW** |
 | Authorization | `HUMAN-P2-001-USPTO-TARGET-2026-10-02` |
 | Authorization evidence | Human directive on 02/10/2026: “bắt đầu p2 - 001”, following the agreed P2-001 scope in the same project conversation |
 | Baseline main | `eab9cd8d9421cb5bc40dc18134716febc16ac7cd` |
@@ -13,7 +13,7 @@
 | Owner | ChatGPT/Codex under AGENTS.md standing delegation |
 | Independent reviewer | Gemini 3.1 Pro High / Antigravity read-only |
 | Target version | `2.0.0` |
-| Classification | Specification/reference-corpus task only |
+| Classification | Specification/contract implementation and reference-corpus task only |
 | Paid API/provider calls | **NOT AUTHORIZED / NOT REQUIRED** |
 | Real/confidential research data | **NOT AUTHORIZED** |
 | Production | **NOT APPROVED / NOT PERFORMED** |
@@ -21,9 +21,9 @@
 
 ## Purpose
 
-Define the canonical product target for transforming one scientific research paper into a **USPTO-style nonprovisional utility patent specification draft** suitable for Human/IP-specialist review.
+Define and implement the project-level target contract for transforming one scientific research paper into a **USPTO-style nonprovisional utility patent specification draft** suitable for Human/IP-specialist review.
 
-P2-001 does **not** implement live generation, Claims runtime, production data handling, or filing automation. It defines the target contract that later P2 tasks will implement.
+P2-001 does **not** implement live generation, Claims runtime, production data handling, or filing automation. It provides the strict machine-readable contract, neutral Human-readable template, structural reference maps, synthetic fixtures, and offline validation that later P2 tasks may implement against.
 
 The phrase “B2-style” in product discussion refers to structural inspiration from issued U.S. utility patents such as `US11367264B2` and `US11044591B2`; `B2` is a patent publication kind code, not a USPTO fill-in form. The product target is therefore a **USPTO-style specification draft**, not an issued-patent facsimile and not a filing-ready legal document.
 
@@ -31,17 +31,13 @@ The phrase “B2-style” in product discussion refers to structural inspiration
 
 Primary requirements sources:
 
-1. USPTO Nonprovisional (Utility) Patent Application Filing Guide  
-   https://www.uspto.gov/patents/basics/apply/utility-patent
-2. USPTO MPEP § 608 — Disclosure / preferred specification arrangement under 37 CFR 1.77(b)  
-   https://www.uspto.gov/web/offices/pac/mpep/s608.html
+1. [USPTO Nonprovisional (Utility) Patent Application Filing Guide](https://www.uspto.gov/patents/basics/apply/utility-patent)
+2. [USPTO MPEP § 608 — Disclosure / preferred specification arrangement under 37 CFR 1.77(b)](https://www.uspto.gov/web/offices/pac/mpep/s608.html)
 
 Reference examples supplied by the Human / Product Owner:
 
-3. `US11367264B2`  
-   https://patentimages.storage.googleapis.com/91/f6/9b/18dc2af29220c8/US11367264.pdf
-4. `US11044591B2`  
-   https://patentimages.storage.googleapis.com/42/19/af/1c5089854ab9d4/US11044591.pdf
+3. [`US11367264B2`](https://patentimages.storage.googleapis.com/91/f6/9b/18dc2af29220c8/US11367264.pdf)
+4. [`US11044591B2`](https://patentimages.storage.googleapis.com/42/19/af/1c5089854ab9d4/US11044591.pdf)
 
 The USPTO sources govern the target structure. Issued patents are examples of drafting patterns only and do not override current USPTO guidance.
 
@@ -68,7 +64,7 @@ Review-only metadata must not be mixed into the filing-style specification body 
 
 ## Canonical target section order
 
-The future v2 contract shall model the following order:
+The v2 target contract models the following order:
 
 1. `TITLE_OF_THE_INVENTION`
 2. `CROSS_REFERENCE_TO_RELATED_APPLICATIONS`
@@ -99,7 +95,7 @@ Notes:
 
 ### 1. Filing-style content
 
-The future schema must be able to represent:
+The v2 target schema can represent:
 
 - technically accurate invention title;
 - administrative statements requiring Human-supplied information;
@@ -155,7 +151,7 @@ Such information must come from Human-supplied metadata or an explicitly authori
 
 Claims are part of the v2 product target, but **Claims generation is not implemented by P2-001**.
 
-The future Claims contract must support:
+The v2 Claims target contract supports:
 
 - at least one independent claim candidate;
 - dependent claims with valid dependency references;
@@ -277,10 +273,42 @@ This reference demonstrates that a scientific/technical disclosure may need to b
 
 ## Deliverables
 
+- `schemas/uspto-specification/v2.0.0/uspto-specification.schema.json`
+- `schemas/uspto-specification/v2.0.0/README.md`
+- `docs/templates/USPTO_SPECIFICATION_TEMPLATE_v2.md`
+- `docs/references/US11367264B2-section-map.json`
+- `docs/references/US11044591B2-section-map.json`
+- `tests/fixtures/uspto-specification/v2.0.0/representative.json`
+- `tests/fixtures/uspto-specification/v2.0.0/missing-administrative-information.json`
+- `tests/fixtures/uspto-specification/v2.0.0/unsupported-claim-element.json`
+- `tests/schema/test_uspto_specification_v2.py`
 - `docs/tasks/P2-001-uspto-target-specification-v2.md`
 - `docs/decisions/ADR-011-uspto-target-specification-v2.md`
 - `docs/references/P2-001-uspto-reference-corpus.md`
 - roadmap/status reconciliation required by project governance.
+
+## Implementation and verification evidence
+
+The v2 schema is JSON Schema Draft 2020-12 and uses strict objects. It fixes the canonical 13-section order, explicit state and non-applicability support, v2-only grounding classes, Claims and claim-element support links, drawing-plan metadata, deterministic Abstract word-count validation, and the filing-content/review-package boundary.
+
+Local evidence on 02/10/2026, with `RUN_OPENAI_LIVE_TESTS=0` and `RUN_OPENAI_DRAFT_LIVE_TESTS=0`:
+
+| Gate | Result |
+| --- | --- |
+| Dedicated v2 schema/fixture/reference-map tests | **PASS — 19 passed** |
+| Full offline backend regression | **PASS — 466 passed, 3 skipped** |
+| Python dependency consistency | **PASS — no broken requirements** |
+| Frontend lint | **PASS** |
+| Frontend typecheck | **PASS** |
+| Frontend production build | **PASS** |
+| Render static-demo export and provider-secret marker scan | **PASS** |
+| Standard synthetic Playwright suite | **PASS — 19 passed** |
+| Render synthetic-demo Playwright suite | **PASS — 3 passed** |
+| `git diff --check` | **PASS** |
+
+The released v1 schema files are pinned by SHA-256 in the new offline test. No current prompt, runtime, DOCX v1 renderer, frontend, backend, or `render.yaml` file is changed. Provider/API calls: **0**. Claims runtime introduced: **NO**. Real/confidential data used: **NO**. Production/deployment changed: **NO**.
+
+Project Orchestrator evidence is unavailable for this identifier: the connected state tool returned `Unknown task: P2-001`. This is recorded as **BLOCKED BY TOOL CAPABILITY** and does not replace Git/task/CI evidence or fabricate lifecycle state.
 
 ## Acceptance criteria
 

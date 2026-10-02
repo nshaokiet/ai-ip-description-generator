@@ -29,6 +29,8 @@ Adopt **USPTO Patent Specification Target v2.0.0** as the future product target.
 
 The target is a **draft nonprovisional utility patent specification for Human/IP-specialist review**, not an issued patent facsimile, not legal advice, and not a filing-ready guarantee.
 
+Record the target as a strict JSON Schema Draft 2020-12 contract at `schemas/uspto-specification/v2.0.0/uspto-specification.schema.json`, accompanied by a neutral Human-readable template, synthetic fixtures, structural reference maps, and offline contract tests. This contract is not wired into runtime by P2-001.
+
 Use USPTO current guidance and MPEP § 608 / 37 CFR 1.77(b) as normative structural references. The Human-supplied B2 patents are example corpora only.
 
 ### Target structure

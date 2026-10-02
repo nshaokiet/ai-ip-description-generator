@@ -1,0 +1,580 @@
+{
+  "schema_version": "2.0.0",
+  "output_type": "USPTO_SPECIFICATION_DRAFT",
+  "document_metadata": {
+    "draft_id": "synthetic-unsupported-claim-v2",
+    "language": "en",
+    "target_jurisdiction": "US",
+    "specification_kind": "NONPROVISIONAL_UTILITY_PATENT_SPECIFICATION_DRAFT",
+    "source_document": {
+      "document_id": "SYNTHETIC-DOC-001",
+      "file_name": "synthetic-sensor-paper.pdf",
+      "media_type": "application/pdf",
+      "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "synthetic": true
+    }
+  },
+  "section_order": [
+    "TITLE_OF_THE_INVENTION",
+    "CROSS_REFERENCE_TO_RELATED_APPLICATIONS",
+    "STATEMENT_REGARDING_FEDERALLY_SPONSORED_RESEARCH_OR_DEVELOPMENT",
+    "NAMES_OF_PARTIES_TO_JOINT_RESEARCH_AGREEMENT",
+    "INCORPORATION_BY_REFERENCE",
+    "STATEMENT_REGARDING_PRIOR_DISCLOSURES",
+    "BACKGROUND_OF_THE_INVENTION",
+    "BRIEF_SUMMARY_OF_THE_INVENTION",
+    "BRIEF_DESCRIPTION_OF_THE_DRAWINGS",
+    "DETAILED_DESCRIPTION_OF_THE_INVENTION",
+    "CLAIMS",
+    "ABSTRACT_OF_THE_DISCLOSURE",
+    "SEQUENCE_LISTING"
+  ],
+  "sections": [
+    {
+      "section_id": "TITLE_OF_THE_INVENTION",
+      "sequence": 1,
+      "heading": "TITLE OF THE INVENTION",
+      "status": "PRESENT",
+      "paragraphs": [
+        {
+          "paragraph_id": "P-TITLE-001",
+          "sequence": 1,
+          "text": "Distributed Monitoring System for Synthetic Environmental Sensors",
+          "support": {
+            "source_paths": [
+              "/title"
+            ],
+            "evidence_ids": [
+              "EV-SOURCE-TITLE"
+            ],
+            "grounding_class": "PARAPHRASE"
+          }
+        }
+      ],
+      "subsections": [],
+      "figures": [],
+      "missing_information_ids": []
+    },
+    {
+      "section_id": "CROSS_REFERENCE_TO_RELATED_APPLICATIONS",
+      "sequence": 2,
+      "heading": "CROSS-REFERENCE TO RELATED APPLICATIONS",
+      "status": "HUMAN_CONFIRMATION_REQUIRED",
+      "paragraphs": [],
+      "subsections": [],
+      "figures": [],
+      "missing_information_ids": [
+        "MI-RELATED-APPLICATIONS"
+      ]
+    },
+    {
+      "section_id": "STATEMENT_REGARDING_FEDERALLY_SPONSORED_RESEARCH_OR_DEVELOPMENT",
+      "sequence": 3,
+      "heading": "STATEMENT REGARDING FEDERALLY SPONSORED RESEARCH OR DEVELOPMENT",
+      "status": "HUMAN_CONFIRMATION_REQUIRED",
+      "paragraphs": [],
+      "subsections": [],
+      "figures": [],
+      "missing_information_ids": [
+        "MI-FEDERAL-FUNDING"
+      ]
+    },
+    {
+      "section_id": "NAMES_OF_PARTIES_TO_JOINT_RESEARCH_AGREEMENT",
+      "sequence": 4,
+      "heading": "NAMES OF PARTIES TO A JOINT RESEARCH AGREEMENT",
+      "status": "NOT_APPLICABLE",
+      "paragraphs": [],
+      "subsections": [],
+      "figures": [],
+      "missing_information_ids": [],
+      "not_applicable_basis": {
+        "rule_id": "HUMAN-CONFIRMATION-NO-JOINT-RESEARCH-AGREEMENT",
+        "decision_source": "HUMAN_CONFIRMED",
+        "rationale": "The synthetic fixture owner confirmed that no joint research agreement applies.",
+        "evidence_ids": [
+          "EV-HUMAN-ADMIN"
+        ]
+      }
+    },
+    {
+      "section_id": "INCORPORATION_BY_REFERENCE",
+      "sequence": 5,
+      "heading": "INCORPORATION BY REFERENCE",
+      "status": "NOT_APPLICABLE",
+      "paragraphs": [],
+      "subsections": [],
+      "figures": [],
+      "missing_information_ids": [],
+      "not_applicable_basis": {
+        "rule_id": "HUMAN-CONFIRMATION-NO-INCORPORATED-MATERIAL",
+        "decision_source": "HUMAN_CONFIRMED",
+        "rationale": "The synthetic fixture owner confirmed that no material is incorporated by reference.",
+        "evidence_ids": [
+          "EV-HUMAN-ADMIN"
+        ]
+      }
+    },
+    {
+      "section_id": "STATEMENT_REGARDING_PRIOR_DISCLOSURES",
+      "sequence": 6,
+      "heading": "STATEMENT REGARDING PRIOR DISCLOSURES",
+      "status": "HUMAN_CONFIRMATION_REQUIRED",
+      "paragraphs": [],
+      "subsections": [],
+      "figures": [],
+      "missing_information_ids": [
+        "MI-PRIOR-DISCLOSURES"
+      ]
+    },
+    {
+      "section_id": "BACKGROUND_OF_THE_INVENTION",
+      "sequence": 7,
+      "heading": "BACKGROUND OF THE INVENTION",
+      "status": "PRESENT",
+      "paragraphs": [],
+      "subsections": [
+        {
+          "section_id": "FIELD_OF_THE_INVENTION",
+          "sequence": 1,
+          "heading": "FIELD OF THE INVENTION",
+          "status": "PRESENT",
+          "paragraphs": [
+            {
+              "paragraph_id": "P-FIELD-001",
+              "sequence": 1,
+              "text": "The disclosed subject matter relates to monitoring synthetic environmental sensor nodes in a distributed test network.",
+              "support": {
+                "source_paths": [
+                  "/sections/0"
+                ],
+                "evidence_ids": [
+                  "EV-SOURCE-FIELD"
+                ],
+                "grounding_class": "PARAPHRASE"
+              }
+            }
+          ],
+          "missing_information_ids": []
+        },
+        {
+          "section_id": "DESCRIPTION_OF_RELATED_ART",
+          "sequence": 2,
+          "heading": "DESCRIPTION OF RELATED ART",
+          "status": "PRESENT",
+          "paragraphs": [
+            {
+              "paragraph_id": "P-RELATED-001",
+              "sequence": 1,
+              "text": "Conventional test monitors may evaluate readings independently and may not preserve a traceable relationship between an alert and the contributing sensor samples.",
+              "support": {
+                "source_paths": [
+                  "/sections/1"
+                ],
+                "evidence_ids": [
+                  "EV-SOURCE-PROBLEM"
+                ],
+                "grounding_class": "SAFE_GENERALIZATION"
+              }
+            }
+          ],
+          "missing_information_ids": []
+        }
+      ],
+      "figures": [],
+      "missing_information_ids": []
+    },
+    {
+      "section_id": "BRIEF_SUMMARY_OF_THE_INVENTION",
+      "sequence": 8,
+      "heading": "BRIEF SUMMARY OF THE INVENTION",
+      "status": "PRESENT",
+      "paragraphs": [
+        {
+          "paragraph_id": "P-SUMMARY-001",
+          "sequence": 1,
+          "text": "A monitoring coordinator receives synthetic sensor samples, evaluates a threshold rule, and records an alert together with identifiers for the samples that contributed to the alert.",
+          "support": {
+            "source_paths": [
+              "/sections/2",
+              "/sections/3"
+            ],
+            "evidence_ids": [
+              "EV-SOURCE-METHOD"
+            ],
+            "grounding_class": "PARAPHRASE"
+          }
+        }
+      ],
+      "subsections": [],
+      "figures": [],
+      "missing_information_ids": []
+    },
+    {
+      "section_id": "BRIEF_DESCRIPTION_OF_THE_DRAWINGS",
+      "sequence": 9,
+      "heading": "BRIEF DESCRIPTION OF THE DRAWINGS",
+      "status": "PRESENT",
+      "paragraphs": [
+        {
+          "paragraph_id": "P-DRAWINGS-001",
+          "sequence": 1,
+          "text": "FIG. 1 is a schematic representation of a synthetic distributed monitoring system.",
+          "support": {
+            "source_paths": [
+              "/figures/0"
+            ],
+            "evidence_ids": [
+              "EV-SOURCE-FIGURE"
+            ],
+            "grounding_class": "PARAPHRASE"
+          }
+        }
+      ],
+      "subsections": [],
+      "figures": [
+        {
+          "figure_id": "FIG-SYSTEM-001",
+          "figure_label": "FIG. 1",
+          "title": "Synthetic distributed monitoring system",
+          "description": "A source-supported drawing plan showing sensor nodes coupled to a monitoring coordinator; no drawing image is generated by this contract.",
+          "source_figure_ids": [
+            "SOURCE-FIGURE-1"
+          ],
+          "reference_numerals": [
+            {
+              "numeral": "100",
+              "label": "monitoring system",
+              "description": "Synthetic monitoring system represented by the drawing plan."
+            },
+            {
+              "numeral": "110",
+              "label": "sensor node",
+              "description": "A synthetic sensor node providing a sample."
+            },
+            {
+              "numeral": "120",
+              "label": "monitoring coordinator",
+              "description": "A coordinator that evaluates samples and records alerts."
+            }
+          ]
+        }
+      ],
+      "missing_information_ids": []
+    },
+    {
+      "section_id": "DETAILED_DESCRIPTION_OF_THE_INVENTION",
+      "sequence": 10,
+      "heading": "DETAILED DESCRIPTION OF THE INVENTION",
+      "status": "PRESENT",
+      "paragraphs": [
+        {
+          "paragraph_id": "P-DETAIL-001",
+          "sequence": 1,
+          "text": "Referring to FIG. 1, the monitoring system 100 includes sensor nodes 110 and a monitoring coordinator 120. Each sensor node 110 provides a synthetic reading and a sample identifier to the monitoring coordinator 120.",
+          "support": {
+            "source_paths": [
+              "/sections/2",
+              "/figures/0"
+            ],
+            "evidence_ids": [
+              "EV-SOURCE-METHOD",
+              "EV-SOURCE-FIGURE"
+            ],
+            "grounding_class": "PARAPHRASE"
+          }
+        },
+        {
+          "paragraph_id": "P-DETAIL-002",
+          "sequence": 2,
+          "text": "The monitoring coordinator 120 compares a received synthetic reading with a stored threshold and, when the threshold condition is satisfied, stores an alert record containing the contributing sample identifier.",
+          "support": {
+            "source_paths": [
+              "/sections/3"
+            ],
+            "evidence_ids": [
+              "EV-SOURCE-METHOD"
+            ],
+            "grounding_class": "SOURCE_FACT"
+          }
+        }
+      ],
+      "subsections": [],
+      "figures": [],
+      "missing_information_ids": []
+    },
+    {
+      "section_id": "SEQUENCE_LISTING",
+      "sequence": 13,
+      "heading": "SEQUENCE LISTING",
+      "status": "NOT_APPLICABLE",
+      "paragraphs": [],
+      "subsections": [],
+      "figures": [],
+      "missing_information_ids": [],
+      "not_applicable_basis": {
+        "rule_id": "NO-BIOLOGICAL-SEQUENCES-IN-SUPPORTED-DISCLOSURE",
+        "decision_source": "APPROVED_DETERMINISTIC_RULE",
+        "rationale": "The synthetic source contains no nucleotide or amino-acid sequence disclosure.",
+        "evidence_ids": [
+          "EV-RULE-SEQUENCE"
+        ]
+      }
+    }
+  ],
+  "claims": {
+    "section_id": "CLAIMS",
+    "sequence": 11,
+    "heading": "CLAIMS",
+    "status": "PRESENT",
+    "preamble": "What is claimed is:",
+    "claims": [
+      {
+        "claim_number": 1,
+        "claim_type": "SYSTEM",
+        "independent_or_dependent": "INDEPENDENT",
+        "depends_on": [],
+        "claim_text": "A synthetic monitoring system comprising a sensor node and a monitoring coordinator configured to evaluate a threshold and store an alert record identifying a contributing sensor sample.",
+        "claim_elements": [
+          {
+            "element_id": "CE-1-SENSOR",
+            "sequence": 1,
+            "text": "a sensor node configured to provide a synthetic reading and a sample identifier",
+            "evidence_ids": [
+              "EV-SOURCE-METHOD"
+            ],
+            "specification_section_ids": [
+              "BRIEF_SUMMARY_OF_THE_INVENTION",
+              "DETAILED_DESCRIPTION_OF_THE_INVENTION"
+            ],
+            "support_status": "SUPPORTED"
+          },
+          {
+            "element_id": "CE-1-COORDINATOR",
+            "sequence": 2,
+            "text": "a monitoring coordinator configured to evaluate a threshold and store an alert with the sample identifier",
+            "evidence_ids": [
+              "EV-SOURCE-METHOD"
+            ],
+            "specification_section_ids": [
+              "BRIEF_SUMMARY_OF_THE_INVENTION",
+              "DETAILED_DESCRIPTION_OF_THE_INVENTION"
+            ],
+            "support_status": "SUPPORTED"
+          }
+        ]
+      },
+      {
+        "claim_number": 2,
+        "claim_type": "SYSTEM",
+        "independent_or_dependent": "DEPENDENT",
+        "depends_on": [
+          1
+        ],
+        "claim_text": "The synthetic monitoring system of claim 1, wherein the alert record stores a timestamp associated with the synthetic reading.",
+        "claim_elements": [
+          {
+            "element_id": "CE-2-TIMESTAMP",
+            "sequence": 1,
+            "text": "the alert record stores a timestamp associated with the synthetic reading",
+            "evidence_ids": [],
+            "specification_section_ids": [],
+            "support_status": "UNSUPPORTED"
+          }
+        ]
+      }
+    ],
+    "missing_information_ids": []
+  },
+  "abstract": {
+    "section_id": "ABSTRACT_OF_THE_DISCLOSURE",
+    "sequence": 12,
+    "heading": "ABSTRACT OF THE DISCLOSURE",
+    "status": "PRESENT",
+    "text": "A synthetic distributed monitoring system receives readings and sample identifiers from sensor nodes. A monitoring coordinator evaluates each reading against a threshold and stores an alert record that identifies a contributing sample when the threshold condition is satisfied. The record preserves traceability between the alert and synthetic source data.",
+    "word_count": 49,
+    "support": {
+      "source_paths": [
+        "/sections/2",
+        "/sections/3"
+      ],
+      "evidence_ids": [
+        "EV-SOURCE-METHOD"
+      ],
+      "grounding_class": "PARAPHRASE"
+    },
+    "missing_information_ids": []
+  },
+  "review_boundary": {
+    "filing_content_fields": [
+      "sections",
+      "claims",
+      "abstract"
+    ],
+    "review_support_field": "review_package",
+    "render_review_metadata_as_filing_content": false,
+    "human_review_required": true,
+    "filing_ready": false,
+    "legal_advice": false,
+    "patentability_assessment_included": false,
+    "claims_runtime_implemented": false
+  },
+  "review_package": {
+    "evidence": [
+      {
+        "evidence_id": "EV-SOURCE-TITLE",
+        "evidence_type": "SOURCE_DOCUMENT",
+        "source_paths": [
+          "/title"
+        ],
+        "description": "Synthetic source title and scope statement."
+      },
+      {
+        "evidence_id": "EV-SOURCE-FIELD",
+        "evidence_type": "SOURCE_DOCUMENT",
+        "source_paths": [
+          "/sections/0"
+        ],
+        "description": "Synthetic source field description."
+      },
+      {
+        "evidence_id": "EV-SOURCE-PROBLEM",
+        "evidence_type": "SOURCE_DOCUMENT",
+        "source_paths": [
+          "/sections/1"
+        ],
+        "description": "Synthetic source problem statement."
+      },
+      {
+        "evidence_id": "EV-SOURCE-METHOD",
+        "evidence_type": "SOURCE_DOCUMENT",
+        "source_paths": [
+          "/sections/2",
+          "/sections/3"
+        ],
+        "description": "Synthetic source system and threshold method."
+      },
+      {
+        "evidence_id": "EV-SOURCE-FIGURE",
+        "evidence_type": "SOURCE_DOCUMENT",
+        "source_paths": [
+          "/figures/0"
+        ],
+        "description": "Synthetic source figure showing sensor nodes and a coordinator."
+      },
+      {
+        "evidence_id": "EV-HUMAN-ADMIN",
+        "evidence_type": "HUMAN_CONFIRMATION",
+        "source_paths": [
+          "/human_confirmations/admin-001"
+        ],
+        "description": "Synthetic fixture-only Human confirmation for administrative non-applicability."
+      },
+      {
+        "evidence_id": "EV-RULE-SEQUENCE",
+        "evidence_type": "APPROVED_RULE",
+        "source_paths": [
+          "/approved_rules/no-biological-sequences"
+        ],
+        "description": "Synthetic fixture rule for sequence-listing non-applicability."
+      }
+    ],
+    "missing_information": [
+      {
+        "missing_id": "MI-RELATED-APPLICATIONS",
+        "target_section_id": "CROSS_REFERENCE_TO_RELATED_APPLICATIONS",
+        "description": "Related-application status requires Human confirmation.",
+        "author_question_ids": [
+          "AQ-RELATED-APPLICATIONS"
+        ]
+      },
+      {
+        "missing_id": "MI-FEDERAL-FUNDING",
+        "target_section_id": "STATEMENT_REGARDING_FEDERALLY_SPONSORED_RESEARCH_OR_DEVELOPMENT",
+        "description": "Federal-funding status requires Human confirmation.",
+        "author_question_ids": [
+          "AQ-FEDERAL-FUNDING"
+        ]
+      },
+      {
+        "missing_id": "MI-PRIOR-DISCLOSURES",
+        "target_section_id": "STATEMENT_REGARDING_PRIOR_DISCLOSURES",
+        "description": "Prior-disclosure status and dates require Human confirmation.",
+        "author_question_ids": [
+          "AQ-PRIOR-DISCLOSURES"
+        ]
+      }
+    ],
+    "author_questions": [
+      {
+        "question_id": "AQ-RELATED-APPLICATIONS",
+        "target_section_id": "CROSS_REFERENCE_TO_RELATED_APPLICATIONS",
+        "question": "Does this synthetic draft claim benefit of any related application?",
+        "status": "OPEN"
+      },
+      {
+        "question_id": "AQ-FEDERAL-FUNDING",
+        "target_section_id": "STATEMENT_REGARDING_FEDERALLY_SPONSORED_RESEARCH_OR_DEVELOPMENT",
+        "question": "Was the synthetic work made with United States Government support?",
+        "status": "OPEN"
+      },
+      {
+        "question_id": "AQ-PRIOR-DISCLOSURES",
+        "target_section_id": "STATEMENT_REGARDING_PRIOR_DISCLOSURES",
+        "question": "Was any synthetic subject matter publicly disclosed before filing?",
+        "status": "OPEN"
+      }
+    ],
+    "claim_support": [
+      {
+        "claim_number": 1,
+        "element_id": "CE-1-SENSOR",
+        "support_status": "SUPPORTED",
+        "evidence_ids": [
+          "EV-SOURCE-METHOD"
+        ],
+        "specification_section_ids": [
+          "BRIEF_SUMMARY_OF_THE_INVENTION",
+          "DETAILED_DESCRIPTION_OF_THE_INVENTION"
+        ]
+      },
+      {
+        "claim_number": 1,
+        "element_id": "CE-1-COORDINATOR",
+        "support_status": "SUPPORTED",
+        "evidence_ids": [
+          "EV-SOURCE-METHOD"
+        ],
+        "specification_section_ids": [
+          "BRIEF_SUMMARY_OF_THE_INVENTION",
+          "DETAILED_DESCRIPTION_OF_THE_INVENTION"
+        ]
+      },
+      {
+        "claim_number": 2,
+        "element_id": "CE-2-TIMESTAMP",
+        "support_status": "UNSUPPORTED",
+        "evidence_ids": [],
+        "specification_section_ids": []
+      }
+    ],
+    "warnings": [
+      {
+        "warning_id": "W-CLAIMS-TARGET-ONLY",
+        "code": "CLAIMS_RUNTIME_NOT_IMPLEMENTED",
+        "message": "Claim objects are synthetic target-contract examples and are not generated by the application runtime.",
+        "affected_paths": [
+          "/claims"
+        ]
+      },
+      {
+        "warning_id": "W-UNSUPPORTED-CLAIM-ELEMENT",
+        "code": "UNSUPPORTED_CLAIM_ELEMENT",
+        "message": "Claim 2 contains an intentionally unsupported synthetic element for validation testing.",
+        "affected_paths": [
+          "/claims/claims/1/claim_elements/0"
+        ]
+      }
+    ]
+  }
+}

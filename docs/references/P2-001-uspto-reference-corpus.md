@@ -4,6 +4,13 @@
 
 This reference corpus captures structural observations used to define the future USPTO-style specification target. It is not a legal template library, training dataset, prior-art opinion or patentability analysis.
 
+Machine-readable structural maps:
+
+- `docs/references/US11367264B2-section-map.json`
+- `docs/references/US11044591B2-section-map.json`
+
+The maps contain headings, presence/absence observations, figure-label summaries, claim-family/count metadata, and limitations only. They contain no copied substantive patent passage.
+
 ## Normative sources
 
 ### USPTO Nonprovisional Utility Patent Application Filing Guide

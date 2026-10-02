@@ -1,0 +1,147 @@
+{
+  "map_version": "1.0.0",
+  "patent_number": "US11367264",
+  "kind_code": "B2",
+  "title": "Semantic interior mapology: a tool box for indoor scene description from architectural floor plans",
+  "source_url": "https://patents.google.com/patent/US11367264B2/en",
+  "pdf_url": "https://patentimages.storage.googleapis.com/91/f6/9b/18dc2af29220c8/US11367264.pdf",
+  "structural_reference_only": true,
+  "sections": [
+    {
+      "canonical_section": "TITLE_OF_THE_INVENTION",
+      "source_heading": "Front-page title",
+      "present": true,
+      "notes": "Observed as grant bibliographic/title content; not a model for fabricating grant metadata."
+    },
+    {
+      "canonical_section": "CROSS_REFERENCE_TO_RELATED_APPLICATIONS",
+      "source_heading": "CROSS REFERENCE TO RELATED APPLICATIONS",
+      "present": true,
+      "notes": "Contains a related-application statement; this administrative fact requires Human or authorized-source evidence in a new draft."
+    },
+    {
+      "canonical_section": "STATEMENT_REGARDING_FEDERALLY_SPONSORED_RESEARCH_OR_DEVELOPMENT",
+      "source_heading": "STATEMENT REGARDING FEDERALLY SPONSORED RESEARCH AND DEVELOPMENT",
+      "present": true,
+      "notes": "Contains a government-support statement; this administrative fact must not be inferred from a paper."
+    },
+    {
+      "canonical_section": "NAMES_OF_PARTIES_TO_JOINT_RESEARCH_AGREEMENT",
+      "source_heading": null,
+      "present": false,
+      "notes": "No standalone heading observed."
+    },
+    {
+      "canonical_section": "INCORPORATION_BY_REFERENCE",
+      "source_heading": null,
+      "present": false,
+      "notes": "No standalone heading observed; incorporation language appears within the related-application paragraph."
+    },
+    {
+      "canonical_section": "STATEMENT_REGARDING_PRIOR_DISCLOSURES",
+      "source_heading": null,
+      "present": false,
+      "notes": "No standalone heading observed."
+    },
+    {
+      "canonical_section": "BACKGROUND_OF_THE_INVENTION",
+      "source_heading": "BACKGROUND OF THE INVENTION",
+      "present": true,
+      "notes": "Observed with Field of the Invention and Description of the Related Art subdivisions.",
+      "subsections": [
+        {
+          "canonical_section": "FIELD_OF_THE_INVENTION",
+          "source_heading": "1. Field of the Invention",
+          "present": true
+        },
+        {
+          "canonical_section": "DESCRIPTION_OF_RELATED_ART",
+          "source_heading": "2. Description of the Related Art",
+          "present": true
+        }
+      ]
+    },
+    {
+      "canonical_section": "BRIEF_SUMMARY_OF_THE_INVENTION",
+      "source_heading": "SUMMARY OF THE INVENTION",
+      "present": true,
+      "notes": "Source wording differs from the canonical v2 heading."
+    },
+    {
+      "canonical_section": "BRIEF_DESCRIPTION_OF_THE_DRAWINGS",
+      "source_heading": "BRIEF DESCRIPTION OF THE DRAWINGS",
+      "present": true,
+      "notes": "Figure descriptions precede the detailed description."
+    },
+    {
+      "canonical_section": "DETAILED_DESCRIPTION_OF_THE_INVENTION",
+      "source_heading": "DETAILED DESCRIPTION OF THE INVENTION",
+      "present": true,
+      "notes": "Includes figure-linked system and method discussion."
+    },
+    {
+      "canonical_section": "CLAIMS",
+      "source_heading": "Claims (21)",
+      "present": true,
+      "notes": "Twenty-one issued claims are observable; claim text is not copied into P2-001 fixtures."
+    },
+    {
+      "canonical_section": "ABSTRACT_OF_THE_DISCLOSURE",
+      "source_heading": "Abstract",
+      "present": true,
+      "notes": "Observed in the published grant record."
+    },
+    {
+      "canonical_section": "SEQUENCE_LISTING",
+      "source_heading": null,
+      "present": false,
+      "notes": "No sequence-listing section observed."
+    }
+  ],
+  "drawing_summary": {
+    "present": true,
+    "observed_figure_labels": [
+      "FIG. 1",
+      "FIG. 2",
+      "FIG. 3A",
+      "FIG. 3B",
+      "FIG. 4",
+      "FIG. 5",
+      "FIG. 6",
+      "FIG. 7",
+      "FIG. 8A",
+      "FIG. 8B",
+      "FIG. 9",
+      "FIG. 10A",
+      "FIG. 10B",
+      "FIG. 11",
+      "FIG. 12",
+      "FIG. 13",
+      "FIG. 14",
+      "FIG. 15"
+    ],
+    "notes": "Observed descriptions span method flowcharts, hardware/network environments, workflows, interfaces, conversions, scans, and mapping toolkits."
+  },
+  "claims_summary": {
+    "count": 21,
+    "independent_claim_numbers": [
+      1,
+      18,
+      19
+    ],
+    "observed_claim_families": [
+      "SYSTEM",
+      "METHOD"
+    ],
+    "notes": "Structural observation only; it is not a legal-support or claim-quality assessment."
+  },
+  "administrative_sections_present": [
+    "CROSS_REFERENCE_TO_RELATED_APPLICATIONS",
+    "STATEMENT_REGARDING_FEDERALLY_SPONSORED_RESEARCH_OR_DEVELOPMENT"
+  ],
+  "limitations": [
+    "Issued-grant structure does not establish a required template for a new application.",
+    "No patentability, validity, infringement, enablement, or legal-sufficiency conclusion is drawn.",
+    "No substantive patent passage is used as generated fixture content."
+  ]
+}
