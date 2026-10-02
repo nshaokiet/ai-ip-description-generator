@@ -5,8 +5,9 @@
 | Field | Value |
 | --- | --- |
 | Task ID | P2-000 |
-| Status | **CLOSED / COMPLETED — MERGED; GOVERNANCE CLOSEOUT REVIEW PENDING** |
+| Status | **CLOSED / COMPLETED — MERGED** |
 | Authorization | `HUMAN-P2-000-WEBAPP-SIMPLIFICATION-2026-10-02` |
+| P2-000-R2 authorization | `HUMAN-P2-000-R2-README-UPLOAD-UX-LOGO-2026-10-02` |
 | Latest Human design decision | 02/10/2026 — approve the reviewed Enterprise SaaS layout, preserve existing VNUHCM Innovation Hub logo/color system, add backward/forward step navigation and wrong-paper removal |
 | Specification baseline | `461d9b33b07bb39aad11aa47b84f678e232d80a8` |
 | Specification reviewed SHA | `5c57c47d562fa3d003850faf5820ffd17a3be385` — PASS / findings NONE |
@@ -15,6 +16,9 @@
 | Implementation reviewed SHA | `8d63f19ebb755dafef1eafdb47874553be1fcdd3` — PASS / findings NONE |
 | Implementation PR / merge | `#60` / `d0ffd09e0fe29e8a46c04e14b392e3c4aea22731` |
 | Post-merge main CI | `36982485345` — **SUCCESS** |
+| P2-000-R2 reviewed SHA | `05fc2d3dff6929ada7a4a974428cc26f5256c4fe` — PASS / findings NONE / all 10 review requirements PASS |
+| P2-000-R2 PR / merge | `#65` / `a394a98b0a86b1ce686fac4871f7e5b0c0c3c44f` |
+| P2-000-R2 post-merge main CI | `37012025003` — **SUCCESS** |
 | Specification branch | `docs/p2-000-product-webapp-simplification-spec` |
 | Primary implementation owner | Codex under AGENTS.md |
 | Independent reviewer | Gemini 3.1 Pro High / Antigravity read-only |
@@ -944,4 +948,8 @@ Implementation scope remained exactly the reviewed eight frontend/test files. No
 
 BLK-003 remains **OPEN**. EVAL-001 PRODUCT_RUNTIME remains **DEFERRED — AWAITING FUNDING**. Production remains **NOT APPROVED / NOT PERFORMED**.
 
-P2-000 implementation is complete and merged. The remaining lifecycle gate is independent fixed-SHA review and merge of the documentation-only governance closeout.
+The original P2-000 governance closeout was independently reviewed on `ddd96548c939bffe71f395011c0b98147cb2f797` with **PASS**, findings **NONE**, and merged through PR #61 at `1bc4f56444451f8fd42f3cc8b8e741b3d0045fa5`. P2-000-R1 was independently reviewed on `cdb5e5bd2cc8f0ef5464bbc11550ad0c34673851` with **PASS**, findings **NONE**, and merged through PR #63 at `fe1b0d52ea4c90fd87ba3ec6139d63e1fa359cd1`.
+
+P2-000-R2 was independently reviewed by **Gemini 3.1 Pro High** on exact SHA `05fc2d3dff6929ada7a4a974428cc26f5256c4fe` with **PASS**, findings **NONE**, and all 10 review requirements **PASS**. Exact-head CI `37008786531` was **SUCCESS**. PR #65 remained at the reviewed three-commit head, was marked ready, and merged normally at `a394a98b0a86b1ce686fac4871f7e5b0c0c3c44f`. Push/main CI `37012025003` completed **SUCCESS** on that exact merge SHA; dependency consistency, backend regression, frontend lint/typecheck/build, standard browser E2E, static-demo build, provider-secret marker scan, and demo browser E2E all passed.
+
+P2-000-R2 changed README/frontend/test presentation behavior only. BLK-003 remains **OPEN**. EVAL-001 PRODUCT_RUNTIME remains **DEFERRED — AWAITING FUNDING**. Provider/API spend remains **NONE / NOT AUTHORIZED**. Real/confidential-data use remains **NOT AUTHORIZED**. Claims runtime remains **NOT IMPLEMENTED**. Production remains **NOT APPROVED / NOT PERFORMED**.
