@@ -137,12 +137,12 @@ The tests cover schema self-validation, a representative synthetic document, str
 
 ## v1 immutability
 
-P2-001 adds a new versioned schema and does not overwrite v1. The test suite pins these baseline SHA-256 values:
+P2-001 adds a new versioned schema and does not overwrite v1. The test suite pins these baseline SHA-256 values after normalizing CRLF to LF, so the check is stable on Windows and Linux:
 
 | Released v1 file | SHA-256 |
 | --- | --- |
-| `schemas/patent-draft/v1.0.0/patent-draft.schema.json` | `9f08aa2487b9bcacd3e40885899c6d7871f1df88b27cfc6d5ad85f01bbf3cb21` |
-| `schemas/patent-draft/v1.0.0/README.md` | `8449b2e2975b2661184a8e616dc5972ca773e969105fe6eb87342f1c53b869cd` |
+| `schemas/patent-draft/v1.0.0/patent-draft.schema.json` | `3a428ef6648aecdea6411a296bf8f1d74de17c9e60a2e198d7355a9826129e74` |
+| `schemas/patent-draft/v1.0.0/README.md` | `8d6c3b18d83e9cca0c70ca44591c9d916f14dc75e856bab69f24e9f2fcfcad7b` |
 
 Current v1 prompts, validators, runtime code, and DOCX templates remain outside this change.
 

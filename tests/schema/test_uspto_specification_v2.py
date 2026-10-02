@@ -49,10 +49,10 @@ ADMINISTRATIVE_SECTION_IDS = {
 
 V1_IMMUTABLE_SHA256 = {
     "schemas/patent-draft/v1.0.0/patent-draft.schema.json": (
-        "9f08aa2487b9bcacd3e40885899c6d7871f1df88b27cfc6d5ad85f01bbf3cb21"
+        "3a428ef6648aecdea6411a296bf8f1d74de17c9e60a2e198d7355a9826129e74"
     ),
     "schemas/patent-draft/v1.0.0/README.md": (
-        "8449b2e2975b2661184a8e616dc5972ca773e969105fe6eb87342f1c53b869cd"
+        "8d6c3b18d83e9cca0c70ca44591c9d916f14dc75e856bab69f24e9f2fcfcad7b"
     ),
 }
 
@@ -351,7 +351,8 @@ def test_claims_section_is_required_and_modeled_separately() -> None:
 
 def test_v1_contract_files_are_immutable() -> None:
     for relative_path, expected_hash in V1_IMMUTABLE_SHA256.items():
-        actual_hash = hashlib.sha256((REPO_ROOT / relative_path).read_bytes()).hexdigest()
+        normalized_bytes = (REPO_ROOT / relative_path).read_bytes().replace(b"\r\n", b"\n")
+        actual_hash = hashlib.sha256(normalized_bytes).hexdigest()
         assert actual_hash == expected_hash, relative_path
 
     v1_schema = load_json(
