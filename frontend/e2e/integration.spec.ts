@@ -102,11 +102,15 @@ test("P2-000 home presents the approved enterprise workflow and gated stages", a
   }
   await expect(page.locator(".hero-notice")).toHaveCount(0);
   await expect(page.locator(".environment-badge")).toHaveCount(0);
-  await expect(page.getByRole("img", { name: "VNUHCM Innovation Hub" })).toBeVisible();
-  expect(await page.getByRole("img", { name: "VNUHCM Innovation Hub" }).evaluate(
-    (logo) => getComputedStyle(logo).backgroundImage.includes("vnuhcm-innovation-hub-logo.png"),
-  )).toBe(true);
-  await expect(page.getByRole("button", { name: "Go back" })).toHaveCount(0);
+  const logo = page.getByRole("img", { name: "VNUHCM Innovation Hub" });
+  await expect(logo).toBeVisible();
+  await expect(logo).toHaveCSS("object-fit", "contain");
+  const logoBox = await logo.boundingBox();
+  expect(logoBox?.width ?? 0).toBeGreaterThan(80);
+  expect(logoBox?.height ?? 0).toBeGreaterThan(30);
+  const backButton = page.getByRole("button", { name: "Go back" });
+  await expect(backButton).toBeVisible();
+  await expect(backButton).toBeDisabled();
 });
 
 test("uploaded paper can be removed before extraction", async ({ page }) => {
@@ -133,6 +137,7 @@ test("uploaded paper can be replaced before extraction without stale source stat
 
 test("reached-step navigation reuses results and product Go back does not reprocess", async ({ page }) => {
   await uploadSynthetic(page, "pdf");
+  await expect(page.getByRole("button", { name: "Go back" })).toBeEnabled();
   let processRequests = 0;
   page.on("request", (request) => {
     if (request.method() === "POST" && request.url().includes("/process")) processRequests += 1;
