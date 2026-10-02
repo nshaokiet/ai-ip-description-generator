@@ -1,298 +1,902 @@
-# P2-000 — Product Webapp Simplification & Research Paper Entry
+# P2-000 — Enterprise SaaS Webapp Redesign & Research Paper Workflow
 
 ## Metadata
 
 | Field | Value |
 | --- | --- |
 | Task ID | P2-000 |
-| Status | **AUTHORIZED — SPECIFICATION / IMPLEMENTATION HANDOFF PREPARATION** |
+| Status | **AUTHORIZED — IMPLEMENTATION-READY SPECIFICATION; SPEC PR REVIEW PENDING** |
 | Authorization | `HUMAN-P2-000-WEBAPP-SIMPLIFICATION-2026-10-02` |
-| Authorization evidence | Human directive on 02/10/2026: “tiếp tục dự án đi”, following the previously agreed next-step roadmap after P2-001 |
+| Latest Human design decision | 02/10/2026 — approve the reviewed Enterprise SaaS layout, preserve existing VNUHCM Innovation Hub logo/color system, add backward/forward step navigation and wrong-paper removal |
 | Baseline main | `461d9b33b07bb39aad11aa47b84f678e232d80a8` |
 | Specification branch | `docs/p2-000-product-webapp-simplification-spec` |
 | Primary implementation owner | Codex under AGENTS.md |
 | Independent reviewer | Gemini 3.1 Pro High / Antigravity read-only |
-| Classification | Frontend UX/presentation task only |
+| Classification | Frontend UX/presentation/navigation task only |
 | Provider/API calls | **NOT AUTHORIZED / NOT REQUIRED** |
 | Real/confidential research data | **NOT AUTHORIZED** |
 | Production | **NOT APPROVED / NOT PERFORMED** |
 | BLK-003 | **OPEN** |
 
-## Purpose
+---
 
-Simplify the product-facing web experience so a researcher can understand the primary workflow immediately:
+## 1. Purpose
+
+Redesign the current webapp home/upload and result workflow into a modern, minimal **Enterprise SaaS** experience inspired by products such as Linear/Vercel in information density and interaction clarity, while **preserving the project's existing visual identity**.
+
+The product-facing workflow is:
 
 ```text
-Upload research paper
-→ Generate draft
-→ Review / edit
-→ Export editable DOCX
+1. Source Upload
+      ↓
+2. AI Extraction
+      ↓
+3. Review & Refine
+      ↓
+4. Validation
+      ↓
+5. DOCX Export
 ```
 
-The current frontend exposes implementation detail such as a five-step technical workflow, correlation/document identifiers, validation state, revision mechanics, analysis-first result navigation and verbose demo/staging copy. P2-000 reduces that cognitive load while preserving the existing runtime contracts, safety controls, accessibility behavior and synthetic-demo restrictions.
+The redesign must feel like one coherent workflow rather than a developer/debug dashboard.
 
-P2-000 does **not** claim that the current v1 runtime already produces the P2-001 USPTO v2 target. Until later P2 runtime/renderer work is implemented, the UI must continue to describe the output as a **patent draft** or **editable draft DOCX**, not a filing-ready USPTO specification.
+P2-000 is a **presentation and navigation task**. It must not change backend semantics, AI behavior, schema contracts, Claims runtime, DOCX generation semantics, provider authorization, deployment topology, or security/data policy.
 
-## Product principles
+The current v1 runtime still produces a reviewable patent-description draft. P2-000 must not imply that P2-001 USPTO v2 runtime/Claims/DOCX-v2 functionality is already implemented.
 
-1. **One obvious primary action.** The page should make upload/generation the dominant workflow.
-2. **Patent draft first.** After processing, the user should land on the draft rather than the analysis/debug view.
-3. **Progressive disclosure.** Technical metadata remains available but is collapsed or visually secondary.
-4. **Four user-facing stages.** Upload, Generate, Review, Export. Backend validation remains an implementation/quality gate rather than a top-level product step.
-5. **No false capability claims.** Do not label current v1 output as a completed USPTO v2 specification or Claims-enabled output.
-6. **Synthetic demo safety remains strict.** Public staging must continue to expose controlled samples only and must not gain an arbitrary file input.
-7. **Accessibility is a regression gate.** Existing keyboard/focus/error semantics must remain intact.
+---
 
-## Current frontend observations
+## 2. Approved visual direction
 
-Baseline files reviewed on `main`:
+### 2.1 Design language
 
-- `frontend/src/app/page.tsx`
-- `frontend/src/components/UploadPanel.tsx`
-- `frontend/src/components/ResultWorkspace.tsx`
-- `frontend/src/components/WorkflowProgress.tsx`
-- `frontend/src/app/globals.css`
-- `frontend/e2e/integration.spec.ts`
-- `frontend/e2e-demo/demo-staging.spec.ts`
+Use a modern Enterprise SaaS visual language:
 
-Current UX characteristics:
+- white / very light neutral surfaces;
+- high whitespace;
+- restrained borders and shadows;
+- centered hero;
+- clear typographic hierarchy;
+- single dominant CTA per state;
+- compact secondary actions;
+- minimal visual noise;
+- progressive disclosure for technical information;
+- desktop-first composition with complete responsive behavior.
 
-- five top-level steps: Upload → Analyze → Review/Edit → Validate → Export;
-- large hero and separate notice compete with the upload action;
-- validated-document screen exposes MIME type, size, page count and document ID prominently;
-- primary generation CTA is labeled “Analyze & Generate Draft”;
-- results default to the **Analysis** tab;
-- correlation ID and revision internals are prominently visible;
-- validation is represented as a first-class user workflow step;
-- public demo correctly removes arbitrary upload and offers controlled synthetic PDF/DOCX samples.
+Do **not** copy another product's branding, icons, typography assets, or proprietary UI. The reference is interaction density and visual restraint only.
 
-## Authorized implementation scope
+### 2.2 Preserve existing project colors
 
-### A. Header and hero simplification
+Do not introduce a new brand palette. Reuse the existing frontend design tokens:
 
-The implementation may:
+```css
+--color-primary-700: #0d5aae;
+--color-primary-600: #166cc2;
+--color-primary-500: #1e88d8;
+--color-secondary:   #27a3e3;
+--color-accent:      #f47a2a;
+--color-bg:          #f7f9fc;
+--color-surface:     #ffffff;
+--color-surface-alt: #f1f5f9;
+--color-border:      #d9e2ec;
+--color-text:        #102a43;
+--color-text-secondary: #486581;
+--color-text-muted:  #7b8794;
+--color-success:     #2f9e44;
+--color-warning:     #f08c00;
+--color-error:       #d64545;
+```
 
-- reduce header/hero vertical footprint;
-- keep the official VNUHCM Innovation Hub logo and product identity;
-- retain the environment badge, but make it visually secondary;
-- use concise product copy centered on research-paper → patent-draft workflow;
-- preserve the Human/IP-specialist review disclaimer.
+Use the blue family for primary interaction/state. Orange is an accent only and must not dominate the page.
 
-Suggested non-demo heading:
+### 2.3 Preserve official logo
 
-> **Turn a research paper into a reviewable patent draft**
+Continue using the existing official asset:
 
-Suggested demo heading:
+`frontend/public/brand/vnuhcm-innovation-hub-logo.png`
 
-> **Explore the patent drafting workflow**
+Do not redraw, alter, recolor, crop, or replace the official logo.
 
-The exact wording may be adjusted during implementation if it remains accurate and concise.
+---
 
-### B. Four-step user-facing workflow
+## 3. Approved home/upload layout
 
-Replace the five visible product steps with:
+### 3.1 Header
 
-1. **Upload** — Choose research paper
-2. **Generate** — Build patent draft
-3. **Review** — Inspect and revise
-4. **Export** — Download editable DOCX
+Desktop structure:
 
-Existing internal `WorkflowPhase` values may remain unchanged. In particular, `validate` may be mapped into the **Review** stage rather than changing backend/frontend API contracts solely for presentation.
+```text
+[VNUHCM Innovation Hub logo] | AI IP Description Generator        About   Documentation
+```
 
-### C. Research-paper entry
+Requirements:
 
-In normal/local product mode:
+- keep logo at the left;
+- keep product name immediately beside it;
+- retain a thin divider if useful;
+- no large environment/status badge in the header;
+- header height must be materially smaller than the current hero-heavy composition;
+- optional About / Documentation links may be shown only if they point to valid project destinations;
+- do not add non-functional navigation.
 
-- primary heading should clearly say **Upload a research paper**;
-- keep one text-based PDF or DOCX, 10 MiB maximum;
-- preserve client-side convenience validation and backend source-of-truth validation;
-- retain drag/drop and keyboard file chooser behavior.
+### 3.2 Hero
 
-In public demo/staging:
+Centered layout.
 
-- preserve controlled synthetic sample buttons;
-- preserve **no arbitrary file input**;
-- preserve the “do not upload real/confidential/unpublished/sensitive research” boundary;
-- preserve provider-free language.
+Approved title:
 
-### D. Validated-document state
+> **From Research Paper to Reviewable IP Draft**
 
-After upload:
+Approved supporting copy:
 
-- show filename and validated state prominently;
-- move document ID, MIME type, byte size and similar implementation metadata into a collapsed **Technical details** disclosure or equivalent secondary surface;
-- retain page count where useful but do not make technical metadata dominate the page;
-- rename primary action from **Analyze & Generate Draft** to a simpler truthful label such as **Generate draft**.
+> Upload a research paper in PDF or DOCX format to extract technical content, review and refine the generated draft, validate required sections, and export an editable DOCX for further refinement.
 
-### E. Results workspace
+Requirements:
 
-After processing:
+- hero centered;
+- no right-side warning card;
+- no large orange warning panel;
+- no oversized marketing copy;
+- title should fit approximately two lines on desktop;
+- supporting copy limited to a readable centered width;
+- preserve accurate draft/review semantics.
 
-- default result view must be **Patent Draft**;
-- recommended tab order: **Patent Draft → Review Items → Analysis**;
-- heading should prioritize the patent draft rather than “Grounded draft workspace”;
-- **New paper** or equivalent reset/navigation action must remain available;
-- correlation ID and low-level metadata should move into a secondary/collapsible technical area;
-- editing/revision behavior and immutable revision semantics must remain unchanged;
-- analysis/evidence must remain accessible, only visually secondary.
+### 3.3 Global back action
 
-### F. Validation and export
+Add a **Go back** action at the upper-left of the main workflow area.
 
-Validation remains required by the existing backend/export contract.
+Desktop example:
 
-P2-000 may simplify its presentation, but must not bypass or weaken validation.
+```text
+← Go back
+```
 
-The user-facing workflow may treat validation as part of **Review**. Export remains disabled until the selected revision has valid server-side validation.
+Rules:
 
-Until P2-003/P2-006 are implemented:
+- hidden or disabled on the initial Source Upload state where there is no prior reachable step;
+- on later steps, returns to the nearest previous reachable workflow state;
+- must not trigger a new API call merely to navigate backward;
+- must preserve safe in-session data already generated unless the user explicitly removes/resets it;
+- keyboard accessible;
+- visible focus style required;
+- browser Back is not a substitute for this product-level action.
 
-- export wording must remain **draft DOCX** / **editable DOCX**;
-- do not claim that the exported file is filing-ready;
-- do not rename the current v1 DOCX to a completed USPTO Specification unless the underlying runtime/renderer contract has actually changed in a separately authorized task.
+---
 
-### G. Responsive and accessibility behavior
+## 4. Five-step interactive workflow stepper
 
-Preserve:
+Render exactly these five visible stages:
 
-- keyboard upload/file chooser;
-- tab roving focus;
-- visible focus styles;
-- error-heading focus;
-- `aria-current` workflow semantics;
-- live-region status announcements;
-- reduced-motion support;
-- mobile/narrow-screen behavior.
+1. **Source Upload**  
+   `Upload PDF or DOCX`
 
-## Expected implementation files
+2. **AI Extraction**  
+   `Extract key content`
 
-Implementation should normally be limited to:
+3. **Review & Refine**  
+   `Rà soát & hoàn thiện`
 
-- `frontend/src/app/page.tsx`
-- `frontend/src/components/UploadPanel.tsx`
-- `frontend/src/components/ResultWorkspace.tsx`
-- `frontend/src/components/WorkflowProgress.tsx`
-- `frontend/src/app/globals.css`
-- `frontend/e2e/integration.spec.ts`
-- `frontend/e2e-demo/demo-staging.spec.ts`
+4. **Validation**  
+   `Check required sections`
 
-A small additional frontend file may be changed only when necessary to satisfy the acceptance criteria and must be explained in the handoff.
+5. **DOCX Export**  
+   `Download editable file`
 
-## Explicitly out of scope
+### 4.1 Visual states
 
-Do **not** modify in P2-000:
+Each step must support:
 
-- backend API behavior;
-- current extraction/drafting prompts;
-- v1 schema semantics;
-- P2-001 v2 schema semantics;
-- Claims generation/runtime;
+- upcoming;
+- current;
+- completed;
+- reachable.
+
+Current step:
+
+- blue filled marker;
+- strongest label emphasis.
+
+Completed step:
+
+- success or approved completed treatment using the existing palette;
+- may display a check mark.
+
+Upcoming step:
+
+- neutral border/text.
+
+### 4.2 Step navigation
+
+The user must be able to move backward and forward between **already reached** steps.
+
+Rules:
+
+- clicking a completed/reachable step navigates to it;
+- keyboard activation with Enter/Space required;
+- do not allow skipping into a step whose prerequisite has never been completed;
+- returning backward must not automatically discard downstream state;
+- navigating forward to a previously completed step must reuse current in-session state rather than re-run extraction/validation automatically;
+- destructive reset/removal is a separate explicit action;
+- current step must expose `aria-current="step"`.
+
+### 4.3 State mapping to existing runtime
+
+P2-000 should reuse the existing application/runtime state rather than requiring backend changes.
+
+Expected mapping:
+
+| UI stage | Existing behavior |
+| --- | --- |
+| Source Upload | file selection/upload/validation |
+| AI Extraction | existing process call that analyzes source and generates current patent draft |
+| Review & Refine | existing draft/revision/review workspace |
+| Validation | existing server-side revision validation |
+| DOCX Export | existing validated revision DOCX export |
+
+Do not split the current process API solely to simulate new frontend stages.
+
+---
+
+## 5. Source Upload state
+
+### 5.1 Upload card
+
+Centered Enterprise SaaS upload card with a light dashed border.
+
+Desktop content hierarchy:
+
+```text
+[document icon]
+
+Drag & drop your research paper here
+or
+
+[ Select file ]
+
+PDF or DOCX · Max 10 MB
+```
+
+Requirements:
+
+- one text-based PDF or DOCX;
+- maximum 10 MiB;
+- preserve drag/drop;
+- preserve keyboard file chooser;
+- preserve backend validation as the source of truth;
+- scanned PDF/OCR remains unsupported unless separately implemented later;
+- selected/drag-active/focus states must use existing blue palette;
+- no decorative animation that harms accessibility.
+
+### 5.2 Sample paper links
+
+Below the main upload area show two subtle sample actions:
+
+```text
+Thử nhanh bài báo mẫu:
+Sample PDF (.pdf)  |  Sample DOCX (.docx)
+```
+
+Requirements:
+
+- visually secondary to real upload in authorized local/internal mode;
+- each action must have a clear accessible name;
+- existing exact sample endpoints/assets may be reused;
+- no paid/provider call is permitted by using a sample;
+- do not introduce external sample sources.
+
+### 5.3 Public environment safety
+
+P2-000 does not authorize real/confidential upload to the existing public Render environment.
+
+Therefore:
+
+- the backend upload guard must remain unchanged;
+- the public environment must not silently accept arbitrary real papers;
+- if the current environment contract permits only approved sample documents, the UI must preserve that functional restriction;
+- visible wording may be concise and product-oriented, but must not falsely imply that arbitrary real/confidential files are accepted publicly;
+- no security/data authorization is inferred from the new visual design.
+
+This requirement overrides purely cosmetic parity where necessary.
+
+### 5.4 Session/privacy note
+
+Use one subtle lock-icon note instead of a large warning panel.
+
+Preferred local/session copy:
+
+> **Tài liệu được xử lý trong phạm vi phiên làm việc.**
+
+A stronger claim such as “bảo mật tuyệt đối”, “encrypted/private storage”, or equivalent must not be shown unless separately evidenced and approved.
+
+For any public environment where only sample documents are allowed, use concise wording that accurately communicates the sample-only restriction without large warning panels.
+
+---
+
+## 6. Uploaded-paper state
+
+After successful upload/validation, keep the same card footprint and transform it into a success state.
+
+Approved hierarchy:
+
+```text
+[document icon]
+
+Paper uploaded successfully
+
+[PDF icon]  paper-name.pdf
+            PDF · 2.4 MB                        [trash icon]
+
+[ Continue to AI Extraction → ]
+
+or
+
+[ Select a different file ]
+
+PDF or DOCX · Max 10 MB
+```
+
+### 6.1 Wrong-paper removal
+
+Add an explicit delete/remove action on the uploaded file row.
+
+Behavior before extraction begins:
+
+- trash icon/button removes the currently uploaded paper from the active frontend workflow;
+- resets the UI to Source Upload;
+- clears current document reference and upload-derived state;
+- invokes an existing supported backend cleanup/delete action only if one already exists and is correct for the lifecycle;
+- do not invent a new backend deletion API in P2-000.
+
+If no backend delete endpoint is available:
+
+- clearing the frontend/session reference is allowed;
+- existing backend cleanup policy remains authoritative;
+- UI copy must not falsely claim remote deletion occurred.
+
+### 6.2 Select a different file
+
+Provide a secondary **Select a different file** action.
+
+Rules:
+
+- before extraction, selecting another paper replaces the current active paper in the workflow;
+- previous in-session document reference must no longer drive extraction;
+- backend cleanup remains governed by existing lifecycle behavior.
+
+### 6.3 Removal after downstream work exists
+
+If the user navigates back after extraction/review data already exists:
+
+- do not silently remove the paper;
+- use an explicit reset/new-paper confirmation before discarding generated downstream state;
+- confirmation should explain that current analysis/draft/revisions/validation will be cleared from the frontend session;
+- no modal is required if a compact accessible confirmation pattern is simpler.
+
+---
+
+## 7. AI Extraction state
+
+When the user selects **Continue to AI Extraction**:
+
+- set stage 2 current;
+- use the existing process endpoint;
+- display a clean progress state inside the main workflow card;
+- copy should describe extraction/generation professionally and concisely.
+
+Suggested:
+
+> **Extracting invention-relevant content**
+
+Supporting line:
+
+> Identifying technical concepts and preparing a grounded draft for review.
+
+Do not show internal provider/runtime debugging information.
+
+On success:
+
+- mark AI Extraction complete;
+- navigate automatically to Review & Refine;
+- default the result content to Patent Draft.
+
+On failure:
+
+- preserve existing normalized/safe error handling;
+- focus the error heading;
+- provide a recovery path to Source Upload where required by existing source cleanup behavior.
+
+---
+
+## 8. Review & Refine state
+
+### 8.1 Default result view
+
+The primary result view after extraction must be:
+
+> **Patent Draft**
+
+Do not default to Analysis.
+
+Recommended result view order:
+
+```text
+Patent Draft | Review Items | Analysis
+```
+
+### 8.2 Main heading
+
+Prefer:
+
+> **Review & Refine**
+
+with a concise contextual line such as:
+
+> Review the generated patent draft, refine prose, and inspect supporting evidence before validation.
+
+### 8.3 Navigation actions
+
+Provide:
+
+- **Go back** → AI Extraction or previous reachable state;
+- stepper navigation among reached steps;
+- **New paper** / reset action;
+- next primary action toward Validation.
+
+### 8.4 Revision semantics
+
+Preserve existing:
+
+- immutable in-session revisions;
+- edit/cancel/save behavior;
+- review statuses;
+- evidence links;
+- unverified edited-prose warning;
+- session-only behavior.
+
+UI may simplify presentation but must not weaken semantics.
+
+### 8.5 Technical information
+
+Correlation ID, internal IDs, detailed revision diagnostics, and similar implementation metadata should be secondary.
+
+Use a `Technical details` disclosure or similarly low-emphasis region.
+
+Do not remove evidence/analysis/review capability.
+
+---
+
+## 9. Validation state
+
+Validation remains a visible first-class workflow stage in the approved five-step design.
+
+Requirements:
+
+- selected revision must be validated using the existing backend endpoint;
+- validation result must remain tied to the exact selected revision/digest;
+- no fake client-side PASS;
+- validation failure returns a clear correction path to Review & Refine;
+- Go back must return to Review & Refine without losing the saved revision;
+- successful validation unlocks/reaches DOCX Export;
+- stepper navigation may return to Review & Refine after validation;
+- editing a validated revision via a new saved revision must require validation of the new selected revision before export.
+
+Suggested success treatment:
+
+```text
+Validation complete
+✓ Structure and required fields passed server validation.
+
+[ Continue to DOCX Export → ]
+```
+
+Do not imply legal approval, patentability, filing readiness, or specialist approval.
+
+---
+
+## 10. DOCX Export state
+
+Primary action:
+
+> **Download editable DOCX**
+
+or
+
+> **Export draft DOCX**
+
+Requirements:
+
+- export only the exact validated selected revision;
+- preserve backend revalidation/digest behavior;
+- preserve single-in-flight export protection;
+- keep filename behavior unless changed by a separately authorized DOCX task;
+- current v1 output must remain clearly a draft.
+
+Do not label current output:
+
+- filing-ready;
+- granted-patent format;
+- Claims-complete;
+- final USPTO filing;
+- completed P2-001 v2 specification runtime.
+
+Those capabilities belong to later P2 tasks.
+
+---
+
+## 11. Footer
+
+Use a compact one-row or responsive two-line footer.
+
+Suggested copy:
+
+> © 2026 VNUHCM Innovation Hub. All rights reserved.
+
+and:
+
+> Kết quả cần được chuyên gia kỹ thuật và sở hữu trí tuệ rà soát trước khi sử dụng chính thức.
+
+Do not use a large disclaimer panel.
+
+---
+
+## 12. Text/content cleanup
+
+### 12.1 Product-facing language
+
+Prefer professional workflow labels:
+
+- Source Upload
+- AI Extraction
+- Review & Refine
+- Validation
+- DOCX Export
+- Patent Draft
+- Review Items
+- Analysis
+- Go back
+- New paper
+- Select file
+- Select a different file
+- Remove paper
+- Download editable DOCX
+
+### 12.2 Reduce internal-environment jargon
+
+Do not make technical environment labels a dominant part of the product UI.
+
+Avoid prominent copy such as:
+
+- Synthetic Demo / Staging
+- controlled sample
+- no live AI
+- internal runtime/provider explanations
+
+However, P2-000 must still communicate any **functional restriction** necessary to avoid misleading users, especially on the public sample-only environment.
+
+Safety/truthfulness has priority over cosmetic text removal.
+
+---
+
+## 13. Responsive requirements
+
+### Desktop
+
+- centered content;
+- max content width aligned with existing `--content-width`;
+- stepper rendered horizontally;
+- upload card centered below stepper;
+- hero compact enough that upload interaction is visible without excessive scrolling on typical laptop displays.
+
+### Tablet
+
+- preserve horizontal stepper where readable;
+- otherwise allow compact labels/wrapping without horizontal page overflow.
+
+### Mobile
+
+- header remains compact;
+- logo remains legible;
+- stepper may become compact horizontal scroll or accessible stacked form;
+- all primary/secondary actions remain reachable;
+- upload card uses full available width;
+- uploaded-file row may stack metadata/actions;
+- Go back remains easy to activate;
+- no clipped filenames/buttons;
+- no horizontal page overflow.
+
+---
+
+## 14. Accessibility requirements
+
+Preserve or improve all existing accessibility behavior:
+
+- visible `:focus-visible`;
+- keyboard file selection;
+- keyboard step activation;
+- current step `aria-current="step"`;
+- status updates via appropriate live regions;
+- error heading receives focus after global operation failure;
+- result tabs retain correct roving tabindex / arrow / Home / End behavior;
+- destructive remove/reset has accessible label and sufficient target size;
+- icon-only trash action requires an accessible name such as `Remove paper`;
+- reduced-motion support preserved;
+- color must not be the only state indicator.
+
+---
+
+## 15. State/navigation invariants
+
+The implementation must enforce these invariants:
+
+1. Source Upload is always reachable.
+2. AI Extraction becomes reachable only after a valid uploaded/sample document exists.
+3. Review & Refine becomes reachable only after process success.
+4. Validation becomes reachable only when a saved revision exists.
+5. DOCX Export becomes reachable only after exact-revision validation PASS.
+6. Backward navigation never re-runs network operations automatically.
+7. Forward navigation to an already reached step does not re-run operations automatically.
+8. A new edited revision invalidates prior validation eligibility for that new revision.
+9. Remove/replace paper before extraction clears the active document selection.
+10. New paper/reset after extraction clears downstream frontend session state explicitly.
+11. The UI must not expose stale analysis/draft from a previous paper as if it belonged to the new one.
+12. Stepper state must derive from application state, not visual-only local flags that can contradict runtime state.
+
+---
+
+## 16. Existing runtime/security boundaries
+
+P2-000 must not change:
+
+- backend API semantics;
+- APP-003 cleanup rules;
+- source storage lifecycle;
+- extraction prompt;
+- draft prompt;
+- v1 schemas;
+- P2-001 v2 schemas;
+- Claims runtime;
 - DOCX renderer semantics;
-- provider/model selection;
-- provider/API authorization;
+- OpenAI/provider/model selection;
+- API-key policy;
 - Render resource topology;
-- authentication/storage/retention;
-- BLK-003;
-- real/confidential-data policy;
-- P2-002+ runtime implementation.
+- authentication/tenant/storage/retention policies;
+- BLK-003 state;
+- EVAL-001 PRODUCT_RUNTIME state.
 
-## Acceptance criteria
+Provider/API spend remains **NOT AUTHORIZED**.
 
-### AC-01 — Primary workflow clarity
-A first-time user can identify the main product flow as Upload → Generate → Review → Export without reading technical implementation detail.
+Real/confidential research data remains **NOT AUTHORIZED** for the public environment.
 
-### AC-02 — Four visible workflow stages
-The top-level workflow component renders exactly four user-facing stages. Backend validation is not presented as a separate top-level product stage.
+Production remains **NOT APPROVED / NOT PERFORMED**.
 
-### AC-03 — Normal-mode research paper entry
-Normal/local mode exposes one PDF/DOCX research-paper input with the existing size/type constraints and keyboard/drag-drop behavior.
+---
 
-### AC-04 — Public demo isolation
-When `NEXT_PUBLIC_DEMO_STAGING=1`, no arbitrary file input is rendered. Controlled synthetic PDF/DOCX choices and current safety copy remain enforced.
+## 17. Expected implementation files
 
-### AC-05 — Concise header/hero
-Header and hero consume materially less vertical space while retaining brand identity, environment labeling and Human-review disclaimer.
+Primary expected files:
 
-### AC-06 — Validated document simplification
-Filename/validated state and the generation CTA are primary. Document ID/MIME/low-level metadata are visually secondary or collapsed.
+- `frontend/src/app/page.tsx`
+- `frontend/src/app/globals.css`
+- `frontend/src/components/UploadPanel.tsx`
+- `frontend/src/components/WorkflowProgress.tsx`
+- `frontend/src/components/ResultWorkspace.tsx`
+- `frontend/e2e/integration.spec.ts`
+- `frontend/e2e-demo/demo-staging.spec.ts`
 
-### AC-07 — Draft-first results
-After processing, the selected/default result view is Patent Draft rather than Analysis.
+Additional frontend-only files/components are permitted when needed for maintainable implementation, for example:
 
-### AC-08 — Result information hierarchy
-Patent draft is primary; Review Items and Analysis/Evidence remain reachable without removing any current review/grounding information.
+- reusable workflow navigation;
+- technical-details disclosure;
+- uploaded-file row;
+- confirmation component.
 
-### AC-09 — New-paper navigation
-The result workspace includes an obvious reset action labeled **New paper** or semantically equivalent and preserves existing reset behavior.
+Any additional file must remain inside authorized frontend/test scope and be listed in the handoff.
 
-### AC-10 — Validation preserved
-Server-side revision validation remains mandatory for export. P2-000 must not bypass, fake or weaken validation.
+No backend file should change without a new Human decision.
 
-### AC-11 — Truthful export semantics
-Current output remains described as an editable/reviewable **draft DOCX**. No filing-ready, Claims-enabled or completed USPTO-v2 claim is introduced.
+---
 
-### AC-12 — No runtime semantic change
-No backend, prompt, schema, provider/model, DOCX-renderer or orchestration semantic change is introduced.
+## 18. Acceptance criteria
 
-### AC-13 — Existing accessibility preserved
-Keyboard navigation, focus behavior, error focus, ARIA semantics and reduced-motion behavior continue to pass deterministic tests.
+### AC-01 — Approved Enterprise SaaS layout
+Home/upload visually follows the approved centered Enterprise SaaS composition: compact header, centered hero, five-step workflow, centered upload card, subtle sample actions and compact footer.
 
-### AC-14 — Responsive presentation
-Desktop and narrow/mobile layouts remain usable without clipped primary actions or horizontal overflow in the main workflow.
+### AC-02 — Existing brand identity preserved
+Official VNUHCM Innovation Hub logo and existing project color tokens are preserved. No replacement brand palette or altered logo is introduced.
 
-### AC-15 — Regression coverage
-Update/add deterministic Playwright coverage for at least:
+### AC-03 — Header simplification
+Header contains logo/product identity without the current large green environment badge. No non-functional nav link is introduced.
 
-- exactly four visible workflow stages;
-- normal-mode upload remains available;
-- demo mode has no arbitrary file input;
-- Patent Draft is default after processing;
-- New paper resets to upload state;
-- validation still gates export.
+### AC-04 — Hero simplification
+Hero is centered, uses the approved title/copy or a semantically equivalent Human-approved wording, and has no right-side orange warning card.
 
-### AC-16 — Required quality gates
+### AC-05 — Exactly five visible stages
+The workflow displays exactly:
+Source Upload → AI Extraction → Review & Refine → Validation → DOCX Export.
+
+### AC-06 — Interactive reached-step navigation
+User can move backward and forward among already reached steps through the stepper without automatically re-running API operations.
+
+### AC-07 — Go back action
+A visible/accessible Go back control appears where a previous step exists and returns to the appropriate reachable prior state.
+
+### AC-08 — Upload behavior
+Normal/local authorized mode retains one-file drag/drop + keyboard file selection for PDF/DOCX ≤10 MiB, with backend validation authoritative.
+
+### AC-09 — Sample actions
+Sample PDF and Sample DOCX actions are available as visually secondary quick-start options and use existing internal sample resources only.
+
+### AC-10 — Public sample-only boundary preserved
+Existing public environment restrictions remain functionally enforced; P2-000 does not authorize arbitrary real/confidential public uploads.
+
+### AC-11 — Uploaded-paper success state
+Successful upload transforms the card into a clear file summary with filename, type/size where available, primary Continue to AI Extraction action, replace-file action and remove-paper action.
+
+### AC-12 — Wrong-paper removal
+Before extraction, Remove paper safely clears the active document from the frontend workflow and returns to Source Upload without inventing unsupported backend deletion claims.
+
+### AC-13 — Downstream reset protection
+If downstream results already exist, changing/removing the paper requires explicit reset semantics so stale analysis/draft/revisions cannot remain associated with a new source.
+
+### AC-14 — AI Extraction state
+Existing process API is reused. UI presents a professional progress state and advances to Review & Refine only after successful processing.
+
+### AC-15 — Draft-first review
+After processing, Patent Draft is the default view. Recommended tab order is Patent Draft → Review Items → Analysis.
+
+### AC-16 — Review/revision behavior preserved
+Existing edit/save/cancel/revision/review/evidence semantics remain functionally intact.
+
+### AC-17 — Validation remains exact
+Existing server-side validation remains mandatory and tied to the exact selected revision. No client-only fake validation is introduced.
+
+### AC-18 — Export remains gated
+DOCX Export is reachable/enabled only when the selected revision satisfies the existing validation/export contract.
+
+### AC-19 — Truthful output naming
+Current output remains a reviewable/editable draft DOCX. No filing-ready, Claims-complete or implemented-USPTO-v2 claim is introduced.
+
+### AC-20 — Technical metadata de-emphasized
+Document ID, correlation ID and comparable implementation metadata remain available where useful but are secondary/collapsed rather than dominating the main product surface.
+
+### AC-21 — Disclaimer cleanup
+Large warning cards are removed from the main composition; specialist-review and session/data boundaries are communicated through compact truthful notes/footer copy.
+
+### AC-22 — Accessibility regression protection
+Keyboard upload, step navigation, result-tab roving focus, focus-visible, global-error focus, ARIA workflow semantics and reduced motion all remain correct.
+
+### AC-23 — Responsive layout
+Desktop/tablet/mobile layouts remain usable without clipped primary actions, unreadable workflow steps, or horizontal page overflow.
+
+### AC-24 — Deterministic navigation regression tests
+Playwright coverage verifies:
+- five step labels/order;
+- Go back behavior;
+- reached-step backward/forward navigation;
+- inaccessible future-step prevention;
+- upload success state;
+- remove wrong paper before extraction;
+- replace paper;
+- Patent Draft default after process;
+- validation step;
+- export gated until validation;
+- New paper/reset clears downstream state.
+
+### AC-25 — Existing public sample flow regression
+Public sample flow still supports the authorized sample path through extraction/review/validation/export and does not expose unauthorized arbitrary real-paper processing.
+
+### AC-26 — No backend/runtime semantic change
+No backend, prompt, schema, provider/model, DOCX renderer, cleanup, deployment or security/data-policy semantic change occurs.
+
+### AC-27 — Required quality gates
 Before independent implementation review:
 
-- full backend regression PASS;
-- `pip check` PASS;
+- full offline backend regression PASS;
+- `python -m pip check` PASS;
 - frontend lint PASS;
 - frontend typecheck PASS;
 - frontend build PASS;
 - standard Playwright PASS;
-- Render synthetic-demo Playwright PASS;
+- public sample-flow Playwright PASS;
 - live provider flags remain 0/0;
-- provider/API calls remain NONE.
+- provider/API calls remain NONE;
+- `git diff --check` PASS.
 
-### AC-17 — Independent fixed-SHA review
-Gemini 3.1 Pro High / Antigravity must review the exact final implementation SHA in read-only mode and return PASS with no unresolved blocking finding before merge.
+### AC-28 — Fixed-SHA independent implementation review
+Gemini 3.1 Pro High / Antigravity reviews the exact final implementation SHA in read-only mode and returns PASS with no unresolved blocking finding before merge.
 
-## Verification boundaries
+---
 
-Use only synthetic/offline fixtures for implementation verification.
+## 19. Required implementation test scenarios
 
-Do not:
+At minimum add/update deterministic browser tests for the following.
 
-- upload a real/unpublished/confidential research paper;
-- call OpenAI or another model provider;
-- enable live-provider test flags;
-- alter Render production/staging resources;
-- claim semantic quality or patentability.
+### T-01 Initial home state
+Verify compact header, approved hero, five workflow stages, Source Upload current and no large side warning/environment badge.
 
-## Implementation handoff
+### T-02 Normal local upload
+Keyboard/file-input upload of a supported paper fixture remains possible and upload constraints are visible.
 
-After this specification is approved, Codex should:
+### T-03 Uploaded paper state
+After upload, verify:
+- success heading;
+- filename;
+- Continue to AI Extraction;
+- Select a different file;
+- accessible Remove paper control.
 
-1. create `feat/p2-000-product-webapp-simplification` from the then-current `main`;
-2. modify only the authorized frontend/test scope;
-3. run the full required quality gates;
-4. push the branch and open a PR;
-5. return the final exact SHA and CI run for Gemini 3.1 Pro High fixed-SHA review;
-6. not merge until the independent PASS and required CI are both verified.
+### T-04 Remove wrong paper
+Upload fixture → remove paper → confirm workflow returns to initial Source Upload and old document is not processable.
 
-Because Codex quota is currently unavailable, this specification and review preparation can proceed now; implementation waits for Codex capacity unless the Human explicitly changes the role/implementation authority in `AGENTS.md`.
+### T-05 Replace wrong paper
+Upload paper A → select paper B → verify B is current source and A does not drive process.
 
-## Next tasks after P2-000
+### T-06 Step gating
+Before upload, future stages cannot be activated. After each successful prerequisite, newly reached stage becomes navigable.
 
-P2-000 does not implement the P2-001 target contract. It prepares the product surface for subsequent semantic work:
+### T-07 Step backward/forward
+Reach Review & Refine → navigate to earlier reached step → navigate forward again → ensure current results are reused and no duplicate process call occurs.
+
+### T-08 AI Extraction
+Process request remains single-flight and loading UI maps to stage 2.
+
+### T-09 Draft-first results
+After process success, Patent Draft is active by default.
+
+### T-10 Review & Refine
+Editing/saving a new revision remains functional and makes that new revision require validation.
+
+### T-11 Validation
+Validation request remains single-flight and successful validation advances/reaches stage 5.
+
+### T-12 Export gate
+DOCX Export cannot execute before exact revision validation and succeeds afterward.
+
+### T-13 New paper after generated results
+Explicit reset/new-paper action clears current result/revision state and returns to Source Upload.
+
+### T-14 Public sample restriction
+Public build exposes only currently authorized sample processing behavior and does not enable arbitrary real/confidential document processing.
+
+### T-15 Narrow viewport
+Critical actions and five-step navigation remain usable at narrow mobile width.
+
+---
+
+## 20. Implementation handoff to Codex
+
+After this specification PR is independently reviewed and merged, Codex may start implementation under the existing Human authorization.
+
+Implementation branch:
+
+`feat/p2-000-enterprise-saas-webapp`
+
+Baseline:
+
+the then-current verified `main` after P2-000 specification merge.
+
+Codex instructions:
+
+1. read `AGENTS.md`, `PROJECT_CONTEXT.md`, this P2-000 task specification, and current frontend/E2E files;
+2. claim/work only inside P2-000 authorized scope;
+3. preserve existing logo asset and color tokens;
+4. implement the approved layout and workflow navigation;
+5. do not change backend/runtime semantics to make the UI easier;
+6. extend deterministic Playwright coverage for AC-24/T-01…T-15;
+7. run all AC-27 quality gates;
+8. commit/push implementation;
+9. open implementation PR;
+10. return exact implementation SHA, changed-file list, test evidence and CI run;
+11. hand off to Gemini 3.1 Pro High / Antigravity for fixed-SHA read-only review;
+12. do not merge until required review/CI gates pass.
+
+---
+
+## 21. Subsequent P2 tasks
+
+P2-000 changes the product surface only. It does not implement the semantic patent-generation target.
+
+After P2-000:
 
 1. **P2-002 — Invention Reconstruction**
 2. **P2-003 — USPTO Specification Generation v2**
