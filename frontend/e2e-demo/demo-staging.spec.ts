@@ -3,9 +3,9 @@ import { expect, test, type Page } from "@playwright/test";
 async function runSampleFlow(page: Page, buttonName: string) {
   await page.goto("/");
   await page.getByRole("button", { name: buttonName }).click();
-  await expect(page.getByRole("heading", { name: "Ready for analysis" })).toBeVisible();
-  await page.getByRole("button", { name: "Analyze & Generate Draft" }).click();
-  await expect(page.getByRole("heading", { name: "Grounded draft workspace" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Paper uploaded successfully" })).toBeVisible();
+  await page.getByRole("button", { name: "Continue to AI Extraction" }).click();
+  await expect(page.getByRole("heading", { name: "Review & Refine" })).toBeVisible();
   await page.getByRole("tab", { name: "Patent Draft" }).click();
   await page.getByRole("button", { name: "Edit prose" }).first().click();
   await page.locator("textarea").first().fill(
@@ -21,14 +21,15 @@ async function runSampleFlow(page: Page, buttonName: string) {
 
 test("static demo exposes only controlled synthetic choices and clear boundaries", async ({ page }) => {
   await page.goto("/");
-  await expect(page.getByText("Synthetic Demo / Staging", { exact: true })).toBeVisible();
-  await expect(
-    page.getByText("Do not upload real, confidential, unpublished, or sensitive research."),
-  ).toBeVisible();
-  await expect(page.getByText("No live AI provider is used in this demo.", { exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", {
+    name: "From Scientific Research Paper to USPTO-Style Patent Specification",
+  })).toBeVisible();
+  await expect(page.getByText("Public demo: synthetic samples only.", { exact: false })).toBeVisible();
+  await expect(page.getByText("No live AI provider is used.", { exact: false })).toBeVisible();
   await expect(page.locator('input[type="file"]')).toHaveCount(0);
   await expect(page.getByRole("button", { name: "Use synthetic PDF demo" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Use synthetic DOCX demo" })).toBeVisible();
+  await expect(page.locator(".environment-badge")).toHaveCount(0);
 });
 
 test("synthetic PDF demo supports analyze, edit, validate, and DOCX export", async ({ page }) => {

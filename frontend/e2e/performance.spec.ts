@@ -32,9 +32,9 @@ test("P1-005 synthetic local browser workflow measurement", async ({ page }) => 
       buffer: fixture,
     });
     await page.getByRole("button", { name: "Upload & Validate" }).click();
-    await expect(page.getByRole("heading", { name: "Ready for analysis" })).toBeVisible();
-    await page.getByRole("button", { name: "Analyze & Generate Draft" }).click();
-    await expect(page.getByRole("heading", { name: "Grounded draft workspace" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Paper uploaded successfully" })).toBeVisible();
+    await page.getByRole("button", { name: "Continue to AI Extraction" }).click();
+    await expect(page.getByRole("heading", { name: "Review & Refine" })).toBeVisible();
     await page.getByRole("tab", { name: "Patent Draft" }).click();
     await page.getByRole("button", { name: "Validate revision-1" }).click();
     await expect(page.getByText("Backend validation: PASSED for this exact revision")).toBeVisible();

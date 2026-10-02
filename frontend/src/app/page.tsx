@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { ResultWorkspace } from "@/components/ResultWorkspace";
 import { UploadPanel } from "@/components/UploadPanel";
@@ -24,6 +24,7 @@ import type {
 } from "@/lib/types/contracts";
 
 const DEMO_STAGING = process.env.NEXT_PUBLIC_DEMO_STAGING === "1";
+const PHASES: WorkflowPhase[] = ["upload", "analyze", "review", "validate", "export"];
 
 function normalizeClientError(error: unknown): NormalizedApiError {
   if (error instanceof ApiClientError) return error;
@@ -41,6 +42,7 @@ export default function Home() {
   const [error, setError] = useState<NormalizedApiError | null>(null);
   const [recoveryState, setRecoveryState] = useState<WorkflowState>("IDLE");
   const [workflowPhase, setWorkflowPhase] = useState<WorkflowPhase>("upload");
+  const [validationEligible, setValidationEligible] = useState(false);
   const operationRef = useRef<"upload" | "process" | "export" | null>(null);
   const errorHeadingRef = useRef<HTMLHeadingElement>(null);
 
@@ -50,12 +52,31 @@ export default function Home() {
     return () => window.cancelAnimationFrame(frame);
   }, [error]);
 
+  const reachablePhases = useMemo<WorkflowPhase[]>(() => {
+    const reachable: WorkflowPhase[] = ["upload"];
+    if (document || result) reachable.push("analyze");
+    if (result) reachable.push("review", "validate");
+    if (result && validationEligible) reachable.push("export");
+    return reachable;
+  }, [document, result, validationEligible]);
+
   function reset() {
+    operationRef.current = null;
     setState("IDLE");
     setDocument(null);
     setResult(null);
     setError(null);
     setRecoveryState("IDLE");
+    setValidationEligible(false);
+    setWorkflowPhase("upload");
+  }
+
+  function clearUploadedSource() {
+    if (result) return;
+    setDocument(null);
+    setError(null);
+    setRecoveryState("IDLE");
+    setState("IDLE");
     setWorkflowPhase("upload");
   }
 
@@ -65,18 +86,21 @@ export default function Home() {
     setState("ERROR");
   }
 
-  async function handleUpload(file: File) {
+  async function performUpload(file: File, sampleId?: DemoSampleId) {
     if (operationRef.current) return;
     operationRef.current = "upload";
     setError(null);
+    setResult(null);
+    setValidationEligible(false);
     setWorkflowPhase("upload");
     setState("UPLOADING");
     try {
-      const uploaded = await uploadDocument(file);
+      const uploaded = await uploadDocument(file, sampleId);
       setDocument(uploaded);
       setWorkflowPhase("analyze");
       setState("UPLOADED");
     } catch (issue) {
+      setDocument(null);
       showError(issue, "IDLE");
     } finally {
       if (operationRef.current === "upload") operationRef.current = null;
@@ -87,6 +111,8 @@ export default function Home() {
     if (operationRef.current) return;
     operationRef.current = "upload";
     setError(null);
+    setResult(null);
+    setValidationEligible(false);
     setWorkflowPhase("upload");
     setState("UPLOADING");
     try {
@@ -96,6 +122,7 @@ export default function Home() {
       setWorkflowPhase("analyze");
       setState("UPLOADED");
     } catch (issue) {
+      setDocument(null);
       showError(issue, "IDLE");
     } finally {
       if (operationRef.current === "upload") operationRef.current = null;
@@ -103,7 +130,7 @@ export default function Home() {
   }
 
   async function handleProcess() {
-    if (!document || operationRef.current) return;
+    if (!document || result || operationRef.current) return;
     operationRef.current = "process";
     setError(null);
     setWorkflowPhase("analyze");
@@ -111,6 +138,7 @@ export default function Home() {
     try {
       const processed = await processDocument(document.document_id);
       setResult(processed);
+      setValidationEligible(false);
       setWorkflowPhase("review");
       setState("READY");
     } catch (issue) {
@@ -152,115 +180,160 @@ export default function Home() {
     setState(recoveryState);
   }
 
+  function navigateTo(phase: WorkflowPhase) {
+    if (reachablePhases.includes(phase)) setWorkflowPhase(phase);
+  }
+
+  function goBack() {
+    const current = PHASES.indexOf(workflowPhase);
+    for (let index = current - 1; index >= 0; index -= 1) {
+      if (reachablePhases.includes(PHASES[index])) {
+        setWorkflowPhase(PHASES[index]);
+        return;
+      }
+    }
+  }
+
   const statusMessage =
     state === "UPLOADING"
       ? "Uploading and validating the document."
       : state === "PROCESSING"
-        ? "Analyzing the document and generating the patent draft."
+        ? "Extracting invention-relevant content and preparing a grounded draft."
         : state === "EXPORTING"
           ? "Preparing the editable DOCX download."
           : state === "READY"
-            ? "Analysis and patent draft are ready for human review."
+            ? "The patent draft is ready for human review."
             : "";
+  const showBack = workflowPhase !== "upload";
+  const resultPhase = workflowPhase === "review" || workflowPhase === "validate" || workflowPhase === "export";
 
   return (
     <div className="app-shell">
       <header className="site-header">
         <div className="header-inner">
           <div className="brand-group">
-            <Image
-              alt="VNUHCM Innovation Hub"
-              className="brand-logo"
-              height={72}
-              priority
-              src="/brand/vnuhcm-innovation-hub-logo.png"
-              width={128}
-            />
+            <span aria-label="VNUHCM Innovation Hub" className="brand-logo-frame" role="img">
+              <Image
+                alt=""
+                aria-hidden="true"
+                className="brand-logo"
+                height={84}
+                priority
+                src="/brand/vnuhcm-innovation-hub-logo.png"
+                width={150}
+              />
+            </span>
             <div className="brand-divider" aria-hidden="true" />
-            <div>
-              <p className="brand-kicker">VNUHCM Innovation Hub</p>
-              <p className="product-name">AI IP Description Generator</p>
-            </div>
-          </div>
-          <div className="environment-badge">
-            <span aria-hidden="true" />
-            {DEMO_STAGING ? "Synthetic Demo / Staging" : "Local MVP"}
+            <p className="product-name">AI IP Description Generator</p>
           </div>
         </div>
       </header>
 
       <main>
         <section className="hero" aria-labelledby="page-title">
-          <div>
-            <p className="eyebrow">Grounded invention documentation</p>
-            <h1 id="page-title">From research document to reviewable patent draft</h1>
-            <p>
-              {DEMO_STAGING
-                ? "Use a controlled synthetic sample, inspect the deterministic review workflow, and export an editable DOCX."
-                : "Upload one supported document, run the local evidence-grounded pipeline, inspect every review item, and export an editable DOCX."}
-            </p>
-          </div>
-          <aside className="hero-notice" aria-label="Important use notice">
-            <strong>Human review required</strong>
-            <p>AI-generated draft for human review. Not legal advice and not filing-ready.</p>
-            {DEMO_STAGING && (
-              <p><strong>No live AI provider is used in this demo.</strong> This does not validate model quality or prove patentability.</p>
-            )}
-          </aside>
+          <p className="eyebrow">Evidence-grounded patent drafting workflow</p>
+          <h1 id="page-title">From Scientific Research Paper to USPTO-Style Patent Specification</h1>
+          <p>
+            Upload one scientific research paper in PDF or DOCX format to extract invention-relevant content,
+            review and refine the generated patent specification draft, validate required sections, and export
+            an editable DOCX for further expert review.
+          </p>
         </section>
 
-        <WorkflowProgress phase={workflowPhase} />
-
-        <p className="sr-only" aria-live="polite" aria-atomic="true">
-          {statusMessage}
-        </p>
-
-        {error && (
-          <section className="error-banner" role="alert" aria-labelledby="error-heading">
-            <div>
-              <p className="eyebrow">Request not completed · {error.code}</p>
-              <h2 id="error-heading" ref={errorHeadingRef} tabIndex={-1}>We could not complete that operation</h2>
-              <p>{error.message}</p>
-              {error.correlation_id && (
-                <p className="reference-id">Reference ID: <code>{error.correlation_id}</code></p>
-              )}
+        <section className="workflow-shell" aria-label="Patent drafting workflow">
+          {showBack && (
+            <div className="workflow-nav-row">
+              <button className="back-button" onClick={goBack} type="button">← Go back</button>
             </div>
-            <button className="secondary-button" onClick={dismissError} type="button">
-              {recoveryState === "READY" ? "Return to results" : "Choose another document"}
-            </button>
-          </section>
-        )}
+          )}
 
-        {!result ? (
-          <UploadPanel
-            document={document}
-            onProcess={handleProcess}
-            onUpload={handleUpload}
-            demoStaging={DEMO_STAGING}
-            onUseDemoSample={handleDemoSample}
-            state={state}
+          <WorkflowProgress
+            phase={workflowPhase}
+            reachablePhases={reachablePhases}
+            onNavigate={navigateTo}
           />
-        ) : (
-          <ResultWorkspace
-            onExport={handleExport}
-            onProgressChange={setWorkflowPhase}
-            onReset={reset}
-            result={result}
-            state={state}
-          />
-        )}
+
+          <p className="sr-only" aria-live="polite" aria-atomic="true">{statusMessage}</p>
+
+          {error && (
+            <section className="error-banner" role="alert" aria-labelledby="error-heading">
+              <div>
+                <p className="eyebrow">Request not completed · {error.code}</p>
+                <h2 id="error-heading" ref={errorHeadingRef} tabIndex={-1}>We could not complete that operation</h2>
+                <p>{error.message}</p>
+                {error.correlation_id && (
+                  <p className="reference-id">Reference ID: <code>{error.correlation_id}</code></p>
+                )}
+              </div>
+              <button className="secondary-button" onClick={dismissError} type="button">
+                {recoveryState === "READY" ? "Return to results" : "Choose another document"}
+              </button>
+            </section>
+          )}
+
+          {workflowPhase === "upload" && (
+            <UploadPanel
+              demoStaging={DEMO_STAGING}
+              document={document}
+              hasDownstreamResults={Boolean(result)}
+              onContinueReview={() => setWorkflowPhase("review")}
+              onProcess={handleProcess}
+              onRemove={result ? reset : clearUploadedSource}
+              onReplace={result ? async (file) => { reset(); await performUpload(file); } : performUpload}
+              onReset={reset}
+              onUpload={performUpload}
+              onUseDemoSample={handleDemoSample}
+              state={state}
+            />
+          )}
+
+          {workflowPhase === "analyze" && !result && (
+            <UploadPanel
+              demoStaging={DEMO_STAGING}
+              document={document}
+              hasDownstreamResults={false}
+              onContinueReview={() => undefined}
+              onProcess={handleProcess}
+              onRemove={clearUploadedSource}
+              onReplace={performUpload}
+              onReset={reset}
+              onUpload={performUpload}
+              onUseDemoSample={handleDemoSample}
+              state={state}
+            />
+          )}
+
+          {workflowPhase === "analyze" && result && (
+            <section className="stage-card extraction-complete" aria-labelledby="extraction-complete-heading">
+              <span className="stage-icon stage-icon-success" aria-hidden="true">✓</span>
+              <p className="eyebrow">AI Extraction</p>
+              <h2 id="extraction-complete-heading">Extraction complete</h2>
+              <p>The current analysis and grounded draft are already available in this session. Continuing will not run processing again.</p>
+              <button className="primary-button" onClick={() => setWorkflowPhase("review")} type="button">
+                Continue to Review &amp; Refine →
+              </button>
+            </section>
+          )}
+
+          {result && (
+            <div hidden={!resultPhase}>
+              <ResultWorkspace
+                onExport={handleExport}
+                onPhaseChange={setWorkflowPhase}
+                onReset={reset}
+                onValidationEligibilityChange={setValidationEligible}
+                phase={workflowPhase}
+                result={result}
+                state={state}
+              />
+            </div>
+          )}
+        </section>
       </main>
 
       <footer className="site-footer">
-        <div>
-          <strong>AI-generated draft for human review.</strong>
-          <span>Not legal advice and not filing-ready.</span>
-        </div>
-        <p>
-          {DEMO_STAGING
-            ? "Synthetic Demo / Staging · Controlled samples only · Session data is not persisted by this frontend."
-            : "Local single-tenant MVP · Session data is not persisted by this frontend."}
-        </p>
+        <p>© 2026 VNUHCM Innovation Hub. All rights reserved.</p>
+        <p>Kết quả cần được chuyên gia kỹ thuật và sở hữu trí tuệ rà soát trước khi sử dụng chính thức.</p>
       </footer>
     </div>
   );
