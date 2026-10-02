@@ -10,14 +10,14 @@
 | Document title | Gemini Review Log |
 | Project | AI Intellectual Property Description Generator |
 | Project deadline | 02/10/2026 |
-| Version | 0.3.29 |
+| Version | 0.3.30 |
 | Status | Active review log |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
-| Reviewer | Gemini 3.1 Pro High + Gemini 3.8 Flash High (historical); Google Antigravity (Advanced Agentic Coding) for REV-P0-006-IMPLEMENTATION, REV-P0-007-SPECIFICATION, REV-P0-007-IMPLEMENTATION and REV-P0-008-SPECIFICATION; Google Antigravity / Gemini 1.5 Pro (Advanced Agentic Coding) for REV-P0-008-IMPLEMENTATION; Gemini 3.1 Pro High for REV-P0-009-IMPLEMENTATION, REV-EVAL-001-SPECIFICATION, REV-EVAL-001-FRAMEWORK-IMPLEMENTATION, REV-EVAL-001-GOLD, REV-P0-010-FINAL-CLOSEOUT, REV-P1-001-IMPLEMENTATION, REV-DEPLOY-001-ROADMAP, REV-P1-002-IMPLEMENTATION, REV-P1-003-IMPLEMENTATION, REV-P1-003-CLOSEOUT, REV-P1-004-IMPLEMENTATION, REV-P1-004-CLOSEOUT, REV-P1-005-IMPLEMENTATION, REV-P1-005-CLOSEOUT, REV-P1-006-IMPLEMENTATION, REV-P1-006-CLOSEOUT, REV-DEPLOY-001-IMPLEMENTATION and REV-DEPLOY-001-REWRITE-REMEDIATION |
+| Reviewer | Gemini 3.1 Pro High + Gemini 3.8 Flash High (historical); Google Antigravity (Advanced Agentic Coding) for REV-P0-006-IMPLEMENTATION, REV-P0-007-SPECIFICATION, REV-P0-007-IMPLEMENTATION and REV-P0-008-SPECIFICATION; Google Antigravity / Gemini 1.5 Pro (Advanced Agentic Coding) for REV-P0-008-IMPLEMENTATION; Gemini 3.1 Pro High for REV-P0-009-IMPLEMENTATION, REV-EVAL-001-SPECIFICATION, REV-EVAL-001-FRAMEWORK-IMPLEMENTATION, REV-EVAL-001-GOLD, REV-P0-010-FINAL-CLOSEOUT, REV-P1-001-IMPLEMENTATION, REV-DEPLOY-001-ROADMAP, REV-P1-002-IMPLEMENTATION, REV-P1-003-IMPLEMENTATION, REV-P1-003-CLOSEOUT, REV-P1-004-IMPLEMENTATION, REV-P1-004-CLOSEOUT, REV-P1-005-IMPLEMENTATION, REV-P1-005-CLOSEOUT, REV-P1-006-IMPLEMENTATION, REV-P1-006-CLOSEOUT, REV-DEPLOY-001-IMPLEMENTATION, REV-DEPLOY-001-REWRITE-REMEDIATION and REV-P2-001-IMPLEMENTATION |
 | Created date | 18/09/2026 |
 | Last updated | 02/10/2026 GMT+7 |
-| Related task ID | REVIEW-001; SPEC-001; SPEC-002; SPEC-003; AI-001; AI-002; AI-003; DOC-001; APP-001; APP-002; AI-RUNTIME-001; AI-RUNTIME-002; APP-003; P0-006; P0-007; P0-008; P0-009; EVAL-001; P0-010; P1-001; P1-002; P1-003; P1-004; P1-005; P1-006; DEPLOY-001 |
+| Related task ID | REVIEW-001; SPEC-001; SPEC-002; SPEC-003; AI-001; AI-002; AI-003; DOC-001; APP-001; APP-002; AI-RUNTIME-001; AI-RUNTIME-002; APP-003; P0-006; P0-007; P0-008; P0-009; EVAL-001; P0-010; P1-001; P1-002; P1-003; P1-004; P1-005; P1-006; DEPLOY-001; P2-001 |
 | Source of Truth | Review history; bản nguồn Git tại `docs/operations/02_GEMINI_REVIEW_LOG.md` |
 | Confidentiality level | Internal; findings về research input có thể là Confidential |
 
@@ -64,6 +64,7 @@
 | 0.3.26 | 0.3.27 | 01/10/2026 | ChatGPT | Record Human-supplied Gemini 3.1 Pro High P1-006 implementation PASS/findings NONE, PR #50 merge and successful implementation main CI | Close implementation review gate while keeping documentation-only governance closeout and MCP completion separate | P1-006, REV-P1-006-IMPLEMENTATION, reviewed `59c65deec60ae80e3ba6d28220466c2bdbfed815`, merge `659e46fa80321e037f384e0e8a09bbe90646da35`, CI `36833210498`; MCP PLANNED / BLOCKED BY TOOL CAPABILITY; BLK-003 OPEN | No |
 | 0.3.27 | 0.3.28 | 01/10/2026 | ChatGPT | Record Human-supplied Gemini 3.1 Pro High P1-006 governance closeout PASS/findings NONE, PR #51 merge and successful final main CI | Close final P1-006 Git/review/CI gate while preserving MCP, production/provider/data and deployment boundaries | P1-006, REV-P1-006-CLOSEOUT, reviewed `d46a7101d8aefedd14ece29db50c8f3b00ebbde9`, merge `829c83130c6eb6018897cd5a8f62332408193142`, CI `36834543602`; MCP PLANNED / BLOCKED BY TOOL CAPABILITY; BLK-003 OPEN | No |
 | 0.3.28 | 0.3.29 | 02/10/2026 | ChatGPT | Record Human-supplied Gemini 3.1 Pro High DEPLOY-001 implementation and rewrite-remediation PASS/findings NONE plus verified Render deployment evidence | Close implementation/remediation review records while keeping final documentation-only governance closeout separate | REV-DEPLOY-001-IMPLEMENTATION, REV-DEPLOY-001-REWRITE-REMEDIATION; reviewed `d76089e49ccd4aa268375cf44ae994c04e3b9c58` and `755239a49e13775b9b2b904f38fd192f63f4264c`; deployed main `3a31bc7c26cd14c2529c7381e96c32fa3f1a1e0c`; CI `36952647096`; BLK-003 OPEN | No |
+| 0.3.29 | 0.3.30 | 02/10/2026 | ChatGPT | Record Human-supplied Gemini 3.1 Pro High P2-001 implementation PASS/findings NONE, PR #56 merge and successful post-merge main CI | Close the P2-001 implementation review record while keeping documentation-only governance closeout as the final gate | REV-P2-001-IMPLEMENTATION; reviewed `8b55fd84ab1625bf918192c889dafe64825858b4`; merge `4cb0e9501c13b9d25b427bbaf7d50c37ab6ab329`; CI `36962586792`; BLK-003 OPEN | No |
 
 ## 2. Review Rules
 
@@ -128,6 +129,8 @@
 | REV-EVAL-001-SPECIFICATION | 28/09/2026 record; independent review date not supplied | EVAL-001 | Semantic Quality Evaluation specification v0.1.0 | Approved specification `67c8d71f79712ede8780babf890a79fcbfd2769e`; product baseline `37d42fc8b07003aa2a67f2d1d32e64e69eb0ddb5` | PASS WITH HUMAN DECISIONS REQUIRED | CLOSED — AC-01…AC-18 PASS; findings NONE; seven Human decisions recorded; framework implementation review separate |
 | REV-P1-002-IMPLEMENTATION | 29/09/2026 closeout record; independent review date not supplied | P1-002 | Offline Adversarial Regression Expansion implementation | Reviewed `4742b0f8a88a51d4e085b209bceeec1f942a8deb`; resolved by merge `f568df382a07f38b03dfb8aaddebf8dc6accf6b7` | PASS | CLOSED — findings NONE; PR #40 and implementation main CI SUCCESS; governance closeout review remains separate |
 | REV-P1-003-CLOSEOUT | 30/09/2026 closeout record; independent review date not supplied | P1-003 | Local Security Hardening governance closeout | Reviewed `4ccb9ba5cb4f088f3568f182fe5eb03b381d4a05`; resolved by PR #43 merge `8bd677475c5791f1947319f9e084fe455d19b421` | PASS | CLOSED — findings NONE; final main CI `36681005158` SUCCESS; MCP tool limitation preserved |
+
+| REV-P2-001-IMPLEMENTATION | 02/10/2026 | P2-001 | USPTO Patent Specification Target v2.0.0 schema/template/reference maps/fixtures/tests | Reviewed `8b55fd84ab1625bf918192c889dafe64825858b4`; resolved by PR #56 merge `4cb0e9501c13b9d25b427bbaf7d50c37ab6ab329` | PASS | CLOSED — findings NONE; exact-head and post-merge CI SUCCESS; governance closeout review remains separate |
 
 Các entry historical được ChatGPT/Codex ghi lại từ kết quả Gemini do Human / Product Owner xác nhận; Gemini không sửa production artefact. REV-P0-006-IMPLEMENTATION ghi đúng Google Antigravity (Advanced Agentic Coding) theo evidence Human cung cấp, không suy đoán model nền; reviewer modified NONE. REV-001/002/003 ghi verdict `PASS WITH HUMAN DECISIONS REQUIRED`, không có document finding; chúng được đóng sau khi Human phê duyệt baseline và ban hành DEC-001/002/003. REV-APP-001 đã `CLOSED` sau khi Human approve và merge PR #10 ngày 20/09/2026. REV-APP-002 bảo toàn initial `REQUEST CHANGES`, F-001/F-002 và remediation evidence; lifecycle được `CLOSED` sau targeted `PASS` và Human merge PR #12 ngày 21/09/2026. REV-AI-RUNTIME-001 bảo toàn specification initial `REQUEST CHANGES`, targeted specification `PASS`, implementation `PASS WITH NON-BLOCKING NOTES`, F-001 remediation, targeted remediation `PASS` và Human merge PR #14; F-002 live-provider evidence vẫn là non-blocking `NOTE` chưa chạy. REV-AI-RUNTIME-002 bảo toàn toàn bộ lifecycle review các checkpoints (A-E), remediation đợt cuối đạt độc lập APPROVED, Human merge PR #16 ngày 22/09/2026; ghi nhận live provider smoke NOT RUN — DEFERRED due to unavailable API funding mà không tạo false PASS.
 
@@ -2455,3 +2458,38 @@ Post-merge operational verification on Render: both services are `live` on deplo
 Provider/API calls: **NONE observed**, but Render MCP does not expose live in-memory provider counters. Environment-key enumeration is **NOT AVAILABLE THROUGH CURRENT RENDER MCP**, so absence of a manually entered Dashboard provider credential is not independently enumerable; repository configuration contains no `OPENAI_API_KEY` and deployed behavior remained provider-free. Billing/Usage inspection is also **MCP LIMITATION**; inventory showed only the expected Static Site and Free Web Service and no Postgres, Key Value/Redis, worker, cron, persistent disk or paid compute upgrade. No zero-overage claim is made.
 
 Review status: **CLOSED — PASS / findings NONE** for implementation and rewrite remediation. DEPLOY-001 public synthetic/demo staging is verified; the documentation-only governance closeout remains a separate fixed-SHA review gate. BLK-003 remains **OPEN**; production remains **NOT APPROVED / NOT PERFORMED**; real/confidential data remains **NOT AUTHORIZED**; EVAL-001 PRODUCT_RUNTIME remains **DEFERRED — AWAITING FUNDING**.
+
+
+## REV-P2-001-IMPLEMENTATION — USPTO Patent Specification Target v2.0.0
+
+Review target: P2-001 implementation PR #56, baseline `eab9cd8d9421cb5bc40dc18134716febc16ac7cd`, exact reviewed SHA `8b55fd84ab1625bf918192c889dafe64825858b4`. Reviewer/model profile: **Gemini 3.1 Pro High** in Antigravity read-only mode. Human supplied the independent decision: **PASS**, findings **NONE**.
+
+The review covered the machine-readable JSON Schema Draft 2020-12 target contract, Human-readable USPTO-style specification template, structural maps for `US11367264B2` and `US11044591B2`, synthetic fixtures, offline schema/business-rule tests, v1 immutability and governance/status changes. Reviewer modified repository files: **NO**. Suitable for merge under AGENTS.md: **YES**.
+
+The review confirmed:
+
+- canonical USPTO-style utility specification section structure: **PASS**;
+- explicit PRESENT / MISSING / HUMAN_CONFIRMATION_REQUIRED / NOT_APPLICABLE state model: **PASS**;
+- administrative anti-hallucination controls: **PASS**;
+- v2 grounding model: **PASS**;
+- Claims target contract and dependency/support modeling: **PASS**;
+- Claims runtime introduced: **NO**;
+- drawings/reference-numeral target: **PASS**;
+- Abstract distinctness and 150-word rule: **PASS**;
+- Human-readable template: **PASS**;
+- structural patent maps: **PASS**;
+- synthetic fixtures/offline tests: **PASS**;
+- released v1 artefacts changed: **NO**;
+- provider/API calls introduced: **NO**;
+- real/confidential-data authorization introduced: **NO**;
+- production/deployment changed: **NO**;
+- BLK-003 remains **OPEN**;
+- EVAL-001 PRODUCT_RUNTIME remains **DEFERRED — AWAITING FUNDING**.
+
+Exact-head PR CI `36961658250`: **SUCCESS** with backend **467 passed / 2 skipped**, Python dependency consistency **PASS**, frontend lint/typecheck/build **PASS**, standard Playwright **19 passed**, Render synthetic-demo Playwright **3 passed**, live flags **0 / 0**.
+
+PR #56 merged at `4cb0e9501c13b9d25b427bbaf7d50c37ab6ab329`.
+
+Post-merge push/main CI `36962586792`: **SUCCESS** on the exact merge SHA with backend **467 passed / 2 skipped**, Python dependency consistency **PASS**, frontend lint/typecheck/build **PASS**, standard Playwright **19 passed**, Render synthetic-demo Playwright **3 passed**, live flags **0 / 0**, provider/API calls **NONE**.
+
+Implementation review status: **CLOSED — PASS / findings NONE**. P2-001 implementation is **CLOSED / COMPLETED — MERGED; GOVERNANCE CLOSEOUT REVIEW PENDING**. Project Orchestrator P2-001 remains unavailable and is recorded **BLOCKED BY TOOL CAPABILITY**; no unsupported lifecycle state is fabricated. BLK-003 remains **OPEN**; EVAL-001 PRODUCT_RUNTIME remains **DEFERRED — AWAITING FUNDING**; production remains **NOT APPROVED / NOT PERFORMED**; real/confidential-data use and provider/API spend remain **NOT AUTHORIZED**.
