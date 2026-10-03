@@ -1,0 +1,680 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ai-ip-description-generator:invention-reconstruction:1.0.0",
+  "title": "Invention Reconstruction Contract v1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "output_type",
+    "output_notice",
+    "document_metadata",
+    "provenance",
+    "invention_model",
+    "review_package"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "output_type": { "const": "INVENTION_RECONSTRUCTION" },
+    "output_notice": { "$ref": "#/$defs/output_notice" },
+    "document_metadata": { "$ref": "#/$defs/document_metadata" },
+    "provenance": { "$ref": "#/$defs/provenance" },
+    "invention_model": { "$ref": "#/$defs/invention_model" },
+    "review_package": { "$ref": "#/$defs/review_package" }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9._:-]{0,127}$"
+    },
+    "non_empty_text": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "identifier_array": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/identifier" },
+      "uniqueItems": true
+    },
+    "json_pointer_array": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^/"
+      }
+    },
+    "output_notice": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "human_review_required",
+        "is_legal_advice",
+        "filing_ready",
+        "includes_patentability_assessment",
+        "includes_claims"
+      ],
+      "properties": {
+        "status": { "const": "DRAFT" },
+        "human_review_required": { "const": true },
+        "is_legal_advice": { "const": false },
+        "filing_ready": { "const": false },
+        "includes_patentability_assessment": { "const": false },
+        "includes_claims": { "const": false }
+      }
+    },
+    "document_metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["document_id", "file_name", "media_type"],
+      "properties": {
+        "document_id": { "$ref": "#/$defs/non_empty_text" },
+        "file_name": { "$ref": "#/$defs/non_empty_text" },
+        "media_type": {
+          "enum": [
+            "application/pdf",
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+          ]
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "contract_reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["task_id", "contract_name", "schema_version"],
+      "properties": {
+        "task_id": { "enum": ["APP-002", "AI-001"] },
+        "contract_name": {
+          "enum": ["ExtractionInputEnvelope", "STRUCTURED_INVENTION_ANALYSIS"]
+        },
+        "schema_version": { "const": "1.0.0" }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_evidence_contract",
+        "structured_analysis_contract",
+        "reconstruction_mode"
+      ],
+      "properties": {
+        "source_evidence_contract": { "$ref": "#/$defs/contract_reference" },
+        "structured_analysis_contract": { "$ref": "#/$defs/contract_reference" },
+        "reconstruction_mode": { "const": "OFFLINE_DETERMINISTIC" }
+      }
+    },
+    "safe_generalization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rule_id", "generalized_term", "member_terms", "evidence_ids"],
+      "properties": {
+        "rule_id": { "const": "SG-01_EXPLICIT_SOURCE_CATEGORY" },
+        "generalized_term": { "$ref": "#/$defs/non_empty_text" },
+        "member_terms": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/non_empty_text" }
+        },
+        "evidence_ids": {
+          "allOf": [
+            { "$ref": "#/$defs/identifier_array" },
+            { "minItems": 1 }
+          ]
+        }
+      }
+    },
+    "support": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["grounding_class", "evidence_ids", "analysis_paths"],
+      "properties": {
+        "grounding_class": {
+          "enum": [
+            "SOURCE_FACT",
+            "PARAPHRASE",
+            "INFERENCE",
+            "SAFE_GENERALIZATION",
+            "PROPOSED_VARIANT",
+            "MISSING",
+            "HUMAN_CONFIRMED"
+          ]
+        },
+        "evidence_ids": {
+          "allOf": [
+            { "$ref": "#/$defs/identifier_array" },
+            { "minItems": 1 }
+          ]
+        },
+        "analysis_paths": { "$ref": "#/$defs/json_pointer_array" },
+        "generalization": { "$ref": "#/$defs/safe_generalization" }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "grounding_class": { "const": "SAFE_GENERALIZATION" } },
+            "required": ["grounding_class"]
+          },
+          "then": { "required": ["generalization"] },
+          "else": { "not": { "required": ["generalization"] } }
+        }
+      ]
+    },
+    "title_candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title_id", "title", "rationale", "support"],
+      "properties": {
+        "title_id": { "$ref": "#/$defs/identifier" },
+        "title": { "$ref": "#/$defs/non_empty_text" },
+        "rationale": { "$ref": "#/$defs/non_empty_text" },
+        "support": { "$ref": "#/$defs/support" }
+      }
+    },
+    "technical_field": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status"],
+      "properties": {
+        "status": { "enum": ["PRESENT", "MISSING"] },
+        "field_id": { "$ref": "#/$defs/identifier" },
+        "name": { "$ref": "#/$defs/non_empty_text" },
+        "description": { "$ref": "#/$defs/non_empty_text" },
+        "support": { "$ref": "#/$defs/support" }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "status": { "const": "PRESENT" } },
+            "required": ["status"]
+          },
+          "then": { "required": ["field_id", "name", "support"] },
+          "else": {
+            "not": {
+              "anyOf": [
+                { "required": ["field_id"] },
+                { "required": ["name"] },
+                { "required": ["description"] },
+                { "required": ["support"] }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "technical_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["context_id", "statement", "support"],
+      "properties": {
+        "context_id": { "$ref": "#/$defs/identifier" },
+        "statement": { "$ref": "#/$defs/non_empty_text" },
+        "support": { "$ref": "#/$defs/support" }
+      }
+    },
+    "problem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["problem_id", "statement", "support"],
+      "properties": {
+        "problem_id": { "$ref": "#/$defs/identifier" },
+        "statement": { "$ref": "#/$defs/non_empty_text" },
+        "support": { "$ref": "#/$defs/support" }
+      }
+    },
+    "solution_concept": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "solution_id",
+        "statement",
+        "addresses_problem_ids",
+        "related_element_ids",
+        "related_step_ids",
+        "support"
+      ],
+      "properties": {
+        "solution_id": { "$ref": "#/$defs/identifier" },
+        "statement": { "$ref": "#/$defs/non_empty_text" },
+        "addresses_problem_ids": { "$ref": "#/$defs/identifier_array" },
+        "related_element_ids": { "$ref": "#/$defs/identifier_array" },
+        "related_step_ids": { "$ref": "#/$defs/identifier_array" },
+        "support": { "$ref": "#/$defs/support" }
+      }
+    },
+    "element": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["element_id", "name", "element_type", "essentiality", "support"],
+      "properties": {
+        "element_id": { "$ref": "#/$defs/identifier" },
+        "name": { "$ref": "#/$defs/non_empty_text" },
+        "description": { "$ref": "#/$defs/non_empty_text" },
+        "element_type": {
+          "enum": [
+            "DEVICE",
+            "MODULE",
+            "STRUCTURE",
+            "MATERIAL",
+            "SOFTWARE_COMPONENT",
+            "DATA_STRUCTURE",
+            "PROCESSING_BLOCK",
+            "CHEMICAL_ELEMENT",
+            "BIOLOGICAL_ELEMENT",
+            "OTHER"
+          ]
+        },
+        "essentiality": { "enum": ["ESSENTIAL", "OPTIONAL", "CONDITIONAL", "UNKNOWN"] },
+        "support": { "$ref": "#/$defs/support" }
+      }
+    },
+    "relationship": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["relationship_id", "subject_id", "relation_type", "object_id", "support"],
+      "properties": {
+        "relationship_id": { "$ref": "#/$defs/identifier" },
+        "subject_id": { "$ref": "#/$defs/identifier" },
+        "relation_type": {
+          "enum": [
+            "RELATED_TO",
+            "PART_OF",
+            "CONTAINS",
+            "CONNECTED_TO",
+            "COUPLED_TO",
+            "COMMUNICATES_WITH",
+            "RECEIVES_FROM",
+            "OUTPUTS_TO",
+            "CONTROLS",
+            "TRANSFORMS",
+            "MEASURES",
+            "STORES",
+            "EXECUTES",
+            "INPUT_TO_STEP",
+            "OUTPUT_FROM_STEP",
+            "DEPENDS_ON"
+          ]
+        },
+        "object_id": { "$ref": "#/$defs/identifier" },
+        "support": { "$ref": "#/$defs/support" }
+      }
+    },
+    "condition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["condition_id", "statement", "support"],
+      "properties": {
+        "condition_id": { "$ref": "#/$defs/identifier" },
+        "statement": { "$ref": "#/$defs/non_empty_text" },
+        "support": { "$ref": "#/$defs/support" }
+      }
+    },
+    "method_step": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "step_id",
+        "sequence_index",
+        "action",
+        "input_element_ids",
+        "output_element_ids",
+        "dependency_step_ids",
+        "conditions",
+        "support"
+      ],
+      "properties": {
+        "step_id": { "$ref": "#/$defs/identifier" },
+        "sequence_index": { "type": "integer", "minimum": 1 },
+        "action": { "$ref": "#/$defs/non_empty_text" },
+        "input_element_ids": { "$ref": "#/$defs/identifier_array" },
+        "output_element_ids": { "$ref": "#/$defs/identifier_array" },
+        "dependency_step_ids": { "$ref": "#/$defs/identifier_array" },
+        "conditions": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/condition" }
+        },
+        "support": { "$ref": "#/$defs/support" }
+      }
+    },
+    "flow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["flow_id", "flow_type", "source_id", "target_id", "description", "support"],
+      "properties": {
+        "flow_id": { "$ref": "#/$defs/identifier" },
+        "flow_type": { "enum": ["MATERIAL", "SIGNAL", "DATA", "ENERGY", "CONTROL", "UNSPECIFIED"] },
+        "source_id": { "$ref": "#/$defs/identifier" },
+        "target_id": { "$ref": "#/$defs/identifier" },
+        "description": { "$ref": "#/$defs/non_empty_text" },
+        "support": { "$ref": "#/$defs/support" }
+      }
+    },
+    "scalar_value": {
+      "oneOf": [
+        { "type": "string", "minLength": 1, "pattern": "\\S" },
+        { "type": "number" },
+        { "type": "boolean" }
+      ]
+    },
+    "parameter_value": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value_kind"],
+      "properties": {
+        "value_kind": { "enum": ["EXACT", "RANGE", "SET", "QUALITATIVE"] },
+        "exact_value": { "$ref": "#/$defs/scalar_value" },
+        "minimum": { "type": "number" },
+        "maximum": { "type": "number" },
+        "values": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/scalar_value" }
+        },
+        "qualitative_value": { "$ref": "#/$defs/non_empty_text" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "value_kind": { "const": "EXACT" } }, "required": ["value_kind"] },
+          "then": { "required": ["exact_value"], "not": { "anyOf": [{ "required": ["minimum"] }, { "required": ["maximum"] }, { "required": ["values"] }, { "required": ["qualitative_value"] }] } }
+        },
+        {
+          "if": { "properties": { "value_kind": { "const": "RANGE" } }, "required": ["value_kind"] },
+          "then": { "required": ["minimum", "maximum"], "not": { "anyOf": [{ "required": ["exact_value"] }, { "required": ["values"] }, { "required": ["qualitative_value"] }] } }
+        },
+        {
+          "if": { "properties": { "value_kind": { "const": "SET" } }, "required": ["value_kind"] },
+          "then": { "required": ["values"], "not": { "anyOf": [{ "required": ["exact_value"] }, { "required": ["minimum"] }, { "required": ["maximum"] }, { "required": ["qualitative_value"] }] } }
+        },
+        {
+          "if": { "properties": { "value_kind": { "const": "QUALITATIVE" } }, "required": ["value_kind"] },
+          "then": { "required": ["qualitative_value"], "not": { "anyOf": [{ "required": ["exact_value"] }, { "required": ["minimum"] }, { "required": ["maximum"] }, { "required": ["values"] }] } }
+        }
+      ]
+    },
+    "parameter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["parameter_id", "name", "role", "value", "scope_status", "related_entity_ids", "support"],
+      "properties": {
+        "parameter_id": { "$ref": "#/$defs/identifier" },
+        "name": { "$ref": "#/$defs/non_empty_text" },
+        "role": {
+          "enum": [
+            "OPERATING_CONDITION",
+            "EXPERIMENTAL_CONDITION",
+            "EXPERIMENTAL_RESULT",
+            "THRESHOLD",
+            "DIMENSION",
+            "OTHER"
+          ]
+        },
+        "value": { "$ref": "#/$defs/parameter_value" },
+        "unit": { "$ref": "#/$defs/non_empty_text" },
+        "scope_status": { "enum": ["EXAMPLE_ONLY", "SUPPORTED_RANGE", "UNKNOWN_SCOPE"] },
+        "related_entity_ids": { "$ref": "#/$defs/identifier_array" },
+        "support": { "$ref": "#/$defs/support" }
+      }
+    },
+    "technical_effect": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "effect_id",
+        "statement",
+        "related_solution_ids",
+        "related_element_ids",
+        "conditions",
+        "effect_basis",
+        "support"
+      ],
+      "properties": {
+        "effect_id": { "$ref": "#/$defs/identifier" },
+        "statement": { "$ref": "#/$defs/non_empty_text" },
+        "related_solution_ids": { "$ref": "#/$defs/identifier_array" },
+        "related_element_ids": { "$ref": "#/$defs/identifier_array" },
+        "conditions": { "type": "array", "items": { "$ref": "#/$defs/condition" } },
+        "effect_basis": { "enum": ["SOURCE_REPORTED", "SUPPORTED_CONSEQUENCE"] },
+        "support": { "$ref": "#/$defs/support" }
+      }
+    },
+    "embodiment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "embodiment_id",
+        "name",
+        "description",
+        "element_ids",
+        "method_step_ids",
+        "parameter_ids",
+        "disclosure_status",
+        "support"
+      ],
+      "properties": {
+        "embodiment_id": { "$ref": "#/$defs/identifier" },
+        "name": { "$ref": "#/$defs/non_empty_text" },
+        "description": { "$ref": "#/$defs/non_empty_text" },
+        "element_ids": { "$ref": "#/$defs/identifier_array" },
+        "method_step_ids": { "$ref": "#/$defs/identifier_array" },
+        "parameter_ids": { "$ref": "#/$defs/identifier_array" },
+        "disclosure_status": { "enum": ["EXPLICIT", "SYNTHESIZED", "PROPOSED_REQUIRES_HUMAN_CONFIRMATION"] },
+        "support": { "$ref": "#/$defs/support" }
+      }
+    },
+    "variant": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["variant_id", "description", "base_entity_ids", "status", "support", "human_confirmation_required", "filing_content_eligible"],
+      "properties": {
+        "variant_id": { "$ref": "#/$defs/identifier" },
+        "description": { "$ref": "#/$defs/non_empty_text" },
+        "base_entity_ids": {
+          "allOf": [
+            { "$ref": "#/$defs/identifier_array" },
+            { "minItems": 1 }
+          ]
+        },
+        "status": { "enum": ["SOURCE_SUPPORTED", "PROPOSED_REQUIRES_HUMAN_CONFIRMATION", "HUMAN_CONFIRMED"] },
+        "human_confirmation_required": { "type": "boolean" },
+        "filing_content_eligible": { "type": "boolean" },
+        "support": { "$ref": "#/$defs/support" }
+      },
+      "allOf": [{
+        "if": { "properties": { "status": { "const": "PROPOSED_REQUIRES_HUMAN_CONFIRMATION" } } },
+        "then": { "properties": {
+          "human_confirmation_required": { "const": true },
+          "filing_content_eligible": { "const": false },
+          "support": { "properties": { "grounding_class": { "const": "PROPOSED_VARIANT" } } }
+        } }
+      }]
+    },
+    "source_artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_id", "artifact_type", "source_reference", "evidence_ids", "human_confirmation_required", "analysis_paths"],
+      "properties": {
+        "artifact_id": { "$ref": "#/$defs/identifier" },
+        "artifact_type": { "enum": ["TABLE", "FIGURE_REFERENCE", "DRAWING_REQUIREMENT"] },
+        "source_reference": { "$ref": "#/$defs/non_empty_text" },
+        "evidence_ids": { "$ref": "#/$defs/identifier_array" },
+        "human_confirmation_required": { "type": "boolean" },
+        "analysis_paths": { "$ref": "#/$defs/json_pointer_array" },
+        "drawing_id": { "$ref": "#/$defs/identifier" },
+        "drawing_kind": { "enum": ["SOURCE_FIGURE", "PROPOSED_DRAWING"] },
+        "drawing_status": { "enum": ["AVAILABLE", "PROPOSED", "MISSING"] }
+      },
+      "allOf": [{
+        "if": { "properties": { "artifact_type": { "const": "DRAWING_REQUIREMENT" } } },
+        "then": { "required": ["drawing_id", "drawing_kind", "drawing_status"] },
+        "else": { "not": { "anyOf": [{ "required": ["drawing_id"] }, { "required": ["drawing_kind"] }, { "required": ["drawing_status"] }] } }
+      }]
+    },
+    "evidence_locator": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "page": { "type": "integer", "minimum": 1 },
+        "section": { "$ref": "#/$defs/non_empty_text" },
+        "paragraph_id": { "$ref": "#/$defs/identifier" },
+        "chunk_id": { "$ref": "#/$defs/identifier" },
+        "table_id": { "$ref": "#/$defs/identifier" },
+        "figure_id": { "$ref": "#/$defs/identifier" }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evidence_id", "document_id", "evidence_type", "locator", "excerpt"],
+      "properties": {
+        "evidence_id": { "$ref": "#/$defs/identifier" },
+        "document_id": { "$ref": "#/$defs/identifier" },
+        "evidence_type": { "enum": ["TEXT", "TABLE"] },
+        "locator": { "$ref": "#/$defs/evidence_locator" },
+        "excerpt": { "$ref": "#/$defs/non_empty_text" }
+      }
+    },
+    "conflict_alternative": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["statement", "evidence_ids", "analysis_paths"],
+      "properties": {
+        "statement": { "$ref": "#/$defs/non_empty_text" },
+        "evidence_ids": {
+          "allOf": [
+            { "$ref": "#/$defs/identifier_array" },
+            { "minItems": 1 }
+          ]
+        },
+        "analysis_paths": { "$ref": "#/$defs/json_pointer_array" }
+      }
+    },
+    "conflict": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["conflict_id", "topic", "affected_entity_ids", "alternatives", "status"],
+      "properties": {
+        "conflict_id": { "$ref": "#/$defs/identifier" },
+        "topic": { "$ref": "#/$defs/non_empty_text" },
+        "affected_entity_ids": { "$ref": "#/$defs/identifier_array" },
+        "alternatives": {
+          "type": "array",
+          "minItems": 2,
+          "items": { "$ref": "#/$defs/conflict_alternative" }
+        },
+        "status": { "enum": ["UNRESOLVED", "HUMAN_RESOLVED"] },
+        "resolution": { "$ref": "#/$defs/non_empty_text" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "status": { "const": "HUMAN_RESOLVED" } }, "required": ["status"] },
+          "then": { "required": ["resolution"] },
+          "else": { "not": { "required": ["resolution"] } }
+        }
+      ]
+    },
+    "missing_information": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["missing_id", "target_path", "description", "reason", "impact", "owner", "analysis_paths"],
+      "properties": {
+        "missing_id": { "$ref": "#/$defs/identifier" },
+        "target_path": { "type": "string", "pattern": "^/" },
+        "description": { "$ref": "#/$defs/non_empty_text" },
+        "reason": { "enum": ["NOT_FOUND", "AMBIGUOUS", "CONFLICTING", "INSUFFICIENT_DETAIL", "UNSUPPORTED_GENERALIZATION", "HUMAN_CONFIRMATION_REQUIRED"] },
+        "impact": { "enum": ["BLOCKING", "HIGH", "MEDIUM", "LOW"] },
+        "owner": { "enum": ["AUTHOR", "HUMAN_REVIEWER", "IP_SPECIALIST"] },
+        "analysis_paths": { "$ref": "#/$defs/json_pointer_array" }
+      }
+    },
+    "author_question": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["question_id", "missing_information_id", "question", "priority", "analysis_paths"],
+      "properties": {
+        "question_id": { "$ref": "#/$defs/identifier" },
+        "missing_information_id": { "$ref": "#/$defs/identifier" },
+        "question": { "$ref": "#/$defs/non_empty_text" },
+        "priority": { "enum": ["HIGH", "MEDIUM", "LOW"] },
+        "analysis_paths": { "$ref": "#/$defs/json_pointer_array" }
+      }
+    },
+    "warning": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["warning_id", "code", "message", "analysis_paths", "support"],
+      "properties": {
+        "warning_id": { "$ref": "#/$defs/identifier" },
+        "code": {
+          "enum": [
+            "UPSTREAM_CANDIDATE_FEATURE_REQUIRES_REVIEW",
+            "UNSUPPORTED_EFFECT_OMITTED",
+            "UNSUPPORTED_GENERALIZATION",
+            "PROPOSED_VARIANT_REQUIRES_HUMAN_CONFIRMATION",
+            "CONFLICT_REQUIRES_REVIEW"
+          ]
+        },
+        "message": { "$ref": "#/$defs/non_empty_text" },
+        "support": { "$ref": "#/$defs/support" },
+        "analysis_paths": { "$ref": "#/$defs/json_pointer_array" }
+      }
+    },
+    "invention_model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title_candidates",
+        "technical_field",
+        "technical_context",
+        "problems",
+        "solution_concepts",
+        "elements",
+        "relationships",
+        "method_steps",
+        "flows",
+        "parameters",
+        "technical_effects",
+        "embodiments",
+        "variants",
+        "source_artifacts"
+      ],
+      "properties": {
+        "title_candidates": { "type": "array", "items": { "$ref": "#/$defs/title_candidate" } },
+        "technical_field": { "$ref": "#/$defs/technical_field" },
+        "technical_context": { "type": "array", "items": { "$ref": "#/$defs/technical_context" } },
+        "problems": { "type": "array", "items": { "$ref": "#/$defs/problem" } },
+        "solution_concepts": { "type": "array", "items": { "$ref": "#/$defs/solution_concept" } },
+        "elements": { "type": "array", "items": { "$ref": "#/$defs/element" } },
+        "relationships": { "type": "array", "items": { "$ref": "#/$defs/relationship" } },
+        "method_steps": { "type": "array", "items": { "$ref": "#/$defs/method_step" } },
+        "flows": { "type": "array", "items": { "$ref": "#/$defs/flow" } },
+        "parameters": { "type": "array", "items": { "$ref": "#/$defs/parameter" } },
+        "technical_effects": { "type": "array", "items": { "$ref": "#/$defs/technical_effect" } },
+        "embodiments": { "type": "array", "items": { "$ref": "#/$defs/embodiment" } },
+        "variants": { "type": "array", "items": { "$ref": "#/$defs/variant" } },
+        "source_artifacts": { "type": "array", "items": { "$ref": "#/$defs/source_artifact" } }
+      }
+    },
+    "review_package": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evidence", "conflicts", "missing_information", "author_questions", "warnings"],
+      "properties": {
+        "evidence": { "type": "array", "items": { "$ref": "#/$defs/evidence" } },
+        "conflicts": { "type": "array", "items": { "$ref": "#/$defs/conflict" } },
+        "missing_information": { "type": "array", "items": { "$ref": "#/$defs/missing_information" } },
+        "author_questions": { "type": "array", "items": { "$ref": "#/$defs/author_question" } },
+        "warnings": { "type": "array", "items": { "$ref": "#/$defs/warning" } }
+      }
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "case": "table_evidence",
+  "extends": "representative-system.json",
+  "description": "APP-002 TABLE evidence is preserved as a source artifact.",
+  "expected": "VALID",
+  "input_patches": [
+    {
+      "op": "replace",
+      "path": "/source_envelope/source_units/0/evidence_type",
+      "value": "TABLE"
+    },
+    {
+      "op": "replace",
+      "path": "/source_envelope/source_units/0/locator",
+      "value": {
+        "table_id": "T0001",
+        "chunk_id": "T0001-C001"
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/structured_analysis/evidence/0/evidence_type",
+      "value": "TABLE"
+    },
+    {
+      "op": "replace",
+      "path": "/structured_analysis/evidence/0/locator",
+      "value": {
+        "table_id": "T0001",
+        "chunk_id": "T0001-C001"
+      }
+    }
+  ],
+  "output_patches": [],
+  "assertions": [
+    {
+      "path": "/invention_model/source_artifacts/0/artifact_type",
+      "value": "TABLE"
+    }
+  ]
+}

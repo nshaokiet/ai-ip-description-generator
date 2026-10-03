@@ -1,0 +1,15 @@
+{
+  "case": "administrative_fabrication",
+  "extends": "representative-system.json",
+  "description": "Inventor, assignee, filing, priority, and patent metadata are rejected.",
+  "expected_error": "reconstruction_schema_validation_failed",
+  "input_patches": [],
+  "output_patches": [
+    {
+      "op": "add",
+      "path": "/document_metadata/inventor",
+      "value": "Fabricated person"
+    }
+  ],
+  "assertions": []
+}

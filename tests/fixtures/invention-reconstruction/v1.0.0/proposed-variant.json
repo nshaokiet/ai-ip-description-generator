@@ -1,0 +1,43 @@
+{
+  "case": "proposed_variant",
+  "extends": "representative-system.json",
+  "description": "PROPOSED_VARIANT remains review-only and requires Human confirmation.",
+  "expected": "VALID_CONTRACT_FIXTURE",
+  "input_patches": [],
+  "output_patches": [
+    {
+      "op": "add",
+      "path": "/invention_model/variants/-",
+      "value": {
+        "variant_id": "IR-VAR-0001",
+        "description": "[CẦN TÁC GIẢ XÁC NHẬN] Proposed controller arrangement; not a disclosed fact.",
+        "base_entity_ids": [
+          "IR-ELEM-0002"
+        ],
+        "status": "PROPOSED_REQUIRES_HUMAN_CONFIRMATION",
+        "human_confirmation_required": true,
+        "filing_content_eligible": false,
+        "support": {
+          "grounding_class": "PROPOSED_VARIANT",
+          "evidence_ids": [
+            "EV-P0001-C001"
+          ],
+          "analysis_paths": [
+            "/components/1"
+          ]
+        }
+      }
+    }
+  ],
+  "assertions": [
+    {
+      "path": "/invention_model/variants/0/filing_content_eligible",
+      "value": false
+    },
+    {
+      "path": "/invention_model/variants/0/human_confirmation_required",
+      "value": true
+    }
+  ],
+  "allow_review_candidates": true
+}

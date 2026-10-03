@@ -1,0 +1,19 @@
+{
+  "case": "unsupported_range_broadening",
+  "extends": "representative-system.json",
+  "description": "A range broader than cited source values fails closed.",
+  "expected_error": "reconstruction_business_validation_failed",
+  "input_patches": [],
+  "output_patches": [
+    {
+      "op": "replace",
+      "path": "/invention_model/parameters/0/value",
+      "value": {
+        "value_kind": "RANGE",
+        "minimum": 1,
+        "maximum": 100
+      }
+    }
+  ],
+  "assertions": []
+}

@@ -1,0 +1,34 @@
+{
+  "case": "valid_safe_generalization",
+  "extends": "representative-system.json",
+  "description": "SG-01 category and member terms all occur in cited evidence.",
+  "expected": "VALID_CONTRACT_FIXTURE",
+  "input_patches": [],
+  "output_patches": [
+    {
+      "op": "replace",
+      "path": "/invention_model/elements/0/support",
+      "value": {
+        "grounding_class": "SAFE_GENERALIZATION",
+        "evidence_ids": [
+          "EV-P0001-C001"
+        ],
+        "analysis_paths": [
+          "/components/0"
+        ],
+        "generalization": {
+          "rule_id": "SG-01_EXPLICIT_SOURCE_CATEGORY",
+          "generalized_term": "sensor",
+          "member_terms": [
+            "optical sensor"
+          ],
+          "evidence_ids": [
+            "EV-P0001-C001"
+          ]
+        }
+      }
+    },
+    { "op": "replace", "path": "/invention_model/elements/0/name", "value": "sensor" }
+  ],
+  "assertions": []
+}

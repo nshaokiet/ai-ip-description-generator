@@ -1,0 +1,19 @@
+{
+  "case": "claims_leakage",
+  "extends": "representative-system.json",
+  "description": "Claims and disguised claim structures are rejected.",
+  "expected_error": "reconstruction_schema_validation_failed",
+  "input_patches": [],
+  "output_patches": [
+    {
+      "op": "add",
+      "path": "/claims",
+      "value": [
+        {
+          "text": "What is claimed is a controller."
+        }
+      ]
+    }
+  ],
+  "assertions": []
+}
