@@ -1,0 +1,52 @@
+{
+  "case": "parameter_heavy",
+  "extends": "representative-system.json",
+  "description": "Multiple condition/result scalars, including opaque range text, stay EXACT and EXAMPLE_ONLY.",
+  "expected": "VALID",
+  "input_patches": [
+    {
+      "op": "add",
+      "path": "/source_envelope/source_units/0/content",
+      "value": "Synthetic optical controller evidence. Temperature drift reduces repeatability. A controller measures sensor response at 25 degC and applies a calibration coefficient. The calibrated output improves repeatability by 12 percent. The system includes an optical sensor and a calibration controller. Trial labels: enabled true; interval 5–10 ms; calibration stable."
+    },
+    {
+      "op": "add",
+      "path": "/structured_analysis/experimental_data/0/conditions/-",
+      "value": {
+        "parameter": "Enabled",
+        "value": true
+      }
+    },
+    {
+      "op": "add",
+      "path": "/structured_analysis/experimental_data/0/conditions/-",
+      "value": {
+        "parameter": "Interval",
+        "value": "5–10",
+        "unit": "ms"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/structured_analysis/experimental_data/0/results/-",
+      "value": {
+        "metric": "Calibration",
+        "value": "stable"
+      }
+    }
+  ],
+  "output_patches": [],
+  "assertions": [
+    {
+      "path": "/invention_model/parameters/2/value",
+      "value": {
+        "value_kind": "EXACT",
+        "exact_value": "5–10"
+      }
+    },
+    {
+      "path": "/invention_model/parameters/2/scope_status",
+      "value": "EXAMPLE_ONLY"
+    }
+  ]
+}

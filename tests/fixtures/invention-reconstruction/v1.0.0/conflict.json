@@ -1,0 +1,24 @@
+{
+  "case": "conflict",
+  "extends": "representative-system.json",
+  "description": "AI-001 CONFLICTING state is propagated without inventing alternatives.",
+  "expected": "VALID_REVIEW_STATE",
+  "input_patches": [
+    {
+      "op": "replace",
+      "path": "/structured_analysis/missing_information/0/reason",
+      "value": "CONFLICTING"
+    }
+  ],
+  "output_patches": [],
+  "assertions": [
+    {
+      "path": "/review_package/missing_information/0/reason",
+      "value": "CONFLICTING"
+    },
+    {
+      "path": "/review_package/conflicts",
+      "value": []
+    }
+  ]
+}

@@ -20,6 +20,7 @@ The deployment is non-production. Do not use real, confidential, unpublished, se
 
 ## Current Status
 
+- **P2-002:** IMPLEMENTED — INDEPENDENT FIXED-SHA REVIEW PENDING. The strict `INVENTION_RECONSTRUCTION` v1.0.0 contract and deterministic offline APP-002 + AI-001 reconstruction pipeline are implemented on `feat/p2-002-invention-reconstruction`; no public runtime integration, provider call, Claims behavior, production change, or real/confidential data is included.
 - **P2-001:** CLOSED / COMPLETED — MERGED. The USPTO Patent Specification Target v2 contract, template, reference maps, fixtures, and offline tests are established.
 - **P2-000:** CLOSED / COMPLETED — MERGED. The enterprise five-stage web workflow and its reviewed P2-000-R1 and P2-000-R2 interface remediations are on `main`; P2-000-R2 merged through PR #65 at `a394a98b0a86b1ce686fac4871f7e5b0c0c3c44f`, with main CI `37012025003` SUCCESS.
 - **P2-000-R3:** CLOSED / COMPLETED — MERGED. Implementation SHA `5569354e7003511d2e761236395ab6a604076530` received Gemini 3.1 Pro High / Antigravity PASS with findings NONE and 15/15 requirements passing; PR #67 merged at `62a25a9ae136461924bc8047c5a6ad0f3550c68c`. Closeout SHA `7697798a7e2a84f42d22ed896c0f49af6bf773e0` received Gemini 3.1 Pro High PASS with findings NONE and 13/13 requirements passing; PR #68 merged at `a9f50adcbefe8d5725c0b5e779ae24ad7546ec51`, and final main CI `37110753273` succeeded.

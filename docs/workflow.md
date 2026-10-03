@@ -96,6 +96,16 @@ Root structure:
 
 ## 4. Patent Draft Generation
 
+Before future USPTO v2 generation, P2-002 adds an offline deterministic technical-reconstruction boundary:
+
+```text
+APP-002 ExtractionInputEnvelope + validated AI-001 Structured Invention Analysis v1
+→ INVENTION_RECONSTRUCTION v1.0.0
+→ future P2-003 USPTO Specification Generation
+```
+
+The reconstruction contract validates document coherence and source evidence, preserves grounding, normalizes problems/solutions/elements/methods/flows/parameters/effects/embodiments, and propagates missing/conflict review state. It does not add a public endpoint, call a provider, generate Claims or final USPTO prose, inspect image pixels, or change the existing v1 draft runtime.
+
 AI-003 introduces the controlled intermediate contract between structured analysis and DOCX rendering:
 
 ```text

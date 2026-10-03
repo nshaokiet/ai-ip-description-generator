@@ -1,0 +1,26 @@
+{
+  "case": "missing_information",
+  "extends": "representative-system.json",
+  "description": "Missing information and linked author questions are propagated.",
+  "expected": "VALID",
+  "input_patches": [
+    {
+      "op": "replace",
+      "path": "/structured_analysis/technical_field",
+      "value": {
+        "status": "MISSING"
+      }
+    }
+  ],
+  "output_patches": [],
+  "assertions": [
+    {
+      "path": "/invention_model/technical_field/status",
+      "value": "MISSING"
+    },
+    {
+      "path": "/review_package/author_questions/0/missing_information_id",
+      "value": "MI-IR-0001"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "case": "multiple_embodiments",
+  "extends": "representative-system.json",
+  "description": "Separate explicit and inferred embodiments preserve upstream grounding.",
+  "expected": "VALID",
+  "input_patches": [
+    {
+      "op": "copy",
+      "from": "/structured_analysis/embodiments/0",
+      "path": "/structured_analysis/embodiments/-"
+    },
+    {
+      "op": "replace",
+      "path": "/structured_analysis/embodiments/1/embodiment_id",
+      "value": "embodiment-002"
+    },
+    {
+      "op": "replace",
+      "path": "/structured_analysis/embodiments/1/grounding/label",
+      "value": "INFERENCE"
+    }
+  ],
+  "output_patches": [],
+  "assertions": [
+    {
+      "path": "/invention_model/embodiments/1/disclosure_status",
+      "value": "SYNTHESIZED"
+    },
+    {
+      "path": "/invention_model/embodiments/1/support/grounding_class",
+      "value": "INFERENCE"
+    }
+  ]
+}

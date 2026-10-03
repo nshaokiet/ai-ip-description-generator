@@ -6,10 +6,15 @@
 |---|---|
 | Task ID | P2-002 |
 | Title | Invention Reconstruction Contract & Offline Reconstruction Pipeline |
-| Specification version | 0.1.0 |
-| Status | **SPECIFICATION READY FOR FIXED-SHA INDEPENDENT REVIEW — IMPLEMENTATION NOT AUTHORIZED** |
+| Specification version | 0.1.0 (reviewed semantics unchanged) |
+| Implementation evidence revision | 0.2.0 |
+| Status | **IMPLEMENTED — INDEPENDENT IMPLEMENTATION REVIEW PENDING** |
 | Human authorization | `HUMAN-P2-002-INVENTION-RECONSTRUCTION-2026-10-03` |
+| Human implementation authorization | `HUMAN-P2-002-IMPLEMENTATION-2026-10-03` |
 | Authorized baseline | `054410f937eaaecf7b462855b7dce921e40e8924` |
+| Implementation baseline | `e87b51987c42edb1432a9612a4e05bc7c0d9b113` |
+| Reviewed specification SHA | `9c3f5e67f3c3af73807aab3f3ba84300fcd99c07` — PASS, findings NONE, 34/34 requirements PASS |
+| Implementation branch | `feat/p2-002-invention-reconstruction` |
 | Owner | ChatGPT/Codex under AGENTS.md role separation |
 | Independent reviewer | Gemini 3.1 Pro High / Antigravity read-only |
 | Provider/API calls | **NONE / NOT AUTHORIZED** |
@@ -1111,4 +1116,136 @@ Fixed specification SHA
 → Codex implementation
 ```
 
-No implementation file may be created solely because this specification exists.
+The specification gate was satisfied by reviewed specification SHA `9c3f5e67f3c3af73807aab3f3ba84300fcd99c07` and Human implementation authorization `HUMAN-P2-002-IMPLEMENTATION-2026-10-03`. The reviewed specification semantics remain unchanged.
+
+## 43. Implementation evidence — 03/10/2026
+
+Implemented additive artefacts:
+
+- `schemas/invention-reconstruction/v1.0.0/invention-reconstruction.schema.json`;
+- `schemas/invention-reconstruction/v1.0.0/README.md`;
+- `backend/app/services/invention_reconstruction.py`;
+- `backend/app/services/invention_reconstruction_validation.py`;
+- `tests/schema/test_invention_reconstruction_v1.py`;
+- `tests/backend/test_invention_reconstruction.py`;
+- 16 synthetic fixture categories under `tests/fixtures/invention-reconstruction/v1.0.0/`;
+- `docs/decisions/ADR-012-invention-reconstruction-boundary.md`.
+
+The service consumes the existing APP-002 `ExtractionInputEnvelope` model plus a canonical-schema/business-validated AI-001 payload. It performs exact document/evidence coherence checks before deterministic reconstruction and then applies separate Draft 2020-12 schema and cross-object/source-integrity validation.
+
+Initial adapter behavior is deliberately conservative: element type `OTHER`; essentiality `UNKNOWN`; AI-001 related components map only to `RELATED_TO`; method sequence creates no dependency; process input/output flow is `UNSPECIFIED`; experimental values remain `EXAMPLE_ONLY`; variants remain empty; `HUMAN_CONFIRMED` and `HUMAN_RESOLVED` are rejected without a future audited input path.
+
+### Recovery and remediation
+
+Resumed the existing `feat/p2-002-invention-reconstruction` worktree without
+reset, restore, cleanup of implementation files or history rewrite. Starting
+HEAD and fetched `origin/main` were both
+`e87b51987c42edb1432a9612a4e05bc7c0d9b113`; no earlier implementation commits
+existed. Recovery found 4 tracked modified files and 23 new P2-002 files, plus a
+generated frontend TypeScript incremental cache (excluded and later removed).
+Unrelated files in the main worktree were preserved and not staged.
+
+Remediation closed incomplete fixture execution and validation gaps: full
+projection comparison (including scalar types, units, scope, descriptions and
+precise upstream references), revalidation of constructed envelope instances,
+deep-copy isolation of evidence, safe pointer parsing and iterative dependency
+cycle detection, drawing/figure traceability and grounded candidate warnings.
+SG-01 permits only explicit source-category substitution, not structural,
+numerical or semantic additions. Supplied proposed variants can be validated
+only in explicit review-candidate mode and are mechanically filing-ineligible;
+the adapter still generates none. Semantic entailment is not claimed.
+
+### Local verification (Python 3.12.10, offline)
+
+| Check | Evidence / outcome |
+|---|---|
+| Targeted P2-002 schema | 23 passed |
+| Targeted P2-002 backend | 85 passed |
+| Combined targeted run | 108 passed, exit 0 |
+| Full schema regression | 57 passed, exit 0 |
+| Full backend regression | 396 passed, 2 skipped, exit 0 |
+| Entire Python test suite | 574 passed, 3 skipped, exit 0 |
+| pip check | No broken requirements found, exit 0 |
+| git diff --check | PASS; staged diff checked again before commit |
+| Frontend lint / typecheck | PASS / PASS, exit 0; existing completed evidence retained because no frontend files changed |
+| Frontend production build | PASS, exit 0 (standard and Render/static builds) |
+| Standard synthetic Playwright | Controlled external-server run: 26 passed, runner exit 0 |
+| Render/demo synthetic Playwright | 5 passed, exit 0; existing completed evidence retained because no frontend/static code changed |
+
+The full-suite skips are two gated live-provider tests (flags 0/0) and one
+Windows-specific upload permission test. Backend-only skips are one gated
+draft-provider test and that Windows permission test. One existing
+Starlette/AnyIO deprecation warning remains. No skipped case is a P2-002 failure.
+
+The interrupted standard browser command printed 26 successful cases but was
+stopped during Windows server teardown, so it was **not** treated as clean final
+verification. Recovery found no remaining task server process. The first
+external-server retry failed 4 DOCX inspection cases because the worktree's
+default Python path did not exist; setting `PLAYWRIGHT_PYTHON` to the existing
+project Python 3.12 environment resolved that environment error. The final run
+used `P1_005_EXTERNAL_SERVERS=1`, achieved 26/26 and exit 0, and its two explicitly
+owned server sessions were stopped afterward. A process/port check confirmed no
+task servers or listeners on 8000/3106/8001/3107 remained. No product configuration
+or test source was changed to work around Windows teardown.
+
+### AC traceability — implementation self-check, independent review pending
+
+`S` denotes `tests/schema/test_invention_reconstruction_v1.py`; `B` denotes
+`tests/backend/test_invention_reconstruction.py`. These are local self-checks,
+not an independent reviewer decision or task closeout.
+
+| AC | Evidence | Self-check |
+|---|---|---|
+| AC-01 | Versioned strict schema; S canonical path/root identity tests | VERIFIED |
+| AC-02 | Existing APP-002 model + canonical AI-001 validation in producer | VERIFIED |
+| AC-03 | No replacement upstream contract; S upstream-not-redefined test | VERIFIED |
+| AC-04 | B four identity mismatch cases and optional-SHA test | VERIFIED |
+| AC-05 | B ID/type/locator/excerpt integrity rejection cases | VERIFIED |
+| AC-06 | B conservative problem mapping | VERIFIED |
+| AC-07 | B solution/problem references and invented-mechanism rejection | VERIFIED |
+| AC-08 | B deterministic two-element model; executable multi-component fixture | VERIFIED |
+| AC-09 | UNKNOWN default and changed-essentiality rejection | VERIFIED |
+| AC-10 | RELATED_TO/input/output-only mapping and typed-relation rejection | VERIFIED |
+| AC-11 | Two-step fixture; sequence preservation; dangling/cyclic dependencies | VERIFIED |
+| AC-12 | UNSPECIFIED flows; exact source/target/description projection | VERIFIED |
+| AC-13 | Exclusive EXACT/RANGE/SET/QUALITATIVE schema; parameter-heavy fixture | VERIFIED |
+| AC-14 | EXAMPLE_ONLY; changed scalar/unit/role/scope and broad-range rejection | VERIFIED |
+| AC-15 | SOURCE_REPORTED vs INFERENCE consequence tests; effect rejection | VERIFIED |
+| AC-16 | Explicit/inferred separate embodiments; invalid refs/description rejected | VERIFIED |
+| AC-17 | Separate variant collection; producer emits none; contract fixture | VERIFIED |
+| AC-18 | TABLE fixture; text figure test; drawing ID/kind/status/path preservation | VERIFIED |
+| AC-19 | Per-assertion evidence/paths, including conditions and candidate warnings | VERIFIED |
+| AC-20 | Non-promotion test; INFERENCE effect/embodiment preservation | VERIFIED |
+| AC-21 | Executed valid literal-category and invalid-category SG-01 fixtures | VERIFIED |
+| AC-22 | Proposed fixture requires confirmation and filing_content_eligible=false | VERIFIED |
+| AC-23 | Fake HUMAN_CONFIRMED rejected; no audit input or generated confirmation | VERIFIED |
+| AC-24 | CONFLICTING fixture propagated as gap; unaudited resolution rejected | VERIFIED |
+| AC-25 | Missing/question linkage fixture and exact-content projection tests | VERIFIED |
+| AC-26 | Administrative schema rejection cases and strict all-object test | VERIFIED |
+| AC-27 | Claims/schema/legal-phrase rejection; root notice constants | VERIFIED |
+| AC-28 | Contract README future P2-003 handoff and filing/review eligibility | VERIFIED |
+| AC-29 | Draft 2020-12 self-validation, strict objects, constants/local states | VERIFIED |
+| AC-30 | Source/support/ref/unique-ID validation and complete projection guard | VERIFIED |
+| AC-31 | Determinism/input-isolation tests and repeat generation in every fixture | VERIFIED |
+| AC-32 | All 16 JSON cases executed; adversarial safe failure codes asserted | VERIFIED |
+| AC-33 | Baseline diff leaves released schema/prompt/runtime/DOCX/frontend/deployment unchanged; regressions PASS | VERIFIED |
+| AC-34 | Offline socket-disabled test, synthetic fixtures, flags 0/0, no endpoints/providers/deployment | VERIFIED |
+
+### Version/change record
+
+| Previous | New | Date | Author | Change / reason | Reference | Breaking |
+|---|---|---|---|---|---|---|
+| Specification 0.1.0 | Specification 0.1.0 + implementation evidence 0.2.0 | 03/10/2026 | Codex | Implement reviewed additive reconstruction contract and record resume/test evidence | HUMAN-P2-002-IMPLEMENTATION-2026-10-03 | No — reviewed semantics and released contracts unchanged |
+
+### Fixed-SHA handoff gate
+
+The exact final implementation commit and PR URL are recorded in the Git/PR
+handoff after commit/push. The required PR CI outcome is recorded in that
+handoff/PR evidence once it exists, not predicted here. Independent implementation
+review is **PENDING**; no PASS is fabricated. Required reviewer: **Gemini 3.1 Pro
+High / Antigravity**, read-only review of the exact final PR head. STOP before
+merge; a later implementation change requires review on the new SHA.
+
+Project Orchestrator returned `Unknown task: P2-002`; claim/progress lifecycle state is therefore **BLOCKED BY TOOL CAPABILITY**. Git/task/test evidence remains authoritative and no MCP approval, lease, or state is fabricated.
+
+Provider/API calls: **NONE**. Real/confidential data: **NONE**. Claims implementation: **NO**. Production/deployment change: **NO**. BLK-003 remains **OPEN** and EVAL-001 PRODUCT_RUNTIME remains **DEFERRED — AWAITING FUNDING**.

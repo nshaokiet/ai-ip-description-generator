@@ -14,8 +14,12 @@ Các schema production của dự án được lưu theo artefact và semantic v
 |---|---|---|---|
 | Invention Output | 1.0.0 | `schemas/invention-output/v1.0.0/invention-output.schema.json` | Completed — Merged via PR #1 |
 | Patent Draft | 1.0.0 | `schemas/patent-draft/v1.0.0/patent-draft.schema.json` | Completed — Merged via PR #5 |
+| USPTO Specification Target | 2.0.0 | `schemas/uspto-specification/v2.0.0/uspto-specification.schema.json` | Completed — Merged via PR #56 |
+| Invention Reconstruction | 1.0.0 | `schemas/invention-reconstruction/v1.0.0/invention-reconstruction.schema.json` | Implemented — independent fixed-SHA review pending |
 
 Hướng dẫn và field contract:
 
 - [`invention-output/v1.0.0/README.md`](invention-output/v1.0.0/README.md)
 - [`patent-draft/v1.0.0/README.md`](patent-draft/v1.0.0/README.md)
+- [`uspto-specification/v2.0.0/README.md`](uspto-specification/v2.0.0/README.md)
+- [`invention-reconstruction/v1.0.0/README.md`](invention-reconstruction/v1.0.0/README.md)

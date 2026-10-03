@@ -1,0 +1,39 @@
+{
+  "case": "method_process",
+  "extends": "representative-system.json",
+  "description": "Two ordered steps preserve sequence and do not infer dependency.",
+  "expected": "VALID",
+  "input_patches": [
+    {
+      "op": "copy",
+      "from": "/structured_analysis/process_steps/0",
+      "path": "/structured_analysis/process_steps/-"
+    },
+    {
+      "op": "replace",
+      "path": "/structured_analysis/process_steps/1/step_id",
+      "value": "step-repeat"
+    },
+    {
+      "op": "replace",
+      "path": "/structured_analysis/process_steps/1/sequence",
+      "value": 2
+    },
+    {
+      "op": "replace",
+      "path": "/structured_analysis/process_steps/1/conditions/0/statement_id",
+      "value": "condition-repeat"
+    }
+  ],
+  "output_patches": [],
+  "assertions": [
+    {
+      "path": "/invention_model/method_steps/1/sequence_index",
+      "value": 2
+    },
+    {
+      "path": "/invention_model/method_steps/1/dependency_step_ids",
+      "value": []
+    }
+  ]
+}

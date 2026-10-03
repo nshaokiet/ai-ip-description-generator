@@ -1,0 +1,18 @@
+{
+  "case": "multi_component_system",
+  "extends": "representative-system.json",
+  "description": "Multiple technical elements and conservative RELATED_TO mapping.",
+  "expected": "VALID",
+  "input_patches": [],
+  "output_patches": [],
+  "assertions": [
+    {
+      "path": "/invention_model/elements/1/element_id",
+      "value": "IR-ELEM-0002"
+    },
+    {
+      "path": "/invention_model/relationships/0/relation_type",
+      "value": "RELATED_TO"
+    }
+  ]
+}

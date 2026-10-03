@@ -1,0 +1,33 @@
+{
+  "case": "invalid_safe_generalization",
+  "extends": "representative-system.json",
+  "description": "Generalized term is absent from cited evidence.",
+  "expected_error": "reconstruction_business_validation_failed",
+  "input_patches": [],
+  "output_patches": [
+    {
+      "op": "replace",
+      "path": "/invention_model/elements/0/support",
+      "value": {
+        "grounding_class": "SAFE_GENERALIZATION",
+        "evidence_ids": [
+          "EV-P0001-C001"
+        ],
+        "analysis_paths": [
+          "/components/0"
+        ],
+        "generalization": {
+          "rule_id": "SG-01_EXPLICIT_SOURCE_CATEGORY",
+          "generalized_term": "quantum transceiver",
+          "member_terms": [
+            "sensor"
+          ],
+          "evidence_ids": [
+            "EV-P0001-C001"
+          ]
+        }
+      }
+    }
+  ],
+  "assertions": []
+}

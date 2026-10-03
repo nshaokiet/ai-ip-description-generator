@@ -1,0 +1,17 @@
+{
+  "case": "dangling_reference",
+  "extends": "representative-system.json",
+  "description": "A nonexistent reconstruction entity reference fails closed.",
+  "expected_error": "reconstruction_business_validation_failed",
+  "input_patches": [],
+  "output_patches": [
+    {
+      "op": "replace",
+      "path": "/invention_model/method_steps/0/input_element_ids",
+      "value": [
+        "IR-ELEM-9999"
+      ]
+    }
+  ],
+  "assertions": []
+}
