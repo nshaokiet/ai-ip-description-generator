@@ -22,7 +22,7 @@ The deployment is non-production. Do not use real, confidential, unpublished, se
 
 - **P2-001:** CLOSED / COMPLETED — MERGED. The USPTO Patent Specification Target v2 contract, template, reference maps, fixtures, and offline tests are established.
 - **P2-000:** CLOSED / COMPLETED — MERGED. The enterprise five-stage web workflow and its reviewed P2-000-R1 and P2-000-R2 interface remediations are on `main`; P2-000-R2 merged through PR #65 at `a394a98b0a86b1ce686fac4871f7e5b0c0c3c44f`, with main CI `37012025003` SUCCESS.
-- **P2-000-R3:** IMPLEMENTATION READY FOR FIXED-SHA INDEPENDENT REVIEW — NOT MERGED. The bounded Human-review gate and Validation/DOCX workflow correction is implemented on its review branch; completion remains gated on exact-SHA independent PASS, required CI, merge, and post-merge verification.
+- **P2-000-R3:** IMPLEMENTATION MERGED — CLOSEOUT REVIEW PENDING. Gemini 3.1 Pro High / Antigravity returned PASS with no findings and 15/15 requirements passing on `5569354e7003511d2e761236395ab6a604076530`; PR #67 merged at `62a25a9ae136461924bc8047c5a6ad0f3550c68c`, main CI `37109553040` succeeded, and both public synthetic-demo services redeployed that merge SHA. Final governance closure remains gated on fixed-SHA review of the docs-only closeout PR.
 - **BLK-003:** OPEN. Production authentication, tenant isolation, private storage, retention, and deletion controls are not approved.
 - **EVAL-001 PRODUCT_RUNTIME:** DEFERRED / AWAITING FUNDING. Real-paper provider/runtime semantic validation has not been performed.
 - **Claims runtime:** NOT IMPLEMENTED. Claims exist only in the P2-001 target contract.
