@@ -35,6 +35,7 @@ interface ResultWorkspaceProps {
   phase: WorkflowPhase;
   onExport: (request: ExportDocxRequest) => Promise<void>;
   onPhaseChange: (phase: WorkflowPhase) => void;
+  onReviewEligibilityChange: (eligible: boolean) => void;
   onValidationEligibilityChange: (eligible: boolean) => void;
   onReset: () => void;
 }
@@ -50,6 +51,7 @@ export function ResultWorkspace({
   phase,
   onExport,
   onPhaseChange,
+  onReviewEligibilityChange,
   onValidationEligibilityChange,
   onReset,
 }: ResultWorkspaceProps) {
@@ -81,6 +83,11 @@ export function ResultWorkspace({
   const unverifiedPaths = editedProsePaths(originalDraft, editBuffer ?? revision.draft);
   const reviewCounts = { UNREVIEWED: 0, REVIEWED: 0, NEEDS_CHANGES: 0 };
   Object.values(revision.review).forEach((record) => { reviewCounts[record.status] += 1; });
+  const reviewTotal = Object.keys(revision.review).length;
+  const reviewRemaining = reviewCounts.UNREVIEWED + reviewCounts.NEEDS_CHANGES;
+  const reviewComplete = reviewTotal > 0
+    && reviewCounts.REVIEWED === reviewTotal
+    && reviewRemaining === 0;
   const tabs: Array<{ key: ResultTab; label: string }> = [
     { key: "draft", label: "Patent Draft" },
     { key: "review", label: "Review Items" },
@@ -88,8 +95,9 @@ export function ResultWorkspace({
   ];
 
   useEffect(() => {
+    onReviewEligibilityChange(reviewComplete);
     onValidationEligibilityChange(Boolean(revision.validation));
-  }, [onValidationEligibilityChange, revision.validation]);
+  }, [onReviewEligibilityChange, onValidationEligibilityChange, reviewComplete, revision.validation]);
 
   function handleTabKeyDown(event: KeyboardEvent<HTMLButtonElement>) {
     if (!["ArrowRight", "ArrowLeft", "Home", "End"].includes(event.key)) return;
@@ -124,7 +132,7 @@ export function ResultWorkspace({
   }
 
   async function handleValidate() {
-    if (editing || busy || validationLockRef.current) return;
+    if (!reviewComplete || editing || busy || validationLockRef.current) return;
     validationLockRef.current = true;
     setValidationError(null);
     setValidating(true);
@@ -136,7 +144,6 @@ export function ResultWorkspace({
       }
       setSession((current) => setRevisionValidation(current, revision.id, validation));
       onValidationEligibilityChange(true);
-      onPhaseChange("review");
     } catch (issue) {
       setSession((current) => setRevisionValidation(current, revision.id, null));
       onValidationEligibilityChange(false);
@@ -155,12 +162,11 @@ export function ResultWorkspace({
   }
 
   function handleExport() {
-    if (editing || busy || !revision.validation || exportLockRef.current) return;
+    if (!reviewComplete || editing || busy || !revision.validation || exportLockRef.current) return;
     exportLockRef.current = true;
     void onExport({ ...requestBody, validated_digest: revision.validation.draft_digest })
       .finally(() => {
         exportLockRef.current = false;
-        onPhaseChange("review");
       });
   }
 
@@ -223,12 +229,31 @@ export function ResultWorkspace({
   if (phase === "validate") {
     return (
       <section aria-busy={busy} className="stage-card validation-stage" aria-labelledby="validation-heading">
+        {revision.validation && <span className="stage-icon stage-icon-success" aria-hidden="true">✓</span>}
         <p className="eyebrow">Validation</p>
-        <h2 id="validation-heading">Validate the selected revision</h2>
-        <p>Run the existing server validation against the exact saved revision before export.</p>
+        <h2 id="validation-heading">{revision.validation ? "Validation complete" : "Validate the selected revision"}</h2>
+        <p>
+          {revision.validation
+            ? <>Structure and required fields passed server validation for <strong>{revision.id}</strong>.</>
+            : "Run the existing server validation against the exact saved revision before export."}
+        </p>
         {renderRevisionSelector()}
 
-        {validating ? (
+        {revision.validation ? (
+          <>
+            <div className="export-summary validation-summary" role="status">
+              <span className="status-success">✓ Validation complete</span>
+              <strong>{revision.id}</strong>
+              <span>Technical validation only · not Human or legal approval</span>
+            </div>
+            <p className="card-supporting-copy">
+              This confirms technical structure and required fields only. It is not Human or legal approval.
+            </p>
+            <button className="primary-button" onClick={() => onPhaseChange("export")} type="button">
+              Continue to DOCX Export →
+            </button>
+          </>
+        ) : validating ? (
           <div className="processing-callout workspace-operation" role="status" aria-live="polite">
             <span className="spinner" aria-hidden="true" />
             <div>
@@ -239,7 +264,7 @@ export function ResultWorkspace({
         ) : (
           <button
             className="primary-button"
-            disabled={editing || busy}
+            disabled={!reviewComplete || editing || busy}
             onClick={() => void handleValidate()}
             type="button"
           >
@@ -333,25 +358,14 @@ export function ResultWorkspace({
             <>
               <button className="secondary-button" disabled={busy} onClick={beginEdit} type="button">Edit prose</button>
               <button
-                aria-label={`Validate ${revision.id}`}
+                aria-label={`Continue ${revision.id} to Validation`}
                 className="primary-button"
-                disabled={busy}
-                onClick={() => void handleValidate()}
+                disabled={busy || !reviewComplete}
+                onClick={() => onPhaseChange("validate")}
                 type="button"
               >
                 Continue to Validation →
               </button>
-              {revision.validation && (
-                <button
-                  aria-label={`Export ${revision.id} DOCX`}
-                  className="primary-button"
-                  disabled={busy}
-                  onClick={handleExport}
-                  type="button"
-                >
-                  Download editable DOCX
-                </button>
-              )}
             </>
           )}
         </div>
@@ -361,7 +375,12 @@ export function ResultWorkspace({
         <strong>{revision.id}{editing ? (dirty ? " · Unsaved changes" : " · Editing") : " · Saved"}</strong>
         <span>Backend validation: {revision.validation ? "PASSED for this exact revision" : "NOT VALIDATED"}</span>
         <span>Review: {reviewCounts.UNREVIEWED} UNREVIEWED · {reviewCounts.REVIEWED} REVIEWED (not approved) · {reviewCounts.NEEDS_CHANGES} NEEDS_CHANGES</span>
-        <span>Export target: {revision.id}{revision.validation ? " · eligible after server revalidation" : " · validation required"}</span>
+        <span>
+          {reviewComplete
+            ? "Human review complete for this selected revision."
+            : `Review all sections before validation · ${reviewRemaining} remaining.`}
+        </span>
+        <span>Export target: {revision.id}{revision.validation && reviewComplete ? " · eligible" : " · review and validation required"}</span>
       </div>
 
       {unverifiedPaths.length > 0 && (
