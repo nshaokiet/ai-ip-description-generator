@@ -8,6 +8,9 @@
 | Status | **CLOSED / COMPLETED — MERGED** |
 | Authorization | `HUMAN-P2-000-WEBAPP-SIMPLIFICATION-2026-10-02` |
 | P2-000-R2 authorization | `HUMAN-P2-000-R2-README-UPLOAD-UX-LOGO-2026-10-02` |
+| P2-000-R3 authorization | `HUMAN-P2-000-R3-HUMAN-REVIEW-VALIDATION-DOCX-2026-10-03` |
+| P2-000-R3 reconciled baseline | `8e38df7ef1427828fdff0a5fc7792bfa5bf03f9a` — Human-approved after verified README-only intervening commit |
+| P2-000-R3 status | **IMPLEMENTATION READY FOR FIXED-SHA INDEPENDENT REVIEW — NOT MERGED** |
 | Latest Human design decision | 02/10/2026 — approve the reviewed Enterprise SaaS layout, preserve existing VNUHCM Innovation Hub logo/color system, add backward/forward step navigation and wrong-paper removal |
 | Specification baseline | `461d9b33b07bb39aad11aa47b84f678e232d80a8` |
 | Specification reviewed SHA | `5c57c47d562fa3d003850faf5820ffd17a3be385` — PASS / findings NONE |
@@ -953,3 +956,17 @@ The original P2-000 governance closeout was independently reviewed on `ddd96548c
 P2-000-R2 was independently reviewed by **Gemini 3.1 Pro High** on exact SHA `05fc2d3dff6929ada7a4a974428cc26f5256c4fe` with **PASS**, findings **NONE**, and all 10 review requirements **PASS**. Exact-head CI `37008786531` was **SUCCESS**. PR #65 remained at the reviewed three-commit head, was marked ready, and merged normally at `a394a98b0a86b1ce686fac4871f7e5b0c0c3c44f`. Push/main CI `37012025003` completed **SUCCESS** on that exact merge SHA; dependency consistency, backend regression, frontend lint/typecheck/build, standard browser E2E, static-demo build, provider-secret marker scan, and demo browser E2E all passed.
 
 P2-000-R2 changed README/frontend/test presentation behavior only. BLK-003 remains **OPEN**. EVAL-001 PRODUCT_RUNTIME remains **DEFERRED — AWAITING FUNDING**. Provider/API spend remains **NONE / NOT AUTHORIZED**. Real/confidential-data use remains **NOT AUTHORIZED**. Claims runtime remains **NOT IMPLEMENTED**. Production remains **NOT APPROVED / NOT PERFORMED**.
+
+---
+
+## 23. P2-000-R3 — Human Review Gate + Validation/DOCX Workflow Correction
+
+Human / Product Owner authorized P2-000-R3 under `HUMAN-P2-000-R3-HUMAN-REVIEW-VALIDATION-DOCX-2026-10-03`. The implementation baseline was reconciled to `8e38df7ef1427828fdff0a5fc7792bfa5bf03f9a` after the Human verified that the only intervening change from the original authorized baseline was a README-only one-line wording change. That README change is preserved.
+
+The bounded correction requires selected-revision Human review to be complete only when at least one tracked section exists and every tracked section is `REVIEWED (not approved)`. Any `UNREVIEWED` or `NEEDS_CHANGES` section blocks Validation and DOCX Export. Review status changes update eligibility immediately; a review-only change may preserve exact-revision technical validation internally, but export remains blocked until review is complete again. A newly saved revision continues to reset every section to `UNREVIEWED` and clears validation.
+
+The required forward workflow is explicit: Review & Refine navigates to Validation without making the validation request; successful validation remains on Validation and exposes `Continue to DOCX Export`; successful or failed export remains on DOCX Export. Review & Refine must not expose a DOCX download shortcut. Existing single-flight, normalized-error, exact-revision, accessibility, keyboard, responsive, and controlled synthetic PDF/DOCX behavior remains required.
+
+Implementation is ready for fixed-SHA read-only review by **Gemini 3.1 Pro High / Antigravity**. P2-000-R3 is **not completed and not merge-eligible** until that exact implementation SHA receives independent `PASS`, required PR CI succeeds, and all AGENTS.md merge gates are satisfied.
+
+Runtime boundaries remain unchanged: BLK-003 is **OPEN**; EVAL-001 PRODUCT_RUNTIME is **DEFERRED — AWAITING FUNDING**; provider/API spend is **NONE / NOT AUTHORIZED**; real/confidential-data use is **NOT AUTHORIZED**; Claims runtime is **NOT IMPLEMENTED**; production is **NOT APPROVED / NOT PERFORMED**.

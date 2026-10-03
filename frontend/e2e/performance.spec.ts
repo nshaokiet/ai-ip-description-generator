@@ -36,8 +36,16 @@ test("P1-005 synthetic local browser workflow measurement", async ({ page }) => 
     await page.getByRole("button", { name: "Continue to AI Extraction" }).click();
     await expect(page.getByRole("heading", { name: "Review & Refine" })).toBeVisible();
     await page.getByRole("tab", { name: "Patent Draft" }).click();
+    const reviewControls = page.getByLabel(/^Session review status for /);
+    const reviewTotal = await reviewControls.count();
+    expect(reviewTotal).toBeGreaterThan(0);
+    for (let reviewIndex = 0; reviewIndex < reviewTotal; reviewIndex += 1) {
+      await reviewControls.nth(reviewIndex).selectOption("REVIEWED");
+    }
+    await page.getByRole("button", { name: "Continue revision-1 to Validation" }).click();
     await page.getByRole("button", { name: "Validate revision-1" }).click();
-    await expect(page.getByText("Backend validation: PASSED for this exact revision")).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Validation complete" })).toBeVisible();
+    await page.getByRole("button", { name: "Continue to DOCX Export" }).click();
     const downloadPromise = page.waitForEvent("download");
     await page.getByRole("button", { name: "Export revision-1 DOCX" }).click();
     const download = await downloadPromise;

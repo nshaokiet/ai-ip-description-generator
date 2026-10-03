@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { ResultWorkspace } from "@/components/ResultWorkspace";
 import { UploadPanel } from "@/components/UploadPanel";
@@ -42,6 +42,7 @@ export default function Home() {
   const [error, setError] = useState<NormalizedApiError | null>(null);
   const [recoveryState, setRecoveryState] = useState<WorkflowState>("IDLE");
   const [workflowPhase, setWorkflowPhase] = useState<WorkflowPhase>("upload");
+  const [reviewEligible, setReviewEligible] = useState(false);
   const [validationEligible, setValidationEligible] = useState(false);
   const operationRef = useRef<"upload" | "process" | "export" | null>(null);
   const errorHeadingRef = useRef<HTMLHeadingElement>(null);
@@ -55,10 +56,25 @@ export default function Home() {
   const reachablePhases = useMemo<WorkflowPhase[]>(() => {
     const reachable: WorkflowPhase[] = ["upload"];
     if (document || result) reachable.push("analyze");
-    if (result) reachable.push("review", "validate");
-    if (result && validationEligible) reachable.push("export");
+    if (result) reachable.push("review");
+    if (result && reviewEligible) reachable.push("validate");
+    if (result && reviewEligible && validationEligible) reachable.push("export");
     return reachable;
-  }, [document, result, validationEligible]);
+  }, [document, result, reviewEligible, validationEligible]);
+
+  const handleReviewEligibilityChange = useCallback((eligible: boolean) => {
+    setReviewEligible(eligible);
+    if (!eligible) {
+      setWorkflowPhase((current) => current === "validate" || current === "export" ? "review" : current);
+    }
+  }, []);
+
+  const handleValidationEligibilityChange = useCallback((eligible: boolean) => {
+    setValidationEligible(eligible);
+    if (!eligible) {
+      setWorkflowPhase((current) => current === "export" ? "validate" : current);
+    }
+  }, []);
 
   function reset() {
     operationRef.current = null;
@@ -67,6 +83,7 @@ export default function Home() {
     setResult(null);
     setError(null);
     setRecoveryState("IDLE");
+    setReviewEligible(false);
     setValidationEligible(false);
     setWorkflowPhase("upload");
   }
@@ -91,6 +108,7 @@ export default function Home() {
     operationRef.current = "upload";
     setError(null);
     setResult(null);
+    setReviewEligible(false);
     setValidationEligible(false);
     setWorkflowPhase("upload");
     setState("UPLOADING");
@@ -112,6 +130,7 @@ export default function Home() {
     operationRef.current = "upload";
     setError(null);
     setResult(null);
+    setReviewEligible(false);
     setValidationEligible(false);
     setWorkflowPhase("upload");
     setState("UPLOADING");
@@ -138,6 +157,7 @@ export default function Home() {
     try {
       const processed = await processDocument(document.document_id);
       setResult(processed);
+      setReviewEligible(false);
       setValidationEligible(false);
       setWorkflowPhase("review");
       setState("READY");
@@ -324,8 +344,9 @@ export default function Home() {
               <ResultWorkspace
                 onExport={handleExport}
                 onPhaseChange={setWorkflowPhase}
+                onReviewEligibilityChange={handleReviewEligibilityChange}
                 onReset={reset}
-                onValidationEligibilityChange={setValidationEligible}
+                onValidationEligibilityChange={handleValidationEligibilityChange}
                 phase={workflowPhase}
                 result={result}
                 state={state}

@@ -13,11 +13,20 @@ async function runSampleFlow(page: Page, buttonName: string) {
     "A deterministic synthetic sensor description remains subject to Human review.",
   );
   await page.getByRole("button", { name: "Save new revision" }).click();
+  const reviewControls = page.getByLabel(/^Session review status for /);
+  const reviewTotal = await reviewControls.count();
+  expect(reviewTotal).toBeGreaterThan(0);
+  for (let index = 0; index < reviewTotal; index += 1) {
+    await reviewControls.nth(index).selectOption("REVIEWED");
+  }
+  await page.getByRole("button", { name: "Continue revision-2 to Validation" }).click();
   await page.getByRole("button", { name: "Validate revision-2" }).click();
-  await expect(page.getByText("Backend validation: PASSED for this exact revision")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Validation complete" })).toBeVisible();
+  await page.getByRole("button", { name: "Continue to DOCX Export" }).click();
   const downloadPromise = page.waitForEvent("download");
   await page.getByRole("button", { name: "Export revision-2 DOCX" }).click();
   expect((await downloadPromise).suggestedFilename()).toBe("patent-description-draft.docx");
+  await expect(page.getByRole("button", { name: /5\. DOCX Export/ })).toHaveAttribute("aria-current", "step");
 }
 
 test("static demo exposes PDF DOCX selection first and keeps controlled samples secondary", async ({ page }) => {
