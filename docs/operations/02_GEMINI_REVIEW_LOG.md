@@ -10,14 +10,15 @@
 | Document title | Gemini Review Log |
 | Project | AI Intellectual Property Description Generator |
 | Project deadline | 02/10/2026 |
-| Version | 0.3.34 |
+| Version | 0.3.35 |
 | Status | Active review log |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High + Gemini 3.8 Flash High (historical); Google Antigravity (Advanced Agentic Coding) for REV-P0-006-IMPLEMENTATION, REV-P0-007-SPECIFICATION, REV-P0-007-IMPLEMENTATION and REV-P0-008-SPECIFICATION; Google Antigravity / Gemini 1.5 Pro (Advanced Agentic Coding) for REV-P0-008-IMPLEMENTATION; Gemini 3.1 Pro High for REV-P0-009-IMPLEMENTATION, REV-EVAL-001-SPECIFICATION, REV-EVAL-001-FRAMEWORK-IMPLEMENTATION, REV-EVAL-001-GOLD, REV-P0-010-FINAL-CLOSEOUT, REV-P1-001-IMPLEMENTATION, REV-DEPLOY-001-ROADMAP, REV-P1-002-IMPLEMENTATION, REV-P1-003-IMPLEMENTATION, REV-P1-003-CLOSEOUT, REV-P1-004-IMPLEMENTATION, REV-P1-004-CLOSEOUT, REV-P1-005-IMPLEMENTATION, REV-P1-005-CLOSEOUT, REV-P1-006-IMPLEMENTATION, REV-P1-006-CLOSEOUT, REV-DEPLOY-001-IMPLEMENTATION, REV-DEPLOY-001-REWRITE-REMEDIATION, REV-P2-001-IMPLEMENTATION, REV-P2-000-SPECIFICATION, REV-P2-000-IMPLEMENTATION, REV-P2-000-R2-IMPLEMENTATION, REV-P2-000-R3-IMPLEMENTATION and REV-P2-000-R3-CLOSEOUT |
 | Created date | 18/09/2026 |
-| Last updated | 03/10/2026 GMT+7 |
-| Related task ID | REVIEW-001; SPEC-001; SPEC-002; SPEC-003; AI-001; AI-002; AI-003; DOC-001; APP-001; APP-002; AI-RUNTIME-001; AI-RUNTIME-002; APP-003; P0-006; P0-007; P0-008; P0-009; EVAL-001; P0-010; P1-001; P1-002; P1-003; P1-004; P1-005; P1-006; DEPLOY-001; P2-001; P2-000 |
+| Last updated | 04/10/2026 GMT+7 |
+| P2-002 reviewer / task | Gemini 3.1 Pro High / Antigravity read-only; REV-P2-002-SPECIFICATION and REV-P2-002-IMPLEMENTATION |
+| Related task ID | REVIEW-001; SPEC-001; SPEC-002; SPEC-003; AI-001; AI-002; AI-003; DOC-001; APP-001; APP-002; AI-RUNTIME-001; AI-RUNTIME-002; APP-003; P0-006; P0-007; P0-008; P0-009; EVAL-001; P0-010; P1-001; P1-002; P1-003; P1-004; P1-005; P1-006; DEPLOY-001; P2-001; P2-000; P2-002 |
 | Source of Truth | Review history; bản nguồn Git tại `docs/operations/02_GEMINI_REVIEW_LOG.md` |
 | Confidentiality level | Internal; findings về research input có thể là Confidential |
 
@@ -69,6 +70,7 @@
 | 0.3.31 | 0.3.32 | 02/10/2026 | Codex | Record Human-supplied Gemini 3.1 Pro High P2-000-R2 PASS/findings NONE, PR #65 merge and successful post-merge main CI | Close the bounded README/upload-selection/logo remediation while preserving all provider, data, Claims, security and production boundaries | REV-P2-000-R2-IMPLEMENTATION reviewed `05fc2d3dff6929ada7a4a974428cc26f5256c4fe`; exact-head CI `37008786531`; merge `a394a98b0a86b1ce686fac4871f7e5b0c0c3c44f`; main CI `37012025003`; BLK-003 OPEN | No |
 | 0.3.32 | 0.3.33 | 03/10/2026 | Codex | Record Human-supplied Gemini 3.1 Pro High / Antigravity P2-000-R3 PASS/findings NONE, PR #67 merge, successful main CI and exact-SHA public synthetic-demo redeploy | Close the implementation review record while keeping the docs-only governance closeout as a separate fixed-SHA gate | REV-P2-000-R3-IMPLEMENTATION reviewed `5569354e7003511d2e761236395ab6a604076530`; 15/15 PASS; exact-head CI `37080649206`; merge `62a25a9ae136461924bc8047c5a6ad0f3550c68c`; main CI `37109553040`; Render deploys live; BLK-003 OPEN | No |
 | 0.3.33 | 0.3.34 | 03/10/2026 | Codex | Record Human-supplied Gemini 3.1 Pro High P2-000-R3 closeout PASS/findings NONE, PR #68 merge and successful final main CI | Close the final review/Git/CI lifecycle and reconcile obsolete pending wording | REV-P2-000-R3-CLOSEOUT reviewed `7697798a7e2a84f42d22ed896c0f49af6bf773e0`; 13/13 PASS; merge `a9f50adcbefe8d5725c0b5e779ae24ad7546ec51`; final CI `37110753273`; BLK-003 OPEN | No |
+| 0.3.34 | 0.3.35 | 04/10/2026 | Codex | Append separate Human-supplied P2-002 specification and implementation PASS records, merges and CI; preserve existing history | Documentation-only closeout proposal; closeout review/merge still pending | REV-P2-002-SPECIFICATION / IMPLEMENTATION; PR #70/#71; CI `37135175570` | No |
 
 ## 2. Review Rules
 
@@ -141,6 +143,8 @@
 | REV-P2-000-R2-IMPLEMENTATION | 02/10/2026 | P2-000-R2 | README refresh, upload-selection removal/reselection UX, header-logo sizing and regression coverage | Reviewed `05fc2d3dff6929ada7a4a974428cc26f5256c4fe`; resolved by PR #65 merge `a394a98b0a86b1ce686fac4871f7e5b0c0c3c44f` | PASS | CLOSED — all 10 review requirements PASS; findings NONE; exact-head CI `37008786531` and post-merge CI `37012025003` SUCCESS |
 | REV-P2-000-R3-IMPLEMENTATION | 03/10/2026 | P2-000-R3 | Human Review Gate + Validation/DOCX Workflow Correction | Reviewed `5569354e7003511d2e761236395ab6a604076530`; resolved by PR #67 merge `62a25a9ae136461924bc8047c5a6ad0f3550c68c` | PASS | CLOSED — 15/15 requirements PASS; findings NONE; reviewer modified files NO; exact-head CI `37080649206` and post-merge CI `37109553040` SUCCESS; governance closeout review separate |
 | REV-P2-000-R3-CLOSEOUT | 03/10/2026 | P2-000-R3 | Documentation-only governance closeout | Baseline `62a25a9ae136461924bc8047c5a6ad0f3550c68c`; reviewed `7697798a7e2a84f42d22ed896c0f49af6bf773e0`; resolved by PR #68 merge `a9f50adcbefe8d5725c0b5e779ae24ad7546ec51` | PASS | CLOSED — 13/13 requirements PASS; findings NONE; reviewer modified files NO; final main CI `37110753273` SUCCESS; P2-000-R3 CLOSED / COMPLETED — MERGED |
+| REV-P2-002-SPECIFICATION | 04/10/2026 record; review date not supplied | P2-002 | Reconstruction specification 0.1.0 | Reviewed `9c3f5e67f3c3af73807aab3f3ba84300fcd99c07`; PR #70 merge `e87b51987c42edb1432a9612a4e05bc7c0d9b113` | PASS | CLOSED — Human-supplied external review; findings NONE; 34/34 PASS |
+| REV-P2-002-IMPLEMENTATION | 04/10/2026 record; review date not supplied | P2-002 | Reconstruction contract 1.0.0 + offline pipeline | Reviewed `62a43da07fc4ccd60c9dab0da188388f6cab88e2`; PR #71 merge `7d295165379dfa3aa16cd305eb73e7ee739f5f03` | PASS | CLOSED — Human-supplied external review; findings NONE; AC-01…AC-34 PASS; reviewer modified files NO; PR/main CI SUCCESS; closeout review separate |
 
 Các entry historical được ChatGPT/Codex ghi lại từ kết quả Gemini do Human / Product Owner xác nhận; Gemini không sửa production artefact. REV-P0-006-IMPLEMENTATION ghi đúng Google Antigravity (Advanced Agentic Coding) theo evidence Human cung cấp, không suy đoán model nền; reviewer modified NONE. REV-001/002/003 ghi verdict `PASS WITH HUMAN DECISIONS REQUIRED`, không có document finding; chúng được đóng sau khi Human phê duyệt baseline và ban hành DEC-001/002/003. REV-APP-001 đã `CLOSED` sau khi Human approve và merge PR #10 ngày 20/09/2026. REV-APP-002 bảo toàn initial `REQUEST CHANGES`, F-001/F-002 và remediation evidence; lifecycle được `CLOSED` sau targeted `PASS` và Human merge PR #12 ngày 21/09/2026. REV-AI-RUNTIME-001 bảo toàn specification initial `REQUEST CHANGES`, targeted specification `PASS`, implementation `PASS WITH NON-BLOCKING NOTES`, F-001 remediation, targeted remediation `PASS` và Human merge PR #14; F-002 live-provider evidence vẫn là non-blocking `NOTE` chưa chạy. REV-AI-RUNTIME-002 bảo toàn toàn bộ lifecycle review các checkpoints (A-E), remediation đợt cuối đạt độc lập APPROVED, Human merge PR #16 ngày 22/09/2026; ghi nhận live provider smoke NOT RUN — DEFERRED due to unavailable API funding mà không tạo false PASS.
 
@@ -2579,3 +2583,289 @@ Review target: documentation-only P2-000-R3 closeout PR #68, baseline `62a25a9ae
 Closeout CI `37110173294`: **SUCCESS**. PR #68 merged at `a9f50adcbefe8d5725c0b5e779ae24ad7546ec51`; final push/main CI `37110753273`: **SUCCESS** on that exact merge SHA.
 
 Closeout review status: **CLOSED — PASS / findings NONE**. P2-000-R3 is **CLOSED / COMPLETED — MERGED**. BLK-003 remains **OPEN**; EVAL-001 PRODUCT_RUNTIME remains **DEFERRED — AWAITING FUNDING**; provider/API spend remains **NONE / NOT AUTHORIZED**; arbitrary real-paper AI conversion remains **NOT ENABLED**; real/confidential-data use remains **NOT AUTHORIZED**; Claims runtime remains **NOT IMPLEMENTED**; production remains **NOT APPROVED / NOT PERFORMED**. No next task is authorized.
+
+## REV-P2-002-SPECIFICATION
+
+### Review ID
+
+`REV-P2-002-SPECIFICATION`
+
+### Date
+
+04/10/2026 evidence recording date; independent review date not supplied.
+
+### Reviewer
+
+Gemini 3.1 Pro High / Antigravity, read-only. Attribution: Human-supplied external
+review evidence in the P2-002 authorization/closeout instructions; not a GitHub
+review API submission or a Codex self-review.
+
+### Task ID
+
+P2-002
+
+### Artefact reviewed
+
+`docs/tasks/P2-002-invention-reconstruction.md` at exact specification SHA
+`9c3f5e67f3c3af73807aab3f3ba84300fcd99c07`, PR #70.
+
+### Version reviewed
+
+Specification 0.1.0.
+
+### Review status
+
+CLOSED — PASS / findings NONE / 34 of 34 PASS. Governance closeout review separate.
+
+### 1. Review Objective
+
+Read-only fixed-SHA review of the reconstruction specification; implementation
+and provider/runtime authorization are separate gates.
+
+### 2. Sources Reviewed
+
+The Human identifies the exact specification target above. A detailed reviewer
+source inventory was not supplied; none is invented here. GitHub independently
+confirms PR #70's reviewed head and merge SHA.
+
+### 3. Summary
+
+Human-supplied independent verdict PASS, findings NONE, 34/34 PASS.
+
+### 4. Findings
+
+NONE reported.
+
+### 5. Source-Grounding Issues
+
+No finding reported within the specification review; not real-paper entailment evidence.
+
+### 6. Hallucination Risks
+
+No finding reported. Real-paper semantic acceptance remains NOT DETERMINED.
+
+### 7. Missing Information
+
+Review date, detailed report/source inventory and separate recommendation were
+not supplied. Reviewer file-modification status for this specification review
+was not supplied; the implementation's NO is not retroactively applied here.
+
+### 8. Technical Concerns
+
+No finding reported; specification semantics remain unchanged by closeout.
+
+### 9. Security and Privacy Concerns
+
+BLK-003 OPEN; provider authorization NOT GRANTED / budget 0; real/confidential
+data NOT AUTHORIZED; Claims NOT IMPLEMENTED; production NOT APPROVED.
+
+### 10. Consistency Issues
+
+No finding reported; specification evidence is recorded separately from implementation.
+
+### 11. Suggested Changes
+
+None supplied.
+
+### 12. Recommendation
+
+Not separately supplied. PASS is recorded without inventing APPROVE.
+
+### 13. Handoff to ChatGPT/Codex
+
+```text
+Task ID: P2-002
+Agent: Gemini 3.1 Pro High / Antigravity (Human-supplied attribution)
+Reviewer: Human / Product Owner
+Status: PASS / NONE / 34 of 34 PASS
+Version: Specification 0.1.0
+Work completed: Fixed-SHA specification review reported by Human
+Files affected: This review log recording only; reviewer modifications not supplied
+Evidence checked: Human-supplied specification target 9c3f5e67f3c3af73807aab3f3ba84300fcd99c07; detailed inventory not supplied
+Findings: NONE
+Decisions: Human separately authorized implementation
+Issues: Review date / separate recommendation / detailed report not supplied
+Security impact: No provider / real-data / Claims / production authorization
+Recommended next action: Specification gate satisfied; implementation evidence recorded separately below
+```
+
+### 14. ChatGPT/Codex Response
+
+No finding to remediate. Preserve the Human-supplied verdict and exact target.
+
+### 15. Human Decision
+
+Human / Product Owner authorized specification under
+`HUMAN-P2-002-INVENTION-RECONSTRUCTION-2026-10-03` and subsequent implementation
+under `HUMAN-P2-002-IMPLEMENTATION-2026-10-03`; both references date 03/10/2026.
+The current closeout instruction supplies PASS/NONE/34 of 34 PASS as evidence.
+
+### 16. Resolution
+
+PR [#70](https://github.com/nshaokiet/ai-ip-description-generator/pull/70) merged
+at `e87b51987c42edb1432a9612a4e05bc7c0d9b113`; no finding resolution invented.
+
+### 17. Resolved Version
+
+Specification 0.1.0, unchanged semantics.
+
+### 18. Closed Date
+
+03/10/2026 specification merge date; recorded retrospectively on 04/10/2026.
+
+### 19. Closed By
+
+Codex records the satisfied historical gate under Human-authorized governance closeout.
+
+## REV-P2-002-IMPLEMENTATION
+
+### Review ID
+
+`REV-P2-002-IMPLEMENTATION`
+
+### Date
+
+04/10/2026 evidence recording date; independent review date not supplied.
+
+### Reviewer
+
+Gemini 3.1 Pro High / Antigravity, read-only. Human supplied this independent
+external report; GitHub review APIs did not supply the PASS. Reviewer modified
+tracked repository files: NO. Merge suitability: YES.
+
+### Task ID
+
+P2-002
+
+### Artefact reviewed
+
+The 29-file implementation PR #71 at exact SHA
+`62a43da07fc4ccd60c9dab0da188388f6cab88e2`, baseline
+`e87b51987c42edb1432a9612a4e05bc7c0d9b113`.
+
+### Version reviewed
+
+INVENTION_RECONSTRUCTION 1.0.0; specification 0.1.0; implementation evidence 0.2.0.
+
+### Review status
+
+CLOSED — PASS / findings NONE / AC-01…AC-34 PASS. Closeout review remains PENDING.
+
+### 1. Review Objective
+
+Read-only fixed-SHA implementation review against all 34 acceptance criteria.
+
+### 2. Sources Reviewed
+
+Human identifies the exact implementation target and AC-01…AC-34 outcome. A
+detailed reviewer source inventory was not supplied. Codex separately verified
+PR metadata, merge parents/tree, all 29 files on main and GitHub CI run metadata;
+these are merge/CI checks, not an invented reviewer source list.
+
+### 3. Summary
+
+Human-supplied PASS / NONE / AC-01…AC-34 PASS; reviewer modified files NO;
+merge suitability YES. Implementation is merged and post-merge verified.
+
+### 4. Findings
+
+NONE reported; no blocking finding to resolve.
+
+### 5. Source-Grounding Issues
+
+No finding reported within the reconstruction contract/offline scope. This does
+not establish real-paper semantic entailment or provider quality.
+
+### 6. Hallucination Risks
+
+No finding reported; semantic acceptance remains NOT DETERMINED.
+
+### 7. Missing Information
+
+Independent review date, detailed report/source inventory and a separate
+recommendation were not supplied. MCP returns `Unknown task: P2-002`.
+
+### 8. Technical Concerns
+
+No finding reported. The merge tree equals the reviewed implementation tree;
+all 29 changed files exist on main. Contract 1.0.0 semantics unchanged.
+
+### 9. Security and Privacy Concerns
+
+Provider/API calls NONE; authorization NOT GRANTED; budget 0; real/confidential
+data NONE / NOT AUTHORIZED; arbitrary real-paper AI conversion NOT ENABLED;
+Claims runtime NOT IMPLEMENTED; production NOT APPROVED / NOT PERFORMED;
+deployment change NO. BLK-003 OPEN; PRODUCT_RUNTIME DEFERRED — AWAITING FUNDING.
+
+### 10. Consistency Issues
+
+Stale review-pending summaries are reconciled in this docs-only proposal; this
+does not claim the governance closeout itself has already passed review or merged.
+
+### 11. Suggested Changes
+
+None supplied.
+
+### 12. Recommendation
+
+No separate recommendation supplied; PASS and merge suitability YES are recorded
+without inventing APPROVE.
+
+### 13. Handoff to ChatGPT/Codex
+
+```text
+Task ID: P2-002
+Agent: Gemini 3.1 Pro High / Antigravity (Human-supplied attribution)
+Reviewer: Human / Product Owner
+Status: PASS / NONE / AC-01…AC-34 PASS
+Version: Reconstruction 1.0.0; specification 0.1.0
+Work completed: Fixed-SHA independent implementation review reported by Human
+Files affected: 29-file reviewed implementation; reviewer modified tracked files NO
+Evidence checked: Reviewed SHA 62a43da07fc4ccd60c9dab0da188388f6cab88e2; detailed reviewer inventory not supplied
+Findings: NONE
+Decisions: Human supplied merge suitability YES and authorized implementation merge
+Issues: MCP TOOL LIMITATION — Unknown task: P2-002
+Security impact: Provider/API calls NONE; real/confidential data NONE; Claims NO; production/deployment NO
+Recommended next action: Implementation gate satisfied; documentation closeout requires its own fixed-SHA review
+```
+
+### 14. ChatGPT/Codex Response
+
+No finding to remediate. Preserve attribution and exact SHA; reconcile only
+documentation/status and keep all current project boundaries.
+
+### 15. Human Decision
+
+Human / Product Owner supplied this PASS/NONE/34/34 result in the explicit PR #71
+merge instruction under `HUMAN-P2-002-IMPLEMENTATION-2026-10-03`. The current
+closeout instruction authorizes documentation/commit/push/PR and requires a stop
+before closeout merge. P2-003/P2-004 NOT AUTHORIZED BY THIS CLOSEOUT.
+
+### 16. Resolution
+
+PR [#71](https://github.com/nshaokiet/ai-ip-description-generator/pull/71) merged
+at `7d295165379dfa3aa16cd305eb73e7ee739f5f03`.
+PR CI [37133351078](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/37133351078)
+SUCCESS on reviewed SHA `62a43da07fc4ccd60c9dab0da188388f6cab88e2`.
+Final implementation push/main CI
+[37135175570](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/37135175570)
+SUCCESS on exact merge SHA. Human-supplied review attribution and merge evidence
+were already persisted in the [PR #71 handoff](https://github.com/nshaokiet/ai-ip-description-generator/pull/71#issuecomment-5970905119).
+
+### 17. Resolved Version
+
+Reconstruction 1.0.0; reviewed implementation unchanged. Governance evidence
+revision 0.2.1 is proposed in this closeout and has no independent PASS yet.
+
+### 18. Closed Date
+
+03/10/2026 implementation merge/post-merge CI date; recorded on 04/10/2026.
+
+### 19. Closed By
+
+Codex records the satisfied implementation gate under Human-authorized closeout.
+MCP lifecycle/checkpoint remains **BLOCKED BY TOOL CAPABILITY — Unknown task:
+P2-002**; no MCP completion/lease fabricated. Proposed final governance state:
+**CLOSED / COMPLETED — MERGED**; this closeout's review/merge is **PENDING**.
+Next: Gemini 3.1 Pro High / Antigravity read-only fixed-SHA closeout review.
+**STOP. Do not merge. Do not start P2-003 or P2-004.**
