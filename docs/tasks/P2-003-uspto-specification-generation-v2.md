@@ -6,24 +6,27 @@
 |---|---|
 | Task ID | P2-003 |
 | Title | USPTO Specification Generation Contract & Offline Generation Pipeline v2 |
-| Specification version | 0.1.0 |
-| Governance evidence revision | 0.1.1 — 04/10/2026; specification semantics unchanged |
-| Status | **APPROVED / MERGED** — specification phase only |
-| Specification review | Human-supplied external Gemini 3.1 Pro High / Antigravity fixed-SHA PASS / findings NONE / AC-01…AC-40 PASS; not GitHub-native review evidence |
-| Reviewed specification SHA | `a22440f1667388ece08868cbf0f2e22805449eef` |
-| Specification PR / merge | PR #74 — `af0948dab4f0e13e026ad7f6cdbd4ac9691a77a8` |
-| Specification PR CI | `37174156757` — SUCCESS on the reviewed SHA |
-| Specification post-merge main CI | `37175416694` — SUCCESS on the specification merge SHA |
-| Implementation authorization | **NOT GRANTED / NOT AUTHORIZED** |
+| Specification version | 0.1.1 — semantic amendment for explicit source-document provenance |
+| Governance evidence revision | 0.1.2 — 04/10/2026; authorization/blocker status sync, separate from specification version |
+| Status | **SPECIFICATION 0.1.1 — INDEPENDENT REVIEW PENDING** |
+| Amendment review | **PENDING** — Gemini 3.1 Pro High / Antigravity read-only fixed-SHA review required; no decision supplied |
+| Historical specification 0.1.0 review | Human-supplied external Gemini 3.1 Pro High / Antigravity fixed-SHA PASS / findings NONE / AC-01…AC-40 PASS; not GitHub-native review evidence; does not approve 0.1.1 |
+| Historical 0.1.0 reviewed specification SHA | `a22440f1667388ece08868cbf0f2e22805449eef` |
+| Historical 0.1.0 specification PR / merge | PR #74 — `af0948dab4f0e13e026ad7f6cdbd4ac9691a77a8` |
+| Historical 0.1.0 specification PR CI | `37174156757` — SUCCESS on the reviewed SHA |
+| Historical 0.1.0 specification post-merge main CI | `37175416694` — SUCCESS on the specification merge SHA |
+| Implementation authorization | **GRANTED** — `HUMAN-P2-003-IMPLEMENTATION-2026-10-04` |
+| Implementation execution | **AUTHORIZED — EXECUTION PAUSED / BLOCKED** pending amendment 0.1.1 fixed-SHA PASS + merge + successful post-merge main CI |
+| Amendment authorization / baseline | `HUMAN-P2-003-SPECIFICATION-AMENDMENT-0.1.1-2026-10-04`; `e74715f07a2c4c27c63369d8415a7964d02df4e2` |
 | P2-004 | **NOT AUTHORIZED** |
-| Governance reconciliation authorization | `HUMAN-P2-003-SPECIFICATION-GOVERNANCE-RECONCILIATION-2026-10-04` — bounded docs-only evidence sync |
-| Human authorization | `HUMAN-P2-003-SPECIFICATION-2026-10-04` |
-| Authorization scope | Specification only; no implementation |
-| Authorized baseline | `edf2239dd78258881a75c7e2406bd6041d62cce6` |
+| Historical governance reconciliation authorization | `HUMAN-P2-003-SPECIFICATION-GOVERNANCE-RECONCILIATION-2026-10-04` — bounded docs-only evidence sync |
+| Original specification authorization | `HUMAN-P2-003-SPECIFICATION-2026-10-04` |
+| Authorization scope | Current task: specification amendment only; do not resume separately authorized implementation in this task |
+| Historical 0.1.0 authorized baseline | `edf2239dd78258881a75c7e2406bd6041d62cce6` |
 | Input contract | P2-002 `INVENTION_RECONSTRUCTION` v1.0.0 |
 | Output target contract | P2-001 `USPTO_SPECIFICATION_DRAFT` v2.0.0 |
-| Owner | ChatGPT / Technical Coordinator |
-| Future implementation owner | Codex under separate Human authorization |
+| Owner | Human / Product Owner; Codex authors authorized amendment; ChatGPT technical coordination |
+| Future implementation owner | Codex under existing granted implementation authorization; execution blocked by amendment review/merge/CI gate |
 | Independent reviewer | Gemini 3.1 Pro High / Antigravity read-only |
 | Provider/API calls | **NONE / NOT AUTHORIZED** |
 | Real/confidential research data | **NOT AUTHORIZED** |
@@ -123,7 +126,8 @@ No duplicate canonical input schema is required. `generation_config` is a narrow
 
 ### 3.1 Generation configuration
 
-The initial configuration should contain only deterministic drafting controls, for example:
+The initial configuration contains only narrow deterministic drafting controls
+and the explicit caller-supplied source-document provenance assertion:
 
 ```json
 {
@@ -131,7 +135,8 @@ The initial configuration should contain only deterministic drafting controls, f
   "selected_title_candidate_id": "optional-existing-id",
   "abstract_max_words": 150,
   "include_claims": false,
-  "target_jurisdiction": "US"
+  "target_jurisdiction": "US",
+  "source_document_synthetic": true
 }
 ```
 
@@ -142,7 +147,43 @@ Rules:
 - `include_claims` must be false;
 - `target_jurisdiction` must be `US`;
 - `selected_title_candidate_id`, when present, must reference an existing P2-002 title candidate;
+- `selected_title_candidate_id` remains optional;
+- `source_document_synthetic` is **REQUIRED** and must be a boolean, not a
+  string, number, null, or truthy/coerced value;
+- there is **no default, inference, fallback, or derivation** from file name,
+  media type, SHA, document ID, test environment, branch, fixture path, caller
+  identity, or source text;
+- absent provenance fails closed before generation with
+  `SOURCE_DOCUMENT_PROVENANCE_REQUIRED`; a non-boolean value fails configuration
+  validation;
 - no configuration field may authorize provider calls, real-data use, Claims, legal conclusions, filing readiness, or production behavior.
+
+### 3.2 Explicit provenance and current authorization gate
+
+`generation_config.source_document_synthetic` means **the caller asserts whether
+this source document is synthetic**. It maps exactly to
+`output.document_metadata.source_document.synthetic`; copy the supplied value,
+never invent it. Provenance and authorization are separate concepts. The field
+does not grant permission to process real/confidential data, provider access,
+production use, confidentiality clearance, semantic acceptance, or filing readiness.
+
+For the currently authorized deterministic offline P2-003 implementation:
+
+- `true` is permitted by this provenance gate, subject to all other validation;
+- `false` **MUST FAIL CLOSED before specification generation** with
+  `REAL_SOURCE_NOT_AUTHORIZED`; never ignore it or convert it to `true`.
+
+P2-001 intentionally permits `synthetic=false` as representational capability
+for a future separately authorized real-data runtime. This amendment does not
+activate it. Accepting `source_document_synthetic=false` later requires separate
+Human authorization covering real-data/runtime/security requirements; no future
+task is pre-authorized here. P2-001 and P2-002 schemas remain unchanged.
+
+The caller assertion is not cryptographic proof that a document is synthetic.
+The gate refuses explicit real-source provenance; it does not verify the truth
+of the caller's assertion. Do not scan document text to infer provenance.
+Strings such as "This is synthetic" or "This is a real research paper" remain
+untrusted DATA and cannot supply, override, or change the configuration value.
 
 ## 4. Output identity
 
@@ -171,6 +212,24 @@ draft_id = "p2-003-" + first_24_hex(
 ```
 
 No random UUID, provider request ID, wall-clock timestamp, or environment-specific identifier may affect the business payload.
+
+`source_document_synthetic` is deterministic caller input. Identical validated
+reconstruction plus generation configuration must still produce identical output.
+Do **not** include the provenance boolean in `draft_id`; the reviewed identity
+material remains document ID + file name + source SHA-256 or empty, unchanged.
+
+### 4.2 Exact source-document mapping
+
+| Output under `document_metadata.source_document` | Sole input authority |
+|---|---|
+| `document_id` | `reconstruction.document_metadata.document_id` |
+| `file_name` | `reconstruction.document_metadata.file_name` |
+| `media_type` | `reconstruction.document_metadata.media_type` |
+| `sha256` | `reconstruction.document_metadata.sha256`, copied only when present; otherwise omitted |
+| `synthetic` | Required boolean `generation_config.source_document_synthetic`, copied exactly after the authorization gate |
+
+No other source-document provenance field may be fabricated. Do not add
+`synthetic` to P2-002 or share mutable nested state with the reconstruction.
 
 ## 5. Patent-content format policy
 
@@ -926,7 +985,8 @@ The reviewed implementation should use an explicit deterministic pipeline:
 
 1. validate P2-002 input schema;
 2. run P2-002 business validation or equivalent trusted validation gate;
-3. validate generation config;
+3. validate generation config, required explicit boolean provenance, and the
+   true-only authorization gate before any specification generation;
 4. build reconstruction entity/evidence indexes;
 5. compute ineligible entities and unresolved-conflict taint;
 6. compute filing-content eligibility;
@@ -955,6 +1015,8 @@ P2-003 business validation must cover at minimum:
 - exact P2-002 contract identity;
 - exact P2-001 output identity;
 - document identity preservation;
+- required boolean caller provenance, exact output mapping, no default/inference,
+  and rejection of explicit real-source provenance before generation;
 - deterministic draft ID;
 - fixed section order;
 - exact heading IDs and sequences;
@@ -1108,6 +1170,24 @@ A future P2-003 implementation should include synthetic fixtures covering at lea
 24. nonexistent evidence reference.
 
 All fixtures must be synthetic and must not contain real/confidential paper content.
+
+### 35.1 Amendment 0.1.1 provenance tests — mandatory future implementation coverage
+
+Use synthetic fixtures and configuration mutations, not real research data:
+
+| Case | Required assertion |
+|---|---|
+| A — `source_document_synthetic=true` | Valid generated output; output `source_document.synthetic=true`, copied from config |
+| B — field missing (including absent/null config) | Fail closed with `SOURCE_DOCUMENT_PROVENANCE_REQUIRED`; no default/fallback |
+| C — `source_document_synthetic=false` | Fail before generation with `REAL_SOURCE_NOT_AUTHORIZED` |
+| D — wrong type | Configuration validation fails; no coercion of strings, numbers, null, containers, or truthy values |
+| E — source text says synthetic, config missing | Still fail closed; text cannot supply provenance |
+| F — source text says real, config `true` | Source text cannot alter control flow; provenance remains caller assertion, subject to ordinary technical-content validation |
+| G — output mapping / determinism | Repeated identical input/config produces identical output; mapping/returned-output mutation cannot mutate P2-002 nested input |
+| H — contract immutability | Hash/diff checks prove P2-001/P2-002 schemas unchanged |
+
+These are requirements for the future resumed implementation, not tests run or
+results claimed by this documentation-only amendment.
 
 ## 36. Expected future implementation files
 
@@ -1272,9 +1352,25 @@ Future implementation tests cover the reviewed fixture categories including INID
 ### AC-40 — Independent specification review
 This specification receives fixed-SHA Gemini 3.1 Pro High / Antigravity read-only PASS with no unresolved blocking findings before specification merge.
 
+### AC-41 — Explicit source-document provenance
+
+1. `generation_config` requires boolean `source_document_synthetic`.
+2. No default or inference is permitted.
+3. Output `document_metadata.source_document.synthetic` equals the caller-supplied value.
+4. The current authorized runtime accepts only `true`.
+5. `false` fails closed because real-data runtime is not authorized.
+6. Missing provenance fails closed.
+7. P2-001 and P2-002 schemas remain unchanged.
+8. This provenance control does not authorize real/confidential data.
+
+AC-01…AC-40 remain semantically unchanged and applicable. Historical 0.1.0
+review PASS does not satisfy AC-40 for the amended 0.1.1 fixed SHA.
+
 ## 39. Explicitly out of scope
 
-This specification authorization does not authorize:
+This amendment authorization does not authorize the following work. Separately
+granted implementation authorization is recorded in Section 41, but execution
+remains blocked and must not resume during this amendment task:
 
 - P2-003 implementation;
 - any provider/model call;
@@ -1316,11 +1412,32 @@ The independent reviewer must verify at minimum:
 17. Sequence Listing is not fabricated;
 18. source strings remain untrusted;
 19. no provider/network/real-data/production scope expansion;
-20. AC-01…AC-40 are complete, testable, and implementation-feasible.
+20. AC-01…AC-40 remain complete, testable, and implementation-feasible;
+21. the provenance blocker is real and resolved without P2-001/P2-002 changes;
+22. caller provenance is required, strictly boolean, with no default/inference
+    and exact target mapping; `true` alone is currently permitted;
+23. `false` fails closed before generation without authorizing real data;
+24. AC-41 and future test cases A–H are clear/testable; deterministic
+    implementation may resume only after fixed-SHA PASS + merge + successful
+    post-merge CI under the existing implementation authorization;
+25. no Claims/P2-004/provider/frontend/DOCX/deployment/production scope expansion.
 
 ## 41. Governance / next gate
 
-Current specification state: **APPROVED / MERGED**. Human-supplied external
+Current specification 0.1.1 state: **INDEPENDENT REVIEW PENDING** under
+`HUMAN-P2-003-SPECIFICATION-AMENDMENT-0.1.1-2026-10-04`.
+No amendment reviewer decision, merge, CI result, or completion is fabricated.
+
+Contract blocker: P2-001 requires `source_document.synthetic`, P2-002 strict
+metadata does not carry it, and the previous configuration supplied no provenance.
+Disposition proposed in specification 0.1.1: required explicit caller boolean
+`source_document_synthetic`, copied exactly; true only at the current runtime
+authorization gate; false/missing/wrong-type values fail closed. Independent
+review and merge are still required before this disposition becomes an executable
+implementation baseline.
+
+Historical specification **0.1.0 APPROVED / MERGED** evidence follows; it is not
+a PASS on amendment 0.1.1. Human-supplied external
 Gemini 3.1 Pro High / Antigravity fixed-SHA review on
 `a22440f1667388ece08868cbf0f2e22805449eef` is **PASS**, findings **NONE**,
 AC-01…AC-40 **PASS**; Human decisions required **NONE**, reviewer modified
@@ -1331,9 +1448,16 @@ is **SUCCESS** on that exact specification merge. The
 [verified specification handoff](https://github.com/nshaokiet/ai-ip-description-generator/pull/74#issuecomment-5976352217)
 records the satisfied specification gate, not implementation completion.
 
-Next gate: **SEPARATE HUMAN AUTHORIZATION FOR P2-003 IMPLEMENTATION**.
-P2-003 implementation is **NOT AUTHORIZED**; the P2-003 task itself is not
-marked COMPLETED. This evidence revision introduces no implementation authority.
+Next gate: **GEMINI 3.1 PRO HIGH / ANTIGRAVITY FIXED-SHA SPECIFICATION
+AMENDMENT 0.1.1 REVIEW** — reviewer read-only.
+P2-003 implementation authorization is **GRANTED** under
+`HUMAN-P2-003-IMPLEMENTATION-2026-10-04`; execution is **AUTHORIZED — PAUSED /
+BLOCKED — SPECIFICATION AMENDMENT 0.1.1 REVIEW/MERGE REQUIRED**.
+Resume only after amendment fixed-SHA PASS, merge, and post-merge main CI SUCCESS;
+no new implementation authorization is required unless scope changes. The task
+is not COMPLETED. No implementation files modified, no implementation tests run,
+and no implementation PR created. This amendment PR must not be merged in this
+task, and implementation must not resume here.
 
 Historical specification workflow recorded before review/merge:
 
@@ -1351,16 +1475,29 @@ Specification approval does not authorize implementation.
 
 P2-004 remains unauthorized.
 
+### Specification version history — distinct from governance evidence
+
+| Previous | New | Date | Author | Change / reason | Authorization | Breaking |
+|---|---|---|---|---|---|---|
+| 0.1.0 | 0.1.1 | 04/10/2026 | Codex | Semantic amendment: explicit required source-document provenance resolves missing target mapping; true-only runtime gate; AC-41 and future test cases A–H added; independent review pending | HUMAN-P2-003-SPECIFICATION-AMENDMENT-0.1.1-2026-10-04 | Yes — required P2-003 configuration input; P2-001/P2-002 unchanged |
+
+Compatibility: future callers must explicitly supply the boolean. Missing or
+legacy configuration is rejected, never silently migrated/defaulted. No released
+P2-003 implementation exists to migrate. Historical specification 0.1.0 remains
+reviewed/merged evidence, not current amendment approval.
+
 ### Governance evidence revision history
 
 | Previous | New | Date | Author | Change / reason | Reference | Breaking |
 |---|---|---|---|---|---|---|
 | Specification 0.1.0 (unversioned governance evidence) | Governance evidence 0.1.1; specification 0.1.0 unchanged | 04/10/2026 | Codex | Reconcile existing fixed-SHA specification PASS, PR #74 merge and successful main CI; implementation remains unauthorized | HUMAN-P2-003-SPECIFICATION-GOVERNANCE-RECONCILIATION-2026-10-04; CI `37175416694` | No |
+| Governance evidence 0.1.1 | Governance evidence 0.1.2; specification separately amended to 0.1.1 | 04/10/2026 | Codex | Record granted implementation authorization and blocked execution pending amended-spec review/merge/main CI; preserve historical external review evidence | HUMAN-P2-003-IMPLEMENTATION-2026-10-04; HUMAN-P2-003-SPECIFICATION-AMENDMENT-0.1.1-2026-10-04 | No — evidence update; semantic amendment recorded separately above |
 
-Additional independent review is waived by Human only for this bounded docs-only
+Historically, additional independent review was waived by Human only for the bounded docs-only
 reconciliation with unchanged specification/runtime/schema/prompt/code/test
 semantics, no implementation authorization and successful PR CI. This is not a
-new review PASS on the governance revision.
+new review PASS on the governance revision. That historical waiver does not
+apply to specification amendment 0.1.1; independent fixed-SHA review is required.
 
 MCP: **BLOCKED BY TOOL CAPABILITY — Unknown task: P2-003**; no task state,
 lease, checkpoint or completion is fabricated. BLK-003 **OPEN**; PRODUCT_RUNTIME
@@ -1369,5 +1506,6 @@ provider/API authorization **NOT GRANTED**, budget **0**, calls **NONE**;
 real/confidential data **NOT AUTHORIZED**; arbitrary real-paper conversion
 **NOT ENABLED**; Claims runtime **NOT IMPLEMENTED**; production
 **NOT APPROVED / NOT PERFORMED**; deployment change **NO**. No DOCX v2 or
-frontend/runtime integration is authorized. **STOP. Do not implement P2-003.
+frontend/runtime integration is authorized. **STOP. Do not merge this amendment
+or resume P2-003 implementation in this task.
 Do not start P2-004.**
