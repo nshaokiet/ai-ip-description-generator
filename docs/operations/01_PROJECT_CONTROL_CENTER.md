@@ -8,13 +8,13 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.57 |
+| Version | 0.3.58 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High |
 | Created date | 18/09/2026 |
-| Last updated | 03/10/2026 GMT+7 |
+| Last updated | 04/10/2026 GMT+7 |
 | Related task ID | SPEC-004 |
 | Source of Truth | Operational status bridge; bản nguồn Git tại `docs/operations/01_PROJECT_CONTROL_CENTER.md` |
 | Confidentiality level | Internal |
@@ -95,6 +95,7 @@
 | 0.3.54 | 0.3.55 | 02/10/2026 | Codex | Record P2-000-R2 fixed-SHA PASS, PR #65 merge, successful main CI, and final P2-000 current-state reconciliation | Close the bounded README/upload-selection/logo remediation without widening runtime, provider, data, Claims, security, or production scope | Reviewed `05fc2d3dff6929ada7a4a974428cc26f5256c4fe` PASS/NONE; all 10 review requirements PASS; PR #65 merge `a394a98b0a86b1ce686fac4871f7e5b0c0c3c44f`; CI `37012025003` SUCCESS; BLK-003 OPEN | No |
 | 0.3.55 | 0.3.56 | 03/10/2026 | Codex | Record P2-000-R3 fixed-SHA PASS, PR #67 merge, successful exact-main CI and exact-SHA public synthetic-demo redeploy; open the docs-only closeout review gate | Reconcile the merged implementation without prematurely closing the separately reviewed governance closeout | Reviewed `5569354e7003511d2e761236395ab6a604076530` PASS/NONE, 15/15; exact-head CI `37080649206`; merge `62a25a9ae136461924bc8047c5a6ad0f3550c68c`; main CI `37109553040`; Render backend/frontend deploys live on merge SHA; BLK-003 OPEN | No |
 | 0.3.56 | 0.3.57 | 03/10/2026 | Codex | Record P2-000-R3 closeout PASS, PR #68 merge and successful final main CI; reconcile stale pending wording to final status | Complete the Human-authorized docs-only evidence sync after the reviewed closeout merged | Closeout reviewed `7697798a7e2a84f42d22ed896c0f49af6bf773e0` by Gemini 3.1 Pro High PASS/NONE, 13/13; PR #68 merge `a9f50adcbefe8d5725c0b5e779ae24ad7546ec51`; final CI `37110753273` SUCCESS; BLK-003 OPEN | No |
+| 0.3.57 | 0.3.58 | 04/10/2026 | Codex | Record P2-002 specification/implementation reviews, merges and CI; propose final status with closeout review/merge pending | Human-authorized docs-only governance reconciliation | PR #70/#71; merge `7d295165379dfa3aa16cd305eb73e7ee739f5f03`; CI `37135175570`; MCP TOOL LIMITATION | No |
 
 ## 2. Project
 
@@ -131,6 +132,19 @@ P1-005 is **CLOSED / COMPLETED — MERGED; MCP TOOL LIMITATION**. Human authoriz
 
 P1-006 is **CLOSED / COMPLETED — MERGED; MCP TOOL LIMITATION** under `HUMAN-P1-006-UX-POLISH-2026-10-01`. Executable implementation `78772761f9a4081686db4977547ea89c96288f27`; implementation review head `59c65deec60ae80e3ba6d28220466c2bdbfed815` received Gemini 3.1 Pro High **PASS**, findings **NONE**, AC-01…AC-13 PASS. PR #50 merged at `659e46fa80321e037f384e0e8a09bbe90646da35`; implementation main CI `36833210498` succeeded. Governance closeout SHA `d46a7101d8aefedd14ece29db50c8f3b00ebbde9` received Gemini 3.1 Pro High **PASS**, findings **NONE**; PR #51 merged at `829c83130c6eb6018897cd5a8f62332408193142`; final main CI `36834543602` succeeded on that exact merge with backend 443 passed / 2 skipped, Python dependency consistency, frontend lint/typecheck/build PASS, synthetic Playwright 19 passed, live flags 0/0 and provider/API calls NONE. MCP remains `PLANNED` / **BLOCKED BY TOOL CAPABILITY** because no eligible task transition is exposed; no unsupported state is fabricated.
 
+P2-002 is **CLOSED / COMPLETED — MERGED** as the proposed governance
+reconciliation in this docs-only PR; independent closeout review and merge are
+still **PENDING**. Specification PR #70 reviewed
+`9c3f5e67f3c3af73807aab3f3ba84300fcd99c07` PASS/NONE, 34/34, and merged at
+`e87b51987c42edb1432a9612a4e05bc7c0d9b113`. Implementation PR #71 reviewed
+`62a43da07fc4ccd60c9dab0da188388f6cab88e2` PASS/NONE, AC-01…AC-34 PASS, and
+merged at `7d295165379dfa3aa16cd305eb73e7ee739f5f03`; PR CI `37133351078` and
+post-merge push/main CI `37135175570` are SUCCESS on their respective exact SHAs.
+Both independent verdicts are Human-supplied Gemini 3.1 Pro High / Antigravity
+evidence, not GitHub API approvals or Codex self-review. Implementation reviewer
+modified tracked files NO; merge suitability YES. **MCP TOOL LIMITATION:**
+`Unknown task: P2-002`; lifecycle/checkpoint **BLOCKED BY TOOL CAPABILITY**.
+
 ## 6. Current Objective
 
 - Preserve the finalized **MVP COMPLETE — LOCAL/SYNTHETIC** boundary after
@@ -143,6 +157,10 @@ P1-006 is **CLOSED / COMPLETED — MERGED; MCP TOOL LIMITATION** under `HUMAN-P1
   separate from this limited handover classification.
 - Preserve the completed P1-005 implementation/closeout evidence and explicit MCP tool limitation.
 - Preserve completed P1-006 evidence. DEPLOY-001 public synthetic/demo staging is now verified on Render after implementation review PASS, merge, rewrite-remediation review PASS, merge, successful main CI and public same-origin PDF/DOCX smoke. Final documentation-only governance closeout review remains pending. Production, provider/API use, real/confidential-data handling and BLK-003 closure remain unauthorized.
+
+- Hand off only the authorized P2-002 documentation proposal for Gemini 3.1 Pro
+  High / Antigravity fixed-SHA closeout review. Stop before merge; P2-003/P2-004
+  are NOT AUTHORIZED BY THIS CLOSEOUT.
 
 SPEC-001/002/003, schema, prompts and DOCX template retain their previously
 approved versions/contracts; this task does not re-approve or redesign them.
@@ -247,6 +265,7 @@ APP-002 capability boundary: `Validated PDF/DOCX → deterministic text/table pa
 | P2-001 | USPTO Patent Specification Target v2.0.0 & reference corpus | ChatGPT/Codex | Gemini 3.1 Pro High / Antigravity read-only | P2 productization — deadline-critical | **CLOSED / COMPLETED — MERGED** | Implementation reviewed `8b55fd84ab1625bf918192c889dafe64825858b4` PASS/NONE; PR #56 merge `4cb0e9501c13b9d25b427bbaf7d50c37ab6ab329`; closeout reviewed `a95ac5c9d5e19dc04216a8f945ff38f1872c39a9` PASS/NONE; PR #58 merge `461d9b33b07bb39aad11aa47b84f678e232d80a8`; final CI `36965942755` SUCCESS; MCP task unavailable / BLOCKED BY TOOL CAPABILITY | 02/10/2026 |
 | P2-000 | Enterprise SaaS Webapp Redesign & Research Paper Workflow | Codex | Gemini 3.1 Pro High / Antigravity read-only | P2 productization — frontend | **CLOSED / COMPLETED — MERGED** | Spec/implementation PR #59/#60 merged; governance closeout PR #61 merged; P2-000-R1 reviewed `cdb5e5bd2cc8f0ef5464bbc11550ad0c34673851` PASS/NONE and merged via PR #63; P2-000-R2 reviewed `05fc2d3dff6929ada7a4a974428cc26f5256c4fe` PASS/NONE and merged via PR #65 at `a394a98b0a86b1ce686fac4871f7e5b0c0c3c44f`; main CI `37012025003` SUCCESS; BLK-003 OPEN | 02/10/2026 |
 | P2-000-R3 | Human Review Gate + Validation/DOCX Workflow Correction | Codex | Gemini 3.1 Pro High / Antigravity read-only | Bounded P2 frontend workflow correction | **CLOSED / COMPLETED — MERGED** | Implementation reviewed `5569354e7003511d2e761236395ab6a604076530` PASS/NONE, 15/15; PR #67 merge `62a25a9ae136461924bc8047c5a6ad0f3550c68c`; closeout reviewed `7697798a7e2a84f42d22ed896c0f49af6bf773e0` PASS/NONE, 13/13; PR #68 merge `a9f50adcbefe8d5725c0b5e779ae24ad7546ec51`; final CI `37110753273` SUCCESS; BLK-003 OPEN | 03/10/2026 |
+| P2-002 | Invention Reconstruction Contract & Offline Reconstruction Pipeline | Codex | Gemini 3.1 Pro High / Antigravity read-only | Authorized P2 offline reconstruction | **CLOSED / COMPLETED — MERGED** (proposed; closeout review/merge PENDING) | Spec reviewed `9c3f5e67f3c3af73807aab3f3ba84300fcd99c07` PASS/NONE, 34/34; PR #70 merge `e87b51987c42edb1432a9612a4e05bc7c0d9b113`; implementation reviewed `62a43da07fc4ccd60c9dab0da188388f6cab88e2` PASS/NONE, AC-01…AC-34 PASS; PR #71 merge `7d295165379dfa3aa16cd305eb73e7ee739f5f03`; PR CI `37133351078`, main CI `37135175570` SUCCESS; MCP TOOL LIMITATION | 04/10/2026 evidence record |
 | EVAL-001 | Semantic Quality Evaluation — framework/gold merged; PRODUCT_RUNTIME deferred | GPT-6 Sol | Gemini 3.1 Pro High | Post-MVP — AWAITING FUNDING; no active runtime work | Framework/gold reviews PASS/findings NONE; corpus/gold 6/6 HUMAN_ACCEPTED; baseline MERGED; PRODUCT_RUNTIME DEFERRED; product evidence NONE; semantic acceptance NOT_DETERMINED, not PASS/Completed | Frozen product `37d42fc8b07003aa2a67f2d1d32e64e69eb0ddb5`; PR #29 merge `2caf3e6c698745a1c2b09d5605e8fba955bca2f9`; DEC-020; provider NOT GRANTED/budget 0; BLK-003 OPEN | Post-MVP Human funding decision |
 
 Mọi target date cụ thể cần được xếp trước deadline chung 02/10/2026 và do Human xác nhận.
@@ -465,6 +484,7 @@ Recommended next action: Post-merge governance closeout; await Human assignment 
 | Patent Draft JSON Schema | 1.0.0 | Completed — Merged via PR #5 | ChatGPT/Codex | Gemini 3.1 Pro High | 20/09/2026 |
 | USPTO Specification Target Schema | 2.0.0 | Ready for independent fixed-SHA review — target contract only, not runtime | ChatGPT/Codex | Gemini 3.1 Pro High / Antigravity read-only | 02/10/2026 |
 | DOCX template | 1.0.0 | Completed — Merged via PR #7 | ChatGPT/Codex | Gemini 3.1 Pro High + Human | 20/09/2026 |
+| Invention Reconstruction Schema | 1.0.0 | Implemented / reviewed PASS / merged via PR #71; main CI `37135175570` SUCCESS; offline only | Codex | Gemini 3.1 Pro High / Antigravity | 04/10/2026 evidence record |
 | API contract | APP-001 | Completed — Merged via PR #10; public surface unchanged by APP-002 | ChatGPT/Codex | Gemini 3.1 Pro High + Human | 21/09/2026 |
 | Document parsing/evidence preparation | APP-002 | Completed — Merged via PR #12 | ChatGPT/Codex | Gemini 3.1 Pro High + Human | 21/09/2026 |
 | OpenAI extraction runtime | AI-RUNTIME-001 / spec 1.0.0 | Completed — Merged via PR #14; live provider smoke pending | ChatGPT/Codex | Gemini 3.1 Pro High + Human | 21/09/2026 |
@@ -570,6 +590,37 @@ Human đã phê duyệt ADR-006 và Output Schema v1.0.0 cho AI-001, sau đó me
 
 ## 22. Next Recommended Action
 
+Current P2-002 action: **READY FOR INDEPENDENT FIXED-SHA CLOSEOUT REVIEW** on
+`docs/p2-002-post-merge-closeout`, based on exact main
+`7d295165379dfa3aa16cd305eb73e7ee739f5f03`. Stop before merge; require Gemini
+3.1 Pro High / Antigravity read-only governance PASS on the final closeout SHA.
+The evidence summary below does not authorize a next product task.
+
+Human specification authorization:
+`HUMAN-P2-002-INVENTION-RECONSTRUCTION-2026-10-03`; Human implementation
+authorization: `HUMAN-P2-002-IMPLEMENTATION-2026-10-03`. The Human's current
+P2-002 closeout instruction authorizes documentation/commit/push/PR only and
+explicitly requires a stop before closeout merge. Specification
+PR [#70](https://github.com/nshaokiet/ai-ip-description-generator/pull/70) and
+implementation PR [#71](https://github.com/nshaokiet/ai-ip-description-generator/pull/71)
+are merged; review targets/verdicts are recorded separately in the Review Log.
+CI [37133351078](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/37133351078)
+and post-merge main CI [37135175570](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/37135175570)
+are SUCCESS. All 29 implementation files exist on main and its merge tree equals
+the reviewed tree. Root local main ahead 2 / behind 46 is preserved and was not
+used as the closeout baseline.
+
+**MCP TOOL LIMITATION:** P2-002 lifecycle/checkpoint cannot be represented because
+the tool returns `Unknown task: P2-002`; **BLOCKED BY TOOL CAPABILITY**. No lease,
+approval, checkpoint or completion is fabricated.
+
+Provider/API calls **NONE**, authorization **NOT GRANTED**, budget **0**;
+real/confidential data **NONE / NOT AUTHORIZED**; arbitrary real-paper AI
+conversion **NOT ENABLED**; Claims runtime **NOT IMPLEMENTED**; production
+**NOT APPROVED / NOT PERFORMED**; deployment change **NO**; BLK-003 **OPEN**;
+EVAL-001 PRODUCT_RUNTIME **DEFERRED — AWAITING FUNDING**; semantic acceptance
+**NOT DETERMINED**. P2-003/P2-004 **NOT AUTHORIZED BY THIS CLOSEOUT**.
+
 1. P1-002 — **CLOSED / COMPLETED — MERGED** via implementation PR #40 and closeout PR #41; final main CI `36585724418` SUCCESS; MCP `COMPLETED` verified.
 2. P1-003 is **COMPLETED WITH MCP TOOL LIMITATION** via implementation PR #42 and governance closeout PR #43; final main CI `36681005158` SUCCESS. MCP remains `IMPLEMENTED` because transition/checkpoint is **BLOCKED BY TOOL CAPABILITY**.
 3. P1-004 is **CLOSED / COMPLETED — MERGED WITH MCP TOOL LIMITATION** via implementation PR #45 and governance closeout PR #46; final main CI `36732793377` SUCCESS. MCP remains `IMPLEMENTED` because completion is **BLOCKED BY TOOL CAPABILITY**.
@@ -582,4 +633,4 @@ Human đã phê duyệt ADR-006 và Output Schema v1.0.0 cho AI-001, sau đó me
 
 ## 23. Last Updated
 
-**03/10/2026 GMT+7**
+**04/10/2026 GMT+7**

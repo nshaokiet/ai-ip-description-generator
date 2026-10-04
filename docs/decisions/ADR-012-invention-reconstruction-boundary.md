@@ -5,8 +5,9 @@
 | Field | Value |
 |---|---|
 | ADR ID | ADR-012 |
-| Status | Records approved specification architecture — implementation review pending |
+| Status | Approved specification architecture implemented / independently reviewed PASS / merged / post-merge verified |
 | Date | 03/10/2026 |
+| Evidence revision | 0.1.1 — 04/10/2026; architecture decision unchanged |
 | Decision owner | Human / Product Owner |
 | Implementation owner | Codex |
 | Independent reviewer | Gemini 3.1 Pro High / Antigravity read-only |
@@ -14,6 +15,9 @@
 | Authorization | `HUMAN-P2-002-IMPLEMENTATION-2026-10-03` |
 | Reviewed specification | `9c3f5e67f3c3af73807aab3f3ba84300fcd99c07` |
 | Implementation baseline | `e87b51987c42edb1432a9612a4e05bc7c0d9b113` |
+| Reviewed implementation | `62a43da07fc4ccd60c9dab0da188388f6cab88e2` — Human-supplied Gemini 3.1 Pro High / Antigravity PASS, findings NONE, AC-01…AC-34 PASS |
+| Implementation merge | PR #71 — `7d295165379dfa3aa16cd305eb73e7ee739f5f03` |
+| CI evidence | PR CI `37133351078` SUCCESS; post-merge push/main CI `37135175570` SUCCESS |
 
 ## Context
 
@@ -23,7 +27,9 @@ The current v1 pipeline can transform structured analysis directly into a claim-
 
 This ADR records the architecture already approved in specification PR #70 and
 the cited Human implementation authorization. It introduces no new architecture
-decision; implementation evidence still requires independent fixed-SHA review.
+decision. The implementation has now received Human-supplied independent
+fixed-SHA PASS, merged and passed post-merge main CI as recorded above. The
+documentation-only governance closeout remains separately review/merge gated.
 
 Introduce the strict `INVENTION_RECONSTRUCTION` v1.0.0 contract and an offline deterministic adapter with this boundary:
 
@@ -87,3 +93,9 @@ Trade-offs:
 3. **APP-002 only** — rejected because deterministic parsing does not provide the structured semantic analysis already defined by AI-001.
 4. **Duplicate combined input schema** — rejected because it would fork released upstream semantics and create drift.
 5. **Provider-assisted reconstruction in P2-002** — rejected because provider authorization/budget and PRODUCT_RUNTIME evaluation are absent.
+
+## Evidence revision history
+
+| Previous | New | Date | Author | Change / reason | Reference | Breaking |
+|---|---|---|---|---|---|---|
+| Initial evidence (unversioned) | 0.1.1 | 04/10/2026 | Codex | Reconcile factual implementation review/merge/CI status; architecture and contract semantics unchanged | Human P2-002 governance closeout instruction; PR #71; CI `37135175570` | No |
