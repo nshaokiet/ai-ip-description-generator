@@ -7,9 +7,15 @@
 | Task ID | P2-003 |
 | Title | USPTO Specification Generation Contract & Offline Generation Pipeline v2 |
 | Specification version | 0.1.1 — semantic amendment for explicit source-document provenance |
-| Governance evidence revision | 0.1.4 — 04/10/2026; implementation PASS / merge / main CI and governance closeout proposal; specification 0.1.1 semantics unchanged |
-| Status | **CLOSED / COMPLETED — MERGED; GOVERNANCE CLOSEOUT REVIEW PENDING** |
-| Closeout gate | Proposed Git/governance state; docs-only fixed-SHA review, closeout merge and successful final main CI remain pending; not final task closure |
+| Governance evidence revision | 0.1.5 — 04/10/2026; final bounded stale-current-state reconciliation after reviewed closeout merge and successful final CI; specification 0.1.1 semantics unchanged |
+| Status | **CLOSED / COMPLETED — MERGED** |
+| Closeout gate | Satisfied: fixed-SHA closeout PASS, PR #78 merged and exact-merge main CI SUCCESS; no further P2-003 review gate |
+| Governance closeout review | **CLOSED — PASS / findings NONE**; Gemini 3.1 Pro High / Antigravity read-only; Human-supplied external evidence, not GitHub-native approval |
+| Reviewed closeout SHA / scope | `e97b5cbda4b69b7cbb8524f99b0c1a27f10e19c7`; 4/4 authorized docs |
+| Closeout suitability | Reviewer modified tracked files NO; merge suitability YES; final closure suitability PASS |
+| Closeout PR / exact-head CI | PR #78 MERGED; `37199160809` SUCCESS |
+| Closeout merge / final main CI | `e61b69358fba68ccc109fb5b76081d2685d96bce`; `37200160782` SUCCESS on that exact merge SHA |
+| Final reconciliation authorization / review waiver | `HUMAN-P2-003-FINAL-GOVERNANCE-STATUS-RECONCILIATION-2026-10-04`; additional independent review WAIVED only for exactly four docs, no technical semantic changes and exact-head PR CI SUCCESS; not a review PASS |
 | Amendment review | Human-supplied external Gemini 3.1 Pro High / Antigravity fixed-SHA PASS / findings NONE / AC-01…AC-41 PASS / A–H PASS; not GitHub-native review evidence |
 | Reviewed amendment SHA | `1a17c87a6c42087965b7ac3fa88ae0fc17f26a4e` |
 | Amendment PR / merge / implementation baseline | PR #76 — `26d21feff592ff73574071887148630d44018b41` |
@@ -32,11 +38,11 @@
 | P2-004 | **NOT AUTHORIZED** |
 | Historical governance reconciliation authorization | `HUMAN-P2-003-SPECIFICATION-GOVERNANCE-RECONCILIATION-2026-10-04` — bounded docs-only evidence sync |
 | Original specification authorization | `HUMAN-P2-003-SPECIFICATION-2026-10-04` |
-| Authorization scope | Current task: exactly four docs-only governance closeout files; no implementation/schema/test changes; do not merge the closeout or start P2-004 |
+| Authorization scope | Current task: exactly four docs-only final-status reconciliation files; commit/PR/merge after scope verification and exact-head CI SUCCESS; no implementation/schema/test changes or P2-004 authorization |
 | Historical 0.1.0 authorized baseline | `edf2239dd78258881a75c7e2406bd6041d62cce6` |
 | Input contract | P2-002 `INVENTION_RECONSTRUCTION` v1.0.0 |
 | Output target contract | P2-001 `USPTO_SPECIFICATION_DRAFT` v2.0.0 |
-| Owner | Human / Product Owner; Codex governance closeout; ChatGPT technical coordination |
+| Owner | Human / Product Owner; Codex final governance status reconciliation; ChatGPT technical coordination |
 | Implementation owner | Codex under existing implementation authorization; fixed-SHA implementation review PASS and merge verified |
 | Independent reviewer | Gemini 3.1 Pro High / Antigravity read-only |
 | Provider/API calls | **NONE / NOT AUTHORIZED** |
@@ -1465,11 +1471,9 @@ is **SUCCESS** on that exact specification merge. The
 [verified specification handoff](https://github.com/nshaokiet/ai-ip-description-generator/pull/74#issuecomment-5976352217)
 records the satisfied specification gate, not implementation completion.
 
-Current proposed Git/governance state: **CLOSED / COMPLETED — MERGED;
-GOVERNANCE CLOSEOUT REVIEW PENDING**. This is the Human-requested closeout proposal,
-not evidence that the separate closeout review/merge/final main CI gate is complete.
-Next gate: **P2-003 DOCS-ONLY GOVERNANCE CLOSEOUT FIXED-SHA REVIEW** by Gemini
-3.1 Pro High / Antigravity, read-only, after exact-head closeout PR CI SUCCESS.
+Current Git/governance state: **CLOSED / COMPLETED — MERGED**. Specification,
+implementation and governance closeout review/merge/main-CI gates are satisfied.
+No further P2-003 review gate remains.
 P2-003 implementation authorization is **GRANTED** under
 `HUMAN-P2-003-IMPLEMENTATION-2026-10-04`. Implementation:
 **MERGED — IMPLEMENTATION REVIEW PASS**; independent implementation review
@@ -1499,7 +1503,15 @@ The auditable implementation matrix remains unchanged in
 `tests/fixtures/uspto-generation/v2.0.0/README.md`; its original AC-40-pending label
 describes the pre-review handoff and is superseded by the external implementation
 PASS recorded here. This closeout does not authorize editing that test fixture README.
-No `REV-P2-003-CLOSEOUT` PASS is recorded. **Do not merge this closeout in this task.**
+Governance closeout review `REV-P2-003-CLOSEOUT`: **CLOSED — PASS / findings NONE**.
+Human-supplied external Gemini 3.1 Pro High / Antigravity read-only review on
+`e97b5cbda4b69b7cbb8524f99b0c1a27f10e19c7` covered **4/4 authorized docs**;
+critical areas ALL PASS; reviewer modified tracked files NO; merge suitability YES;
+final closure suitability PASS; Human decisions required NONE. This is not
+GitHub-native approval. Exact-head closeout CI `37199160809` SUCCESS; PR #78
+MERGED at `e61b69358fba68ccc109fb5b76081d2685d96bce`; final push/main CI
+`37200160782` completed SUCCESS on that exact merge SHA. Final closure conditions
+are fulfilled; this does not establish semantic acceptance or runtime authorization.
 
 Historical specification workflow recorded before review/merge:
 
@@ -1537,6 +1549,7 @@ reviewed/merged evidence; amendment 0.1.1 approval is separately evidenced above
 | Governance evidence 0.1.1 | Governance evidence 0.1.2; specification separately amended to 0.1.1 | 04/10/2026 | Codex | Record granted implementation authorization and blocked execution pending amended-spec review/merge/main CI; preserve historical external review evidence | HUMAN-P2-003-IMPLEMENTATION-2026-10-04; HUMAN-P2-003-SPECIFICATION-AMENDMENT-0.1.1-2026-10-04 | No — evidence update; semantic amendment recorded separately above |
 | Governance evidence 0.1.2 | Governance evidence 0.1.3; specification 0.1.1 semantics unchanged | 04/10/2026 | Codex | Reconcile amendment external PASS, PR #76 merge / successful main CI; blocker resolved; record implemented offline service and local tests, independent implementation review pending | HUMAN-P2-003-IMPLEMENTATION-2026-10-04; merge `26d21feff592ff73574071887148630d44018b41`; CI `37184343482` | No |
 | Governance evidence 0.1.3 | Governance evidence 0.1.4; specification 0.1.1 semantics unchanged | 04/10/2026 | Codex | Record external fixed-SHA implementation PASS/NONE, complete 9/9 diff and reporting-error clarification, PR #77 merge / successful main CI; propose docs-only governance closeout, closeout review pending | HUMAN-P2-003-IMPLEMENTATION-2026-10-04; reviewed `acc0ddcaa1fa533f7426133bec2963bea12aa5b2`; merge `1702547ae06a59c990f9264223d2ff07131265cc`; CI `37197774777` | No |
+| Governance evidence 0.1.4 | Governance evidence 0.1.5; specification 0.1.1 semantics unchanged | 04/10/2026 | Codex | Final bounded stale-current-state reconciliation after reviewed closeout merge and successful final CI; record external closeout PASS/NONE, 4/4 docs and final lifecycle closure | HUMAN-P2-003-FINAL-GOVERNANCE-STATUS-RECONCILIATION-2026-10-04; reviewed `e97b5cbda4b69b7cbb8524f99b0c1a27f10e19c7`; PR #78 merge `e61b69358fba68ccc109fb5b76081d2685d96bce`; CI `37200160782`; additional review waived only for this four-doc reconciliation with unchanged technical semantics and exact-head PR CI SUCCESS | No |
 
 Historically, additional independent review was waived by Human only for the bounded docs-only
 reconciliation with unchanged specification/runtime/schema/prompt/code/test
@@ -1544,8 +1557,17 @@ semantics, no implementation authorization and successful PR CI. This is not a
 new review PASS on the governance revision. That historical waiver does not
 apply to specification amendment 0.1.1; its required independent fixed-SHA review
 was subsequently supplied by Human. It does not waive implementation or closeout
-review. The required implementation review was separately supplied and passed;
-this docs-only closeout still requires its own fixed-SHA review.
+review. The required implementation and closeout fixed-SHA reviews were separately
+supplied and passed as evidenced above.
+
+Final reconciliation authorization (separate from independent review):
+`HUMAN-P2-003-FINAL-GOVERNANCE-STATUS-RECONCILIATION-2026-10-04` permits removing
+only stale CURRENT-state wording after PR #78 merge and successful final CI.
+Additional independent review is **WAIVED for this reconciliation only**, subject
+to exactly four authorized docs, unchanged technical semantics and exact-head PR CI
+SUCCESS. This waiver is not Gemini PASS and does not replace `REV-P2-003-CLOSEOUT`.
+This reconciliation's own PR/merge/CI evidence belongs in its final handoff and Git
+history, not recursively in this document.
 
 MCP: **BLOCKED BY TOOL CAPABILITY — Unknown task: P2-003**; no task state,
 lease, checkpoint or completion is fabricated. BLK-003 **OPEN**; PRODUCT_RUNTIME
@@ -1554,6 +1576,4 @@ provider/API authorization **NOT GRANTED**, budget **0**, calls **NONE**;
 real/confidential data **NOT AUTHORIZED**; arbitrary real-paper conversion
 **NOT ENABLED**; Claims runtime **NOT IMPLEMENTED**; production
 **NOT APPROVED / NOT PERFORMED**; deployment change **NO**. No DOCX v2 or
-frontend/runtime integration is authorized. **STOP after governance closeout handoff.
-Do not merge this closeout in this task.
-Do not start P2-004.**
+frontend/runtime integration is authorized. **STOP. Do not start P2-004.**
