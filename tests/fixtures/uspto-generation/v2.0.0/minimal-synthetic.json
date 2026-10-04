@@ -1,0 +1,31 @@
+{
+  "schema_version":"1.0.0","output_type":"INVENTION_RECONSTRUCTION",
+  "output_notice":{"status":"DRAFT","human_review_required":true,"is_legal_advice":false,"filing_ready":false,"includes_patentability_assessment":false,"includes_claims":false},
+  "document_metadata":{"document_id":"doc-p3-synthetic","file_name":"synthetic-controller.pdf","media_type":"application/pdf","sha256":"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"},
+  "provenance":{"source_evidence_contract":{"task_id":"APP-002","contract_name":"ExtractionInputEnvelope","schema_version":"1.0.0"},"structured_analysis_contract":{"task_id":"AI-001","contract_name":"STRUCTURED_INVENTION_ANALYSIS","schema_version":"1.0.0"},"reconstruction_mode":"OFFLINE_DETERMINISTIC"},
+  "invention_model":{
+    "title_candidates":[{"title_id":"IR-TITLE-1","title":"Synthetic optical controller","rationale":"Synthetic fixture title","support":{"grounding_class":"SOURCE_FACT","evidence_ids":["EV-SYNTHETIC"],"analysis_paths":["/title_candidates/0"]}}],
+    "technical_field":{"status":"PRESENT","field_id":"IR-FIELD-1","name":"optical calibration","support":{"grounding_class":"SOURCE_FACT","evidence_ids":["EV-SYNTHETIC"],"analysis_paths":["/technical_field"]}},
+    "technical_context":[{"context_id":"IR-CONTEXT-1","statement":"Temperature drift affects measurement repeatability","support":{"grounding_class":"PARAPHRASE","evidence_ids":["EV-SYNTHETIC"],"analysis_paths":["/background/0"]}}],
+    "problems":[{"problem_id":"IR-PROB-1","statement":"Temperature drift affects measurement repeatability","support":{"grounding_class":"SOURCE_FACT","evidence_ids":["EV-SYNTHETIC"],"analysis_paths":["/technical_problems/0"]}}],
+    "solution_concepts":[{"solution_id":"IR-SOL-1","statement":"A controller applies calibration to a sensor response","addresses_problem_ids":["IR-PROB-1"],"related_element_ids":["IR-ELEM-1","IR-ELEM-2"],"related_step_ids":["IR-STEP-1"],"support":{"grounding_class":"PARAPHRASE","evidence_ids":["EV-SYNTHETIC"],"analysis_paths":["/technical_solutions/0"]}}],
+    "elements":[
+      {"element_id":"IR-ELEM-1","name":"sensor","element_type":"DEVICE","essentiality":"UNKNOWN","description":"The sensor measures response","support":{"grounding_class":"SOURCE_FACT","evidence_ids":["EV-SYNTHETIC"],"analysis_paths":["/components/0"]}},
+      {"element_id":"IR-ELEM-2","name":"controller","element_type":"MODULE","essentiality":"OPTIONAL","description":"The controller applies calibration","support":{"grounding_class":"SOURCE_FACT","evidence_ids":["EV-SYNTHETIC"],"analysis_paths":["/components/1"]}}
+    ],
+    "relationships":[{"relationship_id":"IR-REL-1","subject_id":"IR-ELEM-1","relation_type":"RELATED_TO","object_id":"IR-ELEM-2","support":{"grounding_class":"SOURCE_FACT","evidence_ids":["EV-SYNTHETIC"],"analysis_paths":["/components/0"]}}],
+    "method_steps":[
+      {"step_id":"IR-STEP-1","sequence_index":1,"action":"Measure sensor response","input_element_ids":["IR-ELEM-1"],"output_element_ids":["IR-ELEM-2"],"dependency_step_ids":[],"conditions":[{"condition_id":"IR-COND-1","statement":"At 25 degC","support":{"grounding_class":"INFERENCE","evidence_ids":["EV-SYNTHETIC"],"analysis_paths":["/process_steps/0/conditions/0"]}}],"support":{"grounding_class":"SOURCE_FACT","evidence_ids":["EV-SYNTHETIC"],"analysis_paths":["/process_steps/0"]}},
+      {"step_id":"IR-STEP-2","sequence_index":2,"action":"Apply calibration","input_element_ids":["IR-ELEM-2"],"output_element_ids":[],"dependency_step_ids":["IR-STEP-1"],"conditions":[],"support":{"grounding_class":"PARAPHRASE","evidence_ids":["EV-SYNTHETIC"],"analysis_paths":["/process_steps/1"]}}
+    ],
+    "flows":[{"flow_id":"IR-FLOW-1","flow_type":"UNSPECIFIED","source_id":"IR-ELEM-1","target_id":"IR-STEP-1","description":"Sensor response input","support":{"grounding_class":"SOURCE_FACT","evidence_ids":["EV-SYNTHETIC"],"analysis_paths":["/process_steps/0"]}}],
+    "parameters":[{"parameter_id":"IR-PARAM-1","name":"temperature","role":"EXPERIMENTAL_CONDITION","value":{"value_kind":"EXACT","exact_value":"25"},"unit":"degC","scope_status":"EXAMPLE_ONLY","related_entity_ids":["IR-STEP-1"],"support":{"grounding_class":"SOURCE_FACT","evidence_ids":["EV-SYNTHETIC"],"analysis_paths":["/experimental_data/0/conditions/0"]}}],
+    "technical_effects":[{"effect_id":"IR-EFFECT-1","statement":"Repeatability improves in the represented experiment","related_solution_ids":["IR-SOL-1"],"related_element_ids":["IR-ELEM-1"],"conditions":[{"condition_id":"IR-COND-2","statement":"At 25 degC","support":{"grounding_class":"SOURCE_FACT","evidence_ids":["EV-SYNTHETIC"],"analysis_paths":["/technical_effects/0/conditions/0"]}}],"effect_basis":"SUPPORTED_CONSEQUENCE","support":{"grounding_class":"INFERENCE","evidence_ids":["EV-SYNTHETIC"],"analysis_paths":["/technical_effects/0"]}}],
+    "embodiments":[{"embodiment_id":"IR-EMB-1","name":"Example controller arrangement","description":"A sensor and controller perform measurement and calibration","element_ids":["IR-ELEM-1","IR-ELEM-2"],"method_step_ids":["IR-STEP-1","IR-STEP-2"],"parameter_ids":["IR-PARAM-1"],"disclosure_status":"SYNTHESIZED","support":{"grounding_class":"INFERENCE","evidence_ids":["EV-SYNTHETIC"],"analysis_paths":["/embodiments/0"]}}],
+    "variants":[],"source_artifacts":[]
+  },
+  "review_package":{
+    "evidence":[{"evidence_id":"EV-SYNTHETIC","document_id":"doc-p3-synthetic","evidence_type":"TEXT","locator":{"page":1,"chunk_id":"SYNTHETIC-1"},"excerpt":"Synthetic fixture only. Optical calibration uses a sensor and controller. Temperature drift affects measurement repeatability. A controller applies calibration to a sensor response. The sensor measures response at 25 degC. Repeatability improves in the represented experiment. Optical devices include sensor and controller. Supported dimension range 5 to 10 um. Figure 1 shows the synthetic sensor and controller arrangement."}],
+    "conflicts":[],"missing_information":[],"author_questions":[],"warnings":[]
+  }
+}

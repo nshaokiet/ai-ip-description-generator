@@ -7,26 +7,31 @@
 | Task ID | P2-003 |
 | Title | USPTO Specification Generation Contract & Offline Generation Pipeline v2 |
 | Specification version | 0.1.1 — semantic amendment for explicit source-document provenance |
-| Governance evidence revision | 0.1.2 — 04/10/2026; authorization/blocker status sync, separate from specification version |
-| Status | **SPECIFICATION 0.1.1 — INDEPENDENT REVIEW PENDING** |
-| Amendment review | **PENDING** — Gemini 3.1 Pro High / Antigravity read-only fixed-SHA review required; no decision supplied |
+| Governance evidence revision | 0.1.3 — 04/10/2026; merged amendment and implementation handoff evidence, specification semantics unchanged |
+| Status | **SPECIFICATION 0.1.1 APPROVED / MERGED; IMPLEMENTED — INDEPENDENT IMPLEMENTATION REVIEW PENDING** |
+| Amendment review | Human-supplied external Gemini 3.1 Pro High / Antigravity fixed-SHA PASS / findings NONE / AC-01…AC-41 PASS / A–H PASS; not GitHub-native review evidence |
+| Reviewed amendment SHA | `1a17c87a6c42087965b7ac3fa88ae0fc17f26a4e` |
+| Amendment PR / merge / implementation baseline | PR #76 — `26d21feff592ff73574071887148630d44018b41` |
+| Amendment PR / post-merge main CI | `37182596336` / `37184343482` — SUCCESS on their exact respective SHAs |
+| Contract blocker | **RESOLVED** by merged specification 0.1.1 |
+| Independent implementation review | **PENDING** — AC-40 is not self-approved |
 | Historical specification 0.1.0 review | Human-supplied external Gemini 3.1 Pro High / Antigravity fixed-SHA PASS / findings NONE / AC-01…AC-40 PASS; not GitHub-native review evidence; does not approve 0.1.1 |
 | Historical 0.1.0 reviewed specification SHA | `a22440f1667388ece08868cbf0f2e22805449eef` |
 | Historical 0.1.0 specification PR / merge | PR #74 — `af0948dab4f0e13e026ad7f6cdbd4ac9691a77a8` |
 | Historical 0.1.0 specification PR CI | `37174156757` — SUCCESS on the reviewed SHA |
 | Historical 0.1.0 specification post-merge main CI | `37175416694` — SUCCESS on the specification merge SHA |
 | Implementation authorization | **GRANTED** — `HUMAN-P2-003-IMPLEMENTATION-2026-10-04` |
-| Implementation execution | **AUTHORIZED — EXECUTION PAUSED / BLOCKED** pending amendment 0.1.1 fixed-SHA PASS + merge + successful post-merge main CI |
+| Implementation execution | **RESUMED / IMPLEMENTED — INDEPENDENT IMPLEMENTATION REVIEW PENDING**; existing authorization remains granted |
 | Amendment authorization / baseline | `HUMAN-P2-003-SPECIFICATION-AMENDMENT-0.1.1-2026-10-04`; `e74715f07a2c4c27c63369d8415a7964d02df4e2` |
 | P2-004 | **NOT AUTHORIZED** |
 | Historical governance reconciliation authorization | `HUMAN-P2-003-SPECIFICATION-GOVERNANCE-RECONCILIATION-2026-10-04` — bounded docs-only evidence sync |
 | Original specification authorization | `HUMAN-P2-003-SPECIFICATION-2026-10-04` |
-| Authorization scope | Current task: specification amendment only; do not resume separately authorized implementation in this task |
+| Authorization scope | Current task: deterministic offline implementation and status/evidence sync in the same implementation PR; do not merge or start P2-004 |
 | Historical 0.1.0 authorized baseline | `edf2239dd78258881a75c7e2406bd6041d62cce6` |
 | Input contract | P2-002 `INVENTION_RECONSTRUCTION` v1.0.0 |
 | Output target contract | P2-001 `USPTO_SPECIFICATION_DRAFT` v2.0.0 |
-| Owner | Human / Product Owner; Codex authors authorized amendment; ChatGPT technical coordination |
-| Future implementation owner | Codex under existing granted implementation authorization; execution blocked by amendment review/merge/CI gate |
+| Owner | Human / Product Owner; Codex implementation; ChatGPT technical coordination |
+| Implementation owner | Codex under existing granted implementation authorization; independent implementation review pending |
 | Independent reviewer | Gemini 3.1 Pro High / Antigravity read-only |
 | Provider/API calls | **NONE / NOT AUTHORIZED** |
 | Real/confidential research data | **NOT AUTHORIZED** |
@@ -1424,17 +1429,23 @@ The independent reviewer must verify at minimum:
 
 ## 41. Governance / next gate
 
-Current specification 0.1.1 state: **INDEPENDENT REVIEW PENDING** under
+Current specification 0.1.1 state: **APPROVED / MERGED** under
 `HUMAN-P2-003-SPECIFICATION-AMENDMENT-0.1.1-2026-10-04`.
-No amendment reviewer decision, merge, CI result, or completion is fabricated.
+Human-supplied external Gemini 3.1 Pro High / Antigravity amendment review on
+`1a17c87a6c42087965b7ac3fa88ae0fc17f26a4e`: **PASS / findings NONE**;
+AC-01…AC-41 and future implementation cases A–H PASS; critical areas ALL PASS;
+Human decisions required NONE; reviewer modified tracked files NO; merge
+suitability YES. This is not a GitHub-native review or an implementation PASS.
+PR #76 merged at `26d21feff592ff73574071887148630d44018b41`; amendment PR CI
+`37182596336` and post-merge main CI `37184343482` are SUCCESS on their exact
+respective SHAs. This merge is the implementation baseline.
 
 Contract blocker: P2-001 requires `source_document.synthetic`, P2-002 strict
 metadata does not carry it, and the previous configuration supplied no provenance.
-Disposition proposed in specification 0.1.1: required explicit caller boolean
+Disposition approved in specification 0.1.1: required explicit caller boolean
 `source_document_synthetic`, copied exactly; true only at the current runtime
 authorization gate; false/missing/wrong-type values fail closed. Independent
-review and merge are still required before this disposition becomes an executable
-implementation baseline.
+review, merge and post-merge CI gates are satisfied. Contract blocker: **RESOLVED**.
 
 Historical specification **0.1.0 APPROVED / MERGED** evidence follows; it is not
 a PASS on amendment 0.1.1. Human-supplied external
@@ -1448,16 +1459,23 @@ is **SUCCESS** on that exact specification merge. The
 [verified specification handoff](https://github.com/nshaokiet/ai-ip-description-generator/pull/74#issuecomment-5976352217)
 records the satisfied specification gate, not implementation completion.
 
-Next gate: **GEMINI 3.1 PRO HIGH / ANTIGRAVITY FIXED-SHA SPECIFICATION
-AMENDMENT 0.1.1 REVIEW** — reviewer read-only.
+Next gate: **GEMINI 3.1 PRO HIGH / ANTIGRAVITY FIXED-SHA IMPLEMENTATION
+REVIEW** — reviewer read-only, after exact-head PR CI SUCCESS.
 P2-003 implementation authorization is **GRANTED** under
-`HUMAN-P2-003-IMPLEMENTATION-2026-10-04`; execution is **AUTHORIZED — PAUSED /
-BLOCKED — SPECIFICATION AMENDMENT 0.1.1 REVIEW/MERGE REQUIRED**.
-Resume only after amendment fixed-SHA PASS, merge, and post-merge main CI SUCCESS;
-no new implementation authorization is required unless scope changes. The task
-is not COMPLETED. No implementation files modified, no implementation tests run,
-and no implementation PR created. This amendment PR must not be merged in this
-task, and implementation must not resume here.
+`HUMAN-P2-003-IMPLEMENTATION-2026-10-04`; execution resumed under that existing
+authorization. Status: **IMPLEMENTED — INDEPENDENT IMPLEMENTATION REVIEW PENDING**.
+The task is not COMPLETED. New generator/validator, synthetic tests/corpus and
+ADR-013 implement the existing amended contract without upstream schema changes.
+Targeted P2-003 tests: 110 PASS; full offline Python: 684 passed / 3 skipped;
+frontend lint/typecheck/build and Render synthetic Playwright: PASS.
+Standard synthetic Playwright: 26 PASS, exit 0; Windows teardown was assisted by
+stopping only the two verified test-server processes after all assertions passed.
+Acceptance self-check AC-01…AC-39 and AC-41: PASS; AC-40: **PENDING INDEPENDENT
+IMPLEMENTATION REVIEW**, never self-approved. The auditable test matrix is in
+`tests/fixtures/uspto-generation/v2.0.0/README.md`; exact implementation SHA
+and PR CI belong in the fixed-SHA PR handoff.
+No new authorization is required within the unchanged scope. **Do not merge
+the implementation in this task.**
 
 Historical specification workflow recorded before review/merge:
 
@@ -1479,12 +1497,12 @@ P2-004 remains unauthorized.
 
 | Previous | New | Date | Author | Change / reason | Authorization | Breaking |
 |---|---|---|---|---|---|---|
-| 0.1.0 | 0.1.1 | 04/10/2026 | Codex | Semantic amendment: explicit required source-document provenance resolves missing target mapping; true-only runtime gate; AC-41 and future test cases A–H added; independent review pending | HUMAN-P2-003-SPECIFICATION-AMENDMENT-0.1.1-2026-10-04 | Yes — required P2-003 configuration input; P2-001/P2-002 unchanged |
+| 0.1.0 | 0.1.1 | 04/10/2026 | Codex | Semantic amendment: explicit required source-document provenance resolves missing target mapping; true-only runtime gate; AC-41 and future test cases A–H added; independent review was pending at authorship, subsequently PASS / merged via PR #76 as evidenced above | HUMAN-P2-003-SPECIFICATION-AMENDMENT-0.1.1-2026-10-04 | Yes — required P2-003 configuration input; P2-001/P2-002 unchanged |
 
 Compatibility: future callers must explicitly supply the boolean. Missing or
 legacy configuration is rejected, never silently migrated/defaulted. No released
 P2-003 implementation exists to migrate. Historical specification 0.1.0 remains
-reviewed/merged evidence, not current amendment approval.
+reviewed/merged evidence; amendment 0.1.1 approval is separately evidenced above.
 
 ### Governance evidence revision history
 
@@ -1492,12 +1510,14 @@ reviewed/merged evidence, not current amendment approval.
 |---|---|---|---|---|---|---|
 | Specification 0.1.0 (unversioned governance evidence) | Governance evidence 0.1.1; specification 0.1.0 unchanged | 04/10/2026 | Codex | Reconcile existing fixed-SHA specification PASS, PR #74 merge and successful main CI; implementation remains unauthorized | HUMAN-P2-003-SPECIFICATION-GOVERNANCE-RECONCILIATION-2026-10-04; CI `37175416694` | No |
 | Governance evidence 0.1.1 | Governance evidence 0.1.2; specification separately amended to 0.1.1 | 04/10/2026 | Codex | Record granted implementation authorization and blocked execution pending amended-spec review/merge/main CI; preserve historical external review evidence | HUMAN-P2-003-IMPLEMENTATION-2026-10-04; HUMAN-P2-003-SPECIFICATION-AMENDMENT-0.1.1-2026-10-04 | No — evidence update; semantic amendment recorded separately above |
+| Governance evidence 0.1.2 | Governance evidence 0.1.3; specification 0.1.1 semantics unchanged | 04/10/2026 | Codex | Reconcile amendment external PASS, PR #76 merge / successful main CI; blocker resolved; record implemented offline service and local tests, independent implementation review pending | HUMAN-P2-003-IMPLEMENTATION-2026-10-04; merge `26d21feff592ff73574071887148630d44018b41`; CI `37184343482` | No |
 
 Historically, additional independent review was waived by Human only for the bounded docs-only
 reconciliation with unchanged specification/runtime/schema/prompt/code/test
 semantics, no implementation authorization and successful PR CI. This is not a
 new review PASS on the governance revision. That historical waiver does not
-apply to specification amendment 0.1.1; independent fixed-SHA review is required.
+apply to specification amendment 0.1.1; its required independent fixed-SHA review
+was subsequently supplied by Human. It does not waive implementation review.
 
 MCP: **BLOCKED BY TOOL CAPABILITY — Unknown task: P2-003**; no task state,
 lease, checkpoint or completion is fabricated. BLK-003 **OPEN**; PRODUCT_RUNTIME
@@ -1506,6 +1526,6 @@ provider/API authorization **NOT GRANTED**, budget **0**, calls **NONE**;
 real/confidential data **NOT AUTHORIZED**; arbitrary real-paper conversion
 **NOT ENABLED**; Claims runtime **NOT IMPLEMENTED**; production
 **NOT APPROVED / NOT PERFORMED**; deployment change **NO**. No DOCX v2 or
-frontend/runtime integration is authorized. **STOP. Do not merge this amendment
-or resume P2-003 implementation in this task.
+frontend/runtime integration is authorized. **STOP after implementation handoff.
+Do not merge the implementation in this task.
 Do not start P2-004.**
