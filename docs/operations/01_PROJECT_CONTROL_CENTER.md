@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.61 |
+| Version | 0.3.62 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -99,6 +99,7 @@
 | 0.3.58 | 0.3.59 | 04/10/2026 | Codex | Finalize P2-002 current status after closeout PASS/merge/final CI; preserve historical pending records | Human-authorized bounded status sync; additional review waived only within this scope and successful CI | HUMAN-P2-002-FINAL-GOVERNANCE-STATUS-RECONCILIATION-2026-10-04; PR #72 merge `ba8062f1c7db1506af10fdd2193ed193d31cd72d`; CI `37168633773` | No |
 | 0.3.59 | 0.3.60 | 04/10/2026 | Codex | Record P2-003 specification fixed-SHA PASS/NONE, AC-01…AC-40 PASS, PR #74 merge and successful main CI; specification APPROVED / MERGED, implementation NOT AUTHORIZED | Bounded docs-only evidence sync; additional review waived by Human only within scope and successful CI | HUMAN-P2-003-SPECIFICATION-GOVERNANCE-RECONCILIATION-2026-10-04; reviewed `a22440f1667388ece08868cbf0f2e22805449eef`; merge `af0948dab4f0e13e026ad7f6cdbd4ac9691a77a8`; CI `37175416694` | No |
 | 0.3.60 | 0.3.61 | 04/10/2026 | Codex | Record P2-003 specification 0.1.1 provenance amendment pending independent review; implementation authorization granted but execution blocked pending amended-spec PASS/merge/main CI | Required P2-001 synthetic provenance absent from strict P2-002 and previous generation config; explicit required caller boolean, true-only current gate | HUMAN-P2-003-SPECIFICATION-AMENDMENT-0.1.1-2026-10-04; HUMAN-P2-003-IMPLEMENTATION-2026-10-04; baseline `e74715f07a2c4c27c63369d8415a7964d02df4e2` | No — operational evidence; required P2-003 config semantic amendment separately versioned 0.1.1 |
+| 0.3.61 | 0.3.62 | 04/10/2026 | Codex | Reconcile P2-003 amendment external PASS, PR #76 merge / successful main CI; contract blocker resolved; record offline implementation and local regression evidence, independent implementation review pending | Human-directed resume and status sync in the same implementation PR; no semantic specification change or fabricated implementation approval | HUMAN-P2-003-IMPLEMENTATION-2026-10-04; amendment reviewed `1a17c87a6c42087965b7ac3fa88ae0fc17f26a4e`; merge/baseline `26d21feff592ff73574071887148630d44018b41`; main CI `37184343482` | No |
 
 ## 2. Project
 
@@ -151,7 +152,7 @@ evidence, not GitHub API approvals or Codex self-review. Implementation reviewer
 modified tracked files NO; merge suitability YES. **MCP TOOL LIMITATION:**
 `Unknown task: P2-002`; lifecycle/checkpoint **BLOCKED BY TOOL CAPABILITY**.
 
-P2-003 **SPECIFICATION 0.1.1 — INDEPENDENT REVIEW PENDING** under
+P2-003 **SPECIFICATION 0.1.1 — APPROVED / MERGED** under
 `HUMAN-P2-003-SPECIFICATION-AMENDMENT-0.1.1-2026-10-04`.
 P2-001 requires `source_document.synthetic`; strict P2-002 metadata does not
 carry it; previous generation config supplied no provenance. The amendment
@@ -168,14 +169,21 @@ reviewer modified tracked files NO, specification merge suitability YES.
 PR #74 merged at `af0948dab4f0e13e026ad7f6cdbd4ac9691a77a8`; specification
 PR CI `37174156757` and post-merge main CI `37175416694` SUCCESS on their exact
 respective SHAs; that PASS does not approve amendment 0.1.1.
-P2-003 implementation is **AUTHORIZED** under
-`HUMAN-P2-003-IMPLEMENTATION-2026-10-04`, but **EXECUTION PAUSED / BLOCKED —
-SPECIFICATION AMENDMENT 0.1.1 REVIEW/MERGE REQUIRED**. No implementation files
-modified, tests run, or implementation PR created. Next gate: **GEMINI 3.1 PRO
-HIGH / ANTIGRAVITY FIXED-SHA SPECIFICATION AMENDMENT REVIEW** (read-only).
-Resume only after amendment fixed-SHA PASS + merge + successful post-merge main
-CI under the existing authorization; no new authorization unless scope changes.
-Do not merge or resume implementation during this task. P2-004 **NOT AUTHORIZED**.
+Amendment 0.1.1 Human-supplied external Gemini 3.1 Pro High / Antigravity review
+on `1a17c87a6c42087965b7ac3fa88ae0fc17f26a4e`: PASS / findings NONE,
+AC-01…AC-41 and A–H PASS; critical areas ALL PASS; Human decisions required NONE;
+reviewer modified tracked files NO; merge suitability YES. Not GitHub-native
+review evidence. PR #76 merged at `26d21feff592ff73574071887148630d44018b41`;
+PR CI `37182596336` and main CI `37184343482` SUCCESS on their exact respective SHAs.
+Contract blocker **RESOLVED**. P2-003 implementation is **AUTHORIZED** under
+`HUMAN-P2-003-IMPLEMENTATION-2026-10-04`; execution resumed from that exact merge.
+Implementation **IMPLEMENTED — INDEPENDENT IMPLEMENTATION REVIEW PENDING**.
+New offline generator/validator, 110 targeted tests, synthetic corpus and ADR-013;
+full offline Python 684 passed / 3 skipped; lint/typecheck/build PASS; standard
+synthetic Playwright 26 PASS and Render synthetic Playwright 5 PASS.
+Next gate: **GEMINI 3.1 PRO HIGH / ANTIGRAVITY FIXED-SHA IMPLEMENTATION REVIEW**
+(read-only) after exact-head PR CI SUCCESS. AC-40 remains pending, not self-approved.
+Do not merge the implementation during this task. P2-004 **NOT AUTHORIZED**.
 This is not P2-003 task completion. MCP:
 **BLOCKED BY TOOL CAPABILITY — Unknown task: P2-003**.
 
@@ -194,12 +202,13 @@ This is not P2-003 task completion. MCP:
 
 - Preserve final P2-002 specification/implementation/closeout PASS, merge and
   final CI evidence; the historical P2-002 closeout did not authorize P2-003/P2-004.
-- Prepare only P2-003 specification amendment 0.1.1 and synchronized status under
-  `HUMAN-P2-003-SPECIFICATION-AMENDMENT-0.1.1-2026-10-04`; preserve historical
-  0.1.0 review/merge evidence. Implementation AUTHORIZED but BLOCKED pending
-  amendment independent fixed-SHA PASS + merge + successful post-merge main CI.
-  Next gate: Gemini 3.1 Pro High / Antigravity read-only amendment review.
-  P2-004 NOT AUTHORIZED; no implementation execution or amendment merge here.
+- Hand off the P2-003 deterministic offline implementation under
+  `HUMAN-P2-003-IMPLEMENTATION-2026-10-04` from merged specification 0.1.1.
+  Preserve amendment external PASS / merge / successful main CI and historical
+  0.1.0 evidence. Contract blocker RESOLVED; implementation completed locally,
+  independent implementation review PENDING. Next gate: exact-head PR CI SUCCESS
+  then Gemini 3.1 Pro High / Antigravity read-only fixed-SHA implementation review.
+  Do not merge in this task; P2-004 NOT AUTHORIZED.
 
 SPEC-001/002/003, schema, prompts and DOCX template retain their previously
 approved versions/contracts; this task does not re-approve or redesign them.
@@ -305,7 +314,7 @@ APP-002 capability boundary: `Validated PDF/DOCX → deterministic text/table pa
 | P2-000 | Enterprise SaaS Webapp Redesign & Research Paper Workflow | Codex | Gemini 3.1 Pro High / Antigravity read-only | P2 productization — frontend | **CLOSED / COMPLETED — MERGED** | Spec/implementation PR #59/#60 merged; governance closeout PR #61 merged; P2-000-R1 reviewed `cdb5e5bd2cc8f0ef5464bbc11550ad0c34673851` PASS/NONE and merged via PR #63; P2-000-R2 reviewed `05fc2d3dff6929ada7a4a974428cc26f5256c4fe` PASS/NONE and merged via PR #65 at `a394a98b0a86b1ce686fac4871f7e5b0c0c3c44f`; main CI `37012025003` SUCCESS; BLK-003 OPEN | 02/10/2026 |
 | P2-000-R3 | Human Review Gate + Validation/DOCX Workflow Correction | Codex | Gemini 3.1 Pro High / Antigravity read-only | Bounded P2 frontend workflow correction | **CLOSED / COMPLETED — MERGED** | Implementation reviewed `5569354e7003511d2e761236395ab6a604076530` PASS/NONE, 15/15; PR #67 merge `62a25a9ae136461924bc8047c5a6ad0f3550c68c`; closeout reviewed `7697798a7e2a84f42d22ed896c0f49af6bf773e0` PASS/NONE, 13/13; PR #68 merge `a9f50adcbefe8d5725c0b5e779ae24ad7546ec51`; final CI `37110753273` SUCCESS; BLK-003 OPEN | 03/10/2026 |
 | P2-002 | Invention Reconstruction Contract & Offline Reconstruction Pipeline | Codex | Gemini 3.1 Pro High / Antigravity read-only | Authorized P2 offline reconstruction | **CLOSED / COMPLETED — MERGED** | Spec reviewed `9c3f5e67f3c3af73807aab3f3ba84300fcd99c07` PASS/NONE, 34/34; PR #70 merge `e87b51987c42edb1432a9612a4e05bc7c0d9b113`; implementation reviewed `62a43da07fc4ccd60c9dab0da188388f6cab88e2` PASS/NONE, 34/34; PR #71 merge `7d295165379dfa3aa16cd305eb73e7ee739f5f03`; closeout reviewed `5ec0157cb5c60674421dc75b4ae90c88659524e2` PASS/NONE, 25/25; PR #72 merge `ba8062f1c7db1506af10fdd2193ed193d31cd72d`; final closeout main CI `37168633773` SUCCESS; MCP TOOL LIMITATION | 04/10/2026 evidence record |
-| P2-003 | USPTO Specification Generation Contract & Offline Generation Pipeline v2 | Codex — specification amendment / status sync; implementation execution blocked | Gemini 3.1 Pro High / Antigravity read-only | Specification amendment 0.1.1 only | **SPECIFICATION 0.1.1 INDEPENDENT REVIEW PENDING; IMPLEMENTATION AUTHORIZED — EXECUTION PAUSED / BLOCKED** | HUMAN-P2-003-SPECIFICATION-AMENDMENT-0.1.1-2026-10-04; required caller boolean source_document_synthetic, true only / false fail closed; HUMAN-P2-003-IMPLEMENTATION-2026-10-04 GRANTED; next gate FIXED-SHA SPECIFICATION AMENDMENT REVIEW, then merge/main CI before implementation resumes; historical 0.1.0 external PASS/NONE AC-01…AC-40 on `a22440f1667388ece08868cbf0f2e22805449eef`, PR #74 merge `af0948dab4f0e13e026ad7f6cdbd4ac9691a77a8`, PR/main CI `37174156757` / `37175416694` SUCCESS; AC-41 added, not reviewed yet; P2-004 NOT AUTHORIZED; MCP BLOCKED BY TOOL CAPABILITY — Unknown task: P2-003 | 04/10/2026 amendment pending review |
+| P2-003 | USPTO Specification Generation Contract & Offline Generation Pipeline v2 | Codex — implementation / status sync | Gemini 3.1 Pro High / Antigravity read-only | Offline deterministic generator under specification 0.1.1 | **SPECIFICATION 0.1.1 APPROVED / MERGED; IMPLEMENTED — INDEPENDENT IMPLEMENTATION REVIEW PENDING** | HUMAN-P2-003-IMPLEMENTATION-2026-10-04 GRANTED; amendment external PASS/NONE AC-01…AC-41 and A–H on `1a17c87a6c42087965b7ac3fa88ae0fc17f26a4e`; PR #76 merge/baseline `26d21feff592ff73574071887148630d44018b41`; PR/main CI `37182596336` / `37184343482` SUCCESS; contract blocker RESOLVED; required caller boolean source_document_synthetic, true only / false fail closed; local Python 684 passed / 3 skipped, P2-003 targeted 110 PASS; AC-40 PENDING; next gate exact-head PR CI then FIXED-SHA IMPLEMENTATION REVIEW; historical 0.1.0 PR #74 remains merged; P2-004 NOT AUTHORIZED; MCP BLOCKED BY TOOL CAPABILITY — Unknown task: P2-003 | 04/10/2026 implementation review pending |
 | EVAL-001 | Semantic Quality Evaluation — framework/gold merged; PRODUCT_RUNTIME deferred | GPT-6 Sol | Gemini 3.1 Pro High | Post-MVP — AWAITING FUNDING; no active runtime work | Framework/gold reviews PASS/findings NONE; corpus/gold 6/6 HUMAN_ACCEPTED; baseline MERGED; PRODUCT_RUNTIME DEFERRED; product evidence NONE; semantic acceptance NOT_DETERMINED, not PASS/Completed | Frozen product `37d42fc8b07003aa2a67f2d1d32e64e69eb0ddb5`; PR #29 merge `2caf3e6c698745a1c2b09d5605e8fba955bca2f9`; DEC-020; provider NOT GRANTED/budget 0; BLK-003 OPEN | Post-MVP Human funding decision |
 
 Mọi target date cụ thể cần được xếp trước deadline chung 02/10/2026 và do Human xác nhận.
@@ -630,7 +639,7 @@ Human đã phê duyệt ADR-006 và Output Schema v1.0.0 cho AI-001, sau đó me
 
 ## 22. Next Recommended Action
 
-P2-003 **SPECIFICATION 0.1.1 — INDEPENDENT REVIEW PENDING** under
+P2-003 **SPECIFICATION 0.1.1 — APPROVED / MERGED** under
 `HUMAN-P2-003-SPECIFICATION-AMENDMENT-0.1.1-2026-10-04`. Contract blocker:
 P2-001 requires `source_document.synthetic`; P2-002 strict metadata lacks it;
 previous generation config had no provenance input. Disposition: required caller
@@ -638,20 +647,28 @@ boolean `source_document_synthetic`, exact output copy, no default/inference;
 `true` currently permitted, `false` fails closed — REAL SOURCE NOT AUTHORIZED.
 Schemas stay immutable; provenance does not authorize real data.
 
-Implementation **AUTHORIZED — EXECUTION PAUSED / BLOCKED** under
-`HUMAN-P2-003-IMPLEMENTATION-2026-10-04`. Next gate: **GEMINI 3.1 PRO HIGH /
-ANTIGRAVITY FIXED-SHA SPECIFICATION AMENDMENT REVIEW** (read-only), then merge
-and successful post-merge main CI before implementation resumes under the
-existing authorization. No implementation files changed, implementation tests
-run, or implementation PR created. No amendment merge or implementation execution
-in this task. P2-004 **NOT AUTHORIZED**; P2-003 is not COMPLETED.
+Amendment review (Human-supplied external, not GitHub-native): Gemini 3.1 Pro High /
+Antigravity PASS / findings NONE / AC-01…AC-41 PASS / A–H PASS on
+`1a17c87a6c42087965b7ac3fa88ae0fc17f26a4e`. PR #76 merge and implementation
+baseline `26d21feff592ff73574071887148630d44018b41`; post-merge main CI
+`37184343482` SUCCESS. Contract blocker: **RESOLVED**.
+Implementation **IMPLEMENTED — INDEPENDENT IMPLEMENTATION REVIEW PENDING** under
+`HUMAN-P2-003-IMPLEMENTATION-2026-10-04`. Next gate: exact-head PR CI SUCCESS,
+then **GEMINI 3.1 PRO HIGH / ANTIGRAVITY FIXED-SHA IMPLEMENTATION REVIEW** (read-only).
+AC-01…AC-39 / AC-41 self-check PASS with matrix in the synthetic corpus README;
+AC-40 **PENDING**, no implementation PASS or merge fabricated. Local tests:
+P2-003 110 PASS, full Python 684 passed / 3 skipped, frontend lint/typecheck/build
+PASS, standard Playwright 26 PASS (Windows server teardown assisted after all
+assertions), Render synthetic Playwright 5 PASS. Stop after the CI-backed review
+handoff; do not merge. P2-004 **NOT AUTHORIZED**; P2-003 is not COMPLETED.
 
 Historical specification 0.1.0 `REV-P2-003-SPECIFICATION` is CLOSED — Human-supplied external Gemini 3.1 Pro
 High / Antigravity PASS/NONE, AC-01…AC-40 PASS, on
 `a22440f1667388ece08868cbf0f2e22805449eef`; PR #74 merge
 `af0948dab4f0e13e026ad7f6cdbd4ac9691a77a8`; post-merge specification main CI
 `37175416694` SUCCESS. The historical governance-review waiver does not apply
-to semantic amendment 0.1.1. No amendment PASS is recorded. MCP returns
+to semantic amendment 0.1.1 or this implementation. Amendment PASS is separately
+evidenced above; implementation review remains pending. MCP returns
 `Unknown task: P2-003`; no operational
 completion/lease/checkpoint is fabricated.
 
@@ -660,14 +677,14 @@ NOT DETERMINED; provider authorization NOT GRANTED, budget 0, calls NONE;
 real/confidential data NOT AUTHORIZED; arbitrary real-paper conversion NOT
 ENABLED; Claims NOT IMPLEMENTED; production NOT APPROVED / NOT PERFORMED;
 deployment change NO. No DOCX v2, frontend/runtime integration or provider/model
-calls. **STOP. Do not merge this amendment or resume P2-003 implementation.
+calls. **STOP after implementation handoff. Do not merge the implementation.
 Do not start P2-004.**
 
 ### Historical P2-002 closeout handoff — preserved
 
 The authorization/next-task statements below describe the P2-002 closeout
-period. They do not override the current P2-003 amendment / authorized-but-blocked
-implementation state above.
+period. They do not override the current P2-003 merged amendment / implemented,
+independent-implementation-review-pending state above.
 
 P2-002 is final: **CLOSED / COMPLETED — MERGED**. Governance closeout
 `5ec0157cb5c60674421dc75b4ae90c88659524e2` received Human-supplied Gemini 3.1 Pro
