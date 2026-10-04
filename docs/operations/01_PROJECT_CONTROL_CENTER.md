@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.59 |
+| Version | 0.3.60 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -97,6 +97,7 @@
 | 0.3.56 | 0.3.57 | 03/10/2026 | Codex | Record P2-000-R3 closeout PASS, PR #68 merge and successful final main CI; reconcile stale pending wording to final status | Complete the Human-authorized docs-only evidence sync after the reviewed closeout merged | Closeout reviewed `7697798a7e2a84f42d22ed896c0f49af6bf773e0` by Gemini 3.1 Pro High PASS/NONE, 13/13; PR #68 merge `a9f50adcbefe8d5725c0b5e779ae24ad7546ec51`; final CI `37110753273` SUCCESS; BLK-003 OPEN | No |
 | 0.3.57 | 0.3.58 | 04/10/2026 | Codex | Record P2-002 specification/implementation reviews, merges and CI; propose final status with closeout review/merge pending | Human-authorized docs-only governance reconciliation | PR #70/#71; merge `7d295165379dfa3aa16cd305eb73e7ee739f5f03`; CI `37135175570`; MCP TOOL LIMITATION | No |
 | 0.3.58 | 0.3.59 | 04/10/2026 | Codex | Finalize P2-002 current status after closeout PASS/merge/final CI; preserve historical pending records | Human-authorized bounded status sync; additional review waived only within this scope and successful CI | HUMAN-P2-002-FINAL-GOVERNANCE-STATUS-RECONCILIATION-2026-10-04; PR #72 merge `ba8062f1c7db1506af10fdd2193ed193d31cd72d`; CI `37168633773` | No |
+| 0.3.59 | 0.3.60 | 04/10/2026 | Codex | Record P2-003 specification fixed-SHA PASS/NONE, AC-01…AC-40 PASS, PR #74 merge and successful main CI; specification APPROVED / MERGED, implementation NOT AUTHORIZED | Bounded docs-only evidence sync; additional review waived by Human only within scope and successful CI | HUMAN-P2-003-SPECIFICATION-GOVERNANCE-RECONCILIATION-2026-10-04; reviewed `a22440f1667388ece08868cbf0f2e22805449eef`; merge `af0948dab4f0e13e026ad7f6cdbd4ac9691a77a8`; CI `37175416694` | No |
 
 ## 2. Project
 
@@ -149,6 +150,17 @@ evidence, not GitHub API approvals or Codex self-review. Implementation reviewer
 modified tracked files NO; merge suitability YES. **MCP TOOL LIMITATION:**
 `Unknown task: P2-002`; lifecycle/checkpoint **BLOCKED BY TOOL CAPABILITY**.
 
+P2-003 **SPECIFICATION APPROVED / MERGED** under
+`HUMAN-P2-003-SPECIFICATION-2026-10-04`. Human-supplied external Gemini 3.1 Pro
+High / Antigravity fixed-SHA PASS/NONE, AC-01…AC-40 PASS, on
+`a22440f1667388ece08868cbf0f2e22805449eef`; Human decisions required NONE,
+reviewer modified tracked files NO, specification merge suitability YES.
+PR #74 merged at `af0948dab4f0e13e026ad7f6cdbd4ac9691a77a8`; specification
+PR CI `37174156757` and post-merge main CI `37175416694` SUCCESS on their exact
+respective SHAs. P2-003 **IMPLEMENTATION NOT AUTHORIZED**; P2-004
+**NOT AUTHORIZED**. This is not P2-003 task completion. MCP:
+**BLOCKED BY TOOL CAPABILITY — Unknown task: P2-003**.
+
 ## 6. Current Objective
 
 - Preserve the finalized **MVP COMPLETE — LOCAL/SYNTHETIC** boundary after
@@ -163,8 +175,11 @@ modified tracked files NO; merge suitability YES. **MCP TOOL LIMITATION:**
 - Preserve completed P1-006 evidence. DEPLOY-001 public synthetic/demo staging is now verified on Render after implementation review PASS, merge, rewrite-remediation review PASS, merge, successful main CI and public same-origin PDF/DOCX smoke. Final documentation-only governance closeout review remains pending. Production, provider/API use, real/confidential-data handling and BLK-003 closure remain unauthorized.
 
 - Preserve final P2-002 specification/implementation/closeout PASS, merge and
-  final CI evidence. Only the bounded final governance status sync is authorized;
-  P2-003/P2-004 remain NOT AUTHORIZED.
+  final CI evidence; the historical P2-002 closeout did not authorize P2-003/P2-004.
+- Reconcile only the already reviewed/merged P2-003 specification evidence under
+  `HUMAN-P2-003-SPECIFICATION-GOVERNANCE-RECONCILIATION-2026-10-04`.
+  P2-003 specification is APPROVED / MERGED; implementation and P2-004 remain
+  NOT AUTHORIZED. Next gate: separate Human implementation authorization.
 
 SPEC-001/002/003, schema, prompts and DOCX template retain their previously
 approved versions/contracts; this task does not re-approve or redesign them.
@@ -270,6 +285,7 @@ APP-002 capability boundary: `Validated PDF/DOCX → deterministic text/table pa
 | P2-000 | Enterprise SaaS Webapp Redesign & Research Paper Workflow | Codex | Gemini 3.1 Pro High / Antigravity read-only | P2 productization — frontend | **CLOSED / COMPLETED — MERGED** | Spec/implementation PR #59/#60 merged; governance closeout PR #61 merged; P2-000-R1 reviewed `cdb5e5bd2cc8f0ef5464bbc11550ad0c34673851` PASS/NONE and merged via PR #63; P2-000-R2 reviewed `05fc2d3dff6929ada7a4a974428cc26f5256c4fe` PASS/NONE and merged via PR #65 at `a394a98b0a86b1ce686fac4871f7e5b0c0c3c44f`; main CI `37012025003` SUCCESS; BLK-003 OPEN | 02/10/2026 |
 | P2-000-R3 | Human Review Gate + Validation/DOCX Workflow Correction | Codex | Gemini 3.1 Pro High / Antigravity read-only | Bounded P2 frontend workflow correction | **CLOSED / COMPLETED — MERGED** | Implementation reviewed `5569354e7003511d2e761236395ab6a604076530` PASS/NONE, 15/15; PR #67 merge `62a25a9ae136461924bc8047c5a6ad0f3550c68c`; closeout reviewed `7697798a7e2a84f42d22ed896c0f49af6bf773e0` PASS/NONE, 13/13; PR #68 merge `a9f50adcbefe8d5725c0b5e779ae24ad7546ec51`; final CI `37110753273` SUCCESS; BLK-003 OPEN | 03/10/2026 |
 | P2-002 | Invention Reconstruction Contract & Offline Reconstruction Pipeline | Codex | Gemini 3.1 Pro High / Antigravity read-only | Authorized P2 offline reconstruction | **CLOSED / COMPLETED — MERGED** | Spec reviewed `9c3f5e67f3c3af73807aab3f3ba84300fcd99c07` PASS/NONE, 34/34; PR #70 merge `e87b51987c42edb1432a9612a4e05bc7c0d9b113`; implementation reviewed `62a43da07fc4ccd60c9dab0da188388f6cab88e2` PASS/NONE, 34/34; PR #71 merge `7d295165379dfa3aa16cd305eb73e7ee739f5f03`; closeout reviewed `5ec0157cb5c60674421dc75b4ae90c88659524e2` PASS/NONE, 25/25; PR #72 merge `ba8062f1c7db1506af10fdd2193ed193d31cd72d`; final closeout main CI `37168633773` SUCCESS; MCP TOOL LIMITATION | 04/10/2026 evidence record |
+| P2-003 | USPTO Specification Generation Contract & Offline Generation Pipeline v2 | ChatGPT/Codex — specification coordination / governance integration; future implementation separately gated | Gemini 3.1 Pro High / Antigravity read-only | Specification phase only | **SPECIFICATION APPROVED / MERGED; IMPLEMENTATION NOT AUTHORIZED** | Human-supplied external PASS/NONE, AC-01…AC-40 PASS on `a22440f1667388ece08868cbf0f2e22805449eef`; PR #74 merge `af0948dab4f0e13e026ad7f6cdbd4ac9691a77a8`; PR CI `37174156757` and main CI `37175416694` SUCCESS; HUMAN-P2-003-SPECIFICATION-2026-10-04; HUMAN-P2-003-SPECIFICATION-GOVERNANCE-RECONCILIATION-2026-10-04; next gate SEPARATE HUMAN AUTHORIZATION FOR P2-003 IMPLEMENTATION; P2-004 NOT AUTHORIZED; MCP TOOL LIMITATION | 04/10/2026 evidence record |
 | EVAL-001 | Semantic Quality Evaluation — framework/gold merged; PRODUCT_RUNTIME deferred | GPT-6 Sol | Gemini 3.1 Pro High | Post-MVP — AWAITING FUNDING; no active runtime work | Framework/gold reviews PASS/findings NONE; corpus/gold 6/6 HUMAN_ACCEPTED; baseline MERGED; PRODUCT_RUNTIME DEFERRED; product evidence NONE; semantic acceptance NOT_DETERMINED, not PASS/Completed | Frozen product `37d42fc8b07003aa2a67f2d1d32e64e69eb0ddb5`; PR #29 merge `2caf3e6c698745a1c2b09d5605e8fba955bca2f9`; DEC-020; provider NOT GRANTED/budget 0; BLK-003 OPEN | Post-MVP Human funding decision |
 
 Mọi target date cụ thể cần được xếp trước deadline chung 02/10/2026 và do Human xác nhận.
@@ -593,6 +609,33 @@ Human đã phê duyệt ADR-006 và Output Schema v1.0.0 cho AI-001, sau đó me
 | DEC-044 | Human / Product Owner supplied Gemini 3.1 Pro High P2-000-R3 closeout review **PASS**, findings **NONE**, 13 of 13 requirements PASS, then authorized a bounded docs-only final-status reconciliation without another independent-review loop if scope remains evidence-only and CI succeeds | Closeout reviewed `7697798a7e2a84f42d22ed896c0f49af6bf773e0`; reviewer modified repository files NO; PR #68 merged at `a9f50adcbefe8d5725c0b5e779ae24ad7546ec51`; final main CI `37110753273` SUCCESS. Reconciliation is limited to the four canonical governance files and introduces no next-task, provider, real-data, Claims, security, runtime, deployment-config, or production authorization. |
 
 ## 22. Next Recommended Action
+
+P2-003 **SPECIFICATION APPROVED / MERGED**; P2-003 **IMPLEMENTATION NOT
+AUTHORIZED**; P2-004 **NOT AUTHORIZED**. Next gate: **SEPARATE HUMAN
+AUTHORIZATION FOR P2-003 IMPLEMENTATION**. The task itself is not COMPLETED.
+Only this bounded docs-only reconciliation is authorized by
+`HUMAN-P2-003-SPECIFICATION-GOVERNANCE-RECONCILIATION-2026-10-04`; additional
+independent review is waived only for accurate existing evidence/status sync,
+unchanged technical semantics, no implementation authority and successful PR CI.
+
+`REV-P2-003-SPECIFICATION` is CLOSED — Human-supplied external Gemini 3.1 Pro
+High / Antigravity PASS/NONE, AC-01…AC-40 PASS, on
+`a22440f1667388ece08868cbf0f2e22805449eef`; PR #74 merge
+`af0948dab4f0e13e026ad7f6cdbd4ac9691a77a8`; post-merge specification main CI
+`37175416694` SUCCESS. MCP returns `Unknown task: P2-003`; no operational
+completion/lease/checkpoint is fabricated.
+
+BLK-003 OPEN; PRODUCT_RUNTIME DEFERRED — AWAITING FUNDING; semantic acceptance
+NOT DETERMINED; provider authorization NOT GRANTED, budget 0, calls NONE;
+real/confidential data NOT AUTHORIZED; arbitrary real-paper conversion NOT
+ENABLED; Claims NOT IMPLEMENTED; production NOT APPROVED / NOT PERFORMED;
+deployment change NO. No DOCX v2, frontend/runtime integration or provider/model
+calls. **STOP. Do not implement P2-003. Do not start P2-004.**
+
+### Historical P2-002 closeout handoff — preserved
+
+The authorization/next-task statements below describe the P2-002 closeout
+period. They do not override the current P2-003 specification-only state above.
 
 P2-002 is final: **CLOSED / COMPLETED — MERGED**. Governance closeout
 `5ec0157cb5c60674421dc75b4ae90c88659524e2` received Human-supplied Gemini 3.1 Pro
