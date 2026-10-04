@@ -8,9 +8,12 @@
 | Title | Invention Reconstruction Contract & Offline Reconstruction Pipeline |
 | Specification version | 0.1.0 (reviewed semantics unchanged) |
 | Implementation evidence revision | 0.2.0 |
-| Governance evidence revision | 0.2.1 — 04/10/2026 |
+| Governance evidence revision | 0.2.2 — 04/10/2026 |
 | Status | **CLOSED / COMPLETED — MERGED** |
-| Governance closeout gate | Proposed documentation reconciliation — independent fixed-SHA closeout review / PR merge PENDING; no closeout PASS claimed |
+| Governance closeout gate | **CLOSED** — Human-supplied Gemini 3.1 Pro High / Antigravity fixed-SHA PASS, findings NONE, 25/25 checklist PASS; reviewer modified tracked files NO |
+| Reviewed closeout SHA | `5ec0157cb5c60674421dc75b4ae90c88659524e2` |
+| Governance closeout merge | PR #72 — `ba8062f1c7db1506af10fdd2193ed193d31cd72d` |
+| Final closeout main CI | `37168633773` — SUCCESS on the closeout merge SHA |
 | Human authorization | `HUMAN-P2-002-INVENTION-RECONSTRUCTION-2026-10-03` |
 | Human implementation authorization | `HUMAN-P2-002-IMPLEMENTATION-2026-10-03` |
 | Authorized baseline | `054410f937eaaecf7b462855b7dce921e40e8924` |
@@ -1244,6 +1247,7 @@ not an independent reviewer decision or task closeout.
 |---|---|---|---|---|---|---|
 | Specification 0.1.0 | Specification 0.1.0 + implementation evidence 0.2.0 | 03/10/2026 | Codex | Implement reviewed additive reconstruction contract and record resume/test evidence | HUMAN-P2-002-IMPLEMENTATION-2026-10-03 | No — reviewed semantics and released contracts unchanged |
 | Implementation evidence 0.2.0 | Governance evidence 0.2.1; specification 0.1.0 and contract 1.0.0 unchanged | 04/10/2026 | Codex | Reconcile Human-supplied independent PASS, specification/implementation merges and verified CI; propose final task status with closeout review/merge still pending | Human P2-002 governance closeout instruction; PR #70/#71; main CI `37135175570` | No |
+| Governance evidence 0.2.1 | Governance evidence 0.2.2; specification 0.1.0 and contract 1.0.0 unchanged | 04/10/2026 | Codex | Finalize stale proposed/pending closeout status from existing PASS, PR #72 merge and successful final main CI | HUMAN-P2-002-FINAL-GOVERNANCE-STATUS-RECONCILIATION-2026-10-04; CI `37168633773` | No |
 
 ### Historical fixed-SHA implementation handoff gate — satisfied
 
@@ -1268,12 +1272,17 @@ Project Orchestrator returned `Unknown task: P2-002`; claim/progress lifecycle s
 
 Provider/API calls: **NONE**. Real/confidential data: **NONE**. Claims implementation: **NO**. Production/deployment change: **NO**. BLK-003 remains **OPEN** and EVAL-001 PRODUCT_RUNTIME remains **DEFERRED — AWAITING FUNDING**.
 
-## 44. Governance closeout proposal — 04/10/2026
+## 44. Final governance closeout evidence — 04/10/2026
 
-This documentation-only PR proposes **CLOSED / COMPLETED — MERGED** using the
-existing specification and implementation evidence; its own independent
-fixed-SHA governance review and merge are **PENDING**. It is not a claim that
-this closeout PR has already passed review or merged.
+P2-002 is **CLOSED / COMPLETED — MERGED**. Human supplied Gemini 3.1 Pro High /
+Antigravity closeout review **PASS**, findings **NONE**, checklist **25/25 PASS**
+on `5ec0157cb5c60674421dc75b4ae90c88659524e2`; reviewer modified tracked files
+**NO**. Closeout PR CI `37163143518` **SUCCESS**. PR #72 merged at
+`ba8062f1c7db1506af10fdd2193ed193d31cd72d`; final closeout push/main CI
+[`37168633773`](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/37168633773)
+**SUCCESS** on that exact merge. The earlier pending proposal state is historical
+and superseded by this final evidence and the
+[PR #72 handoff](https://github.com/nshaokiet/ai-ip-description-generator/pull/72#issuecomment-5975495162).
 
 Specification authorization: `HUMAN-P2-002-INVENTION-RECONSTRUCTION-2026-10-03`.
 Implementation authorization: `HUMAN-P2-002-IMPLEMENTATION-2026-10-03`.
@@ -1281,16 +1290,17 @@ Human supplied specification review **PASS / NONE / 34 of 34 PASS** on
 `9c3f5e67f3c3af73807aab3f3ba84300fcd99c07`; PR #70 merged at
 `e87b51987c42edb1432a9612a4e05bc7c0d9b113`.
 
-The closeout branch starts from exact implementation merge
-`7d295165379dfa3aa16cd305eb73e7ee739f5f03`. Divergent root local main (ahead 2 /
-behind 46) and existing untracked files are preserved without reset, cleanup or
-history rewrite. Only stale documentation/status evidence is reconciled.
+The original closeout branch started from exact implementation merge
+`7d295165379dfa3aa16cd305eb73e7ee739f5f03`. At that handoff, divergent root local
+main (ahead 2 / behind 46) and existing untracked files were preserved without
+reset, cleanup or history rewrite. Only documentation/status evidence was reconciled.
 `docs/workflow.md` was inspected and left unchanged: its P2-002 section describes
 the offline boundary without stale P2-002 review-pending wording.
 
 **MCP TOOL LIMITATION:** Project Orchestrator returns `Unknown task: P2-002`;
 lifecycle/lease/checkpoint is **BLOCKED BY TOOL CAPABILITY**, not a fabricated
-MCP task state. Git evidence and this reviewable proposal represent progress.
+MCP task state. Git review/merge/CI evidence records completion without inventing
+MCP completion.
 
 Preserved boundaries: BLK-003 **OPEN**; PRODUCT_RUNTIME **DEFERRED — AWAITING
 FUNDING**; semantic acceptance **NOT DETERMINED**; provider authorization
@@ -1299,5 +1309,9 @@ NOT AUTHORIZED**; arbitrary real-paper AI conversion **NOT ENABLED**; Claims
 runtime **NOT IMPLEMENTED**; production **NOT APPROVED / NOT PERFORMED**;
 deployment change **NO**. P2-003 and P2-004 are **NOT AUTHORIZED BY THIS CLOSEOUT**.
 
-Next gate: Gemini 3.1 Pro High / Antigravity read-only fixed-SHA governance
-closeout review. **STOP. Do not merge before closeout PASS. Do not start P2-003.**
+Human authorization
+`HUMAN-P2-002-FINAL-GOVERNANCE-STATUS-RECONCILIATION-2026-10-04` permits only
+this final documentation evidence sync. Additional independent review is waived
+only for this bounded status reconciliation if evidence/scope remain correct
+and PR CI passes; no technical/policy change or future task is authorized.
+**STOP. Do not start P2-003 or P2-004.**

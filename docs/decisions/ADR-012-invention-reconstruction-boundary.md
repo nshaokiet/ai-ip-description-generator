@@ -7,7 +7,7 @@
 | ADR ID | ADR-012 |
 | Status | Approved specification architecture implemented / independently reviewed PASS / merged / post-merge verified |
 | Date | 03/10/2026 |
-| Evidence revision | 0.1.1 — 04/10/2026; architecture decision unchanged |
+| Evidence revision | 0.1.2 — 04/10/2026; architecture decision unchanged |
 | Decision owner | Human / Product Owner |
 | Implementation owner | Codex |
 | Independent reviewer | Gemini 3.1 Pro High / Antigravity read-only |
@@ -18,6 +18,7 @@
 | Reviewed implementation | `62a43da07fc4ccd60c9dab0da188388f6cab88e2` — Human-supplied Gemini 3.1 Pro High / Antigravity PASS, findings NONE, AC-01…AC-34 PASS |
 | Implementation merge | PR #71 — `7d295165379dfa3aa16cd305eb73e7ee739f5f03` |
 | CI evidence | PR CI `37133351078` SUCCESS; post-merge push/main CI `37135175570` SUCCESS |
+| Governance closeout | Human-supplied Gemini 3.1 Pro High / Antigravity PASS/NONE, 25/25, on `5ec0157cb5c60674421dc75b4ae90c88659524e2`; PR #72 merge `ba8062f1c7db1506af10fdd2193ed193d31cd72d`; final closeout main CI `37168633773` SUCCESS |
 
 ## Context
 
@@ -29,7 +30,8 @@ This ADR records the architecture already approved in specification PR #70 and
 the cited Human implementation authorization. It introduces no new architecture
 decision. The implementation has now received Human-supplied independent
 fixed-SHA PASS, merged and passed post-merge main CI as recorded above. The
-documentation-only governance closeout remains separately review/merge gated.
+documentation-only governance closeout has also passed independent fixed-SHA
+review, merged through PR #72 and passed final main CI as recorded above.
 
 Introduce the strict `INVENTION_RECONSTRUCTION` v1.0.0 contract and an offline deterministic adapter with this boundary:
 
@@ -99,3 +101,4 @@ Trade-offs:
 | Previous | New | Date | Author | Change / reason | Reference | Breaking |
 |---|---|---|---|---|---|---|
 | Initial evidence (unversioned) | 0.1.1 | 04/10/2026 | Codex | Reconcile factual implementation review/merge/CI status; architecture and contract semantics unchanged | Human P2-002 governance closeout instruction; PR #71; CI `37135175570` | No |
+| 0.1.1 | 0.1.2 | 04/10/2026 | Codex | Finalize stale governance-closeout gate wording using existing review/merge/CI; architecture unchanged | HUMAN-P2-002-FINAL-GOVERNANCE-STATUS-RECONCILIATION-2026-10-04; PR #72; CI `37168633773` | No |
