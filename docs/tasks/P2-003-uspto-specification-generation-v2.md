@@ -7,7 +7,16 @@
 | Task ID | P2-003 |
 | Title | USPTO Specification Generation Contract & Offline Generation Pipeline v2 |
 | Specification version | 0.1.0 |
-| Status | **SPECIFICATION — INDEPENDENT REVIEW PENDING** |
+| Governance evidence revision | 0.1.1 — 04/10/2026; specification semantics unchanged |
+| Status | **APPROVED / MERGED** — specification phase only |
+| Specification review | Human-supplied external Gemini 3.1 Pro High / Antigravity fixed-SHA PASS / findings NONE / AC-01…AC-40 PASS; not GitHub-native review evidence |
+| Reviewed specification SHA | `a22440f1667388ece08868cbf0f2e22805449eef` |
+| Specification PR / merge | PR #74 — `af0948dab4f0e13e026ad7f6cdbd4ac9691a77a8` |
+| Specification PR CI | `37174156757` — SUCCESS on the reviewed SHA |
+| Specification post-merge main CI | `37175416694` — SUCCESS on the specification merge SHA |
+| Implementation authorization | **NOT GRANTED / NOT AUTHORIZED** |
+| P2-004 | **NOT AUTHORIZED** |
+| Governance reconciliation authorization | `HUMAN-P2-003-SPECIFICATION-GOVERNANCE-RECONCILIATION-2026-10-04` — bounded docs-only evidence sync |
 | Human authorization | `HUMAN-P2-003-SPECIFICATION-2026-10-04` |
 | Authorization scope | Specification only; no implementation |
 | Authorized baseline | `edf2239dd78258881a75c7e2406bd6041d62cce6` |
@@ -1311,7 +1320,22 @@ The independent reviewer must verify at minimum:
 
 ## 41. Governance / next gate
 
-Current state after this specification is committed:
+Current specification state: **APPROVED / MERGED**. Human-supplied external
+Gemini 3.1 Pro High / Antigravity fixed-SHA review on
+`a22440f1667388ece08868cbf0f2e22805449eef` is **PASS**, findings **NONE**,
+AC-01…AC-40 **PASS**; Human decisions required **NONE**, reviewer modified
+tracked repository files **NO**, specification merge suitability **YES**.
+PR #74 merged at `af0948dab4f0e13e026ad7f6cdbd4ac9691a77a8`; post-merge
+main CI [`37175416694`](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/37175416694)
+is **SUCCESS** on that exact specification merge. The
+[verified specification handoff](https://github.com/nshaokiet/ai-ip-description-generator/pull/74#issuecomment-5976352217)
+records the satisfied specification gate, not implementation completion.
+
+Next gate: **SEPARATE HUMAN AUTHORIZATION FOR P2-003 IMPLEMENTATION**.
+P2-003 implementation is **NOT AUTHORIZED**; the P2-003 task itself is not
+marked COMPLETED. This evidence revision introduces no implementation authority.
+
+Historical specification workflow recorded before review/merge:
 
 ```text
 P2-003 specification
@@ -1326,3 +1350,24 @@ P2-003 specification
 Specification approval does not authorize implementation.
 
 P2-004 remains unauthorized.
+
+### Governance evidence revision history
+
+| Previous | New | Date | Author | Change / reason | Reference | Breaking |
+|---|---|---|---|---|---|---|
+| Specification 0.1.0 (unversioned governance evidence) | Governance evidence 0.1.1; specification 0.1.0 unchanged | 04/10/2026 | Codex | Reconcile existing fixed-SHA specification PASS, PR #74 merge and successful main CI; implementation remains unauthorized | HUMAN-P2-003-SPECIFICATION-GOVERNANCE-RECONCILIATION-2026-10-04; CI `37175416694` | No |
+
+Additional independent review is waived by Human only for this bounded docs-only
+reconciliation with unchanged specification/runtime/schema/prompt/code/test
+semantics, no implementation authorization and successful PR CI. This is not a
+new review PASS on the governance revision.
+
+MCP: **BLOCKED BY TOOL CAPABILITY — Unknown task: P2-003**; no task state,
+lease, checkpoint or completion is fabricated. BLK-003 **OPEN**; PRODUCT_RUNTIME
+**DEFERRED — AWAITING FUNDING**; semantic acceptance **NOT DETERMINED**;
+provider/API authorization **NOT GRANTED**, budget **0**, calls **NONE**;
+real/confidential data **NOT AUTHORIZED**; arbitrary real-paper conversion
+**NOT ENABLED**; Claims runtime **NOT IMPLEMENTED**; production
+**NOT APPROVED / NOT PERFORMED**; deployment change **NO**. No DOCX v2 or
+frontend/runtime integration is authorized. **STOP. Do not implement P2-003.
+Do not start P2-004.**
