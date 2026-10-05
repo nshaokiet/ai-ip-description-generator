@@ -8,13 +8,13 @@
 |---|---|
 | Document ID | SPEC-002 |
 | Document title | Project Context — AI Intellectual Property Description Generator |
-| Version | 0.4.30 |
+| Version | 0.4.31 |
 | Status | Approved baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT |
 | Reviewer | Human / Product Owner |
 | Created date | 18/09/2026 |
-| Last updated | 02/10/2026 |
+| Last updated | 05/10/2026 |
 | Related task ID | SPEC-002 |
 | Source of Truth | GitHub — `PROJECT_CONTEXT.md` |
 | Confidentiality level | Internal; research inputs are Confidential by default |
@@ -78,6 +78,7 @@
 | 0.4.27 | 0.4.28 | 02/10/2026 | ChatGPT | Record P2-001 Gemini 3.1 Pro High PASS/findings NONE, PR #56 merge and successful post-merge main CI; open documentation-only governance closeout | Reconcile verified implementation completion while preserving provider/data/production boundaries and MCP limitation | Reviewed `8b55fd84ab1625bf918192c889dafe64825858b4`; merge `4cb0e9501c13b9d25b427bbaf7d50c37ab6ab329`; main CI `36962586792` SUCCESS; P2-001 implementation merged; governance closeout review pending; BLK-003 OPEN | No |
 | 0.4.28 | 0.4.29 | 02/10/2026 | ChatGPT | Record P2-001 closeout review PASS/findings NONE, PR #58 merge/final main CI, and start Human-authorized P2-000 specification | Close P2-001 fully and open the next product-facing frontend simplification task without expanding runtime/provider/data/production scope | P2-001 closeout reviewed `a95ac5c9d5e19dc04216a8f945ff38f1872c39a9`; PR #58 merge `461d9b33b07bb39aad11aa47b84f678e232d80a8`; final CI `36965942755`; `HUMAN-P2-000-WEBAPP-SIMPLIFICATION-2026-10-02`; BLK-003 OPEN | No |
 | 0.4.29 | 0.4.30 | 02/10/2026 | ChatGPT | Record P2-000 specification PASS/merge, implementation PASS/merge and successful post-merge main CI under a Human-authorized one-time ChatGPT merge-role exception | Close implementation/review/CI while opening the documentation-only governance closeout gate | Spec reviewed `5c57c47d562fa3d003850faf5820ffd17a3be385`, PR #59 merge `3a11d358ba65bb5a83345a96f1e3f464a1a3abc0`; implementation reviewed `8d63f19ebb755dafef1eafdb47874553be1fcdd3`, PR #60 merge `d0ffd09e0fe29e8a46c04e14b392e3c4aea22731`; CI `36982485345` SUCCESS; BLK-003 OPEN | No |
+| 0.4.30 | 0.4.31 | 05/10/2026 | Codex | Register newly Human-authorized P2-004 specification/ADR and required independent-review gate only; no implementation or existing-contract change | P2-004 specification-only registration | HUMAN-P2-004-CLAIMS-SPECIFICATION-2026-10-05; baseline `60b0fdb4ed68cd8c701576cf49a8b620052bb14b` | No |
 
 ## 2. Project name
 
@@ -267,6 +268,21 @@ Output Schema v1.0.0 có phạm vi hẹp hơn mô hình toàn hệ thống: grou
 
 ## 19. Current project phase
 
+Current dated registration (05/10/2026): **P2-004 SPECIFICATION — INDEPENDENT
+REVIEW PENDING** under `HUMAN-P2-004-CLAIMS-SPECIFICATION-2026-10-05`, baseline
+`60b0fdb4ed68cd8c701576cf49a8b620052bb14b`. [Task specification
+0.1.0](docs/tasks/P2-004-supported-draft-claims.md) and proposed
+[ADR-014](docs/decisions/ADR-014-supported-draft-claims-contract.md) define
+standalone SUPPORTED_DRAFT_CLAIMS v1.0.0 and dual P2-002/P2-003 support; existing
+schemas/runtime remain immutable. P2-003 remains **CLOSED / COMPLETED — MERGED**.
+P2-004 implementation **NOT AUTHORIZED**; Claims runtime **NOT IMPLEMENTED**.
+Independent fixed-SHA Gemini 3.1 Pro High / Antigravity read-only review REQUIRED;
+no decision supplied. No provider/API, real/confidential-data, legal conclusions,
+frontend/DOCX/deployment/production or downstream-task authorization. MCP:
+**BLOCKED BY TOOL CAPABILITY — Unknown task: P2-004** (observed; no state/lease).
+Earlier MVP/history statements below remain historical scope, not a denial of
+this later specification-only authorization or an implementation grant.
+
 Giai đoạn khởi tạo đề xuất: **Phase 1 — Specification & Architecture**.
 
 SPEC-001, SPEC-002 và SPEC-003 là **Approved baseline** sau Gemini 3.1 Pro High review và Human decisions ngày 20/09/2026. Human / Product Owner đã chốt phân loại **MVP COMPLETE — LOCAL/SYNTHETIC** cho phạm vi bounded hiện hành (DEC-020/DEC-021). P0-010 đã **CLOSED / COMPLETED — MERGED** qua PR #30 tại `9f31dae104438a598b0fe3c9bd09aba005f9026c` sau Gemini 3.1 Pro High targeted final closeout review **PASS**, findings **NONE**; main CI `36526457334` **SUCCESS**. Điều này không tuyên bố semantic PRODUCT_RUNTIME validation, production readiness, public deployment hoặc real/confidential-data readiness.
@@ -382,6 +398,17 @@ Project Orchestrator MCP là lớp điều phối dùng chung giữa VS Code/Cod
 6. `docs/operations/02_GEMINI_REVIEW_LOG.md` — findings và resolution.
 
 ## 28. Recommended next action
+
+Current P2-004 action only: require exact-head specification PR CI SUCCESS,
+freeze edits and hand off that SHA for Gemini 3.1 Pro High / Antigravity
+**read-only independent specification review**. **Do not merge or implement
+P2-004 in this task.** A later PASS/merge/main CI still needs separate explicit
+Human implementation authorization. BLK-003 OPEN; PRODUCT_RUNTIME DEFERRED —
+AWAITING FUNDING; semantic acceptance NOT DETERMINED; provider NOT GRANTED/budget
+0/calls NONE; real/confidential data NOT AUTHORIZED; production NOT APPROVED.
+
+The numbered entries below preserve earlier roadmap/lifecycle evidence and do
+not supersede this current specification-only registration.
 
 1. P1-001 — **CLOSED / COMPLETED — MERGED** via PR #33 at `56d7217c0f09fe591585cb298e0b4df0c92f8aa4`; Gemini 3.1 Pro High targeted implementation review **PASS**, findings **NONE**; final main CI [`36536768516`](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/36536768516) **SUCCESS**: backend 408 passed/2 skipped, pip check/lint/typecheck/build PASS, Playwright 15 passed, live flags 0/0. Project classification remains **MVP COMPLETE — LOCAL/SYNTHETIC**.
 2. P1-002 through P1-006 are **CLOSED / COMPLETED** in Git/governance. P1-003 through P1-006 retain their documented MCP tool limitations where applicable. P1-006 implementation review PASS/NONE on `59c65deec60ae80e3ba6d28220466c2bdbfed815`, PR #50 merge `659e46fa80321e037f384e0e8a09bbe90646da35`, closeout review PASS/NONE on `d46a7101d8aefedd14ece29db50c8f3b00ebbde9`, PR #51 merge `829c83130c6eb6018897cd5a8f62332408193142`, final main CI `36834543602` SUCCESS.
