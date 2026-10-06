@@ -20,6 +20,38 @@ same machine and user account share the same database and task leases. Use the
 same PROJECT_ORCH_DB for both if overriding the default. The database, including
 journal files, is local and must not be committed.
 
+## Workflow V2 data foundation (Phase B1)
+
+The SQLite schema version is now `2`, recorded in `schema_migrations`. Schema
+availability is separate from workflow activation: **Workflow V2 is NOT
+activated by this package version**, and the stdio server still exposes the same
+13 Workflow V1 tools.
+
+Schema version 2 additively installs `task_workflow`, `task_assignments`,
+`task_specs`, `implementation_evidence`, `reviews`, `ci_evidence`, and the
+normalized append-only `evidence_verifications` table. Existing V1 tables and
+rows remain unchanged. Historical tasks are not backfilled with synthetic V2
+workflow, assignment, specification, review, CI, or verification records.
+
+For F-07, `task_workflow.current_implementation_evidence_id` is the sole
+persisted current-candidate selector and is protected by a same-task composite
+foreign key. `implementation_evidence` keeps immutable candidate history and
+does not use insertion order or a latest-row rule to select the current
+candidate. The schema supports future expected-current compare-and-swap pointer
+updates; the public V2 transition API belongs to a later phase.
+
+For F-08, verification state exists only in `evidence_verifications`. Internal
+subjects use typed, same-task foreign keys; Security/Quality review subjects are
+checked against the stored review type; versions form an append-only linear
+supersession chain; `REVOKE` is `UNVERIFIED`; and a `VERIFIED` attestation
+requires verifier provenance fields. External subject-key canonicalization and
+all public V2 workflow transitions remain later-phase transaction/API work.
+
+Migration runs inside `BEGIN IMMEDIATE`, is restart-safe and idempotent, and
+keeps `foreign_keys=ON`, WAL, and the 5000 ms busy timeout model. A failed or
+incompatible migration is rolled back and never resets or deletes the existing
+database. Budget/quota tables and enforcement semantics are unchanged.
+
 Stdio is chosen for client-spawned local servers. It opens no network listener;
 127.0.0.1 binding is therefore inapplicable. An HTTP endpoint would require
 separate local authentication and origin validation before exposure.
