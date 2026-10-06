@@ -34,11 +34,11 @@ P2_004_GENERATOR = ROOT / "backend/app/services/supported_draft_claims_generatio
 P2_004_VALIDATOR = ROOT / "backend/app/services/supported_draft_claims_validation.py"
 
 BASELINE_HASHES = {
-    P2_001_SCHEMA: "c27efb4f328137260f01418cef4fd7613c25c7d2310e35295892342f596515b9",
-    P2_002_SCHEMA: "1824eab634686614b38cc02c92d81cfe656e683e133f5ade5a6a2688dce4c6a0",
-    P2_002_VALIDATOR: "48e6fa9654352a5fd4aa90ad42b77b942e38835d8c4072486fa2ead84f19b770",
-    P2_003_GENERATOR: "0d12c47ad5196bd7e726fe579f2c1f87f02866127d24f69e7c6b5a9b7059a3df",
-    P2_003_VALIDATOR: "28d118e33dfd1aebfd9d5401a96d504a9324c65a2c41877d4d84a3e3ff7a3165",
+    P2_001_SCHEMA: "32b40c67eaaa3915fb3cd0fb4cf86cfc439f21bd417c74c48eaf26e29a4b657c",
+    P2_002_SCHEMA: "e10b5ae85da60e26c4d928ec27bf46605296d6ab7a2dd7c7a234933efddd5693",
+    P2_002_VALIDATOR: "6f2c227387fb43344e0a065d2f86bec73b06a968cb4edf065293f0e59167fe5b",
+    P2_003_GENERATOR: "8033ec9c2b6b177bf93cade180c794a2b0f94dcaf9ca3f1dc78edc12abaf8c8a",
+    P2_003_VALIDATOR: "a486f1a76e9ba5c217770c6b6830e3192a5b8378004d73a1558fd48bf35284b2",
 }
 
 
@@ -205,7 +205,8 @@ def _warning_codes(output: dict) -> set[str]:
 
 
 def _sha(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    portable_bytes = path.read_bytes().replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+    return hashlib.sha256(portable_bytes).hexdigest()
 
 
 def test_case_01_supported_system_exact_core_and_dual_support():
