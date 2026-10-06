@@ -5,15 +5,15 @@
 | Field | Value |
 |---|---|
 | Task ID | `GOV-AGENT-001` |
-| Version | `0.2.0` |
-| Status | **READY FOR INDEPENDENT SPECIFICATION RE-REVIEW** |
-| Phase | **SPECIFICATION REMEDIATION — FULL WORKFLOW V2** |
+| Version | `0.2.1` |
+| Status | **READY FOR TARGETED INDEPENDENT F-07/F-08 SPECIFICATION RE-REVIEW** |
+| Phase | **SPECIFICATION REMEDIATION — F-07 / F-08 DATA MODEL ONLY** |
 | Owner | Human / Product Owner |
 | Authoring role | Planner / Architecture & Governance Specification Agent |
 | Authorization reference | Human task instruction for `GOV-AGENT-001`, 2026-10-06; no separate canonical authorization ID was supplied |
 | Repository baseline SHA | `009e1320405a8d956510c4a11a73f6626acec281` |
 | Prior reviewed specification SHA | `6ed80f65a96c128a95d167c2d32ef91166618b6b` |
-| Prior independent review disposition | **REQUEST CHANGES** — F-01…F-06 remediated by this version; no PASS is claimed |
+| Prior independent review disposition | **REQUEST CHANGES** — F-07/F-08 targeted data-model findings remediated by this version; no PASS is claimed |
 | Breaking change | **No for this specification-only task.** Future Workflow V2 governance activation is a breaking governance change and requires separate authorization/review. |
 | Confidentiality | Internal; research inputs remain Confidential by default under current governance |
 | Intended activation boundary | Future `WORKFLOW_V2_ACTIVATION_COMMIT`; **not defined or activated by this task** |
@@ -26,7 +26,8 @@ Evidence baseline: `AGENTS.md`, `PROJECT_CONTEXT.md`, `docs/system-specification
 | Version | Date | Disposition | Material change |
 |---|---|---|---|
 | `0.1.0` | 2026-10-06 | Independent review: **REQUEST CHANGES** | Initial four-agent Workflow V2 architecture. |
-| `0.2.0` | 2026-10-06 | **READY FOR INDEPENDENT SPECIFICATION RE-REVIEW** | Retains Full Workflow V2 by explicit Product Owner decision; separates recorded/provisional evidence from authoritative merge eligibility; resolves spec-freeze authority; removes quota redesign from scope; phases risk-routing activation; narrows P0 skills; expands non-destructive schema/migration/PR/rollback contracts. |
+| `0.2.0` | 2026-10-06 | Independent re-review: **REQUEST CHANGES (F-07/F-08)** | Retains Full Workflow V2 by explicit Product Owner decision; separates recorded/provisional evidence from authoritative merge eligibility; resolves spec-freeze authority; removes quota redesign from scope; phases risk-routing activation; narrows P0 skills; expands non-destructive schema/migration/PR/rollback contracts. |
+| `0.2.1` | 2026-10-06 | **READY FOR TARGETED INDEPENDENT F-07/F-08 SPECIFICATION RE-REVIEW** | Localized data-model remediation only: adds a persisted current implementation candidate selector with atomic/CAS transitions and chooses one normalized append-only verification persistence model with deterministic effective-verification semantics. Full Workflow V2 architecture remains unchanged. |
 
 ### 1.2 Product Owner architecture decision
 
@@ -34,14 +35,16 @@ Evidence baseline: `AGENTS.md`, `PROJECT_CONTEXT.md`, `docs/system-specification
 
 ### 1.3 Independent review remediation map
 
-| Finding | Severity | v0.2.0 disposition |
+| Finding | Severity | Current disposition |
 |---|---|---|
-| F-01 | HIGH | **RESOLVED IN SPEC:** verification levels plus `provisional_ready` and fail-closed `authoritative_merge_eligible`; trust-only MCP metadata cannot authorize merge. |
-| F-02 | HIGH | **PRODUCT OWNER OVERRIDE / REMEDIATED:** Full V2 intentionally retained; target architecture separated from bounded implementation phases/PRs. |
-| F-03 | MEDIUM | **RESOLVED IN SPEC:** concrete five-condition Human-authorized spec-freeze rule and supersession/reconciliation semantics. |
-| F-04 | MEDIUM | **REMOVED FROM SCOPE:** quota/budget redesign deferred to `GOV-RESOURCE-001`; current behavior unchanged. |
-| F-05 | MEDIUM | **RESOLVED IN SPEC:** R0–R4 retained with DESIGNED/IMPLEMENTED/ACTIVATED rollout states and mandatory dual-review pilot option. |
-| F-06 | LOW | **RESOLVED IN SPEC:** skill architecture retained with an exact minimal P0 set; all additional narrow skills are P1/FUTURE. |
+| F-01 | HIGH | **RESOLVED IN SPEC (v0.2.0):** verification levels plus `provisional_ready` and fail-closed `authoritative_merge_eligible`; trust-only MCP metadata cannot authorize merge. |
+| F-02 | HIGH | **PRODUCT OWNER OVERRIDE / REMEDIATED (v0.2.0):** Full V2 intentionally retained; target architecture separated from bounded implementation phases/PRs. |
+| F-03 | MEDIUM | **RESOLVED IN SPEC (v0.2.0):** concrete five-condition Human-authorized spec-freeze rule and supersession/reconciliation semantics. |
+| F-04 | MEDIUM | **REMOVED FROM SCOPE (v0.2.0):** quota/budget redesign deferred to `GOV-RESOURCE-001`; current behavior unchanged. |
+| F-05 | MEDIUM | **RESOLVED IN SPEC (v0.2.0):** R0–R4 retained with DESIGNED/IMPLEMENTED/ACTIVATED rollout states and mandatory dual-review pilot option. |
+| F-06 | LOW | **RESOLVED IN SPEC (v0.2.0):** skill architecture retained with an exact minimal P0 set; all additional narrow skills are P1/FUTURE. |
+| F-07 | MEDIUM | **RESOLVED IN SPEC (v0.2.1):** `task_workflow.current_implementation_evidence_id` is the sole persisted selector; candidate transitions are atomic, idempotent, restart-safe, and compare-and-swap conflict checked. |
+| F-08 | MEDIUM | **RESOLVED IN SPEC (v0.2.1):** one normalized append-only `evidence_verifications` model is mandatory; subject identity, authoritative sources, deterministic effective verification, supersession/revocation, restart, and fail-closed rules are defined. |
 
 These are authoring dispositions, not an independent re-review PASS.
 
@@ -358,17 +361,21 @@ Purpose: opt a task into V2 prospectively.
 - `risk_class TEXT NOT NULL CHECK IN ('R0','R1','R2','R3','R4')`
 - `authorization_ref TEXT NOT NULL`
 - `activation_commit TEXT NOT NULL`
+- `current_implementation_evidence_id INTEGER NULL`
 - `created_at INTEGER NOT NULL`
 
+`current_implementation_evidence_id` is the **only authoritative current implementation candidate selector**. It is NULL before the first candidate is recorded and thereafter references exactly one immutable `implementation_evidence` row for the same task. Consumers MUST NOT derive a candidate from insertion time, maximum ID, Git chronology, or “latest row wins.”
+
 - **Primary key:** `task_id`.
-- **Foreign key:** `task_id -> tasks(id)`.
+- **Foreign keys:** `task_id -> tasks(id)`; `current_implementation_evidence_id -> implementation_evidence(id)`. Phase B1 also creates a same-task composite constraint `FOREIGN KEY (current_implementation_evidence_id, task_id) REFERENCES implementation_evidence(id, task_id)`, backed by `UNIQUE(id, task_id)` on `implementation_evidence`.
 - **Uniqueness:** one V2 enrollment row per task.
-- **Indexes:** index `(workflow_version, risk_class)` for routing/inspection if query plans justify it.
+- **Indexes:** `(workflow_version, risk_class)` for routing/inspection if query plans justify it and `(current_implementation_evidence_id)` for candidate joins.
 - **Immutable after enrollment:** `task_id`, initial `workflow_version`, initial `activation_commit`, original `authorization_ref`; later risk reclassification should be separately audited rather than overwriting history silently.
-- **Mutable:** narrowly scoped current routing fields only if future implementation models audited reclassification.
-- **Timestamps:** `created_at`; optional additive `updated_at` only if mutable routing fields are implemented.
+- **Mutable:** the current implementation pointer changes only through the atomic candidate-transition contract in §17.4; narrowly scoped routing fields may change only through separately audited transitions.
+- **Timestamps:** `created_at`; optional additive `updated_at` may record pointer/routing transitions but is not the candidate selector.
+- **Restart semantics:** current candidate identity is reconstructed solely by reading this persisted pointer and its referenced row.
 - **Stale semantics:** enrollment itself does not become stale; activation may become disabled globally without deleting the row.
-- **Backward compatibility:** no row means V1 behavior. Historical tasks receive no fake V2 row.
+- **Backward compatibility:** no row means V1 behavior. Historical tasks receive no fake V2 row and do not require a candidate pointer.
 
 ### 17.2 `task_assignments`
 
@@ -436,14 +443,26 @@ Purpose: preserve candidate/final implementation SHA history tied to a frozen sp
 - `created_at INTEGER NOT NULL`
 - `UNIQUE(task_id, implementation_sha)`
 
-This table preserves remediation history rather than overwriting one commit field.
+This table preserves remediation history rather than overwriting one commit field. The current candidate is selected only by `task_workflow.current_implementation_evidence_id`.
 
 - **Primary key:** `id`; **FKs:** task and recorder assignment.
-- **Uniqueness/indexes:** unique `(task_id, implementation_sha)`; indexes on `(task_id, created_at)` and `(spec_sha, implementation_sha)`.
+- **Uniqueness/indexes:** `UNIQUE(task_id, implementation_sha)` makes repeated recording of the same SHA deterministic; `UNIQUE(id, task_id)` supports the same-task composite candidate FK; indexes on `(task_id, created_at)` and `(spec_sha, implementation_sha)`.
 - **Immutable:** all evidence identity fields after insert. Corrections append a new record; they do not mutate a reviewed SHA into another SHA.
-- **Timestamps:** `created_at`.
-- **Stale semantics:** any record whose implementation SHA or spec SHA differs from the currently selected final implementation/frozen spec remains historical and cannot satisfy current gates.
+- **Timestamps:** `created_at` is historical metadata only and MUST NOT choose the current candidate.
+- **Stale semantics:** a row is applicable to the current candidate iff its `id == task_workflow.current_implementation_evidence_id` and its `spec_sha` equals the current frozen spec. All other implementation rows remain durable history. Candidate-specific CI/review/verification evidence is stale when its target implementation SHA differs from the SHA reached through the persisted current pointer.
 - **Backward compatibility:** no fake implementation records are created for V1 history.
+
+#### 17.4.1 Candidate transition, idempotency, restart, and concurrency
+
+For a transition from current candidate A to remediation candidate B, `project.record_implementation` requires the caller's expected current candidate evidence ID (A, or NULL for the first candidate) and performs one `BEGIN IMMEDIATE` transaction:
+
+1. Resolve B by `(task_id, implementation_sha)`; insert the immutable B row only if it does not already exist.
+2. Validate B belongs to the same task and current frozen spec.
+3. Compare the persisted current pointer with the caller's expected A.
+4. Advance `task_workflow.current_implementation_evidence_id` to B using compare-and-swap semantics.
+5. Commit only if the insert/reuse, validation, expected-current comparison, and pointer update all succeed.
+
+If any step fails, the transaction rolls back and the current pointer remains A; no partial transition is durable. A is never deleted or rewritten. Repeating an identical request when B is already current returns B idempotently even if the request carries its original expected A; this retry exception is valid only when the persisted pointer is exactly B and B's immutable fields match. Reusing the same task/SHA with conflicting immutable fields is rejected. A caller whose expected pointer is stale and whose target B is not current receives an explicit conflict, reloads `project.get_state`, and reconciles; it may not silently overwrite the winner. After restart, no process/session history is consulted: `project.get_state`, reviews, CI recording, and the merge gate resolve the candidate solely from the persisted pointer.
 
 ### 17.5 `reviews`
 
@@ -471,7 +490,7 @@ Review types are `SECURITY`, `QUALITY`; future `EVALUATION` may be added by sepa
 
 ### 17.6 `ci_evidence`
 
-Purpose: record CI observations and their verification level without converting trust-based references into authoritative facts.
+Purpose: record immutable CI observations. Verification is persisted only in the normalized `evidence_verifications` model in §17.7.
 
 - `id INTEGER PRIMARY KEY AUTOINCREMENT`
 - `task_id TEXT NOT NULL REFERENCES tasks(id)`
@@ -479,33 +498,73 @@ Purpose: record CI observations and their verification level without converting 
 - `status TEXT NOT NULL CHECK IN ('PENDING','SUCCESS','FAILURE','CANCELLED','UNKNOWN')`
 - `reference TEXT NOT NULL`
 - `source TEXT NOT NULL`
-- `verification_status TEXT NOT NULL CHECK IN ('UNVERIFIED','RECORDED','VERIFIED')`
-- `verified_by TEXT`, `verified_at INTEGER`, `verification_ref TEXT`
+- `recorded_by TEXT NOT NULL`
 - `created_at INTEGER NOT NULL`
 - `UNIQUE(task_id, reference)`
+- `UNIQUE(id, task_id)`
 
-MCP stores supplied evidence. A recorder cannot promote its own trust-based reference to authoritative truth unless it is also an approved authoritative verifier for that evidence source.
+MCP stores the observed CI fact/reference without embedding mutable verification state in the CI row.
 
 - **Primary key:** `id`; **FK:** task.
-- **Indexes:** `(task_id,implementation_sha,status)`, `(verification_status)`.
-- **Immutable:** CI source/reference/SHA/result as originally recorded; verification metadata may only transition forward under a defined verifier policy and is audit-preserving.
-- **Timestamps:** `created_at`, `verified_at` when applicable.
-- **Stale semantics:** a CI row is stale for merge gating when its implementation SHA differs from current final SHA, even if VERIFIED.
+- **Indexes:** `(task_id,implementation_sha,status)`, `(source,reference)`.
+- **Immutable:** CI source/reference/SHA/result/recorder/timestamp after insert. A corrected or rerun observation is a new CI row/reference.
+- **Timestamps:** `created_at`.
+- **Stale semantics:** a CI row is stale for merge gating when `implementation_sha != F`, where F is the SHA selected by the persisted current candidate pointer, regardless of any historical verification.
 - **Backward compatibility:** V1 CI references remain external/historical and are not fabricated into V2 rows.
 
-### 17.7 Evidence verification envelope
+### 17.7 `evidence_verifications`
 
-Evidence-bearing V2 records must expose verification metadata either directly or through a normalized evidence envelope with at least: `source`, `recorded_by`, `verification_status`, `verified_by`, `verified_at`, and `verification_ref` where applicable. Verification levels mean:
+Purpose: provide the **single mandatory persistent representation** for verification state across merge-critical evidence. Verification MUST NOT also be stored as a competing mutable status on subject rows.
 
-- `UNVERIFIED`: supplied claim/reference with no accepted provenance check.
-- `RECORDED`: accepted into operational state with source/recorder attribution, but not authoritatively proven.
-- `VERIFIED`: checked by a source-specific authoritative verifier defined by governance/integration and linked to verifiable evidence.
+- `id INTEGER PRIMARY KEY AUTOINCREMENT`
+- `task_id TEXT NOT NULL REFERENCES tasks(id)`
+- `subject_type TEXT NOT NULL CHECK IN ('HUMAN_AUTHORIZATION','SPECIFICATION','IMPLEMENTATION','CI','SECURITY_REVIEW','QUALITY_REVIEW','PR_BRANCH_STATE','MERGE_RESULT')`
+- `subject_key TEXT NOT NULL` — canonical stable key for the subject within `(task_id, subject_type)`
+- `task_spec_id INTEGER REFERENCES task_specs(id)`
+- `implementation_evidence_id INTEGER REFERENCES implementation_evidence(id)`
+- `ci_evidence_id INTEGER REFERENCES ci_evidence(id)`
+- `review_id INTEGER REFERENCES reviews(review_id)`
+- `verification_version INTEGER NOT NULL CHECK (verification_version >= 1)`
+- `supersedes_verification_id INTEGER REFERENCES evidence_verifications(id)`
+- `decision TEXT NOT NULL CHECK IN ('ATTEST','REVOKE')`
+- `verification_level TEXT NOT NULL CHECK IN ('UNVERIFIED','RECORDED','VERIFIED')`
+- `CHECK (decision <> 'REVOKE' OR verification_level = 'UNVERIFIED')`
+- `recorded_by TEXT NOT NULL`
+- `verifier_type TEXT`, `verifier_id TEXT`, `verification_source TEXT`, `verification_reference TEXT`
+- `verified_at INTEGER`
+- `created_at INTEGER NOT NULL`
+- `metadata_json TEXT`
+- `UNIQUE(task_id, subject_type, subject_key, verification_version)`
 
-`RECORDED` is useful for orchestration and provisional readiness but cannot by itself satisfy a gate that requires authoritative verification.
+Subject identity is concrete and type-checked:
+
+- `SPECIFICATION` requires `task_spec_id`; `subject_key` is that immutable record ID rendered canonically.
+- `IMPLEMENTATION` requires `implementation_evidence_id`; `CI` requires `ci_evidence_id`.
+- `SECURITY_REVIEW` and `QUALITY_REVIEW` require `review_id` whose stored `review_type` matches the subject type.
+- Internal subject IDs must belong to `task_id`; Phase B1 adds `UNIQUE(id,task_id)`/equivalent composite keys and composite FKs where SQLite can enforce them, with transaction validation mandatory in all cases.
+- `HUMAN_AUTHORIZATION` uses the immutable approved authorization reference as `subject_key`.
+- `PR_BRANCH_STATE` uses a canonical key containing repository identity, PR number, and exact observed head SHA.
+- `MERGE_RESULT` uses a canonical key containing repository identity and exact merge SHA.
+- A CHECK/validation rule requires exactly the applicable internal subject FK for each internal subject type and NULL for non-applicable subject FKs; it also validates that an internal `subject_key` canonically encodes that same internal ID. Same-task composite foreign keys and review-type lookup validation reject cross-task or cross-type references.
+
+Verification levels retain the accepted semantics:
+
+- `UNVERIFIED`: an evidence value exists, but no recognized provenance verification has been established.
+- `RECORDED`: an authorized workflow actor recorded the evidence and its provenance reference, but the designated authoritative source has not verified it.
+- `VERIFIED`: the evidence was checked against the authoritative source in §18.1 under the applicable verifier contract. Multiple agents agreeing can never promote `RECORDED` to `VERIFIED`.
+
+Rows are append-only. A later verification never mutates an earlier row. For each subject, version 1 has no supersession pointer; version N>1 must set `supersedes_verification_id` to version N-1 for the same subject. The FK plus same-subject/version validation must reject a link to another subject, a gap, or a fork. Appends use `BEGIN IMMEDIATE`, validate the caller's expected effective verification ID, and insert exactly version N+1; stale concurrent writers receive an explicit conflict. `ATTEST` records the stated level. `REVOKE` explicitly invalidates the preceding attestation and is stored at level `UNVERIFIED`; it cannot yield effective `VERIFIED`.
+
+The **effective verification** is the unique terminal row in the validated linear version chain, equivalently the greatest `verification_version` after verifying there is no gap/fork. Non-terminal rows are **SUPERSEDED by derivation**, never rewritten. If the terminal row is `REVOKE`, the subject is effectively revoked. Candidate/spec/PR/head changes do not mutate verification history; instead applicability is computed against the current persisted subject. A historically VERIFIED record targeting an old implementation SHA, superseded spec, or old PR head is **STALE by computation** for the current gate.
+
+For `decision='ATTEST'` with `verification_level='VERIFIED'`, `verifier_type`, `verifier_id`, `verification_source`, `verification_reference`, and `verified_at` are mandatory. Other levels retain recorder/provenance information but cannot satisfy authoritative gates. Verification records/references for all eight subject types are persisted; merge-time policy may additionally require a fresh authoritative re-check. After restart, effective verification is reconstructed from persisted rows. If the chain is invalid, the current subject cannot be resolved, or a required fresh authoritative check is unavailable, the gate fails closed.
+
+- **Indexes:** `(task_id,subject_type,subject_key,verification_version)`, `(task_id,verification_level,decision)`, each internal subject FK, and `(verified_at)`.
+- **Backward compatibility:** V1 tasks and V1 historical evidence receive no synthetic verification rows.
 
 ### 17.8 Transaction/concurrency requirements
 
-Assignment activation, spec freeze/supersession, implementation finalization, and review submission use `BEGIN IMMEDIATE` transactions and retain the existing `busy_timeout`/WAL approach. Multi-row transitions must commit atomically. Merge-gate reads execute from one consistent transaction/snapshot. Concurrent incompatible role assignment or duplicate freeze attempts fail deterministically.
+Assignment activation, spec freeze/supersession, current-candidate transition, verification append/supersession, and review submission use `BEGIN IMMEDIATE` transactions and retain the existing `busy_timeout`/WAL approach. Multi-row transitions must commit atomically. Candidate and verification updates use expected-current compare-and-swap semantics and return explicit conflict to a losing concurrent writer. Merge-gate reads execute from one consistent transaction/snapshot and resolve F only from `task_workflow.current_implementation_evidence_id`. Concurrent incompatible role assignment, duplicate freeze attempts, candidate races, or verification-chain races fail deterministically rather than using arrival time as authority.
 
 ## 18. MCP V2 Tool Contracts
 
@@ -513,19 +572,20 @@ These are **proposed contracts only**.
 
 | Tool | Purpose / caller | Inputs | Outputs | State / idempotency / validation / failure |
 |---|---|---|---|---|
-| `project.get_state` | Read combined task/sub-state; any authorized role/Human client | `task_id?` | Task + workflow/risk + assignments + frozen spec + final SHA + review/CI summaries + merge gate | Read-only, idempotent. V1 task returns legacy shape plus `workflow_version=1`; unknown task remains explicit error. |
+| `project.get_state` | Read combined task/sub-state; any authorized role/Human client | `task_id?` | Task + workflow/risk + assignments + frozen spec + persisted current candidate evidence/SHA + review/CI/verification summaries + merge gate | Read-only, idempotent. For V2, current implementation is resolved only through `task_workflow.current_implementation_evidence_id`; no latest-row fallback. V1 returns legacy shape plus `workflow_version=1`; unknown task remains explicit error. |
 | `project.assign_role` | Assign one V2 role; Human/admin/orchestrator authority | `task_id, role, agent_id, authorization_ref, lease metadata?` | Assignment record | No task lifecycle transition. Reject V1 task without explicit V2 enrollment, incompatible active assignment, invalid role, missing authorization. Retry with same unique assignment request returns existing record. |
 | `project.get_assignments` | Inspect role ownership; authorized roles/Human | `task_id` | Assignment history/current assignments | Read-only, idempotent. |
 | `project.submit_spec` | Register versioned draft/ready spec; Planner | `task_id, spec_version, spec_sha, artifact_path, authorization_ref` | Spec record | No implementation start. Idempotent on same `(task,version,sha)`; reject version collision with different SHA, missing Planner assignment, malformed SHA/reference. |
 | `project.freeze_spec` | Record a freeze after Human authorization is evidenced; Human/admin path or explicitly delegated governance actor only | `task_id, spec_version, spec_sha, approval_ref, approval_verification` | Frozen spec record + verification status | `READY -> FROZEN` only when §16.1 is satisfied. Planner cannot invoke this as self-authorization. MCP records but cannot manufacture Human approval. Atomic; same freeze is idempotent. Reject SHA/version mismatch, unverified/missing required authorization, already different frozen spec, or invalid authority. |
 | `project.get_spec` | Read current/history; all authorized roles | `task_id, version?` | Spec record(s) | Read-only. |
 | `project.start_implementation` | Start implementation against frozen spec; Implementer | `task_id, implementer_assignment_id, spec_sha, branch, worktree, lease_minutes?` | Active implementation assignment/lease | Task `APPROVED/CLAIMED -> IN_PROGRESS` as compatible with existing flow. Reject non-frozen spec, wrong role, lease collision, stop condition, invalid branch/worktree. Same active lease request is idempotent. |
-| `project.record_implementation` | Record candidate/final immutable SHA; Implementer | `task_id, spec_sha, base_sha, implementation_sha, evidence_ref` | Implementation evidence + stale-gate summary | Task may become `IMPLEMENTED`. New SHA makes prior mismatched CI/review PASS stale by computation. Reject wrong role/spec mismatch/malformed SHA. Same SHA is idempotent. |
-| `project.record_ci` | Record external CI evidence; Implementer/automation/admin according to policy | `task_id, implementation_sha, status, reference, source, verification metadata?` | CI record + current match/verification flags | Recording does not fabricate verification. `RECORDED SUCCESS` can contribute to provisional readiness only. Only source-authoritative verification can produce `VERIFIED`. Duplicate reference with identical payload is idempotent; conflicting reuse fails. SHA mismatch remains stored but cannot satisfy either merge gate. |
-| `review.start` | Start independent review; assigned Security or Quality Reviewer | `task_id, review_type, assignment_id, spec_sha, base_sha, implementation_sha` | Review attempt token/record | `NOT_STARTED -> IN_PROGRESS`; no task-level PASS. Reject role/type mismatch, implementation SHA mismatch, reviewer=Implementer assignment, missing required artefacts. Same active attempt idempotent. |
-| `review.submit` | Submit verdict/evidence; assigned reviewer only | `review_id, verdict, findings_ref, blocking_findings, evidence_ref, artifact_path, model_profile?, tracked_files_modified` | Immutable review result + gate summary | `IN_PROGRESS -> PASS/REQUEST_CHANGES/BLOCKED`. Reject reviewer/type mismatch, changed implementation SHA, missing artefact/evidence, `tracked_files_modified=1` for reviewer role. Submitted review immutable; correction requires new attempt. Review authenticity remains `RECORDED` unless a configured verifier establishes `VERIFIED`. |
-| `review.get_status` | Read per-type current/stale history; any authorized role | `task_id, implementation_sha?` | Security/Quality statuses and stale flags | Read-only. |
-| `project.get_merge_gate` | Compute merge evidence; Implementer/Human/authorized coordinator | `task_id` | `provisional_ready`, `authoritative_merge_eligible`, required/observed gates, verification levels, exact SHAs, stale evidence, blockers, Human gates | Pure computation/read; idempotent. Must never collapse recorded metadata into an authoritative `ready=true`. If authoritative verification is unavailable, `authoritative_merge_eligible=false` with explicit external-verification blockers. |
+| `project.record_implementation` | Record/advance immutable implementation candidate; Implementer | `task_id, spec_sha, base_sha, implementation_sha, evidence_ref, expected_current_implementation_evidence_id` | Reused/inserted implementation evidence + persisted current candidate + stale-gate summary | In one transaction, reuse/insert the unique task/SHA evidence, validate same task/current frozen spec, compare expected current candidate, then CAS-advance the pointer. Same already-current SHA is idempotent; conflicting immutable duplicate or stale expected-current is rejected. Prior rows/evidence remain historical and become stale by SHA comparison. |
+| `project.record_ci` | Record external CI evidence; Implementer/automation/admin according to policy | `task_id, implementation_sha, status, reference, source, recorded_by` | Immutable CI record + current-candidate match + effective verification summary | CI must bind to the persisted candidate F to satisfy readiness. Recording CI never creates `VERIFIED`; verification is appended only through the §17.7 persistence contract by an approved verifier path. Duplicate reference with identical payload is idempotent; conflicting reuse fails. SHA mismatch remains history but cannot satisfy either gate. |
+| `project.record_verification` | Append authoritative/provenance attestation or revocation; approved evidence verifier under subject-specific policy | `task_id, subject_type, subject_key, applicable_subject_id?, decision, verification_level, expected_effective_verification_id, verifier/provenance metadata` | Newly appended immutable verification record + effective verification for the subject | `BEGIN IMMEDIATE`; enforce §17.7 typed subject identity, same-task constraints, source policy, exactly next version and same-subject supersession. Expected effective ID is NULL for first attestation. Stale expected ID yields conflict. `VERIFIED` requires authorized verifier and authoritative source proof; `REVOKE` cannot assert effective `VERIFIED`. No update/delete or implicit trust promotion. |
+| `review.start` | Start independent review; assigned Security or Quality Reviewer | `task_id, review_type, assignment_id, spec_sha, base_sha, implementation_sha` | Review attempt token/record | Resolve F from the persisted current pointer and require `implementation_sha == F` before starting. `NOT_STARTED -> IN_PROGRESS`; reject role/type mismatch, reviewer=Implementer assignment, stale candidate/spec, or missing artefacts. Same active attempt is idempotent. |
+| `review.submit` | Submit verdict/evidence; assigned reviewer only | `review_id, verdict, findings_ref, blocking_findings, evidence_ref, artifact_path, model_profile?, tracked_files_modified` | Immutable review result + current/stale flag + effective verification summary | Before submit, re-resolve F and reject if the review target is no longer current. Submitted review is immutable; correction requires a new attempt. Review evidence begins at no more than `RECORDED`; only a separate approved verification append can establish `VERIFIED`. |
+| `review.get_status` | Read per-type current/stale history; any authorized role | `task_id, implementation_sha?` | Security/Quality statuses, effective verification, and stale flags | Read-only. Default/current view resolves F only from the persisted candidate pointer; an explicit historical SHA query never changes F. |
+| `project.get_merge_gate` | Compute merge evidence; Implementer/Human/authorized coordinator | `task_id` | Persisted F, `provisional_ready(F)`, `authoritative_merge_eligible(F)`, required/observed gates, effective verification rows, exact SHAs, stale evidence, blockers, Human gates | Pure consistent-snapshot computation; idempotent. F comes only from the persisted candidate pointer. Report missing/unverified/revoked/stale evidence explicitly. Never collapse RECORDED metadata into authoritative readiness; unavailable required verification yields `authoritative_merge_eligible=false`. |
 | `checkpoint.create` | Preserve resumable evidence; assigned active role | Existing checkpoint fields + `role/assignment_id` in V2 | Checkpoint record | Keep legacy behavior; quota must not block checkpoint. Role must match assignment when V2. |
 | `checkpoint.get_latest` | Resume state; authorized role | `task_id, role?` | Latest compatible checkpoint | Read-only; legacy checkpoints remain readable. |
 
@@ -533,22 +593,22 @@ Authorization assumptions: MCP trusts authenticated/authorized caller context on
 
 ### 18.1 Evidence verification responsibility
 
-| Evidence type | Typical source | Recorder | Authoritative verifier | Recorded evidence can satisfy provisional readiness? | Required for authoritative merge eligibility? |
-|---|---|---|---|---:|---:|
-| Human task/spec authorization | Human governance instruction / durable decision artefact | Planner/admin/orchestrator | Human-authority channel or approved governance verifier | Yes, if explicit and internally consistent | **Yes — VERIFIED** |
-| Specification SHA/version | Git committed spec artefact | Planner/admin | Git repository verification + freeze authorization reconciliation | Yes | **Yes — VERIFIED** |
-| Implementation SHA/base | Git branch/PR commit | Implementer | Git repository/PR verifier | Yes | **Yes — VERIFIED** |
-| CI result | CI provider/run reference | automation/Implementer/admin | CI provider integration or equivalent authoritative external check | Yes, if matching SHA and recorded SUCCESS | **Yes — VERIFIED SUCCESS on final SHA** |
-| Security review | Durable review artefact + reviewer assignment | Security Reviewer | Review artefact/assignment verifier defined by governance; initial pilot may require external reconciliation | Yes, if required and exact-SHA PASS is recorded | **Yes when required; exact-SHA PASS must be authoritatively accepted** |
-| Quality review | Durable review artefact + reviewer assignment | Quality Reviewer | Review artefact/assignment verifier defined by governance; initial pilot may require external reconciliation | Yes, if required and exact-SHA PASS is recorded | **Yes when required; exact-SHA PASS must be authoritatively accepted** |
-| Branch/PR pre-merge state | GitHub/Git host | coordinator/automation | GitHub/Git provider | May be shown as recorded | **Yes — VERIFIED immediately before merge** |
-| Merge result | GitHub/Git host | coordinator/automation | GitHub/Git provider + final main reconciliation | No pre-merge gate; historical record only | Post-merge **VERIFIED** evidence required for closeout |
+| Evidence type | Authoritative source | Who may record | Who/what may verify | Persistent subject | Required for provisional readiness? | Required for authoritative merge eligibility? |
+|---|---|---|---|---|---:|---:|
+| Human authorization | Approved governance artefact / Human-controlled authorization mechanism | Planner/admin/orchestrator within authority | Human-authority channel or approved governance verifier able to validate that artefact | `HUMAN_AUTHORIZATION` keyed by immutable authorization ref | RECORDED is sufficient to evaluate provisional readiness | **VERIFIED** |
+| Specification | Git repository exact committed spec/version/SHA plus freeze authorization | Planner/admin | Git repository verifier plus freeze-authorization reconciliation | `SPECIFICATION -> task_specs.id` | RECORDED frozen-spec identity | **VERIFIED** |
+| Implementation | Git repository exact implementation/base SHA | Implementer | Git repository/Git-host verifier | `IMPLEMENTATION -> implementation_evidence.id` selected as F | RECORDED identity for F | **VERIFIED** for F |
+| CI | CI provider / GitHub Actions exact run and head SHA | automation/Implementer/admin | CI provider integration or equivalent authoritative run check | `CI -> ci_evidence.id` for F | RECORDED SUCCESS for F | **VERIFIED SUCCESS** for F |
+| Security review | Canonical immutable Security review artefact + valid reviewer assignment | Security Reviewer | Governance-approved review-artefact/assignment verifier; it verifies artefact identity/contract, not Git/CI facts | `SECURITY_REVIEW -> reviews.review_id` | RECORDED PASS for F when required | **VERIFIED PASS** for F when required |
+| Quality review | Canonical immutable Quality review artefact + valid reviewer assignment | Quality Reviewer | Governance-approved review-artefact/assignment verifier; it verifies artefact identity/contract, not Git/CI facts | `QUALITY_REVIEW -> reviews.review_id` | RECORDED PASS for F when required | **VERIFIED PASS** for F when required |
+| PR/branch state | Git host authoritative PR/ref state | coordinator/automation | Git host integration / immediate authoritative pre-merge check | `PR_BRANCH_STATE` keyed by repo + PR + exact head SHA | Optional recorded visibility; not a substitute for merge-time verification | **VERIFIED fresh pre-merge state** |
+| Merge result | Git host merge result plus final-main reconciliation | coordinator/automation | Git host integration plus exact final-main check | `MERGE_RESULT` keyed by repo + exact merge SHA | Not a pre-merge prerequisite | Post-merge **VERIFIED** evidence required for closeout |
 
 The initial V2 implementation is allowed to remain partially trust-based. In that case MCP can compute `provisional_ready`, while authoritative merge eligibility stays false until the required Git/CI/Human/PR/review evidence is verified through an accepted authoritative path. This prevents the orchestration database from overstating trust it does not possess.
 
 ## 19. Fixed-SHA & Review Invariants
 
-For every task, let `F` be the current final implementation SHA, `C` the SHA referenced by satisfying CI, `S` the satisfying Security review SHA when required, and `Q` the satisfying Quality review SHA when required.
+For every V2 task, let `F` be the implementation SHA obtained by joining `task_workflow.current_implementation_evidence_id` to `implementation_evidence.id`. This persisted pointer is the only function that selects F. Let `C` be the SHA referenced by satisfying CI, `S` the satisfying Security review SHA when required, and `Q` the satisfying Quality review SHA when required. No consumer may independently select a “latest” implementation row.
 
 For R3/R4:
 
@@ -560,13 +620,14 @@ For lower risk classes, omit review types that routing explicitly marks non-requ
 
 Additional invariants:
 
-- `F` must reference the frozen `spec_sha` recorded for the implementation attempt.
+- `F` must reference the current frozen `spec_sha` recorded for the selected implementation evidence.
 - A new implementation SHA never inherits PASS from an older SHA.
 - A CI PASS on a different SHA is visible history but cannot satisfy the gate.
 - Review artefacts are immutable evidence; re-review creates a new attempt.
 - A spec change after implementation start requires a new frozen spec version and reimplementation/revalidation decision; it cannot silently retarget existing PASS evidence.
 - Governance exceptions must be explicit, Human-authorized, bounded, and durable; absence of a required review is never inferred as waived.
-- For remediation `A -> B`, Security PASS(A), Quality PASS(A), and CI(A) are retained but stale for B. B requires its own applicable CI(B), Security(B), and Quality(B).
+- For remediation `A -> B`, Security PASS(A), Quality PASS(A), CI(A), and their verification history are retained but stale for B because their `implementation_sha != F`. B requires its own applicable CI(B), Security(B), and Quality(B).
+- Restart/reconciliation reads F and effective verification only from persisted records. Inconsistent/missing candidate or verification chains fail closed.
 
 ## 20. Merge Gate
 
@@ -574,7 +635,7 @@ Workflow V2 has two deliberately different merge concepts. Neither is an agent-d
 
 ### 20.1 Provisional merge readiness
 
-`provisional_ready=true` means the orchestration layer has a complete, internally consistent set of **recorded** evidence for the current frozen spec/final implementation SHA and no recorded blocker. It is useful for deciding that the task is ready for authoritative pre-merge checks. It is **not permission to merge**.
+`provisional_ready(F)=true` means the orchestration layer has a complete, internally consistent set of **recorded** evidence for the current frozen spec and the persisted current candidate F, with no recorded blocker. It is useful for deciding that the task is ready for authoritative pre-merge checks. It is **not permission to merge**.
 
 For a typical R3/R4 task:
 
@@ -583,10 +644,10 @@ provisional_ready =
   workflow_v2_active_for_task
   AND human_task_authorization_recorded
   AND frozen_spec_present
-  AND final_implementation_sha_present
-  AND recorded_ci_success_sha == final_implementation_sha
-  AND recorded_security_pass_sha == final_implementation_sha
-  AND recorded_quality_pass_sha == final_implementation_sha
+  AND persisted_current_candidate_sha == F
+  AND recorded_ci_success_sha == F
+  AND recorded_security_pass_sha == F
+  AND recorded_quality_pass_sha == F
   AND no_blocking_findings
   AND no_unresolved_stop_condition
   AND no_scope_violation
@@ -596,16 +657,17 @@ provisional_ready =
 
 ### 20.2 Authoritative merge eligibility
 
-`authoritative_merge_eligible=true` means provisional readiness is true **and** every evidence class that governance requires to be authoritative has been verified by an accepted source-specific verifier immediately enough to support merge.
+`authoritative_merge_eligible(F)=true` means provisional readiness for persisted candidate F is true **and** every merge-critical evidence class required by governance has an effective `VERIFIED` attestation for the applicable current subject, plus any required fresh authoritative pre-merge check.
 
 ```text
 authoritative_merge_eligible =
-  provisional_ready
+  provisional_ready(F)
+  AND persisted_current_candidate_sha == F
   AND human_authorization_verification == VERIFIED
   AND frozen_spec_git_identity == VERIFIED
-  AND final_implementation_git_identity == VERIFIED
-  AND required_ci == VERIFIED_SUCCESS_ON_FINAL_SHA
-  AND each_required_review == AUTHORITATIVELY_ACCEPTED_PASS_ON_FINAL_SHA
+  AND current_implementation_git_identity(F) == VERIFIED
+  AND required_ci(F) == VERIFIED_SUCCESS
+  AND each_required_review(F) == VERIFIED_PASS
   AND branch_pr_premerge_state == VERIFIED_VALID
   AND required_human_exception_gates == VERIFIED
   AND no_authoritative_stop_condition
@@ -615,12 +677,14 @@ For R0–R2, the active routing policy determines which review streams are requi
 
 ### 20.3 Fail-closed rule
 
-MCP metadata alone cannot prove Git SHA existence, GitHub PR state, CI success, Human authorization, merge status, or review truth unless the implementation has an approved authoritative verification path for that evidence. Therefore:
+Persisted MCP metadata alone cannot prove Git SHA existence, GitHub PR state, CI success, Human authorization, merge status, or review truth unless an approved authoritative verifier produced the effective verification record. Authoritative eligibility is reproducible after restart from persisted candidate/verification records plus any policy-required fresh checks. Therefore:
 
 - a recorded-only CI PASS never by itself satisfies authoritative merge eligibility;
 - a recorded Human authorization reference never becomes `VERIFIED` merely because it is present in SQLite;
 - a plain `ready=true` authoritative response is forbidden when required verification capability is absent;
 - missing verifier capability is reported as an explicit blocker, not silently treated as PASS;
+- revoked, superseded, stale, malformed, or unverifiable evidence never satisfies the current gate;
+- if a policy-required fresh authoritative check cannot run, `authoritative_merge_eligible(F)=false` / BLOCKED;
 - actual merge remains subject to the repository's current governance, platform controls, and immediate pre-merge verification.
 
 ## 21. Agent Role Package
@@ -840,40 +904,41 @@ Full Workflow V2 is the target architecture, but delivery is intentionally incre
 
 ### Phase A — Specification remediation (current)
 
-- **Objective:** resolve independent review findings F-01…F-06 while retaining Full Workflow V2.
+- **Objective:** deliver v0.2.1 targeted F-07/F-08 data-model remediation on top of the prior v0.2.0 F-01…F-06 dispositions while retaining the Product Owner-approved Full Workflow V2 architecture.
 - **Files/modules:** this specification only.
-- **Dependencies:** Product Owner Full V2 decision and prior review of SHA `6ed80f65...`.
-- **Tests/checks:** changed-file gate, structural/AC checks, `git diff --check`, no implementation diff.
-- **Review:** independent specification re-review on exact remediation SHA.
+- **Dependencies:** Product Owner Full V2 decision, prior v0.2.0 independent specification re-review F-07/F-08 findings, and original F-01…F-06 dispositions.
+- **Tests/checks:** persisted candidate and normalized verification contract inspection, structural/AC checks, changed-file gate, `git diff --check`, no implementation diff.
+- **Review:** targeted independent F-07/F-08 specification re-review on the exact v0.2.1 remediation SHA; do not self-claim PASS.
 - **Rollback:** revert only this specification commit if rejected; no runtime state exists to roll back.
-- **Exit:** v0.2.0 committed/pushed; re-review pending; no Workflow V2 implementation or activation.
+- **Exit:** v0.2.1 committed/pushed and exact remote SHA verified; targeted independent review pending; no Workflow V2 implementation or activation.
 
 ### Phase B1 — MCP schema migration only
 
-- **Objective:** install additive V2 tables/indexes/schema-version metadata without changing active workflow behavior.
+- **Objective:** install additive V2 tables/indexes/schema-version metadata, including the sole persisted current-candidate pointer and normalized append-only `evidence_verifications` table, without changing active workflow behavior.
 - **Files/modules:** primarily MCP store/migration code and migration tests/fixtures; no agent/governance activation files.
 - **Dependencies:** accepted specification; separately authorized implementation task.
-- **Tests:** legacy-format DB migration, restart persistence, foreign keys/indexes/uniqueness, failed-migration rollback, byte/record-level preservation where practical, no fake backfill.
+- **Schema contract:** add `task_workflow.current_implementation_evidence_id` and `UNIQUE(id, task_id)` on `implementation_evidence`, enforced by a same-task composite FK; add `evidence_verifications` with its typed subject identifiers, same-task composite FK constraints, version/supersession constraints, and indexes as defined in §17.7. Do not add a competing mutable verification-status column or a latest-row candidate selector.
+- **Tests:** legacy-format DB migration, candidate/verification restart persistence, composite foreign keys/indexes/uniqueness, typed subject identity, failed-migration rollback, byte/record-level preservation where practical, no fake backfill.
 - **Review:** independent fixed-SHA implementation review + required CI.
 - **Rollback:** disable/uninstall use of new schema while preserving created tables/rows; never reset/delete legacy or V2 evidence.
 - **Exit:** schema available, legacy behavior unchanged, V2 still inactive.
 
 ### Phase B2 — MCP role/spec/review/CI tools and state logic
 
-- **Objective:** implement V2 enrollment, assignments, spec submission/freeze/supersession, implementation evidence, reviews, CI evidence, and compatible checkpoint/state views.
+- **Objective:** implement V2 enrollment, assignments, spec submission/freeze/supersession, atomic persisted current-candidate transitions, reviews, CI evidence, append-only verification recording, and compatible checkpoint/state views.
 - **Files/modules:** MCP server/store/admin/contracts/tests; no governance activation.
 - **Dependencies:** B1 schema foundation.
-- **Tests:** role permissions, assignment concurrency, freeze authority checks, supersession, exact-SHA staleness, review independence, immutable evidence, V1 compatibility.
+- **Tests:** role permissions, assignment concurrency, freeze authority checks, spec supersession, candidate A→B CAS/rollback and duplicate-SHA idempotency, exact-SHA staleness, verification-chain concurrency/revocation, review independence, immutable evidence, restart recovery, V1 compatibility.
 - **Review:** independent fixed-SHA review + CI; security review if implementation changes a relevant security boundary.
 - **Rollback:** stop using V2 tools; preserve all rows; V1 paths remain usable for V1 tasks.
 - **Exit:** tools/state logic implemented but no project task is automatically activated/enrolled.
 
 ### Phase B3 — Provisional / authoritative merge evidence logic
 
-- **Objective:** implement evidence verification levels and fail-closed `provisional_ready` / `authoritative_merge_eligible` computation.
+- **Objective:** compute deterministic effective verification from the single persisted §17.7 model and implement fail-closed `provisional_ready` / `authoritative_merge_eligible` for the persisted current candidate.
 - **Files/modules:** MCP gate/evidence modules, verifier adapters if separately authorized, tests/docs.
 - **Dependencies:** B1+B2; clear verifier policy for each authoritative evidence class.
-- **Tests:** recorded-only CI cannot authorize merge; missing verifier capability blocks authoritative eligibility; exact-SHA mismatch/stale evidence fails; Human/PR/CI/review verification semantics; consistent snapshot reads.
+- **Tests:** recorded-only CI cannot authorize merge; revoked/invalid/superseded attestations do not authorize merge; missing verifier capability blocks authoritative eligibility; exact-SHA mismatch/stale evidence fails; Human/PR/CI/review authoritative-source semantics and required fresh checks; restart reconstruction and consistent snapshot reads.
 - **Review:** independent fixed-SHA Quality and Security review of gate logic + CI.
 - **Rollback:** disable V2 gate consumption and return to current external/manual merge verification; preserve evidence records.
 - **Exit:** gate reports both concepts correctly and never emits authoritative readiness from trust-only metadata.
@@ -946,6 +1011,16 @@ Future MCP tests must cover at minimum:
 
 - legacy DB opens successfully;
 - migration is non-destructive;
+- candidate A→B transaction commits both immutable B evidence and the current pointer atomically, or rolls back both after an injected failure;
+- duplicate `(task_id, implementation_sha)` recording is idempotent with identical immutable fields and rejected when the same SHA has conflicting fields;
+- two concurrent A→B/A→C compare-and-swap attempts yield one winner and one explicit stale-expected-current conflict;
+- restart reconstructs the current candidate exclusively from `task_workflow.current_implementation_evidence_id`, never insertion order or maximum evidence ID;
+- composite same-task foreign keys reject a candidate pointer or verification subject ID belonging to another task;
+- typed verification subject identity rejects mismatched `subject_type`, `subject_key`, internal FK, or Security/Quality review type;
+- verification append-only chains enforce consecutive versions, same-subject supersession, no forks, expected-effective-ID concurrency conflicts, and stable restart reconstruction;
+- REVOKE and subsequent versioned re-attestation have deterministic effective status; historical rows remain immutable;
+- invalid, missing, superseded, revoked, or stale verification is inapplicable to the current gate;
+- authorized `VERIFIED` requires designated source/verifier metadata, and a missing required fresh authoritative check fails closed;
 - all four roles can be represented;
 - duplicate/incompatible active assignments are rejected;
 - frozen spec is immutable and supersession is versioned;
@@ -953,6 +1028,7 @@ Future MCP tests must cover at minimum:
 - Security and Quality verdicts remain independent;
 - PASS is tied to exact implementation SHA;
 - new SHA makes old PASS stale;
+- candidate change A→B stales CI(A), Security(A), Quality(A), and their attestations while preserving their history;
 - CI SHA mismatch blocks merge readiness;
 - one required review FAIL/REQUEST_CHANGES blocks merge;
 - both required PASS + matching CI allow readiness when all other gates pass;
@@ -1011,13 +1087,13 @@ If a pilot task is in progress during rollback, Human/Planner decides whether to
 The following must be resolved before or during the specifically authorized future phase; none blocks independent review of this architecture unless the reviewer identifies it as critical:
 
 1. Whether agent identity remains trust-based for initial V2 pilot or requires authenticated client identity before activation.
-2. Whether GitHub/CI fact verification is added inside MCP or remains an external merge-time check in the initial implementation.
+2. Whether GitHub/CI authoritative verifier adapters run inside MCP or through an external immediate merge-time check in the initial implementation, and which checks must be freshly repeated before merge. The verification persistence model itself is settled in §17.7.
 3. Exact repository config location/name for `WORKFLOW_V2_ENABLED` and the activation commit marker.
 4. Whether V2 compatibility should mirror active Implementer ownership into legacy `tasks.owner/branch/worktree` or expose it only through the new assignment view.
 5. Whether R2 security review becomes mandatory for all file-upload/parser changes rather than threat-surface conditional after pilot evidence exists.
 6. Whether review artefacts are always committed before merge or can be referenced from an immutable external review system with a later governance reconciliation commit.
 
-Spec-freeze authority is **resolved** by §16.1 and is not an open question. Quota/resource modernization is **out of scope** and deferred to `GOV-RESOURCE-001`, not an open GOV-AGENT-001 migration question.
+Spec-freeze authority is **resolved** by §16.1; persisted candidate selection and normalized verification storage are **resolved** by §§17.1,17.4,17.7 and are not open architecture questions. Quota/resource modernization is **out of scope** and deferred to `GOV-RESOURCE-001`, not an open GOV-AGENT-001 migration question.
 
 ## 36. Acceptance Criteria
 
@@ -1036,7 +1112,7 @@ Status values below mean **addressed by this specification draft; independent sp
 | AC-09 | Backward-compatible SQLite migration strategy defined | Addressed — §§28–29 |
 | AC-10 | No destructive reset required | Addressed — §§17,29,33 |
 | AC-11 | Proposed MCP tool contracts specified | Addressed — §18 |
-| AC-12 | Merge gate explicit/deterministic | Addressed — §§18,20 |
+| AC-12 | Merge gate explicit/deterministic and bound to one persisted current implementation candidate across restart and concurrency | Addressed — §§17.1,17.4,17.8,18–20,32 |
 | AC-13 | Risk classes R0–R4 or alternatives defined | Addressed — §15 |
 | AC-14 | Agent role package architecture specified | Addressed — §21 |
 | AC-15 | Skill contract format specified | Addressed — §22 |
@@ -1058,14 +1134,14 @@ Status values below mean **addressed by this specification draft; independent sp
 | AC-31 | Full Workflow V2 retention is an explicit Product Owner architecture decision | Addressed — §§1.2,2,6,31 |
 | AC-32 | Recorded/provisional evidence is distinguished from authoritative merge eligibility | Addressed — §§17.7,18.1,20 |
 | AC-33 | Recorded-only CI PASS cannot satisfy authoritative merge eligibility | Addressed — §§18,20.3 |
-| AC-34 | Evidence verification levels and source/recorder/verifier responsibilities are defined | Addressed — §§17.7,18.1 |
+| AC-34 | Verification persisted in one normalized append-only model with typed subjects, versions, revocation, effective state, and source/recorder/verifier responsibilities | Addressed — §§17.7,18,18.1,32 |
 | AC-35 | Spec freeze requires committed artefact, exact SHA/version, explicit Human authorization, and orchestration record | Addressed — §16.1 |
 | AC-36 | Planner cannot self-authorize spec freeze and MCP cannot create Human authorization | Addressed — §§16.1,18 |
 | AC-37 | Spec change after implementation begins supersedes prior spec and requires evidence reconciliation | Addressed — §§16.1,17.3,19 |
 | AC-38 | Risk routing distinguishes DESIGNED, IMPLEMENTED, and ACTIVATED | Addressed — §15 |
 | AC-39 | Pilot may require mandatory Security + Quality before automated R0–R4 routing activation | Addressed — §§15,31 Phase F |
 | AC-40 | P0 skill activation set is minimal and exact; other skills are P1/FUTURE | Addressed — §22 |
-| AC-41 | V2 schema model defines purpose/keys/uniqueness/indexes/mutability/timestamps/staleness/backward compatibility | Addressed — §17 |
+| AC-41 | V2 schema model defines keys/FKs, one same-task current-candidate pointer, single normalized verification table, uniqueness/indexes/mutability/timestamps/staleness/backward compatibility | Addressed — §§17.1,17.4,17.7,17.8,31 B1 |
 | AC-42 | V1 tasks/history/owners/leases/checkpoints/budget/reviews are preserved without fake V2 backfill | Addressed — §§17,24,28–29 |
 | AC-43 | Schema/tool/agent installation is separate from Workflow V2 activation | Addressed — §§29–33 |
 | AC-44 | Activation requires explicit Human approval and `WORKFLOW_V2_ACTIVATION_COMMIT` | Addressed — §§31 Phase E,33 |
@@ -1077,6 +1153,8 @@ Status values below mean **addressed by this specification draft; independent sp
 | AC-50 | Reviews include reviewer/model/spec/base/implementation/verdict/findings/blockers/evidence and exact-SHA semantics | Addressed — §§17.5,24 |
 | AC-51 | Branch/PR state and merge result require authoritative external verification for eligibility/closeout | Addressed — §§18.1,20 |
 | AC-52 | No implementation, activation, provider/API, real/confidential data, or downstream task is performed by this remediation | Addressed — §§7,31,38; verify changed-file gate before commit |
+| AC-53 | F-07: persisted sole current-candidate selector, atomic A→B/CAS, duplicate-SHA idempotency, stale evidence, and restart reconstruction | Addressed — §§17.1,17.4,17.8,18–20,31–32; pending independent review |
+| AC-54 | F-08: one append-only verification persistence contract with typed subjects, supersession/revocation, effective-state determinism, authoritative source checks, and fail-closed gating | Addressed — §§17.7,18,18.1,20,31–32; pending independent review |
 
 ## 37. Implementation Handoff
 
@@ -1084,16 +1162,16 @@ Status values below mean **addressed by this specification draft; independent sp
 Task ID: GOV-AGENT-001
 Agent: Planner / Architecture & Governance Specification Agent
 Reviewer: Independent specification reviewer — pending
-Status: READY FOR INDEPENDENT SPECIFICATION RE-REVIEW
-Version: 0.2.0
-Work completed: Remediated F-01…F-06 while intentionally retaining Full Workflow V2; defined evidence verification levels and provisional/authoritative merge gates; resolved spec-freeze authority; removed quota redesign from scope; phased risk routing; narrowed P0 skills; expanded schema, migration, implementation PR, activation, pilot, adoption, and rollback contracts.
+Status: READY FOR TARGETED INDEPENDENT F-07/F-08 SPECIFICATION RE-REVIEW
+Version: 0.2.1
+Work completed: Retained v0.2.0 F-01…F-06 dispositions and the Product Owner-approved Full Workflow V2 architecture; remediated F-07 with one persisted current-candidate selector, atomic/CAS transitions, idempotency, staleness, and restart semantics; remediated F-08 with one normalized append-only verification table, typed subject keys, versioned supersession/revocation, effective state, and fail-closed authoritative gates. Updated future B1/B2/B3 contracts and tests without implementing them.
 Files affected: This specification artefact only, subject to pre-commit verification.
-Evidence checked: Governance docs, workflow/protocol docs, control center/review log, P2 task/ADR boundaries, MCP source/tests/package behavior, Git/GitHub baseline.
-Findings: Prior v0.1.0 review returned REQUEST CHANGES; this version addresses the trust/merge-gate, Full V2 scope, freeze authority, quota boundary, risk-routing rollout, and P0 skill findings without claiming re-review PASS.
+Evidence checked: Existing v0.2.0 specification and independent F-07/F-08 re-review findings; data model/tool/gate consistency and Git one-file change gate to be checked before commit.
+Findings: Prior v0.2.0 independent specification re-review returned REQUEST CHANGES for F-07/F-08; both are addressed in this draft and require targeted independent re-review. No PASS is claimed.
 Decisions: Full Workflow V2 intentionally retained; additive V2 sub-state model; two independent fixed-SHA review streams; recorded/provisional vs authoritative merge evidence; Git durable evidence + MCP operational index; quota unchanged; explicit cutover and reversible activation.
-Issues: Open questions in §35; independent specification review pending.
+Issues: Verifier-adapter integration/freshness policy and other future-phase questions in §35; targeted independent F-07/F-08 re-review pending.
 Security impact: Specification only; no runtime/security boundary changed.
-Recommended next action: Independent fixed-SHA re-review of this specification remediation commit. Do not implement Phase B1–H before separate authorization/review gates.
+Recommended next action: Targeted independent fixed-SHA F-07/F-08 specification re-review of the v0.2.1 commit. Do not implement Phase B1–H before separate authorization/review gates.
 ```
 
 Downstream implementers must treat this document as architecture proposal until the required independent specification review and Human governance disposition are recorded. A PASS on this specification would authorize nothing beyond what the Human separately authorizes.
@@ -1102,6 +1180,4 @@ Downstream implementers must treat this document as architecture proposal until 
 
 This task changed no Project Orchestrator MCP TypeScript, SQLite schema/database, backend/frontend/application/AI runtime, prompt, JSON schema, DOCX renderer/template, CI behavior, provider/model runtime, production/deployment configuration, current governance activation file, or historical review record. It used no real/confidential research data and made no provider/API call. It does not change P2-001/P2-002/P2-003/P2-004 technical semantics or start downstream AI-CONV work.
 
-**GOV-AGENT-001 FULL WORKFLOW V2 SPECIFICATION REMEDIATION COMPLETE —**
-**FULL V2 INTENTIONALLY RETAINED —**
-**NO WORKFLOW V2 IMPLEMENTATION OR ACTIVATION PERFORMED.**
+**GOV-AGENT-001 v0.2.1 DATA-MODEL REMEDIATION COMPLETE — F-07/F-08 ADDRESSED — FULL WORKFLOW V2 ARCHITECTURE RETAINED — NO IMPLEMENTATION OR ACTIVATION PERFORMED.**
