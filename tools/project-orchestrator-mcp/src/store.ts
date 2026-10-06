@@ -2,6 +2,7 @@ import { DatabaseSync } from 'node:sqlite';
 import { mkdirSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { dirname, isAbsolute, join } from 'node:path';
+import { migrateDatabase } from './migrations.js';
 
 export const STATES = [
   'PLANNED', 'APPROVED', 'CLAIMED', 'IN_PROGRESS', 'IMPLEMENTED',
@@ -57,32 +58,22 @@ export class Store {
     if (!isAbsolute(file)) throw new Error('SQLite path must be absolute');
     mkdirSync(dirname(file), { recursive: true, mode: 0o700 });
     this.db = new DatabaseSync(file);
-    this.db.exec('PRAGMA busy_timeout=5000; PRAGMA journal_mode=WAL; PRAGMA foreign_keys=ON');
-    this.db.exec(
-      'CREATE TABLE IF NOT EXISTS tasks (' +
-      'id TEXT PRIMARY KEY, title TEXT NOT NULL, priority INTEGER NOT NULL, status TEXT NOT NULL, ' +
-      'owner TEXT, branch TEXT, worktree TEXT, lease_start INTEGER, lease_expiry INTEGER, ' +
-      'frozen_until INTEGER, blockers TEXT, approval_ref TEXT);' +
-      'CREATE TABLE IF NOT EXISTS dependencies (task_id TEXT NOT NULL REFERENCES tasks(id), ' +
-      'requires_id TEXT NOT NULL REFERENCES tasks(id), PRIMARY KEY(task_id,requires_id));' +
-      'CREATE TABLE IF NOT EXISTS budget (id INTEGER PRIMARY KEY CHECK(id=1), remaining REAL NOT NULL, ' +
-      'threshold REAL NOT NULL, source TEXT NOT NULL, cycle TEXT NOT NULL, updated_at INTEGER NOT NULL);' +
-      'CREATE TABLE IF NOT EXISTS progress (id INTEGER PRIMARY KEY AUTOINCREMENT, task_id TEXT NOT NULL ' +
-      'REFERENCES tasks(id), owner TEXT NOT NULL, payload TEXT NOT NULL, created_at INTEGER NOT NULL);' +
-      'CREATE TABLE IF NOT EXISTS checkpoints (id INTEGER PRIMARY KEY AUTOINCREMENT, task_id TEXT NOT NULL ' +
-      'REFERENCES tasks(id), owner TEXT NOT NULL, branch TEXT, last_safe_commit TEXT, ' +
-      'completed_work TEXT NOT NULL, tests TEXT NOT NULL, remaining_work TEXT NOT NULL, ' +
-      'blockers TEXT NOT NULL, stop_reason TEXT NOT NULL, exact_next_action TEXT NOT NULL, created_at INTEGER NOT NULL)'
-    );
-    this.tx(() => {
-      this.db.prepare('INSERT OR IGNORE INTO budget VALUES (1, 14, 8, ?, ?, ?)').run('manual', 'initial-weekly-2026-09-25', Date.now());
-      for (let i = 0; i < SEED.length; i++) {
-        const [id, title, dependency] = SEED[i]!;
-        this.db.prepare('INSERT OR IGNORE INTO tasks (id,title,priority,status,frozen_until) VALUES (?,?,?,?,?)')
-          .run(id, title, i + 1, 'PLANNED', id === 'P0-001' ? FREEZE : null);
-        if (dependency) this.db.prepare('INSERT OR IGNORE INTO dependencies VALUES (?,?)').run(id, dependency);
-      }
-    });
+    try {
+      this.db.exec('PRAGMA busy_timeout=5000; PRAGMA journal_mode=WAL; PRAGMA foreign_keys=ON');
+      migrateDatabase(this.db);
+      this.tx(() => {
+        this.db.prepare('INSERT OR IGNORE INTO budget VALUES (1, 14, 8, ?, ?, ?)').run('manual', 'initial-weekly-2026-09-25', Date.now());
+        for (let i = 0; i < SEED.length; i++) {
+          const [id, title, dependency] = SEED[i]!;
+          this.db.prepare('INSERT OR IGNORE INTO tasks (id,title,priority,status,frozen_until) VALUES (?,?,?,?,?)')
+            .run(id, title, i + 1, 'PLANNED', id === 'P0-001' ? FREEZE : null);
+          if (dependency) this.db.prepare('INSERT OR IGNORE INTO dependencies VALUES (?,?)').run(id, dependency);
+        }
+      });
+    } catch (error) {
+      this.db.close();
+      throw error;
+    }
   }
   close(): void { this.db.close(); }
   private tx<T>(body: () => T): T {
