@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.66 |
+| Version | 0.3.67 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -104,6 +104,7 @@
 | 0.3.63 | 0.3.64 | 04/10/2026 | Codex | Final P2-003 stale-current-state reconciliation; external closeout PASS/NONE, 4/4 docs, PR #78 merge and final main CI establish CLOSED / COMPLETED — MERGED | Exactly four docs, no technical semantic changes; additional independent review waived only for this reconciliation subject to exact-head PR CI SUCCESS | HUMAN-P2-003-FINAL-GOVERNANCE-STATUS-RECONCILIATION-2026-10-04; reviewed `e97b5cbda4b69b7cbb8524f99b0c1a27f10e19c7`; merge `e61b69358fba68ccc109fb5b76081d2685d96bce`; main CI `37200160782` SUCCESS | No |
 | 0.3.64 | 0.3.65 | 05/10/2026 | Codex | Register P2-004 supported draft Claims specification 0.1.0 and proposed ADR-014; independent fixed-SHA specification review pending | Specification only, maximum five docs; P2-003 remains CLOSED; no implementation or released-contract change | HUMAN-P2-004-CLAIMS-SPECIFICATION-2026-10-05; baseline `60b0fdb4ed68cd8c701576cf49a8b620052bb14b`; MCP Unknown task: P2-004 | No |
 | 0.3.65 | 0.3.66 | 06/10/2026 | Codex | Record P2-004 fixed-SHA specification PASS/NONE, AC-01…AC-48 PASS, 54-case plan ADEQUATE, PR #80 merge/main CI SUCCESS, ADR-014 accepted specification baseline | Exactly six-doc evidence/status reconciliation; additional review conditionally waived; implementation NOT AUTHORIZED | HUMAN-P2-004-SPECIFICATION-STATUS-RECONCILIATION-2026-10-06; reviewed `89eef2af3fcc4105b66acf02f9504b2887c222ac`; merge `9ac1889e44bca080e21efb5bbbd2ebf5c3140293`; CI `37262324108` SUCCESS | No |
+| 0.3.66 | 0.3.67 | 06/10/2026 | Codex | Record Human-authorized P2-004 standalone offline implementation, executable/local verification, PR #82 and successful exact-head CI; hand off for independent fixed-SHA implementation review | Current-state governance handoff only; implementation review remains pending and PR remains unmerged | `HUMAN-P2-004-IMPLEMENTATION-2026-10-06`; baseline `b1085337c8f16c4bb72574bfb45e27741290ca90`; executable `411b17a6ed39885b47af9932c9cf44d4b498db9e`; PR #82; CI `37423007016` SUCCESS | No |
 
 ## 2. Project
 
@@ -198,8 +199,8 @@ critical areas ALL PASS; reviewer modified tracked files NO; merge suitability Y
 final closure suitability PASS. Not GitHub-native approval. PR #78 MERGED at
 `e61b69358fba68ccc109fb5b76081d2685d96bce`; exact-head closeout CI `37199160809`
 and final push/main CI `37200160782` SUCCESS on their respective exact SHAs.
-No further P2-003 review gate remains. P2-004 **implementation NOT AUTHORIZED**;
-newer specification-only authorization is recorded below. MCP:
+No further P2-003 review gate remains. At that P2-003 closeout point, P2-004
+implementation was not yet authorized; later P2-004 authorization is recorded below. MCP:
 **BLOCKED BY TOOL CAPABILITY — Unknown task: P2-003**.
 
 ## 6. Current Objective
@@ -223,17 +224,23 @@ newer specification-only authorization is recorded below. MCP:
   semantics, implementation PASS / 9/9, closeout PASS / 4/4 and successful final
   main CI `37200160782`; P2-003 is CLOSED / COMPLETED — MERGED. Additional review
   was waived only for that bounded reconciliation with no technical semantic changes
-  and exact-head PR CI SUCCESS, not a new review PASS or a P2-004 waiver. No further P2-003 governance
-  task is required. P2-004 implementation remains NOT AUTHORIZED.
-- Preserve P2-004 **SPECIFICATION 0.1.0 — APPROVED / MERGED**, accepted ADR-014
-  specification architecture baseline, independent review **CLOSED — PASS /
-  findings NONE**, AC-01…AC-48 PASS and 54-case future fixture plan ADEQUATE.
-  Reconcile only the six authorized docs under `HUMAN-P2-004-SPECIFICATION-STATUS-RECONCILIATION-2026-10-06`
-  from `9ac1889e44bca080e21efb5bbbd2ebf5c3140293`; require exact-head reconciliation PR CI
-  SUCCESS, merge and exact-merge push/main CI SUCCESS under the conditional waiver.
-  Next gate: explicit Human P2-004 implementation authorization.
-  Implementation NOT AUTHORIZED; Claims runtime NOT IMPLEMENTED.
-  MCP observed **BLOCKED BY TOOL CAPABILITY — Unknown task: P2-004**.
+  and exact-head PR CI SUCCESS, not a new review PASS or a P2-004 waiver. No further
+  P2-003 governance task is required.
+- Preserve P2-004 specification 0.1.0 **APPROVED / MERGED** and ADR-014 accepted
+  specification architecture baseline. Under `HUMAN-P2-004-IMPLEMENTATION-2026-10-06`,
+  the standalone deterministic offline implementation is on branch
+  `feat/p2-004-supported-draft-claims`; PR #82 is **OPEN / UNMERGED**. Executable
+  SHA before governance handoff `411b17a6ed39885b47af9932c9cf44d4b498db9e`
+  has exact-head CI `37423007016` **SUCCESS**, P2-004 oracle **54/54 passed**,
+  targeted P2-002/P2-003 regression **237/237 passed**, full Python **738 passed /
+  3 skipped**, frontend lint/typecheck/build **PASS**, local Playwright **26/26
+  cases completed** with Windows teardown hang caveat, static Render export **PASS**
+  and demo E2E **5/5 passed**. Independent implementation review remains **PENDING**.
+  Preserve P2-003 Claims `MISSING` / `[]`, no Claims preamble,
+  `review_package.claim_support = []`, and
+  `review_boundary.claims_runtime_implemented = false`; no product runtime integration.
+  MCP observed **BLOCKED BY TOOL CAPABILITY — Unknown task: P2-004**. Required stop:
+  **READY FOR INDEPENDENT FIXED-SHA REVIEW**; **DO NOT MERGE** or start downstream work.
 
 SPEC-001/002/003, schema, prompts and DOCX template retain their previously
 approved versions/contracts; this task does not re-approve or redesign them.
@@ -340,7 +347,7 @@ APP-002 capability boundary: `Validated PDF/DOCX → deterministic text/table pa
 | P2-000-R3 | Human Review Gate + Validation/DOCX Workflow Correction | Codex | Gemini 3.1 Pro High / Antigravity read-only | Bounded P2 frontend workflow correction | **CLOSED / COMPLETED — MERGED** | Implementation reviewed `5569354e7003511d2e761236395ab6a604076530` PASS/NONE, 15/15; PR #67 merge `62a25a9ae136461924bc8047c5a6ad0f3550c68c`; closeout reviewed `7697798a7e2a84f42d22ed896c0f49af6bf773e0` PASS/NONE, 13/13; PR #68 merge `a9f50adcbefe8d5725c0b5e779ae24ad7546ec51`; final CI `37110753273` SUCCESS; BLK-003 OPEN | 03/10/2026 |
 | P2-002 | Invention Reconstruction Contract & Offline Reconstruction Pipeline | Codex | Gemini 3.1 Pro High / Antigravity read-only | Authorized P2 offline reconstruction | **CLOSED / COMPLETED — MERGED** | Spec reviewed `9c3f5e67f3c3af73807aab3f3ba84300fcd99c07` PASS/NONE, 34/34; PR #70 merge `e87b51987c42edb1432a9612a4e05bc7c0d9b113`; implementation reviewed `62a43da07fc4ccd60c9dab0da188388f6cab88e2` PASS/NONE, 34/34; PR #71 merge `7d295165379dfa3aa16cd305eb73e7ee739f5f03`; closeout reviewed `5ec0157cb5c60674421dc75b4ae90c88659524e2` PASS/NONE, 25/25; PR #72 merge `ba8062f1c7db1506af10fdd2193ed193d31cd72d`; final closeout main CI `37168633773` SUCCESS; MCP TOOL LIMITATION | 04/10/2026 evidence record |
 | P2-003 | USPTO Specification Generation Contract & Offline Generation Pipeline v2 | Codex — docs-only final status reconciliation | Gemini 3.1 Pro High / Antigravity read-only (completed lifecycle reviews) | Four-doc reconciliation; specification 0.1.1 unchanged | **CLOSED / COMPLETED — MERGED** | Specification 0.1.1 APPROVED / MERGED, blocker RESOLVED; implementation external PASS/NONE on `acc0ddcaa1fa533f7426133bec2963bea12aa5b2`, complete diff 9/9 (earlier “6 files” REPORTING ERROR, none omitted), AC-01…AC-41 and A–H PASS; PR #77 merge `1702547ae06a59c990f9264223d2ff07131265cc`, PR/main CI `37186996410` / `37197774777` SUCCESS; closeout external PASS/NONE on `e97b5cbda4b69b7cbb8524f99b0c1a27f10e19c7`, 4/4 docs, reviewer modified tracked files NO, merge suitability YES, final closure suitability PASS; PR #78 merge `e61b69358fba68ccc109fb5b76081d2685d96bce`, final main CI `37200160782` SUCCESS; reviews not GitHub-native approval; no further P2-003 gate; P2-004 implementation NOT AUTHORIZED; MCP BLOCKED BY TOOL CAPABILITY — Unknown task: P2-003 | 04/10/2026 final closeout verified |
-| P2-004 | Supported Draft Claims Contract & Offline Claims Generation Pipeline | Codex — six-doc evidence/status reconciliation, not MCP owner/lease | Gemini 3.1 Pro High / Antigravity read-only; completed specification review | Specification 0.1.0 unchanged; bounded status reconciliation only | **SPECIFICATION 0.1.0 — APPROVED / MERGED; IMPLEMENTATION NOT AUTHORIZED** | HUMAN-P2-004-SPECIFICATION-STATUS-RECONCILIATION-2026-10-06; review **CLOSED — PASS / findings NONE** on `89eef2af3fcc4105b66acf02f9504b2887c222ac`; Human-supplied external review, not GitHub-native approval; AC-01…AC-48 PASS; 54-case future fixture plan ADEQUATE; ADR-014 accepted specification architecture baseline; PR #80 MERGED at `9ac1889e44bca080e21efb5bbbd2ebf5c3140293`; exact-head PR CI `37255116233` / main CI `37262324108` SUCCESS; P2-001/P2-002/P2-003 unchanged; Claims runtime NOT IMPLEMENTED; next gate explicit Human implementation authorization; MCP BLOCKED BY TOOL CAPABILITY — Unknown task: P2-004 | 06/10/2026 specification evidence reconciliation |
+| P2-004 | Supported Draft Claims Contract & Offline Claims Generation Pipeline | Codex — authorized implementation owner; MCP task unavailable | Gemini 3.1 Pro High / Antigravity read-only; specification review complete, implementation review pending | Specification 0.1.0 unchanged; standalone `SUPPORTED_DRAFT_CLAIMS` v1.0.0 implemented on review branch | **IMPLEMENTATION — INDEPENDENT REVIEW PENDING; PR #82 OPEN / UNMERGED** | `HUMAN-P2-004-IMPLEMENTATION-2026-10-06`; baseline `b1085337c8f16c4bb72574bfb45e27741290ca90`; branch `feat/p2-004-supported-draft-claims`; executable SHA before governance handoff `411b17a6ed39885b47af9932c9cf44d4b498db9e`; exact-head CI `37423007016` SUCCESS; P2-004 54/54, targeted regression 237/237, full Python 738 passed / 3 skipped, frontend checks PASS, Playwright 26/26 cases completed with Windows teardown caveat, static export PASS, demo E2E 5/5; P2-001/P2-002/P2-003 semantics unchanged; P2-003 Claims remains MISSING / `[]` and `claims_runtime_implemented = false`; provider/API calls NONE; real/confidential data NONE; MCP BLOCKED BY TOOL CAPABILITY — Unknown task: P2-004; next gate fixed-SHA independent implementation review; DO NOT MERGE | 06/10/2026 implementation review handoff |
 | EVAL-001 | Semantic Quality Evaluation — framework/gold merged; PRODUCT_RUNTIME deferred | GPT-6 Sol | Gemini 3.1 Pro High | Post-MVP — AWAITING FUNDING; no active runtime work | Framework/gold reviews PASS/findings NONE; corpus/gold 6/6 HUMAN_ACCEPTED; baseline MERGED; PRODUCT_RUNTIME DEFERRED; product evidence NONE; semantic acceptance NOT_DETERMINED, not PASS/Completed | Frozen product `37d42fc8b07003aa2a67f2d1d32e64e69eb0ddb5`; PR #29 merge `2caf3e6c698745a1c2b09d5605e8fba955bca2f9`; DEC-020; provider NOT GRANTED/budget 0; BLK-003 OPEN | Post-MVP Human funding decision |
 
 Mọi target date cụ thể cần được xếp trước deadline chung 02/10/2026 và do Human xác nhận.
@@ -665,43 +672,42 @@ Human đã phê duyệt ADR-006 và Output Schema v1.0.0 cho AI-001, sau đó me
 
 ## 22. Next Recommended Action
 
-**P2-004 SPECIFICATION 0.1.0 — APPROVED / MERGED**.
-Independent specification review: **Gemini 3.1 Pro High / Antigravity read-only**,
-**PASS / findings NONE** on reviewed SHA `89eef2af3fcc4105b66acf02f9504b2887c222ac`.
-Evidence attribution: **Human-supplied external independent fixed-SHA review;
-not GitHub-native approval**. AC-01…AC-48 **PASS**; **54-case future synthetic
-fixture plan ADEQUATE** (plan review, not executed runtime tests).
-Exact-head specification PR CI [`37255116233`](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/37255116233)
-**SUCCESS**; [PR #80](https://github.com/nshaokiet/ai-ip-description-generator/pull/80)
-**MERGED** at `9ac1889e44bca080e21efb5bbbd2ebf5c3140293`; post-merge push/main CI
-[`37262324108`](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/37262324108)
-**SUCCESS** on that exact merge.
-ADR-014 is **ACCEPTED — P2-004 specification architecture baseline** only.
-Specification review + merge + main CI gates **SATISFIED**.
-P2-004 implementation **NOT AUTHORIZED**; Claims runtime **NOT IMPLEMENTED**.
-Next gate: **SEPARATE HUMAN IMPLEMENTATION AUTHORIZATION REQUIRED**.
+**P2-004 IMPLEMENTATION — INDEPENDENT REVIEW PENDING** under
+`HUMAN-P2-004-IMPLEMENTATION-2026-10-06`, from baseline
+`b1085337c8f16c4bb72574bfb45e27741290ca90` on branch
+`feat/p2-004-supported-draft-claims`. Specification 0.1.0 is already **APPROVED /
+MERGED** and ADR-014 remains the accepted specification architecture baseline.
 
-Await separate explicit Human P2-004 implementation authorization.
-P2-001/P2-002/P2-003 unchanged; P2-003 CLOSED / COMPLETED — MERGED.
-No downstream task authorized. MCP actual result:
-**BLOCKED BY TOOL CAPABILITY — Unknown task: P2-004**; no task completion,
-owner/lease/checkpoint/approval state fabricated.
+[PR #82](https://github.com/nshaokiet/ai-ip-description-generator/pull/82) is
+**OPEN / UNMERGED**. Executable SHA before governance handoff is
+`411b17a6ed39885b47af9932c9cf44d4b498db9e`; exact-head CI
+[`37423007016`](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/37423007016)
+is **SUCCESS**. Local evidence: P2-004 oracle **54/54 passed**; targeted P2-002/
+P2-003 regression **237/237 passed**; full Python **738 passed / 3 skipped**;
+frontend lint/typecheck/build **PASS**; local Playwright **26/26 cases completed**
+with a Windows teardown hang caveat; static Render export **PASS**; demo E2E
+**5/5 passed**.
 
-Authorization: `HUMAN-P2-004-SPECIFICATION-STATUS-RECONCILIATION-2026-10-06`.
-Additional independent review is **WAIVED only for this bounded six-document
-evidence/status reconciliation**, provided the diff stays documentation-only,
-the exact authorized six-file scope is preserved and exact-head PR CI succeeds.
-This waiver is **not Gemini PASS**, **not a second specification review** and
-**not implementation authorization**. REV-P2-004-SPECIFICATION refers only to
-the real review of `89eef2af3fcc4105b66acf02f9504b2887c222ac`.
-Reconciliation PR/merge/main-CI evidence belongs in Git history and final
-handoff; it is not recursively inserted into these documents.
+Next action: commit/push this four-document governance handoff, verify PR #82
+points to the final SHA and that exact-head CI succeeds, then freeze the SHA for
+Gemini 3.1 Pro High / Antigravity read-only independent implementation review.
+Implementation review is **PENDING**; no PASS or merge eligibility is claimed.
+Preserve P2-003 Claims `status = MISSING`, `claims = []`, no Claims preamble,
+`review_package.claim_support = []`, and
+`review_boundary.claims_runtime_implemented = false`. No provider/API calls,
+real/confidential data, frontend/DOCX/deployment integration, production or
+downstream work is authorized. BLK-003 remains **OPEN**; EVAL-001 PRODUCT_RUNTIME
+remains **DEFERRED — AWAITING FUNDING**; semantic acceptance remains
+**NOT DETERMINED**. MCP actual result remains **BLOCKED BY TOOL CAPABILITY —
+Unknown task: P2-004**; no state/lease/checkpoint is fabricated. Required stop:
+**READY FOR INDEPENDENT FIXED-SHA REVIEW**; **DO NOT MERGE**.
 
 ### Historical P2-003 final closeout handoff — preserved
 
 The records/STOP statements below describe the earlier P2-003 closeout period.
-Newer Human authorization supersedes only the P2-004 specification prohibition;
-P2-004 implementation, providers, data, frontend/DOCX and deployment remain unauthorized.
+Newer Human authorization now permits the bounded standalone P2-004 implementation
+described above; provider/API use, real/confidential data, frontend/DOCX runtime
+integration, deployment/production and downstream work remain unauthorized.
 
 P2-003 **SPECIFICATION 0.1.1 — APPROVED / MERGED** under
 `HUMAN-P2-003-SPECIFICATION-AMENDMENT-0.1.1-2026-10-04`. Contract blocker:
