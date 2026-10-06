@@ -3,13 +3,18 @@
 | Field | Value |
 |---|---|
 | ADR ID / version | ADR-014 / **0.1.0** |
-| Status | **PROPOSED — SPECIFICATION INDEPENDENT REVIEW PENDING**; not accepted/implemented |
+| Status | **ACCEPTED — P2-004 SPECIFICATION ARCHITECTURE BASELINE; IMPLEMENTATION NOT AUTHORIZED** |
 | Date / owner / author | 05/10/2026 GMT+7 / Human — Product Owner / Codex |
 | Authorization | `HUMAN-P2-004-CLAIMS-SPECIFICATION-2026-10-05` — specification only |
 | Baseline | `60b0fdb4ed68cd8c701576cf49a8b620052bb14b` |
 | Task / normative contract | [P2-004 specification 0.1.0](../tasks/P2-004-supported-draft-claims.md); standalone SUPPORTED_DRAFT_CLAIMS v1.0.0 |
-| Independent reviewer | Gemini 3.1 Pro High / Antigravity read-only, fixed SHA; decision pending |
+| Independent reviewer | Gemini 3.1 Pro High / Antigravity read-only; **PASS / findings NONE** |
 | Implementation | **NOT AUTHORIZED**; no code or production JSON Schema |
+| Review attribution / reviewed SHA | Human-supplied external fixed-SHA review, not GitHub-native approval; `89eef2af3fcc4105b66acf02f9504b2887c222ac` |
+| Acceptance criteria / fixture plan | AC-01…AC-48 **PASS**; 54-case future synthetic fixture plan **ADEQUATE** |
+| PR / merge SHA | #80 — **MERGED**; `9ac1889e44bca080e21efb5bbbd2ebf5c3140293` |
+| Exact-head PR CI / main CI | `37255116233` / `37262324108` — **SUCCESS** |
+| Status reconciliation / date | `HUMAN-P2-004-SPECIFICATION-STATUS-RECONCILIATION-2026-10-06` / 06/10/2026 GMT+7 |
 
 ## Context and source evidence
 
@@ -99,6 +104,32 @@ These limits cannot be hidden by marking the review package PRESENT/approved.
   explicit refusal packages are possible without changing existing contracts.
 
 ## Review and adoption gates
+
+### Current adoption status — 06/10/2026
+
+Independent specification review: **Gemini 3.1 Pro High / Antigravity read-only**,
+**PASS / findings NONE** on reviewed SHA `89eef2af3fcc4105b66acf02f9504b2887c222ac`.
+Evidence attribution: **Human-supplied external independent fixed-SHA review;
+not GitHub-native approval**. AC-01…AC-48 **PASS**; **54-case future synthetic
+fixture plan ADEQUATE** (plan review, not executed runtime tests).
+Exact-head specification PR CI [`37255116233`](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/37255116233)
+**SUCCESS**; [PR #80](https://github.com/nshaokiet/ai-ip-description-generator/pull/80)
+**MERGED** at `9ac1889e44bca080e21efb5bbbd2ebf5c3140293`; post-merge push/main CI
+[`37262324108`](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/37262324108)
+**SUCCESS** on that exact merge.
+ADR-014 is **ACCEPTED — P2-004 specification architecture baseline** only.
+Specification review + merge + main CI gates **SATISFIED**.
+P2-004 implementation **NOT AUTHORIZED**; Claims runtime **NOT IMPLEMENTED**.
+Next gate: **SEPARATE HUMAN IMPLEMENTATION AUTHORIZATION REQUIRED**.
+
+ACCEPTED applies only at specification level: no runtime implementation, released
+schema, generated Claims, P2-001 change, filing-ready state or production approval.
+The decision narrative and technical semantics remain version 0.1.0 unchanged.
+
+### Historical pre-review gates — preserved
+
+The following passage records the original proposed/pre-review state and is
+superseded only for current status by the accepted specification evidence above.
 
 This ADR is **proposed**, not independent approval. P2-004 AC-01…AC-48, the
 54-case synthetic future plan and especially standalone compatibility, strict

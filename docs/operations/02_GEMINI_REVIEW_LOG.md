@@ -10,16 +10,17 @@
 | Document title | Gemini Review Log |
 | Project | AI Intellectual Property Description Generator |
 | Project deadline | 02/10/2026 |
-| Version | 0.3.39 |
+| Version | 0.3.40 |
 | Status | Active review log |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High + Gemini 3.8 Flash High (historical); Google Antigravity (Advanced Agentic Coding) for REV-P0-006-IMPLEMENTATION, REV-P0-007-SPECIFICATION, REV-P0-007-IMPLEMENTATION and REV-P0-008-SPECIFICATION; Google Antigravity / Gemini 1.5 Pro (Advanced Agentic Coding) for REV-P0-008-IMPLEMENTATION; Gemini 3.1 Pro High for REV-P0-009-IMPLEMENTATION, REV-EVAL-001-SPECIFICATION, REV-EVAL-001-FRAMEWORK-IMPLEMENTATION, REV-EVAL-001-GOLD, REV-P0-010-FINAL-CLOSEOUT, REV-P1-001-IMPLEMENTATION, REV-DEPLOY-001-ROADMAP, REV-P1-002-IMPLEMENTATION, REV-P1-003-IMPLEMENTATION, REV-P1-003-CLOSEOUT, REV-P1-004-IMPLEMENTATION, REV-P1-004-CLOSEOUT, REV-P1-005-IMPLEMENTATION, REV-P1-005-CLOSEOUT, REV-P1-006-IMPLEMENTATION, REV-P1-006-CLOSEOUT, REV-DEPLOY-001-IMPLEMENTATION, REV-DEPLOY-001-REWRITE-REMEDIATION, REV-P2-001-IMPLEMENTATION, REV-P2-000-SPECIFICATION, REV-P2-000-IMPLEMENTATION, REV-P2-000-R2-IMPLEMENTATION, REV-P2-000-R3-IMPLEMENTATION and REV-P2-000-R3-CLOSEOUT |
 | Created date | 18/09/2026 |
-| Last updated | 04/10/2026 GMT+7 |
+| Last updated | 06/10/2026 GMT+7 |
 | P2-002 reviewer / task | Gemini 3.1 Pro High / Antigravity read-only; REV-P2-002-SPECIFICATION, REV-P2-002-IMPLEMENTATION and REV-P2-002-CLOSEOUT |
+| P2-004 reviewer / task | Gemini 3.1 Pro High / Antigravity read-only; REV-P2-004-SPECIFICATION; Human-supplied external review evidence, not GitHub-native approval; CLOSED — PASS / findings NONE |
 | P2-003 reviewer / task | Gemini 3.1 Pro High / Antigravity read-only; REV-P2-003-SPECIFICATION, REV-P2-003-IMPLEMENTATION and REV-P2-003-CLOSEOUT; Human-supplied external review evidence, not GitHub-native approval; implementation and closeout reviews CLOSED — PASS / findings NONE |
-| Related task ID | REVIEW-001; SPEC-001; SPEC-002; SPEC-003; AI-001; AI-002; AI-003; DOC-001; APP-001; APP-002; AI-RUNTIME-001; AI-RUNTIME-002; APP-003; P0-006; P0-007; P0-008; P0-009; EVAL-001; P0-010; P1-001; P1-002; P1-003; P1-004; P1-005; P1-006; DEPLOY-001; P2-001; P2-000; P2-002; P2-003 |
+| Related task ID | REVIEW-001; SPEC-001; SPEC-002; SPEC-003; AI-001; AI-002; AI-003; DOC-001; APP-001; APP-002; AI-RUNTIME-001; AI-RUNTIME-002; APP-003; P0-006; P0-007; P0-008; P0-009; EVAL-001; P0-010; P1-001; P1-002; P1-003; P1-004; P1-005; P1-006; DEPLOY-001; P2-001; P2-000; P2-002; P2-003; P2-004 |
 | Source of Truth | Review history; bản nguồn Git tại `docs/operations/02_GEMINI_REVIEW_LOG.md` |
 | Confidentiality level | Internal; findings về research input có thể là Confidential |
 
@@ -76,6 +77,7 @@
 | 0.3.36 | 0.3.37 | 04/10/2026 | Codex | Append Human-supplied external P2-003 specification PASS/NONE, AC-01…AC-40 PASS, PR #74 merge and successful main CI; close specification review only | Bounded docs-only evidence/status reconciliation; implementation and P2-004 remain unauthorized | REV-P2-003-SPECIFICATION; HUMAN-P2-003-SPECIFICATION-GOVERNANCE-RECONCILIATION-2026-10-04; merge `af0948dab4f0e13e026ad7f6cdbd4ac9691a77a8`; CI `37175416694` | No |
 | 0.3.37 | 0.3.38 | 04/10/2026 | Codex | Append Human-supplied external P2-003 implementation PASS/NONE, complete 9/9 review and “6 files” reporting-error clarification, PR #77 merge and successful main CI; close implementation review only | Four-doc governance closeout proposal; closeout fixed-SHA review/merge remain pending, no approval fabricated | REV-P2-003-IMPLEMENTATION; HUMAN-P2-003-IMPLEMENTATION-2026-10-04; reviewed `acc0ddcaa1fa533f7426133bec2963bea12aa5b2`; merge `1702547ae06a59c990f9264223d2ff07131265cc`; CI `37197774777` | No |
 | 0.3.38 | 0.3.39 | 04/10/2026 | Codex | Append Human-supplied external P2-003 closeout PASS/NONE, 4/4 docs, reviewed SHA, PR #78 merge and final main CI; record CLOSED / COMPLETED — MERGED | Bounded stale-current-state reconciliation; additional independent review waived only for exactly four docs, unchanged technical semantics and exact-head PR CI SUCCESS; waiver is not reviewer PASS | REV-P2-003-CLOSEOUT; reviewed `e97b5cbda4b69b7cbb8524f99b0c1a27f10e19c7`; merge `e61b69358fba68ccc109fb5b76081d2685d96bce`; CI `37200160782` SUCCESS; HUMAN-P2-003-FINAL-GOVERNANCE-STATUS-RECONCILIATION-2026-10-04 | No |
+| 0.3.39 | 0.3.40 | 06/10/2026 | Codex | Append real P2-004 external specification PASS/NONE, 5/5 docs, AC-01…AC-48 PASS, 54-case plan ADEQUATE, PR #80 merge/main CI and accepted ADR-014 baseline | Bounded six-doc status reconciliation; separate conditional waiver is not reviewer PASS or implementation authorization | REV-P2-004-SPECIFICATION; reviewed `89eef2af3fcc4105b66acf02f9504b2887c222ac`; merge `9ac1889e44bca080e21efb5bbbd2ebf5c3140293`; CI `37262324108` SUCCESS; HUMAN-P2-004-SPECIFICATION-STATUS-RECONCILIATION-2026-10-06 | No |
 
 ## 2. Review Rules
 
@@ -3378,6 +3380,10 @@ P2-004 **NOT AUTHORIZED**. **STOP. Do not merge this closeout or start P2-004.**
 
 ## REV-P2-003-CLOSEOUT — Governance Closeout Review and Final Closure
 
+**Historical P2-003 closeout record — preserved:** statements below withholding
+P2-004 authorization describe that earlier task and do not override the later
+P2-004 specification-only authorization. Implementation remains NOT AUTHORIZED.
+
 ### Review identity / attribution
 
 - Task: **P2-003**; review type: independent fixed-SHA governance closeout review.
@@ -3460,3 +3466,89 @@ the actual review of `e97b5cbda4b69b7cbb8524f99b0c1a27f10e19c7` recorded above.
 This reconciliation's own PR/merge/main-CI evidence is reported in the final
 handoff and Git history, not recursively inserted into these documents.
 **STOP. P2-004 NOT AUTHORIZED.**
+
+## REV-P2-004-SPECIFICATION — Independent Specification Review and Merge Evidence
+
+### Review identity / attribution
+
+| Field | Evidence |
+|---|---|
+| Task / artefact | P2-004 — Supported Draft Claims Contract & Offline Claims Generation Pipeline, **Specification 0.1.0 + ADR-014** |
+| Reviewer | **Gemini 3.1 Pro High / Antigravity read-only** |
+| Review type | Independent fixed-SHA specification review |
+| Evidence attribution | **Human-supplied external review evidence; not GitHub-native approval** |
+| Recording date | 06/10/2026 GMT+7; review date/commands not supplied and not invented |
+| Baseline | `60b0fdb4ed68cd8c701576cf49a8b620052bb14b` |
+| Reviewed SHA | `89eef2af3fcc4105b66acf02f9504b2887c222ac` |
+| PR | [#80](https://github.com/nshaokiet/ai-ip-description-generator/pull/80) |
+| Exact-head CI | [`37255116233`](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/37255116233) — **SUCCESS** |
+
+### Scope / verdict / findings
+
+Changed files reviewed: **5/5** — `README.md`, `PROJECT_CONTEXT.md`,
+`docs/tasks/P2-004-supported-draft-claims.md`,
+`docs/decisions/ADR-014-supported-draft-claims-contract.md` and
+`docs/operations/01_PROJECT_CONTROL_CENTER.md`.
+
+Decision **PASS**; findings **NONE**; critical-area verdicts **ALL PASS**.
+Reviewer modified tracked repository files **NO**.
+AC-01…AC-48 **PASS**; synthetic future fixture plan **54 cases — ADEQUATE**.
+Specification merge suitability **YES**; Human decisions required **NONE**.
+This is review of a future fixture plan, not evidence that runtime tests ran.
+No detailed reviewer prose or independent rerun beyond supplied evidence is invented.
+
+### Merge / main CI / resolution
+
+PR #80 **MERGED** at `9ac1889e44bca080e21efb5bbbd2ebf5c3140293`.
+Post-merge main CI [`37262324108`](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/37262324108)
+**SUCCESS**, event push, head_branch main, head_sha the exact specification merge.
+Review status **CLOSED — PASS / findings NONE**.
+Specification **0.1.0 — APPROVED / MERGED**.
+ADR-014 **ACCEPTED — specification architecture baseline** only.
+Specification review + merge + main CI **SATISFIED**.
+P2-004 implementation **NOT AUTHORIZED**; Claims runtime **NOT IMPLEMENTED**.
+Next gate: **explicit Human P2-004 implementation authorization**.
+P2-001/P2-002/P2-003 unchanged; no downstream authorization.
+MCP **BLOCKED BY TOOL CAPABILITY — Unknown task: P2-004**; no task completion,
+owner, lease, checkpoint or implementation start fabricated.
+
+BLK-003 OPEN; EVAL-001 PRODUCT_RUNTIME DEFERRED — AWAITING FUNDING;
+semantic acceptance NOT DETERMINED; provider authorization NOT GRANTED,
+budget 0, provider/API calls NONE; real/confidential data NOT AUTHORIZED;
+arbitrary real-paper conversion NOT ENABLED; frontend/DOCX/deployment NO CHANGE;
+production NOT APPROVED / NOT PERFORMED.
+
+### Handoff
+
+```text
+Task ID: P2-004 — specification status reconciliation
+Agent: Codex — evidence recording and bounded documentation reconciliation
+Reviewer: Gemini 3.1 Pro High / Antigravity read-only (real specification review only); additional reconciliation review conditionally WAIVED
+Status: Specification 0.1.0 APPROVED / MERGED; reconciliation PR/merge/main CI gates to be reported in final handoff
+Version: Specification 0.1.0 and ADR-014 0.1.0 unchanged; Project Context 0.4.32; Control Center 0.3.66; Review Log 0.3.40
+Work completed: Record actual external specification PASS/NONE, AC PASS, adequate fixture plan, specification merge/main CI; reconcile stale CURRENT status
+Files affected: Exactly six authorized docs; original specification review covered 5/5 docs
+Evidence checked: Reviewed 89eef2af3fcc4105b66acf02f9504b2887c222ac; PR #80; PR CI 37255116233 SUCCESS; merge 9ac1889e44bca080e21efb5bbbd2ebf5c3140293; main CI 37262324108 SUCCESS
+Findings: NONE in supplied specification review
+Decisions: HUMAN-P2-004-SPECIFICATION-STATUS-RECONCILIATION-2026-10-06; separate conditional reconciliation waiver below
+Issues: MCP BLOCKED BY TOOL CAPABILITY — Unknown task: P2-004
+Security impact: No code/schema/test/runtime/provider/data/Claims/frontend/DOCX/deployment/production change
+Recommended next action: Require exact-head reconciliation PR CI SUCCESS, merge and verify exact-merge push/main CI; then STOP awaiting separate Human implementation authorization
+```
+
+## P2-004 Specification Status Reconciliation Waiver — Not Independent Review
+
+Purpose: reconcile stale current specification/review state after completed
+fixed-SHA review, PR #80 merge and successful main CI.
+
+Authorization: `HUMAN-P2-004-SPECIFICATION-STATUS-RECONCILIATION-2026-10-06`.
+Additional independent review is **WAIVED only for this bounded six-document
+evidence/status reconciliation**, provided the diff stays documentation-only,
+the exact authorized six-file scope is preserved and exact-head PR CI succeeds.
+This waiver is **not Gemini PASS**, **not a second specification review** and
+**not implementation authorization**. REV-P2-004-SPECIFICATION refers only to
+the real review of `89eef2af3fcc4105b66acf02f9504b2887c222ac`.
+Reconciliation PR/merge/main-CI evidence belongs in Git history and final
+handoff; it is not recursively inserted into these documents.
+
+**STOP after reconciliation. Do not implement P2-004 or start downstream work.**
