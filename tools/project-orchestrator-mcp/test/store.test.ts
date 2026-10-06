@@ -235,7 +235,7 @@ test('server exposes no merge or quota reset tool and has no API credentials', (
   // Source is available when test runs from the repository after build.
   const source = readFileSync(path,'utf8');
   const names = [...source.matchAll(/registerTool\('([^']+)'/g)].map(m => m[1]);
-  assert.equal(names.length,13);
+  assert.equal(names.length,24);
   assert.equal(names.some(n => /merge|reset|activate/.test(n || '')),false);
   assert.equal(/OPENAI_API_KEY|fetch\(|api\.openai/.test(source),false);
 });

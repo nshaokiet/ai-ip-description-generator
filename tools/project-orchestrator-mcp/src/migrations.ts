@@ -1,6 +1,6 @@
 import { DatabaseSync } from 'node:sqlite';
 
-export const CURRENT_SCHEMA_VERSION = 2;
+export const CURRENT_SCHEMA_VERSION = 3;
 
 const REQUIRED_V2_COLUMNS: Record<string, string[]> = {
   task_workflow: [
@@ -363,6 +363,46 @@ export function migrateDatabase(db: DatabaseSync): void {
       db.prepare('INSERT INTO schema_migrations(version,description,applied_at) VALUES (2,?,?)')
         .run('Workflow V2 data foundation; workflow activation remains disabled', Date.now());
     }
+    // §17.5 permits durable in-progress attempts separate from immutable verdicts.
+    // §18 permits additive role metadata without rewriting legacy checkpoints.
+    const v3 = db.prepare('SELECT 1 FROM schema_migrations WHERE version=3').get();
+    if (!v3) {
+      db.exec(`
+        CREATE TABLE IF NOT EXISTS review_attempts (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          task_id TEXT NOT NULL REFERENCES tasks(id),
+          review_type TEXT NOT NULL CHECK(review_type IN ('SECURITY','QUALITY')),
+          assignment_id INTEGER NOT NULL,
+          implementation_evidence_id INTEGER NOT NULL,
+          spec_sha TEXT NOT NULL, base_sha TEXT NOT NULL, implementation_sha TEXT NOT NULL,
+          attempt INTEGER NOT NULL CHECK(attempt>=1),
+          started_at INTEGER NOT NULL,
+          submitted_review_id INTEGER REFERENCES reviews(review_id),
+          UNIQUE(task_id,review_type,implementation_sha,attempt),
+          FOREIGN KEY(assignment_id,task_id) REFERENCES task_assignments(id,task_id),
+          FOREIGN KEY(implementation_evidence_id,task_id) REFERENCES implementation_evidence(id,task_id)
+        );
+        CREATE INDEX IF NOT EXISTS idx_review_attempts_target ON review_attempts(task_id,review_type,implementation_sha);
+        CREATE TABLE IF NOT EXISTS checkpoint_assignments (
+          checkpoint_id INTEGER PRIMARY KEY REFERENCES checkpoints(id),
+          task_id TEXT NOT NULL REFERENCES tasks(id),
+          role TEXT NOT NULL CHECK(role IN ('PLANNER','IMPLEMENTER','SECURITY_REVIEWER','QUALITY_REVIEWER')),
+          assignment_id INTEGER NOT NULL,
+          FOREIGN KEY(assignment_id,task_id) REFERENCES task_assignments(id,task_id)
+        );
+      `);
+      db.prepare('INSERT INTO schema_migrations VALUES (3,?,?)')
+        .run('B2 durable review attempts and additive checkpoint role metadata; no activation', Date.now());
+    }
+    for (const [table, fields] of Object.entries({
+      review_attempts: ['id','task_id','review_type','assignment_id','implementation_evidence_id','spec_sha','base_sha','implementation_sha','attempt','started_at','submitted_review_id'],
+      checkpoint_assignments: ['checkpoint_id','task_id','role','assignment_id']
+    })) {
+      const columns = new Set((db.prepare(`PRAGMA table_info(${table})`).all() as Array<{name:string}>).map(r=>r.name));
+      if (fields.some(field=>!columns.has(field))) throw new Error('Schema version 3 is incompatible: '+table);
+    }
+    if (!db.prepare("SELECT 1 FROM sqlite_master WHERE type='index' AND name='idx_review_attempts_target'").get())
+      throw new Error('Schema version 3 is incompatible: missing review attempt index');
     db.exec('COMMIT');
   } catch (error) {
     db.exec('ROLLBACK');

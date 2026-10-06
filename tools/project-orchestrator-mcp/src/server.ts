@@ -2,9 +2,10 @@ import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { z } from 'zod';
 import { Store } from './store.js';
+import * as v2 from './v2-contracts.js';
 
 const store = new Store();
-const server = new McpServer({ name: 'project-orchestrator', version: '0.1.0' });
+const server = new McpServer({ name: 'project-orchestrator', version: '0.2.0' });
 const reply = (value: unknown) => ({
   content: [{ type: 'text' as const, text: JSON.stringify(value) }],
   structuredContent: { result: value }
@@ -87,18 +88,53 @@ server.registerTool('budget.should_continue', {
 
 server.registerTool('checkpoint.create', {
   description: 'Persist an explicit safe checkpoint even when quota guard has stopped work',
-  inputSchema: handoff
-}, ({ task_id, owner, ...data }) => safe(() => store.checkpoint(task_id, owner, data)));
+  inputSchema: {...handoff,role:v2.role.optional(),assignment_id:v2.id.optional()}
+}, ({ task_id, owner, role, assignment_id, ...data }) => safe(() => store.checkpoint(task_id, owner, data,role,assignment_id)));
 
 server.registerTool('checkpoint.get_latest', {
   description: 'Read last persisted checkpoint across client or server restarts',
-  inputSchema: { task_id: taskId.optional() }
-}, ({ task_id }) => safe(() => store.latestCheckpoint(task_id)));
+  inputSchema: { task_id: taskId.optional(),role:v2.role.optional() }
+}, ({ task_id,role }) => safe(() => store.latestCheckpoint(task_id,role)));
 
 server.registerTool('project.stop_and_handoff', {
   description: 'Atomically record complete handoff and block task pending Human review; works at quota threshold',
-  inputSchema: handoff
-}, ({ task_id, owner, ...data }) => safe(() => store.stopAndHandoff(task_id, owner, data)));
+  inputSchema: {...handoff,role:v2.role.optional(),assignment_id:v2.id.optional()}
+}, ({ task_id, owner,role,assignment_id, ...data }) => safe(() => store.stopAndHandoff(task_id, owner, data,role,assignment_id)));
+
+server.registerTool('project.assign_role', {
+  description:'Assign/replace a V2 role with explicit governance attribution; trust-based identity',
+  inputSchema:v2.assignmentSchema.shape
+}, p=>safe(()=>store.v2.assignRole(p)));
+server.registerTool('project.get_assignments', {
+  description:'Read V2 current and historical role assignments',inputSchema:v2.task
+}, p=>safe(()=>store.v2.getAssignments(p.task_id)));
+server.registerTool('project.submit_spec', {
+  description:'Assigned Planner submits DRAFT/READY committed spec identity; no self-freeze',inputSchema:v2.specSchema.shape
+}, p=>safe(()=>store.v2.submitSpec(p)));
+server.registerTool('project.freeze_spec', {
+  description:'Record Human/admin authorized exact spec freeze using existing authorization provenance; no identity verification',inputSchema:v2.freezeSchema.shape
+}, p=>safe(()=>store.v2.freezeSpec(p)));
+server.registerTool('project.get_spec', {
+  description:'Read V2 specification history',inputSchema:{...v2.task,version:v2.text.optional()}
+}, p=>safe(()=>store.v2.getSpec(p.task_id,p.version)));
+server.registerTool('project.start_implementation', {
+  description:'Assigned Implementer starts a lease against current frozen spec',inputSchema:v2.startSchema.shape
+}, p=>safe(()=>store.v2.startImplementation(p)));
+server.registerTool('project.record_implementation', {
+  description:'Record immutable candidate and CAS persisted pointer; retry of winning candidate is idempotent',inputSchema:v2.implementationSchema.shape
+}, p=>safe(()=>store.v2.recordImplementation(p)));
+server.registerTool('project.record_ci', {
+  description:'Record immutable CI observation; supplied CI metadata is not authoritative verification',inputSchema:v2.ciSchema.shape
+}, p=>safe(()=>store.v2.recordCi(p)));
+server.registerTool('review.start', {
+  description:'Start durable independent Security/Quality exact-current candidate attempt',inputSchema:v2.reviewStartSchema.shape
+}, p=>safe(()=>store.v2.startReview(p)));
+server.registerTool('review.submit', {
+  description:'Assigned reviewer submits immutable verdict; tracked modifications block clean PASS',inputSchema:v2.reviewSubmitSchema.shape
+}, p=>safe(()=>store.v2.submitReview(p)));
+server.registerTool('review.get_status', {
+  description:'Read separate Security/Quality attempt history and candidate/spec staleness',inputSchema:{...v2.task,implementation_sha:v2.sha.optional()}
+}, p=>safe(()=>store.v2.reviewStatus(p.task_id,p.implementation_sha)));
 
 await server.connect(new StdioServerTransport());
 process.on('SIGINT', () => { store.close(); process.exit(0); });
