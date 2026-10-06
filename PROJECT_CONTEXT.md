@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | SPEC-002 |
 | Document title | Project Context — AI Intellectual Property Description Generator |
-| Version | 0.4.33 |
+| Version | 0.4.34 |
 | Status | Approved baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT |
@@ -81,6 +81,7 @@
 | 0.4.30 | 0.4.31 | 05/10/2026 | Codex | Register newly Human-authorized P2-004 specification/ADR and required independent-review gate only; no implementation or existing-contract change | P2-004 specification-only registration | HUMAN-P2-004-CLAIMS-SPECIFICATION-2026-10-05; baseline `60b0fdb4ed68cd8c701576cf49a8b620052bb14b` | No |
 | 0.4.31 | 0.4.32 | 06/10/2026 | Codex | Reconcile P2-004 specification 0.1.0 review PASS/NONE, AC-01…AC-48 PASS, 54-case plan ADEQUATE, PR #80 merge/main CI and accepted ADR-014 baseline | Bounded six-doc evidence/status reconciliation; implementation NOT AUTHORIZED | HUMAN-P2-004-SPECIFICATION-STATUS-RECONCILIATION-2026-10-06; reviewed `89eef2af3fcc4105b66acf02f9504b2887c222ac`; merge `9ac1889e44bca080e21efb5bbbd2ebf5c3140293`; CI `37262324108` SUCCESS | No |
 | 0.4.32 | 0.4.33 | 06/10/2026 | Codex | Record Human-authorized P2-004 standalone offline implementation, executable verification, PR #82 and exact-head CI success; hand off for independent fixed-SHA implementation review | Current-state governance handoff only; no implementation review PASS, merge, runtime integration, provider, real-data, frontend/DOCX, deployment or production authorization | HUMAN-P2-004-IMPLEMENTATION-2026-10-06; baseline `b1085337c8f16c4bb72574bfb45e27741290ca90`; executable SHA `411b17a6ed39885b47af9932c9cf44d4b498db9e`; PR #82; CI `37423007016` SUCCESS | No |
+| 0.4.33 | 0.4.34 | 06/10/2026 | Codex | Record P2-004 independent implementation PASS/NONE, PR #82 merge, exact post-merge main CI and open the documentation-only governance closeout review gate | Post-merge evidence reconciliation only; no runtime integration, provider, real-data, frontend/DOCX/deployment, production or downstream authorization | `HUMAN-P2-004-IMPLEMENTATION-2026-10-06`; reviewed `eb93bf3b47682f9091bbaaf77b7bf87d7b232ee0`; merge `009e1320405a8d956510c4a11a73f6626acec281`; main CI `37426892194` SUCCESS | No |
 
 ## 2. Project name
 
@@ -270,37 +271,11 @@ Output Schema v1.0.0 có phạm vi hẹp hơn mô hình toàn hệ thống: grou
 
 ## 19. Current project phase
 
-Current dated reconciliation (06/10/2026): **P2-004 IMPLEMENTATION — INDEPENDENT
-REVIEW PENDING** under `HUMAN-P2-004-IMPLEMENTATION-2026-10-06`, from authorized
-implementation baseline `b1085337c8f16c4bb72574bfb45e27741290ca90` on branch
-`feat/p2-004-supported-draft-claims`. The earlier specification authorization,
-review and merge remain historical evidence: specification 0.1.0 is APPROVED /
-MERGED; ADR-014 is the accepted specification architecture baseline.
+Current dated reconciliation (06/10/2026): **P2-004 IMPLEMENTATION MERGED — IMPLEMENTATION REVIEW PASS; GOVERNANCE CLOSEOUT REVIEW PENDING** under `HUMAN-P2-004-IMPLEMENTATION-2026-10-06`. Specification 0.1.0 is **APPROVED / MERGED** and ADR-014 remains the accepted specification architecture baseline.
 
-[PR #82](https://github.com/nshaokiet/ai-ip-description-generator/pull/82) is
-**OPEN / UNMERGED**. Executable implementation SHA before this governance handoff is
-`411b17a6ed39885b47af9932c9cf44d4b498db9e`; exact-head CI
-[`37423007016`](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/37423007016)
-is **SUCCESS**. Local verification: P2-004 oracle **54/54 passed**; targeted
-P2-002/P2-003 regression **237/237 passed**; full Python **738 passed / 3 skipped**;
-frontend lint/typecheck/build **PASS**; local Playwright **26/26 cases completed**
-with a Windows teardown hang caveat; static Render export **PASS**; demo E2E
-**5/5 passed**. Independent implementation review is **PENDING**; no implementation
-review PASS or merge eligibility is claimed.
+Independent implementation review: **Gemini 3.1 Pro High / Antigravity read-only**, Human-supplied external fixed-SHA evidence and not GitHub-native approval. Reviewed SHA `eb93bf3b47682f9091bbaaf77b7bf87d7b232ee0`; baseline `b1085337c8f16c4bb72574bfb45e27741290ca90`; decision **PASS**; findings **NONE**; changed files **10/10**; critical-area verdicts **ALL PASS**; AC-01…AC-48 **PASS**; 54-case matrix **54/54 PASS**; reviewer modified tracked files **NO**; implementation merge suitability **YES**; Human decisions **NONE**. PR #82 exact-head CI `37425148244` **SUCCESS**. PR #82 merged at `009e1320405a8d956510c4a11a73f6626acec281`; post-merge push/main CI `37426892194` **SUCCESS** with `head_branch=main` and the exact merge SHA.
 
-P2-001/P2-002/P2-003 semantics remain unchanged. P2-003 Claims remains
-`status = MISSING`, `claims = []`, no Claims preamble,
-`review_package.claim_support = []`, and
-`review_boundary.claims_runtime_implemented = false`. The standalone P2-004
-offline generator/validator is not integrated into the product Claims runtime.
-Provider/API calls **NONE**; real/confidential data **NONE / NOT AUTHORIZED**;
-frontend/DOCX/deployment implementation changes **NONE**; production **NOT APPROVED /
-NOT PERFORMED**; BLK-003 **OPEN**; EVAL-001 PRODUCT_RUNTIME **DEFERRED — AWAITING
-FUNDING**; semantic acceptance **NOT DETERMINED**. MCP remains
-**BLOCKED BY TOOL CAPABILITY — Unknown task: P2-004**; no MCP state/lease/checkpoint
-is fabricated. Next gate: **fixed-SHA Gemini 3.1 Pro High / Antigravity read-only
-independent implementation review**. Required stop: **READY FOR INDEPENDENT
-FIXED-SHA REVIEW**; do not merge or start downstream work.
+Standalone `SUPPORTED_DRAFT_CLAIMS` **v1.0.0 IMPLEMENTED OFFLINE**. P2-001/P2-002/P2-003 semantics remain unchanged. P2-003 Claims remains `status = MISSING`, `claims = []`, no Claims preamble, `review_package.claim_support = []`, and `review_boundary.claims_runtime_implemented = false`; Claims runtime integration is **NOT ENABLED**. Provider/API calls **NONE / NOT AUTHORIZED**; real/confidential data **NOT AUTHORIZED**; frontend/DOCX/deployment implementation changes **NONE**; production **NOT APPROVED / NOT PERFORMED**; BLK-003 **OPEN**; EVAL-001 PRODUCT_RUNTIME **DEFERRED — AWAITING FUNDING**; semantic acceptance **NOT DETERMINED**. MCP remains **BLOCKED BY TOOL CAPABILITY — Unknown task: P2-004**; no MCP state/lease/checkpoint is fabricated. Next gate: **documentation-only P2-004 GOVERNANCE CLOSEOUT fixed-SHA review**. Downstream tasks are **NOT AUTHORIZED**.
 
 Giai đoạn khởi tạo đề xuất: **Phase 1 — Specification & Architecture**.
 
@@ -418,19 +393,7 @@ Project Orchestrator MCP là lớp điều phối dùng chung giữa VS Code/Cod
 
 ## 28. Recommended next action
 
-Current P2-004 action: **prepare and freeze the final fixed SHA for independent
-implementation review**. Human authorization
-`HUMAN-P2-004-IMPLEMENTATION-2026-10-06` covers the standalone deterministic
-offline P2-004 implementation from baseline
-`b1085337c8f16c4bb72574bfb45e27741290ca90`. PR #82 is OPEN / UNMERGED; executable
-SHA `411b17a6ed39885b47af9932c9cf44d4b498db9e` has exact-head CI `37423007016`
-SUCCESS plus 54/54 P2-004, 237/237 targeted regression and 738 passed / 3 skipped
-full-Python evidence. Implementation review remains PENDING. Preserve P2-001/P2-002/
-P2-003 semantics and `claims_runtime_implemented = false`; no provider/API calls,
-real/confidential data, frontend/DOCX/deployment implementation, production or
-downstream work is authorized. BLK-003 remains OPEN; PRODUCT_RUNTIME remains
-DEFERRED — AWAITING FUNDING; semantic acceptance remains NOT DETERMINED. Required
-stop: **READY FOR INDEPENDENT FIXED-SHA REVIEW**; **DO NOT MERGE**.
+Current P2-004 action: **prepare and freeze the documentation-only governance closeout SHA for independent fixed-SHA review**. Implementation review is **CLOSED — PASS / findings NONE** on `eb93bf3b47682f9091bbaaf77b7bf87d7b232ee0`; PR #82 merged at `009e1320405a8d956510c4a11a73f6626acec281`; main CI `37426892194` is **SUCCESS**. Preserve P2-001/P2-002/P2-003 semantics and `claims_runtime_implemented = false`; Claims runtime remains NOT ENABLED; no provider/API calls, real/confidential data, frontend/DOCX/deployment implementation, production or downstream work is authorized. **GOVERNANCE CLOSEOUT REVIEW PENDING**; do not mark P2-004 final CLOSED and do not merge the closeout until its fixed-SHA review gate is satisfied.
 
 The numbered entries below preserve earlier roadmap/lifecycle evidence and do
 not supersede this current specification-only registration.

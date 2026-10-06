@@ -10,7 +10,7 @@
 | Document title | Gemini Review Log |
 | Project | AI Intellectual Property Description Generator |
 | Project deadline | 02/10/2026 |
-| Version | 0.3.40 |
+| Version | 0.3.41 |
 | Status | Active review log |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -18,7 +18,7 @@
 | Created date | 18/09/2026 |
 | Last updated | 06/10/2026 GMT+7 |
 | P2-002 reviewer / task | Gemini 3.1 Pro High / Antigravity read-only; REV-P2-002-SPECIFICATION, REV-P2-002-IMPLEMENTATION and REV-P2-002-CLOSEOUT |
-| P2-004 reviewer / task | Gemini 3.1 Pro High / Antigravity read-only; REV-P2-004-SPECIFICATION; Human-supplied external review evidence, not GitHub-native approval; CLOSED — PASS / findings NONE |
+| P2-004 reviewer / task | Gemini 3.1 Pro High / Antigravity read-only; REV-P2-004-SPECIFICATION CLOSED — PASS / findings NONE; REV-P2-004-IMPLEMENTATION CLOSED — PASS / findings NONE; REV-P2-004-CLOSEOUT PENDING; Human-supplied external review evidence, not GitHub-native approval |
 | P2-003 reviewer / task | Gemini 3.1 Pro High / Antigravity read-only; REV-P2-003-SPECIFICATION, REV-P2-003-IMPLEMENTATION and REV-P2-003-CLOSEOUT; Human-supplied external review evidence, not GitHub-native approval; implementation and closeout reviews CLOSED — PASS / findings NONE |
 | Related task ID | REVIEW-001; SPEC-001; SPEC-002; SPEC-003; AI-001; AI-002; AI-003; DOC-001; APP-001; APP-002; AI-RUNTIME-001; AI-RUNTIME-002; APP-003; P0-006; P0-007; P0-008; P0-009; EVAL-001; P0-010; P1-001; P1-002; P1-003; P1-004; P1-005; P1-006; DEPLOY-001; P2-001; P2-000; P2-002; P2-003; P2-004 |
 | Source of Truth | Review history; bản nguồn Git tại `docs/operations/02_GEMINI_REVIEW_LOG.md` |
@@ -78,6 +78,7 @@
 | 0.3.37 | 0.3.38 | 04/10/2026 | Codex | Append Human-supplied external P2-003 implementation PASS/NONE, complete 9/9 review and “6 files” reporting-error clarification, PR #77 merge and successful main CI; close implementation review only | Four-doc governance closeout proposal; closeout fixed-SHA review/merge remain pending, no approval fabricated | REV-P2-003-IMPLEMENTATION; HUMAN-P2-003-IMPLEMENTATION-2026-10-04; reviewed `acc0ddcaa1fa533f7426133bec2963bea12aa5b2`; merge `1702547ae06a59c990f9264223d2ff07131265cc`; CI `37197774777` | No |
 | 0.3.38 | 0.3.39 | 04/10/2026 | Codex | Append Human-supplied external P2-003 closeout PASS/NONE, 4/4 docs, reviewed SHA, PR #78 merge and final main CI; record CLOSED / COMPLETED — MERGED | Bounded stale-current-state reconciliation; additional independent review waived only for exactly four docs, unchanged technical semantics and exact-head PR CI SUCCESS; waiver is not reviewer PASS | REV-P2-003-CLOSEOUT; reviewed `e97b5cbda4b69b7cbb8524f99b0c1a27f10e19c7`; merge `e61b69358fba68ccc109fb5b76081d2685d96bce`; CI `37200160782` SUCCESS; HUMAN-P2-003-FINAL-GOVERNANCE-STATUS-RECONCILIATION-2026-10-04 | No |
 | 0.3.39 | 0.3.40 | 06/10/2026 | Codex | Append real P2-004 external specification PASS/NONE, 5/5 docs, AC-01…AC-48 PASS, 54-case plan ADEQUATE, PR #80 merge/main CI and accepted ADR-014 baseline | Bounded six-doc status reconciliation; separate conditional waiver is not reviewer PASS or implementation authorization | REV-P2-004-SPECIFICATION; reviewed `89eef2af3fcc4105b66acf02f9504b2887c222ac`; merge `9ac1889e44bca080e21efb5bbbd2ebf5c3140293`; CI `37262324108` SUCCESS; HUMAN-P2-004-SPECIFICATION-STATUS-RECONCILIATION-2026-10-06 | No |
+| 0.3.40 | 0.3.41 | 06/10/2026 | Codex | Append P2-004 Human-supplied external implementation PASS/NONE, PR #82 merge and post-merge main CI evidence; register separate docs-only closeout review gate as PENDING | Evidence recording only; no fabricated closeout result or technical/runtime authorization | REV-P2-004-IMPLEMENTATION; reviewed `eb93bf3b47682f9091bbaaf77b7bf87d7b232ee0`; merge `009e1320405a8d956510c4a11a73f6626acec281`; main CI `37426892194` SUCCESS; REV-P2-004-CLOSEOUT PENDING | No |
 
 ## 2. Review Rules
 
@@ -3552,3 +3553,35 @@ Reconciliation PR/merge/main-CI evidence belongs in Git history and final
 handoff; it is not recursively inserted into these documents.
 
 **STOP after reconciliation. Do not implement P2-004 or start downstream work.**
+
+
+## REV-P2-004-IMPLEMENTATION — Independent Fixed-SHA Implementation Review
+
+| Field | Evidence |
+|---|---|
+| Task | P2-004 — Supported Draft Claims Contract & Offline Claims Generation Pipeline |
+| Reviewer | **Gemini 3.1 Pro High / Antigravity read-only** |
+| Review type | Independent fixed-SHA implementation review |
+| Evidence attribution | **Human-supplied external review evidence; not GitHub-native approval** |
+| Baseline | `b1085337c8f16c4bb72574bfb45e27741290ca90` |
+| Reviewed SHA | `eb93bf3b47682f9091bbaaf77b7bf87d7b232ee0` |
+| PR | #82 |
+| Exact-head CI | `37425148244` — **SUCCESS** |
+| Decision | **PASS** |
+| Findings | **NONE** |
+| Changed files reviewed | **10/10** |
+| Critical-area verdicts | **ALL PASS** |
+| Acceptance criteria | **AC-01…AC-48 PASS** |
+| 54-case matrix | **54/54 PASS** |
+| Reviewer modified tracked files | **NO** |
+| Implementation merge suitability | **YES** |
+| Human decisions | **NONE** |
+| Implementation merge | `009e1320405a8d956510c4a11a73f6626acec281` |
+| Post-merge main CI | `37426892194` — **SUCCESS**, event `push`, branch `main`, head SHA exact merge |
+| Implementation review status | **CLOSED — PASS / findings NONE** |
+
+Verified implementation evidence: P2-004 oracle **54/54**, targeted P2-002/P2-003 regression **237/237**, full Python **738 passed / 3 skipped**, frontend checks **PASS**, Playwright **26/26** with the recorded Windows teardown caveat, static export **PASS**, demo E2E **5/5**, provider/API calls **NONE**, real/confidential data **NONE**. P2-001/P2-002/P2-003 semantics remain unchanged; `review_boundary.claims_runtime_implemented = false`; Claims runtime integration is **NOT ENABLED**.
+
+## REV-P2-004-CLOSEOUT — Governance Closeout Review Gate
+
+Reviewer: **Gemini 3.1 Pro High / Antigravity read-only**. Review type: documentation-only independent fixed-SHA governance closeout review. Current status: **PENDING**. No closeout PASS, findings result, merge suitability or final P2-004 closure is claimed. The closeout SHA must remain frozen after exact-head PR CI succeeds. MCP remains **BLOCKED BY TOOL CAPABILITY — Unknown task: P2-004**. Downstream tasks are **NOT AUTHORIZED**.
