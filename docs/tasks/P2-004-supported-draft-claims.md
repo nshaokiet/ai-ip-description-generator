@@ -5,17 +5,22 @@
 | Field | Value |
 |---|---|
 | Task ID / specification version | P2-004 / **0.1.0** |
-| Status | **SPECIFICATION — INDEPENDENT REVIEW PENDING** |
+| Status | **SPECIFICATION 0.1.0 — APPROVED / MERGED** |
 | Human authorization | `HUMAN-P2-004-CLAIMS-SPECIFICATION-2026-10-05` |
 | Authorized baseline | `60b0fdb4ed68cd8c701576cf49a8b620052bb14b` |
 | Date / owner / author | 05/10/2026 GMT+7 / Human — Product Owner / Codex |
-| Independent reviewer | Gemini 3.1 Pro High / Antigravity **read-only**, fixed SHA; decision not yet supplied |
-| Phase / implementation | **SPECIFICATION ONLY / NOT AUTHORIZED** |
+| Independent reviewer | Gemini 3.1 Pro High / Antigravity **read-only**; **PASS / findings NONE** |
+| Phase / implementation | **SPECIFICATION APPROVED / MERGED; IMPLEMENTATION NOT AUTHORIZED** |
 | Input | Validated P2-002 `INVENTION_RECONSTRUCTION` v1.0.0 AND validated P2-003 `USPTO_SPECIFICATION_DRAFT` v2.0.0 |
 | Output contract identity | Standalone `SUPPORTED_DRAFT_CLAIMS` **v1.0.0**, defined here; production JSON Schema not created |
-| Architecture record | [ADR-014](../decisions/ADR-014-supported-draft-claims-contract.md), proposed and review-pending |
+| Architecture record | [ADR-014](../decisions/ADR-014-supported-draft-claims-contract.md) — **ACCEPTED as specification architecture baseline** |
 | MCP | **BLOCKED BY TOOL CAPABILITY — Unknown task: P2-004**; actual read-only tool result, no state/lease/checkpoint fabricated |
 | Existing P2-003 | **CLOSED / COMPLETED — MERGED**; unchanged |
+| Review attribution | Human-supplied external independent fixed-SHA review; **not GitHub-native approval** |
+| Reviewed SHA | `89eef2af3fcc4105b66acf02f9504b2887c222ac` |
+| PR / exact-head CI | #80 — **MERGED**; `37255116233` — **SUCCESS** |
+| Specification merge / main CI | `9ac1889e44bca080e21efb5bbbd2ebf5c3140293`; `37262324108` — **SUCCESS** |
+| Reconciliation authorization / date | `HUMAN-P2-004-SPECIFICATION-STATUS-RECONCILIATION-2026-10-06` / 06/10/2026 GMT+7 |
 
 ## 1. Purpose, authority and non-goals
 
@@ -734,8 +739,14 @@ The following are **test requirements, not PASS evidence**.
 
 ## 23. Acceptance criteria matrix
 
+**Historical pre-review state at original authorship — preserved:**
+
 These criteria describe specification requirements and future implementation
 oracles. Codex self-checks are not independent approval; **AC-45 is PENDING**.
+
+**Current specification review:** AC-01…AC-48 PASS; 54-case future synthetic
+fixture plan ADEQUATE. This records specification review, not implementation
+or execution of future tests.
 
 | AC | Required rule / verification reference |
 |---|---|
@@ -783,12 +794,50 @@ oracles. Codex self-checks are not independent approval; **AC-45 is PENDING**.
 | AC-42 | Real/confidential data not authorized; provenance assertion not permission; Sections 6, 24; case 47 |
 | AC-43 | Explicit component-only P2-001 projection, no assembled schema contradiction; Section 19 |
 | AC-44 | At least 48 adversarial synthetic cases with exact expected outcomes, positive/refusal limitations distinguished; Section 22 |
-| AC-45 | **Independent fixed-SHA Gemini 3.1 Pro High / Antigravity read-only specification PASS with no blocking findings required; PENDING, not self-approved** |
+| AC-45 | **PASS** — independent fixed-SHA Gemini 3.1 Pro High / Antigravity read-only specification review **PASS / findings NONE** on `89eef2af3fcc4105b66acf02f9504b2887c222ac`; Human-supplied external review evidence, not self-approval |
 | AC-46 | Actual P2-003 generation-config sidecar for reusable exact business validation; Sections 6, 20; case 49 |
 | AC-47 | Explicit selected solution and no combination of unrelated solutions; Sections 6, 11; case 53 |
 | AC-48 | Released-model feasibility limits are explicit and do not authorize upstream amendment; Sections 3, 12; cases 02, 05, 06, 52 |
 
 ## 24. Governance gates, boundaries and fixed-SHA handoff
+
+### Current specification gate — 06/10/2026
+
+Independent specification review: **Gemini 3.1 Pro High / Antigravity read-only**,
+**PASS / findings NONE** on reviewed SHA `89eef2af3fcc4105b66acf02f9504b2887c222ac`.
+Evidence attribution: **Human-supplied external independent fixed-SHA review;
+not GitHub-native approval**. AC-01…AC-48 **PASS**; **54-case future synthetic
+fixture plan ADEQUATE** (plan review, not executed runtime tests).
+Exact-head specification PR CI [`37255116233`](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/37255116233)
+**SUCCESS**; [PR #80](https://github.com/nshaokiet/ai-ip-description-generator/pull/80)
+**MERGED** at `9ac1889e44bca080e21efb5bbbd2ebf5c3140293`; post-merge push/main CI
+[`37262324108`](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/37262324108)
+**SUCCESS** on that exact merge.
+ADR-014 is **ACCEPTED — P2-004 specification architecture baseline** only.
+Specification review + merge + main CI gates **SATISFIED**.
+P2-004 implementation **NOT AUTHORIZED**; Claims runtime **NOT IMPLEMENTED**.
+Next gate: **SEPARATE HUMAN IMPLEMENTATION AUTHORIZATION REQUIRED**.
+
+Authorization: `HUMAN-P2-004-SPECIFICATION-STATUS-RECONCILIATION-2026-10-06`.
+Additional independent review is **WAIVED only for this bounded six-document
+evidence/status reconciliation**, provided the diff stays documentation-only,
+the exact authorized six-file scope is preserved and exact-head PR CI succeeds.
+This waiver is **not Gemini PASS**, **not a second specification review** and
+**not implementation authorization**. REV-P2-004-SPECIFICATION refers only to
+the real review of `89eef2af3fcc4105b66acf02f9504b2887c222ac`.
+Reconciliation PR/merge/main-CI evidence belongs in Git history and final
+handoff; it is not recursively inserted into these documents.
+
+MCP: **BLOCKED BY TOOL CAPABILITY — Unknown task: P2-004**; no task completion,
+owner, lease, checkpoint or implementation start is fabricated.
+No provider/API, real/confidential-data, frontend/DOCX/deployment/production or
+downstream authorization follows. P2-001/P2-002/P2-003 are unchanged.
+
+### Historical pre-review authorization and handoff — preserved
+
+The following passage records the original 05/10/2026 specification-only
+authorization and pre-review/pre-merge gates. Pending/DO NOT MERGE wording is
+historical and superseded by the current specification evidence above.
 
 Authorization permits exactly two new docs (this task and ADR-014) plus bounded
 README/PROJECT_CONTEXT/Control Center registration: maximum five documentation

@@ -8,13 +8,13 @@
 |---|---|
 | Document ID | SPEC-002 |
 | Document title | Project Context — AI Intellectual Property Description Generator |
-| Version | 0.4.31 |
+| Version | 0.4.32 |
 | Status | Approved baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT |
 | Reviewer | Human / Product Owner |
 | Created date | 18/09/2026 |
-| Last updated | 05/10/2026 |
+| Last updated | 06/10/2026 |
 | Related task ID | SPEC-002 |
 | Source of Truth | GitHub — `PROJECT_CONTEXT.md` |
 | Confidentiality level | Internal; research inputs are Confidential by default |
@@ -79,6 +79,7 @@
 | 0.4.28 | 0.4.29 | 02/10/2026 | ChatGPT | Record P2-001 closeout review PASS/findings NONE, PR #58 merge/final main CI, and start Human-authorized P2-000 specification | Close P2-001 fully and open the next product-facing frontend simplification task without expanding runtime/provider/data/production scope | P2-001 closeout reviewed `a95ac5c9d5e19dc04216a8f945ff38f1872c39a9`; PR #58 merge `461d9b33b07bb39aad11aa47b84f678e232d80a8`; final CI `36965942755`; `HUMAN-P2-000-WEBAPP-SIMPLIFICATION-2026-10-02`; BLK-003 OPEN | No |
 | 0.4.29 | 0.4.30 | 02/10/2026 | ChatGPT | Record P2-000 specification PASS/merge, implementation PASS/merge and successful post-merge main CI under a Human-authorized one-time ChatGPT merge-role exception | Close implementation/review/CI while opening the documentation-only governance closeout gate | Spec reviewed `5c57c47d562fa3d003850faf5820ffd17a3be385`, PR #59 merge `3a11d358ba65bb5a83345a96f1e3f464a1a3abc0`; implementation reviewed `8d63f19ebb755dafef1eafdb47874553be1fcdd3`, PR #60 merge `d0ffd09e0fe29e8a46c04e14b392e3c4aea22731`; CI `36982485345` SUCCESS; BLK-003 OPEN | No |
 | 0.4.30 | 0.4.31 | 05/10/2026 | Codex | Register newly Human-authorized P2-004 specification/ADR and required independent-review gate only; no implementation or existing-contract change | P2-004 specification-only registration | HUMAN-P2-004-CLAIMS-SPECIFICATION-2026-10-05; baseline `60b0fdb4ed68cd8c701576cf49a8b620052bb14b` | No |
+| 0.4.31 | 0.4.32 | 06/10/2026 | Codex | Reconcile P2-004 specification 0.1.0 review PASS/NONE, AC-01…AC-48 PASS, 54-case plan ADEQUATE, PR #80 merge/main CI and accepted ADR-014 baseline | Bounded six-doc evidence/status reconciliation; implementation NOT AUTHORIZED | HUMAN-P2-004-SPECIFICATION-STATUS-RECONCILIATION-2026-10-06; reviewed `89eef2af3fcc4105b66acf02f9504b2887c222ac`; merge `9ac1889e44bca080e21efb5bbbd2ebf5c3140293`; CI `37262324108` SUCCESS | No |
 
 ## 2. Project name
 
@@ -268,20 +269,35 @@ Output Schema v1.0.0 có phạm vi hẹp hơn mô hình toàn hệ thống: grou
 
 ## 19. Current project phase
 
-Current dated registration (05/10/2026): **P2-004 SPECIFICATION — INDEPENDENT
-REVIEW PENDING** under `HUMAN-P2-004-CLAIMS-SPECIFICATION-2026-10-05`, baseline
-`60b0fdb4ed68cd8c701576cf49a8b620052bb14b`. [Task specification
-0.1.0](docs/tasks/P2-004-supported-draft-claims.md) and proposed
-[ADR-014](docs/decisions/ADR-014-supported-draft-claims-contract.md) define
-standalone SUPPORTED_DRAFT_CLAIMS v1.0.0 and dual P2-002/P2-003 support; existing
-schemas/runtime remain immutable. P2-003 remains **CLOSED / COMPLETED — MERGED**.
+Current dated reconciliation (06/10/2026): **P2-004 SPECIFICATION 0.1.0 —
+APPROVED / MERGED** under `HUMAN-P2-004-SPECIFICATION-STATUS-RECONCILIATION-2026-10-06`.
+Original specification authorization `HUMAN-P2-004-CLAIMS-SPECIFICATION-2026-10-05`
+and baseline `60b0fdb4ed68cd8c701576cf49a8b620052bb14b` remain historical evidence.
+[Task specification 0.1.0](docs/tasks/P2-004-supported-draft-claims.md) and
+[ADR-014](docs/decisions/ADR-014-supported-draft-claims-contract.md) define the
+unchanged standalone SUPPORTED_DRAFT_CLAIMS v1.0.0 and dual P2-002/P2-003 support.
+
+Independent specification review: **Gemini 3.1 Pro High / Antigravity read-only**,
+**PASS / findings NONE** on reviewed SHA `89eef2af3fcc4105b66acf02f9504b2887c222ac`.
+Evidence attribution: **Human-supplied external independent fixed-SHA review;
+not GitHub-native approval**. AC-01…AC-48 **PASS**; **54-case future synthetic
+fixture plan ADEQUATE** (plan review, not executed runtime tests).
+Exact-head specification PR CI [`37255116233`](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/37255116233)
+**SUCCESS**; [PR #80](https://github.com/nshaokiet/ai-ip-description-generator/pull/80)
+**MERGED** at `9ac1889e44bca080e21efb5bbbd2ebf5c3140293`; post-merge push/main CI
+[`37262324108`](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/37262324108)
+**SUCCESS** on that exact merge.
+ADR-014 is **ACCEPTED — P2-004 specification architecture baseline** only.
+Specification review + merge + main CI gates **SATISFIED**.
 P2-004 implementation **NOT AUTHORIZED**; Claims runtime **NOT IMPLEMENTED**.
-Independent fixed-SHA Gemini 3.1 Pro High / Antigravity read-only review REQUIRED;
-no decision supplied. No provider/API, real/confidential-data, legal conclusions,
-frontend/DOCX/deployment/production or downstream-task authorization. MCP:
+Next gate: **SEPARATE HUMAN IMPLEMENTATION AUTHORIZATION REQUIRED**.
+
+P2-001/P2-002/P2-003 unchanged; P2-003 remains **CLOSED / COMPLETED — MERGED**.
+No provider/API, real/confidential-data, legal conclusions, frontend/DOCX/deployment/
+production or downstream-task authorization. MCP:
 **BLOCKED BY TOOL CAPABILITY — Unknown task: P2-004** (observed; no state/lease).
 Earlier MVP/history statements below remain historical scope, not a denial of
-this later specification-only authorization or an implementation grant.
+the later specification-only authorization or an implementation grant.
 
 Giai đoạn khởi tạo đề xuất: **Phase 1 — Specification & Architecture**.
 
@@ -399,13 +415,14 @@ Project Orchestrator MCP là lớp điều phối dùng chung giữa VS Code/Cod
 
 ## 28. Recommended next action
 
-Current P2-004 action only: require exact-head specification PR CI SUCCESS,
-freeze edits and hand off that SHA for Gemini 3.1 Pro High / Antigravity
-**read-only independent specification review**. **Do not merge or implement
-P2-004 in this task.** A later PASS/merge/main CI still needs separate explicit
-Human implementation authorization. BLK-003 OPEN; PRODUCT_RUNTIME DEFERRED —
-AWAITING FUNDING; semantic acceptance NOT DETERMINED; provider NOT GRANTED/budget
-0/calls NONE; real/confidential data NOT AUTHORIZED; production NOT APPROVED.
+Current P2-004 action only: **await separate explicit Human P2-004 implementation
+authorization**. Specification 0.1.0 is APPROVED / MERGED; independent review
+PASS/NONE, AC-01…AC-48 PASS, PR #80 merge and post-merge main CI SUCCESS satisfy
+the specification gates. ADR-014 is accepted only as its architecture baseline.
+Implementation NOT AUTHORIZED; Claims runtime NOT IMPLEMENTED. BLK-003 OPEN;
+PRODUCT_RUNTIME DEFERRED — AWAITING FUNDING; semantic acceptance NOT DETERMINED;
+provider NOT GRANTED/budget 0/calls NONE; real/confidential data NOT AUTHORIZED;
+production NOT APPROVED. No downstream work authorized.
 
 The numbered entries below preserve earlier roadmap/lifecycle evidence and do
 not supersede this current specification-only registration.
