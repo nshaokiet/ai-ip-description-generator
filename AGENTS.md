@@ -8,13 +8,13 @@
 |---|---|
 | Document ID | SPEC-003 |
 | Document title | AGENTS.md — Quy tắc phối hợp AI của dự án |
-| Version | 0.4.1 |
-| Status | Proposed update — pending PR merge |
+| Version | 0.5.0 |
+| Status | Conditional V2 governance — effective only after reviewed Phase E merge/verification on main |
 | Owner | Human / Product Owner |
-| Author | ChatGPT |
+| Author | ChatGPT/Codex |
 | Reviewer | Human / Product Owner |
 | Created date | 18/09/2026 |
-| Last updated | 29/09/2026 |
+| Last updated | 07/10/2026 |
 | Related task ID | SPEC-003 |
 | Source of Truth | GitHub — `AGENTS.md` |
 | Confidentiality level | Internal |
@@ -30,6 +30,7 @@
 | 0.3.0 | 0.3.1 | 28/09/2026 | Codex | Sửa riêng factual project-status sentence sau các implementation merges; không đổi vai trò hoặc quyền hạn | P0-008 current-state reconciliation | P0-007 closeout `8142692c6e92670b4b09996d733f93c409e93e49` | No |
 | 0.3.1 | 0.4.0 | 29/09/2026 | Codex | Đề xuất standing delegation cho Codex, Antigravity read-only review và merge gate có evidence; đối chiếu lại trạng thái P1-001 trên main mới | Human yêu cầu giảm xác nhận lặp trong task; chuyển đề xuất PR #34 sang baseline hiện hành | Human instruction 29/09/2026; main `88f38851a7c61966eb409172979c62a08fa9e646`; pending independent review/PR merge | Yes — governance workflow |
 | 0.4.0 | 0.4.1 | 29/09/2026 | ChatGPT | Bắt buộc đồng bộ bảng Project status trong README khi task đổi trạng thái, đặc biệt tại closeout/merge | Human yêu cầu README luôn phản ánh tiến độ task hiện hành | Human instruction 29/09/2026; PR #38 | No |
+| 0.4.1 | 0.5.0 | 07/10/2026 | Codex | Conditional V2 selection, four roles, manual/external verification and rollback; retain V1 | Human GOV-AGENT-001-E E-01–E-06; spec v0.2.1; exact base `5d8d4b555b1c11407db4671b9c2af88f4baad8bb` | Independent governance review pending | Yes — workflow governance; pre-1.0 minor follows 0.4.0 convention; no product/API change |
 
 ## 1. Project identity
 
@@ -320,3 +321,138 @@ Một task chỉ `Completed` khi:
 - Antigravity reviewer sửa tracked files, commit/push/merge hoặc đổi approval; Codex bỏ qua HIGH/CRITICAL thiếu resolution.
 - Merge thiếu fixed-SHA PASS/required CI hoặc còn blocker; đánh dấu `Completed` khi thiếu evidence.
 - Tự động nộp hồ sơ lên USPTO.
+
+## 24. Conditional Workflow V2 governance — GOV-AGENT-001-E
+
+### 24.1 Human decisions and effective activation
+
+Human E-01–E-06 select MANUAL_EXTERNAL authoritative verification,
+PROCEDURAL_TRUST_BASED identity, no automatic R0–R4 routing, explicit V2 enrollment,
+the reviewed Phase E PR merge commit as activation commit, and evidence-preserving
+rollback. The single canonical marker is
+[WORKFLOW_V2_ACTIVATION.yaml](docs/operations/WORKFLOW_V2_ACTIVATION.yaml), version
+1.0.0; the [manual verification runbook](docs/operations/WORKFLOW_V2_MANUAL_VERIFICATION.md)
+preserves the decisions and concrete source-by-source procedure.
+
+Sections 4–23 remain the V1 authority baseline until this reviewed activation merge
+is verified on main; afterward they continue governing V1 and Human exception
+authority. The marker's enabled=true setting is conditional policy on this branch.
+
+PHASE E BRANCH PRESENT != WORKFLOW V2 ACTIVATED.
+PHASE E REVIEW PASS != WORKFLOW V2 ACTIVATED.
+PHASE E PR OPEN != WORKFLOW V2 ACTIVATED.
+
+Only the reviewed Phase E PR merge commit on main becomes
+WORKFLOW_V2_ACTIVATION_COMMIT after explicit Human approval, independent governance
+review PASS on exact final SHA, required CI SUCCESS and satisfied merge gates.
+Verify actual merge/main/reviewed ancestry and post-merge CI; record that immutable
+merge SHA in durable closeout. The implementation SHA is not the activation commit;
+do not embed a future merge's own SHA in its pre-merge tree or amend reviewed history.
+Schema/tool/role/skill availability does not activate governance.
+
+This Phase E implementation instruction stops at independent review. It does not
+authorize merging this PR, enrollment, automatic routing, Phase F/G or AI-CONV.
+
+### 24.2 Selection and explicit enrollment
+
+Before each proposed admission/action, read current main's marker and accepted
+activation record from real sources. Disabled, unmerged, missing or unverifiable
+activation means OFF. A later main commit must retain the accepted activation
+merge in its ancestry; check any later reviewed disable and Human decision.
+
+```text
+IF effective activation is OFF: new/unenrolled tasks use the authorized V1 path.
+ELSE IF task is explicitly Human-authorized and V2-enrolled,
+        references WORKFLOW_V2_ACTIVATION_COMMIT,
+        and required role/spec/evidence state exists for the action: use V2.
+ELSE: tasks with no V2 execution history use the authorized V1 path.
+Existing V2 history with invalid/disabled prerequisites: BLOCK affected work,
+checkpoint and obtain Human disposition; never silently translate it into V1.
+```
+
+Historical V1 tasks/evidence remain V1; no automatic migration/backfill. Enrollment
+is not task authorization or implementation permission. Missing role/spec/evidence
+blocks the proposed action. An authorized Human/operator may use the existing
+`npm run admin -- enroll-v2 /absolute/path/to/enrollment.json` only after external
+preflight with the exact accepted activation merge SHA. No enrollment is executed
+during Phase E. PLANNED eligibility is not permission to execute a task.
+
+### 24.3 Four standing roles and flow
+
+Role defines authority; skill defines procedure; task spec defines requirements.
+Use the [agents role/P0 package](agents/README.md); roles remain client/model
+independent. No lower layer expands Human governance.
+
+| Role | Responsibility / boundary |
+|---|---|
+| PLANNER | Plan and author versioned spec; no implementation ownership/lease; cannot self-freeze or independently approve implementation |
+| IMPLEMENTER | Own scoped tracked implementation/remediation/lease; self-check is not independent Security/Quality review |
+| SECURITY_REVIEWER | Independent/read-only for implementation; Security verdict only; no remediation/commit/push/merge in reviewer role |
+| QUALITY_REVIEWER | Independent/read-only for implementation; Quality verdict only; no remediation/commit/push/merge in reviewer role |
+
+Security and Quality have independent identities/sessions and separately authored
+verdicts. Neither consumes the other's verdict as proof. Reviewer tracked writes
+block independent PASS; all required CI/reviews target the same exact final SHA.
+
+V2 flow: Human task authorization → explicit enrollment → Planner assignment →
+versioned spec → Human-authorized freeze → Implementer assignment/lease → scoped
+implementation → exact-SHA CI → required independent reviews → external authoritative
+verification → merge eligibility → merge → post-merge verify → evidence-backed
+closeout/README synchronization. Use the sole persisted same-task current candidate
+pointer. Changed implementation/spec requires applicable fresh CI/review; old PASS
+remains history. Frozen spec changes require explicit supersession/re-planning.
+
+Automatic R0–R4 routing is NOT ACTIVATED. Risk metadata cannot reduce reviews.
+The separately authorized Phase F pilot requires BOTH Security and Quality on the
+same final SHA regardless of risk class. Other V2 tasks before Phase G require
+explicit Human/task-spec review requirements; unclear policy fails closed.
+
+### 24.4 Manual/external merge eligibility
+
+Section 8.2 standing delegation stays conditional. Immediately before merge, the
+integration owner follows the linked runbook: verify actual Human scope/exceptions;
+committed frozen spec/version/SHA and Human freeze evidence; real Git final/base/
+branch/PR; every actual required CI SUCCESS on final SHA; canonical independent
+read-only required-stream PASS reports with exact identities/no blocking findings;
+fresh correct repository/OPEN/mergeable PR and exact reviewed head; no newer commit,
+conflict, secret/confidential exposure, scope violation or Section 19 stop condition.
+Preserve source links, attribution, timestamps and each check's result.
+
+Only all satisfied current governance/platform gates permit delegated normal merge
+with expected-head protection. Head/spec movement or missing/failed evidence stops
+merge and requires new applicable validation/review. A platform denial cannot be
+bypassed through another tool/API/CLI. Post-merge verify actual merge/main/ancestry
+and required exact main CI before completion. No force/local-merge/history bypass.
+
+This approved MANUAL_EXTERNAL strategy is outside B3's adapter computation.
+`authoritative_merge_eligible=false` remains expected and unchanged while accepted
+adapters are unavailable. Do not override/reinterpret it or treat provisional_ready
+as permission. A complete recorded checklist is not external source verification.
+
+### 24.5 Identity and MCP limits
+
+Initial identity is PROCEDURAL_TRUST_BASED, not cryptographically authenticated.
+agent_id/session/model/profile and Human references do not authenticate authority;
+GOV-IDENTITY-001 remains FUTURE/separately authorized. Fabrication remains forbidden.
+
+RECORDED != VERIFIED. provisional_ready != authoritative_merge_eligible.
+MCP state != authenticated external truth. model_profile != authenticated identity.
+review PASS != CI PASS. CI PASS != review PASS.
+review PASS + CI PASS != automatic merge permission.
+
+MCP is operational state, not a verifier of this marker. Its installation-era
+NOT ACTIVATED diagnostic does not override verified main's governance record.
+Enrollment/activation preflight is procedural; Phase E does not claim automatic
+runtime enforcement or modify B1/B2/B3 core behavior.
+
+### 24.6 Disable / rollback
+
+A separately reviewed Human governance change setting the marker enabled=false
+on verified main stops NEW V2 enrollment. Preserve all database rows, specs,
+assignments, reviews, CI, verifications and Git artifacts. No deletion/reset,
+historical backfill or silent V2-to-V1 translation. Checkpoint in-progress V2 work;
+Human decides finish-under-V2 or explicit stop/reauthorize/restart-under-V1.
+Unenrolled/new tasks use approved V1 if authorized. Keep safe read/checkpoint/
+handoff access and immutable activation/disable history; re-enable does not refresh
+stale CI/review. Budget/quota, provider/API, confidential-data, product/production
+and legal boundaries remain unchanged. Sections 16–19 stop conditions apply.

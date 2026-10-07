@@ -8,21 +8,46 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.68 |
+| Version | 0.3.69 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High |
 | Created date | 18/09/2026 |
-| Last updated | 06/10/2026 GMT+7 |
+| Last updated | 07/10/2026 GMT+7 |
 | Related task ID | SPEC-004 |
 | Source of Truth | Operational status bridge; bản nguồn Git tại `docs/operations/01_PROJECT_CONTROL_CENTER.md` |
 | Confidentiality level | Internal |
+
+### GOV-AGENT-001 — current status bridge
+
+Current GOV-AGENT-001 status bridge (2026-10-07; append, not historical rewrite):
+B1 PR #85, B2 #86, B3 #87 and C #88 are merged. D PR #89 is CLOSED / COMPLETED —
+MERGED at `5d8d4b555b1c11407db4671b9c2af88f4baad8bb`; reviewed implementation
+`0d8a27f8599c8a1d0f9d7c3e265dcfb07e26f812`, main CI `37586700659` SUCCESS;
+[original independent review](https://github.com/nshaokiet/ai-ip-description-generator/pull/89#issuecomment-6033009872)
+and [verified closeout](https://github.com/nshaokiet/ai-ip-description-generator/pull/89#issuecomment-6033099037).
+
+E is a conditional governance implementation for fixed-SHA independent review.
+[WORKFLOW_V2_ACTIVATION.yaml](WORKFLOW_V2_ACTIVATION.yaml) v1.0.0 becomes effective
+only after the reviewed Phase E PR merges and its exact main merge is verified;
+the actual merge SHA is WORKFLOW_V2_ACTIVATION_COMMIT, recorded at closeout.
+Branch/open PR/review alone: Workflow V2 NOT ACTIVATED. After accepted merge:
+only explicitly Human-authorized V2-enrolled future tasks use V2; historical/
+unenrolled tasks remain V1. Initial merge verification is
+[MANUAL_EXTERNAL](WORKFLOW_V2_MANUAL_VERIFICATION.md); identity is procedural/trust-based;
+adapters UNAVAILABLE; B3 authoritative_merge_eligible remains false. Automatic
+R0–R4 routing NOT ACTIVATED; Phase F NOT STARTED, pilot dual review mandatory.
+Human E-01–E-06 and evidence-preserving rollback are defined in the linked runbook.
+MCP reports Unknown task: GOV-AGENT-001-E — BLOCKED BY TOOL CAPABILITY for operational
+lease/state; no approval, task enrollment or state is fabricated. Quota/product/
+provider/data/production authority unchanged. Historical entries below are preserved.
 
 ### Lịch sử phiên bản
 
 | Phiên bản cũ | Phiên bản mới | Ngày | Người thực hiện | Thay đổi | Lý do | Finding/Decision liên quan | Breaking change |
 |---|---|---|---|---|---|---|---|
+| 0.3.68 | 0.3.69 | 07/10/2026 | Codex | Reconcile B1–D completion and conditional Phase E governance/activation boundary | Human E-01–E-06; no activation/enrollment in implementation branch | GOV-AGENT-001-E; base `5d8d4b555b1c11407db4671b9c2af88f4baad8bb` | No — status bridge; governance change versioned in AGENTS.md |
 | Chưa có | 0.1.0 | 18/09/2026 | ChatGPT/Codex | Tạo Project Control Center ban đầu | Khởi tạo điều phối Phase 1 | SPEC-004 | No |
 | 0.1.0 | 0.1.1 | 18/09/2026 | ChatGPT/Codex | Cập nhật GitHub URL, Private visibility và trạng thái publish | Đồng bộ operational status với repository thực tế | Yêu cầu Human đưa artefact lên GitHub | No |
 | 0.1.1 | 0.2.0 | 18/09/2026 | ChatGPT/Codex | Ghi nhận AI-001 implementation trước independent review | Đồng bộ bằng chứng schema, fixtures và tests | AI-001, ADR-006 | No |

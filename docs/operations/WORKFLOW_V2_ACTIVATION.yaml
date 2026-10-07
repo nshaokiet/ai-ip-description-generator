@@ -1,0 +1,47 @@
+# Governance policy only. enabled=true is ineffective on an unmerged Phase E branch.
+schema_version: 1
+version: 1.0.0
+workflow: V2
+enabled: true
+
+activation:
+  phase: GOV-AGENT-001-E
+  activation_commit_semantics: PHASE_E_REVIEWED_PR_MERGE_COMMIT
+  explicit_human_approval_required: true
+  accepted_merge_on_main_required: true
+  independent_governance_review_required: true
+  required_ci_success: true
+  postmerge_verification_required: true
+  implementation_sha_is_activation_commit: false
+
+enrollment:
+  mode: EXPLICIT_ONLY
+  human_task_authorization_required: true
+  historical_v1_backfill: false
+  unenrolled_tasks_use: V1
+  activation_commit_reference_required: true
+  required_role_spec_evidence_state_required: true
+
+identity:
+  mode: PROCEDURAL_TRUST_BASED
+  cryptographically_authenticated: false
+
+merge_verification:
+  mode: MANUAL_EXTERNAL
+  mcp_authoritative_merge_eligible_required: false
+  mcp_provisional_ready_is_merge_permission: false
+  authoritative_verifier_adapter_available: false
+  fresh_external_premerge_check_required: true
+
+risk_routing:
+  automatic_r0_r4: false
+  pilot_security_review_required: true
+  pilot_quality_review_required: true
+  other_tasks_explicit_review_policy_required: true
+
+rollback:
+  separately_reviewed_disable_required: true
+  preserve_v2_evidence: true
+  silent_v2_to_v1_translation: false
+  disable_stops_new_enrollment: true
+  active_v2_task_human_disposition_required: true
