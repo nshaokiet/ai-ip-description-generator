@@ -57,3 +57,16 @@ the exact identities and evidence required by the GOV-AGENT-001 review artefact
 model, including `tracked implementation files modified`.
 
 `RECORDED != VERIFIED` and `provisional_ready != authoritative_merge_eligible`.
+
+## Required P0 skills
+
+Phase D requires the following compatible major-version P0 skills:
+- `shared/project-context@^1.0`
+- `shared/governance@^1.0`
+- `shared/git-safety@^1.0`
+- `shared/testing-policy@^1.0`
+- `shared/ai-ip-domain@^1.0`
+- `security/threat-modeling@^1.0`
+- `security/ai-security@^1.0`
+
+A missing or incompatible required skill blocks the assignment. Silent substitution is forbidden. Governance takes precedence over every skill, and the task specification may narrow behavior but may not expand this role's authority.

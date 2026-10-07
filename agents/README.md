@@ -1,7 +1,7 @@
 # Workflow V2 Agent Role Contracts
 
-Version: 0.1.0
-Phase: GOV-AGENT-001-C
+Version: 0.2.0
+Phase: GOV-AGENT-001-D
 Status: IMPLEMENTED FOR REVIEW — NOT ACTIVATED
 
 This package defines the four standing Workflow V2 role contracts requested by
@@ -12,7 +12,7 @@ that role for the task.
 
 Installing or merging this package does not activate Workflow V2, enroll a task,
 assign a role, freeze a specification, authorize implementation, or grant merge
-permission. Phase D skills are intentionally absent.
+permission. Phase D adds the complete P0 skill inventory from §22 while keeping activation separate.
 
 ## Role separation
 
@@ -93,11 +93,22 @@ replace the durable Git evidence.
 
 This Phase C package contains role contracts and review templates only. It does not:
 
-- implement Phase D P0 skills;
+- implement P1/FUTURE skills;
 - activate Workflow V2;
 - change budget/quota behavior;
 - add provider/API/network integrations;
 - change application, backend, or frontend behavior;
 - grant merge authority outside existing governance.
+
+## Phase D P0 skills
+
+The complete P0 skill inventory is installed under `skills/`. Every skill is
+version `1.0.0`, uses the standard contract in §22, and is pinned by role at
+compatible major version `^1.0`. Missing/incompatible skills and governance
+conflicts fail closed. Run `python agents/validate_skills.py` for static package
+validation.
+
+Phase D adds procedures only. It does not add a general-purpose loader, provider
+integration, merge executor, or activation mechanism.
 
 Activation remains a later Human-authorized governance phase.
