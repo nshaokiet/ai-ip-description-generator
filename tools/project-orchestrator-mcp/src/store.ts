@@ -94,10 +94,11 @@ export class Store {
       "WHERE d.task_id=? AND t.status!='COMPLETED'").get(id) as { n: number };
     return pending.n === 0;
   }
-  private recoverExpired(): void {
-    this.v2.recoverExpired();
+  private recoverExpired(includeV2 = true): void {
+    if (includeV2) this.v2.recoverExpired();
     this.db.prepare("UPDATE tasks SET status='APPROVED', owner=NULL, branch=NULL, worktree=NULL, " +
-      'lease_start=NULL, lease_expiry=NULL WHERE status IN (\'CLAIMED\',\'IN_PROGRESS\') AND lease_expiry<=?')
+      'lease_start=NULL, lease_expiry=NULL WHERE status IN (\'CLAIMED\',\'IN_PROGRESS\') AND lease_expiry<=?' +
+      (includeV2?'':' AND NOT EXISTS (SELECT 1 FROM task_workflow w WHERE w.task_id=tasks.id)'))
       .run(Date.now());
   }
   private budgetRow(): Budget { return this.db.prepare('SELECT remaining,threshold,source,cycle,updated_at FROM budget WHERE id=1').get() as Budget; }
@@ -119,7 +120,9 @@ export class Store {
   }
   getState(taskId?: string): object {
     return this.tx(() => {
-      this.recoverExpired();
+      // V2 reads must not mutate leases/evidence. Legacy V1 read recovery stays
+      // compatible; V2 expiry recovery remains on next_task/start/action paths.
+      if (!taskId || !this.v2.workflow(taskId)) this.recoverExpired(false);
       const tasks = taskId ? [this.task(taskId)] : this.db.prepare(
         "SELECT * FROM tasks WHERE status IN ('CLAIMED','IN_PROGRESS','BLOCKED') ORDER BY priority,id"
       ).all() as Task[];

@@ -5,7 +5,7 @@ import { Store } from './store.js';
 import * as v2 from './v2-contracts.js';
 
 const store = new Store();
-const server = new McpServer({ name: 'project-orchestrator', version: '0.2.0' });
+const server = new McpServer({ name: 'project-orchestrator', version: '0.3.0' });
 const reply = (value: unknown) => ({
   content: [{ type: 'text' as const, text: JSON.stringify(value) }],
   structuredContent: { result: value }
@@ -31,6 +31,11 @@ server.registerTool('project.get_state', {
   description: 'Read active task(s), ownership, worktree, blockers, checkpoint, next action, and quota',
   inputSchema: { task_id: taskId.optional() }
 }, ({ task_id }) => safe(() => store.getState(task_id)));
+
+server.registerTool('project.get_merge_gate', {
+  description:'Read-only V2 recorded readiness and fail-closed authoritative merge evidence; never executes merge',
+  inputSchema:v2.task
+}, p=>safe(()=>store.v2.getMergeGate(p.task_id)));
 
 server.registerTool('project.next_task', {
   description: 'Read highest-priority approved, unfrozen, unblocked task with completed dependencies and sufficient budget',

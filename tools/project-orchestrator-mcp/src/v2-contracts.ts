@@ -44,3 +44,15 @@ export type CiInput = z.input<typeof ciSchema>;
 export type ReviewStartInput = z.input<typeof reviewStartSchema>;
 export type ReviewSubmitInput = z.input<typeof reviewSubmitSchema>;
 export type VerificationInput = z.input<typeof verificationSchema>;
+
+// Optional B3 context in the existing task-authorization attestation metadata.
+// This is recorded policy, never an authenticated approval or a verifier adapter.
+export const mergePolicySchema = z.object({
+  security_required:z.boolean().optional(),
+  required_human_exception_refs:z.array(text).refine(v=>new Set(v).size===v.length),
+  stop_conditions:z.array(text), scope_violation:z.boolean(),
+  secret_or_confidential_exposure:z.boolean(),
+  repository:z.string().regex(/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/).transform(v=>v.toLowerCase()).optional(),
+  pr_number:id.optional()
+}).strict();
+export type MergePolicy = z.output<typeof mergePolicySchema>;

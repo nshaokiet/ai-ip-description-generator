@@ -1,12 +1,13 @@
 import { DatabaseSync, type SQLInputValue } from 'node:sqlite';
 import * as c from './v2-contracts.js';
+import { computeMergeGate } from './v2-merge-gate.js';
 
 type Row = Record<string, string | number | null>;
 type ViewRow = Record<string, string | number | null | boolean>;
 const reviewRole = (type:string) => type==='SECURITY' ? 'SECURITY_REVIEWER' : 'QUALITY_REVIEWER';
 
 // All identities and provenance here are recorded claims, not authenticated facts.
-// This module intentionally contains no merge gate or external verifier.
+// B3 computes gates from recorded claims; no external verifier is installed.
 export class V2Store {
   constructor(private db:DatabaseSync, private guard:()=>void) {}
   private one(sql:string,...args:SQLInputValue[]):Row|undefined { return this.db.prepare(sql).get(...args) as Row|undefined; }
@@ -17,6 +18,12 @@ export class V2Store {
     catch(error) { this.db.exec('ROLLBACK'); throw error; }
   }
   private snapshot<T>(fn:()=>T):T { return this.db.isTransaction ? fn() : this.tx(fn); }
+  getMergeGate(taskId:string):ReturnType<typeof computeMergeGate> {
+    if (this.db.isTransaction) return computeMergeGate(this.db,taskId);
+    this.db.exec('BEGIN');
+    try { const result=computeMergeGate(this.db,taskId);this.db.exec('COMMIT');return result; }
+    catch(error) {this.db.exec('ROLLBACK');throw error;}
+  }
   private task(taskId:string):Row {
     const t=this.one('SELECT * FROM tasks WHERE id=?',taskId);
     if (!t) throw new Error('Unknown task: '+taskId);
@@ -339,6 +346,9 @@ export class V2Store {
     return {security:summary('SECURITY'),quality:summary('QUALITY'),history:implementationSha?history.filter(r=>r.implementation_sha===implementationSha):history,in_progress:starts};
   }
   state(taskId:string):object {
+    return this.snapshot(()=>this.stateUnsafe(taskId));
+  }
+  private stateUnsafe(taskId:string):object {
     const workflow=this.enrolled(taskId);
     const candidate=this.candidate(taskId);
     const ci=this.all('SELECT * FROM ci_evidence WHERE task_id=? ORDER BY id',taskId).map(row=>({...row,current:this.current(row,taskId),stale:!this.current(row,taskId)}));
@@ -348,14 +358,18 @@ export class V2Store {
       verification_records:this.all('SELECT * FROM evidence_verifications WHERE task_id=? ORDER BY subject_type,subject_key,verification_version',taskId).map(row=>{
         let applicable:boolean|null=null;
         if (row.task_spec_id!==null) applicable=this.one("SELECT id FROM task_specs WHERE task_id=? AND status='FROZEN' AND id=?",taskId,row.task_spec_id!)!==undefined;
-        if (row.implementation_evidence_id!==null) applicable=row.implementation_evidence_id===workflow.current_implementation_evidence_id && this.current(this.candidate(taskId)!,taskId);
-        if (row.ci_evidence_id!==null) applicable=this.current(this.one('SELECT * FROM ci_evidence WHERE id=?',row.ci_evidence_id!)!,taskId);
+        if (row.implementation_evidence_id!==null) applicable=!!candidate && row.implementation_evidence_id===workflow.current_implementation_evidence_id && this.current(candidate,taskId);
+        if (row.ci_evidence_id!==null) {
+          const ci=this.one('SELECT * FROM ci_evidence WHERE id=? AND task_id=?',row.ci_evidence_id!,taskId);
+          applicable=!!ci && this.current(ci,taskId);
+        }
         if (row.review_id!==null) {
-          const review=this.one('SELECT * FROM reviews WHERE review_id=?',row.review_id!)!;
-          applicable=this.current(review,taskId) && !!this.one("SELECT id FROM task_assignments WHERE id=? AND status='ACTIVE'",review.reviewer_assignment_id!);
+          const review=this.one('SELECT * FROM reviews WHERE review_id=? AND task_id=?',row.review_id!,taskId);
+          applicable=!!review && this.current(review,taskId) && !!this.one("SELECT id FROM task_assignments WHERE id=? AND status='ACTIVE'",review.reviewer_assignment_id!);
         }
         return {...row,applicable,stale:applicable===null?null:!applicable,authority_validated:false};
       }),
+      merge_gate:this.getMergeGate(taskId),
       trust_boundary:'RECORDED CLAIMS; provenance is not independently authenticated',workflow_v2_governance:'NOT ACTIVATED'};
   }
   checkpointAssignment(taskId:string,owner:string,role:string,assignmentId:number):Row {

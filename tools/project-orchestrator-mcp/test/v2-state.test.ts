@@ -133,7 +133,7 @@ test('V2 legacy renew/report/release/expiry paths preserve atomic assignment mir
     f.store.release('B2-T','implementer');assert.equal(f.store.v2.getAssignments('B2-T').find(a=>a.id===assignment)!.lease_expiry,null);
     f.store.v2.startImplementation({task_id:'B2-T',implementer_assignment_id:assignment,spec_sha:A,branch:'feat/restart',worktree:'/restart'});
     exec(f,"UPDATE tasks SET lease_expiry=1 WHERE id='B2-T'; UPDATE task_assignments SET lease_expiry=1 WHERE id="+assignment);
-    f.store.getState('B2-T');assert.equal(f.store.v2.getAssignments('B2-T').find(a=>a.id===assignment)!.status,'BLOCKED');
+    f.store.nextTask();assert.equal(f.store.v2.getAssignments('B2-T').find(a=>a.id===assignment)!.status,'BLOCKED');
   }finally{f.cleanup();}
 });
 test('F-07 first candidate and A to B CAS retry remain immutable and restart-safe',()=>{
@@ -289,7 +289,11 @@ test('VERIFIED is provenance-validated only; no caller-requested implicit promot
     assert.equal(row.verification_level,'VERIFIED');
     const state=JSON.stringify(f.store.getState('B2-T'));
     assert.match(state,/"authority_validated":false/);
-    assert.doesNotMatch(state,/"(ready|provisional_ready|authoritative_merge_eligible)"/);
+    // B3 adds computed fields, but a provenance-only row still grants no authority.
+    const gate=f.store.v2.getMergeGate('B2-T');
+    assert.equal(gate.provisional_ready,false);
+    assert.equal(gate.authoritative_merge_eligible,false);
+    assert.ok(gate.blockers.includes('AUTHORITATIVE_VERIFIER_UNAVAILABLE'));
   }finally{f.cleanup();}
 });
 test('typed verification subjects validate same-task IDs, review type and canonical external keys',()=>{
