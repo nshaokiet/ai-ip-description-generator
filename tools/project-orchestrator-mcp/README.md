@@ -1,6 +1,6 @@
 # Project Orchestrator MCP (local tooling)
 
-A local MCP server for the AI IP Description Generator task queue. Version 0.2.0.
+A local MCP server for the AI IP Description Generator task queue. Version 0.3.0.
 This tool does not invoke the application pipeline, AI providers, Git commands or paid APIs.
 
 ## Requirements and install
@@ -24,8 +24,8 @@ journal files, is local and must not be committed.
 
 Phase B1 installed SQLite schema version `2`, recorded in `schema_migrations`. Schema
 availability is separate from workflow activation: **Workflow V2 is NOT
-activated by this package version**. Package `0.2.0` preserves all 13 Workflow V1
-tools and adds 11 Phase B2 tools (24 total).
+activated by this package version**. Package `0.3.0` preserves all 13 Workflow V1
+tools and 11 Phase B2 tools, and adds one Phase B3 read (25 total).
 
 Schema version 2 additively installs `task_workflow`, `task_assignments`,
 `task_specs`, `implementation_evidence`, `reviews`, `ci_evidence`, and the
@@ -46,7 +46,8 @@ checked against the stored review type; versions form an append-only linear
 supersession chain; `REVOKE` is `UNVERIFIED`; and a `VERIFIED` attestation
 requires verifier provenance fields. Phase B2 records these claims through a
 narrow admin path and canonicalizes external subject keys. Source verification
-and merge-gate policy remain Phase B3 work.
+and merge-gate computation are described under Phase B3 below. No source verifier
+adapter is installed.
 
 Migration runs inside `BEGIN IMMEDIATE`, is restart-safe and idempotent, and
 keeps `foreign_keys=ON`, WAL, and the 5000 ms busy timeout model. A failed or
@@ -86,11 +87,82 @@ caller attribution. Planner identities cannot self-authorize. These are procedur
 recorded claims: the package does not authenticate identity, inspect Git, or prove
 that the committed artifact/Human decision exists. `VERIFIED` recording validates
 supplied provenance fields; state views explicitly report `authority_validated=false`.
-No source verifier, effective authoritative policy, merge gate or automatic merge
-permission is implemented. **B3 NOT IMPLEMENTED; WORKFLOW V2 NOT ACTIVATED.**
+The B3 gate evaluates these fields without trusting their claimed authority.
+**WORKFLOW V2 NOT ACTIVATED.** No source verifier or automatic merge permission
+is implemented.
 
 See [B2 implementation and test evidence](B2_IMPLEMENTATION.md) for the baseline,
 record semantics, known limitations and exact added test inventory.
+
+## Workflow V2 merge evidence (Phase B3)
+
+`project.get_merge_gate` takes `task_id`. V2 `project.get_state` includes the same
+snapshot result under `merge_gate`. F comes only from the persisted
+`task_workflow.current_implementation_evidence_id`, never the newest history row.
+Both V2 reads are idempotent and leave task/assignment leases and evidence untouched,
+including expired leases. Recovery remains on `project.next_task` and execution
+paths. Legacy V1 read recovery, budget/quota and task behavior remain compatible.
+V1 `get_merge_gate` returns `NOT_APPLICABLE`; unknown tasks remain errors.
+
+The gate validates complete typed verification chains, resolves their unique
+terminal attestation/revocation, derives superseded history and checks applicability
+against current spec/candidate/review assignments and expected PR identity. Invalid
+chains, cross-task subjects, revocation and SHA mismatches fail closed. It retains
+historical rows. `MERGE_RESULT` is visible history, not a pre-merge requirement.
+
+`provisional_ready` means complete consistent recorded evidence, including current
+Human task/freeze authorization, frozen spec, candidate, successful CI and required
+independent read-only reviews. All observed CI records for F must be SUCCESS;
+conflicting/pending records are not hidden by selecting one passing row. Review
+attempt ordering is considered only within the exact F and stream; an in-progress
+re-review cannot reuse earlier PASS. A recorded policy must explicitly resolve
+scope, confidentiality, stop conditions and required Human exceptions. R3/R4 always
+require Security and Quality; lower-risk Security requires an explicit recorded
+boolean. `NOT_REQUIRED` never pretends a stream passed.
+
+This narrow context lives in the **existing** task-authorization attestation's
+`metadata_json.merge_policy`, recorded using the existing admin verification path.
+There is no schema change, new activation/enrollment path or trusted identity:
+
+```json
+{
+  "merge_policy": {
+    "security_required": true,
+    "required_human_exception_refs": [],
+    "stop_conditions": [],
+    "scope_violation": false,
+    "secret_or_confidential_exposure": false,
+    "repository": "synthetic/repo",
+    "pr_number": 42
+  }
+}
+```
+
+The example is synthetic, not task authorization. Missing/invalid context is
+`MERGE_POLICY_UNRESOLVED`. An explicit empty exception list records that no additional
+Human exception is required; it does not waive existing governance. `repository`
+and `pr_number` identify expected PR context; absence blocks authoritative eligibility
+but does not block provisional readiness. Append policy changes/revocations through
+the same immutable chain; do not edit past attestations.
+
+`authoritative_merge_eligible` is **always false in this release**: no approved
+Human/Git/CI/review/PR verifier or fresh pre-merge check adapter exists. The §18.1
+source matrix is reported per subject, and claimed VERIFIED provenance cannot opt
+into a trusted source by naming it. The output reports
+`AUTHORITATIVE_VERIFIER_UNAVAILABLE`, `AUTHORITATIVE_SOURCE_POLICY_UNACCEPTED` for
+unsupported VERIFIED claims, and `FRESH_PREMERGE_CHECK_UNAVAILABLE` for PR freshness.
+This explicitly preserves `RECORDED != VERIFIED` and
+`provisional_ready != authoritative_merge_eligible`. Actual source adapters require
+separate authorization; B3 performs no Git, GitHub or external network operation.
+
+Full required/observed gates, effective verification IDs/levels, applicability,
+missing/stale/revoked evidence, exact SHA mismatch history, Human gates and separate
+provisional/authoritative blockers are returned for diagnostics. Computation runs
+inside one SQLite snapshot and persists no computed gate/status table. Schema stays
+`3`; dependency versions and quota semantics stay unchanged.
+
+See [B3 implementation and handoff evidence](B3_IMPLEMENTATION.md). Workflow V2
+governance **NOT ACTIVATED**; Phase C **NOT STARTED**.
 
 Stdio is chosen for client-spawned local servers. It opens no network listener;
 127.0.0.1 binding is therefore inapplicable. An HTTP endpoint would require

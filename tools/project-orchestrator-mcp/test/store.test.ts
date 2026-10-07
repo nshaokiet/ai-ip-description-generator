@@ -230,12 +230,13 @@ test('concurrent process race permits precisely one claim', async () => {
     assert.deepEqual(results.sort(),['CLAIMED','REJECTED']);
   } finally { f.cleanup(); }
 });
-test('server exposes no merge or quota reset tool and has no API credentials', () => {
+test('server exposes no merge execution or quota reset tool and has no API credentials', () => {
   const path = join(dirname(fileURLToPath(import.meta.url)),'../../src/server.ts');
   // Source is available when test runs from the repository after build.
   const source = readFileSync(path,'utf8');
   const names = [...source.matchAll(/registerTool\('([^']+)'/g)].map(m => m[1]);
-  assert.equal(names.length,24);
-  assert.equal(names.some(n => /merge|reset|activate/.test(n || '')),false);
+  assert.equal(names.length,25);
+  assert.ok(names.includes('project.get_merge_gate'));
+  assert.equal(names.some(n => /merge|reset|activate/.test(n || '') && n!=='project.get_merge_gate'),false);
   assert.equal(/OPENAI_API_KEY|fetch\(|api\.openai/.test(source),false);
 });

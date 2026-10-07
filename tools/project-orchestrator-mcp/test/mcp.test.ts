@@ -9,7 +9,7 @@ import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
 import { A,B,governance,fixture,verification,checkpoint } from './v2-fixture.js';
 
-test('real stdio MCP launches offline with no API key and preserves 13 V1 tools plus 11 B2 tools', async () => {
+test('real stdio MCP launches offline with no API key and preserves 13 V1 tools plus 11 B2 tools and one B3 read', async () => {
   const dir = mkdtempSync(join(tmpdir(), 'orchestrator-mcp-'));
   const server = join(dirname(fileURLToPath(import.meta.url)), '../src/server.js');
   const env = Object.fromEntries(
@@ -21,12 +21,13 @@ test('real stdio MCP launches offline with no API key and preserves 13 V1 tools 
   try {
     await client.connect(transport);
     const names = (await client.listTools()).tools.map(tool => tool.name);
-    assert.equal(names.length,24);
+    assert.equal(names.length,25);
     for (const name of ['project.get_state','project.next_task','project.claim_task','project.renew_lease','project.release_task','project.report_progress','project.finish_task','budget.get','budget.set_remaining','budget.should_continue','checkpoint.create','checkpoint.get_latest','project.stop_and_handoff']) assert.ok(names.includes(name));
     for (const name of ['project.assign_role','project.get_assignments','project.submit_spec','project.freeze_spec','project.get_spec','project.start_implementation','project.record_implementation','project.record_ci','review.start','review.submit','review.get_status']) assert.ok(names.includes(name));
     assert.equal(names.includes('project.record_verification'),false); // Admin recording path only in B2.
     assert.equal(names.includes('project.claim_task'),true);
-    assert.equal(names.some(name => /merge|reset|activate/.test(name)),false);
+    assert.ok(names.includes('project.get_merge_gate'));
+    assert.equal(names.some(name => /merge|reset|activate/.test(name) && name!=='project.get_merge_gate'),false);
     const result = await client.callTool({ name: 'budget.should_continue', arguments: {} });
     assert.equal(result.isError,undefined);
     assert.equal((result.structuredContent as { result: { decision: string } }).result.decision,'CONTINUE');
@@ -81,6 +82,11 @@ test('real stdio B2 tools and isolated admin enrollment/verification execute a c
     assert.ok(await call('project.get_assignments',{task_id:'B2-T'}));assert.ok(await call('project.get_spec',{task_id:'B2-T'}));
     assert.equal((await client.callTool({name:'project.claim_task',arguments:{task_id:'B2-T',owner:'impostor',branch:'feat/bypass',worktree:'/bypass'}})).isError,true);
     assert.equal((await client.callTool({name:'project.freeze_spec',arguments:{task_id:'B2-T',actor_type:'PLANNER'}})).isError,true);
-    assert.equal((await client.listTools()).tools.some(t=>/get_merge_gate|record_verification|enroll/.test(t.name)),false);
+    assert.equal((await client.listTools()).tools.some(t=>/record_verification|enroll/.test(t.name)),false);
+    const gate=await call('project.get_merge_gate',{task_id:'B2-T'});
+    assert.equal(gate.authoritative_merge_eligible,false);
+    assert.equal(gate.implementation_sha,B);
+    assert.deepEqual((task as unknown as {merge_gate:unknown}).merge_gate,gate);
+    assert.equal((await call('project.get_merge_gate',{task_id:'P1-006'})).status,'NOT_APPLICABLE');
   } finally { await client.close();f.cleanup(); }
 });

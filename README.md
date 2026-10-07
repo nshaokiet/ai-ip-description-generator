@@ -33,6 +33,16 @@ The deployment is non-production. Do not use real, confidential, unpublished, se
 
 Detailed task, SHA, pull-request, CI, and review evidence remains in the [Project Control Center](docs/operations/01_PROJECT_CONTROL_CENTER.md), [review log](docs/operations/02_GEMINI_REVIEW_LOG.md), task records, and Git history.
 
+## Project status
+
+| Task | Status | Evidence / next gate |
+|---|---|---|
+| GOV-AGENT-001-B2 | IMPLEMENTATION MERGED — INDEPENDENT REVIEW PASS | PR #86 merge `b16c092491d3f0f784c82120b762a0e0064c9274`; exact main/push CI `37559518802` SUCCESS; [original Antigravity / Gemini 3.1 Pro High report](https://github.com/nshaokiet/ai-ip-description-generator/pull/86#issuecomment-6029219683) on `ff76a494ebd7c613ce0ff8ff8b25667299b516fe` |
+| GOV-AGENT-001-B3 | IMPLEMENTATION READY FOR INDEPENDENT FIXED-SHA REVIEW — NOT MERGED | [Implementation record](tools/project-orchestrator-mcp/B3_IMPLEMENTATION.md); provisional/authoritative gate computation; independent Security + Quality review PENDING |
+
+Workflow V2 remains **NOT ACTIVATED**. Phase C and later work **NOT STARTED**.
+These tooling milestones do not change application/provider/data/production authorization.
+
 ## Main Features
 
 ### Currently working demo flow
