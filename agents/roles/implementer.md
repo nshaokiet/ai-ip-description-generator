@@ -1,6 +1,6 @@
 # Implementer Agent Contract
 
-Contract version: 0.1.0
+Contract version: 0.1.1
 Role ID: `IMPLEMENTER`
 Workflow V2 status: NOT ACTIVATED
 

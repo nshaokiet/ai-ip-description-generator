@@ -1,6 +1,6 @@
 # Quality Reviewer Agent Contract
 
-Contract version: 0.1.0
+Contract version: 0.1.1
 Role ID: `QUALITY_REVIEWER`
 Review type: `QUALITY`
 Workflow V2 status: NOT ACTIVATED

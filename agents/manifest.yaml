@@ -1,7 +1,7 @@
 schema_version: 2
 package:
   id: gov-agent-001-agent-package
-  version: 0.2.0
+  version: 0.2.1
   phase: D
   status: IMPLEMENTED_FOR_REVIEW
   workflow_v2_activation: NOT_ACTIVATED
@@ -115,7 +115,7 @@ skills:
     p0: true
   shared_governance:
     id: shared/governance
-    version: 1.0.0
+    version: 1.0.1
     path: skills/shared/governance/SKILL.md
     p0: true
   shared_git_safety:
@@ -130,7 +130,7 @@ skills:
     p0: true
   shared_ai_ip_domain:
     id: shared/ai-ip-domain
-    version: 1.0.0
+    version: 1.0.1
     path: skills/shared/ai-ip-domain/SKILL.md
     p0: true
   planner_task_specification:

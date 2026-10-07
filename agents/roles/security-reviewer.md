@@ -1,6 +1,6 @@
 # Security Reviewer Agent Contract
 
-Contract version: 0.1.0
+Contract version: 0.1.1
 Role ID: `SECURITY_REVIEWER`
 Review type: `SECURITY`
 Workflow V2 status: NOT ACTIVATED

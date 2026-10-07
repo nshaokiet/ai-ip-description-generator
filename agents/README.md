@@ -1,6 +1,6 @@
 # Workflow V2 Agent Role Contracts
 
-Version: 0.2.0
+Version: 0.2.1
 Phase: GOV-AGENT-001-D
 Status: IMPLEMENTED FOR REVIEW — NOT ACTIVATED
 
@@ -91,7 +91,7 @@ replace the durable Git evidence.
 
 ## Scope boundary
 
-This Phase C package contains role contracts and review templates only. It does not:
+This package contains Phase C role contracts/review templates and Phase D P0 skills. It does not:
 
 - implement P1/FUTURE skills;
 - activate Workflow V2;
@@ -103,7 +103,7 @@ This Phase C package contains role contracts and review templates only. It does 
 ## Phase D P0 skills
 
 The complete P0 skill inventory is installed under `skills/`. Every skill is
-version `1.0.0`, uses the standard contract in §22, and is pinned by role at
+versioned under major `1`, uses the standard contract in §22, and is pinned by role at
 compatible major version `^1.0`. Missing/incompatible skills and governance
 conflicts fail closed. Run `python agents/validate_skills.py` for static package
 validation.
@@ -112,3 +112,20 @@ Phase D adds procedures only. It does not add a general-purpose loader, provider
 integration, merge executor, or activation mechanism.
 
 Activation remains a later Human-authorized governance phase.
+
+The validator preserves the manifest's indented YAML mapping/scalar-list format.
+It uses Python's standard library and rejects unsupported YAML syntax and duplicate
+keys. It checks declarations and structure; it cannot authenticate provenance or
+prove arbitrary prose safe. Independent fixed-SHA review remains required.
+
+Run `python -m unittest discover -s tests -p test_agent_package.py -v` for isolated
+temporary-copy negative tests. These tests are also collected by the existing
+repository `python -m pytest tests` CI step and run the committed validator CLI.
+
+## Phase D reconciliation history
+
+| Versions | Date | Author | Change / reference | Breaking change |
+|---|---|---|---|---|
+| Package 0.2.0 -> 0.2.1; shared governance and AI-IP skills 1.0.0 -> 1.0.1; role contracts 0.1.0 -> 0.1.1 | 2026-10-07 | Codex | Human-authorized PR #89 reconciliation; fix SemVer validation, add static negative tests and explicit existing safeguards; record Phase D additions to the Phase C roles | No |
+
+Other 12 skills remain at 1.0.0. Workflow V2 **NOT ACTIVATED**; Phase E **NOT STARTED**.

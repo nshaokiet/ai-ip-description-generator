@@ -1,7 +1,7 @@
 # Ai Ip Domain
 
 - name: `ai-ip-domain`
-- version: `1.0.0`
+- version: `1.0.1`
 - role_scope: `SHARED`
 
 Governance takes precedence over this skill. A task specification may narrow its behavior but may not expand authority.
@@ -17,7 +17,9 @@ Work touching scientific-paper ingestion, invention reconstruction, patent draft
 ## Required inputs
 
 - authorized source/evidence artefacts
-- applicable P2-002/P2-003/P2-004 contracts
+- [P2-002 reconstruction contract](../../../../docs/tasks/P2-002-invention-reconstruction.md)
+- [P2-003 draft specification contract](../../../../docs/tasks/P2-003-uspto-specification-generation-v2.md)
+- [P2-004 supported draft claims contract](../../../../docs/tasks/P2-004-supported-draft-claims.md)
 - task-specific source facts and Human confirmations
 
 ## Allowed actions
@@ -39,6 +41,22 @@ Work touching scientific-paper ingestion, invention reconstruction, patent draft
 2. Trace each material draft/review statement to permitted evidence.
 3. Preserve unsupported or conflicting content as MISSING/confirmation-required.
 4. Maintain the chain Scientific Paper -> Evidence -> Invention Reconstruction -> Patent Draft.
+
+Preserve these distinctions explicitly:
+
+- Scientific paper != patent.
+- Prior art != inventor contribution.
+- Experimental result != automatically an inventive feature.
+- INFERENCE != SOURCE_FACT.
+- Unsupported technical content must not silently become patent disclosure.
+
+Apply [P2-002](../../../../docs/tasks/P2-002-invention-reconstruction.md),
+[P2-003](../../../../docs/tasks/P2-003-uspto-specification-generation-v2.md) and
+[P2-004](../../../../docs/tasks/P2-004-supported-draft-claims.md) with their existing
+versioned schemas; do not invent a parallel ontology. Preserve missing information
+and author questions, Human review and legal disclaimers. Output remains a draft,
+not legal advice, patentability or filing approval. Skills do not authorize Claims
+runtime, provider calls or real/confidential research data.
 
 ## Required checks
 
