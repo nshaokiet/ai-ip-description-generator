@@ -19,7 +19,8 @@ The activation/base commit is `9c291325d409f74bc767f9b870e81d75c9b70802`.
   "quality_review_required": true,
   "rule": "result = input * 2 + 1",
   "cases": [
-    {"input": 7, "expected_value": 15, "computed_value": 15}
+    {"input": 7, "expected_value": 15, "computed_value": 15},
+    {"input": 11, "expected_value": 23, "computed_value": 23}
   ]
 }
 ```
