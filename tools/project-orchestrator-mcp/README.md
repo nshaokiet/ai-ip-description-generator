@@ -1,6 +1,6 @@
 # Project Orchestrator MCP (local tooling)
 
-A local MCP server for the AI IP Description Generator task queue. Version 0.1.0.
+A local MCP server for the AI IP Description Generator task queue. Version 0.2.0.
 This tool does not invoke the application pipeline, AI providers, Git commands or paid APIs.
 
 ## Requirements and install
@@ -22,10 +22,10 @@ journal files, is local and must not be committed.
 
 ## Workflow V2 data foundation (Phase B1)
 
-The SQLite schema version is now `2`, recorded in `schema_migrations`. Schema
+Phase B1 installed SQLite schema version `2`, recorded in `schema_migrations`. Schema
 availability is separate from workflow activation: **Workflow V2 is NOT
-activated by this package version**, and the stdio server still exposes the same
-13 Workflow V1 tools.
+activated by this package version**. Package `0.2.0` preserves all 13 Workflow V1
+tools and adds 11 Phase B2 tools (24 total).
 
 Schema version 2 additively installs `task_workflow`, `task_assignments`,
 `task_specs`, `implementation_evidence`, `reviews`, `ci_evidence`, and the
@@ -37,20 +37,60 @@ For F-07, `task_workflow.current_implementation_evidence_id` is the sole
 persisted current-candidate selector and is protected by a same-task composite
 foreign key. `implementation_evidence` keeps immutable candidate history and
 does not use insertion order or a latest-row rule to select the current
-candidate. The schema supports future expected-current compare-and-swap pointer
-updates; the public V2 transition API belongs to a later phase.
+candidate. Phase B2 implements expected-current compare-and-swap pointer updates
+through `project.record_implementation`, including idempotent winner retries.
 
 For F-08, verification state exists only in `evidence_verifications`. Internal
 subjects use typed, same-task foreign keys; Security/Quality review subjects are
 checked against the stored review type; versions form an append-only linear
 supersession chain; `REVOKE` is `UNVERIFIED`; and a `VERIFIED` attestation
-requires verifier provenance fields. External subject-key canonicalization and
-all public V2 workflow transitions remain later-phase transaction/API work.
+requires verifier provenance fields. Phase B2 records these claims through a
+narrow admin path and canonicalizes external subject keys. Source verification
+and merge-gate policy remain Phase B3 work.
 
 Migration runs inside `BEGIN IMMEDIATE`, is restart-safe and idempotent, and
 keeps `foreign_keys=ON`, WAL, and the 5000 ms busy timeout model. A failed or
 incompatible migration is rolled back and never resets or deletes the existing
 database. Budget/quota tables and enforcement semantics are unchanged.
+
+## Workflow V2 tools/state (Phase B2)
+
+Schema version `3` additively installs `review_attempts` for durable in-progress
+review state (§17.5) and `checkpoint_assignments` for role metadata (§18), retaining
+all B1 tables, evidence constraints, migration entries and legacy checkpoints.
+No task is enrolled or governance activated by installing either schema version.
+
+New tools: `project.assign_role`, `project.get_assignments`, `project.submit_spec`,
+`project.freeze_spec`, `project.get_spec`, `project.start_implementation`,
+`project.record_implementation`, `project.record_ci`, `review.start`,
+`review.submit`, `review.get_status`. Existing `project.get_state` exposes additive
+V2 sub-state or a V1 version marker. Checkpoint tools accept optional role/assignment
+metadata; V2 callers must supply the matching active assignment. Implementer
+checkpoint/handoff remains usable at the quota threshold.
+
+Explicit enrollment and verification recording stay in the local Human/admin CLI:
+
+```text
+npm run admin -- enroll-v2 /absolute/path/to/enrollment.json
+npm run admin -- record-verification /absolute/path/to/attestation.json
+```
+
+Payloads are validated by [v2-contracts.ts](src/v2-contracts.ts). Enrollment requires
+task ID, risk class, authorization reference and exact activation commit; it is
+prospective and refuses historical V1 execution. This records per-task capability
+metadata only; it does not enable project governance or create an activation commit.
+
+Freeze requires a current recorded Human authorization attestation covering the
+exact committed spec artifact/version/SHA, its source/reference, and Human/admin
+caller attribution. Planner identities cannot self-authorize. These are procedural
+recorded claims: the package does not authenticate identity, inspect Git, or prove
+that the committed artifact/Human decision exists. `VERIFIED` recording validates
+supplied provenance fields; state views explicitly report `authority_validated=false`.
+No source verifier, effective authoritative policy, merge gate or automatic merge
+permission is implemented. **B3 NOT IMPLEMENTED; WORKFLOW V2 NOT ACTIVATED.**
+
+See [B2 implementation and test evidence](B2_IMPLEMENTATION.md) for the baseline,
+record semantics, known limitations and exact added test inventory.
 
 Stdio is chosen for client-spawned local servers. It opens no network listener;
 127.0.0.1 binding is therefore inapplicable. An HTTP endpoint would require

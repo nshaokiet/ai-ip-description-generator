@@ -3,6 +3,7 @@ import { mkdirSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { dirname, isAbsolute, join } from 'node:path';
 import { migrateDatabase } from './migrations.js';
+import { V2Store } from './v2-store.js';
 
 export const STATES = [
   'PLANNED', 'APPROVED', 'CLAIMED', 'IN_PROGRESS', 'IMPLEMENTED',
@@ -54,10 +55,12 @@ export function defaultDatabasePath(): string {
 
 export class Store {
   private readonly db: DatabaseSync;
+  readonly v2: V2Store;
   constructor(file = defaultDatabasePath()) {
     if (!isAbsolute(file)) throw new Error('SQLite path must be absolute');
     mkdirSync(dirname(file), { recursive: true, mode: 0o700 });
     this.db = new DatabaseSync(file);
+    this.v2 = new V2Store(this.db, () => this.guard());
     try {
       this.db.exec('PRAGMA busy_timeout=5000; PRAGMA journal_mode=WAL; PRAGMA foreign_keys=ON');
       migrateDatabase(this.db);
@@ -92,6 +95,7 @@ export class Store {
     return pending.n === 0;
   }
   private recoverExpired(): void {
+    this.v2.recoverExpired();
     this.db.prepare("UPDATE tasks SET status='APPROVED', owner=NULL, branch=NULL, worktree=NULL, " +
       'lease_start=NULL, lease_expiry=NULL WHERE status IN (\'CLAIMED\',\'IN_PROGRESS\') AND lease_expiry<=?')
       .run(Date.now());
@@ -120,7 +124,7 @@ export class Store {
         "SELECT * FROM tasks WHERE status IN ('CLAIMED','IN_PROGRESS','BLOCKED') ORDER BY priority,id"
       ).all() as Task[];
       return {
-        tasks: tasks.map(t => ({ ...t, latest_checkpoint: this.latestCheckpoint(t.id), next_action:
+        tasks: tasks.map(t => ({ ...t, ...(this.v2.workflow(t.id) ? this.v2.state(t.id) : {workflow_version:1}), latest_checkpoint: this.latestCheckpoint(t.id), next_action:
           t.status === 'BLOCKED' ? 'Human resolves blocker and records approval' :
           t.status === 'CLAIMED' ? 'Start work and report progress' :
           t.status === 'IN_PROGRESS' ? 'Continue work or checkpoint' : 'Review approved task' })),
@@ -163,6 +167,7 @@ export class Store {
   }
   // Administrative evidence transition; no merge or Git action exists here.
   transition(id: string, target: Status, evidence: string): Task {
+    if (this.v2.workflow(id)) throw new Error('V2 lifecycle approval/merge transitions deferred to B3');
     const allowed: Partial<Record<Status, Status[]>> = {
       IMPLEMENTED: ['AWAITING_REVIEW'], AWAITING_REVIEW: ['REVIEW_CHANGES_REQUIRED','REVIEW_PASS'],
       REVIEW_PASS: ['AWAITING_HUMAN_APPROVAL'], AWAITING_HUMAN_APPROVAL: ['MERGED'],
@@ -184,6 +189,7 @@ export class Store {
       throw new Error('Invalid claim metadata, branch, or lease duration');
     return this.tx(() => {
       this.recoverExpired(); this.guard();
+      if (this.v2.workflow(id)) throw new Error('V2 requires project.start_implementation');
       const t = this.task(id);
       if (t.status !== 'APPROVED' || !this.dependenciesDone(id) || t.blockers ||
         (t.frozen_until && Date.now() < t.frozen_until)) throw new Error('Task is not eligible to claim');
@@ -200,6 +206,7 @@ export class Store {
     const t = this.task(id);
     if (!['CLAIMED','IN_PROGRESS'].includes(t.status) || t.owner !== owner ||
       !t.lease_expiry || t.lease_expiry <= Date.now()) throw new Error('Active lease owner required');
+    if (this.v2.workflow(id)) this.v2.validateOwner(id, owner);
     return t;
   }
   renew(id: string, owner: string, leaseMinutes = 60): Task {
@@ -207,6 +214,7 @@ export class Store {
     return this.tx(() => {
       this.guard(); this.active(id, owner);
       this.db.prepare('UPDATE tasks SET lease_expiry=? WHERE id=?').run(Date.now() + leaseMinutes * 60_000, id);
+      if (this.v2.workflow(id)) this.v2.syncLease(id, this.task(id).lease_expiry);
       return this.task(id);
     });
   }
@@ -214,6 +222,7 @@ export class Store {
     return this.tx(() => {
       this.active(id, owner);
       this.db.prepare("UPDATE tasks SET status='APPROVED',owner=NULL,branch=NULL,worktree=NULL,lease_start=NULL,lease_expiry=NULL WHERE id=?").run(id);
+      if (this.v2.workflow(id)) this.v2.syncLease(id, null);
       return this.task(id);
     });
   }
@@ -226,6 +235,7 @@ export class Store {
         .run(id, owner, JSON.stringify(p), Date.now());
       this.db.prepare("UPDATE tasks SET status='IN_PROGRESS', blockers=?,lease_expiry=? WHERE id=?")
         .run(p.blockers.length ? JSON.stringify(p.blockers) : null, Date.now() + 60 * 60_000, id);
+      if (this.v2.workflow(id)) this.v2.syncLease(id, this.task(id).lease_expiry);
       return this.task(id);
     });
   }
@@ -233,39 +243,60 @@ export class Store {
     if (!SHA.test(commitSha) || tests.length === 0) throw new Error('Commit SHA and test evidence required');
     return this.tx(() => {
       this.guard(); this.active(id, owner);
+      if (this.v2.workflow(id)) {
+        const candidate=this.v2.candidate(id);
+        const spec=this.db.prepare("SELECT spec_sha FROM task_specs WHERE task_id=? AND status='FROZEN'").get(id);
+        if (!candidate || candidate.implementation_sha!==commitSha.toLowerCase() || candidate.spec_sha!==spec?.spec_sha)
+          throw new Error('Finish requires recorded current candidate for frozen spec');
+      }
       this.db.prepare("UPDATE tasks SET status='IMPLEMENTED',lease_start=NULL,lease_expiry=NULL WHERE id=?").run(id);
+      if (this.v2.workflow(id)) this.v2.syncLease(id, null);
       this.db.prepare('INSERT INTO progress (task_id,owner,payload,created_at) VALUES (?,?,?,?)')
         .run(id, owner, JSON.stringify({ milestone: 'Implementation complete', tests, commit_sha: commitSha }), Date.now());
       return this.task(id);
     });
   }
-  latestCheckpoint(id?: string): Checkpoint | null {
-    const row = (id ? this.db.prepare('SELECT * FROM checkpoints WHERE task_id=? ORDER BY id DESC LIMIT 1').get(id) :
+  latestCheckpoint(id?: string, role?: string): Checkpoint | null {
+    if (role && !id) throw new Error('Role checkpoint query requires task ID');
+    const row = (role ? this.db.prepare('SELECT c.* FROM checkpoints c JOIN checkpoint_assignments a ON a.checkpoint_id=c.id WHERE c.task_id=? AND a.role=? ORDER BY c.id DESC LIMIT 1').get(id!,role) : id ? this.db.prepare('SELECT * FROM checkpoints WHERE task_id=? ORDER BY id DESC LIMIT 1').get(id) :
       this.db.prepare('SELECT * FROM checkpoints ORDER BY id DESC LIMIT 1').get()) as
       (Omit<Checkpoint,'tests'|'blockers'> & { tests: string; blockers: string }) | undefined;
-    return row ? { ...row, tests: JSON.parse(row.tests) as string[], blockers: JSON.parse(row.blockers) as string[] } : null;
+    const metadata=row ? this.db.prepare('SELECT role,assignment_id FROM checkpoint_assignments WHERE checkpoint_id=?').get(row.id) : undefined;
+    return row ? { ...row, ...metadata, tests: JSON.parse(row.tests) as string[], blockers: JSON.parse(row.blockers) as string[] } : null;
   }
-  checkpoint(id: string, owner: string, data: Omit<Checkpoint,'id'|'task_id'|'owner'|'branch'|'created_at'>): Checkpoint {
+  checkpoint(id: string, owner: string, data: Omit<Checkpoint,'id'|'task_id'|'owner'|'branch'|'created_at'>, role?:string, assignmentId?:number): Checkpoint {
     if (!owner.trim() || !data.completed_work.trim() || !data.remaining_work.trim() ||
       !data.stop_reason.trim() || !data.exact_next_action.trim() ||
       (data.last_safe_commit !== null && !SHA.test(data.last_safe_commit))) throw new Error('Incomplete handoff');
     return this.tx(() => {
-      const t = this.active(id, owner);
+      const isV2=!!this.v2.workflow(id);
+      if (isV2 && (!role || assignmentId===undefined)) throw new Error('V2 checkpoint requires role and assignment ID');
+      if (!isV2 && (role || assignmentId!==undefined)) throw new Error('V1 checkpoint does not accept V2 role metadata');
+      if (isV2) this.v2.checkpointAssignment(id,owner,role!,assignmentId!);
+      const t = isV2 && role!=='IMPLEMENTER' ? this.task(id) : this.active(id, owner);
       const result = this.db.prepare('INSERT INTO checkpoints (task_id,owner,branch,last_safe_commit,completed_work,tests,' +
         'remaining_work,blockers,stop_reason,exact_next_action,created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?)')
-        .run(id, owner, t.branch, data.last_safe_commit, data.completed_work,
+        .run(id, owner, isV2 && role!=='IMPLEMENTER'?null:t.branch, data.last_safe_commit, data.completed_work,
           JSON.stringify(data.tests), data.remaining_work, JSON.stringify(data.blockers),
           data.stop_reason, data.exact_next_action, Date.now());
-      return this.latestCheckpoint(id)!;
+      if (isV2) this.db.prepare('INSERT INTO checkpoint_assignments(checkpoint_id,task_id,role,assignment_id) VALUES (?,?,?,?)')
+        .run(Number(result.lastInsertRowid),id,role!,assignmentId!);
+      return this.latestCheckpoint(id,role)!;
     });
   }
-  stopAndHandoff(id: string, owner: string, data: Omit<Checkpoint,'id'|'task_id'|'owner'|'branch'|'created_at'>): Checkpoint {
+  stopAndHandoff(id: string, owner: string, data: Omit<Checkpoint,'id'|'task_id'|'owner'|'branch'|'created_at'>, role?:string,assignmentId?:number): Checkpoint {
     return this.tx(() => {
       this.active(id, owner);
+      if (this.v2.workflow(id)) {
+        if (role!=='IMPLEMENTER' || assignmentId===undefined) throw new Error('V2 task-blocking handoff requires Implementer metadata');
+        this.v2.checkpointAssignment(id,owner,role,assignmentId);
+      } else if (role || assignmentId!==undefined) throw new Error('V1 handoff does not accept V2 role metadata');
       const cp = this.checkpointUnsafe(id, owner, data);
+      if (this.v2.workflow(id)) this.db.prepare('INSERT INTO checkpoint_assignments(checkpoint_id,task_id,role,assignment_id) VALUES (?,?,?,?)').run(cp.id,id,role!,assignmentId!);
       this.db.prepare("UPDATE tasks SET status='BLOCKED',owner=NULL,lease_start=NULL,lease_expiry=NULL,blockers=? WHERE id=?")
         .run(JSON.stringify([...data.blockers, data.stop_reason]), id);
-      return cp;
+      if (this.v2.workflow(id)) this.v2.syncLease(id,null,'BLOCKED');
+      return this.latestCheckpoint(id)!;
     });
   }
   private checkpointUnsafe(id: string, owner: string, data: Omit<Checkpoint,'id'|'task_id'|'owner'|'branch'|'created_at'>): Checkpoint {

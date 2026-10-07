@@ -163,14 +163,14 @@ function insertVerification(
   ).lastInsertRowid);
 }
 
-test('fresh database initializes V1 plus schema version 2 without enrolling V2 tasks', () => {
+test('fresh database initializes V1 plus B1 and B2 additive schemas without enrolling V2 tasks', () => {
   const f = tempDatabase();
   try {
     const store = new Store(f.file); store.close();
     const conn = db(f.file);
     try {
       const versions = conn.prepare('SELECT version FROM schema_migrations ORDER BY version').all() as Array<{ version: number }>;
-      assert.deepEqual(versions.map(row => row.version), [1, CURRENT_SCHEMA_VERSION]);
+      assert.deepEqual(versions.map(row => row.version), [1, 2, CURRENT_SCHEMA_VERSION]);
       const tables = new Set((conn.prepare("SELECT name FROM sqlite_master WHERE type='table'").all() as Array<{ name: string }>).map(row => row.name));
       for (const name of ['tasks','dependencies','budget','progress','checkpoints','task_workflow','task_assignments','task_specs','implementation_evidence','reviews','ci_evidence','evidence_verifications']) assert.ok(tables.has(name));
       assert.equal((conn.prepare('SELECT COUNT(*) AS n FROM task_workflow').get() as { n: number }).n, 0);
@@ -208,8 +208,8 @@ test('migration is idempotent and schema/version state survives restart', () => 
     for (let i = 0; i < 3; i++) { const store = new Store(f.file); store.close(); }
     const conn = db(f.file);
     try {
-      assert.equal((conn.prepare('SELECT COUNT(*) AS n FROM schema_migrations').get() as { n: number }).n, 2);
-      assert.equal((conn.prepare('SELECT MAX(version) AS v FROM schema_migrations').get() as { v: number }).v, 2);
+      assert.equal((conn.prepare('SELECT COUNT(*) AS n FROM schema_migrations').get() as { n: number }).n, CURRENT_SCHEMA_VERSION);
+      assert.equal((conn.prepare('SELECT MAX(version) AS v FROM schema_migrations').get() as { v: number }).v, CURRENT_SCHEMA_VERSION);
       assert.equal((conn.prepare("SELECT COUNT(*) AS n FROM sqlite_master WHERE type='table' AND name='evidence_verifications'").get() as { n: number }).n, 1);
       assert.equal((conn.prepare('SELECT COUNT(*) AS n FROM tasks WHERE id=?').get('LEGACY-A') as { n: number }).n, 1);
     } finally { conn.close(); }
@@ -256,7 +256,7 @@ test('future schema version is rejected without resetting the database', () => {
     conn.exec('CREATE TABLE schema_migrations(version INTEGER PRIMARY KEY,description TEXT NOT NULL,applied_at INTEGER NOT NULL)');
     conn.prepare('INSERT INTO schema_migrations VALUES (99,?,?)').run('future', 1);
     conn.close();
-    assert.throws(() => new Store(f.file), /newer than supported version 2/);
+    assert.throws(() => new Store(f.file), /newer than supported version 3/);
     const after = db(f.file);
     try { assert.equal((after.prepare('SELECT COUNT(*) AS n FROM tasks WHERE id=?').get('LEGACY-A') as { n: number }).n, 1); }
     finally { after.close(); }
