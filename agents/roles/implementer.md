@@ -1,6 +1,6 @@
 # Implementer Agent Contract
 
-Contract version: 0.1.0
+Contract version: 0.1.1
 Role ID: `IMPLEMENTER`
 Workflow V2 status: NOT ACTIVATED
 
@@ -61,3 +61,16 @@ evidence. Recording evidence does not make it authoritative. `RECORDED != VERIFI
 The B3 gate can report `provisional_ready`, but
 `provisional_ready != authoritative_merge_eligible` and the latter remains
 fail-closed until the required authoritative verification/fresh checks exist.
+
+## Required P0 skills
+
+Phase D requires the following compatible major-version P0 skills:
+- `shared/project-context@^1.0`
+- `shared/governance@^1.0`
+- `shared/git-safety@^1.0`
+- `shared/testing-policy@^1.0`
+- `shared/ai-ip-domain@^1.0`
+- `implementer/specification-execution@^1.0`
+- `implementer/safe-code-change@^1.0`
+
+A missing or incompatible required skill blocks the assignment. Silent substitution is forbidden. Governance takes precedence over every skill, and the task specification may narrow behavior but may not expand this role's authority.

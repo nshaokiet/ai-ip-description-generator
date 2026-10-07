@@ -1,6 +1,6 @@
 # Planner Agent Contract
 
-Contract version: 0.1.0
+Contract version: 0.1.1
 Role ID: `PLANNER`
 Workflow V2 status: NOT ACTIVATED
 
@@ -54,3 +54,16 @@ dependencies, allowed file/scope boundary, non-goals, and validation strategy.
 `RECORDED != VERIFIED`: recorded authorization/spec provenance is not proof from an
 authoritative source. `provisional_ready != authoritative_merge_eligible`: no
 planning statement can promote a provisional gate to merge authorization.
+
+## Required P0 skills
+
+Phase D requires the following compatible major-version P0 skills:
+- `shared/project-context@^1.0`
+- `shared/governance@^1.0`
+- `shared/git-safety@^1.0`
+- `shared/testing-policy@^1.0`
+- `shared/ai-ip-domain@^1.0`
+- `planner/task-specification@^1.0`
+- `planner/architecture-analysis@^1.0`
+
+A missing or incompatible required skill blocks the assignment. Silent substitution is forbidden. Governance takes precedence over every skill, and the task specification may narrow behavior but may not expand this role's authority.

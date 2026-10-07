@@ -1,8 +1,8 @@
-schema_version: 1
+schema_version: 2
 package:
-  id: gov-agent-001-c-four-agent-roles
-  version: 0.1.0
-  phase: C
+  id: gov-agent-001-agent-package
+  version: 0.2.1
+  phase: D
   status: IMPLEMENTED_FOR_REVIEW
   workflow_v2_activation: NOT_ACTIVATED
   client_model_independent: true
@@ -13,11 +13,28 @@ evidence_semantics:
   authoritative_source_verification_required: true
   fresh_premerge_check_required_for_authoritative_merge: true
 
+skill_resolution:
+  supported_major: 1
+  missing_required: BLOCKED
+  incompatible_major: BLOCKED
+  unavailable_required: BLOCKED
+  governance_conflict: BLOCKED
+  task_spec_may_narrow_only: true
+  silent_substitution_allowed: false
+
 roles:
   PLANNER:
     contract: roles/planner.md
     tracked_implementation_write: false
     independent_verdict: NONE
+    required_p0_skills:
+      - shared/project-context@^1.0
+      - shared/governance@^1.0
+      - shared/git-safety@^1.0
+      - shared/testing-policy@^1.0
+      - shared/ai-ip-domain@^1.0
+      - planner/task-specification@^1.0
+      - planner/architecture-analysis@^1.0
     compatible_mcp_capabilities:
       - project.get_state
       - project.get_assignments
@@ -27,6 +44,14 @@ roles:
     contract: roles/implementer.md
     tracked_implementation_write: AUTHORIZED_TASK_SCOPE_ONLY
     independent_verdict: NONE
+    required_p0_skills:
+      - shared/project-context@^1.0
+      - shared/governance@^1.0
+      - shared/git-safety@^1.0
+      - shared/testing-policy@^1.0
+      - shared/ai-ip-domain@^1.0
+      - implementer/specification-execution@^1.0
+      - implementer/safe-code-change@^1.0
     compatible_mcp_capabilities:
       - project.get_state
       - project.get_assignments
@@ -42,6 +67,14 @@ roles:
     independent_verdict: SECURITY_ONLY
     review_type: SECURITY
     review_template: review-templates/security-review.md
+    required_p0_skills:
+      - shared/project-context@^1.0
+      - shared/governance@^1.0
+      - shared/git-safety@^1.0
+      - shared/testing-policy@^1.0
+      - shared/ai-ip-domain@^1.0
+      - security/threat-modeling@^1.0
+      - security/ai-security@^1.0
     compatible_mcp_capabilities:
       - project.get_state
       - project.get_assignments
@@ -56,6 +89,15 @@ roles:
     independent_verdict: QUALITY_ONLY
     review_type: QUALITY
     review_template: review-templates/quality-review.md
+    required_p0_skills:
+      - shared/project-context@^1.0
+      - shared/governance@^1.0
+      - shared/git-safety@^1.0
+      - shared/testing-policy@^1.0
+      - shared/ai-ip-domain@^1.0
+      - quality/fixed-sha-review@^1.0
+      - quality/spec-compliance@^1.0
+      - quality/patent-conversion-review@^1.0
     compatible_mcp_capabilities:
       - project.get_state
       - project.get_assignments
@@ -64,6 +106,78 @@ roles:
       - review.submit
       - review.get_status
       - project.get_merge_gate
+
+skills:
+  shared_project_context:
+    id: shared/project-context
+    version: 1.0.0
+    path: skills/shared/project-context/SKILL.md
+    p0: true
+  shared_governance:
+    id: shared/governance
+    version: 1.0.1
+    path: skills/shared/governance/SKILL.md
+    p0: true
+  shared_git_safety:
+    id: shared/git-safety
+    version: 1.0.0
+    path: skills/shared/git-safety/SKILL.md
+    p0: true
+  shared_testing_policy:
+    id: shared/testing-policy
+    version: 1.0.0
+    path: skills/shared/testing-policy/SKILL.md
+    p0: true
+  shared_ai_ip_domain:
+    id: shared/ai-ip-domain
+    version: 1.0.1
+    path: skills/shared/ai-ip-domain/SKILL.md
+    p0: true
+  planner_task_specification:
+    id: planner/task-specification
+    version: 1.0.0
+    path: skills/planner/task-specification/SKILL.md
+    p0: true
+  planner_architecture_analysis:
+    id: planner/architecture-analysis
+    version: 1.0.0
+    path: skills/planner/architecture-analysis/SKILL.md
+    p0: true
+  implementer_specification_execution:
+    id: implementer/specification-execution
+    version: 1.0.0
+    path: skills/implementer/specification-execution/SKILL.md
+    p0: true
+  implementer_safe_code_change:
+    id: implementer/safe-code-change
+    version: 1.0.0
+    path: skills/implementer/safe-code-change/SKILL.md
+    p0: true
+  security_threat_modeling:
+    id: security/threat-modeling
+    version: 1.0.0
+    path: skills/security/threat-modeling/SKILL.md
+    p0: true
+  security_ai_security:
+    id: security/ai-security
+    version: 1.0.0
+    path: skills/security/ai-security/SKILL.md
+    p0: true
+  quality_fixed_sha_review:
+    id: quality/fixed-sha-review
+    version: 1.0.0
+    path: skills/quality/fixed-sha-review/SKILL.md
+    p0: true
+  quality_spec_compliance:
+    id: quality/spec-compliance
+    version: 1.0.0
+    path: skills/quality/spec-compliance/SKILL.md
+    p0: true
+  quality_patent_conversion_review:
+    id: quality/patent-conversion-review
+    version: 1.0.0
+    path: skills/quality/patent-conversion-review/SKILL.md
+    p0: true
 
 independence:
   implementer_self_review_is_independent_approval: false
@@ -87,8 +201,8 @@ mcp_foundation:
     authoritative_merge_adapter_available: false
 
 out_of_scope:
-  phase_d_skills: true
-  workflow_v2_activation: true
+  phase_e_workflow_activation: true
+  p1_future_skills: true
   budget_quota_changes: true
   provider_api_network_integrations: true
   application_backend_frontend_changes: true
