@@ -1,0 +1,94 @@
+schema_version: 1
+package:
+  id: gov-agent-001-c-four-agent-roles
+  version: 0.1.0
+  phase: C
+  status: IMPLEMENTED_FOR_REVIEW
+  workflow_v2_activation: NOT_ACTIVATED
+  client_model_independent: true
+
+evidence_semantics:
+  recorded_equals_verified: false
+  provisional_ready_equals_authoritative_merge_eligible: false
+  authoritative_source_verification_required: true
+  fresh_premerge_check_required_for_authoritative_merge: true
+
+roles:
+  PLANNER:
+    contract: roles/planner.md
+    tracked_implementation_write: false
+    independent_verdict: NONE
+    compatible_mcp_capabilities:
+      - project.get_state
+      - project.get_assignments
+      - project.submit_spec
+      - project.get_spec
+  IMPLEMENTER:
+    contract: roles/implementer.md
+    tracked_implementation_write: AUTHORIZED_TASK_SCOPE_ONLY
+    independent_verdict: NONE
+    compatible_mcp_capabilities:
+      - project.get_state
+      - project.get_assignments
+      - project.get_spec
+      - project.start_implementation
+      - project.record_implementation
+      - project.record_ci
+      - review.get_status
+      - project.get_merge_gate
+  SECURITY_REVIEWER:
+    contract: roles/security-reviewer.md
+    tracked_implementation_write: false
+    independent_verdict: SECURITY_ONLY
+    review_type: SECURITY
+    review_template: review-templates/security-review.md
+    compatible_mcp_capabilities:
+      - project.get_state
+      - project.get_assignments
+      - project.get_spec
+      - review.start
+      - review.submit
+      - review.get_status
+      - project.get_merge_gate
+  QUALITY_REVIEWER:
+    contract: roles/quality-reviewer.md
+    tracked_implementation_write: false
+    independent_verdict: QUALITY_ONLY
+    review_type: QUALITY
+    review_template: review-templates/quality-review.md
+    compatible_mcp_capabilities:
+      - project.get_state
+      - project.get_assignments
+      - project.get_spec
+      - review.start
+      - review.submit
+      - review.get_status
+      - project.get_merge_gate
+
+independence:
+  implementer_self_review_is_independent_approval: false
+  planner_rationale_is_implementation_proof: false
+  security_and_quality_are_separate_streams: true
+  required_reviews_target_same_final_implementation_sha: true
+  reviewers_may_remediate_tracked_implementation: false
+  stale_sha_pass_reusable: false
+
+mcp_foundation:
+  phase_b1:
+    purpose: ADDITIVE_V2_DATA_FOUNDATION
+    activates_workflow_v2: false
+  phase_b2:
+    purpose: ROLE_SPEC_IMPLEMENTATION_CI_REVIEW_OPERATIONS
+    activates_workflow_v2: false
+  phase_b3:
+    purpose: FAIL_CLOSED_MERGE_EVIDENCE_READ
+    primary_capability: project.get_merge_gate
+    activates_workflow_v2: false
+    authoritative_merge_adapter_available: false
+
+out_of_scope:
+  phase_d_skills: true
+  workflow_v2_activation: true
+  budget_quota_changes: true
+  provider_api_network_integrations: true
+  application_backend_frontend_changes: true
