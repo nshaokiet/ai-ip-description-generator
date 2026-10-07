@@ -1,8 +1,8 @@
 # Workflow V2 Agent Role Contracts
 
-Version: 0.2.1
-Phase: GOV-AGENT-001-D
-Status: IMPLEMENTED FOR REVIEW — NOT ACTIVATED
+Version: 0.2.2
+Phase: GOV-AGENT-001-C/D installation; Phase E governance reference only
+Status: C/D MERGED — installation is not global activation
 
 This package defines the four standing Workflow V2 role contracts requested by
 `GOV-AGENT-001`: Planner, Implementer, Security Reviewer, and Quality Reviewer.
@@ -127,5 +127,21 @@ repository `python -m pytest tests` CI step and run the committed validator CLI.
 | Versions | Date | Author | Change / reference | Breaking change |
 |---|---|---|---|---|
 | Package 0.2.0 -> 0.2.1; shared governance and AI-IP skills 1.0.0 -> 1.0.1; role contracts 0.1.0 -> 0.1.1 | 2026-10-07 | Codex | Human-authorized PR #89 reconciliation; fix SemVer validation, add static negative tests and explicit existing safeguards; record Phase D additions to the Phase C roles | No |
+| Package 0.2.1 -> 0.2.2 | 2026-10-07 | Codex | Human Phase E authorization; factual installation/global governance distinction only | No |
 
-Other 12 skills remain at 1.0.0. Workflow V2 **NOT ACTIVATED**; Phase E **NOT STARTED**.
+Other 12 skills remain at 1.0.0. At Phase D closeout Workflow V2 was NOT ACTIVATED.
+
+## Conditional Phase E governance reference
+
+The single global activation source is the verified-main
+[governance marker](../docs/operations/WORKFLOW_V2_ACTIVATION.yaml) and accepted
+WORKFLOW_V2_ACTIVATION_COMMIT record under [AGENTS.md §24](../AGENTS.md#24-conditional-workflow-v2-governance--gov-agent-001-e).
+The Phase E branch/open PR is NOT ACTIVATED. Only the reviewed Phase E PR merge
+commit on main can activate governance for explicitly authorized/enrolled tasks.
+
+The C/D role/skill manifest and contract activation-off declarations describe
+installation-stage artifacts and grant no global activation authority. They are
+preserved; consult the global marker/record separately. MCP's existing diagnostic
+does not verify it. [External/manual preflight](../docs/operations/WORKFLOW_V2_MANUAL_VERIFICATION.md)
+remains mandatory; B3 authority stays false. No package/runtime/role authority
+change is made here. Automatic routing is inactive; Phase F is NOT STARTED.
