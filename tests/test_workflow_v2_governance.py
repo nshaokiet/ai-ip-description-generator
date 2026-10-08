@@ -293,9 +293,7 @@ class MarkerAndReadOnlyCliTests(unittest.TestCase):
                 policy_check.read_marker(raw)
 
     def test_cli_checks_real_declarations_without_mutating_files(self):
-        files = [policy_check.MARKER, "AGENTS.md", "README.md",
-                 "docs/operations/AUTONOMOUS_AGENT_PROTOCOL.md",
-                 "docs/operations/WORKFLOW_V2_MANUAL_VERIFICATION.md"]
+        files = policy_check.DECLARATION_FILES
         with tempfile.TemporaryDirectory(prefix="SYNTHETIC-phase-e-") as folder:
             root = Path(folder)
             for relative in files:
@@ -314,6 +312,146 @@ class MarkerAndReadOnlyCliTests(unittest.TestCase):
             self.assertNotEqual(missing.returncode, 0)
             self.assertIn("BLOCKED", missing.stderr)
 
+
+
+class ConditionalAdoptionDeclarationTests(unittest.TestCase):
+    def setUp(self):
+        folder = tempfile.TemporaryDirectory(prefix="SYNTHETIC-phase-g-declarations-")
+        self.addCleanup(folder.cleanup)
+        self.root = Path(folder.name)
+        for relative in policy_check.DECLARATION_FILES:
+            destination = self.root / relative
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(ROOT / relative, destination)
+
+    def change_field(self, relative, field, value):
+        path = self.root / relative
+        original = (ROOT / relative).read_text(encoding="utf-8")
+        before = f"| {field} | {policy_check.ADOPTION_FIELDS[field]} |"
+        self.assertEqual(original.count(before), 1)
+        path.write_text(original.replace(before, f"| {field} | {value} |"), encoding="utf-8")
+
+    def test_canonical_adoption_declarations_are_static_only(self):
+        before = {name: (self.root / name).read_bytes()
+                  for name in policy_check.DECLARATION_FILES}
+        self.assertEqual(policy_check.validate_repository(self.root), policy())
+        policy_check.validate_adoption_declarations(self.root)
+        self.assertEqual(before, {name: (self.root / name).read_bytes() for name in before})
+
+    def test_each_current_document_requires_its_unique_adoption_section(self):
+        for relative, heading in policy_check.ADOPTION_SECTIONS.items():
+            path = self.root / relative
+            original = (ROOT / relative).read_text(encoding="utf-8")
+            for candidate in (original.replace(heading, heading + " HISTORICAL", 1),
+                              original + "\n" + heading + "\n"):
+                with self.subTest(relative=relative), self.assertRaises(policy_check.ValidationError):
+                    path.write_text(candidate, encoding="utf-8")
+                    policy_check.validate_repository(self.root)
+            path.write_text(original, encoding="utf-8")
+
+    def test_historical_policy_cannot_mask_a_missing_current_obligation(self):
+        path = self.root / "AGENTS.md"
+        original = path.read_text(encoding="utf-8")
+        row = "| MANUAL_EXTERNAL | MANDATORY |"
+        path.write_text(original.replace(row, "", 1) +
+                        "\n## Historical declaration\n" + row + "\n", encoding="utf-8")
+        with self.assertRaises(policy_check.ValidationError):
+            policy_check.validate_repository(self.root)
+
+    def test_duplicate_policy_fields_and_missing_human_conditions_block(self):
+        path = self.root / "AGENTS.md"
+        original = path.read_text(encoding="utf-8")
+        row = "| V2 enrollment | EXPLICIT_ONLY |"
+        path.write_text(original.replace(row, row + "\n" + row, 1), encoding="utf-8")
+        with self.assertRaises(policy_check.ValidationError):
+            policy_check.validate_repository(self.root)
+        for number in range(1, 10):
+            lines = original.splitlines()
+            condition = next(line for line in lines if line.startswith(f"| G-{number:02} |"))
+            with self.subTest(condition=number), self.assertRaises(policy_check.ValidationError):
+                path.write_text(original.replace(condition, "", 1) +
+                                "\n## Historical condition\n" + condition + "\n", encoding="utf-8")
+                policy_check.validate_repository(self.root)
+
+    def test_no_admission_migration_routing_trust_or_product_promotion(self):
+        prohibited = {
+            "V2 enrollment": "AUTOMATIC",
+            "Historical/unenrolled V1": "AUTO_MIGRATE_TO_V2",
+            "MANUAL_EXTERNAL": "OPTIONAL",
+            "Phase G reviews": "Security OR Quality",
+            "Automatic R0-R4": "ACTIVATED",
+            "Identity": "AUTHENTICATED",
+            "Accepted verifier adapters": "AVAILABLE",
+            "B3 authoritative_merge_eligible": "true",
+            "Evidence": "RECORDED == VERIFIED",
+            "MCP completion transition": "COMPLETED via V1 transition",
+            "Rollback": "Delete history; silently translate V2 to V1",
+            "Product/provider/production authority": "GRANTED",
+            "Phase H / AI-CONV": "STARTED",
+            "WORKFLOW_V2_ACTIVATION_COMMIT": "a" * 40,
+        }
+        for relative in policy_check.ADOPTION_SECTIONS:
+            for field, value in prohibited.items():
+                with self.subTest(relative=relative, field=field), self.assertRaises(policy_check.ValidationError):
+                    self.change_field(relative, field, value)
+                    policy_check.validate_repository(self.root)
+            shutil.copyfile(ROOT / relative, self.root / relative)
+
+    def test_review_pass_open_pr_and_branch_do_not_declare_adoption_active(self):
+        for value in ("Branch exists", "PR OPEN", "Review PASS", "STATIC PASS"):
+            with self.subTest(value=value), self.assertRaises(policy_check.ValidationError):
+                self.change_field("README.md", "Adoption effective boundary", value)
+                policy_check.validate_repository(self.root)
+        self.change_field("README.md", "Adoption policy", "ACTIVE")
+        with self.assertRaises(policy_check.ValidationError):
+            policy_check.validate_repository(self.root)
+        shutil.copyfile(ROOT / "README.md", self.root / "README.md")
+        body = (self.root / "README.md").read_text(encoding="utf-8")
+        heading = policy_check.ADOPTION_SECTIONS["README.md"]
+        (self.root / "README.md").write_text(
+            body.replace(heading, heading + "\n\nAdoption policy: ACTIVE", 1), encoding="utf-8")
+        with self.assertRaises(policy_check.ValidationError):
+            policy_check.validate_repository(self.root)
+
+    def test_current_document_versions_and_spec_provenance_are_required(self):
+        for relative, before, after in (
+            ("AGENTS.md", "| Version | 0.6.1 |", "| Version | 0.5.0 |"),
+            ("docs/operations/AUTONOMOUS_AGENT_PROTOCOL.md", "Version: 0.3.1", "Version: 0.2.0"),
+            (policy_check.ADOPTION_SPEC, "## 6. Committed-spec ADMIN reconciliation and freeze gate", "No freeze gate"),
+            (policy_check.ADOPTION_SPEC, "19C98EDB6C1EEAC33374C293BF22DCBCFD288363FDF54329DDEE62EF3B980D60", "missing"),
+        ):
+            path = self.root / relative
+            original = (ROOT / relative).read_text(encoding="utf-8")
+            with self.subTest(relative=relative), self.assertRaises(policy_check.ValidationError):
+                path.write_text(original.replace(before, after, 1), encoding="utf-8")
+                policy_check.validate_repository(self.root)
+            path.write_text(original, encoding="utf-8")
+        (self.root / policy_check.ADOPTION_SPEC).unlink()
+        with self.assertRaises(OSError):
+            policy_check.validate_repository(self.root)
+
+    def test_superseded_spec_version_and_private_metadata_paths_block(self):
+        path = self.root / policy_check.ADOPTION_SPEC
+        original = path.read_text(encoding="utf-8")
+        for candidate in (
+            original.replace("| Version / date | 0.1.1 /", "| Version / date | 0.1.0 /", 1),
+            original + "\nSynthetic attachment: C:/Users/SYNTHETIC/.codex/attachments/example\n",
+            original + "\nSynthetic worktree: D:\\SYNTHETIC\\repo\\worktree\n",
+        ):
+            with self.subTest(candidate=candidate[-90:]), self.assertRaises(policy_check.ValidationError):
+                path.write_text(candidate, encoding="utf-8")
+                policy_check.validate_repository(self.root)
+        path.write_text(original, encoding="utf-8")
+
+    def test_phase_e_declarations_remain_compatible_without_adoption(self):
+        for relative, heading in policy_check.ADOPTION_SECTIONS.items():
+            path = self.root / relative
+            body = path.read_text(encoding="utf-8")
+            body = body.replace(heading + policy_check.current_section(body, heading), "", 1)
+            body = body.replace("| Version | 0.6.1 |", "| Version | 0.5.0 |")
+            body = body.replace("Version: 0.3.1", "Version: 0.2.0")
+            path.write_text(body, encoding="utf-8")
+        self.assertEqual(policy_check.validate_repository(self.root), policy())
 
 if __name__ == "__main__":
     unittest.main()

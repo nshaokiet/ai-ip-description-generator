@@ -1,4 +1,4 @@
-"""Read-only Phase E policy/scenario checks, not activation or a source verifier."""
+"""Read-only Phase E/G governance checks, not activation or a source verifier."""
 from __future__ import annotations
 import argparse
 import re
@@ -209,25 +209,106 @@ def manual_packet_blockers(packet: dict) -> list[str]:
     return blockers
 
 
+
+ADOPTION_SECTIONS = {
+    "AGENTS.md": "## 25. Conditional project adoption (Phase G)",
+    "docs/operations/AUTONOMOUS_AGENT_PROTOCOL.md": "## Conditional project adoption (Phase G)",
+    "docs/operations/01_PROJECT_CONTROL_CENTER.md": "### GOV-AGENT-001-G — current adoption status",
+    "README.md": "## Conditional project adoption (Phase G)",
+}
+ADOPTION_FIELDS = {
+    "Adoption policy": "CONDITIONAL",
+    "Adoption effective boundary": "Accepted Phase G merge/postmerge verification",
+    "Preferred process": "V2 for eligible explicitly Human-authorized tasks",
+    "V2 enrollment": "EXPLICIT_ONLY",
+    "Historical/unenrolled V1": "PRESERVED",
+    "MANUAL_EXTERNAL": "MANDATORY",
+    "Phase G reviews": "Security AND Quality, separate identities and actual Antigravity sessions",
+    "Automatic R0-R4": "NOT ACTIVATED",
+    "Identity": "PROCEDURAL_TRUST_BASED",
+    "Accepted verifier adapters": "UNAVAILABLE",
+    "B3 authoritative_merge_eligible": "false",
+    "Evidence": "RECORDED != VERIFIED; provisional_ready != authoritative_merge_eligible",
+    "MCP completion transition": "BLOCKED BY TOOL CAPABILITY — disclosed separately",
+    "Rollback": "Preserve evidence; separately reviewed Human disable; in-progress Human disposition",
+    "Product/provider/production authority": "NOT GRANTED",
+    "Phase H / AI-CONV": "NOT STARTED",
+    "WORKFLOW_V2_ACTIVATION_COMMIT": "9c291325d409f74bc767f9b870e81d75c9b70802"
+}
+ADOPTION_SPEC = "docs/tasks/GOV-AGENT-001-G_ADOPTION_SPEC.md"
+DECLARATION_FILES = (MARKER, *ADOPTION_SECTIONS,
+                     "docs/operations/WORKFLOW_V2_MANUAL_VERIFICATION.md", ADOPTION_SPEC)
+
+
+def current_section(body: str, heading: str) -> str:
+    """Inspect a single designated current section; history cannot satisfy it."""
+    headers = list(re.finditer(r"^" + re.escape(heading) + r"$", body, re.MULTILINE))
+    require(len(headers) == 1, f"missing/ambiguous current section: {heading}")
+    start = headers[0].end()
+    following = re.search(r"^#{1,3} ", body[start:], re.MULTILINE)
+    return body[start:start + following.start()] if following else body[start:]
+
+
+def validate_adoption_declarations(root: Path):
+    """Read-only text/schema consistency, not adoption activation or authority."""
+    for relative, heading in ADOPTION_SECTIONS.items():
+        section = current_section((root / relative).read_text(encoding="utf-8"), heading)
+        values = {}
+        for line in section.splitlines():
+            match = re.fullmatch(r"\| ([^|]+) \| ([^|]+) \|", line)
+            if match and match[1] in ADOPTION_FIELDS:
+                require(match[1] not in values, f"duplicate adoption field: {relative}: {match[1]}")
+                values[match[1]] = match[2]
+        require(values == ADOPTION_FIELDS, f"conditional adoption boundary changed/missing: {relative}")
+        require(not re.search(r"^Adoption policy:\s*ACTIVE\b", section, re.MULTILINE),
+                f"premature adoption declaration: {relative}")
+    agents = current_section((root / "AGENTS.md").read_text(encoding="utf-8"),
+                             ADOPTION_SECTIONS["AGENTS.md"])
+    for number in range(1, 10):
+        require(len(re.findall(r"^\| G-" + f"{number:02}" + r" \|", agents, re.MULTILINE)) == 1,
+                f"missing/ambiguous Human condition G-{number:02}")
+    spec = (root / ADOPTION_SPEC).read_text(encoding="utf-8")
+    for phrase in ("| Version / date | 0.1.1 / 2026-10-08 |",
+                   "HUMAN-GOV-AGENT-001-G-ADOPT-V2-CONDITIONAL-2026-10-08",
+                   "19C98EDB6C1EEAC33374C293BF22DCBCFD288363FDF54329DDEE62EF3B980D60",
+                   "de23dd70c28a682faa17cbd69c1ce569ecc9c35f",
+                   ADOPTION_FIELDS["WORKFLOW_V2_ACTIVATION_COMMIT"],
+                   "## 6. Committed-spec ADMIN reconciliation and freeze gate",
+                   "## 7. Measurable acceptance criteria"):
+        require(phrase in spec, f"missing adoption spec identity/authority: {phrase}")
+    require(not re.search(r"(?<![A-Za-z])[A-Za-z]:[/\\]", spec),
+            "private absolute Windows path in adoption specification")
+    require(".codex/attachments/" not in spec and ".codex\\attachments\\" not in spec,
+            "private Codex attachment path in adoption specification")
+
+
 def validate_repository(root: Path):
     policy = read_marker((root / MARKER).read_text(encoding="utf-8"))
     validate_policy(policy)
+    agents = (root / "AGENTS.md").read_text(encoding="utf-8")
+    adoption = "| Version | 0.6.1 |" in agents or any(
+        (root / relative).exists() and heading in (root / relative).read_text(encoding="utf-8")
+        for relative, heading in ADOPTION_SECTIONS.items())
+    agent_version = "0.6.1" if adoption else "0.5.0"
+    protocol_version = "0.3.1" if adoption else "0.2.0"
     for relative, phrases in {
-        "AGENTS.md": ("| Version | 0.5.0 |", "## 24. Conditional Workflow V2 governance",
+        "AGENTS.md": (f"| Version | {agent_version} |", "## 24. Conditional Workflow V2 governance",
             "WORKFLOW_V2_ACTIVATION_COMMIT", "MANUAL_EXTERNAL", "PROCEDURAL_TRUST_BASED",
             "SECURITY_REVIEWER", "QUALITY_REVIEWER", "Historical V1", "Section 19 stop condition"),
-        "docs/operations/AUTONOMOUS_AGENT_PROTOCOL.md": ("Version: 0.2.0", "APPROVED -> CLAIMED",
+        "docs/operations/AUTONOMOUS_AGENT_PROTOCOL.md": (f"Version: {protocol_version}", "APPROVED -> CLAIMED",
             "WORKFLOW_V2_ACTIVATION_COMMIT", "Remaining <=8", "external", "never"),
         "docs/operations/WORKFLOW_V2_MANUAL_VERIFICATION.md": ("Version: 1.0.0",
             "E-01", "E-02", "E-03", "E-04", "E-05", "E-06", "Required authoritative pre-merge procedure",
             "PHASE E BRANCH PRESENT != WORKFLOW V2 ACTIVATED", "provisional_ready != authoritative_merge_eligible",
             "RECORDED != VERIFIED", "fresh", "rollback", "not a cryptographic", "Phase F is NOT STARTED"),
-        "README.md": ("GOV-AGENT-001-D | CLOSED / COMPLETED", "GOV-AGENT-001-E | CONDITIONAL",
+        "README.md": ("GOV-AGENT-001-D | CLOSED / COMPLETED", "GOV-AGENT-001-E |",
             "MANUAL / EXTERNAL", "Historical/unenrolled tasks remain V1"),
     }.items():
         body = (root / relative).read_text(encoding="utf-8")
         for phrase in phrases:
             require(phrase in body, f"missing governance declaration: {relative}: {phrase}")
+    if adoption:
+        validate_adoption_declarations(root)
     return policy
 
 
@@ -240,9 +321,9 @@ def main(argv=None):
     except (ValidationError, OSError, ValueError, TypeError, KeyError) as error:
         print(f"BLOCKED: {error}", file=sys.stderr)
         return 1
-    print("PASS: Phase E marker, E-01–E-06, V1/V2 governance declarations and fail-closed boundaries")
+    print("PASS: Phase E marker, E-01–E-06, V1/V2 and applicable conditional Phase G declarations")
     print("Structural checks do not establish activation, verify sources, enroll tasks or authorize a merge")
-    print("Branch/open PR is NOT ACTIVATED; reviewed Phase E merge on main is required")
+    print("Branch/open PR does not establish activation/adoption; accepted merge/postmerge verification is required")
     return 0
 
 

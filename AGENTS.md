@@ -8,13 +8,13 @@
 |---|---|
 | Document ID | SPEC-003 |
 | Document title | AGENTS.md — Quy tắc phối hợp AI của dự án |
-| Version | 0.5.0 |
-| Status | Conditional V2 governance — effective only after reviewed Phase E merge/verification on main |
+| Version | 0.6.1 |
+| Status | Proposed conditional Phase G adoption — pending dual review and accepted merge/postmerge verification |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Human / Product Owner |
 | Created date | 18/09/2026 |
-| Last updated | 07/10/2026 |
+| Last updated | 08/10/2026 |
 | Related task ID | SPEC-003 |
 | Source of Truth | GitHub — `AGENTS.md` |
 | Confidentiality level | Internal |
@@ -31,6 +31,8 @@
 | 0.3.1 | 0.4.0 | 29/09/2026 | Codex | Đề xuất standing delegation cho Codex, Antigravity read-only review và merge gate có evidence; đối chiếu lại trạng thái P1-001 trên main mới | Human yêu cầu giảm xác nhận lặp trong task; chuyển đề xuất PR #34 sang baseline hiện hành | Human instruction 29/09/2026; main `88f38851a7c61966eb409172979c62a08fa9e646`; pending independent review/PR merge | Yes — governance workflow |
 | 0.4.0 | 0.4.1 | 29/09/2026 | ChatGPT | Bắt buộc đồng bộ bảng Project status trong README khi task đổi trạng thái, đặc biệt tại closeout/merge | Human yêu cầu README luôn phản ánh tiến độ task hiện hành | Human instruction 29/09/2026; PR #38 | No |
 | 0.4.1 | 0.5.0 | 07/10/2026 | Codex | Conditional V2 selection, four roles, manual/external verification and rollback; retain V1 | Human GOV-AGENT-001-E E-01–E-06; spec v0.2.1; exact base `5d8d4b555b1c11407db4671b9c2af88f4baad8bb` | Independent governance review pending | Yes — workflow governance; pre-1.0 minor follows 0.4.0 convention; no product/API change |
+| 0.5.0 | 0.6.0 | 08/10/2026 | Codex | Prospective conditional project adoption; G-01–G-09; retain V1, manual gates and operational limits | HUMAN-GOV-AGENT-001-G-ADOPT-V2-CONDITIONAL-2026-10-08; frozen G spec 0.1.0 | Dual independent fixed-SHA review pending; effective after accepted G merge/postmerge verification | Yes — prospective governance; no product/API change; preserve history and separately reviewed rollback |
+| 0.6.0 | 0.6.1 | 08/10/2026 | Codex | Reconcile frozen G spec v0.1.1 and preserved v0.1.0 supersession | Human SEC-001/SEC-002 remediation approval | Supported freeze spec3/provenance8; dual review pending | No — factual references only |
 
 ## 1. Project identity
 
@@ -456,3 +458,75 @@ Unenrolled/new tasks use approved V1 if authorized. Keep safe read/checkpoint/
 handoff access and immutable activation/disable history; re-enable does not refresh
 stale CI/review. Budget/quota, provider/API, confidential-data, product/production
 and legal boundaries remain unchanged. Sections 16–19 stop conditions apply.
+
+## 25. Conditional project adoption (Phase G)
+
+The actual Human decision is **ADOPT V2 WITH CONDITIONS — APPROVED** on
+2026-10-08, reference
+`HUMAN-GOV-AGENT-001-G-ADOPT-V2-CONDITIONAL-2026-10-08`.
+Source: attachment `017d9dd4-8e55-4e2f-a49e-f74eb7daaecf/Pasted text.txt`,
+SHA-256 `19C98EDB6C1EEAC33374C293BF22DCBCFD288363FDF54329DDEE62EF3B980D60`.
+This reference/hash records provenance; it is not authenticated identity or Human
+review of a future commit. The [distinct-Planner specification](docs/tasks/GOV-AGENT-001-G_ADOPTION_SPEC.md)
+v0.1.1 is FROZEN/spec3 at `7c42db54909506cef5d57739072a58b3dad68943` after supported
+ADMIN reconciliation/freeze under the Human-approved SEC-001/SEC-002 supersession.
+Provenance8 is RECORDED; v0.1.0/spec2 at
+`d92c9ad5ddcb08f7b4af430bbed879c11b8a2b89` remains SUPERSEDED history.
+
+Phase E activation remains `9c291325d409f74bc767f9b870e81d75c9b70802`;
+[accepted Phase E closeout](https://github.com/nshaokiet/ai-ip-description-generator/pull/90#issuecomment-6034290739).
+Phase F is canonically COMPLETED, pilot acceptance PASS, in its
+[verified receipt](https://github.com/nshaokiet/ai-ip-description-generator/pull/91#issuecomment-6051437979).
+Phase F operational MCP remains AWAITING_REVIEW; no completion transition is fabricated.
+Its AC-12 retains actual A CI staleness, A review staleness not independently
+demonstrated, and no fabricated A review.
+
+This branch proposes the approved adoption policy. **Phase G adoption is ACTIVE
+only after accepted Phase G merge/postmerge verification**: both required independent
+PASS on the same final SHA, required exact-head CI SUCCESS, fresh MANUAL_EXTERNAL,
+normal expected-head-protected merge, actual main ancestry/tree/policy verification,
+required exact merge push/main CI SUCCESS and canonical closeout/readback.
+Branch presence, Human scope approval, static checks, PR OPEN and reviewer PASS
+alone do not establish that boundary. Record the actual G adoption merge externally;
+it is distinct from the immutable Phase E activation commit and adds no new marker.
+
+| Policy field | Required value |
+|---|---|
+| Adoption policy | CONDITIONAL |
+| Adoption effective boundary | Accepted Phase G merge/postmerge verification |
+| Preferred process | V2 for eligible explicitly Human-authorized tasks |
+| V2 enrollment | EXPLICIT_ONLY |
+| Historical/unenrolled V1 | PRESERVED |
+| MANUAL_EXTERNAL | MANDATORY |
+| Phase G reviews | Security AND Quality, separate identities and actual Antigravity sessions |
+| Automatic R0-R4 | NOT ACTIVATED |
+| Identity | PROCEDURAL_TRUST_BASED |
+| Accepted verifier adapters | UNAVAILABLE |
+| B3 authoritative_merge_eligible | false |
+| Evidence | RECORDED != VERIFIED; provisional_ready != authoritative_merge_eligible |
+| MCP completion transition | BLOCKED BY TOOL CAPABILITY — disclosed separately |
+| Rollback | Preserve evidence; separately reviewed Human disable; in-progress Human disposition |
+| Product/provider/production authority | NOT GRANTED |
+| Phase H / AI-CONV | NOT STARTED |
+| WORKFLOW_V2_ACTIVATION_COMMIT | 9c291325d409f74bc767f9b870e81d75c9b70802 |
+
+| Condition | Required practice |
+|---|---|
+| G-01 | Each task still needs actual Human authorization, valid registration, approved scope, explicit enrollment with accepted activation, and action-specific roles/frozen spec/evidence. No automatic admission, approval or V1 backfill. |
+| G-02 | Before every merge inspect actual Human/freeze/Git/complete diff/required CI/reviews/findings/independence/fresh PR-head-base/platform/scope/confidentiality/stop sources; preserve source-backed evidence. Complete checklists and MCP readiness are not permission. |
+| G-03 | When both streams are required, separate reviewer identities AND actual sessions; separately authored read-only reports target the same exact final SHA, no borrowed verdict, no unresolved blocker. G requires both streams regardless of R3 metadata. |
+| G-04 | Risk classes remain metadata; no automatic R0-R4 activation or risk-based review shortcut. Future tasks need explicit Human/task-spec review requirements; unclear policy blocks. |
+| G-05 | Identity stays procedural/trust-based; hashes and model/session labels are not authentication. GOV-IDENTITY-001 remains FUTURE. |
+| G-06 | Accepted authoritative adapters remain unavailable and B3 authoritative eligibility remains false; the separate authorized MANUAL_EXTERNAL path is required. Installation-era MCP/package NOT_ACTIVATED diagnostics are not global activation verifiers. |
+| G-07 | Report canonical Git/governance completion separately from actual MCP state. Unsupported operational completion stops that operation; never use raw SQL, V1 transitions or recreated tasks to hide it. Any capability improvement requires separate authorization. |
+| G-08 | Reviewed Human disable on verified main stops new admissions, preserves every row/report/checkpoint/Git artefact and requires explicit disposition for in-progress V2; no silent V2-to-V1 translation. Re-enable does not refresh stale evidence. |
+| G-09 | This adoption grants no Phase H/AI-CONV, product/Claims/provider/paid runtime/confidential-data/authenticated-identity/adapter/routing/production/legal or budget/quota authority. Existing product contracts and stop conditions remain. |
+
+Sections 4–24, Phase E decisions E-01–E-06 and historical V1 evidence remain.
+After accepted G adoption, V2 is the preferred process for eligible future tasks
+only through explicit authorization/enrollment; an authorized unenrolled task
+continues under V1. Invalid/disabled prerequisites for existing V2 history require
+Human disposition, never silent fallback. No migration or automatic enrollment runs.
+The governance change is prospective; product/API/schema/template and MCP core stay
+compatible. A separately authorized reviewed revert may restore future V1 preference,
+preserving V2 history and the existing reviewed-disable procedure in §24.6.
