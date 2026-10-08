@@ -8,18 +8,80 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.69 |
+| Version | 0.3.70 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High |
 | Created date | 18/09/2026 |
-| Last updated | 07/10/2026 GMT+7 |
+| Last updated | 08/10/2026 GMT+7 |
 | Related task ID | SPEC-004 |
 | Source of Truth | Operational status bridge; bản nguồn Git tại `docs/operations/01_PROJECT_CONTROL_CENTER.md` |
 | Confidentiality level | Internal |
 
-### GOV-AGENT-001 — current status bridge
+### GOV-AGENT-001-G — current adoption status
+
+Current snapshot 2026-10-08; this section supersedes earlier current-status claims
+for GOV-AGENT-001 while preserving the dated Phase E bridge and all history.
+Human decision **ADOPT V2 WITH CONDITIONS — APPROVED**; reference
+`HUMAN-GOV-AGENT-001-G-ADOPT-V2-CONDITIONAL-2026-10-08`.
+Source attachment `017d9dd4-8e55-4e2f-a49e-f74eb7daaecf/Pasted text.txt`,
+SHA256 `19C98EDB6C1EEAC33374C293BF22DCBCFD288363FDF54329DDEE62EF3B980D60`;
+decision provenance is not authenticated identity or future-SHA review.
+
+| Policy field | Required value |
+|---|---|
+| Adoption policy | CONDITIONAL |
+| Adoption effective boundary | Accepted Phase G merge/postmerge verification |
+| Preferred process | V2 for eligible explicitly Human-authorized tasks |
+| V2 enrollment | EXPLICIT_ONLY |
+| Historical/unenrolled V1 | PRESERVED |
+| MANUAL_EXTERNAL | MANDATORY |
+| Phase G reviews | Security AND Quality, separate identities and actual Antigravity sessions |
+| Automatic R0-R4 | NOT ACTIVATED |
+| Identity | PROCEDURAL_TRUST_BASED |
+| Accepted verifier adapters | UNAVAILABLE |
+| B3 authoritative_merge_eligible | false |
+| Evidence | RECORDED != VERIFIED; provisional_ready != authoritative_merge_eligible |
+| MCP completion transition | BLOCKED BY TOOL CAPABILITY — disclosed separately |
+| Rollback | Preserve evidence; separately reviewed Human disable; in-progress Human disposition |
+| Product/provider/production authority | NOT GRANTED |
+| Phase H / AI-CONV | NOT STARTED |
+| WORKFLOW_V2_ACTIVATION_COMMIT | 9c291325d409f74bc767f9b870e81d75c9b70802 |
+
+Phase E activation/main verification is recorded in its
+[accepted closeout](https://github.com/nshaokiet/ai-ip-description-generator/pull/90#issuecomment-6034290739).
+Phase F canonical COMPLETED/PASS is recorded in its
+[receipt](https://github.com/nshaokiet/ai-ip-description-generator/pull/91#issuecomment-6051437979):
+pilot B `77bd4ace72e2c050129e345dcde11206ce739303`, merge
+`ea78c5e197d7c6ff0318d3ed2ac581c4e2f57190`, main CI37641700885 SUCCESS;
+documentation PR92 merge/base `de23dd70c28a682faa17cbd69c1ce569ecc9c35f`,
+main CI37720954508 SUCCESS. Original reports/packets remain unchanged; QualityR1
+is historical/excluded from AC11 and Security/QualityR2 retain distinct sessions.
+AC12 remains PASS WITH DOCUMENTED LIMITATION: actual A CI staleness demonstrated,
+A review staleness not independently demonstrated, no fabricated A review.
+
+GOV-AGENT-001-G: IMPLEMENTED — DUAL INDEPENDENT FIXED-SHA REVIEW PENDING.
+Dedicated validated registration/approval and explicit V2/R3 enrollment succeeded;
+R3 is manual project-wide governance assessment, not automatic routing.
+Planner `01a1198f-3ef4-73a3-85a1-32e2be44d604` / assignment5 is distinct from
+Implementer Codex-Integration-Owner / assignment6. [Spec](../tasks/GOV-AGENT-001-G_ADOPTION_SPEC.md)
+v0.1.0 commit `d92c9ad5ddcb08f7b4af430bbed879c11b8a2b89` is FROZEN/spec2,
+after actual assigned-Planner READY submission and non-Planner ADMIN reconciliation
+under Human §6; freeze provenance7 remains RECORDED. No Human future-SHA review is claimed.
+G adoption remains conditional/pending accepted merge and postmerge verification;
+this branch does not make it ACTIVE. Required next gate is two actual independent
+read-only Antigravity reviews on the same final SHA, plus required exact-head CI;
+only subsequent fresh MANUAL_EXTERNAL and platform gates can permit merge.
+
+Phase F operational MCP remains AWAITING_REVIEW; formal V2 completion is unsupported.
+Read actual G state/evidence at each gate and disclose the same capability limit;
+no fake completion, raw SQL, V1 transition, hard dependency fabrication or DB rewrite.
+The package/MCP historical NOT_ACTIVATED diagnostic is not canonical global policy.
+[AGENTS.md §25](../../AGENTS.md) and the frozen spec govern current adoption conditions;
+the unchanged marker and manual runbook retain E-01–E-06.
+
+### GOV-AGENT-001 — historical Phase E implementation status bridge
 
 Current GOV-AGENT-001 status bridge (2026-10-07; append, not historical rewrite):
 B1 PR #85, B2 #86, B3 #87 and C #88 are merged. D PR #89 is CLOSED / COMPLETED —
@@ -47,6 +109,7 @@ provider/data/production authority unchanged. Historical entries below are prese
 
 | Phiên bản cũ | Phiên bản mới | Ngày | Người thực hiện | Thay đổi | Lý do | Finding/Decision liên quan | Breaking change |
 |---|---|---|---|---|---|---|---|
+| 0.3.69 | 0.3.70 | 08/10/2026 | Codex | Current E/F accepted evidence and G conditional adoption/roles/spec/review gate; preserve dated bridge/history | Human conditional adoption decision | GOV-AGENT-001-G; frozen spec 0.1.0 | No — factual status; governance breaking change versioned in AGENTS/protocol |
 | 0.3.68 | 0.3.69 | 07/10/2026 | Codex | Reconcile B1–D completion and conditional Phase E governance/activation boundary | Human E-01–E-06; no activation/enrollment in implementation branch | GOV-AGENT-001-E; base `5d8d4b555b1c11407db4671b9c2af88f4baad8bb` | No — status bridge; governance change versioned in AGENTS.md |
 | Chưa có | 0.1.0 | 18/09/2026 | ChatGPT/Codex | Tạo Project Control Center ban đầu | Khởi tạo điều phối Phase 1 | SPEC-004 | No |
 | 0.1.0 | 0.1.1 | 18/09/2026 | ChatGPT/Codex | Cập nhật GitHub URL, Private visibility và trạng thái publish | Đồng bộ operational status với repository thực tế | Yêu cầu Human đưa artefact lên GitHub | No |

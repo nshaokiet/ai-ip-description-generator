@@ -42,18 +42,56 @@ Detailed task, SHA, pull-request, CI, and review evidence remains in the [Projec
 | GOV-AGENT-001-B3 | CLOSED / COMPLETED — MERGED — INDEPENDENT SECURITY + QUALITY REVIEW PASS | PR #87 merge `a53f40731f182892edda7d76d49a616f3a54a49c`; post-merge main CI `37567450686` SUCCESS; Workflow V2 still NOT ACTIVATED |
 | GOV-AGENT-001-C | CLOSED / COMPLETED — MERGED — POST-MERGE VERIFIED | PR #88 reviewed SHA `20e16d4d07f5b4b9f4d131ab6f67d42b9a4488c7`; merge `696d667c1db5d199377f367167c6302fbc2389cd`; main CI `37572087226` SUCCESS |
 | GOV-AGENT-001-D | CLOSED / COMPLETED — MERGED | PR #89 reviewed `0d8a27f8599c8a1d0f9d7c3e265dcfb07e26f812`; merge `5d8d4b555b1c11407db4671b9c2af88f4baad8bb`; main CI `37586700659` SUCCESS; [original review](https://github.com/nshaokiet/ai-ip-description-generator/pull/89#issuecomment-6033009872) and [closeout](https://github.com/nshaokiet/ai-ip-description-generator/pull/89#issuecomment-6033099037) |
-| GOV-AGENT-001-E | CONDITIONAL — V2 GOVERNANCE ACTIVATED ONLY AFTER REVIEWED PHASE E MERGE / VERIFICATION ON MAIN | [Canonical marker](docs/operations/WORKFLOW_V2_ACTIVATION.yaml) v1.0.0; branch/open PR remains NOT ACTIVATED; independent governance review + exact-SHA CI required; activation merge SHA recorded at post-merge closeout |
-| GOV-AGENT-001-F-PILOT-01 | MERGED — POST-MERGE VERIFIED — CLOSEOUT RECONCILIATION | PR #91 reviewed B `77bd4ace72e2c050129e345dcde11206ce739303`; frozen spec v0.1.0 `fcb52eb30da03df4d1ce6bc7487bc58f7135014f`; merge `ea78c5e197d7c6ff0318d3ed2ac581c4e2f57190`; main CI [37641700885 SUCCESS](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/37641700885); [Security PASS](https://github.com/nshaokiet/ai-ip-description-generator/pull/91#issuecomment-6040682169), [Quality R2 PASS](https://github.com/nshaokiet/ai-ip-description-generator/pull/91#issuecomment-6040683645), distinct sessions; [R1 preserved / excluded from AC-11](https://github.com/nshaokiet/ai-ip-description-generator/pull/91#issuecomment-6040684709); [MANUAL_EXTERNAL PASS](https://github.com/nshaokiet/ai-ip-description-generator/pull/91#issuecomment-6040743223); automatic routing OFF; Phase G NOT STARTED |
+| GOV-AGENT-001-E | ACTIVATED — EXPLICITLY ENROLLED TASKS ONLY | Activation merge `9c291325d409f74bc767f9b870e81d75c9b70802`; [accepted Phase E closeout](https://github.com/nshaokiet/ai-ip-description-generator/pull/90#issuecomment-6034290739); unchanged [canonical marker](docs/operations/WORKFLOW_V2_ACTIVATION.yaml) v1.0.0; automatic routing OFF |
+| GOV-AGENT-001-F-PILOT-01 | CLOSED / COMPLETED — CANONICAL | PR #91 reviewed B `77bd4ace72e2c050129e345dcde11206ce739303`; frozen spec v0.1.0 `fcb52eb30da03df4d1ce6bc7487bc58f7135014f`; merge `ea78c5e197d7c6ff0318d3ed2ac581c4e2f57190`; main CI [37641700885 SUCCESS](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/37641700885); [Security PASS](https://github.com/nshaokiet/ai-ip-description-generator/pull/91#issuecomment-6040682169), [Quality R2 PASS](https://github.com/nshaokiet/ai-ip-description-generator/pull/91#issuecomment-6040683645), distinct sessions; [R1 preserved / excluded from AC-11](https://github.com/nshaokiet/ai-ip-description-generator/pull/91#issuecomment-6040684709); [MANUAL_EXTERNAL PASS](https://github.com/nshaokiet/ai-ip-description-generator/pull/91#issuecomment-6040743223); PR92 documentation merge `de23dd70c28a682faa17cbd69c1ce569ecc9c35f`; main CI37720954508 SUCCESS; [canonical receipt](https://github.com/nshaokiet/ai-ip-description-generator/pull/91#issuecomment-6051437979); MCP AWAITING_REVIEW / completion BLOCKED BY TOOL CAPABILITY; automatic routing OFF |
+| GOV-AGENT-001-G | IMPLEMENTED — DUAL INDEPENDENT FIXED-SHA REVIEW PENDING | Human ADOPT V2 WITH CONDITIONS approved; [frozen spec](docs/tasks/GOV-AGENT-001-G_ADOPTION_SPEC.md) v0.1.0 commit `d92c9ad5ddcb08f7b4af430bbed879c11b8a2b89`; conditional adoption effective only after accepted G merge/postmerge verification; Security + Quality and exact-SHA CI required; routing OFF; Phase H / AI-CONV NOT STARTED |
 
-**Before the reviewed Phase E PR merges and its exact main merge is verified,
-Workflow V2 remains NOT ACTIVATED.** After that accepted boundary, enabled governance
-applies only to explicitly Human-authorized V2-enrolled future tasks referencing
-the immutable WORKFLOW_V2_ACTIVATION_COMMIT. Historical/unenrolled tasks remain V1.
-Initial authoritative merge verification is [MANUAL / EXTERNAL](docs/operations/WORKFLOW_V2_MANUAL_VERIFICATION.md);
+Workflow V2 activation `9c291325d409f74bc767f9b870e81d75c9b70802` is verified on main;
+it applies only to explicitly Human-authorized V2-enrolled tasks referencing the
+immutable WORKFLOW_V2_ACTIVATION_COMMIT. Historical/unenrolled tasks remain V1.
+Authoritative merge verification is [MANUAL / EXTERNAL](docs/operations/WORKFLOW_V2_MANUAL_VERIFICATION.md);
 accepted verifier adapters remain UNAVAILABLE and B3 authoritative_merge_eligible
-stays false. Automatic R0–R4 routing is NOT ACTIVATED. Phase F pilot is **MERGED — POST-MERGE VERIFIED — CLOSEOUT RECONCILIATION**;
-a separately authorized pilot requires both Security and Quality on the same final SHA.
-These tooling milestones do not change application/provider/data/production authorization.
+stays false. Automatic R0–R4 routing is NOT ACTIVATED. Phase F is canonically
+COMPLETED/PASS with its operational completion limitation preserved.
+These governance milestones do not change application/provider/data/production authorization.
+
+## Conditional project adoption (Phase G)
+
+Human approved **ADOPT V2 WITH CONDITIONS** under
+`HUMAN-GOV-AGENT-001-G-ADOPT-V2-CONDITIONAL-2026-10-08`.
+[AGENTS.md §25](AGENTS.md) and the [frozen G spec](docs/tasks/GOV-AGENT-001-G_ADOPTION_SPEC.md)
+define the bounded policy. G remains IMPLEMENTED / DUAL REVIEW PENDING;
+adoption is ACTIVE only after accepted Phase G merge/postmerge verification,
+exact main CI SUCCESS and canonical closeout. Branch/open PR/static PASS is insufficient.
+
+| Policy field | Required value |
+|---|---|
+| Adoption policy | CONDITIONAL |
+| Adoption effective boundary | Accepted Phase G merge/postmerge verification |
+| Preferred process | V2 for eligible explicitly Human-authorized tasks |
+| V2 enrollment | EXPLICIT_ONLY |
+| Historical/unenrolled V1 | PRESERVED |
+| MANUAL_EXTERNAL | MANDATORY |
+| Phase G reviews | Security AND Quality, separate identities and actual Antigravity sessions |
+| Automatic R0-R4 | NOT ACTIVATED |
+| Identity | PROCEDURAL_TRUST_BASED |
+| Accepted verifier adapters | UNAVAILABLE |
+| B3 authoritative_merge_eligible | false |
+| Evidence | RECORDED != VERIFIED; provisional_ready != authoritative_merge_eligible |
+| MCP completion transition | BLOCKED BY TOOL CAPABILITY — disclosed separately |
+| Rollback | Preserve evidence; separately reviewed Human disable; in-progress Human disposition |
+| Product/provider/production authority | NOT GRANTED |
+| Phase H / AI-CONV | NOT STARTED |
+| WORKFLOW_V2_ACTIVATION_COMMIT | 9c291325d409f74bc767f9b870e81d75c9b70802 |
+
+Every new V2 task still needs actual Human authorization, registration, approved scope,
+explicit enrollment and required role/frozen-spec/evidence state. No automatic approval,
+enrollment or V1 migration. Both independent read-only Antigravity reviews on the same
+final SHA are mandatory for G; future requirements are explicit and unclear policy blocks.
+Phase F canonical completion does not change its operational AWAITING_REVIEW status.
+Unsupported MCP completion is disclosed separately and never hidden through raw SQL,
+V1 transitions or task recreation. No provider/data/budget/Claims/production or
+Phase H authority is granted. Original E/F decisions/reviews and V1 history remain.
 
 ## Main Features
 

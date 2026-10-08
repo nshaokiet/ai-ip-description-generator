@@ -1,6 +1,6 @@
 # Autonomous Agent Protocol — Project Orchestrator MCP
 
-Version: 0.2.0 | Status: conditional Phase E governance; not active on branch | Date: 07/10/2026
+Version: 0.3.0 | Status: proposed conditional Phase G adoption; pending dual review and accepted merge/postmerge verification | Date: 08/10/2026
 Scope: local task coordination only. APP-003 was historically deferred until
 26/09/2026 and has since been implemented/merged; this protocol does not
 authorize production operation or change task authority.
@@ -156,7 +156,7 @@ platform-denial bypass. Quota and Human exception authority remain unchanged.
 Automatic R0–R4 routing is NOT ACTIVATED. The separately authorized Phase F pilot
 requires BOTH Security and Quality on the same final SHA. Other V2 tasks before
 Phase G need explicit Human/task-spec required streams; unclear policy blocks.
-Phase F is NOT STARTED. No pilot/adoption/provider authority is created here.
+Historical Phase E authoring boundary: Phase F is NOT STARTED. No pilot/adoption/provider authority was created by that instruction.
 
 ## V2 rollback / disable
 
@@ -167,9 +167,71 @@ Human chooses finish-under-V2 or explicit stop/reauthorize/restart-under-V1. Nev
 silently translate active V2 work. Unenrolled/new tasks use approved V1 if authorized.
 Preserve safe reads/checkpoints/handoffs, immutable activation history and quota.
 
+## Conditional project adoption (Phase G)
+
+Human decision **ADOPT V2 WITH CONDITIONS — APPROVED**, reference
+`HUMAN-GOV-AGENT-001-G-ADOPT-V2-CONDITIONAL-2026-10-08`, is implemented by
+[AGENTS.md §25](../../AGENTS.md) and the [frozen G spec](../tasks/GOV-AGENT-001-G_ADOPTION_SPEC.md)
+v0.1.0, commit `d92c9ad5ddcb08f7b4af430bbed879c11b8a2b89`.
+The earlier Phase E/F wording above records its original authoring boundary.
+
+| Policy field | Required value |
+|---|---|
+| Adoption policy | CONDITIONAL |
+| Adoption effective boundary | Accepted Phase G merge/postmerge verification |
+| Preferred process | V2 for eligible explicitly Human-authorized tasks |
+| V2 enrollment | EXPLICIT_ONLY |
+| Historical/unenrolled V1 | PRESERVED |
+| MANUAL_EXTERNAL | MANDATORY |
+| Phase G reviews | Security AND Quality, separate identities and actual Antigravity sessions |
+| Automatic R0-R4 | NOT ACTIVATED |
+| Identity | PROCEDURAL_TRUST_BASED |
+| Accepted verifier adapters | UNAVAILABLE |
+| B3 authoritative_merge_eligible | false |
+| Evidence | RECORDED != VERIFIED; provisional_ready != authoritative_merge_eligible |
+| MCP completion transition | BLOCKED BY TOOL CAPABILITY — disclosed separately |
+| Rollback | Preserve evidence; separately reviewed Human disable; in-progress Human disposition |
+| Product/provider/production authority | NOT GRANTED |
+| Phase H / AI-CONV | NOT STARTED |
+| WORKFLOW_V2_ACTIVATION_COMMIT | 9c291325d409f74bc767f9b870e81d75c9b70802 |
+
+V2 becomes the preferred normal process for eligible future tasks only after
+accepted Phase G merge/postmerge verification and canonical closeout. Branch/open
+PR/static PASS does not make adoption ACTIVE. Phase E activation remains unchanged;
+no second marker, runtime switch or automatic enrollment is introduced.
+Each task still needs actual Human scope authority, valid registration, explicit
+enrollment, accepted activation and matching role/spec/evidence state before action.
+Authorized unenrolled/historical tasks remain V1; existing invalid/disabled V2
+history requires Human disposition without deletion or silent translation.
+
+G requires BOTH independent read-only Antigravity Security and Quality on the same
+final SHA, with different actual reviewer identities/sessions, exact model/profile,
+original report hashes, no borrowed verdict and zero unresolved blocking findings.
+Future review requirements remain explicit in Human/task specs; unclear policy
+blocks and risk metadata cannot lower gates. Planner does not self-freeze;
+Implementer holds the lease; new head/spec needs fresh applicable CI/reviews.
+Immediately before every merge follow the unchanged manual runbook against actual
+Human/freeze/Git/full diff/CI/review/independence/PR-head-base/platform and stop
+sources; a packet or MCP field cannot replace those checks.
+
+[Phase F canonical closeout](https://github.com/nshaokiet/ai-ip-description-generator/pull/91#issuecomment-6051437979)
+is COMPLETED/PASS while actual MCP stays AWAITING_REVIEW. Supported V2 completion
+is BLOCKED BY TOOL CAPABILITY. Record canonical evidence and actual operational
+state separately; do not use raw SQL, V1 transitions or task recreation to fake it.
+Future capability work needs separate authorization. Phase F A review staleness
+was not independently demonstrated; actual A CI staleness was demonstrated.
+
+Before G completion, verify actual G merge/main/reviewed ancestry/tree/policy,
+exact merge push/main CI SUCCESS, routing OFF, explicit enrollment and preserved
+history; publish/read back hash-bound closeout and synchronize status under
+applicable review/CI gates. A separately reviewed Human disable preserves history
+and requires disposition of in-progress V2. No product/provider/data/Claims,
+authenticated identity, adapters, budget/quota or production authority expands.
+
 ## Version history
 
 | Old | New | Date | Author | Change / reason | Breaking change |
 |---|---|---|---|---|---|
 | 0.1.0 | 0.1.1 | 28/09/2026 | Codex | P0-008 factual status correction | No |
 | 0.1.1 | 0.2.0 | 07/10/2026 | Codex | Human E-01–E-06; conditional selection/manual authority; reconcile obsolete blanket merge prohibition with AGENTS delegation | Yes — governance; no runtime/API change |
+| 0.2.0 | 0.3.0 | 08/10/2026 | Codex | HUMAN-GOV-AGENT-001-G-ADOPT-V2-CONDITIONAL-2026-10-08; prospective explicit-only adoption, dual review and completion limitation; preserve V1 and reviewed-disable rollback | Yes — prospective governance; no runtime/API change |
