@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | SPEC-003 |
 | Document title | AGENTS.md — Quy tắc phối hợp AI của dự án |
-| Version | 0.6.0 |
+| Version | 0.6.1 |
 | Status | Proposed conditional Phase G adoption — pending dual review and accepted merge/postmerge verification |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -32,6 +32,7 @@
 | 0.4.0 | 0.4.1 | 29/09/2026 | ChatGPT | Bắt buộc đồng bộ bảng Project status trong README khi task đổi trạng thái, đặc biệt tại closeout/merge | Human yêu cầu README luôn phản ánh tiến độ task hiện hành | Human instruction 29/09/2026; PR #38 | No |
 | 0.4.1 | 0.5.0 | 07/10/2026 | Codex | Conditional V2 selection, four roles, manual/external verification and rollback; retain V1 | Human GOV-AGENT-001-E E-01–E-06; spec v0.2.1; exact base `5d8d4b555b1c11407db4671b9c2af88f4baad8bb` | Independent governance review pending | Yes — workflow governance; pre-1.0 minor follows 0.4.0 convention; no product/API change |
 | 0.5.0 | 0.6.0 | 08/10/2026 | Codex | Prospective conditional project adoption; G-01–G-09; retain V1, manual gates and operational limits | HUMAN-GOV-AGENT-001-G-ADOPT-V2-CONDITIONAL-2026-10-08; frozen G spec 0.1.0 | Dual independent fixed-SHA review pending; effective after accepted G merge/postmerge verification | Yes — prospective governance; no product/API change; preserve history and separately reviewed rollback |
+| 0.6.0 | 0.6.1 | 08/10/2026 | Codex | Reconcile frozen G spec v0.1.1 and preserved v0.1.0 supersession | Human SEC-001/SEC-002 remediation approval | Supported freeze spec3/provenance8; dual review pending | No — factual references only |
 
 ## 1. Project identity
 
@@ -467,8 +468,10 @@ Source: attachment `017d9dd4-8e55-4e2f-a49e-f74eb7daaecf/Pasted text.txt`,
 SHA-256 `19C98EDB6C1EEAC33374C293BF22DCBCFD288363FDF54329DDEE62EF3B980D60`.
 This reference/hash records provenance; it is not authenticated identity or Human
 review of a future commit. The [distinct-Planner specification](docs/tasks/GOV-AGENT-001-G_ADOPTION_SPEC.md)
-v0.1.0 is frozen at `d92c9ad5ddcb08f7b4af430bbed879c11b8a2b89` after
-non-Planner ADMIN conformity reconciliation under the actual Human §6 authority.
+v0.1.1 is FROZEN/spec3 at `7c42db54909506cef5d57739072a58b3dad68943` after supported
+ADMIN reconciliation/freeze under the Human-approved SEC-001/SEC-002 supersession.
+Provenance8 is RECORDED; v0.1.0/spec2 at
+`d92c9ad5ddcb08f7b4af430bbed879c11b8a2b89` remains SUPERSEDED history.
 
 Phase E activation remains `9c291325d409f74bc767f9b870e81d75c9b70802`;
 [accepted Phase E closeout](https://github.com/nshaokiet/ai-ip-description-generator/pull/90#issuecomment-6034290739).

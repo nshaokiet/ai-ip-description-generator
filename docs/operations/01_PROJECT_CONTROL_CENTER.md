@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.70 |
+| Version | 0.3.71 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -64,11 +64,22 @@ A review staleness not independently demonstrated, no fabricated A review.
 GOV-AGENT-001-G: IMPLEMENTED — DUAL INDEPENDENT FIXED-SHA REVIEW PENDING.
 Dedicated validated registration/approval and explicit V2/R3 enrollment succeeded;
 R3 is manual project-wide governance assessment, not automatic routing.
-Planner `01a1198f-3ef4-73a3-85a1-32e2be44d604` / assignment5 is distinct from
-Implementer Codex-Integration-Owner / assignment6. [Spec](../tasks/GOV-AGENT-001-G_ADOPTION_SPEC.md)
-v0.1.0 commit `d92c9ad5ddcb08f7b4af430bbed879c11b8a2b89` is FROZEN/spec2,
-after actual assigned-Planner READY submission and non-Planner ADMIN reconciliation
-under Human §6; freeze provenance7 remains RECORDED. No Human future-SHA review is claimed.
+Planner `01a11a43-f913-7d02-8827-76051d5c58bd` / assignment9 is distinct from
+Implementer Codex-Integration-Owner / assignment6; Planner5 is SUPERSEDED history.
+[Spec](../tasks/GOV-AGENT-001-G_ADOPTION_SPEC.md) v0.1.1 commit
+`7c42db54909506cef5d57739072a58b3dad68943` is FROZEN/spec3 after actual Planner READY submission,
+Human-authorized supported ADMIN reconciliation/freeze with provenance8 RECORDED.
+v0.1.0/spec2 at `d92c9ad5ddcb08f7b4af430bbed879c11b8a2b89` is SUPERSEDED,
+not erased; original implementation candidate3 remains historical. Implementer6
+reacquired its matching v0.1.1 branch/worktree lease through the supported contract.
+Original Security report: Antigravity session `91957f83-1ee6-4000-a8e1-be8e5fc419ae`,
+Gemini 3.1 Pro High, assignment7, original implementation
+`344918e40bca3fcf663b78a9e0aafcfedaecf5a3`, REQUEST_CHANGES with two HIGH
+findings SEC-001 and SEC-002. Integration Owner read the complete original and
+verified SHA-256 `16DA6CEA0E107F16D1E7868D4F2039088E2BFD991C444F391216155FCFA2EC78`;
+original bytes are preserved. Actual MCP review readback has empty history and
+NOT_STARTED streams; no attempt or reviewer submission is fabricated. Both findings
+are ACCEPTED and remediated in spec v0.1.1; independent re-review is still PENDING.
 G adoption remains conditional/pending accepted merge and postmerge verification;
 this branch does not make it ACTIVE. Required next gate is two actual independent
 read-only Antigravity reviews on the same final SHA, plus required exact-head CI;
@@ -109,6 +120,7 @@ provider/data/production authority unchanged. Historical entries below are prese
 
 | Phiên bản cũ | Phiên bản mới | Ngày | Người thực hiện | Thay đổi | Lý do | Finding/Decision liên quan | Breaking change |
 |---|---|---|---|---|---|---|---|
+| 0.3.70 | 0.3.71 | 08/10/2026 | Codex | Reconcile G v0.1.1 freeze, Planner/Implementer and original Security report/hash; preserve empty MCP review history honestly | Human security supersession approval | GOV-AGENT-001-G; spec3/provenance8; dual re-review pending | No — factual security/status references |
 | 0.3.69 | 0.3.70 | 08/10/2026 | Codex | Current E/F accepted evidence and G conditional adoption/roles/spec/review gate; preserve dated bridge/history | Human conditional adoption decision | GOV-AGENT-001-G; frozen spec 0.1.0 | No — factual status; governance breaking change versioned in AGENTS/protocol |
 | 0.3.68 | 0.3.69 | 07/10/2026 | Codex | Reconcile B1–D completion and conditional Phase E governance/activation boundary | Human E-01–E-06; no activation/enrollment in implementation branch | GOV-AGENT-001-E; base `5d8d4b555b1c11407db4671b9c2af88f4baad8bb` | No — status bridge; governance change versioned in AGENTS.md |
 | Chưa có | 0.1.0 | 18/09/2026 | ChatGPT/Codex | Tạo Project Control Center ban đầu | Khởi tạo điều phối Phase 1 | SPEC-004 | No |

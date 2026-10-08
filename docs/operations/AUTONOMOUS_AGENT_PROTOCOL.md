@@ -1,6 +1,6 @@
 # Autonomous Agent Protocol — Project Orchestrator MCP
 
-Version: 0.3.0 | Status: proposed conditional Phase G adoption; pending dual review and accepted merge/postmerge verification | Date: 08/10/2026
+Version: 0.3.1 | Status: proposed conditional Phase G adoption; pending dual review and accepted merge/postmerge verification | Date: 08/10/2026
 Scope: local task coordination only. APP-003 was historically deferred until
 26/09/2026 and has since been implemented/merged; this protocol does not
 authorize production operation or change task authority.
@@ -172,7 +172,9 @@ Preserve safe reads/checkpoints/handoffs, immutable activation history and quota
 Human decision **ADOPT V2 WITH CONDITIONS — APPROVED**, reference
 `HUMAN-GOV-AGENT-001-G-ADOPT-V2-CONDITIONAL-2026-10-08`, is implemented by
 [AGENTS.md §25](../../AGENTS.md) and the [frozen G spec](../tasks/GOV-AGENT-001-G_ADOPTION_SPEC.md)
-v0.1.0, commit `d92c9ad5ddcb08f7b4af430bbed879c11b8a2b89`.
+v0.1.1, commit `7c42db54909506cef5d57739072a58b3dad68943`, FROZEN/spec3 under the Human-approved
+SEC-001/SEC-002 supersession and supported ADMIN freeze (provenance8 RECORDED).
+v0.1.0/spec2 at `d92c9ad5ddcb08f7b4af430bbed879c11b8a2b89` is preserved SUPERSEDED history.
 The earlier Phase E/F wording above records its original authoring boundary.
 
 | Policy field | Required value |
@@ -235,3 +237,4 @@ authenticated identity, adapters, budget/quota or production authority expands.
 | 0.1.0 | 0.1.1 | 28/09/2026 | Codex | P0-008 factual status correction | No |
 | 0.1.1 | 0.2.0 | 07/10/2026 | Codex | Human E-01–E-06; conditional selection/manual authority; reconcile obsolete blanket merge prohibition with AGENTS delegation | Yes — governance; no runtime/API change |
 | 0.2.0 | 0.3.0 | 08/10/2026 | Codex | HUMAN-GOV-AGENT-001-G-ADOPT-V2-CONDITIONAL-2026-10-08; prospective explicit-only adoption, dual review and completion limitation; preserve V1 and reviewed-disable rollback | Yes — prospective governance; no runtime/API change |
+| 0.3.0 | 0.3.1 | 08/10/2026 | Codex | Reconcile frozen G v0.1.1/spec3 and preserve v0.1.0/spec2 history after Human-authorized SEC-001/SEC-002 supersession; dual review pending | No — factual references only |

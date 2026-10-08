@@ -268,7 +268,7 @@ def validate_adoption_declarations(root: Path):
         require(len(re.findall(r"^\| G-" + f"{number:02}" + r" \|", agents, re.MULTILINE)) == 1,
                 f"missing/ambiguous Human condition G-{number:02}")
     spec = (root / ADOPTION_SPEC).read_text(encoding="utf-8")
-    for phrase in ("| Version / date | 0.1.0 / 2026-10-08 |",
+    for phrase in ("| Version / date | 0.1.1 / 2026-10-08 |",
                    "HUMAN-GOV-AGENT-001-G-ADOPT-V2-CONDITIONAL-2026-10-08",
                    "19C98EDB6C1EEAC33374C293BF22DCBCFD288363FDF54329DDEE62EF3B980D60",
                    "de23dd70c28a682faa17cbd69c1ce569ecc9c35f",
@@ -276,17 +276,21 @@ def validate_adoption_declarations(root: Path):
                    "## 6. Committed-spec ADMIN reconciliation and freeze gate",
                    "## 7. Measurable acceptance criteria"):
         require(phrase in spec, f"missing adoption spec identity/authority: {phrase}")
+    require(not re.search(r"(?<![A-Za-z])[A-Za-z]:[/\\]", spec),
+            "private absolute Windows path in adoption specification")
+    require(".codex/attachments/" not in spec and ".codex\\attachments\\" not in spec,
+            "private Codex attachment path in adoption specification")
 
 
 def validate_repository(root: Path):
     policy = read_marker((root / MARKER).read_text(encoding="utf-8"))
     validate_policy(policy)
     agents = (root / "AGENTS.md").read_text(encoding="utf-8")
-    adoption = "| Version | 0.6.0 |" in agents or any(
+    adoption = "| Version | 0.6.1 |" in agents or any(
         (root / relative).exists() and heading in (root / relative).read_text(encoding="utf-8")
         for relative, heading in ADOPTION_SECTIONS.items())
-    agent_version = "0.6.0" if adoption else "0.5.0"
-    protocol_version = "0.3.0" if adoption else "0.2.0"
+    agent_version = "0.6.1" if adoption else "0.5.0"
+    protocol_version = "0.3.1" if adoption else "0.2.0"
     for relative, phrases in {
         "AGENTS.md": (f"| Version | {agent_version} |", "## 24. Conditional Workflow V2 governance",
             "WORKFLOW_V2_ACTIVATION_COMMIT", "MANUAL_EXTERNAL", "PROCEDURAL_TRUST_BASED",
