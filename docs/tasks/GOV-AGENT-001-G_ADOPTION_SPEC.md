@@ -5,29 +5,34 @@
 | Field | Value |
 |---|---|
 | Program / phase / task | GOV-AGENT-001 / G / GOV-AGENT-001-G |
-| Version / date | 0.1.0 / 2026-10-08 |
-| Status | READY FOR COMMIT AND AUTHORIZED ADMIN RECONCILIATION; UNFROZEN |
+| Version / date | 0.1.1 / 2026-10-08 |
+| Status | READY FOR COMMIT; ADMIN RECONCILIATION PENDING; UNFROZEN |
 | Human decision | ADOPT V2 WITH CONDITIONS — APPROVED |
 | Authorization reference | HUMAN-GOV-AGENT-001-G-ADOPT-V2-CONDITIONAL-2026-10-08 |
 | Owner | Human / Product Owner |
-| Author | Distinct PLANNER `01a1198f-3ef4-73a3-85a1-32e2be44d604`, assignment 5 ACTIVE |
+| Author | Distinct PLANNER `01a11a43-f913-7d02-8827-76051d5c58bd`, assignment 9 ACTIVE (supported MCP `project_get_assignments` readback performed and relayed to Planner by Integration Owner; assignment 5 SUPERSEDED history) |
 | Integration Owner | Codex, separate from this Planner |
 | Risk | R3, manually assessed; automatic routing OFF |
 | Review requirements | Independent Antigravity SECURITY and QUALITY/GOVERNANCE, unconditional for this task |
 | Repository | nshaokiet/ai-ip-description-generator |
 | Exact base | `de23dd70c28a682faa17cbd69c1ce569ecc9c35f` |
 | Branch | `feat/gov-agent-001-g-conditional-adoption` |
-| Worktree | `D:/AI IP Generator – Project Management/ai-ip-description-generator/.worktrees/gov-agent-001-g-conditional-adoption` |
+| Worktree | `.worktrees/gov-agent-001-g-conditional-adoption` (repository-relative) |
 | Accepted WORKFLOW_V2_ACTIVATION_COMMIT | `9c291325d409f74bc767f9b870e81d75c9b70802` — unchanged Phase E activation |
-| Specification commit SHA | NOT YET COMMITTED; capture externally after actual commit |
-| Implementation / reviews / adoption | NOT STARTED / PENDING / CONDITIONAL, NOT ACTIVE |
+| Specification commit SHA | v0.1.0 original `d92c9ad5ddcb08f7b4af430bbed879c11b8a2b89` (Human-reported); v0.1.1 NOT YET COMMITTED; capture externally after actual commit |
+| Implementation / reviews / adoption | v0.1.0 candidate #3 exists; v0.1.1 reconciliation PENDING / reviews PENDING / adoption CONDITIONAL, NOT ACTIVE |
 | Confidentiality | Internal; no research data in this task |
 
 The Integration Owner notified actual validated `Store.addTask` registration,
 APPROVED status, explicit workflow 2/R3 enrollment referencing the accepted
 activation, and authorization verification row 6 at RECORDED. Planner read-only
-MCP inspection corroborated APPROVED, workflow 2 enrollment and assignment 5
-ACTIVE for the identity above, with no implementation owner/lease or candidate.
+MCP inspection by the original Planner corroborated APPROVED, workflow 2
+enrollment and historical assignment 5 ACTIVE at that earlier readback, with no
+implementation owner/lease or candidate then. The Integration Owner subsequently
+performed supported MCP `project_get_assignments` readback and relayed it to the
+current Planner: assignment 9 ACTIVE and assignment 5 SUPERSEDED, preserving its
+history. The preexisting v0.1.0 implementation candidate #3 must be reconciled
+against v0.1.1 before any current-candidate or review-gate claim.
 The subsequent notification lifted the initial read-only hold. These operational
 records are not authenticated Human identity, independent approval or permission
 to bypass any gate. This Planner writes only this specification; it performs no
@@ -35,8 +40,16 @@ implementation, administrative mutation, lease, commit, push, freeze or verdict.
 
 ## 2. Provenance and controlling sources
 
-The actual Human authorization is the original attachment:
-`C:/Users/NguyenSongHaoKiet/.codex/attachments/017d9dd4-8e55-4e2f-a49e-f74eb7daaecf/Pasted text.txt`.
+The later Human decision explicitly APPROVED this bounded v0.1.1 SEC-001/SEC-002
+supersession, supported Planner submission, non-Planner ADMIN reconciliation/freeze
+and implementation within approved scope. Each downstream action remains subject
+to its required committed-spec evidence, role/lease, CI and independent-review
+gates; no separate authorization request is implied, and no personal approval of
+an unknown future exact SHA is inferred.
+
+The actual Human authorization is the original private Codex attachment,
+identified by attachment ID `017d9dd4-8e55-4e2f-a49e-f74eb7daaecf`
+and filename `Pasted text.txt` (SEC-001: no absolute local path).
 Its locally checked SHA-256 is
 `19C98EDB6C1EEAC33374C293BF22DCBCFD288363FDF54329DDEE62EF3B980D60`.
 The durable reference above identifies this decision; a hash binds bytes and
@@ -121,7 +134,7 @@ freeze, assignment and lease; it must preserve the frozen spec's bytes.
 | `docs/operations/AUTONOMOUS_AGENT_PROTOCOL.md` | Versioned procedural adoption/selection/review/closeout limits; preserve existing V1/quota behavior |
 | `docs/operations/01_PROJECT_CONTROL_CENTER.md` | Current GOV-AGENT bridge, factual G task/next gate and Human decision/provenance; preserve historical entries and unrelated task records |
 | `README.md` | Minimum Project status E/F/G rows and adjacent governance summary, with canonical evidence, current stage, conditional activation and limitations |
-| `docs/tasks/GOV-AGENT-001-G_ADOPTION_SPEC.md` | This Planner-authored v0.1.0 spec; immutable once frozen, any requirement repair requires explicit versioned supersession/re-planning |
+| `docs/tasks/GOV-AGENT-001-G_ADOPTION_SPEC.md` | This Planner-authored v0.1.1 supersession of v0.1.0; immutable once frozen, any requirement repair requires explicit versioned supersession/re-planning |
 | `tools/validate_workflow_v2_governance.py` | Only necessary read-only static cross-document adoption validation and obsolete current-version/wording expectations; retain marker/scenario/fail-closed contracts |
 | `tests/test_workflow_v2_governance.py` | Focused positive/negative/read-only tests for those bounded static checks; preserve existing policy/scenario regression coverage |
 
@@ -208,16 +221,19 @@ Specification check require actual freeze authority for the committed identity.
 The inspected sources require exact identity and conformity reconciliation, but
 do not universally require a new post-commit Human message when an existing Human
 source explicitly delegates that bounded ADMIN reconciliation. Human §6 identifies
-this task/path/initial version and supplies that delegation; the Integration Owner's
-clarification is interpretation of that source, not a new Human approval.
+this task/path/initial version and supplies that delegation. The later Human
+instruction also explicitly approves bounded v0.1.1 supersession, supported Planner
+submission, non-Planner ADMIN reconciliation/freeze and scoped implementation,
+subject to the actual gates. The earlier Integration Owner clarification was an
+interpretation of the original authority, not a separate Human approval.
 
 Recommended authorized path, to be executed by the separate actors only:
 
-1. Integration Owner commits this exact v0.1.0 artifact and externally records
+1. Integration Owner commits this exact v0.1.1 artifact and externally records
    SPEC_SHA, path, version, file hash and real Git existence. Never embed its own
    future commit SHA in this file or amend reviewed/frozen bytes to fill it in.
 2. Assigned Planner submission through the existing supported `project.submit_spec`
-   contract identifies actual assignment 5/task/path/version/SPEC_SHA, authorization
+   contract identifies current assignment 9/task/path/version/SPEC_SHA, authorization
    ref and READY. This authorship instruction performs no submission/admin operation;
    coordinate the permitted separate submission action without impersonating Planner.
 3. Authorized non-Planner ADMIN independently compares all concrete requirements,
@@ -226,7 +242,7 @@ Recommended authorized path, to be executed by the separate actors only:
    locators, conformity findings, actor/time and actual reference externally.
 4. Through existing validated mechanisms append current HUMAN_AUTHORIZATION
    provenance at RECORDED, with truthful metadata `human_authorized=true`,
-   `committed_artifact_exists=true`, exact `spec_sha`, `spec_version=0.1.0` and matching
+   `committed_artifact_exists=true`, exact `spec_sha`, `spec_version=0.1.1` and matching
    artifact path only after reconciliation. Use actual expected-effective record
    identity and retain history. Registration row 6 alone lacks these future committed
    fields and cannot be assumed sufficient. No fabricated VERIFIED or future-SHA review.
@@ -253,7 +269,7 @@ prove operational authorization, CI, independence, merge or adoption activation.
 | ID | Required observation and evidence |
 |---|---|
 | G-AC-01 | Actual Human attachment/ref/hash and §§1–13 mapped to scope; advisory packet distinguished from Human approval; no invented future-SHA approval |
-| G-AC-02 | Dedicated APPROVED G registration, explicit V2/R3 enrollment and accepted activation read back; Planner 5/current identity distinct from Implementer; no Planner implementation lease |
+| G-AC-02 | Dedicated APPROVED G registration, explicit V2/R3 enrollment and accepted activation read back; current Planner 9 identity distinct from Implementer (Planner 5 SUPERSEDED history); no Planner implementation lease |
 | G-AC-03 | Exact committed spec path/version/SPEC_SHA, ADMIN source/conformity reconciliation and supported FROZEN readback meet §6 and all five master §16.1 conditions |
 | G-AC-04 | Actual Implementer assignment and valid matching frozen-spec branch/worktree lease precede implementation; no unrelated edits/ownership conflict |
 | G-AC-05 | Complete diff contains only the seven allowlisted paths; spec/marker/runbook/package/master/pilot/core/CI/product protected content remains unchanged as required |
@@ -408,6 +424,10 @@ Re-enable/reauthorize cannot reuse stale CI/reviews as fresh evidence.
 | Old | New | Date | Author | Change / reason / reference | Breaking change |
 |---|---|---|---|---|---|
 | None | 0.1.0 | 2026-10-08 | Distinct PLANNER, assignment 5 | Initial bounded G spec from actual Human conditional-adoption instruction; AC01–24, seven-file scope, freeze analysis, validation/review/closeout requirements | No for specification authorship; specified prospective governance adoption is breaking and Human-authorized |
+| 0.1.0 | 0.1.1 | 2026-10-08 | Distinct PLANNER `01a11a43-f913-7d02-8827-76051d5c58bd`, assignment 9 (Integration Owner performed MCP readback and relayed it to Planner; assignment 5 SUPERSEDED) | Human-approved SEC-001: remove absolute private attachment path, retain attachment ID and SHA-256; SEC-002: replace absolute worktree path with repository-relative identifier; reconcile version/assignment references, preserve assignment 5 history and G-AC-01–24, seven-file scope, risk, reviews and rollback | No for spec repair; prospective governance adoption remains Human-authorized breaking change |
+
+The following v0.1.0 Planner handoff is retained as historical evidence. It does
+not attest to v0.1.1 review, freeze, submission or implementation.
 
 ```text
 Task ID: GOV-AGENT-001-G
@@ -423,4 +443,22 @@ Decisions: Human decision ADOPT V2 WITH CONDITIONS preserved; R3 manual metadata
 Issues: SPEC_SHA not yet committed; actual READY submission, ADMIN exact-artifact reconciliation/supported freeze, Implementer assignment/lease, implementation/validation, CI/reviews/PR/merge/main verification and adoption activation remain future
 Security impact: Spec authorship only; no runtime/provider/data/budget/authenticated-identity/adapter/routing/production change or approval
 Recommended next action: Separate Integration Owner commits exact v0.1.0 and records SPEC_SHA externally; coordinate supported assigned-Planner READY submission and authorized non-Planner ADMIN reconciliation/freeze; stop any uncovered mandatory authority gate before implementation
+```
+
+### v0.1.1 prospective Planner handoff
+
+```text
+Task ID: GOV-AGENT-001-G
+Agent: PLANNER 01a11a43-f913-7d02-8827-76051d5c58bd; assignment 9 ACTIVE (Integration Owner performed MCP project_get_assignments readback and relayed it to Planner; assignment 5 SUPERSEDED)
+Reviewer: Independent Antigravity Security and Quality/Governance PENDING
+Status: v0.1.1 PATCH APPLIED, UNCOMMITTED; UNFROZEN; NOT SUBMITTED; task not Completed
+Version: 0.1.1
+Work completed: SEC-001/SEC-002 documentation redaction and current Planner/version reconciliation; all 24 ACs and existing gates retained
+Files affected: docs/tasks/GOV-AGENT-001-G_ADOPTION_SPEC.md only
+Evidence checked: Integration Owner's supported MCP assignment readback relayed to Planner (9 ACTIVE, 5 SUPERSEDED); existing v0.1.0 candidate #3 reported for reconciliation; local Git diff/status, relevant Planner role/skills and Human-provided original spec commit identity; full Security report inaccessible and not inspected
+Findings: Absolute private attachment/worktree locations removed from this spec; no security-review verdict inferred
+Decisions: Human APPROVED bounded supersession, supported Planner submission, non-Planner ADMIN reconciliation/freeze and scoped implementation; mandatory evidence and gates still apply; no personal future exact-SHA approval inferred
+Issues: Existing v0.1.0 candidate #3 requires v0.1.1 reconciliation; v0.1.1 commit/SPEC_SHA, supported submission, ADMIN reconciliation/freeze evidence, valid Implementer assignment/lease, exact-SHA CI and independent Security/Quality reviews remain pending
+Security impact: Removed private absolute path disclosure from specification; retained attachment identifier and SHA-256 for durable provenance
+Recommended next action: Verify scoped diff; Integration Owner commits v0.1.1 and records SPEC_SHA, then perform already Human-authorized supported Planner submission and non-Planner ADMIN reconciliation/freeze with readbacks; scope-bounded implementation follows valid freeze and lease; require exact-SHA CI and independent reviews before merge eligibility
 ```
