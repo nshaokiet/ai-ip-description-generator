@@ -44,7 +44,7 @@ Detailed task, SHA, pull-request, CI, and review evidence remains in the [Projec
 | GOV-AGENT-001-D | CLOSED / COMPLETED — MERGED | PR #89 reviewed `0d8a27f8599c8a1d0f9d7c3e265dcfb07e26f812`; merge `5d8d4b555b1c11407db4671b9c2af88f4baad8bb`; main CI `37586700659` SUCCESS; [original review](https://github.com/nshaokiet/ai-ip-description-generator/pull/89#issuecomment-6033009872) and [closeout](https://github.com/nshaokiet/ai-ip-description-generator/pull/89#issuecomment-6033099037) |
 | GOV-AGENT-001-E | ACTIVATED — EXPLICITLY ENROLLED TASKS ONLY | Activation merge `9c291325d409f74bc767f9b870e81d75c9b70802`; [accepted Phase E closeout](https://github.com/nshaokiet/ai-ip-description-generator/pull/90#issuecomment-6034290739); unchanged [canonical marker](docs/operations/WORKFLOW_V2_ACTIVATION.yaml) v1.0.0; automatic routing OFF |
 | GOV-AGENT-001-F-PILOT-01 | CLOSED / COMPLETED — CANONICAL | PR #91 reviewed B `77bd4ace72e2c050129e345dcde11206ce739303`; frozen spec v0.1.0 `fcb52eb30da03df4d1ce6bc7487bc58f7135014f`; merge `ea78c5e197d7c6ff0318d3ed2ac581c4e2f57190`; main CI [37641700885 SUCCESS](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/37641700885); [Security PASS](https://github.com/nshaokiet/ai-ip-description-generator/pull/91#issuecomment-6040682169), [Quality R2 PASS](https://github.com/nshaokiet/ai-ip-description-generator/pull/91#issuecomment-6040683645), distinct sessions; [R1 preserved / excluded from AC-11](https://github.com/nshaokiet/ai-ip-description-generator/pull/91#issuecomment-6040684709); [MANUAL_EXTERNAL PASS](https://github.com/nshaokiet/ai-ip-description-generator/pull/91#issuecomment-6040743223); PR92 documentation merge `de23dd70c28a682faa17cbd69c1ce569ecc9c35f`; main CI37720954508 SUCCESS; [canonical receipt](https://github.com/nshaokiet/ai-ip-description-generator/pull/91#issuecomment-6051437979); MCP AWAITING_REVIEW / completion BLOCKED BY TOOL CAPABILITY; automatic routing OFF |
-| GOV-AGENT-001-G | IMPLEMENTED — DUAL INDEPENDENT FIXED-SHA REVIEW PENDING | Human ADOPT V2 WITH CONDITIONS approved; [frozen spec](docs/tasks/GOV-AGENT-001-G_ADOPTION_SPEC.md) v0.1.1/spec3 commit `7c42db54909506cef5d57739072a58b3dad68943`; v0.1.0/spec2 preserved SUPERSEDED; SEC-001/SEC-002 original Security REQUEST_CHANGES preserved; remediation re-review PENDING; conditional adoption effective only after accepted G merge/postmerge verification; Security + Quality and exact-SHA CI required; routing OFF; Phase H / AI-CONV NOT STARTED |
+| GOV-AGENT-001-G | IMPLEMENTATION MERGED / POSTMERGE CI VERIFIED — PHASE G CLOSEOUT PENDING | Frozen spec v0.1.1/spec3 `7c42db54909506cef5d57739072a58b3dad68943`; reviewed implementation `4d3549e0fc3c0c4f9b5fc07dc47642bea4095d90`; [Security PASS](https://github.com/nshaokiet/ai-ip-description-generator/pull/93#issuecomment-6056085370) and [Quality PASS](https://github.com/nshaokiet/ai-ip-description-generator/pull/93#issuecomment-6056086371), separate read-only Antigravity sessions; [MANUAL_EXTERNAL PASS](https://github.com/nshaokiet/ai-ip-description-generator/pull/93#issuecomment-6056148297); actual merge `1c8212971db10eb44fb0639da34f4076af6ca4eb`; [exact push/main CI 37751828515 SUCCESS](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/37751828515); [verified postmerge receipt](https://github.com/nshaokiet/ai-ip-description-generator/pull/93#issuecomment-6056276026); G-AC-24 status sync/independent review/final closeout pending; SEC-003 LOW OPEN follow-up; MCP completion unsupported; routing OFF; Phase H / AI-CONV NOT AUTHORIZED |
 
 Workflow V2 activation `9c291325d409f74bc767f9b870e81d75c9b70802` is verified on main;
 it applies only to explicitly Human-authorized V2-enrolled tasks referencing the
@@ -60,9 +60,14 @@ These governance milestones do not change application/provider/data/production a
 Human approved **ADOPT V2 WITH CONDITIONS** under
 `HUMAN-GOV-AGENT-001-G-ADOPT-V2-CONDITIONAL-2026-10-08`.
 [AGENTS.md §25](AGENTS.md) and the [frozen G spec](docs/tasks/GOV-AGENT-001-G_ADOPTION_SPEC.md)
-define the bounded policy. G remains IMPLEMENTED / DUAL REVIEW PENDING;
-adoption is ACTIVE only after accepted Phase G merge/postmerge verification,
-exact main CI SUCCESS and canonical closeout. Branch/open PR/static PASS is insufficient.
+define the bounded policy. PR #93 implementation merge and its exact-main CI are
+verified. **G-AC-24 remains PARTIAL** until this status-reconciliation PR #94 receives
+fresh Security and Quality PASS on its final SHA, required PR CI SUCCESS, fresh
+MANUAL_EXTERNAL verification and normal guarded merge, followed by exact resulting
+main CI SUCCESS and a published/read-back canonical Phase G closeout. Completion
+requires all of those external facts; the approved conditional-adoption decision
+must not be reported as project-wide ACTIVE or GOV-AGENT-001-G CLOSED / COMPLETED
+while closeout evidence is incomplete. Branch/open PR/static PASS is insufficient.
 
 | Policy field | Required value |
 |---|---|
