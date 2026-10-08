@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.72 |
+| Version | 0.3.73 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -62,7 +62,7 @@ AC12 remains PASS WITH DOCUMENTED LIMITATION: actual A CI staleness demonstrated
 A review staleness not independently demonstrated, no fabricated A review.
 
 Current postmerge integration addendum (supersedes the dated premerge stage below):
-**PR #93 MERGED / POSTMERGE VERIFIED — FINAL STATUS RECONCILIATION REVIEW PENDING**.
+**IMPLEMENTATION MERGED / POSTMERGE CI VERIFIED — PHASE G CLOSEOUT PENDING**.
 Accepted reviewed implementation `4d3549e0fc3c0c4f9b5fc07dc47642bea4095d90`,
 base `de23dd70c28a682faa17cbd69c1ce569ecc9c35f`, frozen v0.1.1/spec3 unchanged.
 [Security PASS](https://github.com/nshaokiet/ai-ip-description-generator/pull/93#issuecomment-6056085370): assignment7/record6,
@@ -81,10 +81,17 @@ is COMPLETED/SUCCESS on that exact merge; every job113226663380 step succeeded.
 SEC-001/SEC-002 ACCEPTED/remediated/reassessed; SEC-003 remains LOW/OPEN/nonblocking
 on historical frozen Phase F, outside this scope. No Phase F artifact was modified.
 
-G-AC-24 merge/tree/main-CI evidence is verified. Final README/Control Center sync,
-its fresh independent reviews/required CI and canonical CLOSED/COMPLETED receipt
-remain outstanding. This bounded docs-only follow-up does not inherit either prior
-PASS; no final Phase G COMPLETED or project-wide adoption ACTIVE claim is made here.
+G-AC-24 is PARTIAL: PR #93 implementation merge/reviewed tree/exact-main CI
+are verified, but the acceptance condition also requires this bounded PR #94
+status synchronization to complete its own gates. Closeout requires fresh,
+separately authored read-only Security AND Quality PASS on the same final #94 SHA,
+required exact-head PR CI SUCCESS, current MANUAL_EXTERNAL and normal guarded
+merge, resulting main ancestry/tree and exact-main CI SUCCESS, then canonical
+Phase G closeout published and read back with source links/hashes. The merged
+README/Control Center status must agree with that closeout. Before every condition
+is evidenced, Phase G remains CLOSEOUT PENDING and project-wide conditional
+adoption is not declared ACTIVE or task CLOSED / COMPLETED. This follow-up does
+not inherit the PR #93 review PASS reports.
 The conditional policy table above remains unchanged. Phase E activation for explicitly
 enrolled tasks remains accepted; automatic routing OFF, V1 history preserved and
 Phase H/AI-CONV not authorized. The independently reviewed AGENTS/protocol version
@@ -159,6 +166,7 @@ provider/data/production authority unchanged. Historical entries below are prese
 
 | Phiên bản cũ | Phiên bản mới | Ngày | Người thực hiện | Thay đổi | Lý do | Finding/Decision liên quan | Breaking change |
 |---|---|---|---|---|---|---|---|
+| 0.3.72 | 0.3.73 | 08/10/2026 | Codex | Clarify G-AC-24 completion predicate: PR94 same-SHA dual PASS/CI/MANUAL_EXTERNAL/merge, resulting main CI, canonical closeout/readback and README sync; retain PENDING until evidence | Human GOV-AGENT-001-G authorized postmerge closeout / PR #94 review remediation | GOV-AGENT-001-G; PR #93 merge and CI verified; PR #94 gates pending | No — factual completion wording only |
 | 0.3.71 | 0.3.72 | 08/10/2026 | Codex | Append verified PR93 dual reviews/MANUAL_EXTERNAL/merge/exact-main CI; reconcile README stage without claiming final closeout | Actual Human bounded closeout instruction ac4605b5-138d-44af-9899-19bfcc545ee7 | GOV-AGENT-001-G; merge 1c8212971db10eb44fb0639da34f4076af6ca4eb; main CI37751828515 SUCCESS; separate follow-up review pending | No — factual status/evidence only |
 | 0.3.70 | 0.3.71 | 08/10/2026 | Codex | Reconcile G v0.1.1 freeze, Planner/Implementer and original Security report/hash; preserve empty MCP review history honestly | Human security supersession approval | GOV-AGENT-001-G; spec3/provenance8; dual re-review pending | No — factual security/status references |
 | 0.3.69 | 0.3.70 | 08/10/2026 | Codex | Current E/F accepted evidence and G conditional adoption/roles/spec/review gate; preserve dated bridge/history | Human conditional adoption decision | GOV-AGENT-001-G; frozen spec 0.1.0 | No — factual status; governance breaking change versioned in AGENTS/protocol |
