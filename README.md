@@ -43,7 +43,7 @@ Detailed task, SHA, pull-request, CI, and review evidence remains in the [Projec
 | GOV-AGENT-001-C | CLOSED / COMPLETED — MERGED — POST-MERGE VERIFIED | PR #88 reviewed SHA `20e16d4d07f5b4b9f4d131ab6f67d42b9a4488c7`; merge `696d667c1db5d199377f367167c6302fbc2389cd`; main CI `37572087226` SUCCESS |
 | GOV-AGENT-001-D | CLOSED / COMPLETED — MERGED | PR #89 reviewed `0d8a27f8599c8a1d0f9d7c3e265dcfb07e26f812`; merge `5d8d4b555b1c11407db4671b9c2af88f4baad8bb`; main CI `37586700659` SUCCESS; [original review](https://github.com/nshaokiet/ai-ip-description-generator/pull/89#issuecomment-6033009872) and [closeout](https://github.com/nshaokiet/ai-ip-description-generator/pull/89#issuecomment-6033099037) |
 | GOV-AGENT-001-E | CONDITIONAL — V2 GOVERNANCE ACTIVATED ONLY AFTER REVIEWED PHASE E MERGE / VERIFICATION ON MAIN | [Canonical marker](docs/operations/WORKFLOW_V2_ACTIVATION.yaml) v1.0.0; branch/open PR remains NOT ACTIVATED; independent governance review + exact-SHA CI required; activation merge SHA recorded at post-merge closeout |
-| GOV-AGENT-001-F-PILOT-01 | IMPLEMENTED — DUAL INDEPENDENT FIXED-SHA REVIEW PENDING | Human-authorized synthetic/non-production pilot; activation `9c291325d409f74bc767f9b870e81d75c9b70802` verified in [Phase E closeout](https://github.com/nshaokiet/ai-ip-description-generator/pull/90#issuecomment-6034290739); R3 metadata; spec v0.1.0 frozen at `fcb52eb30da03df4d1ce6bc7487bc58f7135014f`; synthetic A→B candidate/CI drill; final exact-SHA CI and both independent fixed-SHA reviews required before merge/closeout |
+| GOV-AGENT-001-F-PILOT-01 | MERGED — POST-MERGE VERIFIED — CLOSEOUT RECONCILIATION | PR #91 reviewed B `77bd4ace72e2c050129e345dcde11206ce739303`; frozen spec v0.1.0 `fcb52eb30da03df4d1ce6bc7487bc58f7135014f`; merge `ea78c5e197d7c6ff0318d3ed2ac581c4e2f57190`; main CI [37641700885 SUCCESS](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/37641700885); [Security PASS](https://github.com/nshaokiet/ai-ip-description-generator/pull/91#issuecomment-6040682169), [Quality R2 PASS](https://github.com/nshaokiet/ai-ip-description-generator/pull/91#issuecomment-6040683645), distinct sessions; [R1 preserved / excluded from AC-11](https://github.com/nshaokiet/ai-ip-description-generator/pull/91#issuecomment-6040684709); [MANUAL_EXTERNAL PASS](https://github.com/nshaokiet/ai-ip-description-generator/pull/91#issuecomment-6040743223); automatic routing OFF; Phase G NOT STARTED |
 
 **Before the reviewed Phase E PR merges and its exact main merge is verified,
 Workflow V2 remains NOT ACTIVATED.** After that accepted boundary, enabled governance
@@ -51,7 +51,7 @@ applies only to explicitly Human-authorized V2-enrolled future tasks referencing
 the immutable WORKFLOW_V2_ACTIVATION_COMMIT. Historical/unenrolled tasks remain V1.
 Initial authoritative merge verification is [MANUAL / EXTERNAL](docs/operations/WORKFLOW_V2_MANUAL_VERIFICATION.md);
 accepted verifier adapters remain UNAVAILABLE and B3 authoritative_merge_eligible
-stays false. Automatic R0–R4 routing is NOT ACTIVATED. Phase F pilot is **V2 ENROLLED / IMPLEMENTED — SECURITY + QUALITY REVIEW PENDING**;
+stays false. Automatic R0–R4 routing is NOT ACTIVATED. Phase F pilot is **MERGED — POST-MERGE VERIFIED — CLOSEOUT RECONCILIATION**;
 a separately authorized pilot requires both Security and Quality on the same final SHA.
 These tooling milestones do not change application/provider/data/production authorization.
 
