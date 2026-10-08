@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.71 |
+| Version | 0.3.72 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -61,6 +61,45 @@ is historical/excluded from AC11 and Security/QualityR2 retain distinct sessions
 AC12 remains PASS WITH DOCUMENTED LIMITATION: actual A CI staleness demonstrated,
 A review staleness not independently demonstrated, no fabricated A review.
 
+Current postmerge integration addendum (supersedes the dated premerge stage below):
+**PR #93 MERGED / POSTMERGE VERIFIED — FINAL STATUS RECONCILIATION REVIEW PENDING**.
+Accepted reviewed implementation `4d3549e0fc3c0c4f9b5fc07dc47642bea4095d90`,
+base `de23dd70c28a682faa17cbd69c1ce569ecc9c35f`, frozen v0.1.1/spec3 unchanged.
+[Security PASS](https://github.com/nshaokiet/ai-ip-description-generator/pull/93#issuecomment-6056085370): assignment7/record6,
+session `1cb7ff96-99d5-4c36-87e8-b601b5a3b675`, Gemini 3.1 Pro High;
+[Quality PASS](https://github.com/nshaokiet/ai-ip-description-generator/pull/93#issuecomment-6056086371): assignment8/record5,
+session `93901417-5598-43da-b016-513da9174e82`, Gemini 3.1 Pro High
+(MCP model_profile spelling: Gemini 3.1 Pro (High)). Both originals were independently
+read/hash-verified, target the same final SHA, declare read-only independent authorship
+and have zero blocking findings. Public Security rendition has two disclosed private
+path redactions; unchanged originals remain in controlled local evidence inventory.
+[MANUAL_EXTERNAL PASS](https://github.com/nshaokiet/ai-ip-description-generator/pull/93#issuecomment-6056148297) and fresh exact-head protection preceded normal
+PR93 merge `1c8212971db10eb44fb0639da34f4076af6ca4eb`. Actual Git/main parents and reviewed tree equality were checked;
+[push/main CI37751828515](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/37751828515)
+is COMPLETED/SUCCESS on that exact merge; every job113226663380 step succeeded.
+[Postmerge receipt](https://github.com/nshaokiet/ai-ip-description-generator/pull/93#issuecomment-6056276026) was published and read back exactly.
+SEC-001/SEC-002 ACCEPTED/remediated/reassessed; SEC-003 remains LOW/OPEN/nonblocking
+on historical frozen Phase F, outside this scope. No Phase F artifact was modified.
+
+G-AC-24 merge/tree/main-CI evidence is verified. Final README/Control Center sync,
+its fresh independent reviews/required CI and canonical CLOSED/COMPLETED receipt
+remain outstanding. This bounded docs-only follow-up does not inherit either prior
+PASS; no final Phase G COMPLETED or project-wide adoption ACTIVE claim is made here.
+The conditional policy table above remains unchanged. Phase E activation for explicitly
+enrolled tasks remains accepted; automatic routing OFF, V1 history preserved and
+Phase H/AI-CONV not authorized. The independently reviewed AGENTS/protocol version
+histories resolve their minor-to-factual-patch version notes; no policy version change
+is made by this factual status addendum.
+
+Actual premerge MCP status REVIEW_CHANGES_REQUIRED retained older request history;
+current original review records both PASS, and old same-run PENDING CI observations
+remain immutable. No raw SQL, V1 lifecycle transition, adapter override or fabricated
+completion is used. Supported ADMIN reapproval under the actual current Human
+closeout instruction and supported Implementer6 lease authorize this isolated follow-up;
+actual operational state must be read at each gate and remains separate from canonical
+Git evidence. Formal V2 MERGED/COMPLETED remains BLOCKED BY TOOL CAPABILITY.
+
+Historical premerge snapshot — preserved; the addendum above is the current stage:
 GOV-AGENT-001-G: IMPLEMENTED — DUAL INDEPENDENT FIXED-SHA REVIEW PENDING.
 Dedicated validated registration/approval and explicit V2/R3 enrollment succeeded;
 R3 is manual project-wide governance assessment, not automatic routing.
@@ -120,6 +159,7 @@ provider/data/production authority unchanged. Historical entries below are prese
 
 | Phiên bản cũ | Phiên bản mới | Ngày | Người thực hiện | Thay đổi | Lý do | Finding/Decision liên quan | Breaking change |
 |---|---|---|---|---|---|---|---|
+| 0.3.71 | 0.3.72 | 08/10/2026 | Codex | Append verified PR93 dual reviews/MANUAL_EXTERNAL/merge/exact-main CI; reconcile README stage without claiming final closeout | Actual Human bounded closeout instruction ac4605b5-138d-44af-9899-19bfcc545ee7 | GOV-AGENT-001-G; merge 1c8212971db10eb44fb0639da34f4076af6ca4eb; main CI37751828515 SUCCESS; separate follow-up review pending | No — factual status/evidence only |
 | 0.3.70 | 0.3.71 | 08/10/2026 | Codex | Reconcile G v0.1.1 freeze, Planner/Implementer and original Security report/hash; preserve empty MCP review history honestly | Human security supersession approval | GOV-AGENT-001-G; spec3/provenance8; dual re-review pending | No — factual security/status references |
 | 0.3.69 | 0.3.70 | 08/10/2026 | Codex | Current E/F accepted evidence and G conditional adoption/roles/spec/review gate; preserve dated bridge/history | Human conditional adoption decision | GOV-AGENT-001-G; frozen spec 0.1.0 | No — factual status; governance breaking change versioned in AGENTS/protocol |
 | 0.3.68 | 0.3.69 | 07/10/2026 | Codex | Reconcile B1–D completion and conditional Phase E governance/activation boundary | Human E-01–E-06; no activation/enrollment in implementation branch | GOV-AGENT-001-E; base `5d8d4b555b1c11407db4671b9c2af88f4baad8bb` | No — status bridge; governance change versioned in AGENTS.md |
