@@ -1,0 +1,2685 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/nshaokiet/ai-ip-description-generator/schemas/uspto-document-package/v1.0.0/uspto-document-package.schema.json",
+  "title": "USPTO_DOCUMENT_PACKAGE v1.0.0 — synthetic offline draft assembly",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "output_type",
+    "package_id",
+    "source_identity",
+    "input_digests",
+    "generation_config",
+    "filing_view",
+    "review_package",
+    "review_boundary"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "output_type": {
+      "const": "USPTO_DOCUMENT_PACKAGE"
+    },
+    "package_id": {
+      "type": "string",
+      "pattern": "^p2-005-[a-f0-9]{24}$"
+    },
+    "source_identity": {
+      "$ref": "#/$defs/p2_004/$defs/source_identity"
+    },
+    "input_digests": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_envelope",
+        "structured_analysis",
+        "reconstruction",
+        "specification",
+        "supported_claims"
+      ],
+      "properties": {
+        "source_envelope": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "structured_analysis": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "reconstruction": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "specification": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "supported_claims": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "generation_config": {
+      "$ref": "#/$defs/p2_004/$defs/generation_config"
+    },
+    "filing_view": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "document_metadata",
+        "section_order",
+        "sections",
+        "claims",
+        "abstract"
+      ],
+      "properties": {
+        "document_metadata": {
+          "$ref": "#/$defs/p2_001/properties/document_metadata"
+        },
+        "section_order": {
+          "$ref": "#/$defs/p2_001/properties/section_order"
+        },
+        "sections": {
+          "$ref": "#/$defs/p2_001/properties/sections"
+        },
+        "claims": {
+          "$ref": "#/$defs/p2_001/properties/claims"
+        },
+        "abstract": {
+          "$ref": "#/$defs/p2_001/properties/abstract"
+        }
+      }
+    },
+    "review_package": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "original_p2_003",
+        "original_p2_004",
+        "projected_claim_support",
+        "assembly_missing_information"
+      ],
+      "properties": {
+        "original_p2_003": {
+          "$ref": "#/$defs/p2_001"
+        },
+        "original_p2_004": {
+          "$ref": "#/$defs/p2_004"
+        },
+        "projected_claim_support": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/p2_001/$defs/claim_support"
+          }
+        },
+        "assembly_missing_information": {
+          "type": "array",
+          "maxItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "missing_id",
+              "reason_code",
+              "source_issue_ids"
+            ],
+            "properties": {
+              "missing_id": {
+                "const": "MI-P2-005-0001"
+              },
+              "reason_code": {
+                "const": "NO_ELIGIBLE_SUPPORTED_CLAIMS"
+              },
+              "source_issue_ids": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "pattern": "^ISS-P2-004-[0-9]{4,}$"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "review_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "review_status",
+        "human_ip_review_required",
+        "filing_ready",
+        "legal_advice",
+        "patentability_assessment_included",
+        "source_document_synthetic",
+        "render_review_metadata_as_filing_content",
+        "p2_003_claims_runtime_implemented"
+      ],
+      "properties": {
+        "status": {
+          "const": "DRAFT"
+        },
+        "review_status": {
+          "const": "UNREVIEWED"
+        },
+        "human_ip_review_required": {
+          "const": true
+        },
+        "filing_ready": {
+          "const": false
+        },
+        "legal_advice": {
+          "const": false
+        },
+        "patentability_assessment_included": {
+          "const": false
+        },
+        "source_document_synthetic": {
+          "const": true
+        },
+        "render_review_metadata_as_filing_content": {
+          "const": false
+        },
+        "p2_003_claims_runtime_implemented": {
+          "const": false
+        }
+      }
+    }
+  },
+  "$defs": {
+    "p2_001": {
+      "title": "USPTO Patent Specification Target v2.0.0",
+      "description": "Specification-only target contract for a Human-reviewed USPTO-style nonprovisional utility patent specification draft and its separate review package.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "output_type",
+        "document_metadata",
+        "section_order",
+        "sections",
+        "claims",
+        "abstract",
+        "review_boundary",
+        "review_package"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": "2.0.0"
+        },
+        "output_type": {
+          "const": "USPTO_SPECIFICATION_DRAFT"
+        },
+        "document_metadata": {
+          "$ref": "#/$defs/p2_001/$defs/document_metadata"
+        },
+        "section_order": {
+          "const": [
+            "TITLE_OF_THE_INVENTION",
+            "CROSS_REFERENCE_TO_RELATED_APPLICATIONS",
+            "STATEMENT_REGARDING_FEDERALLY_SPONSORED_RESEARCH_OR_DEVELOPMENT",
+            "NAMES_OF_PARTIES_TO_JOINT_RESEARCH_AGREEMENT",
+            "INCORPORATION_BY_REFERENCE",
+            "STATEMENT_REGARDING_PRIOR_DISCLOSURES",
+            "BACKGROUND_OF_THE_INVENTION",
+            "BRIEF_SUMMARY_OF_THE_INVENTION",
+            "BRIEF_DESCRIPTION_OF_THE_DRAWINGS",
+            "DETAILED_DESCRIPTION_OF_THE_INVENTION",
+            "CLAIMS",
+            "ABSTRACT_OF_THE_DISCLOSURE",
+            "SEQUENCE_LISTING"
+          ]
+        },
+        "sections": {
+          "type": "array",
+          "description": "Filing-style sections other than Claims and Abstract, which have dedicated structures.",
+          "minItems": 11,
+          "maxItems": 11,
+          "prefixItems": [
+            {
+              "$ref": "#/$defs/p2_001/$defs/title_section"
+            },
+            {
+              "$ref": "#/$defs/p2_001/$defs/cross_reference_section"
+            },
+            {
+              "$ref": "#/$defs/p2_001/$defs/federal_research_section"
+            },
+            {
+              "$ref": "#/$defs/p2_001/$defs/joint_research_section"
+            },
+            {
+              "$ref": "#/$defs/p2_001/$defs/incorporation_section"
+            },
+            {
+              "$ref": "#/$defs/p2_001/$defs/prior_disclosure_section"
+            },
+            {
+              "$ref": "#/$defs/p2_001/$defs/background_section"
+            },
+            {
+              "$ref": "#/$defs/p2_001/$defs/summary_section"
+            },
+            {
+              "$ref": "#/$defs/p2_001/$defs/drawings_section"
+            },
+            {
+              "$ref": "#/$defs/p2_001/$defs/detailed_description_section"
+            },
+            {
+              "$ref": "#/$defs/p2_001/$defs/sequence_listing_section"
+            }
+          ],
+          "items": false
+        },
+        "claims": {
+          "$ref": "#/$defs/p2_001/$defs/claims_section"
+        },
+        "abstract": {
+          "$ref": "#/$defs/p2_001/$defs/abstract_section"
+        },
+        "review_boundary": {
+          "$ref": "#/$defs/p2_001/$defs/review_boundary"
+        },
+        "review_package": {
+          "$ref": "#/$defs/p2_001/$defs/review_package"
+        }
+      },
+      "$defs": {
+        "document_metadata": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "draft_id",
+            "language",
+            "target_jurisdiction",
+            "specification_kind",
+            "source_document"
+          ],
+          "properties": {
+            "draft_id": {
+              "type": "string",
+              "pattern": "^[a-z0-9][a-z0-9._-]{2,127}$"
+            },
+            "language": {
+              "const": "en"
+            },
+            "target_jurisdiction": {
+              "const": "US"
+            },
+            "specification_kind": {
+              "const": "NONPROVISIONAL_UTILITY_PATENT_SPECIFICATION_DRAFT"
+            },
+            "source_document": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "document_id",
+                "file_name",
+                "media_type",
+                "synthetic"
+              ],
+              "properties": {
+                "document_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "file_name": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "media_type": {
+                  "enum": [
+                    "application/pdf",
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                  ]
+                },
+                "sha256": {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$"
+                },
+                "synthetic": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        },
+        "section_state": {
+          "enum": [
+            "PRESENT",
+            "MISSING",
+            "HUMAN_CONFIRMATION_REQUIRED",
+            "NOT_APPLICABLE"
+          ]
+        },
+        "grounding_class": {
+          "enum": [
+            "SOURCE_FACT",
+            "PARAPHRASE",
+            "INFERENCE",
+            "SAFE_GENERALIZATION",
+            "PROPOSED_VARIANT",
+            "MISSING",
+            "HUMAN_CONFIRMED"
+          ]
+        },
+        "support": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "source_paths",
+            "evidence_ids",
+            "grounding_class"
+          ],
+          "properties": {
+            "source_paths": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^/"
+              },
+              "uniqueItems": true
+            },
+            "evidence_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^EV-[A-Z0-9_-]+$"
+              },
+              "uniqueItems": true
+            },
+            "grounding_class": {
+              "$ref": "#/$defs/p2_001/$defs/grounding_class"
+            }
+          }
+        },
+        "paragraph": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "paragraph_id",
+            "sequence",
+            "text",
+            "support"
+          ],
+          "properties": {
+            "paragraph_id": {
+              "type": "string",
+              "pattern": "^P-[A-Z0-9_-]+$"
+            },
+            "sequence": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "text": {
+              "type": "string",
+              "minLength": 1
+            },
+            "support": {
+              "$ref": "#/$defs/p2_001/$defs/support"
+            }
+          }
+        },
+        "not_applicable_basis": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "rule_id",
+            "decision_source",
+            "rationale",
+            "evidence_ids"
+          ],
+          "properties": {
+            "rule_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "decision_source": {
+              "enum": [
+                "HUMAN_CONFIRMED",
+                "APPROVED_DETERMINISTIC_RULE"
+              ]
+            },
+            "rationale": {
+              "type": "string",
+              "minLength": 1
+            },
+            "evidence_ids": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "pattern": "^EV-[A-Z0-9_-]+$"
+              },
+              "uniqueItems": true
+            }
+          }
+        },
+        "subsection": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "section_id",
+            "sequence",
+            "heading",
+            "status",
+            "paragraphs",
+            "missing_information_ids"
+          ],
+          "properties": {
+            "section_id": {
+              "enum": [
+                "FIELD_OF_THE_INVENTION",
+                "DESCRIPTION_OF_RELATED_ART"
+              ]
+            },
+            "sequence": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "heading": {
+              "type": "string",
+              "minLength": 1
+            },
+            "status": {
+              "$ref": "#/$defs/p2_001/$defs/section_state"
+            },
+            "paragraphs": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/p2_001/$defs/paragraph"
+              }
+            },
+            "missing_information_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^MI-[A-Z0-9_-]+$"
+              },
+              "uniqueItems": true
+            },
+            "not_applicable_basis": {
+              "$ref": "#/$defs/p2_001/$defs/not_applicable_basis"
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "PRESENT"
+                  }
+                },
+                "required": [
+                  "status"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "paragraphs": {
+                    "minItems": 1
+                  },
+                  "missing_information_ids": {
+                    "maxItems": 0
+                  }
+                },
+                "not": {
+                  "required": [
+                    "not_applicable_basis"
+                  ]
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "enum": [
+                      "MISSING",
+                      "HUMAN_CONFIRMATION_REQUIRED"
+                    ]
+                  }
+                },
+                "required": [
+                  "status"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "paragraphs": {
+                    "maxItems": 0
+                  },
+                  "missing_information_ids": {
+                    "minItems": 1
+                  }
+                },
+                "not": {
+                  "required": [
+                    "not_applicable_basis"
+                  ]
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "NOT_APPLICABLE"
+                  }
+                },
+                "required": [
+                  "status"
+                ]
+              },
+              "then": {
+                "required": [
+                  "not_applicable_basis"
+                ],
+                "properties": {
+                  "paragraphs": {
+                    "maxItems": 0
+                  },
+                  "missing_information_ids": {
+                    "maxItems": 0
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "reference_numeral": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "numeral",
+            "label",
+            "description"
+          ],
+          "properties": {
+            "numeral": {
+              "type": "string",
+              "pattern": "^[0-9]+[A-Za-z]?$"
+            },
+            "label": {
+              "type": "string",
+              "minLength": 1
+            },
+            "description": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "figure": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "figure_id",
+            "figure_label",
+            "title",
+            "description",
+            "source_figure_ids",
+            "reference_numerals"
+          ],
+          "properties": {
+            "figure_id": {
+              "type": "string",
+              "pattern": "^FIG-[A-Z0-9_-]+$"
+            },
+            "figure_label": {
+              "type": "string",
+              "pattern": "^FIG\\. [0-9]+[A-Za-z]?$"
+            },
+            "title": {
+              "type": "string",
+              "minLength": 1
+            },
+            "description": {
+              "type": "string",
+              "minLength": 1
+            },
+            "source_figure_ids": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true
+            },
+            "reference_numerals": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/p2_001/$defs/reference_numeral"
+              }
+            }
+          }
+        },
+        "section": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "section_id",
+            "sequence",
+            "heading",
+            "status",
+            "paragraphs",
+            "subsections",
+            "figures",
+            "missing_information_ids"
+          ],
+          "properties": {
+            "section_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "sequence": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 13
+            },
+            "heading": {
+              "type": "string",
+              "minLength": 1
+            },
+            "status": {
+              "$ref": "#/$defs/p2_001/$defs/section_state"
+            },
+            "paragraphs": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/p2_001/$defs/paragraph"
+              }
+            },
+            "subsections": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/p2_001/$defs/subsection"
+              }
+            },
+            "figures": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/p2_001/$defs/figure"
+              }
+            },
+            "missing_information_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^MI-[A-Z0-9_-]+$"
+              },
+              "uniqueItems": true
+            },
+            "not_applicable_basis": {
+              "$ref": "#/$defs/p2_001/$defs/not_applicable_basis"
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "PRESENT"
+                  }
+                },
+                "required": [
+                  "status"
+                ]
+              },
+              "then": {
+                "anyOf": [
+                  {
+                    "properties": {
+                      "paragraphs": {
+                        "minItems": 1
+                      }
+                    }
+                  },
+                  {
+                    "properties": {
+                      "subsections": {
+                        "minItems": 1
+                      }
+                    }
+                  },
+                  {
+                    "properties": {
+                      "figures": {
+                        "minItems": 1
+                      }
+                    }
+                  }
+                ],
+                "properties": {
+                  "missing_information_ids": {
+                    "maxItems": 0
+                  }
+                },
+                "not": {
+                  "required": [
+                    "not_applicable_basis"
+                  ]
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "enum": [
+                      "MISSING",
+                      "HUMAN_CONFIRMATION_REQUIRED"
+                    ]
+                  }
+                },
+                "required": [
+                  "status"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "paragraphs": {
+                    "maxItems": 0
+                  },
+                  "subsections": {
+                    "maxItems": 0
+                  },
+                  "figures": {
+                    "maxItems": 0
+                  },
+                  "missing_information_ids": {
+                    "minItems": 1
+                  }
+                },
+                "not": {
+                  "required": [
+                    "not_applicable_basis"
+                  ]
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "NOT_APPLICABLE"
+                  }
+                },
+                "required": [
+                  "status"
+                ]
+              },
+              "then": {
+                "required": [
+                  "not_applicable_basis"
+                ],
+                "properties": {
+                  "paragraphs": {
+                    "maxItems": 0
+                  },
+                  "subsections": {
+                    "maxItems": 0
+                  },
+                  "figures": {
+                    "maxItems": 0
+                  },
+                  "missing_information_ids": {
+                    "maxItems": 0
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "title_section": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/p2_001/$defs/section"
+            },
+            {
+              "properties": {
+                "section_id": {
+                  "const": "TITLE_OF_THE_INVENTION"
+                },
+                "sequence": {
+                  "const": 1
+                },
+                "heading": {
+                  "const": "TITLE OF THE INVENTION"
+                },
+                "subsections": {
+                  "maxItems": 0
+                },
+                "figures": {
+                  "maxItems": 0
+                }
+              }
+            }
+          ]
+        },
+        "cross_reference_section": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/p2_001/$defs/section"
+            },
+            {
+              "properties": {
+                "section_id": {
+                  "const": "CROSS_REFERENCE_TO_RELATED_APPLICATIONS"
+                },
+                "sequence": {
+                  "const": 2
+                },
+                "heading": {
+                  "const": "CROSS-REFERENCE TO RELATED APPLICATIONS"
+                },
+                "subsections": {
+                  "maxItems": 0
+                },
+                "figures": {
+                  "maxItems": 0
+                }
+              }
+            }
+          ]
+        },
+        "federal_research_section": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/p2_001/$defs/section"
+            },
+            {
+              "properties": {
+                "section_id": {
+                  "const": "STATEMENT_REGARDING_FEDERALLY_SPONSORED_RESEARCH_OR_DEVELOPMENT"
+                },
+                "sequence": {
+                  "const": 3
+                },
+                "heading": {
+                  "const": "STATEMENT REGARDING FEDERALLY SPONSORED RESEARCH OR DEVELOPMENT"
+                },
+                "subsections": {
+                  "maxItems": 0
+                },
+                "figures": {
+                  "maxItems": 0
+                }
+              }
+            }
+          ]
+        },
+        "joint_research_section": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/p2_001/$defs/section"
+            },
+            {
+              "properties": {
+                "section_id": {
+                  "const": "NAMES_OF_PARTIES_TO_JOINT_RESEARCH_AGREEMENT"
+                },
+                "sequence": {
+                  "const": 4
+                },
+                "heading": {
+                  "const": "NAMES OF PARTIES TO A JOINT RESEARCH AGREEMENT"
+                },
+                "subsections": {
+                  "maxItems": 0
+                },
+                "figures": {
+                  "maxItems": 0
+                }
+              }
+            }
+          ]
+        },
+        "incorporation_section": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/p2_001/$defs/section"
+            },
+            {
+              "properties": {
+                "section_id": {
+                  "const": "INCORPORATION_BY_REFERENCE"
+                },
+                "sequence": {
+                  "const": 5
+                },
+                "heading": {
+                  "const": "INCORPORATION BY REFERENCE"
+                },
+                "subsections": {
+                  "maxItems": 0
+                },
+                "figures": {
+                  "maxItems": 0
+                }
+              }
+            }
+          ]
+        },
+        "prior_disclosure_section": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/p2_001/$defs/section"
+            },
+            {
+              "properties": {
+                "section_id": {
+                  "const": "STATEMENT_REGARDING_PRIOR_DISCLOSURES"
+                },
+                "sequence": {
+                  "const": 6
+                },
+                "heading": {
+                  "const": "STATEMENT REGARDING PRIOR DISCLOSURES"
+                },
+                "subsections": {
+                  "maxItems": 0
+                },
+                "figures": {
+                  "maxItems": 0
+                }
+              }
+            }
+          ]
+        },
+        "background_section": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/p2_001/$defs/section"
+            },
+            {
+              "properties": {
+                "section_id": {
+                  "const": "BACKGROUND_OF_THE_INVENTION"
+                },
+                "sequence": {
+                  "const": 7
+                },
+                "heading": {
+                  "const": "BACKGROUND OF THE INVENTION"
+                },
+                "paragraphs": {
+                  "maxItems": 0
+                },
+                "figures": {
+                  "maxItems": 0
+                },
+                "subsections": {
+                  "minItems": 2,
+                  "maxItems": 2,
+                  "prefixItems": [
+                    {
+                      "allOf": [
+                        {
+                          "$ref": "#/$defs/p2_001/$defs/subsection"
+                        },
+                        {
+                          "properties": {
+                            "section_id": {
+                              "const": "FIELD_OF_THE_INVENTION"
+                            },
+                            "sequence": {
+                              "const": 1
+                            },
+                            "heading": {
+                              "const": "FIELD OF THE INVENTION"
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "allOf": [
+                        {
+                          "$ref": "#/$defs/p2_001/$defs/subsection"
+                        },
+                        {
+                          "properties": {
+                            "section_id": {
+                              "const": "DESCRIPTION_OF_RELATED_ART"
+                            },
+                            "sequence": {
+                              "const": 2
+                            },
+                            "heading": {
+                              "const": "DESCRIPTION OF RELATED ART"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ],
+                  "items": false
+                }
+              }
+            }
+          ]
+        },
+        "summary_section": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/p2_001/$defs/section"
+            },
+            {
+              "properties": {
+                "section_id": {
+                  "const": "BRIEF_SUMMARY_OF_THE_INVENTION"
+                },
+                "sequence": {
+                  "const": 8
+                },
+                "heading": {
+                  "const": "BRIEF SUMMARY OF THE INVENTION"
+                },
+                "subsections": {
+                  "maxItems": 0
+                },
+                "figures": {
+                  "maxItems": 0
+                }
+              }
+            }
+          ]
+        },
+        "drawings_section": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/p2_001/$defs/section"
+            },
+            {
+              "properties": {
+                "section_id": {
+                  "const": "BRIEF_DESCRIPTION_OF_THE_DRAWINGS"
+                },
+                "sequence": {
+                  "const": 9
+                },
+                "heading": {
+                  "const": "BRIEF DESCRIPTION OF THE DRAWINGS"
+                },
+                "subsections": {
+                  "maxItems": 0
+                }
+              }
+            }
+          ]
+        },
+        "detailed_description_section": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/p2_001/$defs/section"
+            },
+            {
+              "properties": {
+                "section_id": {
+                  "const": "DETAILED_DESCRIPTION_OF_THE_INVENTION"
+                },
+                "sequence": {
+                  "const": 10
+                },
+                "heading": {
+                  "const": "DETAILED DESCRIPTION OF THE INVENTION"
+                },
+                "subsections": {
+                  "maxItems": 0
+                },
+                "figures": {
+                  "maxItems": 0
+                }
+              }
+            }
+          ]
+        },
+        "sequence_listing_section": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/p2_001/$defs/section"
+            },
+            {
+              "properties": {
+                "section_id": {
+                  "const": "SEQUENCE_LISTING"
+                },
+                "sequence": {
+                  "const": 13
+                },
+                "heading": {
+                  "const": "SEQUENCE LISTING"
+                },
+                "subsections": {
+                  "maxItems": 0
+                },
+                "figures": {
+                  "maxItems": 0
+                }
+              }
+            }
+          ]
+        },
+        "claim_element": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "element_id",
+            "sequence",
+            "text",
+            "evidence_ids",
+            "specification_section_ids",
+            "support_status"
+          ],
+          "properties": {
+            "element_id": {
+              "type": "string",
+              "pattern": "^CE-[A-Z0-9_-]+$"
+            },
+            "sequence": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "text": {
+              "type": "string",
+              "minLength": 1
+            },
+            "evidence_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^EV-[A-Z0-9_-]+$"
+              },
+              "uniqueItems": true
+            },
+            "specification_section_ids": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "BACKGROUND_OF_THE_INVENTION",
+                  "FIELD_OF_THE_INVENTION",
+                  "DESCRIPTION_OF_RELATED_ART",
+                  "BRIEF_SUMMARY_OF_THE_INVENTION",
+                  "BRIEF_DESCRIPTION_OF_THE_DRAWINGS",
+                  "DETAILED_DESCRIPTION_OF_THE_INVENTION"
+                ]
+              },
+              "uniqueItems": true
+            },
+            "support_status": {
+              "enum": [
+                "SUPPORTED",
+                "HUMAN_CONFIRMATION_REQUIRED",
+                "UNSUPPORTED"
+              ]
+            }
+          }
+        },
+        "claim": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "claim_number",
+            "claim_type",
+            "independent_or_dependent",
+            "depends_on",
+            "claim_text",
+            "claim_elements"
+          ],
+          "properties": {
+            "claim_number": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "claim_type": {
+              "enum": [
+                "METHOD",
+                "SYSTEM",
+                "APPARATUS",
+                "PROCESS",
+                "COMPOSITION",
+                "NON_TRANSITORY_COMPUTER_READABLE_MEDIUM",
+                "OTHER"
+              ]
+            },
+            "independent_or_dependent": {
+              "enum": [
+                "INDEPENDENT",
+                "DEPENDENT"
+              ]
+            },
+            "depends_on": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "uniqueItems": true
+            },
+            "claim_text": {
+              "type": "string",
+              "minLength": 1
+            },
+            "claim_elements": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/$defs/p2_001/$defs/claim_element"
+              }
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "independent_or_dependent": {
+                    "const": "INDEPENDENT"
+                  }
+                },
+                "required": [
+                  "independent_or_dependent"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "depends_on": {
+                    "maxItems": 0
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "independent_or_dependent": {
+                    "const": "DEPENDENT"
+                  }
+                },
+                "required": [
+                  "independent_or_dependent"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "depends_on": {
+                    "minItems": 1
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "claims_section": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "section_id",
+            "sequence",
+            "heading",
+            "status",
+            "claims",
+            "missing_information_ids"
+          ],
+          "properties": {
+            "section_id": {
+              "const": "CLAIMS"
+            },
+            "sequence": {
+              "const": 11
+            },
+            "heading": {
+              "const": "CLAIMS"
+            },
+            "status": {
+              "enum": [
+                "PRESENT",
+                "MISSING",
+                "HUMAN_CONFIRMATION_REQUIRED"
+              ]
+            },
+            "preamble": {
+              "const": "What is claimed is:"
+            },
+            "claims": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/p2_001/$defs/claim"
+              }
+            },
+            "missing_information_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^MI-[A-Z0-9_-]+$"
+              },
+              "uniqueItems": true
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "PRESENT"
+                  }
+                },
+                "required": [
+                  "status"
+                ]
+              },
+              "then": {
+                "required": [
+                  "preamble"
+                ],
+                "properties": {
+                  "claims": {
+                    "minItems": 1
+                  },
+                  "missing_information_ids": {
+                    "maxItems": 0
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "claims": {
+                    "maxItems": 0
+                  },
+                  "missing_information_ids": {
+                    "minItems": 1
+                  }
+                },
+                "not": {
+                  "required": [
+                    "preamble"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "abstract_section": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "section_id",
+            "sequence",
+            "heading",
+            "status",
+            "text",
+            "word_count",
+            "support",
+            "missing_information_ids"
+          ],
+          "properties": {
+            "section_id": {
+              "const": "ABSTRACT_OF_THE_DISCLOSURE"
+            },
+            "sequence": {
+              "const": 12
+            },
+            "heading": {
+              "const": "ABSTRACT OF THE DISCLOSURE"
+            },
+            "status": {
+              "enum": [
+                "PRESENT",
+                "MISSING",
+                "HUMAN_CONFIRMATION_REQUIRED"
+              ]
+            },
+            "text": {
+              "type": "string"
+            },
+            "word_count": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 150
+            },
+            "support": {
+              "$ref": "#/$defs/p2_001/$defs/support"
+            },
+            "missing_information_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^MI-[A-Z0-9_-]+$"
+              },
+              "uniqueItems": true
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "PRESENT"
+                  }
+                },
+                "required": [
+                  "status"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "text": {
+                    "minLength": 1
+                  },
+                  "word_count": {
+                    "minimum": 1
+                  },
+                  "missing_information_ids": {
+                    "maxItems": 0
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "text": {
+                    "maxLength": 0
+                  },
+                  "word_count": {
+                    "const": 0
+                  },
+                  "missing_information_ids": {
+                    "minItems": 1
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "review_boundary": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "filing_content_fields",
+            "review_support_field",
+            "render_review_metadata_as_filing_content",
+            "human_review_required",
+            "filing_ready",
+            "legal_advice",
+            "patentability_assessment_included",
+            "claims_runtime_implemented"
+          ],
+          "properties": {
+            "filing_content_fields": {
+              "const": [
+                "sections",
+                "claims",
+                "abstract"
+              ]
+            },
+            "review_support_field": {
+              "const": "review_package"
+            },
+            "render_review_metadata_as_filing_content": {
+              "const": false
+            },
+            "human_review_required": {
+              "const": true
+            },
+            "filing_ready": {
+              "const": false
+            },
+            "legal_advice": {
+              "const": false
+            },
+            "patentability_assessment_included": {
+              "const": false
+            },
+            "claims_runtime_implemented": {
+              "const": false
+            }
+          }
+        },
+        "evidence": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "evidence_id",
+            "evidence_type",
+            "source_paths",
+            "description"
+          ],
+          "properties": {
+            "evidence_id": {
+              "type": "string",
+              "pattern": "^EV-[A-Z0-9_-]+$"
+            },
+            "evidence_type": {
+              "enum": [
+                "SOURCE_DOCUMENT",
+                "HUMAN_CONFIRMATION",
+                "AUTHORIZED_EXTERNAL_SOURCE",
+                "APPROVED_RULE"
+              ]
+            },
+            "source_paths": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^/"
+              },
+              "uniqueItems": true
+            },
+            "description": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "missing_information": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "missing_id",
+            "target_section_id",
+            "description",
+            "author_question_ids"
+          ],
+          "properties": {
+            "missing_id": {
+              "type": "string",
+              "pattern": "^MI-[A-Z0-9_-]+$"
+            },
+            "target_section_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "description": {
+              "type": "string",
+              "minLength": 1
+            },
+            "author_question_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^AQ-[A-Z0-9_-]+$"
+              },
+              "uniqueItems": true
+            }
+          }
+        },
+        "author_question": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "question_id",
+            "target_section_id",
+            "question",
+            "status"
+          ],
+          "properties": {
+            "question_id": {
+              "type": "string",
+              "pattern": "^AQ-[A-Z0-9_-]+$"
+            },
+            "target_section_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "question": {
+              "type": "string",
+              "minLength": 1
+            },
+            "status": {
+              "enum": [
+                "OPEN",
+                "ANSWERED"
+              ]
+            }
+          }
+        },
+        "claim_support": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "claim_number",
+            "element_id",
+            "support_status",
+            "evidence_ids",
+            "specification_section_ids"
+          ],
+          "properties": {
+            "claim_number": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "element_id": {
+              "type": "string",
+              "pattern": "^CE-[A-Z0-9_-]+$"
+            },
+            "support_status": {
+              "enum": [
+                "SUPPORTED",
+                "HUMAN_CONFIRMATION_REQUIRED",
+                "UNSUPPORTED"
+              ]
+            },
+            "evidence_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^EV-[A-Z0-9_-]+$"
+              },
+              "uniqueItems": true
+            },
+            "specification_section_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true
+            }
+          }
+        },
+        "warning": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "warning_id",
+            "code",
+            "message",
+            "affected_paths"
+          ],
+          "properties": {
+            "warning_id": {
+              "type": "string",
+              "pattern": "^W-[A-Z0-9_-]+$"
+            },
+            "code": {
+              "type": "string",
+              "pattern": "^[A-Z][A-Z0-9_]+$"
+            },
+            "message": {
+              "type": "string",
+              "minLength": 1
+            },
+            "affected_paths": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "pattern": "^/"
+              },
+              "uniqueItems": true
+            }
+          }
+        },
+        "review_package": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "evidence",
+            "missing_information",
+            "author_questions",
+            "claim_support",
+            "warnings"
+          ],
+          "properties": {
+            "evidence": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/p2_001/$defs/evidence"
+              }
+            },
+            "missing_information": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/p2_001/$defs/missing_information"
+              }
+            },
+            "author_questions": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/p2_001/$defs/author_question"
+              }
+            },
+            "claim_support": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/p2_001/$defs/claim_support"
+              }
+            },
+            "warnings": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/p2_001/$defs/warning"
+              }
+            }
+          }
+        }
+      }
+    },
+    "p2_004": {
+      "title": "SUPPORTED_DRAFT_CLAIMS v1.0.0",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "output_type",
+        "claims_draft_id",
+        "status",
+        "source_identity",
+        "generation_config",
+        "claim_families",
+        "claims",
+        "review_package",
+        "review_boundary"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": "1.0.0"
+        },
+        "output_type": {
+          "const": "SUPPORTED_DRAFT_CLAIMS"
+        },
+        "claims_draft_id": {
+          "type": "string",
+          "pattern": "^p2-004-[0-9a-f]{24}$"
+        },
+        "status": {
+          "enum": [
+            "PRESENT",
+            "PARTIAL_REVIEW_REQUIRED",
+            "HUMAN_CONFIRMATION_REQUIRED"
+          ]
+        },
+        "source_identity": {
+          "$ref": "#/$defs/p2_004/$defs/source_identity"
+        },
+        "generation_config": {
+          "$ref": "#/$defs/p2_004/$defs/generation_config"
+        },
+        "claim_families": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 5,
+          "items": {
+            "$ref": "#/$defs/p2_004/$defs/family"
+          }
+        },
+        "claims": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/p2_004/$defs/claim"
+          }
+        },
+        "review_package": {
+          "$ref": "#/$defs/p2_004/$defs/review_package"
+        },
+        "review_boundary": {
+          "$ref": "#/$defs/p2_004/$defs/review_boundary"
+        }
+      },
+      "$defs": {
+        "non_empty_text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "identifier": {
+          "type": "string",
+          "minLength": 1
+        },
+        "identifier_array": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/p2_004/$defs/identifier"
+          }
+        },
+        "pointer_array": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^/"
+          }
+        },
+        "claim_type": {
+          "enum": [
+            "SYSTEM",
+            "APPARATUS",
+            "METHOD",
+            "PROCESS",
+            "COMPOSITION"
+          ]
+        },
+        "source_identity": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "document_id",
+            "file_name",
+            "media_type",
+            "source_document_synthetic",
+            "p2_002_identity",
+            "p2_003_draft_id",
+            "p2_003_content_sha256"
+          ],
+          "properties": {
+            "document_id": {
+              "$ref": "#/$defs/p2_004/$defs/identifier"
+            },
+            "file_name": {
+              "$ref": "#/$defs/p2_004/$defs/non_empty_text"
+            },
+            "media_type": {
+              "$ref": "#/$defs/p2_004/$defs/non_empty_text"
+            },
+            "source_document_synthetic": {
+              "const": true
+            },
+            "source_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "p2_002_identity": {
+              "type": "string",
+              "pattern": "^p2-002-sha256-[0-9a-f]{64}$"
+            },
+            "p2_003_draft_id": {
+              "type": "string",
+              "pattern": "^p2-003-[0-9a-f]{24}$"
+            },
+            "p2_003_content_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          }
+        },
+        "p2_003_generation_config": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "language",
+            "abstract_max_words",
+            "include_claims",
+            "target_jurisdiction",
+            "source_document_synthetic"
+          ],
+          "properties": {
+            "language": {
+              "const": "en"
+            },
+            "abstract_max_words": {
+              "const": 150
+            },
+            "include_claims": {
+              "const": false
+            },
+            "target_jurisdiction": {
+              "const": "US"
+            },
+            "source_document_synthetic": {
+              "const": true
+            },
+            "selected_title_candidate_id": {
+              "$ref": "#/$defs/p2_004/$defs/identifier"
+            }
+          }
+        },
+        "generation_config": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "language",
+            "target_jurisdiction",
+            "requested_claim_types",
+            "max_dependent_claims_per_family",
+            "source_document_synthetic",
+            "selected_solution_id",
+            "p2_003_generation_config"
+          ],
+          "properties": {
+            "language": {
+              "const": "en"
+            },
+            "target_jurisdiction": {
+              "const": "US"
+            },
+            "requested_claim_types": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 5,
+              "uniqueItems": true,
+              "items": {
+                "$ref": "#/$defs/p2_004/$defs/claim_type"
+              }
+            },
+            "max_dependent_claims_per_family": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 10
+            },
+            "source_document_synthetic": {
+              "const": true
+            },
+            "selected_solution_id": {
+              "$ref": "#/$defs/p2_004/$defs/identifier"
+            },
+            "p2_003_generation_config": {
+              "$ref": "#/$defs/p2_004/$defs/p2_003_generation_config"
+            }
+          }
+        },
+        "support_summary": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "source_paths",
+            "evidence_ids",
+            "specification_section_ids",
+            "issue_ids"
+          ],
+          "properties": {
+            "source_paths": {
+              "$ref": "#/$defs/p2_004/$defs/pointer_array"
+            },
+            "evidence_ids": {
+              "$ref": "#/$defs/p2_004/$defs/identifier_array"
+            },
+            "specification_section_ids": {
+              "$ref": "#/$defs/p2_004/$defs/identifier_array"
+            },
+            "issue_ids": {
+              "$ref": "#/$defs/p2_004/$defs/identifier_array"
+            }
+          }
+        },
+        "family": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "claim_family_id",
+            "claim_type",
+            "selected_solution_id",
+            "independent_claim_number",
+            "dependent_claim_numbers",
+            "status",
+            "support_summary",
+            "review_status"
+          ],
+          "properties": {
+            "claim_family_id": {
+              "type": "string",
+              "pattern": "^CF-P2-004-(SYSTEM|APPARATUS|METHOD|PROCESS|COMPOSITION)$"
+            },
+            "claim_type": {
+              "$ref": "#/$defs/p2_004/$defs/claim_type"
+            },
+            "selected_solution_id": {
+              "$ref": "#/$defs/p2_004/$defs/identifier"
+            },
+            "independent_claim_number": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 1
+            },
+            "dependent_claim_numbers": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "integer",
+                "minimum": 1
+              }
+            },
+            "status": {
+              "enum": [
+                "PRESENT",
+                "HUMAN_CONFIRMATION_REQUIRED",
+                "NOT_GENERATED"
+              ]
+            },
+            "support_summary": {
+              "$ref": "#/$defs/p2_004/$defs/support_summary"
+            },
+            "review_status": {
+              "const": "UNREVIEWED"
+            }
+          }
+        },
+        "disclosure_ref": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "section_id",
+            "paragraph_id",
+            "specification_path",
+            "reconstruction_path",
+            "evidence_ids"
+          ],
+          "properties": {
+            "section_id": {
+              "$ref": "#/$defs/p2_004/$defs/identifier"
+            },
+            "paragraph_id": {
+              "$ref": "#/$defs/p2_004/$defs/identifier"
+            },
+            "specification_path": {
+              "type": "string",
+              "pattern": "^/"
+            },
+            "reconstruction_path": {
+              "type": "string",
+              "pattern": "^/"
+            },
+            "evidence_ids": {
+              "$ref": "#/$defs/p2_004/$defs/identifier_array"
+            }
+          }
+        },
+        "claim_element": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "element_id",
+            "sequence",
+            "text",
+            "element_role",
+            "source_paths",
+            "evidence_ids",
+            "specification_section_ids",
+            "specification_support_refs",
+            "grounding",
+            "support_status",
+            "upstream_entity_ids",
+            "essentiality",
+            "inherited_from_element_id"
+          ],
+          "properties": {
+            "element_id": {
+              "type": "string",
+              "pattern": "^CE-P2-004-[0-9]{4,}$"
+            },
+            "sequence": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "text": {
+              "$ref": "#/$defs/p2_004/$defs/non_empty_text"
+            },
+            "element_role": {
+              "enum": [
+                "ENTITY",
+                "RELATIONSHIP",
+                "PARAMETER",
+                "CONDITIONAL_UNIT",
+                "EMBODIMENT",
+                "VARIANT"
+              ]
+            },
+            "source_paths": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/p2_004/$defs/pointer_array"
+                },
+                {
+                  "minItems": 1
+                }
+              ]
+            },
+            "evidence_ids": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/p2_004/$defs/identifier_array"
+                },
+                {
+                  "minItems": 1
+                }
+              ]
+            },
+            "specification_section_ids": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/p2_004/$defs/identifier_array"
+                },
+                {
+                  "minItems": 1
+                }
+              ]
+            },
+            "specification_support_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/$defs/p2_004/$defs/disclosure_ref"
+              }
+            },
+            "grounding": {
+              "enum": [
+                "SOURCE_FACT",
+                "PARAPHRASE"
+              ]
+            },
+            "support_status": {
+              "const": "SUPPORTED"
+            },
+            "upstream_entity_ids": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/p2_004/$defs/identifier_array"
+                },
+                {
+                  "minItems": 1
+                }
+              ]
+            },
+            "essentiality": {
+              "enum": [
+                "ESSENTIAL",
+                "OPTIONAL",
+                "CONDITIONAL",
+                "NOT_APPLICABLE"
+              ]
+            },
+            "inherited_from_element_id": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "pattern": "^CE-P2-004-[0-9]{4,}$"
+            },
+            "parameter_scope": {
+              "enum": [
+                "EXAMPLE_ONLY",
+                "SUPPORTED_RANGE",
+                "UNKNOWN_SCOPE"
+              ]
+            },
+            "relationship_type": {
+              "enum": [
+                "RELATED_TO",
+                "PART_OF",
+                "CONTAINS",
+                "CONNECTED_TO",
+                "COUPLED_TO",
+                "COMMUNICATES_WITH",
+                "RECEIVES_FROM",
+                "OUTPUTS_TO",
+                "CONTROLS",
+                "TRANSFORMS",
+                "MEASURES",
+                "STORES",
+                "EXECUTES",
+                "INPUT_TO_STEP",
+                "OUTPUT_FROM_STEP",
+                "DEPENDS_ON"
+              ]
+            }
+          }
+        },
+        "claim": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "claim_number",
+            "claim_type",
+            "independent_or_dependent",
+            "depends_on",
+            "claim_text",
+            "claim_elements",
+            "claim_family_id",
+            "review_status"
+          ],
+          "properties": {
+            "claim_number": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "claim_type": {
+              "$ref": "#/$defs/p2_004/$defs/claim_type"
+            },
+            "independent_or_dependent": {
+              "enum": [
+                "INDEPENDENT",
+                "DEPENDENT"
+              ]
+            },
+            "depends_on": {
+              "type": "array",
+              "maxItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "integer",
+                "minimum": 1
+              }
+            },
+            "claim_text": {
+              "$ref": "#/$defs/p2_004/$defs/non_empty_text"
+            },
+            "claim_elements": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/$defs/p2_004/$defs/claim_element"
+              }
+            },
+            "claim_family_id": {
+              "type": "string",
+              "pattern": "^CF-P2-004-(SYSTEM|APPARATUS|METHOD|PROCESS|COMPOSITION)$"
+            },
+            "review_status": {
+              "const": "UNREVIEWED"
+            }
+          }
+        },
+        "claim_support": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "claim_number",
+            "element_id",
+            "support_status",
+            "source_paths",
+            "evidence_ids",
+            "specification_section_ids",
+            "specification_support_refs",
+            "upstream_entity_ids",
+            "grounding",
+            "conflict_status"
+          ],
+          "properties": {
+            "claim_number": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "element_id": {
+              "type": "string",
+              "pattern": "^CE-P2-004-[0-9]{4,}$"
+            },
+            "support_status": {
+              "const": "SUPPORTED"
+            },
+            "source_paths": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/p2_004/$defs/pointer_array"
+                },
+                {
+                  "minItems": 1
+                }
+              ]
+            },
+            "evidence_ids": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/p2_004/$defs/identifier_array"
+                },
+                {
+                  "minItems": 1
+                }
+              ]
+            },
+            "specification_section_ids": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/p2_004/$defs/identifier_array"
+                },
+                {
+                  "minItems": 1
+                }
+              ]
+            },
+            "specification_support_refs": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/$defs/p2_004/$defs/disclosure_ref"
+              }
+            },
+            "upstream_entity_ids": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/p2_004/$defs/identifier_array"
+                },
+                {
+                  "minItems": 1
+                }
+              ]
+            },
+            "grounding": {
+              "enum": [
+                "SOURCE_FACT",
+                "PARAPHRASE"
+              ]
+            },
+            "conflict_status": {
+              "const": "CLEAR"
+            },
+            "parameter_scope": {
+              "enum": [
+                "EXAMPLE_ONLY",
+                "SUPPORTED_RANGE",
+                "UNKNOWN_SCOPE"
+              ]
+            }
+          }
+        },
+        "issue": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "issue_id",
+            "code",
+            "family_id",
+            "entity_ids",
+            "source_paths",
+            "specification_paths",
+            "evidence_ids",
+            "missing_ids",
+            "author_question_ids",
+            "support_status",
+            "message"
+          ],
+          "properties": {
+            "issue_id": {
+              "type": "string",
+              "pattern": "^ISS-P2-004-[0-9]{4,}$"
+            },
+            "code": {
+              "$ref": "#/$defs/p2_004/$defs/identifier"
+            },
+            "family_id": {
+              "type": "string",
+              "pattern": "^CF-P2-004-(SYSTEM|APPARATUS|METHOD|PROCESS|COMPOSITION)$"
+            },
+            "entity_ids": {
+              "$ref": "#/$defs/p2_004/$defs/identifier_array"
+            },
+            "source_paths": {
+              "$ref": "#/$defs/p2_004/$defs/pointer_array"
+            },
+            "specification_paths": {
+              "$ref": "#/$defs/p2_004/$defs/pointer_array"
+            },
+            "evidence_ids": {
+              "$ref": "#/$defs/p2_004/$defs/identifier_array"
+            },
+            "missing_ids": {
+              "$ref": "#/$defs/p2_004/$defs/identifier_array"
+            },
+            "author_question_ids": {
+              "$ref": "#/$defs/p2_004/$defs/identifier_array"
+            },
+            "support_status": {
+              "enum": [
+                "UNSUPPORTED",
+                "HUMAN_CONFIRMATION_REQUIRED"
+              ]
+            },
+            "message": {
+              "$ref": "#/$defs/p2_004/$defs/non_empty_text"
+            }
+          }
+        },
+        "warning": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "warning_id",
+            "code",
+            "family_id",
+            "affected_ids",
+            "source_paths",
+            "message"
+          ],
+          "properties": {
+            "warning_id": {
+              "type": "string",
+              "pattern": "^W-P2-004-[0-9]{4,}$"
+            },
+            "code": {
+              "$ref": "#/$defs/p2_004/$defs/identifier"
+            },
+            "family_id": {
+              "type": "string",
+              "pattern": "^CF-P2-004-(SYSTEM|APPARATUS|METHOD|PROCESS|COMPOSITION)$"
+            },
+            "affected_ids": {
+              "$ref": "#/$defs/p2_004/$defs/identifier_array"
+            },
+            "source_paths": {
+              "$ref": "#/$defs/p2_004/$defs/pointer_array"
+            },
+            "message": {
+              "$ref": "#/$defs/p2_004/$defs/non_empty_text"
+            }
+          }
+        },
+        "missing_information": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "missing_id",
+            "family_id",
+            "source_paths",
+            "reason",
+            "question_ids"
+          ],
+          "properties": {
+            "missing_id": {
+              "type": "string",
+              "pattern": "^MI-P2-004-[0-9]{4,}$"
+            },
+            "family_id": {
+              "type": "string",
+              "pattern": "^CF-P2-004-(SYSTEM|APPARATUS|METHOD|PROCESS|COMPOSITION)$"
+            },
+            "source_paths": {
+              "$ref": "#/$defs/p2_004/$defs/pointer_array"
+            },
+            "reason": {
+              "$ref": "#/$defs/p2_004/$defs/non_empty_text"
+            },
+            "question_ids": {
+              "$ref": "#/$defs/p2_004/$defs/identifier_array"
+            }
+          }
+        },
+        "author_question": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "question_id",
+            "family_id",
+            "missing_id",
+            "question",
+            "status"
+          ],
+          "properties": {
+            "question_id": {
+              "type": "string",
+              "pattern": "^AQ-P2-004-[0-9]{4,}$"
+            },
+            "family_id": {
+              "type": "string",
+              "pattern": "^CF-P2-004-(SYSTEM|APPARATUS|METHOD|PROCESS|COMPOSITION)$"
+            },
+            "missing_id": {
+              "type": "string",
+              "pattern": "^MI-P2-004-[0-9]{4,}$"
+            },
+            "question": {
+              "$ref": "#/$defs/p2_004/$defs/non_empty_text"
+            },
+            "status": {
+              "const": "OPEN"
+            }
+          }
+        },
+        "evidence_locator": {
+          "type": "object",
+          "additionalProperties": false,
+          "minProperties": 1,
+          "properties": {
+            "page": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "section": {
+              "$ref": "#/$defs/p2_004/$defs/non_empty_text"
+            },
+            "paragraph_id": {
+              "$ref": "#/$defs/p2_004/$defs/identifier"
+            },
+            "chunk_id": {
+              "$ref": "#/$defs/p2_004/$defs/identifier"
+            },
+            "table_id": {
+              "$ref": "#/$defs/p2_004/$defs/identifier"
+            },
+            "figure_id": {
+              "$ref": "#/$defs/p2_004/$defs/identifier"
+            }
+          }
+        },
+        "evidence": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "evidence_id",
+            "document_id",
+            "evidence_type",
+            "locator",
+            "excerpt"
+          ],
+          "properties": {
+            "evidence_id": {
+              "$ref": "#/$defs/p2_004/$defs/identifier"
+            },
+            "document_id": {
+              "$ref": "#/$defs/p2_004/$defs/identifier"
+            },
+            "evidence_type": {
+              "enum": [
+                "TEXT",
+                "TABLE"
+              ]
+            },
+            "locator": {
+              "$ref": "#/$defs/p2_004/$defs/evidence_locator"
+            },
+            "excerpt": {
+              "$ref": "#/$defs/p2_004/$defs/non_empty_text"
+            }
+          }
+        },
+        "review_package": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "evidence",
+            "claim_support",
+            "issues",
+            "warnings",
+            "missing_information",
+            "author_questions"
+          ],
+          "properties": {
+            "evidence": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/p2_004/$defs/evidence"
+              }
+            },
+            "claim_support": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/p2_004/$defs/claim_support"
+              }
+            },
+            "issues": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/p2_004/$defs/issue"
+              }
+            },
+            "warnings": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/p2_004/$defs/warning"
+              }
+            },
+            "missing_information": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/p2_004/$defs/missing_information"
+              }
+            },
+            "author_questions": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/p2_004/$defs/author_question"
+              }
+            }
+          }
+        },
+        "review_boundary": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "source_grounded",
+            "human_ip_review_required",
+            "review_status",
+            "filing_ready",
+            "legal_advice",
+            "patentability_assessment_included",
+            "novelty_assessment_included",
+            "claim_scope_optimized",
+            "assembled_p2_001_document",
+            "render_review_metadata_as_claim_text"
+          ],
+          "properties": {
+            "status": {
+              "const": "DRAFT"
+            },
+            "source_grounded": {
+              "const": true
+            },
+            "human_ip_review_required": {
+              "const": true
+            },
+            "review_status": {
+              "const": "UNREVIEWED"
+            },
+            "filing_ready": {
+              "const": false
+            },
+            "legal_advice": {
+              "const": false
+            },
+            "patentability_assessment_included": {
+              "const": false
+            },
+            "novelty_assessment_included": {
+              "const": false
+            },
+            "claim_scope_optimized": {
+              "const": false
+            },
+            "assembled_p2_001_document": {
+              "const": false
+            },
+            "render_review_metadata_as_claim_text": {
+              "const": false
+            }
+          }
+        }
+      }
+    }
+  }
+}
