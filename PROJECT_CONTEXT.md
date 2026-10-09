@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | SPEC-002 |
 | Document title | Project Context — AI Intellectual Property Description Generator |
-| Version | 0.4.35 |
+| Version | 0.4.36 |
 | Status | Approved baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT |
@@ -82,6 +82,7 @@
 | 0.4.31 | 0.4.32 | 06/10/2026 | Codex | Reconcile P2-004 specification 0.1.0 review PASS/NONE, AC-01…AC-48 PASS, 54-case plan ADEQUATE, PR #80 merge/main CI and accepted ADR-014 baseline | Bounded six-doc evidence/status reconciliation; implementation NOT AUTHORIZED | HUMAN-P2-004-SPECIFICATION-STATUS-RECONCILIATION-2026-10-06; reviewed `89eef2af3fcc4105b66acf02f9504b2887c222ac`; merge `9ac1889e44bca080e21efb5bbbd2ebf5c3140293`; CI `37262324108` SUCCESS | No |
 | 0.4.32 | 0.4.33 | 06/10/2026 | Codex | Record Human-authorized P2-004 standalone offline implementation, executable verification, PR #82 and exact-head CI success; hand off for independent fixed-SHA implementation review | Current-state governance handoff only; no implementation review PASS, merge, runtime integration, provider, real-data, frontend/DOCX, deployment or production authorization | HUMAN-P2-004-IMPLEMENTATION-2026-10-06; baseline `b1085337c8f16c4bb72574bfb45e27741290ca90`; executable SHA `411b17a6ed39885b47af9932c9cf44d4b498db9e`; PR #82; CI `37423007016` SUCCESS | No |
 | 0.4.34 | 0.4.35 | 09/10/2026 | Codex | Reconcile final P2-004 governance closeout PASS/NONE, PR #84 merge and successful exact-main CI; preserve earlier PENDING as dated history | Human-authorized documentation-only P2-004 final status reconciliation | Closeout reviewed `1ee7295fea606d3e3629c1e02c62e6fa54a21aaf`; PR #84 merge `60dad0d463eb5f48bd0b042006aab299c07fb099`; CI `37460349940` SUCCESS; MCP Unknown task: P2-004; Claims runtime disabled | No — status only; specification 0.1.0 unchanged |
+| 0.4.35 | 0.4.36 | 09/10/2026 | Codex | Record P2-005 V1 external implementation PASS/NONE, normal merge and postmerge CI SUCCESS; identify upstream Claims gap and governance closeout review gate | Evidence-only status reconciliation within Human-authorized P2-005 | Reviewed `731f0064a911205e9a8ddb9de64f4fa3b65b88e2`; PR #98 merge `f3dfd7d1f1e559fb537256405ceaad47ba433560`; PR CI #37885329783 SUCCESS; main CI #37895226175 COMPLETED/SUCCESS; MCP Unknown task: P2-005 | No — documentation only |
 | 0.4.33 | 0.4.34 | 06/10/2026 | Codex | Record P2-004 independent implementation PASS/NONE, PR #82 merge, exact post-merge main CI and open the documentation-only governance closeout review gate | Post-merge evidence reconciliation only; no runtime integration, provider, real-data, frontend/DOCX/deployment, production or downstream authorization | `HUMAN-P2-004-IMPLEMENTATION-2026-10-06`; reviewed `eb93bf3b47682f9091bbaaf77b7bf87d7b232ee0`; merge `009e1320405a8d956510c4a11a73f6626acec281`; main CI `37426892194` SUCCESS | No |
 
 ## 2. Project name
@@ -271,6 +272,13 @@ Output Schema v1.0.0 có phạm vi hẹp hơn mô hình toàn hệ thống: grou
 | Source of Truth | Nguồn chính thức được ưu tiên khi có mâu thuẫn |
 
 ## 19. Current project phase
+
+### P2-005 — implementation merged; closeout governance pending (09/10/2026)
+
+P2-005 specification v0.1.0 approved at frozen `d9eb6bf66b14cecfe416e9eb1123a5eab84eeeb1`, specification PR #96 merge `6960a32efec7e4f640dfcadc6c73407c02ca7248`. V1 implementation under `HUMAN-P2-005-IMPLEMENTATION-2026-10-09` reviewed `731f0064a911205e9a8ddb9de64f4fa3b65b88e2`, Human-provided Gemini 3.1 Pro High / Antigravity STRICT READ-ONLY PASS/NONE ([external record](https://github.com/nshaokiet/ai-ip-description-generator/pull/98#issuecomment-6075865959)); reviewer background tests still running in supplied transcript, so independent execution results unverified. Codex targeted 19 pass; full Python 887 pass/3 skip; exact-head PR CI #37885329783 SUCCESS. PR #98 normal merge `f3dfd7d1f1e559fb537256405ceaad47ba433560`, verified matching reviewed tree. [Push/main CI #37895226175](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/37895226175) is COMPLETED / SUCCESS on exact merge SHA. Governance documentation reconciliation requires separate independent review, PR CI and merge; P2-005 completion **PENDING**.
+
+New `USPTO_DOCUMENT_PACKAGE` v1.0.0 remains deterministic/synthetic/offline, separate filing-style and review views, with P2-003 original `claims_runtime_implemented=false` preserved. Authentic APP-002→P2-002 synthetic source-chain yields unresolved solution-element relations/essentiality, so P2-004 emits no eligible supported Claims end-to-end. Curated P2-004 positive projection fixture is not a public APP-002-provenance-valid positive E2E test. Remediation is a separately authorized follow-up; do not infer P2-007 fixes it. MCP `Unknown task: P2-005` — BLOCKED BY TOOL CAPABILITY; no false completion. P2-006 PDF/editable DOCX renderer is recommended only, requires separate authorization. No providers, real/confidential papers, production or legal filing readiness.
+
 
 Current dated reconciliation (09/10/2026): **P2-004 CLOSED / COMPLETED — MERGED**. Specification 0.1.0 remains **APPROVED / MERGED**, and ADR-014 remains the accepted specification architecture baseline. Independent implementation review and governance closeout review are both **CLOSED — PASS / findings NONE**.
 

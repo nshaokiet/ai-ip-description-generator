@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.74 |
+| Version | 0.3.75 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -18,6 +18,17 @@
 | Related task ID | SPEC-004 |
 | Source of Truth | Operational status bridge; bản nguồn Git tại `docs/operations/01_PROJECT_CONTROL_CENTER.md` |
 | Confidentiality level | Internal |
+
+### P2-005 — implementation merge and closeout gate (09/10/2026)
+
+- Workflow: **V1; no V2 enrollment**. Human specification authorization `HUMAN-P2-005-SPEC-APPROVAL-2026-10-09` on `d9eb6bf66b14cecfe416e9eb1123a5eab84eeeb1`; specification PR #96 merge `6960a32efec7e4f640dfcadc6c73407c02ca7248`. Implementation authorization `HUMAN-P2-005-IMPLEMENTATION-2026-10-09`.
+- Independent evidence: Human-provided external Gemini 3.1 Pro High / Antigravity, session `92bd4319-8a23-4075-b077-cae8a57fdfb8`, STRICT READ-ONLY, exact reviewed `731f0064a911205e9a8ddb9de64f4fa3b65b88e2`, **PASS / NONE**, merge recommended. [Published/read-back record](https://github.com/nshaokiet/ai-ip-description-generator/pull/98#issuecomment-6075865959); not native GitHub approval/authenticated identity. Reviewer background-test final outputs absent; independent tests **NOT VERIFIED**.
+- Scope/test: exactly seven P2-005/README files, unchanged released P2-001–P2-004; Codex local targeted **19 passed**, full Windows **887 passed/3 skipped**, distinct from reviewer tests. PR CI [#37885329783](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/37885329783) COMPLETED/SUCCESS at exact reviewed SHA. No unresolved PR review threads or blocking finding.
+- Merge: PR #98 **MERGED** normally with expected-head protection at `f3dfd7d1f1e559fb537256405ceaad47ba433560`; main parent pair `6960a32efec7e4f640dfcadc6c73407c02ca7248` + `731f0064a911205e9a8ddb9de64f4fa3b65b88e2`, merge tree equals reviewed implementation tree `e914250a2b389e1320b5c862944af997568bec08`. [Postmerge main CI #37895226175](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/37895226175) **COMPLETED / SUCCESS** at exact merge SHA.
+- Upstream Claims limitation: authentic APP-002→P2-002 synthetic evidence reconstruction does not establish eligible supported Claims because solution-element links/essentiality remain unresolved. Curated P2-004 positive projection is a standalone test and does not prove public source-provenance-valid positive E2E. Separate scope/Human approval needed for remediation, not assumed P2-007.
+- MCP `project_get_state(P2-005)`: **Unknown task: P2-005 — BLOCKED BY TOOL CAPABILITY**. No fabricated task state/lease/completion.
+- Status: **IMPLEMENTATION MERGED; POSTMERGE CI VERIFIED / SEPARATE GOVERNANCE CLOSEOUT REVIEW PENDING**. Documentation change must receive independent fixed-SHA review, exact-head CI, eligibility, normal merge and final main verification before `CLOSED / COMPLETED`.
+- Next proposal: P2-006 B2-reference-style PDF + editable DOCX Renderer, specification PR #97. **NOT AUTHORIZED / NOT IMPLEMENTED** by this closeout. Provider budget zero, real-paper processing, public product v2 runtime and production excluded; BLK-003 OPEN and EVAL-001 PRODUCT_RUNTIME deferred.
 
 ### GOV-AGENT-001-G — current adoption status
 
@@ -167,6 +178,7 @@ provider/data/production authority unchanged. Historical entries below are prese
 | Phiên bản cũ | Phiên bản mới | Ngày | Người thực hiện | Thay đổi | Lý do | Finding/Decision liên quan | Breaking change |
 |---|---|---|---|---|---|---|---|
 | 0.3.73 | 0.3.74 | 09/10/2026 | Codex | Reconcile P2-004 final closeout PASS/NONE and PR #84 merge/final exact-main CI while preserving historical PENDING gate and unrelated GOV-AGENT-001 records | Human-authorized docs-only status reconciliation | P2-004 closeout reviewed `1ee7295fea606d3e3629c1e02c62e6fa54a21aaf`; merge `60dad0d463eb5f48bd0b042006aab299c07fb099`; CI `37460349940` SUCCESS; MCP Unknown task: P2-004 | No — factual status only |
+| 0.3.74 | 0.3.75 | 09/10/2026 | Codex | Record V1 P2-005 implementation fixed-SHA review, PR #98 merge, successful main CI and upstream Claims capability gap; open documentation closeout review gate | Actual post-merge evidence reconciliation within authorized task | Reviewed `731f0064a911205e9a8ddb9de64f4fa3b65b88e2`; [external review](https://github.com/nshaokiet/ai-ip-description-generator/pull/98#issuecomment-6075865959); merge `f3dfd7d1f1e559fb537256405ceaad47ba433560`; CI #37885329783 SUCCESS; main CI #37895226175 COMPLETED/SUCCESS; MCP Unknown task | No — governance status only |
 | 0.3.72 | 0.3.73 | 08/10/2026 | Codex | Clarify G-AC-24 completion predicate: PR94 same-SHA dual PASS/CI/MANUAL_EXTERNAL/merge, resulting main CI, canonical closeout/readback and README sync; retain PENDING until evidence | Human GOV-AGENT-001-G authorized postmerge closeout / PR #94 review remediation | GOV-AGENT-001-G; PR #93 merge and CI verified; PR #94 gates pending | No — factual completion wording only |
 | 0.3.71 | 0.3.72 | 08/10/2026 | Codex | Append verified PR93 dual reviews/MANUAL_EXTERNAL/merge/exact-main CI; reconcile README stage without claiming final closeout | Actual Human bounded closeout instruction ac4605b5-138d-44af-9899-19bfcc545ee7 | GOV-AGENT-001-G; merge 1c8212971db10eb44fb0639da34f4076af6ca4eb; main CI37751828515 SUCCESS; separate follow-up review pending | No — factual status/evidence only |
 | 0.3.70 | 0.3.71 | 08/10/2026 | Codex | Reconcile G v0.1.1 freeze, Planner/Implementer and original Security report/hash; preserve empty MCP review history honestly | Human security supersession approval | GOV-AGENT-001-G; spec3/provenance8; dual re-review pending | No — factual security/status references |
