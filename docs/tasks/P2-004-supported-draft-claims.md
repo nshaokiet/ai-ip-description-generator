@@ -5,15 +5,15 @@
 | Field | Value |
 |---|---|
 | Task ID / specification version | P2-004 / **0.1.0** |
-| Status | **IMPLEMENTATION MERGED — GOVERNANCE CLOSEOUT REVIEW PENDING** |
+| Status | **CLOSED / COMPLETED — MERGED** |
 | Human authorization | `HUMAN-P2-004-IMPLEMENTATION-2026-10-06` |
 | Authorized baseline | `b1085337c8f16c4bb72574bfb45e27741290ca90` |
 | Specification authorization / baseline | `HUMAN-P2-004-CLAIMS-SPECIFICATION-2026-10-05` / `60b0fdb4ed68cd8c701576cf49a8b620052bb14b` — historical specification evidence |
 | Implementation branch / PR | `feat/p2-004-supported-draft-claims` / #82 — **MERGED** |
 | Reviewed implementation SHA / exact-head CI | `eb93bf3b47682f9091bbaaf77b7bf87d7b232ee0` / `37425148244` — **SUCCESS** |
 | Date / owner / author | 06/10/2026 GMT+7 / Human — Product Owner / Codex |
-| Independent reviewer | Specification: Gemini 3.1 Pro High / Antigravity read-only **PASS / findings NONE**; implementation: Gemini 3.1 Pro High / Antigravity read-only **PASS / findings NONE**; closeout: **PENDING** |
-| Phase / implementation | **IMPLEMENTATION MERGED — IMPLEMENTATION REVIEW PASS; GOVERNANCE CLOSEOUT REVIEW PENDING** |
+| Independent reviewer | Specification, implementation and governance closeout: **Gemini 3.1 Pro High / Antigravity read-only**, each **PASS / findings NONE**; final status reconciliation fixed-SHA review **PENDING** |
+| Phase / implementation | **CLOSED / COMPLETED — MERGED**; standalone offline implementation complete, Claims runtime **NOT ENABLED** |
 | Input | Validated P2-002 `INVENTION_RECONSTRUCTION` v1.0.0 AND validated P2-003 `USPTO_SPECIFICATION_DRAFT` v2.0.0 |
 | Output contract identity | Standalone `SUPPORTED_DRAFT_CLAIMS` **v1.0.0**; production JSON Schema created at `schemas/supported-draft-claims/v1.0.0/supported-draft-claims.schema.json` |
 | Architecture record | [ADR-014](../decisions/ADR-014-supported-draft-claims-contract.md) — **ACCEPTED as specification architecture baseline** |
@@ -26,6 +26,8 @@
 | Reviewed implementation SHA | `eb93bf3b47682f9091bbaaf77b7bf87d7b232ee0` |
 | Implementation PR / exact-head CI | #82 — **MERGED**; `37425148244` — **SUCCESS** |
 | Implementation merge / main CI | `009e1320405a8d956510c4a11a73f6626acec281`; `37426892194` — **SUCCESS** |
+| Closeout review / reviewed SHA | **CLOSED — PASS / findings NONE**; Gemini 3.1 Pro High / Antigravity read-only; `1ee7295fea606d3e3629c1e02c62e6fa54a21aaf` |
+| Closeout PR / merge / final main CI | #84 **MERGED**; `60dad0d463eb5f48bd0b042006aab299c07fb099`; `37460349940` — **COMPLETED / SUCCESS** (push/main, exact merge SHA) |
 | Reconciliation authorization / date | `HUMAN-P2-004-SPECIFICATION-STATUS-RECONCILIATION-2026-10-06` / 06/10/2026 GMT+7 |
 
 ## 1. Purpose, authority and non-goals
@@ -807,7 +809,7 @@ or execution of future tests.
 
 ## 24. Governance gates, boundaries and fixed-SHA handoff
 
-### Current implementation and governance-closeout gate — 06/10/2026
+### Final implementation and governance status — 09/10/2026
 
 Specification 0.1.0 remains **APPROVED / MERGED**; ADR-014 remains the **ACCEPTED P2-004 specification architecture baseline**.
 
@@ -815,9 +817,9 @@ Human-supplied external independent implementation review by **Gemini 3.1 Pro Hi
 
 PR #82 is **MERGED** at `009e1320405a8d956510c4a11a73f6626acec281`. Post-merge main/push CI `37426892194` is **SUCCESS** with `head_branch=main` and `head_sha=009e1320405a8d956510c4a11a73f6626acec281`. Verified implementation evidence also preserves P2-004 oracle **54/54**, targeted P2-002/P2-003 regression **237/237**, full Python **738 passed / 3 skipped**, frontend checks **PASS**, Playwright **26/26** with the historical Windows teardown caveat, static export **PASS**, demo E2E **5/5**, provider/API calls **NONE**, real/confidential data **NONE**.
 
-Current state: **IMPLEMENTATION MERGED — IMPLEMENTATION REVIEW PASS**. Standalone `SUPPORTED_DRAFT_CLAIMS` **v1.0.0 IMPLEMENTED OFFLINE**. This does not enable Claims in product runtime. P2-001/P2-002/P2-003 semantics remain unchanged; P2-003 `review_boundary.claims_runtime_implemented = false`; Claims runtime integration **NOT ENABLED**. Provider/API remains **NONE / NOT AUTHORIZED**; real/confidential data **NOT AUTHORIZED**; production **NOT APPROVED / NOT PERFORMED**; downstream tasks **NOT AUTHORIZED**. MCP remains **BLOCKED BY TOOL CAPABILITY — Unknown task: P2-004**.
+Current state: **P2-004 CLOSED / COMPLETED — MERGED**. Governance closeout review by **Gemini 3.1 Pro High / Antigravity read-only** on `1ee7295fea606d3e3629c1e02c62e6fa54a21aaf` is **CLOSED — PASS / findings NONE**. PR #84 merged at `60dad0d463eb5f48bd0b042006aab299c07fb099`; exact-main push CI `37460349940` **COMPLETED / SUCCESS**. Standalone `SUPPORTED_DRAFT_CLAIMS` **v1.0.0 IMPLEMENTED OFFLINE**. This does not enable Claims in product runtime. P2-001/P2-002/P2-003 semantics remain unchanged; P2-003 `review_boundary.claims_runtime_implemented = false`; Claims runtime integration **NOT ENABLED**. Provider/API remains **NONE / NOT AUTHORIZED**; real/confidential data **NOT AUTHORIZED**; production **NOT APPROVED / NOT PERFORMED**; downstream tasks **NOT AUTHORIZED**. MCP remains **BLOCKED BY TOOL CAPABILITY — Unknown task: P2-004**.
 
-Next gate: **REV-P2-004-CLOSEOUT — documentation-only independent fixed-SHA governance closeout review, PENDING**. Do not mark P2-004 final CLOSED and **DO NOT MERGE the governance closeout** until that review gate is satisfied.
+Historical gate **REV-P2-004-CLOSEOUT** was PENDING before the independent closeout review and PR #84 merge; it is now **CLOSED — PASS / findings NONE**. The present documentation-only final-status reconciliation must receive a separate fixed-SHA independent governance review, with STOP before its PR merge. No downstream task authorization follows from this reconciliation.
 
 ### Historical pre-review authorization and handoff — preserved
 
@@ -868,3 +870,4 @@ explicit caller selection/confirmation metadata. Do not remediate outside scope.
 | None | Specification 0.1.0; proposed standalone contract 1.0.0 | 05/10/2026 | Codex | Define standalone supported draft Claims, strict dual support, fail-closed released-model capability gates, deterministic generation/audit and future tests; independent review pending | HUMAN-P2-004-CLAIMS-SPECIFICATION-2026-10-05; baseline `60b0fdb4ed68cd8c701576cf49a8b620052bb14b`; ADR-014 | No — existing contracts unchanged; new standalone contract not implemented |
 | Specification 0.1.0; standalone contract 1.0.0 proposed | Specification 0.1.0 unchanged; standalone contract 1.0.0 implemented on review branch | 06/10/2026 | Codex | Implement production JSON Schema, deterministic offline generator/validator, strict dual-support/business gates, canonical rendering and reviewed 54-case synthetic/adversarial suite; implementation review pending | `HUMAN-P2-004-IMPLEMENTATION-2026-10-06`; baseline `b1085337c8f16c4bb72574bfb45e27741290ca90`; executable `411b17a6ed39885b47af9932c9cf44d4b498db9e`; PR #82; CI `37423007016` SUCCESS | No — standalone additive contract; P2-001/P2-002/P2-003 semantics unchanged |
 | Specification 0.1.0 unchanged; standalone contract 1.0.0 implemented on review branch | Specification 0.1.0 unchanged; standalone contract 1.0.0 implementation merged; governance closeout review pending | 06/10/2026 | Codex | Record fixed-SHA implementation PASS/NONE, PR #82 merge and exact post-merge main CI; open documentation-only governance closeout review gate | `HUMAN-P2-004-IMPLEMENTATION-2026-10-06`; reviewed `eb93bf3b47682f9091bbaaf77b7bf87d7b232ee0`; merge `009e1320405a8d956510c4a11a73f6626acec281`; main CI `37426892194` SUCCESS | No — technical contract unchanged; runtime integration remains disabled |
+| Specification 0.1.0 unchanged; governance closeout review pending | Specification 0.1.0 unchanged; P2-004 CLOSED / COMPLETED — MERGED | 09/10/2026 | Codex | Reconcile independent closeout PASS/NONE, PR #84 merge and final main CI without contract/runtime modifications | `REV-P2-004-CLOSEOUT` reviewed `1ee7295fea606d3e3629c1e02c62e6fa54a21aaf`; merge `60dad0d463eb5f48bd0b042006aab299c07fb099`; CI `37460349940` SUCCESS | No — documentation status only |
