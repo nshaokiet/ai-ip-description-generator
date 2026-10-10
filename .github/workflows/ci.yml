@@ -13,8 +13,8 @@ permissions:
 
 jobs:
   build-and-test:
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
     env:
       PYTHONDONTWRITEBYTECODE: "1"
       RUN_OPENAI_LIVE_TESTS: "0"
@@ -48,6 +48,33 @@ jobs:
 
       - name: Run offline backend regression
         run: python -m pytest tests -q -p no:cacheprovider
+
+      - name: Install offline document layout QA tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends libreoffice-writer poppler-utils
+          mkdir -p ~/.local/share/fonts
+          cp backend/app/services/assets/fonts/*.ttf ~/.local/share/fonts/
+          fc-cache -f
+          soffice --version
+
+      - name: Validate synthetic editable DOCX layout using headless LibreOffice
+        run: |
+          mkdir -p "$RUNNER_TEMP/p2-006-layout-qa"
+          python tests/backend/qa_p2_006_libreoffice.py "$RUNNER_TEMP/p2-006-layout-qa"
+
+      - name: Archive synthetic renderer layout QA
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: p2-006-synthetic-layout-qa
+          path: |
+            ${{ runner.temp }}/p2-006-layout-qa/*.pdf
+            ${{ runner.temp }}/p2-006-layout-qa/*.png
+            ${{ runner.temp }}/p2-006-layout-qa/p2-005-*-p2-006/*.pdf
+            ${{ runner.temp }}/p2-006-layout-qa/p2-005-*-p2-006/*.docx
+          if-no-files-found: warn
+          retention-days: 7
 
       - uses: actions/setup-node@v7
         with:
