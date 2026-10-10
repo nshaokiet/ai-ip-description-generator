@@ -47,3 +47,5 @@ Status here is an implementation self-check. **Independent fixed-SHA Antigravity
 - Authentic APP-002 → P2-002 synthetic pipeline cannot produce eligible supported Claims end-to-end. `P2-003 claims_runtime_implemented=false` remains unchanged; standalone P2-004 positive Claims test supports component projection only.
 - Outputs contain no genuine figures because P2-005 does not expose an authorized image-byte/right-attestation input. Real figure processing requires separate Human decision.
 - P2-005 bundle validator remains the only public trust boundary; no new endpoint, external service, provider cost or real-paper permission.
+
+- Independent offline DOCX pagination inspection caught B2 column-two line numbers overlapping column-one text with a 320-twip gutter. Increased OOXML two-column space to **840 twips**; manually re-rendered all three B2 pages and verified the gutter is clear, with application mode five-page visual check unchanged. Regression asserts the safe gutter. This remediation requires a new implementation SHA/CI and fixed-SHA review.

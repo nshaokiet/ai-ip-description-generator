@@ -307,7 +307,7 @@ def _docx(model: RenderModel, path: Path, *, b2: bool) -> None:
         cols = section._sectPr.xpath("./w:cols")
         element = cols[0] if cols else OxmlElement("w:cols")
         element.set(qn("w:num"), str(columns))
-        element.set(qn("w:space"), "320" if columns == 2 else "0")
+        element.set(qn("w:space"), "840" if columns == 2 else "0")
         if not cols:
             section._sectPr.append(element)
         if b2 and columns == 2:

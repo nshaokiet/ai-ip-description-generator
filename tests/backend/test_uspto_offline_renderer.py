@@ -89,7 +89,7 @@ def test_docx_editable_columns_line_numbers_and_single_column_application(tmp_pa
     namespace = {"w": "http://schemas.openxmlformats.org/wordprocessingml/2006/main"}
     with ZipFile(files[FILES[1]]) as z:
         root = etree.fromstring(z.read("word/document.xml"))
-        assert root.xpath("//w:sectPr/w:cols[@w:num='2']", namespaces=namespace)
+        assert root.xpath("//w:sectPr/w:cols[@w:num='2'][@w:space='840']", namespaces=namespace)
         assert root.xpath("//w:sectPr/w:lnNumType[@w:countBy='5']", namespaces=namespace)
         assert root.xpath("//w:t", namespaces=namespace)
     with ZipFile(files[FILES[3]]) as z:
