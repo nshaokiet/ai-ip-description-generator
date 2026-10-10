@@ -1,0 +1,16 @@
+{
+  "version": "1.0.0",
+  "ubuntu": "24.04",
+  "architecture": "amd64",
+  "snapshot": "20261009T000000Z",
+  "packages": {
+    "libreoffice-writer": "4:24.2.7-0ubuntu0.24.04.7",
+    "libreoffice-core": "4:24.2.7-0ubuntu0.24.04.7",
+    "libreoffice-common": "4:24.2.7-0ubuntu0.24.04.7",
+    "libreoffice-base-core": "4:24.2.7-0ubuntu0.24.04.7",
+    "poppler-utils": "24.02.0-1ubuntu9.10",
+    "libpoppler134": "24.02.0-1ubuntu9.10"
+  },
+  "libreoffice_runtime": "24.2.7.2",
+  "poppler_runtime": "24.02.0"
+}
