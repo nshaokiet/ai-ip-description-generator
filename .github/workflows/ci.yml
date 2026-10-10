@@ -51,17 +51,30 @@ jobs:
 
       - name: Install offline document layout QA tools
         run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends libreoffice-writer poppler-utils
-          mkdir -p ~/.local/share/fonts
-          cp backend/app/services/assets/fonts/*.ttf ~/.local/share/fonts/
-          fc-cache -f
-          soffice --version
+          bash tests/backend/install_p2_006_qa.sh
 
       - name: Validate synthetic editable DOCX layout using headless LibreOffice
         run: |
           mkdir -p "$RUNNER_TEMP/p2-006-layout-qa"
           python tests/backend/qa_p2_006_libreoffice.py "$RUNNER_TEMP/p2-006-layout-qa"
+
+      - name: Reproduce both public patent reference measurements
+        run: |
+          mkdir -p "$RUNNER_TEMP/p2-006-reference-qa"
+          curl --fail --location --retry 2 https://patentimages.storage.googleapis.com/91/f6/9b/18dc2af29220c8/US11367264.pdf --output "$RUNNER_TEMP/p2-006-reference-qa/US11367264.pdf"
+          curl --fail --location --retry 2 https://patentimages.storage.googleapis.com/42/19/af/1c5089854ab9d4/US11044591.pdf --output "$RUNNER_TEMP/p2-006-reference-qa/US11044591.pdf"
+          python tests/backend/measure_p2_006_references.py "$RUNNER_TEMP/p2-006-reference-qa" --verify docs/tasks/P2-006-reference-measurements.json --compare "$RUNNER_TEMP/p2-006-layout-qa"
+
+      - name: Archive public reference calibration (QA only)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: p2-006-public-reference-calibration
+          path: |
+            ${{ runner.temp }}/p2-006-reference-qa/*.png
+            ${{ runner.temp }}/p2-006-reference-qa/*.json
+          if-no-files-found: error
+          retention-days: 7
 
       - name: Archive synthetic renderer layout QA
         if: always()
@@ -71,6 +84,7 @@ jobs:
           path: |
             ${{ runner.temp }}/p2-006-layout-qa/*.pdf
             ${{ runner.temp }}/p2-006-layout-qa/*.png
+            ${{ runner.temp }}/p2-006-layout-qa/*.json
             ${{ runner.temp }}/p2-006-layout-qa/p2-005-*-p2-006/*.pdf
             ${{ runner.temp }}/p2-006-layout-qa/p2-005-*-p2-006/*.docx
           if-no-files-found: warn

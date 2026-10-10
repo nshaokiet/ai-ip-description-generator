@@ -7,6 +7,8 @@ This is a separate presentation-engine test, not a signed source validator.
 from __future__ import annotations
 
 from pathlib import Path
+import hashlib
+import json
 import re
 import subprocess
 import sys
@@ -19,7 +21,9 @@ sys.path.insert(0, str(ROOT))
 from test_uspto_document_package_v1 import inputs, run
 from backend.app.services.uspto_offline_renderer import (
     BANNER, CLAIMS_INCOMPLETE, FILES, render_uspto_document_package,
+    _build_model,
 )
+from verify_p2_006_qa_environment import verify
 
 
 def check(program: list[str]) -> None:
@@ -67,20 +71,28 @@ def main() -> None:
     if not qa_root.is_dir():
         raise ValueError("QA directory required")
 
+    # Enforce the source-controlled package and runtime pins in this process too.
+    environment = verify()
+    (qa_root / "qa-environment.json").write_text(json.dumps(environment, indent=2)+"\n")
+
     originals = inputs()
     package = run(originals)
     outputs = render_uspto_document_package(package, **originals, output_dir=qa_root)
     assert tuple(outputs) == FILES
-    check(["soffice", "--version"])
+    model = _build_model(package["filing_view"])
+    expected_text = [model.title, model.abstract]
+    expected_text.extend(part.text for section in model.sections for part in section.parts)
+    evidence = {"environment": environment, "outputs": {}}
 
     for profile in ("B2_REFERENCE_PREVIEW", "USPTO_APPLICATION_DRAFT"):
         source_pdf = outputs[profile + ".pdf"]
-        pages, _ = normalized_pdf(source_pdf)
-        for number in (1, len(pages)):
-            suffix = "cover" if number == 1 else "last"
+        pages, text = normalized_pdf(source_pdf)
+        assert all(re.sub(r"\s+", " ", fragment) in text for fragment in expected_text)
+        for number in range(1, len(pages)+1):
+            suffix = "cover" if number == 1 else f"p{number:02}"
             check([
                 "pdftoppm", "-f", str(number), "-l", str(number),
-                "-r", "200", "-singlefile", "-png", str(source_pdf),
+                "-r", "300", "-singlefile", "-png", str(source_pdf),
                 str(qa_root / f"{profile}-NATIVE-{suffix}"),
             ])
     synthetic_figure_layout(qa_root)
@@ -102,6 +114,8 @@ def main() -> None:
         assert BANNER in text
         assert CLAIMS_INCOMPLETE in text
         assert "What is claimed is:" not in text
+        assert all(BANNER in page for page in pages)
+        assert all(re.sub(r"\s+", " ", fragment) in text for fragment in expected_text)
         assert text.index("TITLE OF THE INVENTION") < text.index("BACKGROUND OF THE INVENTION")
         if profile == "USPTO_APPLICATION_DRAFT":
             claims_pages = [i for i, p in enumerate(pages) if CLAIMS_INCOMPLETE in p]
@@ -109,14 +123,24 @@ def main() -> None:
             assert claims_pages and abstract_pages and claims_pages[0] < abstract_pages[0]
             assert "CLAIMS" in pages[claims_pages[0]]
 
-        for number in (1, len(pages)):
-            suffix = "cover" if number == 1 else "last"
+        evidence["outputs"][profile] = {
+            "native_pages": len(PdfReader(str(outputs[profile+".pdf"])).pages),
+            "libreoffice_pages": len(pages), "all_filing_fragments_preserved": True,
+            "missing_claims_marker": True, "claims_preamble_absent": True,
+            "sha256": {name: hashlib.sha256(outputs[name].read_bytes()).hexdigest()
+                       for name in (profile+".pdf",profile+".docx")},
+            "converted_pdf_sha256": hashlib.sha256(converted.read_bytes()).hexdigest(),
+        }
+        for number in range(1, len(pages)+1):
+            suffix = "cover" if number == 1 else f"p{number:02}"
             check([
-                "pdftoppm", "-f", str(number), "-l", str(number), "-r", "200",
+                "pdftoppm", "-f", str(number), "-l", str(number), "-r", "300",
                 "-singlefile", "-png", str(converted),
                 str(qa_root / f"{profile}-LO-{suffix}"),
             ])
         print(f"LO_QA {profile}: {len(pages)} pages, editable DOCX converted, text markers verified")
+
+    (qa_root / "synthetic-qa-evidence.json").write_text(json.dumps(evidence, indent=2)+"\n")
 
 
 if __name__ == "__main__":

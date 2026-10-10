@@ -1,5 +1,7 @@
 # P2-006 offline renderer implementation notes
 
+Current remediation evidence (2026-10-10): [measured source table, deviations and pinned QA provenance](P2-006-reference-qa.md), [reproducible geometry JSON](P2-006-reference-measurements.json). Earlier preparatory CI/review wording below remains historical; the new implementation/QA commit requires fresh exact-head CI and Gemini 3.1 Pro High / Antigravity STRICT READ-ONLY independent re-review. No merge during this remediation.
+
 - Scope: additive internal Python service only. No public API or v1 export change.
 - Authority: Human-provided `HUMAN-P2-006-IMPLEMENTATION-2026-10-10`; frozen spec v0.2.0 at `5ac9b7bcd31e8ade7f4b0861b6e7a9c14e531953`. Workflow V1. This is not GitHub-native or cryptographic approval.
 - Input trust: released public `validate_uspto_document_package` takes P2-005 package and **all seven** original inputs, called before any staging/output. Output directory is an existing absolute local path; each successful run atomically renames one freshly rendered four-file directory. Unsafe symlink roots and output collisions fail closed.
@@ -20,7 +22,7 @@ Status here is an implementation self-check. **Independent fixed-SHA Antigravity
 | AC | Implementation evidence and residual gate |
 |---|---|
 | 01 | Human-provided spec, architecture and implementation approvals recorded; Workflow V1 with no enrollment; final reviewed SHA pending. |
-| 02 | Frozen specification v0.2.0 records two patent-reference layouts. Synthetic page previews independently inspected for geometry. No copied patent content or asserted percentage similarity. |
+| 02 | Both exact source PDFs now hash-verified and measured: cover/body pp.1/20 and pp.1/10; actual PDF image matrices, visible-ink bounds, margins/columns/gutter/line rhythm, title/heading scale and drawing observations in `P2-006-reference-measurements.json` and `P2-006-reference-qa.md`. Hidden OCR fonts explicitly NOT MEASURABLE as visible font identity. CI reproduces the table and separate side-by-side source/synthetic comparisons; fresh exact-SHA result/re-review required. |
 | 03 | `FILES` has exactly two profiles × PDF/editable DOCX. `test_four_mandatory_formats_order_status_and_filing_boundary` checks four atomic outputs. |
 | 04 | `_build_model` traverses validated `section_order`: exactly 13 IDs (11 ordinary sections plus separate Claims/Abstract), including status markers and sequence-listing disposition. Source order assertions in tests. |
 | 05 | B2 US Letter PDF uses (54) title/(57) abstract on black/white cover; same source fields in editable DOCX table. Local rasterized PDF cover inspected. |
@@ -49,3 +51,13 @@ Status here is an implementation self-check. **Independent fixed-SHA Antigravity
 - P2-005 bundle validator remains the only public trust boundary; no new endpoint, external service, provider cost or real-paper permission.
 
 - Independent offline DOCX pagination inspection caught B2 column-two line numbers overlapping column-one text with a 320-twip gutter. Increased OOXML two-column space to **840 twips**; manually re-rendered all three B2 pages and verified the gutter is clear, with application mode five-page visual check unchanged. Regression asserts the safe gutter. This remediation requires a new implementation SHA/CI and fixed-SHA review.
+
+## Mandatory-gate remediation addendum (2026-10-10)
+
+- Version: addendum 1.0.0; original unversioned implementation notes preserved, no released contract or renderer change; Breaking change: No.
+- Accepted findings: AC-02 lacked measured source evidence; unpinned apt installation did not satisfy the frozen specification's pinned LibreOffice requirement. No exception/waiver claimed.
+- AC-16 / spec Sections 8–9: CI now installs **LibreOffice 4:24.2.7-0ubuntu0.24.04.7 (runtime 24.2.7.2)** and **Poppler 24.02.0-1ubuntu9.10 (runtime 24.02.0)** from isolated signed Ubuntu snapshot `20261009T000000Z`. Exact revision/runtime mismatch blocks conversion. Snapshot index provenance, license notes, assumptions and update process are documented in the linked reference QA record.
+- AC-07/13/14: unchanged renderer and 840-twip DOCX gutter. QA captures every native/converted page at 300 dpi, verifies all filing-model text fragments across native/converted outputs, records page counts and hashes, checks missing Claims/absence of preamble and application Claims/Abstract sheet ordering. Four actual draft files remain synthetic-only; source patents are used solely by separate reference measurement QA.
+- Local remediation verification: 12 renderer tests PASS; full pre-addition Windows backend 899 PASS / 3 SKIP / one existing Starlette deprecation warning; 4 new pin success/mismatch tests PASS; pip check clean; frozen specification and released contracts/renderer unchanged. Actual pinned Ubuntu conversion, full frontend/browser regression and source-versus-output QA are required in the new exact-head CI, with final results/artifact IDs in the external fixed-SHA handoff.
+- Old external review on `2a8c7d664606ed586715a4373a41d636a6335c89` remains historical. New QA/evidence/CI code is not independently reviewed by that PASS. Current MCP read returns `Unknown task: P2-006`; operational state/lease remains BLOCKED BY TOOL CAPABILITY, never fabricated.
+- Completion boundary for this execution: after new exact-head CI SUCCESS and artifact verification, **REMEDIATION COMPLETE / READY FOR INDEPENDENT FIXED-SHA RE-REVIEW**; not task Completed, PR merged, production-ready or filing-ready. New independent review remains pending.
