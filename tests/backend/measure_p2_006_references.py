@@ -149,9 +149,19 @@ def comparisons(root, qa):
             path = qa / f"{profile}-{engine}-{suffix}.png"
             image = Image.open(path)
             sx, sy = 612/image.width, 792/image.height
-            boxes = ([[50,65,306,736], [325,65,565,736]] if profile == "B2_REFERENCE_PREVIEW"
-                     else [[70,65,560,736]])
+            if profile == "B2_REFERENCE_PREVIEW":
+                # Word/LO has wider numeral glyphs and different frames. Keep
+                # gutter numbers outside the column-ink measurements, and do
+                # not cut off glyphs at the narrower native-PDF margin.
+                boxes = ([[46,65,287,750], [325,65,566,750]] if engine == "LO"
+                         else [[50,65,306,750], [325,65,565,750]])
+            else:
+                boxes = [[70,65,560,750]]
             regions = [geometry(image, box, sx, sy) for box in boxes]
+            for region in regions:
+                box, ink = region["window_pt"], region["ink_bbox_pt"]
+                if ink[0] <= box[0]+.48 or ink[2] >= box[2]-.48:
+                    raise ValueError("Synthetic column measurement window clips horizontal ink")
             structures[profile+"-"+engine] = {
                 "measured_screenshot": path.name, "pdf_page": 2 if suffix == "p02" else 1,
                 "page_pt": [612,792], "regions": regions,
