@@ -1,5 +1,112 @@
 # DEP-001 — Frontend dependency security remediation
 
+## Current DEP-001-A2 implementation checkpoint — ledger 1.1.0
+
+2026-10-11, Codex, Workflow V1. **IMPLEMENTATION CANDIDATE / FRESH INDEPENDENT
+SECURITY REVIEW PENDING**. Human explicitly approved “TASK: DEP-001-A2 — IMPLEMENT
+CONTROLLED ESLINT SECURITY ADAPTER”; attachment SHA-256
+`8059948bd2106830b6265ea39ecd292987422ff8c042cb9b1176ee665e0b0658`.
+Approved research proposal 1.0.0 SHA-256
+`986e71ab6422abe0b348513d6bac05d114a35eb5219a2c36d38804bc281ee6b4`.
+These Human-provided local instruction references are not GitHub-native approvals.
+Implementation starts at `9804e416beec2a975cc9ab51efba5e95c1719f4b`; main remains
+`63d5a61235669ad7d32bb38d583789ea59ce5497`. Same branch and draft [PR #105](https://github.com/nshaokiet/ai-ip-description-generator/pull/105).
+
+| Old | New | Date | Author | Reason | Breaking change |
+| --- | --- | --- | --- | --- | --- |
+| Ledger 1.0.0 | 1.1.0 | 2026-10-11 | Codex | Human-approved bounded local adapter, preserved lint configuration, complete security/regression evidence | Explicit tooling contract restriction; no product/API/schema change |
+
+The private dev-only `@ai-ip/next-root-glob-adapter@1.0.0` replaces the module
+slot consumed by the pinned Next lint plugin. Root devDependency **fast-glob**
+resolves to `file:tools/next-root-glob-adapter`, with a version-scoped `$fast-glob`
+override and `frontend/.npmrc` **install-links=true**. This small packaging
+adjustment to the proposed private-name root key is necessary: the initial scoped
+local-file link produced EUSAGE/ENOENT/dangling module resolution. The packed,
+root-deduplicated adapter passed normal npm ci, actual CJS-to-ESM consumer loading,
+full tree validation and a fresh source-copy installation. No install scripts or
+manual installed-file patching. The lock transparently records the local identity;
+do not mistake its module-directory name for official fast-glob.
+
+Unchanged versions: Next/config/plugin 16.3.8, React/DOM 19.3.0, TypeScript 6.0.3,
+ESLint 9.39.5, Playwright 1.63.0, sharp 0.35.5, source-map-js 1.2.2. Adapter uses
+already present tinyglobby 0.2.17 → fdir 6.5.0 / picomatch 4.0.7; no unrelated
+installed version changed. Actual braces, micromatch and fast-glob 3.3.1 code and
+unused subgraph are absent. Next helper/rule hashes and the sole consumer are tested.
+
+| Final local validation | Actual result |
+| --- | --- |
+| Full / production npm audit JSON | **0 vulnerabilities / 0 vulnerabilities**, exits 0/0; no suppression, filtering or risk exception |
+| npm ci / npm ls --all | PASS; fresh source-copy lock unchanged and same contract tests pass |
+| Adapter/lint-security | **73 PASS / 0 FAIL / 0 SKIP**; 25 original configs, 17 original negative fixtures, 22 relative + 21 absolute glob cases, 6 exact Next route-diagnostic cases and additional protections |
+| Lint/typecheck/normal production builds | PASS for candidate and isolated UIUX-003 compatibility source |
+| Original browser suite | **78 PASS / 0 FAIL / 0 SKIP / 0 FLAKY** |
+| Isolated UIUX-003 source compatibility | **77 PASS**, comprising **52 UIUX-003 + 25 integration**; original source SHA `102b7e90dc3bfc1f79c197a20184f97b89070bf2` unchanged |
+| Static exports / secret-marker checks | PASS for both candidate and compatibility copy |
+| Synthetic static demo | **5 PASS + 5 PASS**, exits 0/0 |
+| Offline Python | **903 PASS / 3 SKIP**, one existing Starlette deprecation warning, exit 0 |
+| Development browser / native sharp synthetic SVG | PASS; HTTP 200, VI, two selects; sharp 0.35.5 / rsvg evidence recorded |
+| Final exact-head Ubuntu CI | Must be independently verified after push; final SHA/run/artifacts in canonical PR handoff |
+| Independent Gemini review | **PENDING** on entire new final SHA; no reused old PASS |
+
+[Adapter contract and maintenance](../../frontend/tools/next-root-glob-adapter/README.md),
+[immutable before inventory](../../frontend/tools/dep-001-lint-baseline.json),
+[automated tests](../../frontend/tools/dep-001-lint-security.test.mjs).
+The four existing evidence JSON files now have an **a2** section with raw audits,
+installed graph, integrity/clean-install data and actual regressions; their original
+fields remain historical evidence. Windows CRLF working bytes can differ from Git
+LF blobs; reported local SHA-256 values explicitly refer to working bytes.
+
+Glob limits are explicit: 4096 characters, depth 32, 64 operators, conservative
+alternative product 256. Unsupported arrays/exclusions/options/ranges/nested
+extglobs/escaped syntax fail clearly; Next itself handles root arrays and slash
+normalization. Dynamic root order intentionally becomes deterministic. All path
+values match captured fast-glob results; actual ordered Next diagnostics match
+over literal, wildcard, recursive, brace and array roots. Independent review must
+assess that difference. This is a bounded pinned-consumer adapter, not a full glob
+API, universal regex-DoS guarantee or filesystem traversal resource guarantee.
+Current application has no explicit next.rootDir. Official lint configuration,
+all enabled/off rules, parser/globals/settings and ignore behavior are unchanged.
+
+Initial failures are preserved in evidence: npm local-file resolution, one test
+variable rejected by an existing lint rule, an aborted browser run with a harness
+port mismatch, and initial demo 3 PASS/2 FAIL due to shared temporary-directory
+permissions. Corrected only packaging/test execution context and the new test;
+no product/backend edit, weakened assertion, ACL modification or security bypass.
+Generated Next development agent files and temporary outputs are excluded.
+
+CI now checks the literal PR head, full/prod audit/tree/73 lint-security tests,
+existing Python/pinned document QA/browser/static/demo gates, and an isolated
+fixed-source UIUX-003 compatibility archive. No PR #104 branch modification.
+Fresh exact-SHA **Gemini 3.1 Pro High / Antigravity, STRICT READ-ONLY**, entire
+candidate review is required. Human reports an external old partial PASS, but its
+original report/session was not available here; no native approval is inferred.
+
+Render YAML remains unchanged: both services declare checksPass; actual settings,
+build Node and deployment event state remain unverified, a separate merge/deploy
+blocker. ESLint 9 EOL is an existing maintenance limitation; a supported-major
+migration is outside A2. MCP returns Unknown task: DEP-001-A2 — **BLOCKED BY TOOL
+CAPABILITY**; no invented state/lease. Roll back with an ordinary A2 revert,
+preserving earlier Next/sharp/source-map patches; this restores five HIGH entries
+and BLOCKED status. No reset/force push, merge, deployment, closure, paid API,
+real research, backend/API/Claims/product change, risk acceptance or next task.
+
+Task ID: DEP-001-A2. Agent: Codex. Reviewer: Gemini 3.1 Pro High / Antigravity,
+STRICT READ-ONLY, pending. Status: implementation candidate, independent review
+pending. Version: ledger 1.1.0 / adapter 1.0.0. Work completed: controlled adapter,
+tests, local security/regression evidence and CI gates. Files affected: precise
+final inventory in PR handoff. Evidence checked: authorization, fixed baseline,
+actual modules/audits/configs/tests/source hashes. Findings: bounded contract and
+ordering for independent review; Render and ESLint maintenance limits. Decisions:
+approved C2 implementation only. Issues: final CI verification and fresh external
+review. Security impact: vulnerable npm graph removed, custom code still requires
+independent assessment. Recommended next action: verify final CI and review one
+fixed entire candidate; stop, keep both PRs unmerged.
+
+## Historical partial-remediation checkpoint — original ledger 1.0.0 at 9804e416
+
+The following original record is retained as history. Its five-HIGH/unresolved
+wording describes the earlier candidate, not the current A2 dependency graph.
+
 | Field | Evidence |
 | --- | --- |
 | Version / date | 1.0.0 / 2026-10-11 Asia/Saigon |

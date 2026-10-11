@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.79 |
+| Version | 0.3.80 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -19,7 +19,15 @@
 | Source of Truth | Operational status bridge; bản nguồn Git tại `docs/operations/01_PROJECT_CONTROL_CENTER.md` |
 | Confidentiality level | Internal |
 
-### DEP-001 — partial frontend security remediation / unresolved upstream blocker (11/10/2026)
+### DEP-001-A2 — controlled security adapter / independent review pending (11/10/2026)
+
+- **IMPLEMENTATION CANDIDATE / FRESH SECURITY REVIEW PENDING**, Human-approved C2 bounded local tinyglobby adapter, Workflow V1; same branch and draft PR #105. [Ledger 1.1.0 / historical and A2 raw evidence](../tasks/DEP-001-frontend-dependency-security-remediation.md). No merge/closure/deployment authorized.
+- Full and production audit **0 vulnerabilities / 0 vulnerabilities**, no suppression/risk exception; actual vulnerable braces/micromatch/fast-glob implementation removed. Normal npm ci/ls and fresh source-copy install pass. Next lint config/rules remain unchanged; 73 contract/equivalence tests, 25 original configs and 17 negative fixtures pass.
+- Local **78 baseline browser PASS**, compatibility **52 UIUX-003 + 25 integration PASS**, **5+5 synthetic demos PASS**, Python **903 PASS/3 SKIP**, lint/typecheck/dev/normal/static/secret checks PASS. Final exact-SHA Ubuntu CI, artifacts and one fresh Gemini 3.1 Pro High / Antigravity STRICT READ-ONLY handoff are recorded/read back on existing PR #105 after push; no independent PASS invented.
+- Ordering/bounded unsupported API need fresh independent assessment. Dynamic roots sort deterministically; tested actual ordered Next diagnostics remain equal. ESLint 9 EOL remains a maintenance limitation. PR #104 head remains 102b7e90dc3bfc1f79c197a20184f97b89070bf2, untouched/unmerged.
+- Both Render YAML services remain checksPass; actual live settings/build Node unverified, separate merge/deployment gate. MCP Unknown task: DEP-001-A2 — **BLOCKED BY TOOL CAPABILITY**. No backend/API/Claims/product change, paid API, real research, deployment, merge or next task.
+
+### Historical DEP-001 — partial frontend security remediation / unresolved upstream blocker (11/10/2026)
 
 - **BLOCKED — PARTIAL REMEDIATION / SECURITY REVIEW PENDING**, Workflow V1. Human attachment “TASK: DEP-001 — FRONTEND DEPENDENCY SECURITY REMEDIATION” selects OPTION A before UIUX-003 merge and authorizes existing dependency upgrades, minimal compatibility fixes, synthetic testing, commit/push, one PR and Gemini security-review handoff. Merge, deployment and HIGH-risk acceptance are explicitly not authorized.
 - Fresh main baseline `63d5a61235669ad7d32bb38d583789ea59ce5497`; branch `fix/dep-001-frontend-security-remediation`. [Ledger 1.0.0 and actual audit/tree/registry/regression evidence](../tasks/DEP-001-frontend-dependency-security-remediation.md). Next/eslint-config-next 16.3.6→16.3.8; exact existing transitive sharp 0.35.5 and source-map-js 1.2.2 overrides. No major/new package identity or application/backend/Claims/Render change.
@@ -959,3 +967,5 @@ EVAL-001 PRODUCT_RUNTIME **DEFERRED — AWAITING FUNDING**; semantic acceptance
 ## 23. Last Updated
 
 **11/10/2026 GMT+7**
+
+DEP-001-A2: **0.3.79 → 0.3.80**, 11/10/2026, Codex. Human-approved bounded local adapter and actual zero-audit/local regression checkpoint; preserve partial-remediation history and fresh fixed-SHA/CI/review gates. Breaking change: **No product/API change; explicit bounded tooling contract**.
