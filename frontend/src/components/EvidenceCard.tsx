@@ -1,13 +1,16 @@
+"use client";
+
+import { useUi } from "@/lib/uiPreferences";
 import type { Evidence, EvidenceAppendixItem } from "@/lib/types/contracts";
 
-function locatorParts(locator: Evidence["locator"]): string[] {
+function locatorParts(locator: Evidence["locator"], t: ReturnType<typeof useUi>["t"]): string[] {
   const parts: string[] = [];
-  if (locator.page !== undefined) parts.push(`Page ${locator.page}`);
-  if (locator.section) parts.push(`Section: ${locator.section}`);
-  if (locator.paragraph_id) parts.push(`Paragraph: ${locator.paragraph_id}`);
-  if (locator.chunk_id) parts.push(`Chunk: ${locator.chunk_id}`);
-  if (locator.table_id) parts.push(`Table: ${locator.table_id}`);
-  if (locator.figure_id) parts.push(`Figure: ${locator.figure_id}`);
+  if (locator.page !== undefined) parts.push(`${t("page")} ${locator.page}`);
+  if (locator.section) parts.push(`${t("section")}: ${locator.section}`);
+  if (locator.paragraph_id) parts.push(`${t("paragraph")}: ${locator.paragraph_id}`);
+  if (locator.chunk_id) parts.push(`${t("chunk")}: ${locator.chunk_id}`);
+  if (locator.table_id) parts.push(`${t("table")}: ${locator.table_id}`);
+  if (locator.figure_id) parts.push(`${t("figure")}: ${locator.figure_id}`);
   return parts;
 }
 
@@ -16,7 +19,8 @@ interface EvidenceCardProps {
 }
 
 export function EvidenceCard({ evidence }: EvidenceCardProps) {
-  const locations = locatorParts(evidence.locator);
+  const { t } = useUi();
+  const locations = locatorParts(evidence.locator, t);
   const usages = "usage_references" in evidence ? evidence.usage_references : [];
 
   return (
@@ -26,14 +30,14 @@ export function EvidenceCard({ evidence }: EvidenceCardProps) {
         <span className="subtle-badge">{evidence.evidence_type}</span>
       </div>
       {locations.length > 0 && (
-        <p className="metadata-line" aria-label="Source locator">
+        <p className="metadata-line" aria-label={t("sourceLocator")}>
           {locations.join(" · ")}
         </p>
       )}
       <blockquote>{evidence.excerpt}</blockquote>
       {usages.length > 0 && (
         <div className="usage-list">
-          <span className="eyebrow">Used by</span>
+          <span className="eyebrow">{t("usedBy")}</span>
           <ul className="inline-list">
             {usages.map((usage) => (
               <li key={`${usage.target_type}-${usage.target_id}`}>

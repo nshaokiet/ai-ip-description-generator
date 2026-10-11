@@ -1,4 +1,7 @@
+"use client";
+
 import { GroundingBadge } from "@/components/GroundingBadge";
+import { useUi } from "@/lib/uiPreferences";
 import type {
   AnalysisItem,
   InventionAnalysis,
@@ -99,6 +102,7 @@ export function ReviewItemsView({
   analysis: InventionAnalysis;
   draft: PatentDraft;
 }) {
+  const { t } = useUi();
   const inferences = collectInferences(analysis, draft);
   const total =
     analysis.missing_information.length +
@@ -112,15 +116,15 @@ export function ReviewItemsView({
     <div className="result-view">
       <div className="view-introduction">
         <div>
-          <p className="eyebrow">Human review queue</p>
-          <h2>Review items</h2>
+          <p className="eyebrow">{t("reviewQueue")}</p>
+          <h2>{t("reviewItems")}</h2>
         </div>
-        <p>{total} item{total === 1 ? "" : "s"} require attention or contextual review.</p>
+        <p>{total} {t("attentionCount")}.</p>
       </div>
 
       <section className="result-section" aria-labelledby="review-missing">
         <div className="section-heading">
-          <h3 id="review-missing">Missing information</h3>
+          <h3 id="review-missing">{t("missingInformation")}</h3>
           <span>{analysis.missing_information.length + draft.missing_information.length}</span>
         </div>
         <div className="review-list">
@@ -132,7 +136,7 @@ export function ReviewItemsView({
               </div>
               <p>{item.description}</p>
               <p className="missing-marker">[AUTHOR CONFIRMATION REQUIRED]</p>
-              <p className="metadata-line">Analysis · {item.reason} · {item.owner}</p>
+              <p className="metadata-line">{t("analysis")} · {item.reason} · {item.owner}</p>
             </article>
           ))}
           {draft.missing_information.map((item) => (
@@ -143,18 +147,18 @@ export function ReviewItemsView({
               </div>
               <p>{item.description}</p>
               <p className="missing-marker">{item.marker}</p>
-              <p className="metadata-line">Draft · {item.reason} · {item.owner}</p>
+              <p className="metadata-line">{t("patentDraft")} · {item.reason} · {item.owner}</p>
             </article>
           ))}
           {analysis.missing_information.length + draft.missing_information.length === 0 && (
-            <p className="empty-state">No missing-information items were returned.</p>
+            <p className="empty-state">{t("noMissing")}</p>
           )}
         </div>
       </section>
 
       <section className="result-section" aria-labelledby="review-conflicts">
         <div className="section-heading">
-          <h3 id="review-conflicts">Unresolved conflicts</h3>
+          <h3 id="review-conflicts">{t("unresolvedConflicts")}</h3>
           <span>{draft.conflicts.length}</span>
         </div>
         <div className="review-list">
@@ -166,18 +170,18 @@ export function ReviewItemsView({
               </div>
               <p>{conflict.summary}</p>
               <p className="missing-marker">{conflict.marker}</p>
-              <p className="metadata-line">Evidence: {conflict.evidence_ids.join(", ")}</p>
+              <p className="metadata-line">{t("evidenceLabel")}: {conflict.evidence_ids.join(", ")}</p>
             </article>
           ))}
           {draft.conflicts.length === 0 && (
-            <p className="empty-state">No unresolved conflicts were returned.</p>
+            <p className="empty-state">{t("noConflicts")}</p>
           )}
         </div>
       </section>
 
       <section className="result-section" aria-labelledby="review-questions">
         <div className="section-heading">
-          <h3 id="review-questions">Author questions</h3>
+          <h3 id="review-questions">{t("authorQuestions")}</h3>
           <span>{analysis.author_questions.length + draft.author_questions.length}</span>
         </div>
         <div className="review-list">
@@ -185,25 +189,25 @@ export function ReviewItemsView({
             <article className="review-card" key={`analysis-${question.question_id}`}>
               <span className="priority-badge">{question.priority}</span>
               <p className="question-text">{question.question}</p>
-              <p className="metadata-line">From structured analysis</p>
+              <p className="metadata-line">{t("fromAnalysis")}</p>
             </article>
           ))}
           {draft.author_questions.map((question) => (
             <article className="review-card" key={`draft-${question.question_id}`}>
               <span className="priority-badge">{question.priority}</span>
               <p className="question-text">{question.question}</p>
-              <p className="metadata-line">Affected: {question.affected_section_ids.join(", ")}</p>
+              <p className="metadata-line">{t("affected")}: {question.affected_section_ids.join(", ")}</p>
             </article>
           ))}
           {analysis.author_questions.length + draft.author_questions.length === 0 && (
-            <p className="empty-state">No author questions were returned.</p>
+            <p className="empty-state">{t("noQuestions")}</p>
           )}
         </div>
       </section>
 
       <section className="result-section" aria-labelledby="review-inferences">
         <div className="section-heading">
-          <h3 id="review-inferences">Inference content</h3>
+          <h3 id="review-inferences">{t("inferenceContent")}</h3>
           <span>{inferences.length}</span>
         </div>
         <div className="review-list">
@@ -214,11 +218,11 @@ export function ReviewItemsView({
                 <span className="metadata-line">{item.source}</span>
               </div>
               <p>{item.text}</p>
-              <p className="evidence-links">Evidence: {item.evidenceIds.join(", ")}</p>
+              <p className="evidence-links">{t("evidenceLabel")}: {item.evidenceIds.join(", ")}</p>
             </article>
           ))}
           {inferences.length === 0 && (
-            <p className="empty-state">No inference-labelled content was returned.</p>
+            <p className="empty-state">{t("noInferences")}</p>
           )}
         </div>
       </section>

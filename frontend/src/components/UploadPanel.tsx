@@ -1,20 +1,22 @@
 "use client";
 
-import { useRef, useState, type ChangeEvent, type DragEvent } from "react";
+import { useEffect, useRef, useState, type ChangeEvent, type DragEvent, type KeyboardEvent } from "react";
+import { createPortal } from "react-dom";
 
+import { useUi, type MessageKey } from "@/lib/uiPreferences";
 import type { DemoSampleId } from "@/lib/api/client";
 import type { UploadedDocument, WorkflowState } from "@/lib/types/contracts";
 
 const MAX_BYTES = 10 * 1024 * 1024;
 const ALLOWED_EXTENSIONS = [".pdf", ".docx"];
 
-function validateFile(file: File): string | null {
+function validateFile(file: File): MessageKey | null {
   const lowerName = file.name.toLowerCase();
   if (!ALLOWED_EXTENSIONS.some((extension) => lowerName.endsWith(extension))) {
-    return "Choose one PDF or DOCX document.";
+    return "unsupportedFile";
   }
-  if (file.size > MAX_BYTES) return "The selected file exceeds the 10 MiB limit.";
-  if (file.size === 0) return "The selected file is empty.";
+  if (file.size > MAX_BYTES) return "tooLarge";
+  if (file.size === 0) return "emptyFile";
   return null;
 }
 
@@ -55,13 +57,41 @@ export function UploadPanel({
   demoStaging = false,
   onUseDemoSample,
 }: UploadPanelProps) {
+  const { t } = useUi();
   const inputRef = useRef<HTMLInputElement>(null);
+  const confirmDialogRef = useRef<HTMLDivElement>(null);
+  const confirmTriggerRef = useRef<HTMLElement | null>(null);
   const replaceInputRef = useRef<HTMLInputElement>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [localError, setLocalError] = useState<string | null>(null);
+  const [localError, setLocalError] = useState<MessageKey | null>(null);
   const [dragActive, setDragActive] = useState(false);
   const [confirmAction, setConfirmAction] = useState<"remove" | "replace" | null>(null);
+  const [pendingReplacement, setPendingReplacement] = useState<File | null>(null);
   const busy = state === "UPLOADING" || state === "PROCESSING";
+  useEffect(() => {
+    if (!confirmAction) return;
+    const trigger = confirmTriggerRef.current;
+    const previousOverflow = window.document.body.style.overflow;
+    const shell = window.document.querySelector<HTMLElement>(".app-shell");
+    if (shell) shell.inert = true;
+    window.document.body.style.overflow = "hidden";
+    const frame = requestAnimationFrame(() => confirmDialogRef.current?.querySelector("button")?.focus());
+    return () => { cancelAnimationFrame(frame); window.document.body.style.overflow = previousOverflow; if (shell) shell.inert = false; trigger?.focus(); };
+  }, [confirmAction]);
+  function dismissConfirmation() { setConfirmAction(null); setPendingReplacement(null); }
+  function dialogKeys(event: KeyboardEvent<HTMLDivElement>) {
+    if (event.key === "Escape") { event.preventDefault(); dismissConfirmation(); return; }
+    if (event.key !== "Tab") return;
+    const buttons = Array.from(confirmDialogRef.current?.querySelectorAll<HTMLButtonElement>("button:not(:disabled)") ?? []);
+    if (!buttons.length) return;
+    const first = buttons[0], last = buttons[buttons.length - 1];
+    if (event.shiftKey && window.document.activeElement === first) { event.preventDefault(); last.focus(); }
+    else if (!event.shiftKey && window.document.activeElement === last) { event.preventDefault(); first.focus(); }
+  }
+  function requestConfirmation(action: "remove" | "replace") {
+    confirmTriggerRef.current = window.document.activeElement instanceof HTMLElement ? window.document.activeElement : null;
+    setConfirmAction(action);
+  }
 
   function chooseFile(file: File | undefined) {
     if (!file) return;
@@ -89,7 +119,12 @@ export function UploadPanel({
       setLocalError(issue);
       return;
     }
-    await onReplace(file);
+    if (hasDownstreamResults) {
+      setPendingReplacement(file);
+      requestConfirmation("replace");
+    } else {
+      await onReplace(file);
+    }
   }
 
   function handleDrop(event: DragEvent<HTMLDivElement>) {
@@ -98,30 +133,31 @@ export function UploadPanel({
     if (busy) return;
     if (event.dataTransfer.files.length !== 1) {
       setSelectedFile(null);
-      setLocalError("Choose exactly one document.");
+      setLocalError("oneFile");
       return;
     }
     chooseFile(event.dataTransfer.files[0]);
   }
 
   function requestRemove() {
-    if (hasDownstreamResults) setConfirmAction("remove");
+    if (hasDownstreamResults) requestConfirmation("remove");
     else onRemove();
   }
 
   function requestReplace() {
-    if (hasDownstreamResults) setConfirmAction("replace");
-    else if (demoStaging) onRemove();
-    else replaceInputRef.current?.click();
+    if (demoStaging) {
+      if (hasDownstreamResults) requestConfirmation("replace");
+      else onRemove();
+    } else replaceInputRef.current?.click();
   }
 
   if (document) {
     return (
       <section aria-busy={busy} className="workspace-card upload-success-card" aria-labelledby="validated-document-heading">
         <span className="document-symbol document-symbol-success" aria-hidden="true">✓</span>
-        <p className="eyebrow">Source Upload</p>
-        <h2 id="validated-document-heading">Paper uploaded successfully</h2>
-        <p className="card-supporting-copy">Your source is ready for the next workflow stage.</p>
+        <p className="eyebrow">{t("upload")}</p>
+        <h2 id="validated-document-heading">{t("uploadedTitle")}</h2>
+        <p className="card-supporting-copy">{t("uploadedDescription")}</p>
 
         <div className="uploaded-file-row">
           <span className="file-type-icon" aria-hidden="true">{fileKind(document)}</span>
@@ -130,11 +166,11 @@ export function UploadPanel({
             <span>{fileKind(document)} · {formatBytes(document.size_bytes)}{document.page_count != null ? ` · ${document.page_count} pages` : ""}</span>
           </div>
           <button
-            aria-label="Remove paper"
+            aria-label={t("remove")}
             className="icon-button danger-icon-button"
             disabled={busy}
             onClick={requestRemove}
-            title="Remove paper"
+            title={t("remove")}
             type="button"
           >
             <span aria-hidden="true">×</span>
@@ -152,40 +188,38 @@ export function UploadPanel({
           />
         )}
 
-        {confirmAction && (
-          <div className="reset-confirmation" role="alert">
-            <strong>Start over with a new paper?</strong>
-            <p>Current analysis, draft revisions, review status, and validation will be cleared from this browser session.</p>
-            <div>
-              <button
-                className="danger-button"
-                onClick={() => {
+        {confirmAction && createPortal(
+          <div className="dialog-backdrop">
+            <div ref={confirmDialogRef} className="confirm-dialog" role="dialog" aria-modal="true" aria-labelledby="upload-confirm-title" aria-describedby="upload-confirm-description" onKeyDown={dialogKeys}>
+              <h3 id="upload-confirm-title">{t("confirmTitle")}</h3>
+              <p id="upload-confirm-description">{t("resetSourceDescription")}</p>
+              <div className="dialog-actions">
+                <button className="danger-button" onClick={() => {
                   const action = confirmAction;
                   setConfirmAction(null);
-                  onReset();
-                  if (action === "replace") window.requestAnimationFrame(() => inputRef.current?.click());
-                }}
-                type="button"
-              >
-                Clear session and start over
-              </button>
-              <button className="secondary-button" onClick={() => setConfirmAction(null)} type="button">Keep current paper</button>
+                  const replacement = pendingReplacement;
+                  setPendingReplacement(null);
+                  if (action === "replace" && replacement) void onReplace(replacement);
+                  else onReset();
+                }} type="button">{t("fileReset")}</button>
+                <button className="secondary-button" onClick={dismissConfirmation} type="button">{t("stay")}</button>
+              </div>
             </div>
           </div>
-        )}
+        , window.document.body)}
 
         <div className="upload-success-actions">
           <button
-            aria-label={hasDownstreamResults ? "Continue to Review & Refine" : "Continue to AI Extraction"}
+            aria-label={hasDownstreamResults ? t("continueReview") : t("continueExtraction")}
             className="primary-button"
             disabled={busy || (!hasDownstreamResults && state !== "UPLOADED")}
             onClick={() => hasDownstreamResults ? onContinueReview() : void onProcess()}
             type="button"
           >
-            {state === "PROCESSING" ? "Extracting…" : hasDownstreamResults ? "Continue to Review & Refine →" : "Continue to AI Extraction →"}
+            {state === "PROCESSING" ? t("processing") : hasDownstreamResults ? t("continueReview") : t("continueExtraction")}
           </button>
           <button className="text-button" disabled={busy} onClick={requestReplace} type="button">
-            {demoStaging ? "Select a different sample" : "Select a different file"}
+            {demoStaging ? (t("anotherSample")) : t("fileReplace")}
           </button>
         </div>
 
@@ -193,17 +227,17 @@ export function UploadPanel({
           <div className="processing-callout" role="status" aria-live="polite">
             <span className="spinner" aria-hidden="true" />
             <div>
-              <strong>Extracting invention-relevant content</strong>
-              <p>Identifying technical concepts and preparing a grounded draft for review.</p>
+              <strong>{t("extractTitle")}</strong>
+              <p>{t("extractHelp")}</p>
             </div>
           </div>
         )}
 
         <details className="technical-details">
-          <summary>Technical details</summary>
+          <summary>{t("details")}</summary>
           <dl>
-            <div><dt>Media type</dt><dd>{document.media_type}</dd></div>
-            <div><dt>Document ID</dt><dd><code>{document.document_id}</code></dd></div>
+            <div><dt>{t("mediaType")}</dt><dd>{document.media_type}</dd></div>
+            <div><dt>{t("documentId")}</dt><dd><code>{document.document_id}</code></dd></div>
           </dl>
         </details>
       </section>
@@ -212,7 +246,7 @@ export function UploadPanel({
 
   return (
     <section aria-busy={busy} className="workspace-card upload-card" aria-labelledby="upload-heading">
-      <h2 className="sr-only" id="upload-heading">Upload a research document</h2>
+      <h2 className="sr-only" id="upload-heading">{t("uploadTitle")}</h2>
 
       <div
         className={`drop-zone ${dragActive ? "drop-zone-active" : ""}`}
@@ -222,9 +256,9 @@ export function UploadPanel({
         onDrop={handleDrop}
       >
         <span className="document-symbol" aria-hidden="true">▤</span>
-        <h3>Drag &amp; drop your research paper here</h3>
-        <p>or</p>
-        <label className="sr-only" htmlFor="document-file">Research document</label>
+        <h3>{t("dragDrop")}</h3>
+        <p>{t("or")}</p>
+        <label className="sr-only" htmlFor="document-file">{t("uploadTitle")}</label>
         <input
           accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
           className="sr-only"
@@ -235,43 +269,43 @@ export function UploadPanel({
           type="file"
         />
         <button
-          aria-label="Select document"
+          aria-label={t("selectFile")}
           className="primary-button select-file-button"
           disabled={busy}
           onClick={() => inputRef.current?.click()}
           type="button"
         >
-          Select file
+          {t("selectFile")}
         </button>
-        <span className="upload-constraints">PDF or DOCX · Max 10 MB</span>
+        <span className="upload-constraints">{t("fileConstraints")}</span>
       </div>
 
       {demoStaging && (
         <div className="demo-upload-state">
-          <div className="sample-actions" aria-label="Synthetic sample papers">
-            <span>Thử nhanh bài báo mẫu:</span>
+          <div className="sample-actions" aria-label={t("sample")}>
+            <span>{t("sample")}</span>
             <button
-              aria-label="Use synthetic PDF demo"
+              aria-label={t("samplePdf")}
               className="sample-link"
               disabled={busy}
               onClick={() => void onUseDemoSample?.("synthetic-pdf-v1")}
               type="button"
             >
-              Sample PDF (.pdf)
+              {t("samplePdfLabel")}
             </button>
             <span aria-hidden="true">|</span>
             <button
-              aria-label="Use synthetic DOCX demo"
+              aria-label={t("sampleDocx")}
               className="sample-link"
               disabled={busy}
               onClick={() => void onUseDemoSample?.("synthetic-docx-v1")}
               type="button"
             >
-              Sample DOCX (.docx)
+              {t("sampleDocxLabel")}
             </button>
           </div>
           <p className="demo-boundary-note">
-            Real-paper AI conversion is not enabled in this public demo yet. No live AI provider is used; controlled samples remain available for the working demo flow.
+            {t("demo")}
           </p>
         </div>
       )}
@@ -283,7 +317,7 @@ export function UploadPanel({
             <span>{formatBytes(selectedFile.size)}</span>
           </div>
           {demoStaging ? (
-            <span className="upload-ui-only-note">Selected locally · AI conversion pending funding</span>
+            <span className="upload-ui-only-note">{t("localDemoFile")}</span>
           ) : (
             <button
               className="primary-button selected-file-action"
@@ -291,15 +325,15 @@ export function UploadPanel({
               onClick={() => void onUpload(selectedFile)}
               type="button"
             >
-              {state === "UPLOADING" ? "Uploading…" : "Upload & Validate"}
+              {state === "UPLOADING" ? t("processing") : t("uploadValidate")}
             </button>
           )}
           <button
-            aria-label="Remove selected file"
+            aria-label={t("remove")}
             className="icon-button danger-icon-button selected-file-remove"
             disabled={busy}
             onClick={clearSelectedFile}
-            title="Remove selected file"
+            title={t("remove")}
             type="button"
           >
             <span aria-hidden="true">×</span>
@@ -310,17 +344,17 @@ export function UploadPanel({
         <div className="processing-callout" role="status" aria-live="polite">
           <span className="spinner" aria-hidden="true" />
           <div>
-            <strong>Uploading and checking the selected document…</strong>
-            <p>Another upload cannot start until this request finishes.</p>
+            <strong>{t("uploadBusyTitle")}</strong>
+            <p>{t("uploadBusyHelp")}</p>
           </div>
         </div>
       )}
-      {localError && <p className="field-error" role="alert">{localError}</p>}
-      {!demoStaging && <p className="privacy-note"><span aria-hidden="true">⌁</span> Tài liệu được xử lý trong phạm vi phiên làm việc.</p>}
+      {localError && <p className="field-error" role="alert">{t(localError)}</p>}
+      {!demoStaging && <p className="privacy-note"><span aria-hidden="true">⌁</span> {t("sessionScope")}</p>}
       <p className="source-of-truth-note">
         {demoStaging
-          ? "You can select a PDF or DOCX in the interface now; arbitrary papers are not sent for AI conversion in this public demo yet."
-          : "Client checks are for convenience. The backend remains the validation source of truth."}
+          ? t("demo")
+          : (t("serverAuthority"))}
       </p>
     </section>
   );

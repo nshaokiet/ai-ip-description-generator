@@ -1,11 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 
 import { AnalysisView } from "@/components/AnalysisView";
+import { EvidenceCard } from "@/components/EvidenceCard";
 import { PatentDraftView } from "@/components/PatentDraftView";
 import { ReviewItemsView } from "@/components/ReviewItemsView";
 import { ApiClientError, validateDraft } from "@/lib/api/client";
+import { useUi, localizedError, displayErrorCode } from "@/lib/uiPreferences";
 import {
   createDraftSession,
   editAbstract,
@@ -38,6 +41,7 @@ interface ResultWorkspaceProps {
   onReviewEligibilityChange: (eligible: boolean) => void;
   onValidationEligibilityChange: (eligible: boolean) => void;
   onReset: () => void;
+  onRegisterGuard: (guard: (proceed: () => void) => boolean) => void;
 }
 
 function safeValidationError(issue: unknown): NormalizedApiError {
@@ -54,13 +58,24 @@ export function ResultWorkspace({
   onReviewEligibilityChange,
   onValidationEligibilityChange,
   onReset,
+  onRegisterGuard,
 }: ResultWorkspaceProps) {
+  const { t } = useUi();
   const [activeTab, setActiveTab] = useState<ResultTab>("draft");
   const [session, setSession] = useState(() => createDraftSession(result.draft));
   const [editBuffer, setEditBuffer] = useState<PatentDraft | null>(null);
   const [validating, setValidating] = useState(false);
   const [validationError, setValidationError] = useState<NormalizedApiError | null>(null);
   const [resetConfirmation, setResetConfirmation] = useState(false);
+  const [pendingAction, setPendingAction] = useState<(() => void) | null>(null);
+  const [sectionRailOpen, setSectionRailOpen] = useState(false);
+  const [evidenceOpen, setEvidenceOpen] = useState(false);
+  const [selectedEvidenceId, setSelectedEvidenceId] = useState<string | null>(null);
+  const [activeSectionId, setActiveSectionId] = useState<string | null>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const returnFocusRef = useRef<HTMLElement | null>(null);
+  const sectionsTriggerRef = useRef<HTMLButtonElement>(null);
+  const evidenceTriggerRef = useRef<HTMLButtonElement>(null);
   const validationLockRef = useRef(false);
   const exportLockRef = useRef(false);
   const errorHeadingRef = useRef<HTMLHeadingElement>(null);
@@ -89,10 +104,62 @@ export function ResultWorkspace({
     && reviewCounts.REVIEWED === reviewTotal
     && reviewRemaining === 0;
   const tabs: Array<{ key: ResultTab; label: string }> = [
-    { key: "draft", label: "Patent Draft" },
-    { key: "review", label: "Review Items" },
-    { key: "analysis", label: "Analysis" },
+    { key: "draft", label: t("patentDraft") },
+    { key: "review", label: t("reviewItems") },
+    { key: "analysis", label: t("analysis") },
   ];
+
+  const guardNavigation = useCallback((proceed: () => void) => {
+    if (!dirty) return true;
+    returnFocusRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    setPendingAction(() => proceed);
+    return false;
+  }, [dirty]);
+
+  useEffect(() => { onRegisterGuard(guardNavigation); }, [guardNavigation, onRegisterGuard]);
+
+  useEffect(() => {
+    if (!pendingAction) return;
+    const priorOverflow = document.body.style.overflow;
+    const shell = document.querySelector<HTMLElement>(".app-shell");
+    if (shell) shell.inert = true;
+    document.body.style.overflow = "hidden";
+    const frame = requestAnimationFrame(() => dialogRef.current?.querySelector<HTMLButtonElement>("button")?.focus());
+    return () => { cancelAnimationFrame(frame); document.body.style.overflow = priorOverflow; if (shell) shell.inert = false; returnFocusRef.current?.focus(); };
+  }, [pendingAction]);
+
+  function dismissPending() { setPendingAction(null); }
+  function discardPending() {
+    const action = pendingAction;
+    setEditBuffer(null);
+    setPendingAction(null);
+    action?.();
+  }
+
+  function handleDialogKeyDown(event: KeyboardEvent<HTMLDivElement>) {
+    if (event.key === "Escape") { event.preventDefault(); dismissPending(); return; }
+    if (event.key !== "Tab") return;
+    const buttons = Array.from(dialogRef.current?.querySelectorAll<HTMLButtonElement>("button:not(:disabled)") ?? []);
+    if (!buttons.length) return;
+    const first = buttons[0], last = buttons[buttons.length - 1];
+    if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+    else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+  }
+
+  const evidenceItems = revision.draft.evidence_appendix;
+  const selectedEvidence = selectedEvidenceId === null ? evidenceItems[0] : evidenceItems.find((item) => item.evidence_id === selectedEvidenceId);
+
+  function scrollToSection(sectionId: string) {
+    setActiveTab("draft");
+    setActiveSectionId(sectionId);
+    setSectionRailOpen(false);
+    window.requestAnimationFrame(() => {
+      const heading = document.getElementById(`draft-${sectionId}`);
+      heading?.setAttribute("tabindex", "-1");
+      heading?.focus({ preventScroll: true });
+      heading?.scrollIntoView({ block: "start" });
+    });
+  }
 
   useEffect(() => {
     onReviewEligibilityChange(reviewComplete);
@@ -115,13 +182,30 @@ export function ResultWorkspace({
 
   function beginEdit() {
     setEditBuffer(structuredClone(revision.draft));
-    setValidationError(null);
     setActiveTab("draft");
   }
 
+  function fieldId(path: string): string | null {
+    if (path === "/abstract/text" || path === "/abstract/word_count") return "edit-abstract";
+    const match = path.match(/^\/draft_sections\/(\d+)\/(?:subsections\/(\d+)\/)?paragraphs\/(\d+)\/text$/);
+    if (!match) return null;
+    const section = revision.draft.draft_sections[Number(match[1])];
+    const paragraph = match[2] === undefined ? section?.paragraphs[Number(match[3])] : section?.subsections[Number(match[2])]?.paragraphs[Number(match[3])];
+    return paragraph ? `edit-${paragraph.paragraph_id}` : null;
+  }
+
+  function recoverField(path: string) {
+    const id = fieldId(path);
+    if (!id) return;
+    beginEdit();
+    onPhaseChange("review");
+    window.requestAnimationFrame(() => document.getElementById(id)?.focus());
+  }
+
   function cancelEdit() {
-    setEditBuffer(null);
-    setValidationError(null);
+    if (guardNavigation(() => { setEditBuffer(null); setValidationError(null); })) {
+      setEditBuffer(null); setValidationError(null);
+    }
   }
 
   function saveEdit() {
@@ -171,22 +255,26 @@ export function ResultWorkspace({
   }
 
   function selectRevision(revisionId: string) {
-    setSession((current) => ({ ...current, selectedId: revisionId }));
-    setValidationError(null);
+    const apply = () => {
+      setEditBuffer(null);
+      setSession((current) => ({ ...current, selectedId: revisionId }));
+      setValidationError(null);
+    };
+    if (guardNavigation(apply)) apply();
   }
 
   function renderNewPaperAction() {
     return (
       <div className="new-paper-action">
         {!resetConfirmation ? (
-          <button className="secondary-button" disabled={busy} onClick={() => setResetConfirmation(true)} type="button">New paper</button>
+          <button className="secondary-button" disabled={busy} onClick={() => setResetConfirmation(true)} type="button">{t("newPaper")}</button>
         ) : (
           <div className="reset-confirmation reset-confirmation-compact" role="alert">
-            <strong>Clear this session and start a new paper?</strong>
-            <p>Analysis, revisions, review status, and validation will be removed from this frontend session.</p>
+            <strong>{t("resetQuestion")}</strong>
+            <p>{t("resetDescription")}</p>
             <div>
-              <button className="danger-button" onClick={onReset} type="button">Clear session and start over</button>
-              <button className="secondary-button" onClick={() => setResetConfirmation(false)} type="button">Cancel</button>
+              <button className="danger-button" onClick={onReset} type="button">{t("fileReset")}</button>
+              <button className="secondary-button" onClick={() => setResetConfirmation(false)} type="button">{t("cancel")}</button>
             </div>
           </div>
         )}
@@ -197,18 +285,18 @@ export function ResultWorkspace({
   function renderRevisionSelector(includeStatus = true) {
     return (
       <div className="revision-selector">
-        <label htmlFor={`revision-select-${phase}`}>Selected revision</label>
+        <label htmlFor={`revision-select-${phase}`}>{t("selectedRevision")}</label>
         <select
-          disabled={busy || editing}
+          disabled={busy}
           id={`revision-select-${phase}`}
           onChange={(event) => selectRevision(event.target.value)}
           value={session.selectedId}
         >
           {session.revisions.map((item, index) => (
-            <option key={item.id} value={item.id}>{item.id}{index === 0 ? " · generated" : " · edited"}</option>
+            <option key={item.id} value={item.id}>{item.id}{index === 0 ? ` · ${t("generated")}` : ` · ${t("revised")}`}</option>
           ))}
         </select>
-        {includeStatus && <span className={revision.validation ? "status-success" : "status-pending"}>{revision.validation ? "Validated" : "Validation required"}</span>}
+        {includeStatus && <span className={revision.validation ? "status-success" : "status-pending"}>{revision.validation ? t("validated") : t("validationRequired")}</span>}
       </div>
     );
   }
@@ -216,10 +304,10 @@ export function ResultWorkspace({
   function renderTechnicalDetails(children?: ReactNode) {
     return (
       <details className="technical-details result-technical-details">
-        <summary>Technical details</summary>
+        <summary>{t("details")}</summary>
         <div className="technical-detail-content">
-          <p>Correlation ID: <code>{result.metadata.correlation_id}</code></p>
-          <p>{session.revisions.length} immutable session revision(s). Reload or reset discards edits, validation, and review status.</p>
+          <p>{t("reference")}: <code>{result.metadata.correlation_id}</code></p>
+          <p>{session.revisions.length} · {t("sessionOnly")}</p>
           {children}
         </div>
       </details>
@@ -230,35 +318,35 @@ export function ResultWorkspace({
     return (
       <section aria-busy={busy} className="stage-card validation-stage" aria-labelledby="validation-heading">
         {revision.validation && <span className="stage-icon stage-icon-success" aria-hidden="true">✓</span>}
-        <p className="eyebrow">Validation</p>
-        <h2 id="validation-heading">{revision.validation ? "Validation complete" : "Validate the selected revision"}</h2>
+        <p className="eyebrow">{t("validation")}</p>
+        <h2 id="validation-heading">{revision.validation ? t("validationComplete") : t("validationHeading")}</h2>
         <p>
           {revision.validation
-            ? <>Structure and required fields passed server validation for <strong>{revision.id}</strong>.</>
-            : "Run the existing server validation against the exact saved revision before export."}
+            ? <>{t("validationPassed")} <strong>{revision.id}</strong>.</>
+            : t("validationInstruction")}
         </p>
         {renderRevisionSelector()}
 
         {revision.validation ? (
           <>
             <div className="export-summary validation-summary" role="status">
-              <span className="status-success">✓ Validation complete</span>
+              <span className="status-success">✓ {t("validationComplete")}</span>
               <strong>{revision.id}</strong>
-              <span>Technical validation only · not Human or legal approval</span>
+              <span>{t("technicalOnly")}</span>
             </div>
             <p className="card-supporting-copy">
-              This confirms technical structure and required fields only. It is not Human or legal approval.
+              {t("technicalOnly")}
             </p>
             <button className="primary-button" onClick={() => onPhaseChange("export")} type="button">
-              Continue to DOCX Export →
+              {t("continueExport")}
             </button>
           </>
         ) : validating ? (
           <div className="processing-callout workspace-operation" role="status" aria-live="polite">
             <span className="spinner" aria-hidden="true" />
             <div>
-              <strong>Validating {revision.id}…</strong>
-              <p>The selected revision is preserved and duplicate validation requests are blocked.</p>
+              <strong>{t("validating")} {revision.id}…</strong>
+              <p>{t("validationBusy")}</p>
             </div>
           </div>
         ) : (
@@ -268,27 +356,27 @@ export function ResultWorkspace({
             onClick={() => void handleValidate()}
             type="button"
           >
-            Validate {revision.id}
+            {t("validationAction")} {revision.id}
           </button>
         )}
 
         {validationError && (
           <section className="error-banner" role="alert" aria-labelledby="draft-validation-error">
             <div>
-              <h3 id="draft-validation-error" ref={errorHeadingRef} tabIndex={-1}>Draft validation failed · {validationError.code}</h3>
-              <p>{validationError.message}</p>
-              {validationError.paths?.length && <p>Fields: {validationError.paths.join(", ")}</p>}
-              {validationError.correlation_id && <p>Reference ID: <code>{validationError.correlation_id}</code></p>}
-              <p>The saved revision remains available for correction.</p>
+              <h3 id="draft-validation-error" ref={errorHeadingRef} tabIndex={-1}>{t("validationErrorTitle")} · {displayErrorCode(validationError.code)}</h3>
+              <p>{localizedError(validationError.code, t)}</p>
+              {validationError.paths?.length ? <div><p>{t("affectedFields")}</p>{validationError.paths.filter((path) => fieldId(path)).map((path) => <button className="text-button" key={path} type="button" onClick={() => recoverField(path)}>{t("goToField")}: <code>{path}</code></button>)}</div> : null}
+              {validationError.correlation_id && <p>{t("reference")}: <code>{validationError.correlation_id}</code></p>}
+              <p>{t("validationRecoverHelp")}</p>
             </div>
             <button className="secondary-button" onClick={() => { beginEdit(); onPhaseChange("review"); }} type="button">
-              Edit this revision
+              {t("validationRecover")}
             </button>
           </section>
         )}
 
         <div className="stage-secondary-actions">
-          <button className="text-button" onClick={() => onPhaseChange("review")} type="button">Return to Review &amp; Refine</button>
+          <button className="text-button" onClick={() => onPhaseChange("review")} type="button">{t("returnReview")}</button>
           {renderNewPaperAction()}
         </div>
         {renderTechnicalDetails()}
@@ -300,37 +388,39 @@ export function ResultWorkspace({
     return (
       <section aria-busy={busy} className="stage-card export-stage" aria-labelledby="export-heading">
         <span className="stage-icon stage-icon-success" aria-hidden="true">✓</span>
-        <p className="eyebrow">DOCX Export</p>
-        <h2 id="export-heading">Validation complete</h2>
-        <p>Structure and required fields passed server validation for <strong>{revision.id}</strong>. The output remains a draft requiring expert review.</p>
+        <p className="eyebrow">{t("export")}</p>
+        <h2 id="export-heading">{t("validationComplete")}</h2>
+        <p>{t("validationPassed")} <strong>{revision.id}</strong>. {t("draftWarning")}</p>
         <div className="export-summary">
-          <span>Selected revision</span>
+          <span>{t("selectedRevision")}</span>
           <strong>{revision.id}</strong>
-          <span className="status-success">Exact-revision validation passed</span>
+          <span className="status-success">{t("validationPassedLabel")}</span>
         </div>
         <button
-          aria-label={`Export ${revision.id} DOCX`}
+          aria-label={`${t("exportAction")} ${revision.id} DOCX`}
           className="primary-button export-primary-button"
           disabled={busy || editing || !revision.validation}
           onClick={handleExport}
           type="button"
         >
-          {state === "EXPORTING" ? "Preparing DOCX…" : "Download editable DOCX"}
+          {state === "EXPORTING" ? t("preparingDocx") : t("exportDocx")}
         </button>
+        <p className="card-supporting-copy">{t("exportUnavailable")}</p>
+        <p className="card-supporting-copy">{t("draftWarning")}</p>
         {state === "EXPORTING" && (
           <div className="processing-callout workspace-operation" role="status" aria-live="polite">
             <span className="spinner" aria-hidden="true" />
             <div>
-              <strong>Preparing {revision.id} for DOCX download…</strong>
-              <p>Keep this page open. Another export cannot start until this request finishes.</p>
+              <strong>{t("preparingDocx")} · {revision.id}</strong>
+              <p>{t("exportBusy")}</p>
             </div>
           </div>
         )}
         <div className="stage-secondary-actions">
-          <button className="text-button" onClick={() => onPhaseChange("validate")} type="button">Review validation</button>
+          <button className="text-button" onClick={() => onPhaseChange("validate")} type="button">{t("reviewValidation")}</button>
           {renderNewPaperAction()}
         </div>
-        {renderTechnicalDetails(<p>Validated digest: <code>{revision.validation?.draft_digest}</code></p>)}
+        {renderTechnicalDetails(<p>{t("validated")}: <code>{revision.validation?.draft_digest}</code></p>)}
       </section>
     );
   }
@@ -339,32 +429,32 @@ export function ResultWorkspace({
     <section aria-busy={busy} className="results-workspace" aria-labelledby="results-heading">
       <div className="results-toolbar">
         <div>
-          <p className="eyebrow">Review &amp; Refine</p>
-          <h2 id="results-heading">Review &amp; Refine</h2>
-          <p>Review the generated patent draft, refine prose, and inspect supporting evidence before validation.</p>
+          <p className="eyebrow">{t("review")}</p>
+          <h2 id="results-heading">{t("review")}</h2>
+          <p>{t("reviewIntro")}</p>
         </div>
         {renderNewPaperAction()}
       </div>
 
-      <div className="revision-workspace" aria-label="Session draft revisions">
+      <div className="revision-workspace" aria-label={t("revision")}>
         {renderRevisionSelector(false)}
         <div className="revision-actions">
           {editing ? (
             <>
-              <button className="primary-button" disabled={!dirty} onClick={saveEdit} type="button">Save new revision</button>
-              <button className="secondary-button" onClick={cancelEdit} type="button">Cancel edit</button>
+              <button className="primary-button" disabled={!dirty} onClick={saveEdit} type="button">{t("save")}</button>
+              <button className="secondary-button" onClick={cancelEdit} type="button">{t("cancel")}</button>
             </>
           ) : (
             <>
-              <button className="secondary-button" disabled={busy} onClick={beginEdit} type="button">Edit prose</button>
+              <button className="secondary-button" disabled={busy} onClick={beginEdit} type="button">{t("edit")}</button>
               <button
-                aria-label={`Continue ${revision.id} to Validation`}
+                aria-label={`${t("continueValidation")} · ${revision.id}`}
                 className="primary-button"
                 disabled={busy || !reviewComplete}
                 onClick={() => onPhaseChange("validate")}
                 type="button"
               >
-                Continue to Validation →
+                {t("continueValidation")}
               </button>
             </>
           )}
@@ -372,24 +462,34 @@ export function ResultWorkspace({
       </div>
 
       <div className="revision-status" role="status" aria-live="polite">
-        <strong>{revision.id}{editing ? (dirty ? " · Unsaved changes" : " · Editing") : " · Saved"}</strong>
-        <span>Backend validation: {revision.validation ? "PASSED for this exact revision" : "NOT VALIDATED"}</span>
-        <span>Review: {reviewCounts.UNREVIEWED} UNREVIEWED · {reviewCounts.REVIEWED} REVIEWED (not approved) · {reviewCounts.NEEDS_CHANGES} NEEDS_CHANGES</span>
+        <strong>{revision.id} · {editing ? (dirty ? t("unsavedShort") : t("editing")) : t("saved")}</strong>
+        <span>{t("validation")}: {revision.validation ? t("validated") : t("notValidated")}</span>
+        <span>{t("reviewSummary")}: {reviewCounts.UNREVIEWED} {t("statusUnreviewed")} · {reviewCounts.REVIEWED} {t("statusReviewed")} · {reviewCounts.NEEDS_CHANGES} {t("statusNeedsChanges")}</span>
         <span>
           {reviewComplete
-            ? "Human review complete for this selected revision."
-            : `Review all sections before validation · ${reviewRemaining} remaining.`}
+            ? t("reviewDone")
+            : `${t("reviewAll")} · ${reviewRemaining} ${t("reviewRemaining")}.`}
         </span>
-        <span>Export target: {revision.id}{revision.validation && reviewComplete ? " · eligible" : " · review and validation required"}</span>
+        <span>{t("exportTarget")}: {revision.id} · {revision.validation && reviewComplete ? t("eligible") : t("validationRequired")}</span>
       </div>
 
       {unverifiedPaths.length > 0 && (
         <p className="edit-support-warning" role="note">
-          {unverifiedPaths.length} edited prose field(s) have unchanged evidence links, but semantic source support is unverified. Technical validation is not Human or legal approval.
+          {unverifiedPaths.length} · {t("editorSupport")}
         </p>
       )}
 
-      <div className="tab-list" role="tablist" aria-label="Result views">
+      <div className="document-review-layout">
+        <aside className={`section-rail ${sectionRailOpen ? "mobile-panel-open" : ""}`} aria-label={t("sectionList")}>
+          <button ref={sectionsTriggerRef} className="mobile-panel-trigger secondary-button" type="button" aria-expanded={sectionRailOpen} onClick={() => setSectionRailOpen((value) => !value)}>{t("sectionList")} ▾</button>
+          <div className="section-rail-content" onKeyDown={(event) => { if (event.key === "Escape") { setSectionRailOpen(false); sectionsTriggerRef.current?.focus(); } }}>
+            <h3>{t("sectionList")}</h3>
+            <button className="rail-link" type="button" onClick={() => { setActiveTab("draft"); window.requestAnimationFrame(() => document.getElementById("draft-abstract-heading")?.scrollIntoView()); }}>{t("abstract")}</button>
+            {revision.draft.draft_sections.map((section, index) => <button className="rail-link" key={section.section_id} type="button" aria-current={activeSectionId === section.section_id ? "location" : undefined} onClick={() => scrollToSection(section.section_id)}>{String(section.sequence).padStart(2, "0")} · {section.heading} <small>{t(revision.review[section.section_id]?.status === "REVIEWED" ? "statusReviewed" : revision.review[section.section_id]?.status === "NEEDS_CHANGES" ? "statusNeedsChanges" : "statusUnreviewed")}{section.status === "MISSING" ? ` · ${t("missingContent")}` : ""}{validationError?.paths?.some((path) => path.startsWith(`/draft_sections/${index}/`)) ? ` · ${t("validationFailed")}` : ""}</small></button>)}
+          </div>
+        </aside>
+        <div className="document-center">
+      <div className="tab-list" role="tablist" aria-label={t("resultViews")}>
         {tabs.map((tab) => (
           <button
             aria-controls={`panel-${tab.key}`}
@@ -418,6 +518,7 @@ export function ResultWorkspace({
             onParagraphChange={(section, subsection, paragraph, text) =>
               setEditBuffer((current) => current ? editParagraph(current, section, subsection, paragraph, text) : current)}
             onReviewChange={handleReviewChange}
+            onInspectEvidence={(id) => { setSelectedEvidenceId(id); setEvidenceOpen(true); window.requestAnimationFrame(() => { const inspector = document.getElementById("evidence-inspector-heading"); inspector?.focus({ preventScroll: true }); inspector?.scrollIntoView({ block: "nearest" }); }); }}
             review={revision.review}
             unverifiedPaths={unverifiedPaths}
           />
@@ -425,6 +526,27 @@ export function ResultWorkspace({
         {activeTab === "review" && <ReviewItemsView analysis={result.analysis} draft={revision.draft} />}
         {activeTab === "analysis" && <AnalysisView analysis={result.analysis} />}
       </div>
+        </div>
+        <aside className={`evidence-inspector ${evidenceOpen ? "mobile-panel-open" : ""}`} aria-label={t("evidence")}>
+          <button ref={evidenceTriggerRef} className="mobile-panel-trigger secondary-button" type="button" aria-expanded={evidenceOpen} onClick={() => setEvidenceOpen((value) => !value)}>{t("evidence")} ▾</button>
+          <div className="evidence-inspector-content" onKeyDown={(event) => { if (event.key === "Escape") { setEvidenceOpen(false); evidenceTriggerRef.current?.focus(); } }}>
+            <h3 id="evidence-inspector-heading" tabIndex={-1}>{t("evidence")}</h3>
+            <p className="inspector-note">{t("technicalOnly")}</p>
+            {evidenceItems.length ? <>
+              <div className="inspector-evidence-ids" role="group" aria-label={t("inspectEvidence")}>
+                {evidenceItems.map((evidence) => <button type="button" key={evidence.evidence_id} aria-pressed={selectedEvidence?.evidence_id === evidence.evidence_id} onClick={() => setSelectedEvidenceId(evidence.evidence_id)}>{evidence.evidence_id}</button>)}
+              </div>
+              {selectedEvidence ? <EvidenceCard evidence={selectedEvidence} /> : <p>{t("noEvidence")}</p>}
+            </> : <p>{t("noEvidence")}</p>}
+          </div>
+        </aside>
+      </div>
+
+      {pendingAction && createPortal(<div className="dialog-backdrop"><div className="confirm-dialog" role="dialog" aria-modal="true" aria-labelledby="dirty-dialog-title" aria-describedby="dirty-dialog-description" ref={dialogRef} onKeyDown={handleDialogKeyDown}>
+        <h3 id="dirty-dialog-title">{t("confirmTitle")}</h3>
+        <p id="dirty-dialog-description">{t("unsaved")}</p>
+        <div className="dialog-actions"><button className="primary-button" type="button" onClick={dismissPending}>{t("stay")}</button><button className="danger-button" type="button" onClick={discardPending}>{t("discard")}</button></div>
+      </div></div>, document.body)}
 
       {renderTechnicalDetails()}
     </section>
