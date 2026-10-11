@@ -210,4 +210,3 @@ figures/research unauthorized, Word pagination variation, full WCAG/assistive
 technology/cross-browser certification unverified, paid provider and production
 authorization absent remain unchanged. Do not merge DEP-001/UIUX-003, deploy or
 start another task.
-
