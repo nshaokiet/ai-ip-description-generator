@@ -1,0 +1,9 @@
+{
+  "name": "@ai-ip/next-root-glob-adapter",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": "./index.mjs",
+  "engines": { "node": ">=24" },
+  "dependencies": { "tinyglobby": "0.2.17" }
+}

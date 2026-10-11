@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.77 |
+| Version | 0.3.80 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -18,6 +18,22 @@
 | Related task ID | SPEC-004 |
 | Source of Truth | Operational status bridge; bản nguồn Git tại `docs/operations/01_PROJECT_CONTROL_CENTER.md` |
 | Confidentiality level | Internal |
+
+### DEP-001-A2 — controlled security adapter / independent review pending (11/10/2026)
+
+- **IMPLEMENTATION CANDIDATE / FRESH SECURITY REVIEW PENDING**, Human-approved C2 bounded local tinyglobby adapter, Workflow V1; same branch and draft PR #105. [Ledger 1.1.0 / historical and A2 raw evidence](../tasks/DEP-001-frontend-dependency-security-remediation.md). No merge/closure/deployment authorized.
+- Full and production audit **0 vulnerabilities / 0 vulnerabilities**, no suppression/risk exception; actual vulnerable braces/micromatch/fast-glob implementation removed. Normal npm ci/ls and fresh source-copy install pass. Next lint config/rules remain unchanged; 73 contract/equivalence tests, 25 original configs and 17 negative fixtures pass.
+- Local **78 baseline browser PASS**, compatibility **52 UIUX-003 + 25 integration PASS**, **5+5 synthetic demos PASS**, Python **903 PASS/3 SKIP**, lint/typecheck/dev/normal/static/secret checks PASS. Final exact-SHA Ubuntu CI, artifacts and one fresh Gemini 3.1 Pro High / Antigravity STRICT READ-ONLY handoff are recorded/read back on existing PR #105 after push; no independent PASS invented.
+- Ordering/bounded unsupported API need fresh independent assessment. Dynamic roots sort deterministically; tested actual ordered Next diagnostics remain equal. ESLint 9 EOL remains a maintenance limitation. PR #104 head remains 102b7e90dc3bfc1f79c197a20184f97b89070bf2, untouched/unmerged.
+- Both Render YAML services remain checksPass; actual live settings/build Node unverified, separate merge/deployment gate. MCP Unknown task: DEP-001-A2 — **BLOCKED BY TOOL CAPABILITY**. No backend/API/Claims/product change, paid API, real research, deployment, merge or next task.
+
+### Historical DEP-001 — partial frontend security remediation / unresolved upstream blocker (11/10/2026)
+
+- **BLOCKED — PARTIAL REMEDIATION / SECURITY REVIEW PENDING**, Workflow V1. Human attachment “TASK: DEP-001 — FRONTEND DEPENDENCY SECURITY REMEDIATION” selects OPTION A before UIUX-003 merge and authorizes existing dependency upgrades, minimal compatibility fixes, synthetic testing, commit/push, one PR and Gemini security-review handoff. Merge, deployment and HIGH-risk acceptance are explicitly not authorized.
+- Fresh main baseline `63d5a61235669ad7d32bb38d583789ea59ce5497`; branch `fix/dep-001-frontend-security-remediation`. [Ledger 1.0.0 and actual audit/tree/registry/regression evidence](../tasks/DEP-001-frontend-dependency-security-remediation.md). Next/eslint-config-next 16.3.6→16.3.8; exact existing transitive sharp 0.35.5 and source-map-js 1.2.2 overrides. No major/new package identity or application/backend/Claims/Render change.
+- Full audit **8→5 HIGH package entries**; production audit **3→0 vulnerabilities**. Eight of nine underlying GHSA records resolved, but braces GHSA-vfj7-8cjw-p6xm remains HIGH with no patched release and five propagated development entries. Security target **NOT MET**; no suppressed finding or risk exception. Stop the affected chain until an actual compatible upstream fix or separately authorized remediation exists.
+- Local lint/typecheck/production/development/static checks PASS; baseline browser **78 PASS**, test-only exact UIUX-003 source plus patched dependencies **52 PASS**, Python **903 PASS / 3 SKIP**, baseline static demo **5 PASS**. Actual final SHA/CI/PR/handoff are published/read back in the one DEP-001 PR; no independent PASS fabricated. PR #104 and reviewed SHA `102b7e90dc3bfc1f79c197a20184f97b89070bf2` untouched/unmerged.
+- Both synthetic-demo services in unchanged `render.yaml` declare `autoDeployTrigger: checksPass`. **Actual Render auto-deploy settings NOT VERIFIED**; no service changed/deployment performed. Any future merge must verify actual settings prevent unauthorized deployment or STOP. MCP **Unknown task: DEP-001 — BLOCKED BY TOOL CAPABILITY**; no invented lease/state. Draft/provider/data/Claims/production limitations preserved; no next task.
 
 ### UIUX-002 — implementation merge and postmerge verification (11/10/2026)
 
@@ -187,6 +203,8 @@ lease/state; no approval, task enrollment or state is fabricated. Quota/product/
 provider/data/production authority unchanged. Historical entries below are preserved.
 
 ### Lịch sử phiên bản
+
+DEP-001: **0.3.77 → 0.3.79**, 11/10/2026, Codex. Record Human-authorized partial dependency remediation, actual before/after audit and synthetic regression evidence, unpatched braces blocker, independent security-review gate and unverified Render auto-deploy gate. Finding: GHSA-vfj7-8cjw-p6xm OPEN; no risk acceptance or merge. Breaking change: **No — factual governance only**. Version 0.3.78 belongs to the unmerged UIUX-003 candidate; allocate a distinct version rather than reuse it for different content.
 
 | Phiên bản cũ | Phiên bản mới | Ngày | Người thực hiện | Thay đổi | Lý do | Finding/Decision liên quan | Breaking change |
 |---|---|---|---|---|---|---|---|
@@ -949,3 +967,5 @@ EVAL-001 PRODUCT_RUNTIME **DEFERRED — AWAITING FUNDING**; semantic acceptance
 ## 23. Last Updated
 
 **11/10/2026 GMT+7**
+
+DEP-001-A2: **0.3.79 → 0.3.80**, 11/10/2026, Codex. Human-approved bounded local adapter and actual zero-audit/local regression checkpoint; preserve partial-remediation history and fresh fixed-SHA/CI/review gates. Breaking change: **No product/API change; explicit bounded tooling contract**.

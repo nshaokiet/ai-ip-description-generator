@@ -24,6 +24,7 @@ jobs:
       - uses: actions/checkout@v7
         with:
           persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - uses: actions/setup-python@v7
         with:
@@ -109,6 +110,24 @@ jobs:
         working-directory: frontend
         run: npm run lint
 
+      - name: Verify DEP-001 full and production security graphs
+        working-directory: frontend
+        run: |
+          mkdir -p "$RUNNER_TEMP/dep-001-security"
+          npm audit --json > "$RUNNER_TEMP/dep-001-security/full-audit.json"
+          npm audit --omit=dev --json > "$RUNNER_TEMP/dep-001-security/production-audit.json"
+          npm ls --all --json > "$RUNNER_TEMP/dep-001-security/dependency-tree.json"
+          npm run test:lint-security | tee "$RUNNER_TEMP/dep-001-security/lint-security.log"
+
+      - name: Archive DEP-001 security evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dep-001-security
+          path: ${{ runner.temp }}/dep-001-security/
+          if-no-files-found: error
+          retention-days: 7
+
       - name: Typecheck frontend
         working-directory: frontend
         run: npm run typecheck
@@ -133,6 +152,46 @@ jobs:
         with:
           name: uiux-002-synthetic-browser-qa
           path: frontend/test-results/
+          if-no-files-found: warn
+          retention-days: 7
+
+      - name: Checkout fixed UIUX-003 compatibility source
+        uses: actions/checkout@v7
+        with:
+          ref: 102b7e90dc3bfc1f79c197a20184f97b89070bf2
+          path: tmp/dep-001-uiux003-source
+          persist-credentials: false
+
+      - name: Verify isolated fixed UIUX-003 compatibility without changing PR 104
+        env:
+          PLAYWRIGHT_PYTHON: python
+          PLAYWRIGHT_BACKEND_PORT: "8104"
+          PLAYWRIGHT_FRONTEND_PORT: "3204"
+          BACKEND_URL: "http://127.0.0.1:8104"
+          PLAYWRIGHT_DEMO_BACKEND_PORT: "8105"
+          PLAYWRIGHT_DEMO_FRONTEND_PORT: "3205"
+        run: |
+          compat="$GITHUB_WORKSPACE/tmp/dep-001-uiux003-source"
+          test "$(git -C "$compat" rev-parse HEAD)" = 102b7e90dc3bfc1f79c197a20184f97b89070bf2
+          cp frontend/package.json frontend/package-lock.json frontend/.npmrc "$compat/frontend/"
+          cp -R frontend/tools "$compat/frontend/tools"
+          cd "$compat/frontend"
+          npm ci
+          npm run lint
+          npm run typecheck
+          npm run build
+          npx playwright test e2e/integration.spec.ts e2e/uiux-003.spec.ts
+          RENDER_STATIC_EXPORT=1 NEXT_PUBLIC_DEMO_STAGING=1 npm run build
+          test -f out/index.html
+          ! grep -R -E 'OPENAI_API_KEY|sk-[A-Za-z0-9_-]{20,}|gpt-5\.6-sol' out
+          npm run test:e2e:demo
+
+      - name: Archive isolated UIUX-003 compatibility results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dep-001-uiux003-compatibility
+          path: tmp/dep-001-uiux003-source/frontend/test-results/
           if-no-files-found: warn
           retention-days: 7
 
