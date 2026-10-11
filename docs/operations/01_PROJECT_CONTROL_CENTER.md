@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.77 |
+| Version | 0.3.78 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -18,6 +18,13 @@
 | Related task ID | SPEC-004 |
 | Source of Truth | Operational status bridge; bản nguồn Git tại `docs/operations/01_PROJECT_CONTROL_CENTER.md` |
 | Confidentiality level | Internal |
+
+### UIUX-003 — authorized final visual polish candidate (11/10/2026)
+
+- **UIUX-003 — IMPLEMENTATION / INDEPENDENT REVIEW PENDING**, Workflow V1. Human attachment “TASK: UIUX-003 — FINAL VISUAL POLISH & BRAND ALIGNMENT” authorizes local synthetic implementation/testing/remediation, commit/push, one PR and Gemini fixed-SHA handoff. It explicitly supersedes UIUX-001's theme UI/default with fixed Light; other UIUX-001/UIUX-002 contracts remain. **No merge or deployment authorization.**
+- Verified main baseline `63d5a61235669ad7d32bb38d583789ea59ce5497`; branch `feat/uiux-003-final-visual-polish`. [Implementation/evidence v1.0.0](../tasks/UIUX-003-implementation-evidence.md), [before/after QA provenance](../qa/uiux-003/README.md). Local final browser regression 78 PASS; Python 903 PASS / 3 SKIP; exact-head CI/PR/artifacts and final readiness are recorded in the task PR after publication.
+- Fixed-light shell, consistent local sans typography, smaller unchanged logo/larger title, native locale refinement, centered readable five-step cards/sharper borders, original brand-colored science/patent SVG margins. No backend/API/client/schema/revision/Claims/export/provider/dependency-manifest change. Independent **Gemini 3.1 Pro High / Antigravity STRICT READ-ONLY** review remains **PENDING**; Codex visual inspection is self-QA, not Human acceptance.
+- Existing pinned dependency audit reports eight HIGH package entries; unresolved and explicitly handed off, no security acceptance or out-of-scope dependency remediation. MCP recheck: **Unknown task: UIUX-003 — BLOCKED BY TOOL CAPABILITY**; no invented task registration/lease/state. Drive synchronization unverified. Draft/Claims/Word/real-data/paid-provider/production limits retained.
 
 ### UIUX-002 — implementation merge and postmerge verification (11/10/2026)
 
@@ -194,6 +201,7 @@ provider/data/production authority unchanged. Historical entries below are prese
 | 0.3.74 | 0.3.75 | 09/10/2026 | Codex | Record V1 P2-005 implementation fixed-SHA review, PR #98 merge, successful main CI and upstream Claims capability gap; open documentation closeout review gate | Actual post-merge evidence reconciliation within authorized task | Reviewed `731f0064a911205e9a8ddb9de64f4fa3b65b88e2`; [external review](https://github.com/nshaokiet/ai-ip-description-generator/pull/98#issuecomment-6075865959); merge `f3dfd7d1f1e559fb537256405ceaad47ba433560`; CI #37885329783 SUCCESS; main CI #37895226175 COMPLETED/SUCCESS; MCP Unknown task | No — governance status only |
 | 0.3.75 | 0.3.76 | 09/10/2026 | Codex | Record P2-005 independent governance PASS, PR #99 normal merge, exact-main CI and terminal status-sync handoff | Final Human-authorized lifecycle reconciliation under AGENTS §§20/22 | [External fixed-SHA PASS](https://github.com/nshaokiet/ai-ip-description-generator/pull/99#issuecomment-6076256290) `62f54c0cf04e7720dfa08f25e31b9c14ce101e36`; merge `d81e2e065545b37445e85fd9322ce99510a025d2`; CI #37897744309 SUCCESS; [receipt](https://github.com/nshaokiet/ai-ip-description-generator/pull/99#issuecomment-6076332719); final status PR fixed-SHA review/CI/merge pending | No — governance text only |
 | 0.3.76 | 0.3.77 | 11/10/2026 | Codex | Record UIUX-002 Human-supplied external fixed-SHA PASS, normal PR #103 merge and successful actual-merge CI; synchronize task status | Human conditional merge/closeout; AGENTS §§20/22 | [Review](https://github.com/nshaokiet/ai-ip-description-generator/pull/103#issuecomment-6105421655); merge `e6a47c900d227e2c028156e0dad5225d721e3353`; CI #38111671791 SUCCESS; final documentation CI/closeout in PR #103 | No — factual governance only |
+| 0.3.77 | 0.3.78 | 11/10/2026 | Codex | Register Human-authorized UIUX-003 visual candidate and scoped theme supersession; preserve CI/review and baseline audit limits | UIUX-003 Human attachment; AGENTS §§20/22 | Evidence v1.0.0; one PR/CI/handoff required; no merge/deploy | No — status evidence; intentional theme UI removal is separately authorized |
 | 0.3.72 | 0.3.73 | 08/10/2026 | Codex | Clarify G-AC-24 completion predicate: PR94 same-SHA dual PASS/CI/MANUAL_EXTERNAL/merge, resulting main CI, canonical closeout/readback and README sync; retain PENDING until evidence | Human GOV-AGENT-001-G authorized postmerge closeout / PR #94 review remediation | GOV-AGENT-001-G; PR #93 merge and CI verified; PR #94 gates pending | No — factual completion wording only |
 | 0.3.71 | 0.3.72 | 08/10/2026 | Codex | Append verified PR93 dual reviews/MANUAL_EXTERNAL/merge/exact-main CI; reconcile README stage without claiming final closeout | Actual Human bounded closeout instruction ac4605b5-138d-44af-9899-19bfcc545ee7 | GOV-AGENT-001-G; merge 1c8212971db10eb44fb0639da34f4076af6ca4eb; main CI37751828515 SUCCESS; separate follow-up review pending | No — factual status/evidence only |
 | 0.3.70 | 0.3.71 | 08/10/2026 | Codex | Reconcile G v0.1.1 freeze, Planner/Implementer and original Security report/hash; preserve empty MCP review history honestly | Human security supersession approval | GOV-AGENT-001-G; spec3/provenance8; dual re-review pending | No — factual security/status references |

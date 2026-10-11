@@ -213,7 +213,7 @@ main {
 
 .product-name {
   color: var(--color-primary-700);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-sans);
   font-size: 1.1rem;
   font-weight: 700;
   line-height: 1.25;
@@ -269,7 +269,7 @@ main {
   max-width: 800px;
   margin: 8px 0 18px;
   color: var(--color-text);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-sans);
   font-size: clamp(2.2rem, 5vw, 4.1rem);
   font-weight: 650;
   letter-spacing: -0.035em;
@@ -425,7 +425,7 @@ main {
 .results-toolbar h2,
 .view-introduction h2 {
   margin: 4px 0 0;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-sans);
   font-size: clamp(1.65rem, 3vw, 2.25rem);
   line-height: 1.2;
 }
@@ -772,7 +772,7 @@ main {
 
 .section-heading h3 {
   margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-sans);
   font-size: 1.35rem;
 }
 
@@ -881,7 +881,7 @@ main {
   margin: 14px 0 0;
   border-left: 3px solid var(--color-primary-500);
   color: var(--color-text-secondary);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-sans);
   font-size: 0.94rem;
 }
 
@@ -997,7 +997,7 @@ main {
 .draft-title-block h2 {
   max-width: 760px;
   margin: 9px auto 15px;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-sans);
   font-size: clamp(2rem, 4vw, 3rem);
   line-height: 1.2;
 }
@@ -1016,7 +1016,7 @@ main {
 .draft-abstract > p:not(.eyebrow) {
   margin: 10px 0 16px;
   color: var(--color-text);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-sans);
   font-size: 1.08rem;
   line-height: 1.75;
 }
@@ -1041,7 +1041,7 @@ main {
 .draft-section-number {
   padding-top: 4px;
   color: var(--color-primary-500);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-sans);
   font-size: 1rem;
   font-weight: 700;
 }
@@ -1049,7 +1049,7 @@ main {
 .draft-section-body h3 {
   margin: 0 0 20px;
   color: var(--color-primary-700);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-sans);
   font-size: 1.65rem;
 }
 
@@ -1072,7 +1072,7 @@ main {
 .draft-paragraph > p {
   margin: 0;
   color: var(--color-text);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-sans);
   font-size: 1.02rem;
   line-height: 1.85;
 }

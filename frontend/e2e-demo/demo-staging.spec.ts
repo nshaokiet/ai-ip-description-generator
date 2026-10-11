@@ -44,7 +44,8 @@ test("static demo exposes PDF DOCX selection first and keeps controlled samples 
   await logo.evaluate((image: HTMLImageElement) => image.decode());
   await expect(logo).toHaveCSS("object-fit", "contain");
   const logoBox = await logo.boundingBox();
-  expect(logoBox?.width ?? 0).toBeGreaterThanOrEqual(175);
+  expect(logoBox?.width ?? 0).toBeGreaterThanOrEqual(190 * .85);
+  expect(logoBox?.width ?? 0).toBeLessThanOrEqual(190 * .9);
   expect(logoBox?.height ?? 0).toBeGreaterThanOrEqual(50);
 
   const input = page.locator('input[type="file"]');
@@ -122,7 +123,7 @@ test("public local PDF and DOCX selections can be removed and selected again wit
   expect(arbitraryRequests).toBe(0);
 });
 
-test("mobile selected-file layout and enlarged logo stay inside the viewport", async ({ page }) => {
+test("mobile selected-file layout and polished logo stay inside the viewport", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
   await page.locator("#document-file").setInputFiles({
@@ -134,7 +135,8 @@ test("mobile selected-file layout and enlarged logo stay inside the viewport", a
   const logo = page.getByRole("img", { name: "VNUHCM Innovation Hub" });
   await logo.evaluate((image: HTMLImageElement) => image.decode());
   const logoBox = await logo.boundingBox();
-  expect(logoBox?.width ?? 0).toBeGreaterThanOrEqual(125);
+  expect(logoBox?.width ?? 0).toBeGreaterThanOrEqual(140 * .85);
+  expect(logoBox?.width ?? 0).toBeLessThanOrEqual(140 * .9);
   expect(logoBox?.height ?? 0).toBeGreaterThanOrEqual(42);
 
   const removeBox = await page.getByRole("button", { name: "Remove selected file" }).boundingBox();

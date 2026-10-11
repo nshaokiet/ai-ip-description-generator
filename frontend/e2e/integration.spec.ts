@@ -141,7 +141,9 @@ test("P2-000 home presents the approved enterprise workflow and gated stages", a
   await logo.evaluate((image: HTMLImageElement) => image.decode());
   await expect(logo).toHaveCSS("object-fit", "contain");
   const logoBox = await logo.boundingBox();
-  expect(logoBox?.width ?? 0).toBeGreaterThanOrEqual(175);
+  // UIUX-003 explicitly reduces the UIUX-002 190px logo by 10–15%.
+  expect(logoBox?.width ?? 0).toBeGreaterThanOrEqual(190 * .85);
+  expect(logoBox?.width ?? 0).toBeLessThanOrEqual(190 * .9);
   expect(logoBox?.height ?? 0).toBeGreaterThanOrEqual(50);
   const uploadCardBox = await page.locator(".upload-card").boundingBox();
   expect(uploadCardBox?.width ?? 0).toBeGreaterThanOrEqual(900);

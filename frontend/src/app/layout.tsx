@@ -10,10 +10,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="vi" suppressHydrationWarning>
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: `(function(){try{var p=localStorage.getItem('aiip.theme');if(p!=='light'&&p!=='dark')p='system';var m=matchMedia('(prefers-color-scheme: dark)');document.documentElement.dataset.theme=p==='system'?(m.matches?'dark':'light'):p;}catch(e){document.documentElement.dataset.theme=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}})();` }} />
-      </head>
+    <html lang="vi" data-theme="light" suppressHydrationWarning>
       <body>{children}</body>
     </html>
   );
