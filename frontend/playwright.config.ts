@@ -15,7 +15,7 @@ export default defineConfig({
   timeout: 60_000,
   expect: { timeout: 10_000 },
   workers: 1,
-  reporter: "list",
+  reporter: [["list"], ["json", { outputFile: "test-results/results.json" }]],
   use: {
     baseURL: `http://127.0.0.1:${frontendPort}`,
     ...devices["Desktop Chrome"],

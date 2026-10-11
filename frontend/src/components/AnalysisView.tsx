@@ -1,5 +1,8 @@
+"use client";
+
 import { EvidenceCard } from "@/components/EvidenceCard";
 import { GroundingBadge } from "@/components/GroundingBadge";
+import { useUi, type MessageKey } from "@/lib/uiPreferences";
 import type {
   AnalysisItem,
   GroundedStatement,
@@ -41,6 +44,7 @@ function isGroundedStatement(value: GroundedStatement | Measurement): value is G
 }
 
 function AnalysisCard({ item, index }: { item: AnalysisItem; index: number }) {
+  const { t } = useUi();
   const lead = itemLead(item);
   const description = item.description && item.description !== lead ? item.description : undefined;
   const conditions = item.conditions ?? [];
@@ -52,10 +56,10 @@ function AnalysisCard({ item, index }: { item: AnalysisItem; index: number }) {
         <GroundingBadge label={item.grounding.label} />
       </div>
       {description && <p>{description}</p>}
-      {item.rationale && <p className="supporting-copy">Rationale: {item.rationale}</p>}
+      {item.rationale && <p className="supporting-copy">{t("rationale")}: {item.rationale}</p>}
       {conditions.length > 0 && (
         <div className="nested-detail">
-          <strong>Conditions</strong>
+          <strong>{t("conditions")}</strong>
           <ul>
             {conditions.map((condition, conditionIndex) => (
               <li key={`${itemKey(item, index)}-condition-${conditionIndex}`}>
@@ -69,7 +73,7 @@ function AnalysisCard({ item, index }: { item: AnalysisItem; index: number }) {
       )}
       {item.results && item.results.length > 0 && (
         <div className="nested-detail">
-          <strong>Results</strong>
+          <strong>{t("results")}</strong>
           <ul>
             {item.results.map((result, resultIndex) => (
               <li key={`${itemKey(item, index)}-result-${resultIndex}`}>
@@ -80,7 +84,7 @@ function AnalysisCard({ item, index }: { item: AnalysisItem; index: number }) {
         </div>
       )}
       <p className="evidence-links">
-        Evidence: {item.grounding.evidence_ids.join(", ")}
+        {t("evidenceLabel")}: {item.grounding.evidence_ids.join(", ")}
       </p>
     </article>
   );
@@ -90,14 +94,15 @@ function AnalysisSection({
   title,
   items,
 }: {
-  title: string;
+  title: MessageKey;
   items: AnalysisItem[];
 }) {
+  const { t } = useUi();
   if (items.length === 0) return null;
   return (
-    <section className="result-section" aria-labelledby={`analysis-${title.replaceAll(" ", "-")}`}>
+    <section className="result-section" aria-labelledby={`analysis-${title}`}>
       <div className="section-heading">
-        <h3 id={`analysis-${title.replaceAll(" ", "-")}`}>{title}</h3>
+        <h3 id={`analysis-${title}`}>{t(title)}</h3>
         <span>{items.length}</span>
       </div>
       <div className="result-card-grid">
@@ -110,6 +115,7 @@ function AnalysisSection({
 }
 
 export function AnalysisView({ analysis }: { analysis: InventionAnalysis }) {
+  const { t } = useUi();
   const technicalField = analysis.technical_field.item
     ? [analysis.technical_field.item]
     : [];
@@ -118,37 +124,36 @@ export function AnalysisView({ analysis }: { analysis: InventionAnalysis }) {
     <div className="result-view">
       <div className="view-introduction">
         <div>
-          <p className="eyebrow">Canonical analysis · v{analysis.schema_version}</p>
-          <h2>Structured invention analysis</h2>
+          <p className="eyebrow">{t("analysis")} · v{analysis.schema_version}</p>
+          <h2>{t("analysisTitle")}</h2>
         </div>
         <p>
-          Technical statements remain linked to evidence. Inferences are visually separated
-          from direct source facts.
+          {t("analysisIntro")}
         </p>
       </div>
 
-      <AnalysisSection title="Title candidates" items={analysis.title_candidates} />
-      <AnalysisSection title="Technical field" items={technicalField} />
+      <AnalysisSection title="titleCandidates" items={analysis.title_candidates} />
+      <AnalysisSection title="technicalField" items={technicalField} />
       {analysis.technical_field.status === "MISSING" && (
         <p className="missing-marker">{analysis.technical_field.marker}</p>
       )}
-      <AnalysisSection title="Background" items={analysis.background} />
-      <AnalysisSection title="Technical problems" items={analysis.technical_problems} />
-      <AnalysisSection title="Technical solutions" items={analysis.technical_solutions} />
-      <AnalysisSection title="Components" items={analysis.components} />
-      <AnalysisSection title="Process steps" items={analysis.process_steps} />
+      <AnalysisSection title="background" items={analysis.background} />
+      <AnalysisSection title="technicalProblems" items={analysis.technical_problems} />
+      <AnalysisSection title="technicalSolutions" items={analysis.technical_solutions} />
+      <AnalysisSection title="components" items={analysis.components} />
+      <AnalysisSection title="processSteps" items={analysis.process_steps} />
       <AnalysisSection
-        title="Potential distinguishing features"
+        title="distinguishing"
         items={analysis.potential_distinguishing_features}
       />
-      <AnalysisSection title="Technical effects" items={analysis.technical_effects} />
-      <AnalysisSection title="Embodiments" items={analysis.embodiments} />
-      <AnalysisSection title="Experimental data" items={analysis.experimental_data} />
+      <AnalysisSection title="technicalEffects" items={analysis.technical_effects} />
+      <AnalysisSection title="embodiments" items={analysis.embodiments} />
+      <AnalysisSection title="experimentalData" items={analysis.experimental_data} />
 
       {analysis.missing_information.length > 0 && (
         <section className="result-section" aria-labelledby="analysis-missing-information">
           <div className="section-heading">
-            <h3 id="analysis-missing-information">Missing information</h3>
+            <h3 id="analysis-missing-information">{t("missingInformation")}</h3>
             <span>{analysis.missing_information.length}</span>
           </div>
           <div className="review-list">
@@ -159,7 +164,7 @@ export function AnalysisView({ analysis }: { analysis: InventionAnalysis }) {
                   <span className="priority-badge">{item.impact}</span>
                 </div>
                 <p>{item.description}</p>
-                <p className="metadata-line">{item.reason} · Owner: {item.owner}</p>
+                <p className="metadata-line">{item.reason} · {t("owner")}: {item.owner}</p>
                 <code className="path-code">{item.target_path}</code>
               </article>
             ))}
@@ -170,7 +175,7 @@ export function AnalysisView({ analysis }: { analysis: InventionAnalysis }) {
       {analysis.author_questions.length > 0 && (
         <section className="result-section" aria-labelledby="analysis-author-questions">
           <div className="section-heading">
-            <h3 id="analysis-author-questions">Author questions</h3>
+            <h3 id="analysis-author-questions">{t("authorQuestions")}</h3>
             <span>{analysis.author_questions.length}</span>
           </div>
           <div className="review-list">
@@ -178,7 +183,7 @@ export function AnalysisView({ analysis }: { analysis: InventionAnalysis }) {
               <article className="review-card" key={item.question_id}>
                 <span className="priority-badge">{item.priority}</span>
                 <p className="question-text">{item.question}</p>
-                <p className="metadata-line">Related item: {item.missing_information_id}</p>
+                <p className="metadata-line">{t("relatedItem")}: {item.missing_information_id}</p>
               </article>
             ))}
           </div>
@@ -187,7 +192,7 @@ export function AnalysisView({ analysis }: { analysis: InventionAnalysis }) {
 
       <section className="result-section" aria-labelledby="analysis-evidence">
         <div className="section-heading">
-          <h3 id="analysis-evidence">Evidence</h3>
+          <h3 id="analysis-evidence">{t("evidenceLabel")}</h3>
           <span>{analysis.evidence.length}</span>
         </div>
         <div className="evidence-grid">

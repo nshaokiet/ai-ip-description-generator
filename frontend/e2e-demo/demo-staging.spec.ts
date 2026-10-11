@@ -1,5 +1,9 @@
 import { expect, test, type Page } from "@playwright/test";
 
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => { localStorage.setItem("aiip.locale", "en"); });
+});
+
 async function runSampleFlow(page: Page, buttonName: string) {
   await page.goto("/");
   await page.getByRole("button", { name: buttonName }).click();
@@ -19,10 +23,10 @@ async function runSampleFlow(page: Page, buttonName: string) {
   for (let index = 0; index < reviewTotal; index += 1) {
     await reviewControls.nth(index).selectOption("REVIEWED");
   }
-  await page.getByRole("button", { name: "Continue revision-2 to Validation" }).click();
+  await page.getByRole("button", { name: "Continue to Validation → · revision-2" }).click();
   await page.getByRole("button", { name: "Validate revision-2" }).click();
   await expect(page.getByRole("heading", { name: "Validation complete" })).toBeVisible();
-  await page.getByRole("button", { name: "Continue to DOCX Export" }).click();
+  await page.getByRole("button", { name: "Continue to DOCX Export →" }).click();
   const downloadPromise = page.waitForEvent("download");
   await page.getByRole("button", { name: "Export revision-2 DOCX" }).click();
   expect((await downloadPromise).suggestedFilename()).toBe("patent-description-draft.docx");
@@ -50,7 +54,7 @@ test("static demo exposes PDF DOCX selection first and keeps controlled samples 
     ".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document",
   );
   await expect(page.getByRole("button", { name: "Select document" })).toBeVisible();
-  await expect(page.getByText("PDF or DOCX · Max 10 MB")).toBeVisible();
+  await expect(page.getByText("PDF or DOCX · Max 10 MiB")).toBeVisible();
   const uploadCard = page.locator(".upload-card");
   expect((await uploadCard.boundingBox())?.width ?? 0).toBeGreaterThanOrEqual(900);
 
@@ -78,7 +82,7 @@ test("static demo exposes PDF DOCX selection first and keeps controlled samples 
 
   await expect(page.getByRole("button", { name: "Use synthetic PDF demo" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Use synthetic DOCX demo" })).toBeVisible();
-  await expect(page.getByText("No live AI provider is used", { exact: false })).toBeVisible();
+  await expect(page.locator(".demo-boundary-note")).toBeVisible();
   await expect(page.locator(".environment-badge")).toHaveCount(0);
 });
 

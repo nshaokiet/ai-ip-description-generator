@@ -4,6 +4,9 @@ import path from "node:path";
 import { expect, test, type Download, type Page } from "@playwright/test";
 
 const backend = `http://127.0.0.1:${process.env.PLAYWRIGHT_BACKEND_PORT ?? "8000"}`;
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => { window.localStorage.setItem("aiip.locale", "en"); });
+});
 const mediaTypes = {
   pdf: "application/pdf",
   docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
@@ -83,7 +86,7 @@ async function completeHumanReview(page: Page) {
 }
 
 async function enterValidation(page: Page, revisionId: string) {
-  await page.getByRole("button", { name: `Continue ${revisionId} to Validation` }).click();
+  await page.getByRole("button", { name: `Continue to Validation → · ${revisionId}` }).click();
   await expect(page.getByRole("heading", { name: /Validate the selected revision|Validation complete/ })).toBeVisible();
   await expect(page.getByRole("button", { name: /4\. Validation/ })).toHaveAttribute("aria-current", "step");
 }
@@ -93,11 +96,11 @@ async function validateRevision(page: Page, revisionId: string) {
   await enterValidation(page, revisionId);
   await page.getByRole("button", { name: `Validate ${revisionId}` }).click();
   await expect(page.getByRole("heading", { name: "Validation complete" })).toBeVisible();
-  await expect(page.getByText("Technical validation only · not Human or legal approval")).toBeVisible();
+  await expect(page.getByRole("paragraph").filter({ hasText: "Technical validation only · not Human or legal approval" })).toBeVisible();
 }
 
 async function enterExport(page: Page) {
-  await page.getByRole("button", { name: "Continue to DOCX Export" }).click();
+  await page.getByRole("button", { name: "Continue to DOCX Export →" }).click();
   await expect(page.getByRole("heading", { name: "Validation complete" })).toBeVisible();
   await expect(page.getByRole("button", { name: /5\. DOCX Export/ })).toHaveAttribute("aria-current", "step");
 }
@@ -117,7 +120,7 @@ test("P2-000 home presents the approved enterprise workflow and gated stages", a
   await expect(page.getByRole("heading", {
     name: "From Scientific Research Paper to USPTO-Style Patent Specification",
   })).toBeVisible();
-  const workflow = page.getByRole("navigation", { name: "Document workflow" });
+  const workflow = page.getByRole("navigation", { name: "Patent drafting workflow" });
   await expect(workflow.getByRole("button")).toHaveCount(5);
   for (const [index, label] of [
     "Source Upload",
@@ -191,7 +194,7 @@ test("local PDF and DOCX selections can be cleared and immediately re-selected",
 test("uploaded paper can be removed before extraction", async ({ page }) => {
   await uploadSynthetic(page, "pdf");
   await expect(page.getByText("synthetic.pdf", { exact: true })).toBeVisible();
-  await page.getByRole("button", { name: "Remove paper" }).click();
+  await page.getByRole("button", { name: "Remove selected file" }).click();
   await expect(page.getByRole("heading", { name: "Upload a research document" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Continue to AI Extraction" })).toHaveCount(0);
   await expect(page.getByRole("button", { name: /2\. AI Extraction/ })).toBeDisabled();
@@ -233,9 +236,9 @@ test("reached-step navigation reuses results and product Go back does not reproc
 test("new paper and downstream source removal require explicit session reset", async ({ page }) => {
   await processSynthetic(page, "pdf");
   await page.getByRole("button", { name: /1\. Source Upload/ }).click();
-  await page.getByRole("button", { name: "Remove paper" }).click();
-  await expect(page.getByText("Current analysis, draft revisions, review status, and validation will be cleared", { exact: false })).toBeVisible();
-  await page.getByRole("button", { name: "Keep current paper" }).click();
+  await page.getByRole("button", { name: "Remove selected file" }).click();
+  await expect(page.getByText("This clears the current analysis, drafts, revisions, review status, and validation.")).toBeVisible();
+  await page.getByRole("button", { name: "Keep editing" }).click();
   await expect(page.getByText("synthetic.pdf", { exact: true })).toBeVisible();
   await page.getByRole("button", { name: /3\. Review & Refine/ }).click();
   await page.getByRole("button", { name: "New paper" }).click();
@@ -322,7 +325,8 @@ test("backend error text is rendered as text and cannot inject HTML", async ({ p
     });
   });
   await page.getByRole("button", { name: "Continue to AI Extraction" }).click();
-  await expect(page.locator(".error-banner")).toContainText(untrusted);
+  await expect(page.locator(".error-banner")).toContainText("The local service could not complete the request.");
+  await expect(page.locator(".error-banner")).not.toContainText(untrusted);
   await expect(page.locator("[data-p1-003-injected]")).toHaveCount(0);
   await expect(page.locator("body")).not.toHaveAttribute("data-pwned", "yes");
 });
@@ -363,7 +367,7 @@ test("selected-revision Human review gate blocks partial and NEEDS_CHANGES state
   const controls = page.getByLabel(/^Session review status for /);
   const total = await controls.count();
   expect(total).toBeGreaterThan(1);
-  const continueButton = page.getByRole("button", { name: "Continue revision-1 to Validation" });
+  const continueButton = page.getByRole("button", { name: "Continue to Validation → · revision-1" });
   const validationStep = page.getByRole("button", { name: /4\. Validation/ });
   const exportStep = page.getByRole("button", { name: /5\. DOCX Export/ });
 
@@ -417,7 +421,7 @@ test("upload, analysis, validation and export allow only one in-flight request",
   await uploadButton.evaluate((button: HTMLButtonElement) => { button.click(); button.click(); });
   await expect.poll(() => uploadRequests).toBe(1);
   await expect(uploadButton).toBeDisabled();
-  await expect(page.getByText("Uploading and checking the selected document…")).toBeVisible();
+  await expect(page.getByText("Uploading and validating the document.")).toBeVisible();
   uploadGate.release();
   await expect(page.getByRole("heading", { name: "Paper uploaded successfully" })).toBeVisible();
   expect(uploadRequests).toBe(1);
@@ -475,7 +479,7 @@ test("upload, analysis, validation and export allow only one in-flight request",
   await exportButton.evaluate((button: HTMLButtonElement) => { button.click(); button.click(); });
   await expect.poll(() => exportRequests).toBe(1);
   await expect(exportButton).toBeDisabled();
-  await expect(page.getByText("Preparing revision-1 for DOCX download…")).toBeVisible();
+  await expect(page.getByText("Preparing DOCX… · revision-1")).toBeVisible();
   exportGate.release();
   expect((await downloadPromise).suggestedFilename()).toBe("patent-description-draft.docx");
   expect(exportRequests).toBe(1);
@@ -538,6 +542,8 @@ test("PDF session: immutable revisions require selected-revision review before v
   await expect(page.getByLabel("Grounding for paragraph-field")).toContainText("Source paths: /technical_field/item");
   await firstParagraph(page).fill("Cancelled edit text.");
   await page.getByRole("button", { name: "Cancel edit" }).click();
+  await expect(page.getByRole("dialog", { name: "Confirm session change" })).toBeVisible();
+  await page.getByRole("button", { name: "Discard changes and continue" }).click();
   await expect(page.getByText(original, { exact: true })).toBeVisible();
   await expect(page.getByLabel("Selected revision").locator("option")).toHaveCount(1);
 
@@ -549,19 +555,19 @@ test("PDF session: immutable revisions require selected-revision review before v
 
   const revised = "A calibrated optical sensor compensates for thermal drift in each measurement band.";
   await saveParagraphRevision(page, revised);
-  await expect(page.getByText("Backend validation: NOT VALIDATED")).toBeVisible();
+  await expect(page.getByText("Validation: NOT VALIDATED")).toBeVisible();
   await expect(page.getByText("6 UNREVIEWED", { exact: false })).toBeVisible();
   await expect(page.getByRole("button", { name: /4\. Validation/ })).toBeDisabled();
   await expect(page.getByRole("button", { name: /5\. DOCX Export/ })).toBeDisabled();
   await page.getByLabel("Selected revision").selectOption("revision-1");
   await expect(page.getByText(original, { exact: true })).toBeVisible();
-  await expect(page.getByText("Backend validation: PASSED for this exact revision")).toBeVisible();
+  await expect(page.getByText("Validation: VALIDATED")).toBeVisible();
   await expect(page.getByText(`${reviewTotal} REVIEWED (not approved)`, { exact: false })).toBeVisible();
   await expect(page.getByRole("button", { name: /4\. Validation/ })).toBeEnabled();
   await expect(page.getByRole("button", { name: /5\. DOCX Export/ })).toBeEnabled();
   await page.getByLabel("Selected revision").selectOption("revision-2");
   await expect(page.getByText(revised, { exact: true })).toBeVisible();
-  await expect(page.getByText("Backend validation: NOT VALIDATED")).toBeVisible();
+  await expect(page.getByText("Validation: NOT VALIDATED")).toBeVisible();
   await expect(page.getByRole("button", { name: /4\. Validation/ })).toBeDisabled();
   await expect(page.getByRole("button", { name: /5\. DOCX Export/ })).toBeDisabled();
 
@@ -570,12 +576,14 @@ test("PDF session: immutable revisions require selected-revision review before v
   await page.getByRole("button", { name: "Validate revision-2" }).click();
   await expect(page.getByRole("heading", { name: "Validation complete" })).toBeVisible();
   await page.getByRole("button", { name: "Return to Review & Refine" }).click();
-  await expect(page.getByText("semantic source support is unverified", { exact: false })).toBeVisible();
+  await expect(page.locator(".edit-support-warning").filter({ hasText: "unverified semantic source support" }).first()).toBeVisible();
 
   await page.getByRole("button", { name: "Edit prose" }).click();
   await firstParagraph(page).fill("Unsaved export substitution.");
   await expect(page.getByRole("button", { name: "Export revision-2 DOCX" })).toHaveCount(0);
   await page.getByRole("button", { name: "Cancel edit" }).click();
+  await expect(page.getByRole("dialog", { name: "Confirm session change" })).toBeVisible();
+  await page.getByRole("button", { name: "Discard changes and continue" }).click();
   await enterValidation(page, "revision-2");
   await expect(page.getByRole("button", { name: "Validate revision-2" })).toHaveCount(0);
   await enterExport(page);
@@ -615,12 +623,12 @@ test("PDF session: immutable revisions require selected-revision review before v
   const review = page.getByLabel("Session review status for Technical Field");
   await review.selectOption("NEEDS_CHANGES");
   await expect(page.getByText("1 NEEDS_CHANGES", { exact: false })).toBeVisible();
-  await expect(page.getByText("Backend validation: PASSED for this exact revision")).toBeVisible();
+  await expect(page.getByText("Validation: VALIDATED")).toBeVisible();
   await expect(review).toHaveValue("NEEDS_CHANGES");
-  await expect(page.getByRole("button", { name: "Continue revision-2 to Validation" })).toBeDisabled();
+  await expect(page.getByRole("button", { name: "Continue to Validation → · revision-2" })).toBeDisabled();
   await expect(page.getByRole("button", { name: /5\. DOCX Export/ })).toBeDisabled();
   await review.selectOption("REVIEWED");
-  await expect(page.getByRole("button", { name: "Continue revision-2 to Validation" })).toBeEnabled();
+  await expect(page.getByRole("button", { name: "Continue to Validation → · revision-2" })).toBeEnabled();
   await expect(page.getByRole("button", { name: /5\. DOCX Export/ })).toBeEnabled();
 
   await page.reload();
@@ -714,13 +722,13 @@ test("keyboard-only edit, validate, review and export controls", async ({ page }
     await reviewControls.nth(index).focus();
     await page.keyboard.press("ArrowDown");
   }
-  const continueValidation = page.getByRole("button", { name: "Continue revision-2 to Validation" });
+  const continueValidation = page.getByRole("button", { name: "Continue to Validation → · revision-2" });
   await continueValidation.focus();
   await page.keyboard.press("Enter");
   await page.getByRole("button", { name: "Validate revision-2" }).focus();
   await page.keyboard.press("Enter");
   await expect(page.getByRole("heading", { name: "Validation complete" })).toBeVisible();
-  const continueExport = page.getByRole("button", { name: "Continue to DOCX Export" });
+  const continueExport = page.getByRole("button", { name: "Continue to DOCX Export →" });
   await continueExport.focus();
   await page.keyboard.press("Enter");
   const downloadPromise = page.waitForEvent("download");
@@ -733,7 +741,7 @@ test("narrow viewport keeps editing, warnings, validation and export usable", as
   await page.setViewportSize({ width: 390, height: 844 });
   await processSynthetic(page, "pdf");
   await saveParagraphRevision(page, "The sensor uses a temperature coefficient for calibration.");
-  await expect(page.getByText("semantic source support is unverified", { exact: false })).toBeVisible();
+  await expect(page.locator(".edit-support-warning").filter({ hasText: "unverified semantic source support" }).first()).toBeVisible();
   await validateRevision(page, "revision-2");
   const width = await page.evaluate(() => ({ body: document.body.scrollWidth, viewport: innerWidth }));
   expect(width.body).toBeLessThanOrEqual(width.viewport);
@@ -843,6 +851,6 @@ test("non-JSON and network backend failures are safe and keep the revision", asy
   await page.unroute("**/backend/api/drafts/validate");
   await page.route("**/backend/api/drafts/validate", (route) => route.abort());
   await page.getByRole("button", { name: "Validate revision-2" }).click();
-  await expect(page.getByText("The local backend is unavailable. Confirm that FastAPI is running.")).toBeVisible();
+  await expect(page.getByText("The local service could not complete the request.")).toBeVisible();
   await expect(page.getByLabel("Selected revision", { exact: true })).toHaveValue("revision-2");
 });

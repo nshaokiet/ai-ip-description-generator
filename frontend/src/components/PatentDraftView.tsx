@@ -2,6 +2,7 @@
 
 import { EvidenceCard } from "@/components/EvidenceCard";
 import { GroundingBadge } from "@/components/GroundingBadge";
+import { useUi } from "@/lib/uiPreferences";
 import type { ReviewStatus, SectionReviewRecord } from "@/lib/draftRevisions";
 import type { DraftHeadlineContent, DraftParagraph, PatentDraft } from "@/lib/types/contracts";
 
@@ -14,13 +15,15 @@ interface DraftViewProps {
   onAbstractChange?: (text: string) => void;
   onParagraphChange?: (section: number, subsection: number | null, paragraph: number, text: string) => void;
   onReviewChange?: (sectionId: string, status: ReviewStatus) => void;
+  onInspectEvidence?: (evidenceId: string) => void;
 }
 
 function MissingContent({ content }: { content: DraftHeadlineContent }) {
+  const { t } = useUi();
   return (
     <div className="missing-content" role="note">
-      <strong>MISSING · {content.marker ?? "[AUTHOR CONFIRMATION REQUIRED]"}</strong>
-      {content.missing_information_ids && <p>Related items: {content.missing_information_ids.join(", ")}</p>}
+      <strong>{t("missingContent")} · {content.marker ?? "[AUTHOR CONFIRMATION REQUIRED]"}</strong>
+      {content.missing_information_ids && <p>{t("missingRelated")}: {content.missing_information_ids.join(", ")}</p>}
     </div>
   );
 }
@@ -28,33 +31,36 @@ function MissingContent({ content }: { content: DraftHeadlineContent }) {
 function FieldFeedback({ path, errors, unverified }: {
   path: string; errors: string[]; unverified: string[];
 }) {
+  const { t } = useUi();
   return (
     <>
       {errors.some((item) => item === path || item.startsWith(`${path}/`)) && (
-        <p className="field-error" role="alert">Backend rejected this field. Check its content and source support.</p>
+        <p className="field-error" role="alert">{t("fieldRejected")}</p>
       )}
       {unverified.includes(path) && (
         <p className="edit-support-warning" role="note">
-          Edited prose: semantic support has not been verified. Evidence links and grounding labels are unchanged; Human review is required.
+          {t("editorSupport")}
         </p>
       )}
     </>
   );
 }
 
-function Paragraph({ paragraph, path, editing, errors, unverified, onChange }: {
+function Paragraph({ paragraph, path, editing, errors, unverified, onChange, onInspectEvidence }: {
   paragraph: DraftParagraph;
   path: string;
   editing: boolean;
   errors: string[];
   unverified: string[];
   onChange?: (text: string) => void;
+  onInspectEvidence?: (evidenceId: string) => void;
 }) {
+  const { t } = useUi();
   return (
     <div className="draft-paragraph">
       {editing ? (
         <>
-          <label htmlFor={`edit-${paragraph.paragraph_id}`}>Paragraph {paragraph.paragraph_id} prose</label>
+          <label htmlFor={`edit-${paragraph.paragraph_id}`}>{t("paragraph")} {paragraph.paragraph_id} {t("prose")}</label>
           <textarea
             id={`edit-${paragraph.paragraph_id}`}
             onChange={(event) => onChange?.(event.target.value)}
@@ -63,10 +69,10 @@ function Paragraph({ paragraph, path, editing, errors, unverified, onChange }: {
           />
         </>
       ) : <p>{paragraph.text}</p>}
-      <div className="grounding-details" aria-label={`Grounding for ${paragraph.paragraph_id}`}>
+      <div className="grounding-details" aria-label={`${t("groundingFor")} ${paragraph.paragraph_id}`}>
         <GroundingBadge label={paragraph.grounding.label} />
-        <span>Evidence: {paragraph.grounding.evidence_ids.join(", ")}</span>
-        <span>Source paths: {paragraph.source_paths.join(", ")}</span>
+        <span>{t("evidenceLabel")}: {paragraph.grounding.evidence_ids.map((id) => <button className="evidence-jump" type="button" onClick={() => onInspectEvidence?.(id)} key={id}>{id}</button>)}</span>
+        <span>{t("sourcePaths")}: {paragraph.source_paths.join(", ")}</span>
       </div>
       <FieldFeedback path={path} errors={errors} unverified={unverified} />
     </div>
@@ -75,53 +81,54 @@ function Paragraph({ paragraph, path, editing, errors, unverified, onChange }: {
 
 export function PatentDraftView({
   draft, editing = false, review = {}, errorPaths = [], unverifiedPaths = [],
-  onAbstractChange, onParagraphChange, onReviewChange,
+  onAbstractChange, onParagraphChange, onReviewChange, onInspectEvidence,
 }: DraftViewProps) {
+  const { t } = useUi();
   return (
     <div className="result-view draft-document">
       <div className="draft-notice">
         <span className="status-dot" aria-hidden="true" />
         <div>
-          <strong>AI-generated draft for human review</strong>
-          <p>Not legal advice and not filing-ready. Specialist review is required.</p>
+          <strong>{t("humanReviewDraft")}</strong>
+          <p>{t("notLegal")}</p>
         </div>
       </div>
       {editing && (
         <div className="edit-support-warning" role="note">
-          Editing does not create evidence or verify new technical claims. Grounding labels and source links remain unchanged.
-          {draft.missing_information.length > 0 && <p>{draft.missing_information.length} missing-information item(s) still require attention.</p>}
-          {draft.conflicts.length > 0 && <p>{draft.conflicts.length} conflict(s) remain unresolved.</p>}
+          {t("editorWarning")}
+          {draft.missing_information.length > 0 && <p>{draft.missing_information.length} {t("missingCount")}.</p>}
+          {draft.conflicts.length > 0 && <p>{draft.conflicts.length} {t("conflictCount")}.</p>}
         </div>
       )}
 
       <header className="draft-title-block">
-        <p className="eyebrow">Patent description draft · v{draft.schema_version}</p>
+        <p className="eyebrow">{t("patentDraft")} · v{draft.schema_version}</p>
         {draft.selected_title.status === "PRESENT" ? (
           <>
             <h2>{draft.selected_title.text}</h2>
             {draft.selected_title.grounding && <GroundingBadge label={draft.selected_title.grounding.label} />}
           </>
-        ) : <><h2>Title: MISSING</h2><MissingContent content={draft.selected_title} /></>}
+        ) : <><h2>{t("missingTitle")}</h2><MissingContent content={draft.selected_title} /></>}
       </header>
 
       <section className="draft-abstract" aria-labelledby="draft-abstract-heading">
-        <p className="eyebrow">Abstract</p>
-        <h3 className="sr-only" id="draft-abstract-heading">Abstract</h3>
+        <p className="eyebrow">{t("abstract")}</p>
+        <h3 className="sr-only" id="draft-abstract-heading">{t("abstract")}</h3>
         {draft.abstract.status === "PRESENT" ? (
           <>
             {editing ? (
               <>
-                <label htmlFor="edit-abstract">Abstract prose</label>
+                <label htmlFor="edit-abstract">{t("abstract")} {t("prose")}</label>
                 <textarea id="edit-abstract" onChange={(event) => onAbstractChange?.(event.target.value)} rows={5} value={draft.abstract.text} />
               </>
             ) : <p>{draft.abstract.text}</p>}
             <div className="abstract-meta">
-              <span>{draft.abstract.word_count} words · 150 maximum</span>
+              <span>{draft.abstract.word_count} {t("words")} · {t("maxWords")}</span>
               {draft.abstract.grounding && <GroundingBadge label={draft.abstract.grounding.label} />}
             </div>
             <div className="grounding-details">
-              <span>Evidence: {draft.abstract.grounding?.evidence_ids.join(", ")}</span>
-              <span>Source paths: {draft.abstract.source_paths?.join(", ")}</span>
+              <span>{t("evidenceLabel")}: {draft.abstract.grounding?.evidence_ids.map((id) => <button className="evidence-jump" type="button" onClick={() => onInspectEvidence?.(id)} key={id}>{id}</button>)}</span>
+              <span>{t("sourcePaths")}: {draft.abstract.source_paths?.join(", ")}</span>
             </div>
             <FieldFeedback path="/abstract/text" errors={errorPaths} unverified={unverifiedPaths} />
             <FieldFeedback path="/abstract/word_count" errors={errorPaths} unverified={[]} />
@@ -136,22 +143,22 @@ export function PatentDraftView({
             <div className="draft-section-body">
               <h3 id={`draft-${section.section_id}`}>{section.heading}</h3>
               <div className="section-review-control">
-                <label htmlFor={`review-${section.section_id}`}>Session review status for {section.heading}</label>
+                <label htmlFor={`review-${section.section_id}`}>{t("reviewStatus")} {section.heading}</label>
                 <select
                   disabled={editing || !onReviewChange}
                   id={`review-${section.section_id}`}
                   onChange={(event) => onReviewChange?.(section.section_id, event.target.value as ReviewStatus)}
                   value={review[section.section_id]?.status ?? "UNREVIEWED"}
                 >
-                  <option value="UNREVIEWED">UNREVIEWED</option>
-                  <option value="REVIEWED">REVIEWED (not approved)</option>
-                  <option value="NEEDS_CHANGES">NEEDS_CHANGES</option>
+                  <option value="UNREVIEWED">{t("statusUnreviewed")}</option>
+                  <option value="REVIEWED">{t("statusReviewed")}</option>
+                  <option value="NEEDS_CHANGES">{t("statusNeedsChanges")}</option>
                 </select>
               </div>
               {section.status === "MISSING" ? (
                 <div className="missing-content" role="note">
                   <strong>{section.marker ?? "[AUTHOR CONFIRMATION REQUIRED]"}</strong>
-                  <p>Related items: {section.missing_information_ids.join(", ")}</p>
+                  <p>{t("missingRelated")}: {section.missing_information_ids.join(", ")}</p>
                 </div>
               ) : (
                 <>
@@ -160,6 +167,7 @@ export function PatentDraftView({
                       editing={editing} errors={errorPaths} key={paragraph.paragraph_id}
                       onChange={(text) => onParagraphChange?.(sectionIndex, null, paragraphIndex, text)}
                       paragraph={paragraph} path={`/draft_sections/${sectionIndex}/paragraphs/${paragraphIndex}/text`}
+                      onInspectEvidence={onInspectEvidence}
                       unverified={unverifiedPaths}
                     />
                   ))}
@@ -169,7 +177,7 @@ export function PatentDraftView({
                       {subsection.status === "MISSING" ? (
                         <div className="missing-content" role="note">
                           <strong>{subsection.marker ?? "[AUTHOR CONFIRMATION REQUIRED]"}</strong>
-                          <p>Related items: {subsection.missing_information_ids.join(", ")}</p>
+                          <p>{t("missingRelated")}: {subsection.missing_information_ids.join(", ")}</p>
                         </div>
                       ) : subsection.paragraphs.map((paragraph, paragraphIndex) => (
                         <Paragraph
@@ -177,6 +185,7 @@ export function PatentDraftView({
                           onChange={(text) => onParagraphChange?.(sectionIndex, subsectionIndex, paragraphIndex, text)}
                           paragraph={paragraph}
                           path={`/draft_sections/${sectionIndex}/subsections/${subsectionIndex}/paragraphs/${paragraphIndex}/text`}
+                          onInspectEvidence={onInspectEvidence}
                           unverified={unverifiedPaths}
                         />
                       ))}
@@ -191,7 +200,7 @@ export function PatentDraftView({
 
       <section className="result-section" aria-labelledby="draft-evidence-appendix">
         <div className="section-heading">
-          <h3 id="draft-evidence-appendix">Evidence and reference appendix</h3>
+          <h3 id="draft-evidence-appendix">{t("appendix")}</h3>
           <span>{draft.evidence_appendix.length}</span>
         </div>
         <div className="evidence-grid">

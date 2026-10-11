@@ -3,9 +3,11 @@
 import Image from "next/image";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
+import { MarginMotifs } from "@/components/MarginMotifs";
 import { ResultWorkspace } from "@/components/ResultWorkspace";
 import { UploadPanel } from "@/components/UploadPanel";
 import { WorkflowProgress } from "@/components/WorkflowProgress";
+import { UiPreferencesProvider, useUi, localizedError, displayErrorCode } from "@/lib/uiPreferences";
 import {
   ApiClientError,
   exportDocx,
@@ -36,6 +38,11 @@ function normalizeClientError(error: unknown): NormalizedApiError {
 }
 
 export default function Home() {
+  return <UiPreferencesProvider><HomeWorkflow /></UiPreferencesProvider>;
+}
+
+function HomeWorkflow() {
+  const { theme, setTheme, locale, setLocale, t } = useUi();
   const [state, setState] = useState<WorkflowState>("IDLE");
   const [document, setDocument] = useState<UploadedDocument | null>(null);
   const [result, setResult] = useState<ProcessResult | null>(null);
@@ -46,6 +53,12 @@ export default function Home() {
   const [validationEligible, setValidationEligible] = useState(false);
   const operationRef = useRef<"upload" | "process" | "export" | null>(null);
   const errorHeadingRef = useRef<HTMLHeadingElement>(null);
+  const navigationGuardRef = useRef<((proceed: () => void) => boolean) | null>(null);
+  const registerGuard = useCallback((guard: (proceed: () => void) => boolean) => { navigationGuardRef.current = guard; }, []);
+
+  function guarded(action: () => void) {
+    if (!navigationGuardRef.current || navigationGuardRef.current(action)) action();
+  }
 
   useEffect(() => {
     if (!error) return;
@@ -77,6 +90,7 @@ export default function Home() {
   }, []);
 
   function reset() {
+    navigationGuardRef.current = null;
     operationRef.current = null;
     setState("IDLE");
     setDocument(null);
@@ -201,14 +215,15 @@ export default function Home() {
   }
 
   function navigateTo(phase: WorkflowPhase) {
-    if (reachablePhases.includes(phase)) setWorkflowPhase(phase);
+    if (reachablePhases.includes(phase)) guarded(() => setWorkflowPhase(phase));
   }
 
   function goBack() {
     const current = PHASES.indexOf(workflowPhase);
     for (let index = current - 1; index >= 0; index -= 1) {
       if (reachablePhases.includes(PHASES[index])) {
-        setWorkflowPhase(PHASES[index]);
+        const target = PHASES[index];
+        guarded(() => setWorkflowPhase(target));
         return;
       }
     }
@@ -216,19 +231,20 @@ export default function Home() {
 
   const statusMessage =
     state === "UPLOADING"
-      ? "Uploading and validating the document."
+      ? t("processingUpload")
       : state === "PROCESSING"
-        ? "Extracting invention-relevant content and preparing a grounded draft."
+        ? t("processingExtract")
         : state === "EXPORTING"
-          ? "Preparing the editable DOCX download."
+          ? t("processingExport")
           : state === "READY"
-            ? "The patent draft is ready for human review."
+            ? t("readyForReview")
             : "";
   const canGoBack = workflowPhase !== "upload";
   const resultPhase = workflowPhase === "review" || workflowPhase === "validate" || workflowPhase === "export";
 
   return (
     <div className="app-shell">
+      <MarginMotifs />
       <header className="site-header">
         <div className="header-inner">
           <div className="brand-group">
@@ -245,21 +261,29 @@ export default function Home() {
             <div className="brand-divider" aria-hidden="true" />
             <p className="product-name">AI IP Description Generator</p>
           </div>
+          <div className="preference-controls">
+            <label>{t("theme")}
+              <select aria-label={t("theme")} onChange={(event) => setTheme(event.target.value as typeof theme)} value={theme}>
+                <option value="system">{t("system")}</option><option value="light">{t("light")}</option><option value="dark">{t("dark")}</option>
+              </select>
+            </label>
+            <label>{t("locale")}
+              <select aria-label={t("locale")} onChange={(event) => setLocale(event.target.value as typeof locale)} value={locale}>
+                <option value="vi">Tiếng Việt</option><option value="en">English</option>
+              </select>
+            </label>
+          </div>
         </div>
       </header>
 
       <main>
         <section className="hero" aria-labelledby="page-title">
-          <p className="eyebrow">Evidence-grounded patent drafting workflow</p>
-          <h1 id="page-title">From Scientific Research Paper to USPTO-Style Patent Specification</h1>
-          <p>
-            Upload one scientific research paper in PDF or DOCX format to extract invention-relevant content,
-            review and refine the generated patent specification draft, validate required sections, and export
-            an editable DOCX for further expert review.
-          </p>
+          <p className="eyebrow">{t("tagline")}</p>
+          <h1 id="page-title">{t("heroTitle")}</h1>
+          <p>{t("heroDescription")}</p>
         </section>
 
-        <section className="workflow-shell" aria-label="Patent drafting workflow">
+        <section className="workflow-shell" aria-label={t("draftingWorkflow")}>
           <div className="workflow-nav-row">
             <button
               className="back-button"
@@ -267,11 +291,13 @@ export default function Home() {
               onClick={goBack}
               type="button"
             >
-              ← Go back
+              {t("back")}
             </button>
           </div>
 
           <WorkflowProgress
+            attention={Boolean(result && (!reviewEligible || result.draft.missing_information.length || result.draft.conflicts.length))}
+            state={state}
             phase={workflowPhase}
             reachablePhases={reachablePhases}
             onNavigate={navigateTo}
@@ -282,15 +308,15 @@ export default function Home() {
           {error && (
             <section className="error-banner" role="alert" aria-labelledby="error-heading">
               <div>
-                <p className="eyebrow">Request not completed · {error.code}</p>
-                <h2 id="error-heading" ref={errorHeadingRef} tabIndex={-1}>We could not complete that operation</h2>
-                <p>{error.message}</p>
+                <p className="eyebrow">{t("requestFailed")} · {displayErrorCode(error.code)}</p>
+                <h2 id="error-heading" ref={errorHeadingRef} tabIndex={-1}>{t("error")}</h2>
+                <p>{localizedError(error.code, t)}</p>
                 {error.correlation_id && (
-                  <p className="reference-id">Reference ID: <code>{error.correlation_id}</code></p>
+                  <p className="reference-id">{t("reference")}: <code>{error.correlation_id}</code></p>
                 )}
               </div>
               <button className="secondary-button" onClick={dismissError} type="button">
-                {recoveryState === "READY" ? "Return to results" : "Choose another document"}
+                {recoveryState === "READY" ? t("returnResults") : t("chooseAnother")}
               </button>
             </section>
           )}
@@ -300,11 +326,11 @@ export default function Home() {
               demoStaging={DEMO_STAGING}
               document={document}
               hasDownstreamResults={Boolean(result)}
-              onContinueReview={() => setWorkflowPhase("review")}
+              onContinueReview={() => guarded(() => setWorkflowPhase("review"))}
               onProcess={handleProcess}
-              onRemove={result ? reset : clearUploadedSource}
-              onReplace={result ? async (file) => { reset(); await performUpload(file); } : performUpload}
-              onReset={reset}
+              onRemove={result ? () => guarded(reset) : clearUploadedSource}
+              onReplace={result ? async (file) => { guarded(() => { reset(); void performUpload(file); }); } : performUpload}
+              onReset={() => guarded(reset)}
               onUpload={performUpload}
               onUseDemoSample={handleDemoSample}
               state={state}
@@ -330,11 +356,11 @@ export default function Home() {
           {workflowPhase === "analyze" && result && (
             <section className="stage-card extraction-complete" aria-labelledby="extraction-complete-heading">
               <span className="stage-icon stage-icon-success" aria-hidden="true">✓</span>
-              <p className="eyebrow">AI Extraction</p>
-              <h2 id="extraction-complete-heading">Extraction complete</h2>
-              <p>The current analysis and grounded draft are already available in this session. Continuing will not run processing again.</p>
+                <p className="eyebrow">{t("extraction")}</p>
+                <h2 id="extraction-complete-heading">{locale === "vi" ? "Đã trích xuất xong" : "Extraction complete"}</h2>
+              <p>{t("extractionCached")}</p>
               <button className="primary-button" onClick={() => setWorkflowPhase("review")} type="button">
-                Continue to Review &amp; Refine →
+                {t("continueReview")}
               </button>
             </section>
           )}
@@ -342,10 +368,11 @@ export default function Home() {
           {result && (
             <div hidden={!resultPhase}>
               <ResultWorkspace
+                onRegisterGuard={registerGuard}
                 onExport={handleExport}
-                onPhaseChange={setWorkflowPhase}
+                onPhaseChange={(phase) => guarded(() => setWorkflowPhase(phase))}
                 onReviewEligibilityChange={handleReviewEligibilityChange}
-                onReset={reset}
+                onReset={() => guarded(reset)}
                 onValidationEligibilityChange={handleValidationEligibilityChange}
                 phase={workflowPhase}
                 result={result}
@@ -357,8 +384,8 @@ export default function Home() {
       </main>
 
       <footer className="site-footer">
-        <p>© 2026 VNUHCM Innovation Hub. All rights reserved.</p>
-        <p>Kết quả cần được chuyên gia kỹ thuật và sở hữu trí tuệ rà soát trước khi sử dụng chính thức.</p>
+        <p>{t("copyright")}</p>
+        <p>{t("legalFooter")}</p>
       </footer>
     </div>
   );
