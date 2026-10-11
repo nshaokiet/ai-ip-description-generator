@@ -165,6 +165,21 @@
       {
         "finding": "Both first demo runs: 3 PASS/2 FAIL due PermissionError in pre-existing shared temporary upload directory",
         "resolution": "Set process TEMP/TMP to separate task-created writable directories; 5+5 PASS. No ACL/backend change or tool restriction bypass."
+      },
+      {
+        "finding": "CI 38135527214 at e4d1af782b2f162236d017cfbaef66006ba84961 failed UIUX-003 private source git fetch: exit 128, could not read Username; credentials intentionally not persisted",
+        "resolution": "Second official actions/checkout at exact UIUX-003 SHA with existing contents:read and persist-credentials:false; verify HEAD; fresh complete candidate CI required",
+        "unverifiedInFailedRun": [
+          "UIUX-003 compatibility",
+          "final candidate static/demo steps"
+        ],
+        "passedInFailedRun": [
+          "Python and pinned document QA",
+          "full/prod audit and dependency tree",
+          "73 lint-security tests",
+          "lint/typecheck/build",
+          "78 original browser tests"
+        ]
       }
     ],
     "ci": "Pending final exact-SHA run; canonical PR record supplies immutable run/artifact evidence",

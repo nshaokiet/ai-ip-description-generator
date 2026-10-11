@@ -74,6 +74,18 @@ permissions. Corrected only packaging/test execution context and the new test;
 no product/backend edit, weakened assertion, ACL modification or security bypass.
 Generated Next development agent files and temporary outputs are excluded.
 
+First A2 CI [38135527214](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/38135527214)
+at `e4d1af782b2f162236d017cfbaef66006ba84961` failed only at the private UIUX-003
+source fetch (exit 128, could not read Username), because persist-credentials=false
+correctly left no authentication for a later git fetch. Security/73 equivalence,
+Python/pinned document QA and 78 browser gates had passed; compatibility/final demo
+were not verified by that run. Remediation uses a separate exact-SHA official
+checkout with the existing contents:read token and persist-credentials=false,
+then verifies its HEAD. No credential persistence, permission expansion or source
+change. Fresh complete CI is required for the new final candidate. Local source/
+dependency/test code remains byte-identical, so no repeated local full suites are
+needed for this CI-only correction.
+
 CI now checks the literal PR head, full/prod audit/tree/73 lint-security tests,
 existing Python/pinned document QA/browser/static/demo gates, and an isolated
 fixed-source UIUX-003 compatibility archive. No PR #104 branch modification.

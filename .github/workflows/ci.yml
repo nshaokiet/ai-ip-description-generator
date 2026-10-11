@@ -155,6 +155,13 @@ jobs:
           if-no-files-found: warn
           retention-days: 7
 
+      - name: Checkout fixed UIUX-003 compatibility source
+        uses: actions/checkout@v7
+        with:
+          ref: 102b7e90dc3bfc1f79c197a20184f97b89070bf2
+          path: tmp/dep-001-uiux003-source
+          persist-credentials: false
+
       - name: Verify isolated fixed UIUX-003 compatibility without changing PR 104
         env:
           PLAYWRIGHT_PYTHON: python
@@ -164,10 +171,8 @@ jobs:
           PLAYWRIGHT_DEMO_BACKEND_PORT: "8105"
           PLAYWRIGHT_DEMO_FRONTEND_PORT: "3205"
         run: |
-          git fetch --no-tags origin 102b7e90dc3bfc1f79c197a20184f97b89070bf2
-          compat="$RUNNER_TEMP/dep-001-uiux003"
-          mkdir -p "$compat"
-          git archive 102b7e90dc3bfc1f79c197a20184f97b89070bf2 | tar -x -C "$compat"
+          compat="$GITHUB_WORKSPACE/tmp/dep-001-uiux003-source"
+          test "$(git -C "$compat" rev-parse HEAD)" = 102b7e90dc3bfc1f79c197a20184f97b89070bf2
           cp frontend/package.json frontend/package-lock.json frontend/.npmrc "$compat/frontend/"
           cp -R frontend/tools "$compat/frontend/tools"
           cd "$compat/frontend"
@@ -186,7 +191,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: dep-001-uiux003-compatibility
-          path: ${{ runner.temp }}/dep-001-uiux003/frontend/test-results/
+          path: tmp/dep-001-uiux003-source/frontend/test-results/
           if-no-files-found: warn
           retention-days: 7
 
