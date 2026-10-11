@@ -67,6 +67,11 @@ for (const width of widths) for (const theme of themes) for (const locale of loc
     await expect(page.locator("html")).toHaveAttribute("lang", locale);
     await expect(page.locator(".preference-controls select").first()).toHaveValue(theme);
     await expect(page.locator(".preference-controls select").last()).toHaveValue(locale);
+    for (const control of await page.locator(".preference-controls select").all()) {
+      const box = await control.boundingBox();
+      expect(box?.height ?? 0).toBeGreaterThanOrEqual(44);
+      expect(box?.width ?? 0).toBeGreaterThanOrEqual(44);
+    }
     await expect(page.locator(".workflow-step")).toHaveCount(5);
     await expect(page.locator(".workflow-step").last().locator("button")).toBeDisabled();
     await overflow(page);

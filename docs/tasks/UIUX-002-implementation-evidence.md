@@ -3,7 +3,7 @@
 | Metadata | Value |
 | --- | --- |
 | Task | UIUX-002 — Complete Frontend UI/UX Implementation |
-| Version | 1.0.0 |
+| Version | 1.0.1 |
 | Date | 2026-10-11 Asia/Saigon |
 | Author / owner | Codex / Human Product Owner |
 | Workflow | V1; no V2 enrollment |
@@ -14,6 +14,13 @@
 | Required reviewer | Gemini 3.1 Pro High / Antigravity, STRICT READ-ONLY, exact final implementation SHA |
 
 This implements the approved [audit](UIUX-001-audit.md), [specification](UIUX-001-specification.md) and [plan](UIUX-001-implementation-plan.md). Those three source documents remain unchanged. The independent implementation verdict is **PENDING**, separate from UIUX-001's specification approval. The exact final SHA, PR CI run and downloadable synthetic browser artifact are recorded in the PR handoff after publication; no future SHA or approval is fabricated here.
+
+## Evidence version history
+
+| Old | New | Date | Author | Change / finding | Breaking change |
+| --- | --- | --- | --- | --- | --- |
+| None | 1.0.0 | 2026-10-11 | Codex | Initial implementation and local verification ledger | No |
+| 1.0.0 | 1.0.1 | 2026-10-11 | Codex | Final source reconciliation found header controls lacked explicit 44px minimum; corrected CSS and added all-matrix target-size assertions. Focused 390px VI/light and 1280px EN/dark both PASS; fresh exact-head CI required. | No |
 
 ## Packages and file responsibilities
 
@@ -53,6 +60,7 @@ Static demo: build with `RENDER_STATIC_EXPORT=1`, `NEXT_PUBLIC_DEMO_STAGING=1`, 
 - Static synthetic-demo regression: **5 passed** after scoping its repeated provider-notice assertion to the dedicated banner. Local arbitrary files triggered zero processing requests; both controlled PDF and DOCX flows exported v1 DOCX.
 - Text contrast: home light minimum **5.75:1**, home dark **8.26:1**; editor dark **6.06:1**, dialog dark **6.72:1** (inactive background excluded), review light **5.24:1**. Control boundary **4.04:1** light / **4.15:1** dark; 3px keyboard focus **6.79:1** light / **11.61:1** dark. These are measured samples, not whole-product WCAG certification.
 - Synthetic screenshots: 30 base + 10 System OS-light home states and 15 representative five-width review/editor/validation states. Local earlier matrix output is retained at ignored `tmp/uiux-002/comprehensive-before-control-fix/` with its explicit pre-control-fix status; final affected screenshots and contrast JSON are at `tmp/uiux-002/final-focused/`. Fresh exact-SHA complete screenshots/JSON are archived by CI as **uiux-002-synthetic-browser-qa** (7-day retention), and linked in the PR handoff. Cropped inspection images are for Codex QA only; no screenshot is Human acceptance.
+- Final header control correction: **2 focused presentation tests passed** with measured header targets ≥44×44px; lint/typecheck/regular build passed again. These strengthen existing presentation cases and do not increase the 78-test final suite. The prior implementation CI remains historical and cannot approve a later commit.
 - Codex inspected desktop three-column and mobile collapsed-panel images in both themes and VI/EN samples; the official logo remains byte-identical. No independent reviewer or Human visual acceptance is claimed.
 
 ## Acceptance reconciliation

@@ -51,7 +51,7 @@ body { color: var(--color-text); background: var(--color-bg); }
 .header-inner { max-width: 1540px; display: flex; gap: 18px; justify-content: space-between; align-items: center; }
 .preference-controls { display: flex; align-items: center; gap: 12px; margin-left: auto; }
 .preference-controls label { color: var(--color-text-secondary); display: flex; flex-direction: column; gap: 3px; font-size: .74rem; font-weight: 700; }
-.preference-controls select { min-width: 120px; border: 1px solid var(--color-border); border-radius: 8px; padding: 7px 30px 7px 9px; background: var(--color-surface); color: var(--color-text); font: inherit; font-size: .86rem; }
+.preference-controls select { min-width: 120px; min-height: 44px; border: 1px solid var(--color-border); border-radius: 8px; padding: 7px 30px 7px 9px; background: var(--color-surface); color: var(--color-text); font: inherit; font-size: .86rem; }
 .preference-controls select:focus-visible { outline-color: var(--color-focus); }
 .hero { max-width: 1020px; padding-top: 45px; padding-bottom: 27px; }
 .hero h1 { max-width: 940px; text-wrap: balance; }
