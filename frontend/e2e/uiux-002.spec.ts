@@ -210,11 +210,16 @@ test("corrupted preferences and denied storage retain safe defaults and session 
   await page.goto("/");
   await expect(page.locator(".preference-controls select").first()).toHaveValue("system");
   await expect(page.locator("html")).toHaveAttribute("lang", "vi");
-  await page.evaluate(() => { Object.defineProperty(window, "localStorage", { get() { throw new Error("Storage unavailable"); } }); });
+  await page.evaluate(() => { Storage.prototype.setItem = () => { throw new Error("Storage writes unavailable"); }; });
   await page.locator(".preference-controls select").first().selectOption("dark");
   await page.locator(".preference-controls select").last().selectOption("en");
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
+  await page.evaluate(() => { Object.defineProperty(window, "localStorage", { get() { throw new Error("Storage unavailable"); } }); });
+  await page.locator(".preference-controls select").first().selectOption("light");
+  await page.locator(".preference-controls select").last().selectOption("vi");
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+  await expect(page.locator("html")).toHaveAttribute("lang", "vi");
 });
 
 test("mapped validation issue focuses the affected editor and rejects mismatched success", async ({ page }) => {

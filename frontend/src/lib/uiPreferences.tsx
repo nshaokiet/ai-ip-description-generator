@@ -231,6 +231,8 @@ function isLocale(value: string | null): value is Locale { return value === "vi"
 const PREFERENCE_EVENT = "aiip-preferences-changed";
 let transientTheme: ThemePreference = "system";
 let transientLocale: Locale = "vi";
+let themeWriteFailed = false;
+let localeWriteFailed = false;
 function subscribePreferences(listener: () => void) {
   window.addEventListener("storage", listener);
   window.addEventListener(PREFERENCE_EVENT, listener);
@@ -240,10 +242,12 @@ function subscribePreferences(listener: () => void) {
   };
 }
 function readTheme(): ThemePreference {
+  if (themeWriteFailed) return transientTheme;
   try { const stored = localStorage.getItem("aiip.theme"); return isTheme(stored) ? stored : "system"; }
   catch { return transientTheme; }
 }
 function readLocale(): Locale {
+  if (localeWriteFailed) return transientLocale;
   try { const stored = localStorage.getItem("aiip.locale"); return isLocale(stored) ? stored : "vi"; }
   catch { return transientLocale; }
 }
@@ -253,12 +257,12 @@ export function UiPreferencesProvider({ children }: { children: ReactNode }) {
   const locale = useSyncExternalStore<Locale>(subscribePreferences, readLocale, () => "vi");
   const setTheme = useCallback((value: ThemePreference) => {
     transientTheme = value;
-    try { localStorage.setItem("aiip.theme", value); } catch { /* Storage unavailable. */ }
+    try { localStorage.setItem("aiip.theme", value); themeWriteFailed = false; } catch { themeWriteFailed = true; }
     window.dispatchEvent(new Event(PREFERENCE_EVENT));
   }, []);
   const setLocale = useCallback((value: Locale) => {
     transientLocale = value;
-    try { localStorage.setItem("aiip.locale", value); } catch { /* Storage unavailable. */ }
+    try { localStorage.setItem("aiip.locale", value); localeWriteFailed = false; } catch { localeWriteFailed = true; }
     window.dispatchEvent(new Event(PREFERENCE_EVENT));
   }, []);
 

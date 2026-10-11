@@ -3,7 +3,7 @@
 | Metadata | Value |
 | --- | --- |
 | Task | UIUX-002 — Complete Frontend UI/UX Implementation |
-| Version | 1.0.1 |
+| Version | 1.0.2 |
 | Date | 2026-10-11 Asia/Saigon |
 | Author / owner | Codex / Human Product Owner |
 | Workflow | V1; no V2 enrollment |
@@ -21,6 +21,7 @@ This implements the approved [audit](UIUX-001-audit.md), [specification](UIUX-00
 | --- | --- | --- | --- | --- | --- |
 | None | 1.0.0 | 2026-10-11 | Codex | Initial implementation and local verification ledger | No |
 | 1.0.0 | 1.0.1 | 2026-10-11 | Codex | Final source reconciliation found header controls lacked explicit 44px minimum; corrected CSS and added all-matrix target-size assertions. Focused 390px VI/light and 1280px EN/dark both PASS; fresh exact-head CI required. | No |
+| 1.0.1 | 1.0.2 | 2026-10-11 | Codex | Reproduced theme/locale reverting when storage reads succeed but writes fail. Retain in-memory session preferences on failed writes; strengthen existing test for write-only failure followed by unavailable reads. Three focused tests PASS; fresh exact-head CI required. | No |
 
 ## Packages and file responsibilities
 
@@ -61,6 +62,7 @@ Static demo: build with `RENDER_STATIC_EXPORT=1`, `NEXT_PUBLIC_DEMO_STAGING=1`, 
 - Text contrast: home light minimum **5.75:1**, home dark **8.26:1**; editor dark **6.06:1**, dialog dark **6.72:1** (inactive background excluded), review light **5.24:1**. Control boundary **4.04:1** light / **4.15:1** dark; 3px keyboard focus **6.79:1** light / **11.61:1** dark. These are measured samples, not whole-product WCAG certification.
 - Synthetic screenshots: 30 base + 10 System OS-light home states and 15 representative five-width review/editor/validation states. Local earlier matrix output is retained at ignored `tmp/uiux-002/comprehensive-before-control-fix/` with its explicit pre-control-fix status; final affected screenshots and contrast JSON are at `tmp/uiux-002/final-focused/`. Fresh exact-SHA complete screenshots/JSON are archived by CI as **uiux-002-synthetic-browser-qa** (7-day retention), and linked in the PR handoff. Cropped inspection images are for Codex QA only; no screenshot is Human acceptance.
 - Final header control correction: **2 focused presentation tests passed** with measured header targets ≥44×44px; lint/typecheck/regular build passed again. These strengthen existing presentation cases and do not increase the 78-test final suite. The prior implementation CI remains historical and cannot approve a later commit.
+- Final storage fallback correction: **3 focused tests passed** (corrupted/denied storage, first-visit defaults, 390px VI/light presentation). The strengthened existing test first reproduced the write-only failure, then verified dark/EN switching with denied writes and light/VI switching with unavailable reads after remediation. Command: `P1_005_EXTERNAL_SERVERS=1 PLAYWRIGHT_FRONTEND_PORT=3119 npm run test:e2e --prefix frontend -- uiux-002.spec.ts --grep 'corrupted preferences|first visit|presentation 390 light vi' --max-failures=1`, using PowerShell environment assignments and the same worktree. This remains a 78-test final suite; earlier CI on either prior SHA is historical.
 - Codex inspected desktop three-column and mobile collapsed-panel images in both themes and VI/EN samples; the official logo remains byte-identical. No independent reviewer or Human visual acceptance is claimed.
 
 ## Acceptance reconciliation
@@ -96,12 +98,12 @@ Static demo: build with `RENDER_STATIC_EXPORT=1`, `NEXT_PUBLIC_DEMO_STAGING=1`, 
 | 25 | Existing specification | 16-state wireframe/CTA/recovery rules preserved; implemented behavior covered by orthogonal suites | PASS — local observation; exact-head CI separate |
 | 26 | Source plan and scope diff | Next/React/TS/CSS retained; no added dependencies/endpoints or framework | PASS — source and diff verified |
 | 27 | Approved plan / Human instruction | Five scoped packages implemented together; new implementation review/CI gates retained | PASS — local observation; exact-head CI separate |
-| 28 | Git and PR evidence | Original exactly-three-document UIUX-001 diff preserved; UIUX-002 has one implementation PR and distinct fixed-SHA handoff | Pending PR publication |
+| 28 | Git and PR evidence | Original exactly-three-document UIUX-001 diff preserved; one implementation PR #103 exists; final SHA/CI and distinct reviewer handoff will be read back in its conversation | PR verified; final handoff publication pending |
 
 ## Limitations and review boundary
 
 - Automated contrast checks sample actual composited text and control/focus surfaces; they are evidence, not full WCAG certification or Human visual acceptance. Independent visual/a11y review is still required. No assistive-technology certification is claimed.
-- Static deterministic HTML starts in VI; persisted EN restores after hydration and may briefly show VI. Prepaint theme initialization is tested before React bundles; no universal frame-time guarantee is claimed. Preferences persist when storage is available; workflow drafts/reviews stay in memory and disappear on reload.
+- Static deterministic HTML starts in VI; persisted EN restores after hydration and may briefly show VI. Prepaint theme initialization is tested before React bundles; no universal frame-time guarantee is claimed. Preferences persist only when storage is writable; denied writes retain the selection in memory for the session. Workflow drafts/reviews stay in memory and disappear on reload.
 - Authentic supported-Claims positive full end-to-end chain remains unverified. Real research/figures, providers/paid APIs and production deployment are unauthorized.
 - Microsoft Word pagination may differ. Outputs remain draft documents requiring technical/IP specialist review, not USPTO filing-ready submissions.
 - Project Orchestrator MCP: `project_get_state(UIUX-002)` returned `Unknown task: UIUX-002` — **BLOCKED BY TOOL CAPABILITY**. No task, lease, enrollment, approval or completion was fabricated.
