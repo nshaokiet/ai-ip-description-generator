@@ -8,16 +8,29 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.76 |
+| Version | 0.3.77 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High |
 | Created date | 18/09/2026 |
-| Last updated | 09/10/2026 GMT+7 |
+| Last updated | 11/10/2026 GMT+7 |
 | Related task ID | SPEC-004 |
 | Source of Truth | Operational status bridge; bản nguồn Git tại `docs/operations/01_PROJECT_CONTROL_CENTER.md` |
 | Confidentiality level | Internal |
+
+### UIUX-002 — implementation merge and postmerge verification (11/10/2026)
+
+- **UIUX-002 — IMPLEMENTATION CLOSED / MERGED — POSTMERGE CI SUCCESS**, Workflow V1. Human authorized implementation on 2026-10-10, continuation on 2026-10-11, then conditional merge/closeout in the Human attachment “UIUX-002 — INDEPENDENT REVIEW PASS / CONDITIONAL MERGE & CLOSEOUT”. No V2 enrollment or next task.
+- Approved UIUX-001 master spec v0.1.0 retained unchanged. Five frontend packages completed; exact reviewed implementation `af5406669fcb53593184461ba0dab0c7b1ba67e4`; exactly 20 implementation files, no backend/API/schema/Claims/provider/dependency/deployment change.
+- Human-supplied external **Gemini 3.1 Pro High / Antigravity**, STRICT READ-ONLY, session `a3352fe8-fa28-4406-9958-617c576fa3c1`, **PASS — 28/28 implementation ACs**, BLOCKER/HIGH/MEDIUM 0. [Canonical review reconciliation](https://github.com/nshaokiet/ai-ip-description-generator/pull/103#issuecomment-6105421655) preserves the available Human-provided review extract; full original report/seven image filenames not separately retrieved, no native GitHub approval or authenticated identity claimed. LOW-01 OS-light capitalization cosmetic/no remediation; LOW-02 MCP capability limitation, both non-blocking. External visual PASS covers seven directly inspected representative images; wider 55-state matrix is automated, not complete manual inspection.
+- [Eligibility](https://github.com/nshaokiet/ai-ip-description-generator/pull/103#issuecomment-6105429552) published/read back; [PR #103](https://github.com/nshaokiet/ai-ip-description-generator/pull/103) transitioned Draft→Ready, normally merged with expected-head protection at `e6a47c900d227e2c028156e0dad5225d721e3353`. Actual parents: baseline `69ceedf0164277990417a66bb06430741ccd8944` + reviewed implementation. Actual tree `3dc410e2de8108e2e7f9f55c9432b14efa82a270` equals reviewed tree; reviewed ancestry and main verified. Synthetic test merge `ffc968e6443fd17bd1197afa67f75ce2c41d6536` is not the actual merge.
+- [Exact-head CI #38109920594](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/38109920594) and [exact actual-merge CI #38111671791](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/38111671791) **COMPLETED/SUCCESS**. Verified actual CI logs: Ubuntu Python 904 passed/2 skipped, browser 78 passed, synthetic demo 5 passed; lint/typecheck/regular/static builds, dependency consistency and pinned document QA SUCCESS. Historical Codex Windows 903 passed/3 skipped is distinct from CI/reviewer execution.
+- [Synthetic visual artifact 11690887817](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/38109920594/artifacts/11690887817): 55 screenshot states/110 PNG including attachment copies; JSON 78 expected, 0 unexpected/skipped/flaky, passing measured contrast samples. Seven-day retention, expires 2026-10-18T04:02:46Z; no whole-product WCAG/assistive-technology certification or separate Human visual acceptance inferred.
+- This factual documentation sync is a separately authorized postmerge commit limited to README/Control Center/Review Log. Its final main SHA, own required CI and canonical closeout are published/read back in PR #103; it does not change the reviewed implementation or require another implementation PR. Historical pending wording in immutable implementation/spec records remains a drafting snapshot.
+- MCP recheck: **Unknown task: UIUX-002 — BLOCKED BY TOOL CAPABILITY**; no invented registration/lease/approval/completion. Drive synchronization remains unverified.
+- Limits: preference persistence requires writable storage; drafts/reviews stay in memory and disappear on reload; persisted EN may restore after initial VI hydration, no universal frame-time guarantee. Authentic supported-Claims positive full-chain unverified; real figures/research unauthorized; Word pagination may differ; draft outputs not USPTO filing-ready. No paid/provider call, public P2-006 export, production deployment or other task authorized.
+
 
 ### P2-005 — post-governance-merge verification and terminal status reconciliation (09/10/2026)
 
@@ -180,6 +193,7 @@ provider/data/production authority unchanged. Historical entries below are prese
 | 0.3.73 | 0.3.74 | 09/10/2026 | Codex | Reconcile P2-004 final closeout PASS/NONE and PR #84 merge/final exact-main CI while preserving historical PENDING gate and unrelated GOV-AGENT-001 records | Human-authorized docs-only status reconciliation | P2-004 closeout reviewed `1ee7295fea606d3e3629c1e02c62e6fa54a21aaf`; merge `60dad0d463eb5f48bd0b042006aab299c07fb099`; CI `37460349940` SUCCESS; MCP Unknown task: P2-004 | No — factual status only |
 | 0.3.74 | 0.3.75 | 09/10/2026 | Codex | Record V1 P2-005 implementation fixed-SHA review, PR #98 merge, successful main CI and upstream Claims capability gap; open documentation closeout review gate | Actual post-merge evidence reconciliation within authorized task | Reviewed `731f0064a911205e9a8ddb9de64f4fa3b65b88e2`; [external review](https://github.com/nshaokiet/ai-ip-description-generator/pull/98#issuecomment-6075865959); merge `f3dfd7d1f1e559fb537256405ceaad47ba433560`; CI #37885329783 SUCCESS; main CI #37895226175 COMPLETED/SUCCESS; MCP Unknown task | No — governance status only |
 | 0.3.75 | 0.3.76 | 09/10/2026 | Codex | Record P2-005 independent governance PASS, PR #99 normal merge, exact-main CI and terminal status-sync handoff | Final Human-authorized lifecycle reconciliation under AGENTS §§20/22 | [External fixed-SHA PASS](https://github.com/nshaokiet/ai-ip-description-generator/pull/99#issuecomment-6076256290) `62f54c0cf04e7720dfa08f25e31b9c14ce101e36`; merge `d81e2e065545b37445e85fd9322ce99510a025d2`; CI #37897744309 SUCCESS; [receipt](https://github.com/nshaokiet/ai-ip-description-generator/pull/99#issuecomment-6076332719); final status PR fixed-SHA review/CI/merge pending | No — governance text only |
+| 0.3.76 | 0.3.77 | 11/10/2026 | Codex | Record UIUX-002 Human-supplied external fixed-SHA PASS, normal PR #103 merge and successful actual-merge CI; synchronize task status | Human conditional merge/closeout; AGENTS §§20/22 | [Review](https://github.com/nshaokiet/ai-ip-description-generator/pull/103#issuecomment-6105421655); merge `e6a47c900d227e2c028156e0dad5225d721e3353`; CI #38111671791 SUCCESS; final documentation CI/closeout in PR #103 | No — factual governance only |
 | 0.3.72 | 0.3.73 | 08/10/2026 | Codex | Clarify G-AC-24 completion predicate: PR94 same-SHA dual PASS/CI/MANUAL_EXTERNAL/merge, resulting main CI, canonical closeout/readback and README sync; retain PENDING until evidence | Human GOV-AGENT-001-G authorized postmerge closeout / PR #94 review remediation | GOV-AGENT-001-G; PR #93 merge and CI verified; PR #94 gates pending | No — factual completion wording only |
 | 0.3.71 | 0.3.72 | 08/10/2026 | Codex | Append verified PR93 dual reviews/MANUAL_EXTERNAL/merge/exact-main CI; reconcile README stage without claiming final closeout | Actual Human bounded closeout instruction ac4605b5-138d-44af-9899-19bfcc545ee7 | GOV-AGENT-001-G; merge 1c8212971db10eb44fb0639da34f4076af6ca4eb; main CI37751828515 SUCCESS; separate follow-up review pending | No — factual status/evidence only |
 | 0.3.70 | 0.3.71 | 08/10/2026 | Codex | Reconcile G v0.1.1 freeze, Planner/Implementer and original Security report/hash; preserve empty MCP review history honestly | Human security supersession approval | GOV-AGENT-001-G; spec3/provenance8; dual re-review pending | No — factual security/status references |
@@ -934,4 +948,4 @@ EVAL-001 PRODUCT_RUNTIME **DEFERRED — AWAITING FUNDING**; semantic acceptance
 
 ## 23. Last Updated
 
-**04/10/2026 GMT+7**
+**11/10/2026 GMT+7**
