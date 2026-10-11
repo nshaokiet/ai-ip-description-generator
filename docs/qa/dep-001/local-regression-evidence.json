@@ -1,0 +1,63 @@
+{
+  "task": "DEP-001",
+  "baseline": {
+    "startTime": "2026-10-11T08:52:26.860Z",
+    "duration": 318836.945,
+    "expected": 78,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "uiux003Compatibility": {
+    "sourceSha": "102b7e90dc3bfc1f79c197a20184f97b89070bf2",
+    "dependencyInput": "DEP-001 frontend/package.json + frontend/package-lock.json",
+    "stats": {
+      "startTime": "2026-10-11T08:52:26.630Z",
+      "duration": 318794.594,
+      "expected": 52,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "staticBuildExit": 0,
+    "staticSecretMarkerExit": 0,
+    "staticDemo": {
+      "passed": 5,
+      "durationSeconds": 15.4,
+      "exitCode": 0
+    }
+  },
+  "development": {
+    "status": 200,
+    "title": "AI IP Description Generator",
+    "lang": "vi",
+    "logo": 1,
+    "heading": "Từ bài báo khoa học đến bản dự thảo mô tả sáng chế theo cấu trúc USPTO",
+    "selects": 2
+  },
+  "python": {
+    "passed": 903,
+    "skipped": 3,
+    "warnings": 1,
+    "durationSeconds": 135.75
+  },
+  "staticDemo": {
+    "passed": 5,
+    "durationSeconds": 12.6
+  },
+  "lintExit": 0,
+  "typecheckExit": 0,
+  "productionBuildExit": 0,
+  "staticBuildExit": 0,
+  "staticSecretMarkerExit": 0,
+  "teardown": "Config-managed Windows server teardown stalled after all test cases; ownership-checked task server cleanup performed; both runner exit codes 0. No assertions changed or failed tests hidden.",
+  "nativeSharp": {
+    "platform": "win32",
+    "version": "0.35.5",
+    "rsvg": "2.63.2",
+    "syntheticSvgWidth": 16,
+    "syntheticSvgHeight": 16,
+    "pngBytes": 107,
+    "exitCode": 0
+  }
+}
