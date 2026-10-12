@@ -1,0 +1,223 @@
+{
+  "version": "1.0.0",
+  "date": "2026-10-12 Asia/Saigon",
+  "task": "UIUX-003 integration remediation",
+  "workflow": "V1",
+  "human_authorization_attachment_sha256": "7bc2d828da2286cab7e548b5f4e04a37f214039c455c61e54ad8e1e1537a380a",
+  "main_baseline": "81942a249f164859a9687e77abfed12e90bfb197",
+  "original_uiux_sha": "102b7e90dc3bfc1f79c197a20184f97b89070bf2",
+  "actual_text_conflicts": [
+    "README.md",
+    "docs/operations/01_PROJECT_CONTROL_CENTER.md"
+  ],
+  "ci_auto_merge": "Only UIUX artifact name/before paths differ from DEP baseline; all DEP controls retained",
+  "full_audit": {
+    "auditReportVersion": 2,
+    "vulnerabilities": {},
+    "metadata": {
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0,
+        "total": 0
+      },
+      "dependencies": {
+        "prod": 19,
+        "dev": 335,
+        "optional": 66,
+        "peer": 0,
+        "peerOptional": 0,
+        "total": 392
+      }
+    }
+  },
+  "production_audit": {
+    "auditReportVersion": 2,
+    "vulnerabilities": {},
+    "metadata": {
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0,
+        "total": 0
+      },
+      "dependencies": {
+        "prod": 19,
+        "dev": 335,
+        "optional": 66,
+        "peer": 0,
+        "peerOptional": 0,
+        "total": 392
+      }
+    }
+  },
+  "installed_versions": {
+    "next": "16.3.8",
+    "eslint-config-next": "16.3.8",
+    "@next/eslint-plugin-next": "16.3.8",
+    "sharp": "0.35.5",
+    "source-map-js": "1.2.2",
+    "fast-glob": "1.0.0",
+    "tinyglobby": "0.2.17",
+    "eslint": "9.39.5",
+    "typescript": "6.0.3",
+    "react": "19.3.0",
+    "@playwright/test": "1.63.0"
+  },
+  "fast_glob_module_identity": "@ai-ip/next-root-glob-adapter",
+  "local_results": [
+    {
+      "name": "npm-ci",
+      "exit_code": 0,
+      "elapsed_seconds": 95.72,
+      "raw_local_log": "tmp/uiux-003-integration/npm-ci.log",
+      "raw_log_sha256": "d993bfdd81823cb0e35e981ca1fdcb5a90b3fed1ea67950ad32b1565c352206f"
+    },
+    {
+      "name": "full-audit",
+      "exit_code": 0,
+      "elapsed_seconds": 2.64,
+      "raw_local_log": "tmp/uiux-003-integration/full-audit.log",
+      "raw_log_sha256": "03ec3123befec5622f3e2c47e420748a4bbac8199bce164b1c308a890ad9c534"
+    },
+    {
+      "name": "production-audit",
+      "exit_code": 0,
+      "elapsed_seconds": 1.7,
+      "raw_local_log": "tmp/uiux-003-integration/production-audit.log",
+      "raw_log_sha256": "03ec3123befec5622f3e2c47e420748a4bbac8199bce164b1c308a890ad9c534"
+    },
+    {
+      "name": "dependency-tree",
+      "exit_code": 0,
+      "elapsed_seconds": 1.67,
+      "raw_local_log": "tmp/uiux-003-integration/dependency-tree.log",
+      "raw_log_sha256": "d65d24ec699480574ea692663fd454d1b4fe55706019027db194e16fc9ac87a6"
+    },
+    {
+      "name": "lint-security",
+      "exit_code": 0,
+      "elapsed_seconds": 47.19,
+      "raw_local_log": "tmp/uiux-003-integration/lint-security.log",
+      "raw_log_sha256": "7fde8c7690659ef2608ce3ff3c738af3d55c5914e83abb2f1833e2c6860a61f8"
+    },
+    {
+      "name": "lint",
+      "exit_code": 0,
+      "elapsed_seconds": 7.62,
+      "raw_local_log": "tmp/uiux-003-integration/lint.log",
+      "raw_log_sha256": "2304c36e1faa07bf987e906b44e2524c382b22c5f252a4100cc0274fa72ba1ce"
+    },
+    {
+      "name": "typecheck",
+      "exit_code": 0,
+      "elapsed_seconds": 4.14,
+      "raw_local_log": "tmp/uiux-003-integration/typecheck.log",
+      "raw_log_sha256": "f03d77a487c2d02ae081d22ac6f93c95124bedfaea79238754b4f631316dad3b"
+    },
+    {
+      "name": "normal-build",
+      "exit_code": 0,
+      "elapsed_seconds": 31.71,
+      "raw_local_log": "tmp/uiux-003-integration/normal-build.log",
+      "raw_log_sha256": "23a4d2a4a2363226b42fa7feedfc4a5a02e8c79bb45c9351839dfb4f9c0fc145"
+    },
+    {
+      "name": "python-regression",
+      "exit_code": 0,
+      "elapsed_seconds": 142.28,
+      "raw_local_log": "tmp/uiux-003-integration/python-regression.log",
+      "raw_log_sha256": "ba776b0a7ddbececeeda65097a61fa30076c8a1273d66408430fb51a58acfc7d"
+    },
+    {
+      "name": "static-export",
+      "exit_code": 0,
+      "elapsed_seconds": 16.54,
+      "raw_local_log": "tmp/uiux-003-integration/static-export.log",
+      "raw_log_sha256": "fe50d79f59cf6c0657e7a2c421071fe6c2d56cfa736ef467909ff3f0c33fad5d"
+    },
+    {
+      "name": "synthetic-demo",
+      "exit_code": 1,
+      "elapsed_seconds": 38.26,
+      "raw_local_log": "tmp/uiux-003-integration/synthetic-demo.log",
+      "raw_log_sha256": "79121a944948bd4bc1b8d7c5b68c8131b2cf89ffc0285a1493dad6cb1bb4df5d"
+    },
+    {
+      "name": "synthetic-demo-isolated-temp",
+      "exit_code": 0,
+      "elapsed_seconds": 26.87,
+      "raw_local_log": "tmp/uiux-003-integration/synthetic-demo-isolated-temp.log",
+      "raw_log_sha256": "193ea4eb1215bb55815797af9173f2eed137d4c05ceccdf8634266de9226fd6c"
+    }
+  ],
+  "final_counts": {
+    "lint_security": {
+      "passed": 73,
+      "failed": 0,
+      "skipped": 0
+    },
+    "python": {
+      "passed": 903,
+      "skipped": 3,
+      "failed": 0,
+      "existing_warnings": 1
+    },
+    "browser": {
+      "startTime": "2026-10-12T01:28:49.239Z",
+      "duration": 155485.614,
+      "expected": 78,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "demo": {
+      "passed": 5,
+      "failed": 0
+    }
+  },
+  "static_secret_markers": "0 matches; existing index/logo present",
+  "preservation": {
+    "baseline": "81942a249f164859a9687e77abfed12e90bfb197",
+    "original_uiux": "102b7e90dc3bfc1f79c197a20184f97b89070bf2",
+    "ui_files_checked": 31,
+    "security_files_checked": 8,
+    "contract_files_checked": 170,
+    "ui_mismatch": [],
+    "security_mismatch": [],
+    "contract_mismatch": [],
+    "unrelated_existing_work_unchanged": true
+  },
+  "visual_self_qa": {
+    "directly_inspected": [
+      "1440 VI home",
+      "header closeup",
+      "workflow closeup",
+      "390 EN home",
+      "1440 EN review viewport"
+    ],
+    "observation": "Fixed Light, centered logo/title/steps, readable VI diacritics, unobstructed margins and editor; no new visual change",
+    "local_after_evidence": "tmp/uiux-003-integration/local-after",
+    "tracked_before_files": 7,
+    "claim_limits": "Implementer self-QA only; no Human visual acceptance or independent PASS"
+  },
+  "initial_demo_failure": {
+    "passed": 3,
+    "failed": 2,
+    "cause": "PermissionError writing shared pre-existing Windows Temp ai-ip-demo-staging/uploads",
+    "resolution": "Reran only unchanged five-case suite with task-specific TEMP/TMP/TMPDIR; final 5 PASS; no ACL/application/test changes",
+    "historical_exit_code": 1
+  },
+  "limits": [
+    "Fresh exact-head CI required after commit/push; final SHA/run in canonical PR handoff",
+    "Fresh entire-candidate Gemini review PENDING; old PASS does not approve integrated SHA",
+    "ESLint 9 EOL and existing unrs-resolver script warning; no npm approval/global policy modified",
+    "Adapter bounded contract and Node >=24; Render Node unverified; no deployment authorization",
+    "MCP tools unavailable; historical Unknown task/capability limitation retained, no fabricated lease/state",
+    "No real research/paid providers/Claims/API/backend change; draft-only; authentic Claims E2E/full WCAG/Word pagination limits preserved"
+  ]
+}

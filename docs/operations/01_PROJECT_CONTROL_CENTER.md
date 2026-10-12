@@ -8,18 +8,59 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.80 |
+| Version | 0.3.83 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High |
 | Created date | 18/09/2026 |
-| Last updated | 11/10/2026 GMT+7 |
+| Last updated | 12/10/2026 GMT+7 |
 | Related task ID | SPEC-004 |
 | Source of Truth | Operational status bridge; bản nguồn Git tại `docs/operations/01_PROJECT_CONTROL_CENTER.md` |
 | Confidentiality level | Internal |
 
-### DEP-001-A2 — controlled security adapter / independent review pending (11/10/2026)
+### UIUX-003 — authorized integration remediation (12/10/2026)
+
+- Human explicitly approves **RESOLVE MERGE CONFLICTS & PREPARE FIXED-SHA REVIEW**, attachment SHA256 `7bc2d828da2286cab7e548b5f4e04a37f214039c455c61e54ad8e1e1537a380a`. Workflow V1; existing `feat/uiux-003-final-visual-polish` and PR #104 only. No merge/deployment/Render, new UI/backend/API/Claims/runtime, real-data/paid-provider authority.
+- Verified latest main/security baseline `81942a249f164859a9687e77abfed12e90bfb197` is the actual DEP-001 merge, CI 38142972746 SUCCESS/34 steps; [accepted factual receipt](https://github.com/nshaokiet/ai-ip-description-generator/pull/105#issuecomment-6109587538). Integration uses a normal merge, no rebase/reset/force-push. Actual textual conflicts: **README.md and this Control Center only**; CI auto-merges and is inspected to retain exact-head checkout, audits/tree/73 tests/security artifact plus UIUX-003 visual artifact.
+- Original reviewed UIUX `102b7e90dc3bfc1f79c197a20184f97b89070bf2` has [Human-attributed external Gemini 3.1 Pro High / Antigravity STRICT READ-ONLY PASS — RECONFIRMED, 18/18](https://github.com/nshaokiet/ai-ip-description-generator/pull/104#issuecomment-6106584967), session `a3352fe8-fa28-4406-9958-617c576fa3c1`; native approval not claimed. That PASS does not approve the new integrated SHA. **Fresh independent review PENDING** on the entire candidate after actual new head CI.
+- UI application/test/logo/before-image bytes must remain identical to original UIUX; dependency manifest/lock/.npmrc/adapter/tests and DEP CI controls must match security baseline. New full verification and final SHA/run/inventory are recorded in the single PR #104 handoff; local/CI results are not independent review.
+- DEP's previously unresolved baseline HIGH entries are historical; its actual accepted merged graph was clean and the integrated graph requires fresh full/prod 0/0 audits. No security-risk waiver. Narrow Blueprint verification exception remains verification-only; no deployment, absence-of-Blueprint or Auto Sync-disabled claim.
+- Existing root/DEP worktree drafts remain untouched; their factual review/STOP/merge checkpoints are carried as dated history here. Versions .81/.82 already identify local DEP checkpoints; allocate **0.3.83**, retaining committed .78/.79/.80 history rather than reusing a version. Full DEP/UIUX task completion is not claimed before applicable Git/CI/review/merge/closeout gates.
+- Fresh integrated local security/functional verification: full/prod audits 0/0, 73 lint-security PASS, 78 browser PASS, Python 903 PASS/3 existing SKIP, lint/typecheck/normal/static/secret checks PASS, final demo 5 PASS. Initial demo 3/2 failed due shared-Temp permission; isolated task TEMP rerun passed, no product/ACL/test change. [Evidence](../qa/uiux-003/integration-validation.json). New exact-head CI/final SHA and independent verdict remain action-specific gates.
+- Historical MCP Unknown task / BLOCKED BY TOOL CAPABILITY remains; tools unavailable this session, no invented registration/lease/transition. Draft, authentic Claims E2E, Word/accessibility, real figures/research/provider/production limits preserved.
+
+### Historical UIUX-003 — authorized final visual polish candidate (11/10/2026)
+
+- **UIUX-003 — IMPLEMENTATION / INDEPENDENT REVIEW PENDING**, Workflow V1. Human attachment “TASK: UIUX-003 — FINAL VISUAL POLISH & BRAND ALIGNMENT” authorizes local synthetic implementation/testing/remediation, commit/push, one PR and Gemini fixed-SHA handoff. It explicitly supersedes UIUX-001's theme UI/default with fixed Light; other UIUX-001/UIUX-002 contracts remain. **No merge or deployment authorization.**
+- Verified main baseline `63d5a61235669ad7d32bb38d583789ea59ce5497`; branch `feat/uiux-003-final-visual-polish`. [Implementation/evidence v1.0.0](../tasks/UIUX-003-implementation-evidence.md), [before/after QA provenance](../qa/uiux-003/README.md). Local final browser regression 78 PASS; Python 903 PASS / 3 SKIP; exact-head CI/PR/artifacts and final readiness are recorded in the task PR after publication.
+- Fixed-light shell, consistent local sans typography, smaller unchanged logo/larger title, native locale refinement, centered readable five-step cards/sharper borders, original brand-colored science/patent SVG margins. No backend/API/client/schema/revision/Claims/export/provider/dependency-manifest change. Independent **Gemini 3.1 Pro High / Antigravity STRICT READ-ONLY** review remains **PENDING**; Codex visual inspection is self-QA, not Human acceptance.
+- Existing pinned dependency audit reports eight HIGH package entries; unresolved and explicitly handed off, no security acceptance or out-of-scope dependency remediation. MCP recheck: **Unknown task: UIUX-003 — BLOCKED BY TOOL CAPABILITY**; no invented task registration/lease/state. Drive synchronization unverified. Draft/Claims/Word/real-data/paid-provider/production limits retained.
+
+### Historical DEP-001 — controlled merge / postmerge verification (11/10/2026)
+
+- Workflow V1. Human instruction: **DEP-001 — RESUME CONTROLLED MERGE**, 2026-10-11; PR #105 only, STOP before PR #104.
+- External Human-confirmed **Gemini 3.1 Pro High / Antigravity STRICT READ-ONLY PASS — FULL SECURITY TARGET VERIFIED**, exact `a298a324922183f452cb4dfd2fa3f44d253ac3db`; [canonical attributed review](https://github.com/nshaokiet/ai-ip-description-generator/pull/105#issuecomment-6109267265). No separate original session/report or native approval invented.
+- Normal expected-head-protected [PR #105 merge](https://github.com/nshaokiet/ai-ip-description-generator/pull/105), actual SHA/current main `81942a249f164859a9687e77abfed12e90bfb197`, at 2026-10-11 13:23:21 UTC / 20:23:21 Asia/Saigon. Parents: baseline `63d5a61235669ad7d32bb38d583789ea59ce5497` and exact reviewed head. GitHub and fetched Git independently confirm merge/candidate tree `a637758225a3cdc70547b5c104ab48d8f6d5fd52`; zero diff between candidate and merge, exactly 16 scoped changed files from baseline, no unrelated changes. [Final verified receipt](https://github.com/nshaokiet/ai-ip-description-generator/pull/105#issuecomment-6109587538).
+- Exact-head CI [38136297267](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/38136297267) completed/SUCCESS; build-and-test check `114460740420` SUCCESS. Actual merge push/main CI [38142972746](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/38142972746): **COMPLETED / SUCCESS**; all 34 job steps SUCCESS, exact-main build-and-test check 114480436928 SUCCESS.
+- Fresh connected Render reads verify frontend `srv-dav6uqnpn0mc73af2hp0` and backend `srv-dav6uqvpn0mc73af2j9g`: correct repository/main, autoDeploy=no / autoDeployTrigger=off, previews off. Latest deploy IDs `dep-db5h9krbc2fs738oo6d0` / `dep-db5h9krbc2fs738oo68g` remain baseline deployments from 04:47 UTC. No new event observed so far; no Render setting, render.yaml or deployment changed/triggered by Codex.
+- Human decision, 2026-10-11: skip further manual Blueprint discovery and Auto Sync verification for this controlled merge. Blueprint existence/management and Auto Sync remain **UNVERIFIED**. The exception covers this verification requirement only; it grants no deployment authorization or unrelated security waiver. [Published/read-back exception and merge gates](https://github.com/nshaokiet/ai-ip-description-generator/pull/105#issuecomment-6109475724).
+- PR #104 remains OPEN/unmerged at `102b7e90dc3bfc1f79c197a20184f97b89070bf2`. ChatGPT must independently inspect both Render services/events before Human authorizes continuation; that continuation is not granted here.
+- Existing source/root uncommitted work is untouched. This separate merge checkout carries the previous three-document local review/STOP checkpoint and adds this receipt; earlier findings and partial-remediation/STOP history remain. **Git governance synchronization is PREPARED / UNCOMMITTED, independent review/publication pending; full task Completed is not claimed.**
+- MCP tools are not callable here. Historical Unknown task / **BLOCKED BY TOOL CAPABILITY** retained; no task/lease/transition fabricated. ESLint 9 EOL/bounded adapter limitations remain; no paid provider, real/confidential research, production security/release or legal acceptance.
+
+### Historical DEP-001 → UIUX-003 — controlled integration checkpoint / Render STOP (11/10/2026)
+
+- **FULL SECURITY TARGET REVIEW PASS / INTEGRATION BLOCKED**, V1. Human explicitly authorizes sequential conditional merges; this supersedes earlier no-merge authorization snapshots without erasing history.
+- Human-provided external **Gemini 3.1 Pro High / Antigravity — STRICT READ-ONLY**, exact `a298a324922183f452cb4dfd2fa3f44d253ac3db`, **PASS — FULL SECURITY TARGET VERIFIED**; 16 files, audits 0/0, 73/78/77 tests, no unresolved implementation/security blocker reported. Not native GitHub approval; no separate report/session invented.
+- Exact-head [CI 38136297267](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/38136297267) SUCCESS refreshed; head unchanged, no review threads/native reviews. [Published review reconciliation / mandatory Render STOP](https://github.com/nshaokiet/ai-ip-description-generator/pull/105#issuecomment-6109267265) read back. Current main `63d5a61235669ad7d32bb38d583789ea59ce5497`.
+- Human reports frontend `srv-dav6uqnpn0mc73af2hp0` and backend `srv-dav6uqvpn0mc73af2j9g` autoDeploy=no / autoDeployTrigger=off, both main. **Fresh live settings and Blueprint Auto Sync NOT VERIFIED**: Render installed/enabled but no callable tools exposed; no browser sessions; IAB opening returned “Browser is not available: iab”. YAML checksPass remains unchanged. STOP before merge per Human section 2; no Render change/deployment.
+- PR #105 remains Draft/Open/unmerged. UIUX-003 PR #104 remains Open/Ready/unmerged, reviewed SHA `102b7e90dc3bfc1f79c197a20184f97b89070bf2`, original CI 38115380317 SUCCESS / Human external 18/18 PASS; integration waits for completed DEP gates. No actual merge/postmerge CI/canonical closeout exists.
+- Required resolution: authorized live service/Blueprint read capability, then fresh Off plus no managing Blueprint or disabled Auto Sync evidence; enabled Auto Sync needs Human disposition. Final GitHub platform preflight still required; rulesets API 403 plan limitation retained, no bypass.
+- Local README/Control Center/Review Log checkpoint is **uncommitted, Git publication pending**; reviewed PR head preserved. MCP Unknown task DEP-001 / UIUX-003 — **BLOCKED BY TOOL CAPABILITY**, no fabricated state.
+- ESLint 9/bounded adapter and draft/Claims/Word/accessibility/data/provider/production limits retained. No next task.
+
+### Historical DEP-001-A2 — controlled security adapter / independent review pending (11/10/2026)
 
 - **IMPLEMENTATION CANDIDATE / FRESH SECURITY REVIEW PENDING**, Human-approved C2 bounded local tinyglobby adapter, Workflow V1; same branch and draft PR #105. [Ledger 1.1.0 / historical and A2 raw evidence](../tasks/DEP-001-frontend-dependency-security-remediation.md). No merge/closure/deployment authorized.
 - Full and production audit **0 vulnerabilities / 0 vulnerabilities**, no suppression/risk exception; actual vulnerable braces/micromatch/fast-glob implementation removed. Normal npm ci/ls and fresh source-copy install pass. Next lint config/rules remain unchanged; 73 contract/equivalence tests, 25 original configs and 17 negative fixtures pass.
@@ -966,6 +1007,16 @@ EVAL-001 PRODUCT_RUNTIME **DEFERRED — AWAITING FUNDING**; semantic acceptance
 
 ## 23. Last Updated
 
-**11/10/2026 GMT+7**
+**12/10/2026 GMT+7**
 
 DEP-001-A2: **0.3.79 → 0.3.80**, 11/10/2026, Codex. Human-approved bounded local adapter and actual zero-audit/local regression checkpoint; preserve partial-remediation history and fresh fixed-SHA/CI/review gates. Breaking change: **No product/API change; explicit bounded tooling contract**.
+
+DEP-001 controlled integration: **0.3.80 → 0.3.81**, 11/10/2026, Codex. Record Human-provided fixed-SHA full security PASS, actual CI/head refresh and mandatory live Render/Blueprint capability blocker; preserve original review snapshots and implementation head. Breaking change: **No — factual governance checkpoint; uncommitted**.
+
+DEP-001 controlled merge: **0.3.81 → 0.3.82**, 11/10/2026, Codex. Record narrow Human Blueprint verification exception, real normal merge/tree/main, postmerge CI SUCCESS and STOP before #104; preserve prior uncommitted review/STOP checkpoint. Breaking change: **No — factual governance only; uncommitted/publication pending**.
+
+Canonical actual merge/postmerge receipt: [PR #105 final verification](https://github.com/nshaokiet/ai-ip-description-generator/pull/105#issuecomment-6109587538). Published/read-back evidence is separate from this uncommitted Git reconciliation.
+
+| 0.3.77 | 0.3.78 | 11/10/2026 | Codex | Register Human-authorized UIUX-003 visual candidate and scoped theme supersession; preserve CI/review and baseline audit limits | UIUX-003 Human attachment; AGENTS §§20/22 | Evidence v1.0.0; one PR/CI/handoff required; no merge/deploy | No — status evidence; intentional theme UI removal is separately authorized |
+
+UIUX-003 integration: **0.3.82 → 0.3.83**, 12/10/2026, Codex. Resolve two actual governance conflicts, preserve DEP history/verified merge and UIUX original evidence, fresh full-candidate review pending. Breaking change: **No — integration/governance only**.

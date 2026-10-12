@@ -42,7 +42,7 @@ export default function Home() {
 }
 
 function HomeWorkflow() {
-  const { theme, setTheme, locale, setLocale, t } = useUi();
+  const { locale, setLocale, t } = useUi();
   const [state, setState] = useState<WorkflowState>("IDLE");
   const [document, setDocument] = useState<UploadedDocument | null>(null);
   const [result, setResult] = useState<ProcessResult | null>(null);
@@ -262,11 +262,6 @@ function HomeWorkflow() {
             <p className="product-name">AI IP Description Generator</p>
           </div>
           <div className="preference-controls">
-            <label>{t("theme")}
-              <select aria-label={t("theme")} onChange={(event) => setTheme(event.target.value as typeof theme)} value={theme}>
-                <option value="system">{t("system")}</option><option value="light">{t("light")}</option><option value="dark">{t("dark")}</option>
-              </select>
-            </label>
             <label>{t("locale")}
               <select aria-label={t("locale")} onChange={(event) => setLocale(event.target.value as typeof locale)} value={locale}>
                 <option value="vi">Tiếng Việt</option><option value="en">English</option>

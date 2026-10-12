@@ -150,8 +150,10 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: uiux-002-synthetic-browser-qa
-          path: frontend/test-results/
+          name: uiux-003-synthetic-browser-qa
+          path: |
+            frontend/test-results/
+            docs/qa/uiux-003/before/
           if-no-files-found: warn
           retention-days: 7
 

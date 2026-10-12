@@ -2,7 +2,6 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useSyncExternalStore, type ReactNode } from "react";
 
-export type ThemePreference = "system" | "light" | "dark";
 export type Locale = "vi" | "en";
 
 const messages = {
@@ -19,11 +18,7 @@ const messages = {
   tagline: ["Quy trình dự thảo sáng chế có chứng cứ nguồn", "Evidence-grounded patent drafting workflow"],
   heroTitle: ["Từ bài báo khoa học đến bản dự thảo mô tả sáng chế theo cấu trúc USPTO", "From Scientific Research Paper to USPTO-Style Patent Specification"],
   heroDescription: ["Tải bài báo PDF hoặc DOCX, kiểm tra nội dung trích xuất, rà soát và sửa bản dự thảo, xác thực cấu trúc và xuất DOCX để chuyên gia tiếp tục đánh giá.", "Upload a PDF or DOCX research paper, review the extracted content and draft, validate its structure, then export an editable DOCX for expert review."],
-  theme: ["Giao diện", "Appearance"],
   locale: ["Ngôn ngữ", "Language"],
-  system: ["Theo hệ thống", "System"],
-  light: ["Sáng", "Light"],
-  dark: ["Tối", "Dark"],
   back: ["← Quay lại", "← Go back"],
   uploadTitle: ["Tải bài báo khoa học", "Upload a research document"],
   dragDrop: ["Kéo thả bài báo vào đây", "Drag & drop your research paper here"],
@@ -220,18 +215,14 @@ export function localizedError(code: string, t: (key: MessageKey) => string): st
   return t("serviceError");
 }
 const preferenceContext = createContext<{
-  theme: ThemePreference; setTheme: (value: ThemePreference) => void;
   locale: Locale; setLocale: (value: Locale) => void;
   t: (key: MessageKey) => string;
 } | null>(null);
 
-function isTheme(value: string | null): value is ThemePreference { return value === "system" || value === "light" || value === "dark"; }
 function isLocale(value: string | null): value is Locale { return value === "vi" || value === "en"; }
 
 const PREFERENCE_EVENT = "aiip-preferences-changed";
-let transientTheme: ThemePreference = "system";
 let transientLocale: Locale = "vi";
-let themeWriteFailed = false;
 let localeWriteFailed = false;
 function subscribePreferences(listener: () => void) {
   window.addEventListener("storage", listener);
@@ -241,11 +232,6 @@ function subscribePreferences(listener: () => void) {
     window.removeEventListener(PREFERENCE_EVENT, listener);
   };
 }
-function readTheme(): ThemePreference {
-  if (themeWriteFailed) return transientTheme;
-  try { const stored = localStorage.getItem("aiip.theme"); return isTheme(stored) ? stored : "system"; }
-  catch { return transientTheme; }
-}
 function readLocale(): Locale {
   if (localeWriteFailed) return transientLocale;
   try { const stored = localStorage.getItem("aiip.locale"); return isLocale(stored) ? stored : "vi"; }
@@ -253,13 +239,7 @@ function readLocale(): Locale {
 }
 
 export function UiPreferencesProvider({ children }: { children: ReactNode }) {
-  const theme = useSyncExternalStore<ThemePreference>(subscribePreferences, readTheme, () => "system");
   const locale = useSyncExternalStore<Locale>(subscribePreferences, readLocale, () => "vi");
-  const setTheme = useCallback((value: ThemePreference) => {
-    transientTheme = value;
-    try { localStorage.setItem("aiip.theme", value); themeWriteFailed = false; } catch { themeWriteFailed = true; }
-    window.dispatchEvent(new Event(PREFERENCE_EVENT));
-  }, []);
   const setLocale = useCallback((value: Locale) => {
     transientLocale = value;
     try { localStorage.setItem("aiip.locale", value); localeWriteFailed = false; } catch { localeWriteFailed = true; }
@@ -267,20 +247,10 @@ export function UiPreferencesProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    const media = window.matchMedia("(prefers-color-scheme: dark)");
-    const sync = () => {
-      document.documentElement.dataset.theme = theme === "system" ? (media.matches ? "dark" : "light") : theme;
-    };
-    sync();
-    media.addEventListener("change", sync);
-    return () => media.removeEventListener("change", sync);
-  }, [theme]);
-
-  useEffect(() => {
     document.documentElement.lang = locale;
   }, [locale]);
 
-  const value = useMemo(() => ({ theme, setTheme, locale, setLocale, t: (key: MessageKey) => messages[key][locale === "vi" ? 0 : 1] }), [theme, locale, setTheme, setLocale]);
+  const value = useMemo(() => ({ locale, setLocale, t: (key: MessageKey) => messages[key][locale === "vi" ? 0 : 1] }), [locale, setLocale]);
   return <preferenceContext.Provider value={value}>{children}</preferenceContext.Provider>;
 }
 

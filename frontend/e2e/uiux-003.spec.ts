@@ -1,7 +1,7 @@
 import { test, expect, type Page } from "@playwright/test";
 
 const widths = [390, 768, 1280, 1440, 1920];
-const themes = ["light", "dark", "system"] as const;
+const savedThemes = ["light", "dark", "system"] as const;
 const locales = ["vi", "en"] as const;
 const backend = `http://127.0.0.1:${process.env.PLAYWRIGHT_BACKEND_PORT ?? "8000"}`;
 
@@ -55,7 +55,7 @@ async function processSample(page: Page) {
   await expect(page.locator(".document-review-layout")).toBeVisible();
 }
 
-for (const width of widths) for (const theme of themes) for (const locale of locales) {
+for (const width of widths) for (const theme of savedThemes) for (const locale of locales) {
   test(`presentation ${width} ${theme} ${locale}`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
     await page.emulateMedia({ colorScheme: "dark", reducedMotion: "reduce" });
@@ -63,9 +63,11 @@ for (const width of widths) for (const theme of themes) for (const locale of loc
     const warnings: string[] = [];
     page.on("console", message => { if (/hydration|did not match/i.test(message.text())) warnings.push(message.text()); });
     await page.goto("/");
-    await expect(page.locator("html")).toHaveAttribute("data-theme", theme === "system" ? "dark" : theme);
+    await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+    expect(await page.evaluate(() => localStorage.getItem("aiip.theme"))).toBe(theme);
     await expect(page.locator("html")).toHaveAttribute("lang", locale);
-    await expect(page.locator(".preference-controls select").first()).toHaveValue(theme);
+    await expect(page.locator(".preference-controls select")).toHaveCount(1);
+    await expect(page.getByRole("combobox", { name: /Appearance|Giao diện/ })).toHaveCount(0);
     await expect(page.locator(".preference-controls select").last()).toHaveValue(locale);
     for (const control of await page.locator(".preference-controls select").all()) {
       const box = await control.boundingBox();
@@ -79,34 +81,66 @@ for (const width of widths) for (const theme of themes) for (const locale of loc
     expect(safe.hidden).toBe("true"); expect(safe.events).toBe("none");
     if (width === 390) expect(safe.display).toBe("none");
     else expect(safe.display).not.toBe("none");
+    if (width >= 768) {
+      const margins = await page.evaluate(() => {
+        const content = document.querySelector(".workflow-shell")!.getBoundingClientRect();
+        const left = document.querySelector(".motif-science")!.getBoundingClientRect();
+        const right = document.querySelector(".motif-patent")!.getBoundingClientRect();
+        return {left:right.width > 0 && left.right <= content.left, right:right.left >= content.right};
+      });
+      expect(margins).toEqual({left:true, right:true});
+    }
+    expect(await page.locator(".motif-secondary").first().evaluate(e=>getComputedStyle(e).stroke)).toBe("rgb(22, 150, 212)");
+    expect(await page.locator(".motif-accent").first().evaluate(e=>getComputedStyle(e).stroke)).toBe("rgb(241, 95, 34)");
     const button = page.locator(".select-file-button");
     await button.scrollIntoViewIfNeeded();
     const hit = await button.evaluate(element => { const box = element.getBoundingClientRect(); return element.contains(document.elementFromPoint(box.x + box.width / 2, box.y + box.height / 2)); });
     expect(hit).toBeTruthy();
+    const geometry = await page.evaluate(() => {
+      const rect = (selector: string) => { const e = document.querySelector<HTMLElement>(selector)!; const r = e.getBoundingClientRect(); const c = getComputedStyle(e); return { x:r.x, y:r.y, width:r.width, height:r.height, center:r.y+r.height/2, font:c.fontFamily, fontSize:parseFloat(c.fontSize), lineHeight:parseFloat(c.lineHeight), overflow:e.scrollWidth > e.clientWidth }; };
+      return { logo:rect(".brand-logo"), divider:rect(".brand-divider"), title:rect(".product-name"), hero:rect(".hero h1"), steps:Array.from(document.querySelectorAll<HTMLElement>(".workflow-step button")).map(e => { const r=e.getBoundingClientRect(); const copy=e.querySelector<HTMLElement>(".step-copy")!; const cr=copy.getBoundingClientRect(); return {height:r.height, center:r.y+r.height/2, copyCenter:cr.y+cr.height/2, clipped:copy.scrollHeight>copy.clientHeight || copy.scrollWidth>copy.clientWidth, font:getComputedStyle(copy).fontFamily}; }) };
+    });
+    const baselineLogo = width <= 700 ? 140 : 190;
+    const baselineTitle = width <= 700 ? 12.48 : 15.36;
+    expect(geometry.logo.width / baselineLogo).toBeGreaterThanOrEqual(.85);
+    expect(geometry.logo.width / baselineLogo).toBeLessThanOrEqual(.9);
+    expect(geometry.title.fontSize / baselineTitle).toBeGreaterThanOrEqual(1.1);
+    expect(geometry.title.fontSize / baselineTitle).toBeLessThanOrEqual(1.15);
+    expect(Math.abs(geometry.logo.center-geometry.title.center)).toBeLessThan(1);
+    expect(Math.abs(geometry.divider.center-geometry.title.center)).toBeLessThan(1);
+    expect(geometry.title.font).toContain("sans-serif");
+    expect(geometry.hero.font).toBe(geometry.title.font);
+    expect(geometry.hero.overflow).toBe(false);
+    expect(geometry.steps.every(e => !e.clipped && Math.abs(e.center-e.copyCenter)<1 && e.font===geometry.title.font)).toBe(true);
+    expect(Math.max(...geometry.steps.map(e=>e.height))-Math.min(...geometry.steps.map(e=>e.height))).toBeLessThan(1);
+    await test.info().attach("layout-measurements", {body:JSON.stringify(geometry,null,2),contentType:"application/json"});
+    if (width === 1440 && theme === "light" && locale === "vi") {
+      await page.locator(".site-header").screenshot({path:test.info().outputPath("header-closeup.png")});
+      await page.locator(".workflow-progress").screenshot({path:test.info().outputPath("workflow-closeup.png")});
+    }
     await screenshot(page, `home-${width}-${theme}-${locale}`);
-    if (width === 1280 && theme !== "system") await contrast(page, `home-${theme}-${locale}`);
+    if (width === 1280) await contrast(page, `home-${theme}-${locale}`);
     expect(warnings).toEqual([]);
   });
 }
 
-test("first visit VI/System resolves OS changes, persists explicit choices and has prepaint theme", async ({ page }) => {
+test("fixed light on first paint and OS changes; locale persists", async ({ page }) => {
   await page.emulateMedia({ colorScheme: "dark" });
   await page.goto("/");
   await expect(page.locator("html")).toHaveAttribute("lang", "vi");
-  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
-  await expect(page.locator(".preference-controls select").first()).toHaveValue("system");
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
   await page.emulateMedia({ colorScheme: "light" });
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
-  await page.locator(".preference-controls select").first().selectOption("dark");
-  await page.locator(".preference-controls select").last().selectOption("en");
+  await page.locator(".preference-controls select").selectOption("en");
   await page.reload();
-  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
-  expect(await page.evaluate(() => ({ theme: localStorage.getItem("aiip.theme"), locale: localStorage.getItem("aiip.locale") }))).toEqual({ theme: "dark", locale: "en" });
-  // Record the theme applied before React loads by blocking only JavaScript bundles.
+  expect(await page.evaluate(() => localStorage.getItem("aiip.locale"))).toBe("en");
+  // No application JS: server markup and CSS must already be light in OS-dark.
   await page.route("**/_next/static/**/*.js", route => route.abort());
+  await page.emulateMedia({ colorScheme: "dark" });
   await page.reload({ waitUntil: "domcontentloaded" });
-  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+  expect(await page.locator("html").evaluate(e => getComputedStyle(e).colorScheme)).toBe("light");
 });
 
 test("safe localized upload errors update without losing file state", async ({ page }) => {
@@ -140,19 +174,18 @@ for (const width of widths) {
     const editor = page.getByLabel("Paragraph paragraph-field prose");
     const prose = "Synthetic sensor calibration " + "long-unbroken-text".repeat(20);
     await editor.fill(prose);
-    await page.locator(".preference-controls select").first().selectOption("dark");
     await page.locator(".preference-controls select").last().selectOption("vi");
     await expect(editor).toHaveCount(0);
     await expect(page.locator("#edit-paragraph-field")).toHaveValue(prose);
     expect(await center.evaluate(element => (window as unknown as { retainedCenter: Element }).retainedCenter === element)).toBe(true);
     await overflow(page);
-    await screenshot(page, `review-${width}-dark-vi`);
-    if (width === 390) await contrast(page, "editing-dark-vi");
+    await screenshot(page, `review-${width}-light-vi`);
+    if (width === 390) await contrast(page, "editing-light-vi");
     await page.locator(".preference-controls select").last().selectOption("en");
     await page.getByRole("button", { name: "Cancel edit", exact: true }).click();
     const dialog = page.getByRole("dialog", { name: "Confirm session change" });
     await expect(dialog).toBeVisible();
-    if (width === 390) await contrast(page, "dialog-dark-en");
+    if (width === 390) await contrast(page, "dialog-light-en");
     await expect(page.getByRole("button", { name: "Keep editing", exact: true })).toBeFocused();
     await page.keyboard.press("Shift+Tab");
     await expect(page.getByRole("button", { name: "Discard changes and continue" })).toBeFocused();
@@ -168,8 +201,8 @@ for (const width of widths) {
     await expect(page.locator("#evidence-inspector-heading")).toBeFocused();
     await expect(page.locator(".evidence-inspector blockquote")).toBeVisible();
     await overflow(page);
-    await page.locator(".preference-controls select").first().selectOption("light");
     await screenshot(page, `review-${width}-light-en`);
+    if (width === 1440) await page.screenshot({path:test.info().outputPath("review-workspace-viewport.png"),fullPage:false});
     if (width === 390) await contrast(page, "review-light-en");
     const controls = page.getByLabel(/^Session review status for /);
     for (let i = 0; i < await controls.count(); i++) await controls.nth(i).selectOption("REVIEWED");
@@ -177,10 +210,9 @@ for (const width of widths) {
     await page.getByRole("button", { name: "Validate revision-2" }).click();
     await expect(page.getByRole("heading", { name: "Validation complete" })).toBeVisible();
     await page.locator(".preference-controls select").last().selectOption("vi");
-    await page.locator(".preference-controls select").first().selectOption("dark");
     await expect(page.getByRole("heading", { name: "Đã xác thực cấu trúc" })).toBeVisible();
     await overflow(page);
-    await screenshot(page, `validation-${width}-dark-vi`);
+    await screenshot(page, `validation-${width}-light-vi`);
     await page.getByRole("button", { name: "Tiếp tục xuất DOCX →" }).click();
     await expect(page.locator(".export-summary strong")).toHaveText("revision-2");
     await expect(page.locator(".card-supporting-copy").filter({ hasText: "PDF" })).toContainText("chưa khả dụng");
@@ -193,13 +225,13 @@ for (const width of widths) {
 }
 
 for (const width of widths) for (const locale of locales) {
-  test(`system OS-light ${width} ${locale}`, async ({ page }) => {
+  test(`fixed light OS-light ${width} ${locale}`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
     await page.emulateMedia({ colorScheme: "light" });
     await page.goto("/");
     await page.locator(".preference-controls select").last().selectOption(locale);
     await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
-    await expect(page.locator(".preference-controls select").first()).toHaveValue("system");
+    await expect(page.locator(".preference-controls select")).toHaveCount(1);
     await overflow(page);
     await screenshot(page, `home-${width}-system-oslight-${locale}`);
   });
@@ -208,15 +240,13 @@ for (const width of widths) for (const locale of locales) {
 test("corrupted preferences and denied storage retain safe defaults and session switching", async ({ page }) => {
   await page.addInitScript(() => { localStorage.setItem("aiip.locale", "corrupt"); localStorage.setItem("aiip.theme", "corrupt"); });
   await page.goto("/");
-  await expect(page.locator(".preference-controls select").first()).toHaveValue("system");
+  await expect(page.locator(".preference-controls select")).toHaveCount(1);
   await expect(page.locator("html")).toHaveAttribute("lang", "vi");
   await page.evaluate(() => { Storage.prototype.setItem = () => { throw new Error("Storage writes unavailable"); }; });
-  await page.locator(".preference-controls select").first().selectOption("dark");
   await page.locator(".preference-controls select").last().selectOption("en");
-  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
   await page.evaluate(() => { Object.defineProperty(window, "localStorage", { get() { throw new Error("Storage unavailable"); } }); });
-  await page.locator(".preference-controls select").first().selectOption("light");
   await page.locator(".preference-controls select").last().selectOption("vi");
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
   await expect(page.locator("html")).toHaveAttribute("lang", "vi");
@@ -246,8 +276,8 @@ test("mapped validation issue focuses the affected editor and rejects mismatched
 test("measured control boundaries and keyboard focus exceed 3 to 1", async ({ page }) => {
   await page.goto("/");
   const measurements: unknown[] = [];
-  for (const scheme of ["light", "dark"]) {
-    await page.locator(".preference-controls select").first().selectOption(scheme);
+  for (const scheme of ["light", "dark"] as const) {
+    await page.emulateMedia({ colorScheme: scheme });
     const button = page.locator(".select-file-button");
     await button.focus();
     await page.keyboard.press("Shift+Tab");
