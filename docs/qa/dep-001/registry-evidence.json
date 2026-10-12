@@ -1,0 +1,921 @@
+{
+  "source": "https://registry.npmjs.org",
+  "observed_at_utc": "2026-10-11T08:52:10.4186751Z",
+  "packages": [
+    {
+      "name": "next",
+      "version": "16.3.8",
+      "dependencies": {
+        "postcss": "8.5.23",
+        "@next/env": "16.3.8",
+        "styled-jsx": "5.1.6",
+        "@swc/helpers": "0.5.23",
+        "caniuse-lite": "^1.0.30001579",
+        "baseline-browser-mapping": "^2.9.19"
+      },
+      "optionalDependencies": {
+        "sharp": "^0.35.4",
+        "@next/swc-darwin-x64": "16.3.8",
+        "@next/swc-darwin-arm64": "16.3.8",
+        "@next/swc-linux-x64-gnu": "16.3.8",
+        "@next/swc-linux-x64-musl": "16.3.8",
+        "@next/swc-win32-x64-msvc": "16.3.8",
+        "@next/swc-linux-arm64-gnu": "16.3.8",
+        "@next/swc-linux-arm64-musl": "16.3.8",
+        "@next/swc-win32-arm64-msvc": "16.3.8"
+      },
+      "peerDependencies": {
+        "sass": "^1.3.0",
+        "react": "^18.2.0 || 19.0.0-rc-de68d2f4-20241204 || ^19.0.0",
+        "react-dom": "^18.2.0 || 19.0.0-rc-de68d2f4-20241204 || ^19.0.0",
+        "@playwright/test": "^1.51.1",
+        "@opentelemetry/api": "^1.1.0",
+        "babel-plugin-react-compiler": "*"
+      },
+      "engines": {
+        "node": ">=20.9.0"
+      },
+      "dist": {
+        "tarball": "https://registry.npmjs.org/next/-/next-16.3.8.tgz",
+        "integrity": "sha512-U7QEZaTini6wKrb8A8hqLLqYQyCetegKjCpJOyxk642vWoMoU1x5PyZCJFvgYgiptA8xc5j/9xYlZFO7w9Sjmw=="
+      }
+    },
+    {
+      "name": "eslint-config-next",
+      "version": "16.3.8",
+      "dependencies": {
+        "globals": "16.4.0",
+        "typescript-eslint": "^8.46.0",
+        "eslint-plugin-react": "^7.37.0",
+        "eslint-plugin-import": "^2.32.0",
+        "eslint-plugin-jsx-a11y": "^6.10.0",
+        "@next/eslint-plugin-next": "16.3.8",
+        "eslint-plugin-react-hooks": "^7.0.0",
+        "eslint-import-resolver-node": "^0.3.6",
+        "eslint-import-resolver-typescript": "^3.5.2"
+      },
+      "optionalDependencies": null,
+      "peerDependencies": {
+        "eslint": ">=9.0.0",
+        "typescript": ">=3.3.1"
+      },
+      "engines": null,
+      "dist": {
+        "tarball": "https://registry.npmjs.org/eslint-config-next/-/eslint-config-next-16.3.8.tgz",
+        "integrity": "sha512-81vovwMe6NGnoFsl0KUJWzlS+y239i3fdsxs49gSEX3pDQW2cuKy+fxUPXNkQqqx6OCPheYPtBlSufc9aZ0k+w=="
+      }
+    },
+    {
+      "name": "@next/eslint-plugin-next",
+      "version": "16.3.8",
+      "dependencies": {
+        "fast-glob": "3.3.1",
+        "@eslint-community/eslint-utils": "4.9.1"
+      },
+      "optionalDependencies": null,
+      "peerDependencies": null,
+      "engines": null,
+      "dist": {
+        "tarball": "https://registry.npmjs.org/@next/eslint-plugin-next/-/eslint-plugin-next-16.3.8.tgz",
+        "integrity": "sha512-eCR9RcLTZrVS+K3+VOhi0xMdUUGNuriCHHhU1ZoABC/QQ/Gp0OWbLKQxV2/9DkmihYdYRcQWFmZXW8M1AMUXYw=="
+      }
+    },
+    {
+      "name": "@next/eslint-plugin-next",
+      "version": "16.4.0",
+      "dependencies": {
+        "fast-glob": "3.3.1",
+        "@eslint-community/eslint-utils": "4.9.1"
+      },
+      "optionalDependencies": null,
+      "peerDependencies": null,
+      "engines": null,
+      "dist": {
+        "tarball": "https://registry.npmjs.org/@next/eslint-plugin-next/-/eslint-plugin-next-16.4.0.tgz",
+        "integrity": "sha512-ffeflB/dL8RrvWejQximw01pOpKHN692Y3FjDB82DCd0YVvXvBD6vY7mcZp27yvSVFVM6wA73xVodEKF4spizA=="
+      }
+    },
+    {
+      "name": "sharp",
+      "version": "0.35.5",
+      "dependencies": {
+        "semver": "^7.8.5",
+        "@img/colour": "^1.1.0",
+        "detect-libc": "^2.1.2"
+      },
+      "optionalDependencies": {
+        "@img/sharp-linux-arm": "0.35.5",
+        "@img/sharp-linux-x64": "0.35.5",
+        "@img/sharp-win32-x64": "0.35.5",
+        "@img/sharp-darwin-x64": "0.35.5",
+        "@img/sharp-win32-ia32": "0.35.5",
+        "@img/sharp-linux-arm64": "0.35.5",
+        "@img/sharp-linux-ppc64": "0.35.5",
+        "@img/sharp-linux-s390x": "0.35.5",
+        "@img/sharp-win32-arm64": "0.35.5",
+        "@img/sharp-darwin-arm64": "0.35.5",
+        "@img/sharp-linux-riscv64": "0.35.5",
+        "@img/sharp-linuxmusl-x64": "0.35.5",
+        "@img/sharp-freebsd-wasm32": "0.35.5",
+        "@img/sharp-linuxmusl-arm64": "0.35.5",
+        "@img/sharp-libvips-linux-arm": "1.3.4",
+        "@img/sharp-libvips-linux-x64": "1.3.4",
+        "@img/sharp-libvips-darwin-x64": "1.3.4",
+        "@img/sharp-libvips-linux-arm64": "1.3.4",
+        "@img/sharp-libvips-linux-ppc64": "1.3.4",
+        "@img/sharp-libvips-linux-s390x": "1.3.4",
+        "@img/sharp-libvips-darwin-arm64": "1.3.4",
+        "@img/sharp-webcontainers-wasm32": "0.35.5",
+        "@img/sharp-libvips-linux-riscv64": "1.3.4",
+        "@img/sharp-libvips-linuxmusl-x64": "1.3.4",
+        "@img/sharp-libvips-linuxmusl-arm64": "1.3.4"
+      },
+      "peerDependencies": null,
+      "engines": {
+        "node": ">=20.9.0"
+      },
+      "dist": {
+        "tarball": "https://registry.npmjs.org/sharp/-/sharp-0.35.5.tgz",
+        "integrity": "sha512-Ywn4OnzGukp7CDMrp08RQ50YKmuwG47brZgIVPTvBaaAfQlRlygrRqSrxdCiL9M+LlzLBiJ68IR1QqvzHyjC7g=="
+      }
+    },
+    {
+      "name": "source-map-js",
+      "version": "1.2.2",
+      "dependencies": null,
+      "optionalDependencies": null,
+      "peerDependencies": null,
+      "engines": {
+        "node": ">=0.10.0"
+      },
+      "dist": {
+        "tarball": "https://registry.npmjs.org/source-map-js/-/source-map-js-1.2.2.tgz",
+        "integrity": "sha512-KGj/8Y43x35aZVDtt+J4mK1hoLGHULMYfSkODJNQjNDC3oW1PqPoxMwo0pLUsWM/UEGzON/NxeHywEfNXNP3Vw=="
+      }
+    },
+    {
+      "name": "braces",
+      "version": "3.0.3",
+      "dependencies": {
+        "fill-range": "^7.1.1"
+      },
+      "optionalDependencies": null,
+      "peerDependencies": null,
+      "engines": {
+        "node": ">=8"
+      },
+      "dist": {
+        "tarball": "https://registry.npmjs.org/braces/-/braces-3.0.3.tgz",
+        "integrity": "sha512-yQbXgO/OSZVD2IsiLlro+7Hf6Q18EJrKSEsdoMzKePKXct3gvD8oLcOQdIzGupr5Fj+EDe8gO/lxc1BzfMpxvA=="
+      }
+    },
+    {
+      "name": "fast-glob",
+      "version": "3.3.3",
+      "dependencies": {
+        "merge2": "^1.3.0",
+        "micromatch": "^4.0.8",
+        "glob-parent": "^5.1.2",
+        "@nodelib/fs.stat": "^2.0.2",
+        "@nodelib/fs.walk": "^1.2.3"
+      },
+      "optionalDependencies": null,
+      "peerDependencies": null,
+      "engines": {
+        "node": ">=8.6.0"
+      },
+      "dist": {
+        "tarball": "https://registry.npmjs.org/fast-glob/-/fast-glob-3.3.3.tgz",
+        "integrity": "sha512-7MptL8U0cqcFdzIzwOTHoilX9x5BrNqye7Z/LuC7kCMRio1EMSyqRK3BEAUD7sXRq4iT4AzTVuZdhgQ2TCvYLg=="
+      }
+    },
+    {
+      "name": "micromatch",
+      "version": "4.0.8",
+      "dependencies": {
+        "braces": "^3.0.3",
+        "picomatch": "^2.3.1"
+      },
+      "optionalDependencies": null,
+      "peerDependencies": null,
+      "engines": {
+        "node": ">=8.6"
+      },
+      "dist": {
+        "tarball": "https://registry.npmjs.org/micromatch/-/micromatch-4.0.8.tgz",
+        "integrity": "sha512-PXwfBhYu0hBCPw8Dn0E+WDYb7af3dSLVWKi3HGv84IdF4TyFoC0ysxFd0Goxw7nSv4T/PzEJQxsYsEiFCKo2BA=="
+      }
+    }
+  ],
+  "a2": {
+    "task": "DEP-001-A2",
+    "version": "1.0.0",
+    "capturedAt": "2026-10-11T11:22:39.177Z",
+    "sourceCandidate": "local implementation before commit; immutable final SHA/CI recorded in PR #105 canonical handoff",
+    "originalSHA": "9804e416beec2a975cc9ab51efba5e95c1719f4b",
+    "node": "24.18.0",
+    "npm": "11.16.0",
+    "researchMetadata": {
+      "capturedAt": "2026-10-11T09:44:53.608Z",
+      "records": [
+        {
+          "name": "braces",
+          "status": 200,
+          "tags": {
+            "latest": "3.0.3"
+          },
+          "latest": {
+            "version": "3.0.3",
+            "dependencies": {
+              "fill-range": "^7.1.1"
+            },
+            "engines": {
+              "node": ">=8"
+            },
+            "license": "MIT",
+            "dist": {
+              "shasum": "490332f40919452272d55a8480adc0c441358789",
+              "tarball": "https://registry.npmjs.org/braces/-/braces-3.0.3.tgz",
+              "fileCount": 10,
+              "integrity": "sha512-yQbXgO/OSZVD2IsiLlro+7Hf6Q18EJrKSEsdoMzKePKXct3gvD8oLcOQdIzGupr5Fj+EDe8gO/lxc1BzfMpxvA==",
+              "signatures": [
+                {
+                  "sig": "MEQCICfWLKNcFCGtU07ikrPJ+s1dTDH3VZTE+vQZzC22s6o+AiAEVUE/YXRqHYgctcwHqNawvsOviSDFZPvgNm8+SUXD3w==",
+                  "keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA"
+                }
+              ],
+              "unpackedSize": 44635
+            }
+          }
+        },
+        {
+          "name": "micromatch",
+          "status": 200,
+          "tags": {
+            "latest": "4.0.8"
+          },
+          "latest": {
+            "version": "4.0.8",
+            "dependencies": {
+              "braces": "^3.0.3",
+              "picomatch": "^2.3.1"
+            },
+            "engines": {
+              "node": ">=8.6"
+            },
+            "license": "MIT",
+            "dist": {
+              "shasum": "d66fa18f3a47076789320b9b1af32bd86d9fa202",
+              "tarball": "https://registry.npmjs.org/micromatch/-/micromatch-4.0.8.tgz",
+              "fileCount": 4,
+              "integrity": "sha512-PXwfBhYu0hBCPw8Dn0E+WDYb7af3dSLVWKi3HGv84IdF4TyFoC0ysxFd0Goxw7nSv4T/PzEJQxsYsEiFCKo2BA==",
+              "signatures": [
+                {
+                  "sig": "MEUCIQCbM5vTauiWZIyEboHJF/YXuneSxEyEJ+2VHaEdyLD4zQIgU0seoGyOpfB4e80kPjxYidBvIgonDpZpZzNN8w25BUU=",
+                  "keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA"
+                }
+              ],
+              "unpackedSize": 56599
+            }
+          }
+        },
+        {
+          "name": "fast-glob",
+          "status": 200,
+          "tags": {
+            "next": "2.0.2",
+            "beta": "3.2.1-beta.1",
+            "latest": "3.3.3"
+          },
+          "latest": {
+            "version": "3.3.3",
+            "dependencies": {
+              "@nodelib/fs.stat": "^2.0.2",
+              "@nodelib/fs.walk": "^1.2.3",
+              "glob-parent": "^5.1.2",
+              "merge2": "^1.3.0",
+              "micromatch": "^4.0.8"
+            },
+            "engines": {
+              "node": ">=8.6.0"
+            },
+            "license": "MIT",
+            "dist": {
+              "integrity": "sha512-7MptL8U0cqcFdzIzwOTHoilX9x5BrNqye7Z/LuC7kCMRio1EMSyqRK3BEAUD7sXRq4iT4AzTVuZdhgQ2TCvYLg==",
+              "shasum": "d06d585ce8dba90a16b0505c543c3ccfb3aeb818",
+              "tarball": "https://registry.npmjs.org/fast-glob/-/fast-glob-3.3.3.tgz",
+              "fileCount": 55,
+              "unpackedSize": 98396,
+              "signatures": [
+                {
+                  "keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+                  "sig": "MEUCICTjokEWb6KQHVjqCGFBsmTVyNXGzhTR6Go+PYGeHq9SAiEApP3aaGSYHbb2YmHZecGkGpQUM0m+IcTsKdciYSSOsso="
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "@next/eslint-plugin-next",
+          "status": 200,
+          "tags": {
+            "next-11": "11.1.4",
+            "next-12-2-6": "12.2.6",
+            "next-14-1": "14.1.1",
+            "rc": "15.0.0-rc.1",
+            "next-13": "13.5.11",
+            "next-12-3-2": "12.3.7",
+            "beta": "16.0.0-beta.0",
+            "next-14": "14.2.35",
+            "next-15-3": "15.3.9",
+            "next-15-2": "15.2.9",
+            "next-15-0": "15.1.12",
+            "next-15-0-0": "15.0.8",
+            "preview": "16.3.0-preview.10",
+            "backport": "15.5.27",
+            "latest": "16.4.0",
+            "canary": "16.5.0-canary.8"
+          },
+          "latest": {
+            "version": "16.4.0",
+            "dependencies": {
+              "fast-glob": "3.3.1",
+              "@eslint-community/eslint-utils": "4.9.1"
+            },
+            "license": "MIT",
+            "dist": {
+              "shasum": "93295ab9798746ec52515016498fa48af7bcc05d",
+              "tarball": "https://registry.npmjs.org/@next/eslint-plugin-next/-/eslint-plugin-next-16.4.0.tgz",
+              "fileCount": 56,
+              "integrity": "sha512-ffeflB/dL8RrvWejQximw01pOpKHN692Y3FjDB82DCd0YVvXvBD6vY7mcZp27yvSVFVM6wA73xVodEKF4spizA==",
+              "signatures": [
+                {
+                  "sig": "MEQCIH0CIDREIqYH9PTDwppH6WDzTXVO7dXniN+Djs8LQGufAiBpPHSkadJ444kpRiewGDH45MTW0WATfG2lJzCj5oq9Pw==",
+                  "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+                },
+                {
+                  "sig": "MEUCIDxCy7R2Q4/7puzAGKzkdN/7BIzi2MTs0PgwCBC2wGkbAiEAmVi6Xtlavqw4O87BSWBzcP5nV5on5q4+raAhtJ2zUe8=",
+                  "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+                }
+              ],
+              "attestations": {
+                "url": "https://registry.npmjs.org/-/npm/v1/attestations/@next%2feslint-plugin-next@16.4.0",
+                "provenance": {
+                  "predicateType": "https://slsa.dev/provenance/v1"
+                }
+              },
+              "unpackedSize": 106327
+            }
+          },
+          "candidate": {
+            "version": "16.3.8",
+            "dependencies": {
+              "fast-glob": "3.3.1",
+              "@eslint-community/eslint-utils": "4.9.1"
+            },
+            "license": "MIT",
+            "dist": {
+              "shasum": "9186a0fff633d867215e1ba2eeafa500c85d9f5f",
+              "tarball": "https://registry.npmjs.org/@next/eslint-plugin-next/-/eslint-plugin-next-16.3.8.tgz",
+              "fileCount": 56,
+              "integrity": "sha512-eCR9RcLTZrVS+K3+VOhi0xMdUUGNuriCHHhU1ZoABC/QQ/Gp0OWbLKQxV2/9DkmihYdYRcQWFmZXW8M1AMUXYw==",
+              "signatures": [
+                {
+                  "sig": "MEYCIQDIMTP60UJhCBn6KbKYeKH0+GjVhcrOW2ts7K8aRny7vAIhAMiQtQP/zITzu/gimxLhNd0DN759SnM/TV1TZdjh0UfU",
+                  "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+                },
+                {
+                  "sig": "MEQCIGQzRFo9Sxu5arC9wBDOhCCTBwg71vv4b9Q3tIfGVsmDAiBQt3/IsJg1tBAmClsOdIwm73LhcNP7gtXcDgrGm447HQ==",
+                  "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+                }
+              ],
+              "attestations": {
+                "url": "https://registry.npmjs.org/-/npm/v1/attestations/@next%2feslint-plugin-next@16.3.8",
+                "provenance": {
+                  "predicateType": "https://slsa.dev/provenance/v1"
+                }
+              },
+              "unpackedSize": 106327
+            }
+          },
+          "canary": {
+            "version": "16.5.0-canary.8",
+            "dependencies": {
+              "fast-glob": "3.3.1",
+              "@eslint-community/eslint-utils": "4.9.1"
+            },
+            "license": "MIT",
+            "dist": {
+              "shasum": "1ac8505ca44c576f12cd892a978d8be296b0f2fc",
+              "tarball": "https://registry.npmjs.org/@next/eslint-plugin-next/-/eslint-plugin-next-16.5.0-canary.8.tgz",
+              "fileCount": 56,
+              "integrity": "sha512-YPsuZ5kkCe64Ak/QE6zEbrA9BAdOJgTRU8gjjSX88mUpk/b0clfKmDlLuhbmfnrpfeF2ApEJE43mS3WdFeaEbA==",
+              "signatures": [
+                {
+                  "sig": "MEUCIFMKQfbMaEgkWmOxsxzZKiwrnHIG1qNzDF4n7I5wFnbbAiEA5/bpiSIyOk0zy+sSV+1y8jYQO1YBdQOFF9u1qvSxW90=",
+                  "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+                },
+                {
+                  "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U",
+                  "sig": "MEUCIQCpBl+Rrp2LCzrcpx4wNB9dGBeU9a+h/TedVVEpDjo3igIgYcP8VhfLxU7LLxUOdZpQnCtmtqlQalGjrJUIYYGEhEE="
+                }
+              ],
+              "attestations": {
+                "url": "https://registry.npmjs.org/-/npm/v1/attestations/@next%2feslint-plugin-next@16.5.0-canary.8",
+                "provenance": {
+                  "predicateType": "https://slsa.dev/provenance/v1"
+                }
+              },
+              "unpackedSize": 106336
+            }
+          }
+        },
+        {
+          "name": "eslint-config-next",
+          "status": 200,
+          "tags": {
+            "next-11": "11.1.4",
+            "next-12-2-6": "12.2.6",
+            "next-14-1": "14.1.1",
+            "rc": "15.0.0-rc.1",
+            "next-13": "13.5.11",
+            "next-12-3-2": "12.3.7",
+            "beta": "16.0.0-beta.0",
+            "next-14": "14.2.35",
+            "next-15-3": "15.3.9",
+            "next-15-2": "15.2.9",
+            "next-15-0": "15.1.12",
+            "next-15-0-0": "15.0.8",
+            "preview": "16.3.0-preview.10",
+            "backport": "15.5.27",
+            "latest": "16.4.0",
+            "canary": "16.5.0-canary.8"
+          },
+          "latest": {
+            "version": "16.4.0",
+            "dependencies": {
+              "globals": "16.4.0",
+              "typescript-eslint": "^8.56.0",
+              "eslint-plugin-react": "^7.37.0",
+              "eslint-plugin-import": "^2.32.0",
+              "eslint-plugin-jsx-a11y": "^6.10.0",
+              "@next/eslint-plugin-next": "16.4.0",
+              "eslint-plugin-react-hooks": "^7.1.0",
+              "eslint-import-resolver-node": "^0.3.6",
+              "eslint-import-resolver-typescript": "^3.5.2"
+            },
+            "peerDependencies": {
+              "eslint": ">=9.0.0",
+              "typescript": ">=3.3.1"
+            },
+            "license": "MIT",
+            "dist": {
+              "shasum": "f64dce639027769860e9f16c377827d65c97bce1",
+              "tarball": "https://registry.npmjs.org/eslint-config-next/-/eslint-config-next-16.4.0.tgz",
+              "fileCount": 11,
+              "integrity": "sha512-2RHLYswzc+hNRktWAjIL6XAvwb1cKcjLawJ5KWywAxn/JivNHtG42ZigL1yobVXDqsimuuL2F9jcEcnHFzbppQ==",
+              "signatures": [
+                {
+                  "sig": "MEYCIQCrakjFIi92N//aFe/EGkBa5AgkTEdCzc6J4YXKRc6L7wIhANaSEjuofqS24bnyJA2QS7NhdWJj69Y3SXiZsrCfcz5T",
+                  "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+                },
+                {
+                  "sig": "MEYCIQCKiDmr1cuc56hG1q50R3o1lOYI+vtgvmURA2z9avyNYwIhAO+PW9oI8RxzGxbpxJSAhv4OxDWB1RY4oxtsdQrSN3gh",
+                  "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+                }
+              ],
+              "attestations": {
+                "url": "https://registry.npmjs.org/-/npm/v1/attestations/eslint-config-next@16.4.0",
+                "provenance": {
+                  "predicateType": "https://slsa.dev/provenance/v1"
+                }
+              },
+              "unpackedSize": 22082
+            }
+          },
+          "candidate": {
+            "version": "16.3.8",
+            "dependencies": {
+              "globals": "16.4.0",
+              "typescript-eslint": "^8.46.0",
+              "eslint-plugin-react": "^7.37.0",
+              "eslint-plugin-import": "^2.32.0",
+              "eslint-plugin-jsx-a11y": "^6.10.0",
+              "@next/eslint-plugin-next": "16.3.8",
+              "eslint-plugin-react-hooks": "^7.0.0",
+              "eslint-import-resolver-node": "^0.3.6",
+              "eslint-import-resolver-typescript": "^3.5.2"
+            },
+            "peerDependencies": {
+              "eslint": ">=9.0.0",
+              "typescript": ">=3.3.1"
+            },
+            "license": "MIT",
+            "dist": {
+              "shasum": "83f8366dbf97f02b87aecb573372ca643f83250d",
+              "tarball": "https://registry.npmjs.org/eslint-config-next/-/eslint-config-next-16.3.8.tgz",
+              "fileCount": 9,
+              "integrity": "sha512-81vovwMe6NGnoFsl0KUJWzlS+y239i3fdsxs49gSEX3pDQW2cuKy+fxUPXNkQqqx6OCPheYPtBlSufc9aZ0k+w==",
+              "signatures": [
+                {
+                  "sig": "MEUCIQCSESj9p26Mx+/T8yfTNeD1tO4eGQCvllX3s6r65ZDNEQIgWODD2KwZQq6LzxW0glF2oMe3oWBOpfenoyHfDdpe6Ng=",
+                  "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+                },
+                {
+                  "sig": "MEUCIA8GSyEbEz85FygJA4ORT8csMLtsbOAHHkSFR4/LNnH0AiEA63cql9hAwjktlebiGqe4AGJ4g9bwOfnXCUvcCxry9oI=",
+                  "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+                }
+              ],
+              "attestations": {
+                "url": "https://registry.npmjs.org/-/npm/v1/attestations/eslint-config-next@16.3.8",
+                "provenance": {
+                  "predicateType": "https://slsa.dev/provenance/v1"
+                }
+              },
+              "unpackedSize": 14190
+            }
+          }
+        },
+        {
+          "name": "tinyglobby",
+          "status": 200,
+          "tags": {
+            "latest": "0.2.17"
+          },
+          "latest": {
+            "version": "0.2.17",
+            "dependencies": {
+              "fdir": "^6.5.0",
+              "picomatch": "^4.0.4"
+            },
+            "engines": {
+              "node": ">=12.0.0"
+            },
+            "license": "MIT",
+            "dist": {
+              "shasum": "562a9a6c9eb2b3b123d39719f9af5bb44fcd7631",
+              "tarball": "https://registry.npmjs.org/tinyglobby/-/tinyglobby-0.2.17.tgz",
+              "integrity": "sha512-wXR/dYpcqKmfWpEdZjiKJOwCNFndD0DMnrW/cYjVGttEkBfVgcLFHoNrlj47mjOVic9yyNu65alsgF4NQyTa2g==",
+              "fileCount": 7,
+              "unpackedSize": 39288,
+              "attestations": {
+                "url": "https://registry.npmjs.org/-/npm/v1/attestations/tinyglobby@0.2.17",
+                "provenance": {
+                  "predicateType": "https://slsa.dev/provenance/v1"
+                }
+              },
+              "signatures": [
+                {
+                  "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U",
+                  "sig": "MEQCIBb1NW/DoA5iHpC4dnAW9CHCT0c0lMzS25CHkJqC1tWbAiB00yQG3ibgdu0HOIG+aspYfvxV64FhOyM5JgsbphDGhg=="
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "typescript-eslint",
+          "status": 200,
+          "tags": {
+            "rc-v8": "8.0.0-alpha.62",
+            "latest": "8.71.1",
+            "canary": "8.71.2-alpha.4"
+          },
+          "latest": {
+            "version": "8.71.1",
+            "dependencies": {
+              "@typescript-eslint/utils": "8.71.1",
+              "@typescript-eslint/parser": "8.71.1",
+              "@typescript-eslint/eslint-plugin": "8.71.1",
+              "@typescript-eslint/typescript-estree": "8.71.1"
+            },
+            "peerDependencies": {
+              "eslint": "^8.57.0 || ^9.0.0 || ^10.0.0",
+              "typescript": ">=4.8.4 <6.1.0"
+            },
+            "engines": {
+              "node": "^18.18.0 || ^20.9.0 || >=21.1.0"
+            },
+            "license": "MIT",
+            "dist": {
+              "shasum": "dabf06af972d975ea25b27d73e161193ea41075d",
+              "tarball": "https://registry.npmjs.org/typescript-eslint/-/typescript-eslint-8.71.1.tgz",
+              "fileCount": 13,
+              "integrity": "sha512-oiNVPC3/NbV1FpaHU07l8O6ynqG9v4PAiW2WvTrAmZdR0f2HI/gE668ElMLCK7Xbsu5k2fK5C4fXNiq05j7/nQ==",
+              "signatures": [
+                {
+                  "sig": "MEYCIQDwPC8MIiJtPwkBCpPeOzK81Jq/R22BNKlNR3e48CfLbgIhAKxWrj6J8hc8ZELC82FLO/VmKAhWG3agLXCTRaL9BibT",
+                  "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+                },
+                {
+                  "sig": "MEYCIQCu7RVjWUiF0lRGLcC6K6y6yMV0s7pkkYqYdgh6za/lFAIhAKYwqVjMjYmLxLTpu5G4xEEl4DJD3CkNI1k2+mEvtwzG",
+                  "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+                }
+              ],
+              "attestations": {
+                "url": "https://registry.npmjs.org/-/npm/v1/attestations/typescript-eslint@8.71.1",
+                "provenance": {
+                  "predicateType": "https://slsa.dev/provenance/v1"
+                }
+              },
+              "unpackedSize": 42688
+            }
+          }
+        },
+        {
+          "name": "eslint-plugin-react",
+          "status": 200,
+          "tags": {
+            "next": "7.8.0-rc.0",
+            "latest": "7.37.5"
+          },
+          "latest": {
+            "version": "7.37.5",
+            "dependencies": {
+              "array-includes": "^3.1.8",
+              "array.prototype.findlast": "^1.2.5",
+              "array.prototype.flatmap": "^1.3.3",
+              "array.prototype.tosorted": "^1.1.4",
+              "doctrine": "^2.1.0",
+              "es-iterator-helpers": "^1.2.1",
+              "estraverse": "^5.3.0",
+              "hasown": "^2.0.2",
+              "jsx-ast-utils": "^2.4.1 || ^3.0.0",
+              "minimatch": "^3.1.2",
+              "object.entries": "^1.1.9",
+              "object.fromentries": "^2.0.8",
+              "object.values": "^1.2.1",
+              "prop-types": "^15.8.1",
+              "resolve": "^2.0.0-next.5",
+              "semver": "^6.3.1",
+              "string.prototype.matchall": "^4.0.12",
+              "string.prototype.repeat": "^1.0.0"
+            },
+            "peerDependencies": {
+              "eslint": "^3 || ^4 || ^5 || ^6 || ^7 || ^8 || ^9.7"
+            },
+            "engines": {
+              "node": ">=4"
+            },
+            "license": "MIT",
+            "dist": {
+              "integrity": "sha512-Qteup0SqU15kdocexFNAJMvCJEfa2xUKNV4CC1xsVMrIIqEy3SQ/rqyxCWNzfrd3/ldy6HMlD2e0JDVpDg2qIA==",
+              "shasum": "2975511472bdda1b272b34d779335c9b0e877065",
+              "tarball": "https://registry.npmjs.org/eslint-plugin-react/-/eslint-plugin-react-7.37.5.tgz",
+              "fileCount": 406,
+              "unpackedSize": 937569,
+              "signatures": [
+                {
+                  "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U",
+                  "sig": "MEUCICSNRvL9Jzj5j1Oy46rZG9V8PLLdyOF9okd8dfbGRNF+AiEA/388X+hcfwIUZjeT+53CI1bsDE+bvHxbpnN7jr7YeVo="
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "eslint-plugin-react-hooks",
+          "status": 200,
+          "tags": {
+            "beta": "5.1.0-beta-26f2496093-20240514",
+            "rc": "6.0.0-rc.2",
+            "latest": "7.1.1",
+            "next": "7.1.1-canary-d5736f09-20260507",
+            "experimental": "0.0.0-experimental-b618bbb4-20261007",
+            "canary": "7.1.1-canary-b618bbb4-20261007"
+          },
+          "latest": {
+            "version": "7.1.1",
+            "dependencies": {
+              "zod": "^3.25.0 || ^4.0.0",
+              "@babel/core": "^7.24.4",
+              "@babel/parser": "^7.24.4",
+              "hermes-parser": "^0.25.1",
+              "zod-validation-error": "^3.5.0 || ^4.0.0"
+            },
+            "peerDependencies": {
+              "eslint": "^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0 || ^9.0.0 || ^10.0.0"
+            },
+            "engines": {
+              "node": ">=18"
+            },
+            "license": "MIT",
+            "dist": {
+              "shasum": "e6742cad75d970c0a3f30d7d3fa80a4784f55927",
+              "tarball": "https://registry.npmjs.org/eslint-plugin-react-hooks/-/eslint-plugin-react-hooks-7.1.1.tgz",
+              "fileCount": 8,
+              "integrity": "sha512-f2I7Gw6JbvCexzIInuSbZpfdQ44D7iqdWX01FKLvrPgqxoE7oMj8clOfto8U6vYiz4yd5oKu39rRSVOe1zRu0g==",
+              "signatures": [
+                {
+                  "sig": "MEYCIQCdi56UBcCdIG9KuraMEEC9DmLaBSwFdu3/FH8z6uwFlAIhAPKLC+VSc1yZGOqe0obrEL1J80GrzRndCFDhDWqVCZWw",
+                  "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+                }
+              ],
+              "unpackedSize": 4095735
+            }
+          }
+        },
+        {
+          "name": "eslint-plugin-import",
+          "status": 200,
+          "tags": {
+            "next": "2.0.0-beta.1",
+            "latest": "2.32.0"
+          },
+          "latest": {
+            "version": "2.32.0",
+            "dependencies": {
+              "@rtsao/scc": "^1.1.0",
+              "array-includes": "^3.1.9",
+              "array.prototype.findlastindex": "^1.2.6",
+              "array.prototype.flat": "^1.3.3",
+              "array.prototype.flatmap": "^1.3.3",
+              "debug": "^3.2.7",
+              "doctrine": "^2.1.0",
+              "eslint-import-resolver-node": "^0.3.9",
+              "eslint-module-utils": "^2.12.1",
+              "hasown": "^2.0.2",
+              "is-core-module": "^2.16.1",
+              "is-glob": "^4.0.3",
+              "minimatch": "^3.1.2",
+              "object.fromentries": "^2.0.8",
+              "object.groupby": "^1.0.3",
+              "object.values": "^1.2.1",
+              "semver": "^6.3.1",
+              "string.prototype.trimend": "^1.0.9",
+              "tsconfig-paths": "^3.15.0"
+            },
+            "peerDependencies": {
+              "eslint": "^2 || ^3 || ^4 || ^5 || ^6 || ^7.2.0 || ^8 || ^9"
+            },
+            "engines": {
+              "node": ">=4"
+            },
+            "license": "MIT",
+            "dist": {
+              "integrity": "sha512-whOE1HFo/qJDyX4SnXzP4N6zOWn79WhnCUY/iDR0mPfQZO8wcYE4JClzI2oZrhBnnMUCBCHZhO6VQyoBU95mZA==",
+              "shasum": "602b55faa6e4caeaa5e970c198b5c00a37708980",
+              "tarball": "https://registry.npmjs.org/eslint-plugin-import/-/eslint-plugin-import-2.32.0.tgz",
+              "fileCount": 132,
+              "unpackedSize": 1417661,
+              "signatures": [
+                {
+                  "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U",
+                  "sig": "MEYCIQDB1cmN9UIDrsRT8rxmciSqaKZon/8NSub1RHdOqbXP5QIhAI5/WIZoQ5xVPcUeHZwhzG6NELESnUdt8ok4ZKrsEWdm"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "eslint-plugin-jsx-a11y",
+          "status": 200,
+          "tags": {
+            "v5-backport": "5.1.1",
+            "latest": "6.10.2"
+          },
+          "latest": {
+            "version": "6.10.2",
+            "dependencies": {
+              "aria-query": "^5.3.2",
+              "array-includes": "^3.1.8",
+              "array.prototype.flatmap": "^1.3.2",
+              "ast-types-flow": "^0.0.8",
+              "axe-core": "^4.10.0",
+              "axobject-query": "^4.1.0",
+              "damerau-levenshtein": "^1.0.8",
+              "emoji-regex": "^9.2.2",
+              "hasown": "^2.0.2",
+              "jsx-ast-utils": "^3.3.5",
+              "language-tags": "^1.0.9",
+              "minimatch": "^3.1.2",
+              "object.fromentries": "^2.0.8",
+              "safe-regex-test": "^1.0.3",
+              "string.prototype.includes": "^2.0.1"
+            },
+            "peerDependencies": {
+              "eslint": "^3 || ^4 || ^5 || ^6 || ^7 || ^8 || ^9"
+            },
+            "engines": {
+              "node": ">=4.0"
+            },
+            "license": "MIT",
+            "dist": {
+              "integrity": "sha512-scB3nz4WmG75pV8+3eRUQOHZlNSUhFNq37xnpgRkCCELU3XMvXAxLk1eqWWyE22Ki4Q01Fnsw9BA3cJHDPgn2Q==",
+              "shasum": "d2812bb23bf1ab4665f1718ea442e8372e638483",
+              "tarball": "https://registry.npmjs.org/eslint-plugin-jsx-a11y/-/eslint-plugin-jsx-a11y-6.10.2.tgz",
+              "fileCount": 229,
+              "unpackedSize": 752797,
+              "signatures": [
+                {
+                  "keyid": "SHA256:jl3bwswu80PjjokCgh0o2w5c2U4LhQAE57gj9cz1kzA",
+                  "sig": "MEQCIBLVcMo1z8881smPVhZGfvKqwjP/+8M3bzoHT8HZNUjkAiA/xOYOovyHHvvQMOBMfy5+Yr/IUGMhxRrzLV+dMim4GA=="
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "globals",
+          "status": 200,
+          "tags": {
+            "latest": "17.13.0"
+          },
+          "latest": {
+            "version": "17.13.0",
+            "engines": {
+              "node": ">=18"
+            },
+            "license": "MIT",
+            "dist": {
+              "shasum": "ab2134b5ededbf2fbe2831dd0acc36f4f1ddeac5",
+              "tarball": "https://registry.npmjs.org/globals/-/globals-17.13.0.tgz",
+              "fileCount": 6,
+              "integrity": "sha512-RwMTC61u7hrG3ZJMkZQOK4JLJrKS8QtoTii63EmWvFXHqycY9FObBJQCbsLxSO8kjKhWE5kV1GC+Vb1g3RI0Zg==",
+              "signatures": [
+                {
+                  "sig": "MEUCIQCJh3tH+GPb5uR8CECspSFViMYLu6NqLmQzWWUlSf/lggIgFZA0rn0Ctra7/xgzquqvYkQPpBFjoZIAZPZ/1W2KbxA=",
+                  "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+                },
+                {
+                  "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U",
+                  "sig": "MEUCIC2EvNfh3gvDsa6HTCF8MjCs3//7gVv9foGSPi0YpMrHAiEA/W01oEP5Dn9ZWTqESdLCD2Wi+k5+uiP0VTofqR88X3o="
+                }
+              ],
+              "unpackedSize": 257100
+            }
+          }
+        }
+      ]
+    },
+    "installedRelevantPackages": {
+      "node_modules/fast-glob": {
+        "name": "@ai-ip/next-root-glob-adapter",
+        "version": "1.0.0",
+        "resolved": "file:tools/next-root-glob-adapter",
+        "dev": true,
+        "dependencies": {
+          "tinyglobby": "0.2.17"
+        },
+        "engines": {
+          "node": ">=24"
+        }
+      },
+      "node_modules/tinyglobby": {
+        "version": "0.2.17",
+        "resolved": "https://registry.npmjs.org/tinyglobby/-/tinyglobby-0.2.17.tgz",
+        "integrity": "sha512-wXR/dYpcqKmfWpEdZjiKJOwCNFndD0DMnrW/cYjVGttEkBfVgcLFHoNrlj47mjOVic9yyNu65alsgF4NQyTa2g==",
+        "dev": true,
+        "license": "MIT",
+        "dependencies": {
+          "fdir": "^6.5.0",
+          "picomatch": "^4.0.4"
+        },
+        "engines": {
+          "node": ">=12.0.0"
+        },
+        "funding": {
+          "url": "https://github.com/sponsors/SuperchupuDev"
+        }
+      },
+      "node_modules/tinyglobby/node_modules/fdir": {
+        "version": "6.5.0",
+        "resolved": "https://registry.npmjs.org/fdir/-/fdir-6.5.0.tgz",
+        "integrity": "sha512-tIbYtZbucOs0BRGqPJkshJUYdL+SDH7dVM8gjy+ERp3WAUjLEFJE+02kanyHtwjWOnwrKYBiwAmM0p4kLJAnXg==",
+        "dev": true,
+        "license": "MIT",
+        "engines": {
+          "node": ">=12.0.0"
+        },
+        "peerDependencies": {
+          "picomatch": "^3 || ^4"
+        },
+        "peerDependenciesMeta": {
+          "picomatch": {
+            "optional": true
+          }
+        }
+      },
+      "node_modules/tinyglobby/node_modules/picomatch": {
+        "version": "4.0.7",
+        "resolved": "https://registry.npmjs.org/picomatch/-/picomatch-4.0.7.tgz",
+        "integrity": "sha512-qcJu88Q2IWqJsDD529JKMdwGm/dvInW4HvQnRwiH9JtihJvzGOscDtHE3x1pBKeUOTysQ8kVmLnJ2kJu7yhcGA==",
+        "dev": true,
+        "license": "MIT",
+        "engines": {
+          "node": ">=12"
+        },
+        "funding": {
+          "url": "https://github.com/sponsors/jonschlinkert"
+        }
+      }
+    },
+    "primarySources": [
+      "https://registry.npmjs.org/tinyglobby/0.2.17",
+      "https://docs.npmjs.com/cli/v11/configuring-npm/package-json/#overrides",
+      "https://superchupu.dev/tinyglobby/migration",
+      "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm"
+    ],
+    "provenance": "Registry integrity/signature metadata and Git-bound local source, not independent cryptographic verification of npm provenance statements"
+  }
+}

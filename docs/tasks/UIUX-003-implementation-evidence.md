@@ -1,5 +1,32 @@
 # UIUX-003 — Final visual polish and VIH brand alignment
 
+## Current integration candidate — ledger 1.1.0
+
+- Human explicitly approves **RESOLVE MERGE CONFLICTS & PREPARE FIXED-SHA REVIEW**, attachment SHA256 `7bc2d828da2286cab7e548b5f4e04a37f214039c455c61e54ad8e1e1537a380a`. Workflow V1; existing `feat/uiux-003-final-visual-polish` and PR #104 only. No merge/deployment/Render, new UI/backend/API/Claims/runtime, real-data/paid-provider authority.
+- Verified latest main/security baseline `81942a249f164859a9687e77abfed12e90bfb197` is the actual DEP-001 merge, CI 38142972746 SUCCESS/34 steps; [accepted factual receipt](https://github.com/nshaokiet/ai-ip-description-generator/pull/105#issuecomment-6109587538). Integration uses a normal merge, no rebase/reset/force-push. Actual textual conflicts: **README.md and this Control Center only**; CI auto-merges and is inspected to retain exact-head checkout, audits/tree/73 tests/security artifact plus UIUX-003 visual artifact.
+- Original reviewed UIUX `102b7e90dc3bfc1f79c197a20184f97b89070bf2` has [Human-attributed external Gemini 3.1 Pro High / Antigravity STRICT READ-ONLY PASS — RECONFIRMED, 18/18](https://github.com/nshaokiet/ai-ip-description-generator/pull/104#issuecomment-6106584967), session `a3352fe8-fa28-4406-9958-617c576fa3c1`; native approval not claimed. That PASS does not approve the new integrated SHA. **Fresh independent review PENDING** on the entire candidate after actual new head CI.
+- UI application/test/logo/before-image bytes must remain identical to original UIUX; dependency manifest/lock/.npmrc/adapter/tests and DEP CI controls must match security baseline. New full verification and final SHA/run/inventory are recorded in the single PR #104 handoff; local/CI results are not independent review.
+- DEP's previously unresolved baseline HIGH entries are historical; its actual accepted merged graph was clean and the integrated graph requires fresh full/prod 0/0 audits. No security-risk waiver. Narrow Blueprint verification exception remains verification-only; no deployment, absence-of-Blueprint or Auto Sync-disabled claim.
+- Existing root/DEP worktree drafts remain untouched; their factual review/STOP/merge checkpoints are carried as dated history here. Versions .81/.82 already identify local DEP checkpoints; allocate **0.3.83**, retaining committed .78/.79/.80 history rather than reusing a version. Full DEP/UIUX task completion is not claimed before applicable Git/CI/review/merge/closeout gates.
+- Historical MCP Unknown task / BLOCKED BY TOOL CAPABILITY remains; tools unavailable this session, no invented registration/lease/transition. Draft, authentic Claims E2E, Word/accessibility, real figures/research/provider/production limits preserved.
+
+
+| Old | New | Date | Author | Reason / decision | Breaking change |
+| --- | --- | --- | --- | --- | --- |
+| 1.0.0 | 1.1.0 | 2026-10-12 | Codex | Human-approved main integration, DEP security preservation, new full-candidate validation/review handoff | No — existing UI and product contracts preserved |
+
+## Fresh integrated local verification (12/10/2026)
+
+Actual results in [integration validation](../qa/uiux-003/integration-validation.json): clean npm ci/tree PASS, manifest/lock/.npmrc unchanged; full/prod npm audits **0 vulnerabilities / 0 vulnerabilities**; installed Next/config/plugin 16.3.8, sharp 0.35.5, source-map-js 1.2.2, private adapter 1.0.0/tinyglobby 0.2.17. **73 lint-security PASS**, lint/typecheck/normal build/static export and static secret-marker check PASS; **78 browser PASS / 0 FAIL / 0 SKIP / 0 FLAKY** (52 UIUX + 25 integration + one performance); Python **903 PASS / 3 existing platform SKIP**, one existing upstream warning; final synthetic demo **5 PASS**.
+
+Initial demo **3 PASS / 2 FAIL**, exit 1, was a PermissionError in a shared pre-existing Windows Temp upload folder. Preserved failure logs/results; reran only the unchanged five-case suite with task-specific TEMP/TMP/TMPDIR, final 5 PASS/exit 0. No ACL/backend/application/test/config change or security-check suppression. Browser uses directly owned loopback server subprocesses with existing external-server option; only those servers stopped. Fresh after screenshots saved before demo clears results. Directly inspected 1440 VI home/header/stepper, 390 EN home and 1440 EN review viewport; self-QA only, no new independent verdict.
+
+Preservation check: **31 UI/before-image files**, **8 dependency/adapter files**, **170 backend/contracts/config files** unchanged against their respective accepted source SHAs; existing unrelated root/DEP drafts hash-checked unchanged. CI diff against current main is only UIUX artifact naming and tracked baseline-image paths; all DEP security/checkout/tests/artifacts retained. New immutable candidate/exact-head CI/artifact links appear in ONE canonical PR #104 handoff after push; independent entire-candidate review remains PENDING. **Do not merge or deploy.**
+
+The original 1.0.0 implementation/security snapshot below is preserved as history. Its eight HIGH entries do not describe the accepted merged DEP graph; no old review PASS is transferred to the new SHA.
+
+## Historical original UIUX-003 implementation — ledger 1.0.0
+
 | Metadata | Value |
 | --- | --- |
 | Version / date | 1.0.0 / 2026-10-11 Asia/Saigon |
@@ -160,7 +187,7 @@ artifact IDs and final readiness are authoritative in the published/read-back PR
 | 17 | [Real before/after provenance and capture mapping](../qa/uiux-003/README.md); Codex inspection, not Human visual acceptance |
 | 18 | One implementation PR, final immutable SHA, CI/artifacts and strict read-only Gemini handoff; independent verdict PENDING |
 
-## Limits and unresolved baseline dependency advisories
+## Historical baseline dependency advisories (superseded by DEP-001 integration)
 
 `npm ci` / read-only `npm audit` reports eight HIGH package entries in the **unchanged**
 baseline: `next`, `sharp`, `source-map-js`, `eslint-config-next`, `@next/eslint-plugin-next`,

@@ -1,6 +1,6 @@
 # UIUX-003 synthetic visual QA
 
-Version 1.0.0, 2026-10-11, Codex. Only synthetic fixtures; no real research.
+Version 1.1.0, 2026-10-12, Codex. Only synthetic fixtures; no real research.
 
 ## Before provenance
 
@@ -49,3 +49,7 @@ real paper data is committed.
 
 Codex visual inspection is implementation self-QA, not Human acceptance or an
 independent Gemini verdict. Full WCAG/assistive-technology certification is not claimed.
+
+## Integration QA — 1.0.0 → 1.1.0 (12/10/2026)
+
+Human-authorized main integration preserves all seven original before PNGs and every UI/test source byte. New baseline is DEP merge `81942a249f164859a9687e77abfed12e90bfb197`; original UIUX reviewed source remains `102b7e90dc3bfc1f79c197a20184f97b89070bf2`, historical PASS only. Fresh integrated 78-case browser output is copied to ignored `tmp/uiux-003-integration/local-after/` before static-demo cleanup; screenshot mappings above remain unchanged. [Actual local integration/security/regression evidence](integration-validation.json) includes five directly inspected views and the resolved local Temp failure. New exact-head CI archives `uiux-003-synthetic-browser-qa` before demo cleanup, including all tracked before images; actual run/artifact references are recorded in PR #104 handoff. No independent verdict or merge is implied. Breaking change: No — evidence/provenance update only.
