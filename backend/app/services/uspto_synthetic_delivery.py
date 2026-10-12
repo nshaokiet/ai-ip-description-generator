@@ -20,7 +20,8 @@ from backend.app.services.uspto_specification_generation import generate_uspto_s
 
 SAMPLE_ID = "p2-005-representative-system-v1"
 FIXTURE = Path(__file__).resolve().parents[3] / "tests/fixtures/invention-reconstruction/v1.0.0/representative-system.json"
-FIXTURE_SHA256 = "9a4be99442b39f871cb4bde7573fc9ddb47d942a6ad8fc4164c894122f18a233"
+# SHA-256 of the committed LF-normalized Git blob. Windows checkout may use CRLF.
+FIXTURE_SHA256 = "f453a7264e36cfbc7d71cc83ce3c5068ad360e95e56fb3896be840d1f63519c9"
 PDF_MIME = "application/pdf"
 DOCX_MIME = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
 MIME_TYPES = {filename: PDF_MIME if filename.endswith(".pdf") else DOCX_MIME for filename in FILES}
@@ -39,7 +40,7 @@ class SyntheticUSPTOExports:
 
     def _generate(self) -> dict[str, bytes]:
         fixture_bytes = FIXTURE.read_bytes()
-        if sha256(fixture_bytes).hexdigest() != FIXTURE_SHA256:
+        if sha256(fixture_bytes.replace(b"\r\n", b"\n")).hexdigest() != FIXTURE_SHA256:
             raise ValueError("Unrecognized synthetic sample")
         fixture = json.loads(fixture_bytes)
         envelope = fixture["source_envelope"]

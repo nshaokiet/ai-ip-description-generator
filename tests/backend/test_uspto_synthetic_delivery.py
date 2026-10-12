@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from io import BytesIO
+from hashlib import sha256
 import re
 from pathlib import Path
 from zipfile import ZipFile
@@ -15,7 +16,7 @@ from backend.app.demo_staging import create_demo_staging_app
 from backend.app.main import create_app
 from backend.app.services.uspto_offline_renderer import BANNER, CLAIMS_INCOMPLETE, FILES
 from backend.app.services.uspto_synthetic_delivery import (
-    FIXTURE, MIME_TYPES, SAMPLE_ID, SyntheticUSPTOExports,
+    FIXTURE, FIXTURE_SHA256, MIME_TYPES, SAMPLE_ID, SyntheticUSPTOExports,
 )
 
 
@@ -23,6 +24,11 @@ from backend.app.services.uspto_synthetic_delivery import (
 def client(tmp_path):
     with TestClient(create_demo_staging_app(temporary_root=tmp_path)) as session:
         yield session
+
+
+def test_fixture_digest_portable_across_checkout_line_endings():
+    fixture = FIXTURE.read_bytes()
+    assert sha256(fixture.replace(b"\r\n", b"\n")).hexdigest() == FIXTURE_SHA256
 
 
 def _body_text(content: bytes, name: str) -> str:

@@ -15,7 +15,7 @@ Provider calls: none. Render deployment/configuration: excluded.
 
 ## Controlled source and provenance
 
-The only exposed sample identifier is `p2-005-representative-system-v1`. It binds to the checked-in synthetic file `tests/fixtures/invention-reconstruction/v1.0.0/representative-system.json` with mandatory SHA-256 `9a4be99442b39f871cb4bde7573fc9ddb47d942a6ad8fc4164c894122f18a233`. The backend never accepts user-supplied P2-005 package JSON, generation config, Claims, sample path, or document ID through these endpoints.
+The only exposed sample identifier is `p2-005-representative-system-v1`. It binds to the checked-in synthetic file `tests/fixtures/invention-reconstruction/v1.0.0/representative-system.json` with mandatory SHA-256 `f453a7264e36cfbc7d71cc83ce3c5068ad360e95e56fb3896be840d1f63519c9` of the LF-normalized bytes (identical to the Git blob; checked-out Windows CRLF is normalized before validation). The backend never accepts user-supplied P2-005 package JSON, generation config, Claims, sample path, or document ID through these endpoints.
 
 Seven original P2-005 inputs are reconstructed from the fixed synthetic source using the existing released pipeline:
 
