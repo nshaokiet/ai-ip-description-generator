@@ -184,3 +184,13 @@ h1, h2, h3, h4, .product-name, .draft-document, .draft-document p, .evidence-car
   .workflow-step:last-child button { border-bottom: 0; }
   .hero h1 { font-size: 28px; line-height: 1.35; }
 }
+.uspto-exports { max-width: 1160px; margin: 2rem auto; padding: clamp(1.25rem, 3vw, 2.5rem); }
+.uspto-boundary { border-left: 4px solid var(--accent, #805e32); padding: .7rem 1rem; font-weight: 700; background: #f6f1e8; color: #3b3027; }
+.uspto-export-status { min-height: 2rem; margin: 1rem 0; font-weight: 600; }
+.uspto-profile-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.2rem; margin-top: 1rem; }
+.uspto-profile { border: 1px solid #ded6c8; border-radius: 14px; padding: 1.4rem; background: #fffdf9; min-width: 0; }
+.uspto-profile h3 { font-size: 1.2rem; margin: 0 0 .6rem; }
+.uspto-profile-actions { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1rem; }
+.uspto-profile-actions button { min-height: 44px; }
+.uspto-profile-actions button:focus-visible, .uspto-exports button:focus-visible { outline: 3px solid #1856a5; outline-offset: 3px; }
+@media (max-width: 690px) { .uspto-profile-grid { grid-template-columns: 1fr; } .uspto-exports { margin: 1rem; } }

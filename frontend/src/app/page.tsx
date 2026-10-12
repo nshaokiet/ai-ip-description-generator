@@ -7,6 +7,7 @@ import { MarginMotifs } from "@/components/MarginMotifs";
 import { ResultWorkspace } from "@/components/ResultWorkspace";
 import { UploadPanel } from "@/components/UploadPanel";
 import { WorkflowProgress } from "@/components/WorkflowProgress";
+import { SyntheticUSPTOExports } from "@/components/SyntheticUSPTOExports";
 import { UiPreferencesProvider, useUi, localizedError, displayErrorCode } from "@/lib/uiPreferences";
 import {
   ApiClientError,
@@ -376,6 +377,7 @@ function HomeWorkflow() {
             </div>
           )}
         </section>
+        {DEMO_STAGING && <SyntheticUSPTOExports />}
       </main>
 
       <footer className="site-footer">
