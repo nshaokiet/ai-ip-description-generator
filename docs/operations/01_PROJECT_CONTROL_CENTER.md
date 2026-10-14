@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.86 |
+| Version | 0.3.87 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -18,6 +18,20 @@
 | Related task ID | SPEC-004 |
 | Source of Truth | Operational status bridge; bản nguồn Git tại `docs/operations/01_PROJECT_CONTROL_CENTER.md` |
 | Confidentiality level | Internal |
+
+### AI-CONV-002 — offline orchestration implementation candidate (14/10/2026)
+
+- Workflow **V1**. Human authorization and exact scope are recorded in [Issue #111](https://github.com/nshaokiet/ai-ip-description-generator/issues/111), with baseline `d358018e093a8db4161afb6d9caecfa51c8e00d3` and accepted/frozen AI-CONV-001 v0.1.1. The implementation branch is `feat/ai-conv-002-offline-orchestration` in an isolated worktree.
+- The candidate adds `backend/app/services/uspto_offline_orchestration.py` as a private, provider-free in-memory service. It calls only the released P2-002, P2-003, P2-004, P2-005 validation/assembly and optional P2-006 render entry points. It does not add a public API route, frontend contract, database, provider call, dependency, Render setting or deployment.
+- Each bounded ephemeral session binds APP-002 `document_id` plus SHA-256, canonical digests, revision number/token and monotonic state. A source/analysis change resets to `SOURCE_READY`; P2-003 config change resets to `RECONSTRUCTION_READY`; P2-004 config change resets to `SPECIFICATION_READY`; every affected downstream object is discarded. Stale tokens, digest changes, cross-document splicing, package tampering and missing provenance fail closed with stable source-safe errors.
+- The authoritative retained bundle contains all seven original P2-005/P2-006 inputs: source envelope, structured analysis, reconstruction, specification, P2-003 config, supported Claims and P2-004 config. P2-005 is explicitly revalidated with that bundle before acceptance; P2-006 revalidates and receives the same bundle. Package-only render authority is absent.
+- Authentic-style synthetic APP-002 input produces `CLAIMS_REVIEW_REQUIRED`, then a valid package with `HUMAN_CONFIRMATION_REQUIRED` and `claims=[]`. P2-003 retains `claims_runtime_implemented=false`; `UNKNOWN` essentiality remains unchanged. Existing standalone P2-004 positive behavior remains in its released regression suite.
+- Rendering retains only safe filename/SHA-256/size metadata in status, checks exactly four released outputs, and cleanup removes only those verified files and their bounded output directory. Status/errors omit source text, original filename and server filesystem paths.
+- Local validation at candidate preparation: new orchestration suite **22 passed**; combined P2-002…P2-006/orchestration regression **360 passed**; final full repository suite with provider flags disabled and forced UTF-8 **941 passed / 3 skipped / 1 host-library deprecation warning**. The first full Windows run produced **939 passed / 3 skipped / 1 environment-only failure** because a Python 3.14 child process emitted CP1252 while its unchanged governance test requested UTF-8; the isolated unchanged test and final full rerun passed after setting `PYTHONUTF8=1` and `PYTHONIOENCODING=utf-8`. No product code change was made for that host encoding issue.
+- Independent reviewer model/profile remains **PENDING EXPLICIT HUMAN SELECTION**. No AI-CONV-001 reviewer approval is reused. Antigravity STRICT READ-ONLY fixed-SHA review, exact-head CI SUCCESS and all Workflow V1 merge gates remain mandatory; merge is not authorized by this candidate alone.
+- Project Orchestrator MCP task tools are unavailable in this session: **BLOCKED BY TOOL CAPABILITY**. No task registration, lease or transition is fabricated. AI-CONV-003/004/005/006, Phase H/V2 enrollment, paid/provider use, real/confidential data, BLK-003 production security and deployment remain outside this task.
+
+Project Control Center **0.3.86 → 0.3.87**, 14/10/2026, Codex. Record the authorized AI-CONV-002 implementation candidate and test/review boundaries. Breaking change: **No — additive private offline service only**.
 
 ### AI-CONV-001 — specification merged / factual governance closeout (14/10/2026)
 
