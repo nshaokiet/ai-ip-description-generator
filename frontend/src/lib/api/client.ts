@@ -164,3 +164,45 @@ export async function exportDocx(requestBody: ExportDocxRequest): Promise<Export
   });
   return { blob: await response.blob(), filename: DOCX_FILENAME };
 }
+
+
+// P2-007 is restricted to one controlled synthetic source and four fixed profiles.
+export const USPTO_SAMPLE_ID = "p2-005-representative-system-v1" as const;
+export const USPTO_EXPORT_FILES = [
+  "B2_REFERENCE_PREVIEW.pdf",
+  "B2_REFERENCE_PREVIEW.docx",
+  "USPTO_APPLICATION_DRAFT.pdf",
+  "USPTO_APPLICATION_DRAFT.docx",
+] as const;
+export type USPTOExportFilename = (typeof USPTO_EXPORT_FILES)[number];
+export interface SyntheticUSPTOMetadata {
+  sample_id: typeof USPTO_SAMPLE_ID;
+  source: "controlled_synthetic_p2_005";
+  draft_only: true;
+  filing_ready: false;
+  claims_complete: false;
+  files: { filename: USPTOExportFilename; media_type: string }[];
+}
+export async function getSyntheticUSPTOCapability(): Promise<SyntheticUSPTOMetadata> {
+  const response = await request("/api/demo/uspto/exports");
+  const data = (await response.json()) as SyntheticUSPTOMetadata;
+  if (data.sample_id !== USPTO_SAMPLE_ID || data.filing_ready !== false ||
+      data.claims_complete !== false || data.draft_only !== true ||
+      data.files?.length !== 4 ||
+      !USPTO_EXPORT_FILES.every((name) => data.files.some((item) => item.filename === name))) {
+    throw new ApiClientError({status: 502, code: "invalid_synthetic_manifest", message: "Synthetic export manifest is invalid."});
+  }
+  return data;
+}
+export async function downloadSyntheticUSPTOExport(filename: USPTOExportFilename): Promise<Blob> {
+  if (!USPTO_EXPORT_FILES.includes(filename)) throw new Error("Unsupported export profile");
+  const response = await request(`/api/demo/uspto/exports/${USPTO_SAMPLE_ID}/${filename}`);
+  const expectedType = filename.endsWith(".pdf") ? "application/pdf" :
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+  const type = response.headers.get("content-type")?.split(";")[0];
+  if (type !== expectedType) throw new ApiClientError({
+    status: 502, code: "invalid_synthetic_download", message: "Unexpected synthetic export format.",
+  });
+  const blob = await response.blob();
+  return blob;
+}
