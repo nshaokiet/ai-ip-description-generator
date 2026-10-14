@@ -8,16 +8,28 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.84 |
+| Version | 0.3.85 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High |
 | Created date | 18/09/2026 |
-| Last updated | 12/10/2026 GMT+7 |
+| Last updated | 14/10/2026 GMT+7 |
 | Related task ID | SPEC-004 |
 | Source of Truth | Operational status bridge; bản nguồn Git tại `docs/operations/01_PROJECT_CONTROL_CENTER.md` |
 | Confidentiality level | Internal |
+
+### P2-007 — implementation merged / factual governance closeout (14/10/2026)
+
+- Workflow **V1**. Human final merge-preflight instruction authorized conditional integration and factual closeout only after mandatory gates; it did not authorize Render changes, deployment, paid provider use or real research data.
+- The committed task specification retains historical reviewer text **Gemini 3.1 Pro High**. Human separately approved the P2-007-only substitution to **Gemini 3.8 Flash High / Antigravity STRICT READ-ONLY** in [Issue #106](https://github.com/nshaokiet/ai-ip-description-generator/issues/106#issuecomment-6158990386). The [canonical attributed receipt](https://github.com/nshaokiet/ai-ip-description-generator/pull/107#issuecomment-6159313705) preserves session `a3352fe8-fa28-4406-9958-617c576fa3c1`, reviewed SHA `3d5cf0f4faf11cc3b59e3558d59140c106cef14f`, verdict **PASS — P2-007 IMPLEMENTATION ACCEPTED**, and **14/14** reviewer ACs. This is Human-supplied external evidence, not GitHub-native approval or authenticated authorship.
+- Preflight reconciled both receipt discrepancies without editing the original report: GitHub's actual 11-file compare is **576 additions / 2 deletions / 578 total changes**; unchanged renderer source defines `BANNER = "PATENT SPECIFICATION DRAFT — NOT ISSUED"`. No unrelated file or source-contract change was introduced by the reconciliation.
+- Exact-head CI [#38262571742](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/38262571742) is SUCCESS on the reviewed SHA. It preserved provider-free synthetic generation, all four genuine P2-006 PDF/DOCX outputs, provenance/path/security negatives, DOCX v1 non-regression, layout/reference QA and frontend/browser checks.
+- [PR #107](https://github.com/nshaokiet/ai-ip-description-generator/pull/107) merged normally with expected-head protection at **`64d68614f930bf5428a24e202d99b9460e1a71b2`**. Parents are baseline `8721fbf468dbd65e4de5fc5df679cccb0959f7a7` plus reviewed head `3d5cf0f4faf11cc3b59e3558d59140c106cef14f`; merge tree **`1e4c016e27c1a82b8b42ff19888a9052f0d91106`** exactly equals the reviewed tree.
+- Actual merge/main CI [#38500004272](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/38500004272) completed **SUCCESS** on the merge SHA. Logs record Python **920 passed / 2 skipped**, npm install/audits **0 vulnerabilities**, DEP security adapter **73 tests / 73 pass**, successful pinned LibreOffice/reference QA, lint/typecheck/build, synthetic P2-007 browser E2E, fixed UIUX-003 compatibility and Render-format static/demo checks.
+- Connected Render reads immediately before and after merge show both `ai-ip-synthetic-demo-backend` and `ai-ip-synthetic-demo-frontend` on branch `main` with **autoDeploy=no / autoDeployTrigger=off**. Deploy history contains no P2-007 merge deployment. No Render setting or deployment was changed or triggered.
+- This factual sync is limited to **README.md, this Control Center and Review Log**; implementation/reviewer report/spec history stays unchanged. **Governance closure becomes effective only after this sync is published on main, its own exact-main CI succeeds, fresh Render safety checks and canonical PR receipt/readback.**
+- Retained boundaries: P2-007 merged implementation is **not deployed by this task**; no paid provider, real/confidential research processing, filing-ready Claims, patentability/legal acceptance or production release is authorized. Existing broader runtime/funding blockers remain outside this closeout.
 
 ### UIUX-003 — implementation merged / factual governance closeout (12/10/2026)
 

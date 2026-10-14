@@ -10,19 +10,32 @@
 | Document title | Gemini Review Log |
 | Project | AI Intellectual Property Description Generator |
 | Project deadline | 02/10/2026 |
-| Version | 0.3.49 |
+| Version | 0.3.50 |
 | Status | Active review log |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High + Gemini 3.8 Flash High (historical); Google Antigravity (Advanced Agentic Coding) for REV-P0-006-IMPLEMENTATION, REV-P0-007-SPECIFICATION, REV-P0-007-IMPLEMENTATION and REV-P0-008-SPECIFICATION; Google Antigravity / Gemini 1.5 Pro (Advanced Agentic Coding) for REV-P0-008-IMPLEMENTATION; Gemini 3.1 Pro High for REV-P0-009-IMPLEMENTATION, REV-EVAL-001-SPECIFICATION, REV-EVAL-001-FRAMEWORK-IMPLEMENTATION, REV-EVAL-001-GOLD, REV-P0-010-FINAL-CLOSEOUT, REV-P1-001-IMPLEMENTATION, REV-DEPLOY-001-ROADMAP, REV-P1-002-IMPLEMENTATION, REV-P1-003-IMPLEMENTATION, REV-P1-003-CLOSEOUT, REV-P1-004-IMPLEMENTATION, REV-P1-004-CLOSEOUT, REV-P1-005-IMPLEMENTATION, REV-P1-005-CLOSEOUT, REV-P1-006-IMPLEMENTATION, REV-P1-006-CLOSEOUT, REV-DEPLOY-001-IMPLEMENTATION, REV-DEPLOY-001-REWRITE-REMEDIATION, REV-P2-001-IMPLEMENTATION, REV-P2-000-SPECIFICATION, REV-P2-000-IMPLEMENTATION, REV-P2-000-R2-IMPLEMENTATION, REV-P2-000-R3-IMPLEMENTATION and REV-P2-000-R3-CLOSEOUT |
 | Created date | 18/09/2026 |
-| Last updated | 12/10/2026 GMT+7 |
+| Last updated | 14/10/2026 GMT+7 |
 | P2-002 reviewer / task | Gemini 3.1 Pro High / Antigravity read-only; REV-P2-002-SPECIFICATION, REV-P2-002-IMPLEMENTATION and REV-P2-002-CLOSEOUT |
 | P2-004 reviewer / task | Gemini 3.1 Pro High / Antigravity read-only; REV-P2-004-SPECIFICATION, IMPLEMENTATION and CLOSEOUT all CLOSED — PASS / findings NONE; separate final-status reconciliation fixed-SHA review PENDING; Human-supplied external review evidence, not GitHub-native approval |
 | P2-003 reviewer / task | Gemini 3.1 Pro High / Antigravity read-only; REV-P2-003-SPECIFICATION, REV-P2-003-IMPLEMENTATION and REV-P2-003-CLOSEOUT; Human-supplied external review evidence, not GitHub-native approval; implementation and closeout reviews CLOSED — PASS / findings NONE |
-| Related task ID | P2-005; REVIEW-001; SPEC-001; SPEC-002; SPEC-003; AI-001; AI-002; AI-003; DOC-001; APP-001; APP-002; AI-RUNTIME-001; AI-RUNTIME-002; APP-003; P0-006; P0-007; P0-008; P0-009; EVAL-001; P0-010; P1-001; P1-002; P1-003; P1-004; P1-005; P1-006; DEPLOY-001; P2-001; P2-000; P2-002; P2-003; P2-004 |
+| Related task ID | P2-005; P2-007; REVIEW-001; SPEC-001; SPEC-002; SPEC-003; AI-001; AI-002; AI-003; DOC-001; APP-001; APP-002; AI-RUNTIME-001; AI-RUNTIME-002; APP-003; P0-006; P0-007; P0-008; P0-009; EVAL-001; P0-010; P1-001; P1-002; P1-003; P1-004; P1-005; P1-006; DEPLOY-001; P2-001; P2-000; P2-002; P2-003; P2-004 |
 | Source of Truth | Review history; bản nguồn Git tại `docs/operations/02_GEMINI_REVIEW_LOG.md` |
 | Confidentiality level | Internal; findings về research input có thể là Confidential |
+
+## REV-P2-007 — fixed-SHA review reconciliation, merge and conditional closeout (14/10/2026)
+
+- Workflow **V1**. Human-approved reviewer substitution is scoped to P2-007/PR #107 only: [Issue #106 decision](https://github.com/nshaokiet/ai-ip-description-generator/issues/106#issuecomment-6158990386). The original task specification's Gemini 3.1 Pro High text remains historical and is not silently rewritten.
+- [Review receipt](https://github.com/nshaokiet/ai-ip-description-generator/pull/107#issuecomment-6159313705): Human-supplied external **Gemini 3.8 Flash High / Antigravity Reviewer Agent**, **STRICT READ-ONLY**, session **`a3352fe8-fa28-4406-9958-617c576fa3c1`**, reviewed immutable SHA **`3d5cf0f4faf11cc3b59e3558d59140c106cef14f`** against base **`8721fbf468dbd65e4de5fc5df679cccb0959f7a7`**; verdict **PASS — P2-007 IMPLEMENTATION ACCEPTED**, **14/14 PASS**, LOW informational findings only and no HIGH/CRITICAL blocker. Attribution is preserved as external Human-provided evidence; no native GitHub approval or authenticated authorship is invented.
+- Factual discrepancies are reconciled here without changing the reviewer report: GitHub actual diff = **11 files, 576 additions, 2 deletions, 578 total changes**; renderer source literal = **`PATENT SPECIFICATION DRAFT — NOT ISSUED`**.
+- Exact-head CI [#38262571742](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/38262571742) **SUCCESS** on the reviewed SHA. PR #107 had no native review threads/blockers; the external V1 review evidence and exact-head CI remained distinct gates.
+- Normal expected-head-protected merge completed at **`64d68614f930bf5428a24e202d99b9460e1a71b2`**. Merge parents are the exact base and reviewed candidate; tree **`1e4c016e27c1a82b8b42ff19888a9052f0d91106`** exactly matches the reviewed candidate tree.
+- Exact merge/main CI [#38500004272](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/38500004272) **SUCCESS**. Logs: Python **920 pass / 2 skip**; npm dependency install/audits **0 vulnerabilities**; DEP lint-security **73/73 PASS**; pinned document/reference QA, frontend lint/typecheck/build, synthetic/browser E2E, compatibility and static/demo secret checks all succeeded.
+- Connected Render evidence before/after merge: both frontend/backend services remain **autoDeploy=no / autoDeployTrigger=off** and no P2-007 merge deploy appears. No Render configuration or deployment was changed.
+- This three-document factual sync carries no new independent verdict. Closure is conditional on this sync's own exact-main CI plus fresh Render/readback receipt; implementation is merged but **deployment is not claimed**. Paid AI/provider, real/confidential research data, filing-ready Claims and production release remain unauthorized.
+
+Review Log **0.3.49 → 0.3.50**, 14/10/2026, Codex. Record P2-007 external PASS attribution, factual discrepancy reconciliation, normal merge/tree integrity, exact merge CI/security and Render no/off evidence; preserve source review/spec history. Breaking change: **No — factual governance/status only**.
 
 ### Lịch sử phiên bản
 
