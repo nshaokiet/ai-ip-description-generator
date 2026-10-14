@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.85 |
+| Version | 0.3.86 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -18,6 +18,20 @@
 | Related task ID | SPEC-004 |
 | Source of Truth | Operational status bridge; bản nguồn Git tại `docs/operations/01_PROJECT_CONTROL_CENTER.md` |
 | Confidentiality level | Internal |
+
+### AI-CONV-001 — specification merged / factual governance closeout (14/10/2026)
+
+- Workflow **V1**. [Human decision](https://github.com/nshaokiet/ai-ip-description-generator/pull/109#issuecomment-6161150750) accepted and froze `docs/tasks/AI-CONV-001-source-grounded-uspto-v2-orchestration.md` v0.1.1 and authorized only the conditional final preflight, merge, postmerge verification and factual closeout. The specification content remains unchanged.
+- Human specifically authorized [Gemini 3.8 Flash High / Antigravity STRICT READ-ONLY](https://github.com/nshaokiet/ai-ip-description-generator/pull/109#issuecomment-6160416433) for this AI-CONV-001 review. The [attributed external review receipt](https://github.com/nshaokiet/ai-ip-description-generator/pull/109#issuecomment-6161124732) records session `82c3975a-d2a2-446b-b2aa-7d1353d1d4b0`, exact SHA `147cd618bcf671639cb61b5744e4d699a0ad13eb`, verdict **PASS**, findings Critical 0 / High 0 / Medium 0 / Low 2. This is not a GitHub-native approval or cryptographic reviewer identity.
+- The two LOW observations are reconciled as dated facts rather than edits to the frozen source. First, section 3.3 uses conceptual notation `generate_uspto_specification(source, config)`; the released implementation signature is `generate_uspto_specification(reconstruction, generation_config=None)`, which future AI-CONV-002 callers must use without changing released contracts. Second, section 13.1 preserves its pre-selection `PENDING_HUMAN_SELECTION` planning text; the later task-specific Human authorization, actual model/profile and session are the links and identity recorded above.
+- GitHub preflight confirmed main/base `8c36b2bc662ed41b2a9b3635d5d4d29110b1d9bb`, exact reviewed head, one added Markdown file with 622 additions, clean mergeability, branch protection disabled and no required status contexts. Exact-head CI [#38507514336](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/38507514336) completed **SUCCESS**, including dependency/security and provider-secret-marker checks.
+- [PR #109](https://github.com/nshaokiet/ai-ip-description-generator/pull/109) merged normally with expected-head protection at `6fa8266b721725382232f3c74a0f4b4883c44f8b`. Its parents are the exact base plus reviewed candidate, and merge tree `4c7e7d0bc7a853df805afa6711b737ca3bb5a1fb` exactly equals the reviewed tree.
+- Exact merge/main CI [#38514302025](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/38514302025) completed **SUCCESS** on the merge SHA: **34/34** steps, Python **920 passed / 2 skipped**, npm audit **0 vulnerabilities**, DEP security adapter **73/73 PASS**, browser suites **78** and **77 PASS**, and Render-format demo suites **5** and **8 PASS**.
+- Connected Render reads before merge and after exact-merge CI show the repository's frontend and backend services on `main` with `autoDeploy=no` and `autoDeployTrigger=off`. No Render setting or deployment was changed or triggered.
+- This closeout changes only **README.md, this Control Center and Review Log**. No Project Context, frozen specification, application code, schema, prompt, API, runtime, provider or Render configuration is changed. Closure becomes effective when this factual sync reaches main, its own exact-main CI succeeds, fresh Render safety reads remain no/off and the final receipt is read back.
+- Project Orchestrator MCP task tools are unavailable in this session, so task-state synchronization is **BLOCKED BY TOOL CAPABILITY**; no task, lease or completion transition is fabricated. AI-CONV-002/003 remain separate and unauthorized; Phase H/V2 enrollment, paid/provider budget, real/confidential data, BLK-003 production security, production and deployment remain blocked pending separate Human decisions.
+
+Project Control Center **0.3.85 → 0.3.86**, 14/10/2026, Codex. Record the accepted/frozen AI-CONV-001 specification, task-specific attributed review, LOW-finding reconciliation, normal merge/tree integrity, exact-merge CI/security and Render no/off evidence. Breaking change: **No — factual governance/status only**.
 
 ### P2-007 — implementation merged / factual governance closeout (14/10/2026)
 
