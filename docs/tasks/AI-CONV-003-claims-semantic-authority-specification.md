@@ -1,178 +1,122 @@
-# AI-CONV-003 — Authentic source-to-Claims semantic authority: specification proposal
+# AI-CONV-003 — Synthetic/offline Claims semantic authority
 
-## 1. Metadata and status
+## 1. Metadata and authority
 
 | Field | Value |
 |---|---|
-| Task | AI-CONV-003 |
-| Specification version | 0.1.0 |
-| Status | **PROPOSED — HUMAN CLAIMS-POLICY DECISION REQUIRED; NOT APPROVED OR FROZEN** |
-| GitHub issue | [#116](https://github.com/nshaokiet/ai-ip-description-generator/issues/116) |
-| Task authorization | Human requested next task on 2026-10-15: **SPECIFICATION PREPARATION ONLY** |
-| Baseline main | `d926e5e9f35b350aa9e6a8fe3c099e1a5386010b` |
-| Parent architecture | [AI-CONV-001 v0.1.1](AI-CONV-001-source-grounded-uspto-v2-orchestration.md), accepted/frozen |
-| Internal implementation input | [AI-CONV-002](AI-CONV-002-offline-orchestration-implementation.md), merged via PR #112 |
-| Workflow for this proposed specification | **V1**, with standing Gemini 3.8 Flash High / Antigravity STRICT READ-ONLY independent review |
-| Data / model / cost | Offline synthetic only; no provider/API, zero authorized paid runtime budget |
-| Product / rollout | No public/runtime Claims activation, no Phase H/V2 enrollment, no production or Render change |
+| Task / issue | AI-CONV-003 / [#116](https://github.com/nshaokiet/ai-ip-description-generator/issues/116) |
+| Specification version | **0.1.1** |
+| Status | **POLICY APPROVED — SPECIFICATION SYNCHRONIZATION CANDIDATE; INDEPENDENT REVIEW / INTEGRATION PENDING** |
+| Date / author | 2026-10-15, Asia/Saigon / Codex |
+| Verified origin/main base | `a14769123a5be426db2ba4b374f708a365f36f7b` (fetched 2026-10-15) |
+| Policy authority | [Human HD-01–HD-07 decision, 2026-10-15](https://github.com/nshaokiet/ai-ip-description-generator/issues/116#issuecomment-6187375281) |
+| Separate implementation authority | Direct Human prompt “TASK: AI-CONV-003 — Implement HD-01 to HD-07 / Synthetic/Offline Claims Semantic Authority”, submitted in this Codex session on 2026-10-15; [authorization record](../decisions/AI-CONV-003-synthetic-implementation-authorization.md) |
+| Parent specification | [AI-CONV-001 v0.1.1](AI-CONV-001-source-grounded-uspto-v2-orchestration.md), accepted/frozen via separately recorded Human receipt |
+| Released orchestration | [AI-CONV-002](AI-CONV-002-offline-orchestration-implementation.md), internal contract 1.0.1 |
+| Workflow / reviewer | V1 / Gemini 3.8 Flash High, Antigravity STRICT READ-ONLY |
+| Delivery | PR A documentation first; separate PR B prototype after required policy review/integration gate |
+| Runtime/data/budget | Synthetic offline only; no provider calls, real/confidential research, production identity, public rollout, Render changes or V2 activation |
 
-The Human request to continue to a new task authorizes *preparing this proposal*. It does not select a substantive patent-Claims semantic policy, approve schema changes or authorize implementation. The seven decisions in §6 remain mandatory Human decisions. This document is not a filing strategy or legal-opinion determination.
+The issue decision approves **policy only**. The later direct instruction separately authorizes the limited prototype, policy synchronization, tests and separate PRs. Neither waives review, CI, Render safety, versioning or merge gates. This candidate records approved decisions; it does **not** assert independent acceptance/freeze of its new bytes, prototype completion, enabled product Claims or production authority.
 
-## 2. Problem and current evidence boundary
+### Version history and preserved proposal
 
-The released internal chain is:
+| Previous | New | Date | Author | Change / reason | Decision | Breaking change |
+|---|---|---|---|---|---|---|
+| 0.1.0 | 0.1.1 | 2026-10-15 | Codex | Synchronize approved Hybrid HD-01–HD-07 policy and separately authorized prototype acceptance; preserve proposed history and released contracts | Human #116 comment 6187375281; direct implementation instruction | No — internal additive design; no released contract change |
 
-1. APP-002 ExtractionInputEnvelope + validated AI-001 structured analysis.
-2. P2-002 source-grounded INVENTION_RECONSTRUCTION v1.0.0.
-3. P2-003 USPTO_SPECIFICATION_DRAFT v2.0.0.
-4. P2-004 standalone SUPPORTED_DRAFT_CLAIMS v1.0.0.
-5. P2-005 USPTO document package with seven-input full provenance validation.
-6. Optional P2-006 offline DOCX/PDF renderer, through the same provenance validation.
-7. AI-CONV-002 ephemeral session/orchestration, deterministic revisions, strict source/digest/cleanup checks.
+The exact v0.1.0 bytes remain in [historical proposal](history/AI-CONV-003-claims-semantic-authority-specification-v0.1.0.md), copied from the base commit. Its pending/no-implementation wording describes the earlier state. Original relative links resolve from `docs/tasks/`; use the [immutable original](https://github.com/nshaokiet/ai-ip-description-generator/blob/a14769123a5be426db2ba4b374f708a365f36f7b/docs/tasks/AI-CONV-003-claims-semantic-authority-specification.md) for navigable links. History is not retroactively approved or rewritten.
 
-The **observed documented limitation** is that authentic-style APP-002 → P2-002 reconstruction may not contain a supported statement of which elements form a *claimed solution*, which ones are *essential*, whether a method step is essential, or which materials and amounts are *mandatory parts of one composition*. An ordinary ordered list, a material mention or a natural-language inference is not a versioned authority for these predicates.
+## 2. Released boundary and architectural blocker
 
-P2-004 positive **standalone** structural fixtures demonstrate safe projection when those predicates *already exist*; they do not prove that an arbitrary real paper can produce them.
+The existing chain is APP-002 source envelope + AI-001 analysis → P2-002 reconstruction v1.0.0 → P2-003 specification v2.0.0 → standalone P2-004 Supported Draft Claims v1.0.0 → P2-005 package → P2-006 renderer. AI-CONV-002 retains original objects and revision identities in memory. Public/local v1 processing remains separate.
 
-The valid default outcome is **`HUMAN_CONFIRMATION_REQUIRED` plus `claims=[]`**. This indicates successful fail-closed processing, **not a pipeline exception** and not proof of a missing model call.
+Source grounding:
 
-### 2.1 Invariants that remain released and unchanged
+- `backend/app/services/invention_reconstruction.py`, `_element`: authentic adapter emits `essentiality=UNKNOWN`; proximity alone establishes no solution membership.
+- `backend/app/services/supported_draft_claims_generation.py` and `supported_draft_claims_validation.py`: existing structural-core, grounding, disclosure, conflict and literal-support checks apply. Released family inventory includes SYSTEM, APPARATUS, METHOD, PROCESS, COMPOSITION; this task does not globally restrict it.
+- `backend/app/services/uspto_document_package_validation.py`, `validate_assembly_inputs`: revalidates/reprojects reconstruction from original envelope and analysis. `uspto_offline_renderer.py` calls full package validation before rendering.
+- `tests/backend/test_uspto_document_package_v1.py`, `standalone_positive_projection`: positive standalone Claims projection is distinct from full upstream provenance acceptance.
+- `tests/backend/test_uspto_offline_orchestration.py`: seven inputs, source/session/revision invalidation, tamper rejection, valid no-Claims outcomes and cleanup failures.
 
-- P2-003 remains a disclosure draft, not a Claims generator: `claims=[]`, `review_boundary.claims_runtime_implemented=false`.
-- P2-004 may emit a positive supported draft Claim only when its **existing** family-specific eligibility predicates are satisfied.
-- P2-005/P2-006 require the complete retained original seven-input provenance bundle; a package, digest, UI checkbox or unattested authority receipt alone cannot authorize export.
-- `UNKNOWN`, `OTHER`, unsupported `INFERENCE`, co-occurrence, optional/conditional language and missing evidence never become `ESSENTIAL`, solution membership, mandatory method steps or mandatory composition amounts automatically.
-- Unsupported/contradictory source material stays unresolved. Human legal review remains required; filing-readiness is never inferred.
+**Architectural blocker:** enriching reconstruction from an overlay changes the original P2-002 projection. P2-004 standalone eligibility does not prove P2-005/P2-006 provenance acceptance. Implement the **independent prototype**, without feeding enriched objects into the released pipeline. Do not claim APP-002 → positive Claims → validated package/render success from standalone tests.
 
-## 3. Semantic authority model alternatives — no selection yet
+Seven original inputs remain exactly `source_envelope`, `structured_analysis`, `reconstruction`, `specification`, `p2_003_generation_config`, `supported_claims`, `p2_004_generation_config`. No eighth argument, hidden metadata injection, bypass or digest-only evidence. P2-003 retains `claims=[]`, empty claim support and `claims_runtime_implemented=false`. Valid `HUMAN_CONFIRMATION_REQUIRED` / `claims=[]` remains successful fail-closed processing.
 
-| Option | Proposed authority | Benefit | Primary failure mode | Decision |
-|---|---|---|---|---|
-| A — Explicit source assertions only | Versioned structured source/evidence records affirm each predicate; the authority must be independently verified | Minimal new actor/audit surface | Many authentic papers do not explicitly state patent-Claims essentiality | PENDING HUMAN |
-| B — Audited Human confirmation | Qualified authorized Human explicitly confirms each scoped predicate against displayed evidence, with revocation/invalidation | May resolve legitimate author ambiguities | Actor identity, qualifications, audit/retention, consent and tamper protection are not yet approved for a product | PENDING HUMAN |
-| C — Hybrid evidence + scoped Human confirmation | Require source-linked predicate plus an authenticated, revision-bound Human attestation for positive semantic promotions | Stronger control for uncertain essentiality and composition semantics | Requires both a versioned contract and an approved local/production authority model | PENDING HUMAN |
+## 3. Approved Human decisions
 
-**Recommended design direction for Human consideration: C (hybrid), not an adopted policy.** The recommendation is limited to a future authorized synthetic/offline proposal. Production identity/permission, signed attestations or legal acceptance cannot be asserted under current BLK-003 restrictions. The Human may instead select A, B, a narrower family set or continue the safe no-Claims mode.
+All seven choices have the dated policy authority in §1, limited to synthetic/offline semantics.
 
-## 4. Proposed typed semantic-decision boundary (not released)
-
-A separate, versioned *candidate* semantic-authority manifest may record a small set of affirmative/negative/unresolved predicates. Its existence is conceptual only; **do not implement or pass it into released P2-002 through P2-006 as an eighth hidden input**.
-
-### 4.1 Proposed scoped predicate families
-
-| Predicate | Proposed scoped target | Conservative interpretation |
-|---|---|---|
-| SOLUTION_MEMBERSHIP | solution_id + element_id | Belongs to the specifically identified candidate solution, not just the paper |
-| ELEMENT_ESSENTIALITY | solution_id + element_id | ESSENTIAL / OPTIONAL / CONDITIONAL / UNKNOWN; only appropriately supported ESSENTIAL may meet an existing eligibility rule |
-| METHOD_STEP_MEMBERSHIP | method_id + step_id | Step is part of the candidate method, not just adjacent in source |
-| METHOD_STEP_ESSENTIALITY | method_id + step_id | Mandatory process step, distinct from ordering/sequence |
-| COMPOSITION_MEMBERSHIP | composition_id + material_id | Material belongs to the identified composition, not mere co-occurrence |
-| COMPOSITION_AMOUNT_MANDATORY | composition_id + material_id + amount_id | Exact amount/range/relationship is mandatory; mere examples and measured ranges are insufficient |
-| EVIDENCE_CONFLICT | target + conflicting source IDs | Positive authority remains blocked until explicit reconciliation is versioned and independently reviewed |
-
-These names and values are **design placeholders**, not existing enum fields or claims about released interface compatibility.
-
-### 4.2 Minimal candidate record
-
-A future authorized manifest should bind, at minimum:
-
-- Unique decision ID, candidate manifest schema version, document_id and original document SHA-256.
-- APP-002 source-unit evidence IDs and precise locators; references to the validated AI-001/P2-002 source identities.
-- Predicate family, typed target IDs, candidate value, claimed solution/method/composition scope and explicit reason.
-- Authority type **SOURCE_EXPLICIT / HUMAN_ATTESTED / HYBRID / UNRESOLVED**, never implicit from UI display/click.
-- For Human confirmation *only if approved*: actor role, actor/authentication reference, timestamp, assertion and evidence snapshot hashes, decision/review revision, attestation identity, invalidation and revocation references.
-- Exact AI-CONV-002 session/revision token and canonical hashes of all relevant input/configuration objects; deterministic source identity checks.
-- Conflict/missing statuses and immutable relationship between the authority record and eligible or rejected draft Claims.
-- No untrusted source text, unsigned boolean flag or path alone treated as authenticated authority.
-
-### 4.3 Binding and replay prevention
-
-- Input/source SHA, relevant evidence IDs, target set, reconstruction identity, spec and Claims configs must match. Cross-document splice, missing evidence, duplicate target, digest drift, conflicting decisions, revoked actor and stale revision **reject**.
-- Changing the source/analysis invalidates **all** dependent confirmations; changing reconstruction/method/composition/Claims configuration invalidates the applicable decisions and downstream Claims/package/render identities.
-- No confirmation can survive a revision if its source, target, predicate or evidentiary meaning changes. Identical-content reuse requires explicit authorized revalidation, not silent transfer.
-- No authority record by itself authorizes package validation/render; a later contract design must preserve or **explicitly version** the full P2-005/P2-006 provenance boundary. A silent eighth input or validator bypass is prohibited.
-- In the absence of an approved actor identity/audit design, Human confirmation can only be a **synthetic test proposal** with zero production authority.
-
-## 5. Claim-family eligibility decision matrix (PROPOSED)
-
-| Family | Required positive authority before future eligibility | Fail-closed cases |
-|---|---|---|
-| SYSTEM / APPARATUS | Exact candidate solution membership + explicitly supported structural core essentiality + grounded components/relationships | UNKNOWN or OPTIONAL core, component from unrelated solution, inference-only support, conflicting evidence |
-| METHOD / PROCESS | Exact named process membership and per-step essentiality + source-grounded ordering/relations if mandatory | Sequence alone, absent step-essentiality, borrowed step across processes, contradictory relations |
-| COMPOSITION | Exact composition membership and mandatory amounts/relationships with source evidence and explicit applicability | Materials merely co-mentioned, concentration listed as example, amount/range without mandatory authority, multiple compositions spliced |
-
-All family decisions are **PENDING HUMAN**. A selected family must still pass its released P2-004 eligibility checks and approved contract rules. No positive Claims are promised for authentic sources.
-
-## 6. Explicit Human decision register — required before implementation
-
-| ID | Decision required | Default pending decision |
-|---|---|---|
-| HD-01 | What source evidence/authority establishes solution-element membership? | NO POSITIVE PROMOTION |
-| HD-02 | What establishes ESSENTIAL versus OPTIONAL, CONDITIONAL and UNKNOWN? | UNKNOWN REMAINS UNKNOWN |
-| HD-03 | May METHOD/PROCESS step membership and essentiality be represented, by whom and with what proof? | NO METHOD PROMOTION |
-| HD-04 | May COMPOSITION membership/mandatory amount semantics be represented, by whom and with what proof? | NO COMPOSITION PROMOTION |
-| HD-05 | Which Claim families (SYSTEM/APPARATUS, METHOD/PROCESS, COMPOSITION) are in scope? | NO NEW FAMILY ENABLED |
-| HD-06 | Is Human confirmation an authoritative input? Who may attest, authenticate, reject, revoke and audit it? | NO HUMAN-ATTESTATION AUTHORITY |
-| HD-07 | Are schema/contract version changes allowed; additive vs breaking, compatibility, migration and seven-input validation policy? | NO RELEASED CONTRACT CHANGE |
-
-HD-01–HD-07 need a dated explicit Human choice, precise scope and acceptance. Marking a row in this proposed document is not itself approval. A later frozen spec and independent security/quality evaluation are required for any expanded semantics; use Workflow V1 reviews unless separately enrolled in V2 with its independent streams.
-
-## 7. Compatibility / migration proposal
-
-1. Freeze current released semantics as the compatibility baseline, including P2-003 v2 and P2-004 v1.
-2. Prepare versioned candidate overlay/adapter contracts rather than mutating old JSON in place. Record exact migrations and reading/validation of older packages.
-3. **No silent reinterpretation** of existing no-Claims results, `HUMAN_CONFIRMATION_REQUIRED` statuses or prior validations as eligible positive Claims.
-4. If source assertions alone are proposed as authority, require field-level traceability and conflict tests; do not presume scientific-paper prose establishes patent-legal indispensability.
-5. If Human attestations are proposed, define actor role authentication, anti-replay, immutable audit and rollback/revocation requirements. BLK-003 remains open, so product/tenant/persistent implementation is separately gated.
-6. Keep AI-CONV-002 revision/session behavior and seven-input P2-005/P2-006 provenance; any needed change is explicitly versioned and must undergo dedicated migration/compatibility review.
-7. No public v2 API route, frontend confirmation UI, release or provider call is included in this task.
-
-## 8. Threat model and mandatory negative tests for future authorized implementation
-
-- **Splicing:** different document, solution, method, composition or evidence ID is injected → reject.
-- **Essentiality escalation:** UNKNOWN/OTHER/INFERENCE/OPTIONAL/CONDITIONAL promoted without approved authority → reject.
-- **Inconsistent Claims support:** claim from different source, missing step, conflicting amount/relationship → reject.
-- **Synthetic Human spoofing:** checkbox, display action, forged/stale actor, missing role or unverified actor reference → no real authority.
-- **Revocation and freshness:** revoked decision, changed document hash, stale revision or changed config → invalidate affected Claims/package/render.
-- **Tamper/replay:** altered authority payload/digest, reuse across sessions/documents, unsigned record, path/digest-only package → reject.
-- **Privacy:** source prose/filenames, personal data, tokens, actor secrets, server paths and exception traces must not leak through status/log/error outputs.
-- **Prompt injection:** source text treated as data, never instructions or new authority.
-- **False success:** valid no-Claims pipeline must remain success with Human confirmation required, not be categorized as an exception.
-- **Production separation:** no simulated/offline actor trusted as a real authenticated product identity.
-
-## 9. Acceptance plan (specification gate now; executable gate later)
-
-| ID | Specification acceptance check |
+| Gate | Approved policy and prototype acceptance |
 |---|---|
-| SP-01 | Correct inventory of released components and current Claims fail-closed limitation, without claiming authentic positive E2E |
-| SP-02 | A/B/C comparison with explicit non-adopted recommendation and Human gate |
-| SP-03 | Typed predicate/target/evidence/authority metadata proposal with clear non-released status |
-| SP-04 | Per-family SYSTEM/APPARATUS, METHOD/PROCESS and COMPOSITION positive/negative authority matrix |
-| SP-05 | HD-01–HD-07 marked pending, no invented Human decision |
-| SP-06 | Safe backward compatibility/versioning and seven-input P2-005/P2-006 integrity plan |
-| SP-07 | Freshness/revocation/cross-document/stale-config/privacy/prompt-injection negative scenarios |
-| SP-08 | Explicit scope excludes Claims implementation, providers, real data, deployment and V2 enrollment |
-| SP-09 | V1 reviewer actual model/session, fixed SHA, findings and independent PASS/REQUEST CHANGES/BLOCKED required |
-| SP-10 | Required exact-head CI + fresh Render no/off + protected merge; no closure without exact-main CI |
+| HD-01 | Explicit source-linked solution membership, bound to document ID/SHA, evidence IDs, solution and element. Proximity/co-occurrence/inference cannot establish membership. Missing, foreign, duplicate, contradictory or stale assertions reject. |
+| HD-02 | UNKNOWN remains UNKNOWN unless explicit sufficient scoped evidence **and** synthetic scoped Human confirmation establish ESSENTIAL. OPTIONAL/CONDITIONAL never automatically promote. Source/target/session/revision mismatch, conflict, staleness or missing evidence blocks positive authority. Released P2-002 unchanged. |
+| HD-03 | METHOD/PROCESS positive authority **DISABLED**. Preliminary typed method/step membership, essentiality, evidence and mandatory ordering/relationships only, with negative tests. Ordering/co-occurrence alone proves neither membership nor essentiality. Future positive activation needs separate Human approval. |
+| HD-04 | COMPOSITION positive authority **DISABLED**. Preliminary typed composition/material membership, mandatory amounts/ranges, relationships, evidence and unknown states, with negative tests. Example concentrations/experimental ranges are not mandatory limitations. Cross-composition splicing rejects. Future positive activation needs separate Human approval. |
+| HD-05 | New prototype considers only SYSTEM/APPARATUS for further validation after authority predicates and existing P2-004 checks. Configuration cannot enable other families; unknown family fails closed. Released P2-004 policy unchanged. |
+| HD-06 | **Option C — HYBRID**, explicit evidence plus scoped synthetic Human confirmation. Dedicated synthetic actors, immutable revision-bound snapshots, revocation/supersession/conflict/replay tests. Non-production/non-authenticated simulation; checkbox/boolean/UI action alone is insufficient. |
+| HD-07 | Versioned additive internal overlay/adapter only. Released P2-002/003/004/005/006, AI-CONV-002 public behavior, v1 API/frontend and seven-input provenance unchanged. Any released migration needs separate Human approval and review. |
 
-**Future implementation criteria, not approved now:** positive and negative authentic-style **synthetic** fixture tests under an **approved/frozen authority contract**, unchanged P2-004 regression, unchanged P2-003 fields, rejection of all unapproved semantic promotions, seven-input provenance, revision invalidation, output review/legal banner, v1 regression, negative API/runtime checks where separately authorized.
+## 4. Internal overlay candidate contract
 
-No semantic quality/fidelity metric or provider result can be declared PASS from these offline structural fixtures. A later funded EVAL-001-compatible semantic assessment requires distinct provider/data approval.
+Use dedicated internal semantic-authority version **1.0.0**, separate from released schemas, strict Python structures/helpers and deterministic canonical JSON/digests. No new dependency is needed. Reject unknown fields, invalid enums, nonfinite/non-JSON input and identity-changing coercion.
 
-## 10. Execution and dependency gates
+Context binds document_id, original SHA-256, retained envelope/evidence identity, reconstruction identity, relevant configuration digests, session_id, revision and revision_token. Resolve evidence IDs to retained source units, exact locators/content snapshots. A hash alone is neither evidence nor authentication.
 
-1. Create this proposed specification and a docs-only PR from the exact verified main baseline. Do not change the released stage code/tests or governance rules in the proposal.
-2. Independent **Gemini 3.8 Flash High / Antigravity STRICT READ-ONLY** review of exact final spec SHA; actual model and session, all changed files, security/test findings, explicit verdict.
-3. Required GitHub CI SUCCESS on exact head; fresh main/scope/diff/no-secret/Render no/off and protected expected-head merge preflight.
-4. Documentation merge only after all gates; postmerge exact-main CI/readback. **Human approval/freeze of HD-01–HD-07 remains a separate substantive decision even if this proposal merges.**
-5. Only after Human freezes the chosen policy may a new explicit implementation authorization be considered. AI-CONV-004 backend API/005 frontend/006 E2E, provider budget, production and Phase H are separate tasks; do not infer approval.
+Each assertion includes assertion ID, overlay version, document ID/SHA, source evidence IDs/snapshot digest, typed target, predicate, value, authority reference, session/revision/token, upstream/config identities and immutable canonical digest/referenced synthetic decision. Structural target is solution_id + element_id. Preliminary targets are method_id + step_id or composition_id + material_id + amount identity where relevant.
 
-## 11. Open risks and current disposition
+Typed predicates: SOLUTION_MEMBERSHIP, ELEMENT_ESSENTIALITY, METHOD_STEP_MEMBERSHIP, METHOD_STEP_ESSENTIALITY, METHOD_STEP_RELATIONSHIP, COMPOSITION_MEMBERSHIP, COMPOSITION_AMOUNT_MANDATORY, COMPOSITION_MATERIAL_RELATIONSHIP. Membership states explicitly retain MEMBER, NOT_MEMBER, UNKNOWN; essentiality retains ESSENTIAL, OPTIONAL, CONDITIONAL, UNKNOWN. Preliminary ordering/amount relationships carry evidence and unresolved states; they never unlock positive nonstructural Claims.
 
-- **R-01 HIGH:** Scientific-paper statements may not establish patent-Claims essentiality; default no promotion.
-- **R-02 HIGH:** Human identity/authorization is not product authenticated while BLK-003 remains open; no live attestation path.
-- **R-03 HIGH:** Future semantic adapter could break P2-005 seven-input provenance if added implicitly; explicit versioned migration necessary.
-- **R-04 MEDIUM:** Real papers may legitimately produce no Claims; UX must distinguish review-required from processing error in a separately authorized frontend task.
-- **R-05 MEDIUM:** Current GOV-REVIEWER-001 Issue #113 and AI-CONV-002 Issue #111 are open for independent administrative closeout. Their unresolved exact-main CI/task-state evidence must not be labeled completed by this specification.
+Check target existence/type/scope, evidence closure, duplicate/conflicting targets/IDs, contradictory relationships/order, stale source/revision/configuration and unsupported inference. Source prose is data. UNKNOWN can be resolved only by a new explicit evidence-backed confirmed assertion; original released state remains intact. Explicit OPTIONAL/CONDITIONAL contradiction blocks ESSENTIAL rather than being overwritten.
 
-**Disposition: PROPOSED SPECIFICATION ONLY — HD-01–HD-07 PENDING HUMAN; NO CLAIMS SEMANTIC IMPLEMENTATION AUTHORIZED.**
+Positive outcome means **eligible for further structural validation**, not Claims approval. Where feasible, an isolated synthetic standalone fixture exercises unchanged P2-004 rules; retain full fixture evidence and label standalone. Never present enriched data as original P2-002 projection. Failed existing P2-004 checks remain blocked regardless of overlay authority.
+
+## 5. Synthetic Human adapter
+
+Explicitly **SYNTHETIC ONLY / NON-PRODUCTION / NON-AUTHENTICATED**. Use a fixed allowlist such as `SYNTHETIC_REVIEWER_001` and a narrow synthetic confirmation role, never real accounts/credentials. Strings/hashes simulate procedural scope; they do not authenticate a Human or certify semantic entailment.
+
+Decision snapshot includes decision ID, actor/role, assertion timestamp, exact source/evidence, predicate/target/value, authority reference, session/revision/token and canonical digest. Verify against retained immutable snapshots/context, not caller boolean or recomputed digest alone. Validate timestamp shape; changes invalidate the snapshot. No production identity/clock assertion follows.
+
+Revocation/supersession are immutable lifecycle records referencing existing decisions; preserve history. Revoked/superseded decisions cannot grant current authority. Active conflicts fail closed. Reject unknown lifecycle references, invalid transitions/cycles, tamper, repeated consumption/replay, cross-document/session/revision reuse and changed evidence/source/configuration. Current revision revalidation requires a fresh scoped decision. Revocation invalidates dependent/cached eligibility.
+
+Errors/audit/status use fixed safe codes and source-free/path-free metadata (IDs, digests, lifecycle state), without arbitrary unknown field names, source prose, filenames, personal data, server paths, secrets or tracebacks. In-memory ephemeral storage only: no real authentication, persistent user authorization, database, production audit or external service.
+
+## 6. Required executable acceptance matrix — PR B
+
+The following are **future required tests**, not PR A execution results.
+
+| Group | Positive / retained state | Mandatory negative cases |
+|---|---|---|
+| HD-01 | Evidence-backed exact solution/element membership | Missing/nonexistent evidence/targets; cross-document/solution splice; duplicates/conflicts; changed source SHA; stale token; proximity/inference-only membership |
+| HD-02 | Bound Hybrid ESSENTIAL; UNKNOWN/OPTIONAL/CONDITIONAL preservation | Every forbidden automatic promotion; wrong target/evidence; absent/stale/conflicting confirmation; missing evidence; explicit optional/conditional contradiction |
+| HD-03 | Typed preliminary method with UNKNOWN/unresolved | Ordered steps/co-occurrence only; absent essentiality; conflicting ordering; cross-method steps; METHOD/PROCESS positive always disabled |
+| HD-04 | Preliminary composition/material/amount semantics | Co-mentioned materials; example concentrations; experimental range promotion; missing mandatory amount; conflicting relationships; cross-composition splice; COMPOSITION positive always disabled |
+| HD-05 | SYSTEM and APPARATUS proceed through further unchanged eligibility checks | Unsupported evidence/incomplete core/conflict; manipulated configuration; unknown family; no global P2-004 restriction |
+| HD-06 | Scoped immutable decision, safe audit, revocation/supersession | Missing/invalid actor/role; document/session reuse; stale revision; revocation/supersession; tamper with rewritten digest; conflict; changed evidence/config; replay; checkbox-only authority; cached positive after revocation |
+| HD-07 | Additive version, unchanged seven-input provenance, deterministic identity | Hidden eighth input; schema injection; unsupported version; digest-only evidence; enriched invalid projection; bypass; altered v1/public behavior |
+
+Also require AI-CONV-002 revision/session/cleanup regression; P2-002…006 service/schema and Claims fixtures; v1 workflow; deterministic output/mutation isolation; safe errors/logs; secret/dependency checks; full required GitHub CI. Dedicated synthetic fixtures only. Do not weaken tests, infer semantic fidelity from structural tests or fabricate counts. Browser/layout/Linux verification is claimed only from actual execution/CI receipts.
+
+## 7. Compatibility and separately gated migration proposal
+
+Do not edit released schema versions, validators, P2-002 essentiality, P2-004 family behavior, AI-CONV-002 orchestration, v1 routes/types, frontend, Render or workflows to consume this overlay. No external dependency/service/provider/persistent store/real paper.
+
+**Proposal only:** a future versioned reconstruction contract could explicitly retain authority bindings alongside original source/analysis and immutable decisions. A future package/renderer version would validate the new upstream projection and lifecycle from original evidence while preserving old readers and fail-closed behavior. Exact schema/signature versions require separate Human architecture/contract authorization, migration/rollback design, independent review and regression. Do not implement that migration or smuggle an eighth input into current contracts.
+
+## 8. Delivery and external gates
+
+1. **PR A:** policy synchronization, exact v0.1.0 archive, separate authorization record, factual README/Control Center and review handoff. No runtime code/product Claims. Independent specification review and exact-head CI before integration.
+2. **Review:** Gemini 3.8 Flash High / Antigravity STRICT READ-ONLY inspects every changed file at immutable final SHA; returns PASS / REQUEST CHANGES / BLOCKED, actual model/profile/session and reuse disclosure. Codex self-check is not independent PASS. Unavailable/mismatched model stops review; no implicit substitute.
+3. **PR B:** after PR A review/integration gate, implement independent overlay/adapter, fixtures, explicit matrix and handoff in separate branch/worktree/PR. New exact-SHA independent review and CI; changed implementation requires re-review.
+4. **Each merge:** authorized scope, exact current head/base/OPEN mergeable PR, actual required CI SUCCESS, final-SHA independent PASS, zero blockers, no secrets/real research/conflict, both Render services `autoDeploy=no` / `autoDeployTrigger=off`. Normal expected-head-protected merge only; no bypass/history rewrite.
+5. **Postmerge:** verify main/merge tree/ancestry, exact-main push CI, Render and readback; factual README/Control Center/MCP synchronization. Keep #116 open pending substantive acceptance/postmerge evidence. #111/#113 closeout is separate; unknown main CI is not success.
+
+## 9. Risks and present checkpoint
+
+- Scientific-paper evidence may not establish essentiality: unresolved by default; no legal necessity, filing-readiness or semantic fidelity certification.
+- Synthetic actors are not authenticated; BLK-003 OPEN, no production authority/security acceptance.
+- Released package consumption is architecturally blocked (§2/§7); independent prototype is the safe authorized deliverable.
+- PR #117 merged at the stated base; exact-main push CI is not verified by the connected PR-only workflow listing. #111/#113 closeout remains separate and is not marked complete here.
+- MCP read 2026-10-15: `Unknown task: AI-CONV-003`. Claim/state **BLOCKED BY TOOL CAPABILITY**; no fabricated lease/transition.
+
+**Disposition:** HD-01–HD-07 policy approved; limited implementation separately authorized; PR A candidate for independent review. PR B not implemented/tested/reviewed/merged. Product Claims, real-data/provider use, deployment, Phase H/V2 and released-contract migration remain unauthorized.
