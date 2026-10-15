@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.91 |
+| Version | 0.3.92 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -19,17 +19,17 @@
 | Source of Truth | Operational status bridge; bản nguồn Git tại `docs/operations/01_PROJECT_CONTROL_CENTER.md` |
 | Confidentiality level | Internal |
 
-### AI-CONV-003 — approved HD policy / separately authorized prototype (15/10/2026)
+### AI-CONV-003 — PR A merged / PR B final-candidate validation (15/10/2026)
 
 - [Human policy-only decision](https://github.com/nshaokiet/ai-ip-description-generator/issues/116#issuecomment-6187375281) approves Hybrid HD-01–HD-07. The later direct Human implementation prompt is recorded separately as [HUMAN-AI-CONV-003-SYNTHETIC-IMPLEMENTATION-2026-10-15](../decisions/AI-CONV-003-synthetic-implementation-authorization.md); earlier no-authorization statements remain historical.
-- Fresh fetched main `a14769123a5be426db2ba4b374f708a365f36f7b`; isolated `docs/ai-conv-003-hd-policy-sync`, `.worktrees/ai-conv-003-policy-sync`. [Specification v0.1.1 candidate](../tasks/AI-CONV-003-claims-semantic-authority-specification.md) preserves exact v0.1.0 proposal bytes and sets prototype acceptance, family restrictions, simulated Human limits and separate migration proposal.
-- **PR A: policy synchronization candidate / independent review pending.** Gemini 3.8 Flash High / Antigravity STRICT READ-ONLY exact-SHA specification review, exact-head CI and all merge gates required before integration. Separate PR B prototype pending policy review/integration. No prototype implementation/test/PASS/merge/product Claims claim.
+- PR A [#118](https://github.com/nshaokiet/ai-ip-description-generator/pull/118) received the Human-supplied external Gemini 3.8 Flash High / Antigravity STRICT READ-ONLY **PASS** on exact SHA `3e015f2ee81dbb5e2b30a3c8e088fdd7d97a4f8b`, exact-head CI #38706445875 SUCCESS, then merged normally as `3e651c050be26e71a23f15aac8f6272dc7c523de`. Exact-merge push CI [#38729181713](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/38729181713) is **COMPLETED / SUCCESS**. Current verified main is that merge SHA.
+- PR B [#119](https://github.com/nshaokiet/ai-ip-description-generator/pull/119) remains **OPEN / DRAFT**. The local `feat/ai-conv-003-synthetic-authority` branch has integrated PR A; hardening adds reconstruction/configuration snapshot binding, exact-target evidence checks and keyed synthetic decision seals. The initial Windows full run's 67 errors were reproduced as `tmp_path` setup failures caused by the protected shared Pytest Temp root's owner/ACL mismatch; a task-owned LocalAppData root and unique `--basetemp` resolved the environment failure without code, test, ACL or security-control changes. Latest local validation is **49** authority tests, **417** P2-002…P2-006 + AI-CONV-002/authority regressions, and **1056 passed / 3 skipped** full offline suite. Final commit/push, fresh exact-head CI and independent Gemini code review are still pending; no PR B merge/completion claim.
 - Existing P2-005/P2-006 provenance reprojects the original seven inputs; enriched reconstruction cannot silently pass. Independent overlay is the authorized fallback. No released schema/API/validator/runtime behavior changes or hidden eighth input. Positive METHOD/PROCESS/COMPOSITION disabled; SYSTEM/APPARATUS only for synthetic further eligibility validation.
-- Existing #111/#113 governance closeout and PR #117 exact-main push CI remain separately unverified here. PR-only workflow listing is not proof of main CI. Both Render no/off checks remain mandatory at integration; no deployment/configuration change authorized or attempted.
+- Direct P2-005 validator inspection confirms the released `validate_assembly_inputs` signature still has exactly seven named inputs and returns seven validated projections; no authority overlay is accepted. Narrow credential/private-key marker scan found no scoped credential material. No deployment/configuration action is authorized or attempted.
 - MCP returned `Unknown task: AI-CONV-003` on 15/10/2026: claim/state **BLOCKED BY TOOL CAPABILITY**; no fabricated lease/transition. Manual quota guard returned CONTINUE (recorded 100, threshold 8, old manual cycle; not a fresh quota measurement).
 - Issue #116 stays OPEN. BLK-003 OPEN; real/confidential data, paid/provider use, production, deployment, V2/Phase H and AI-CONV-004/005/006 remain separately gated.
 
-OPS-001 **0.3.90 → 0.3.91**, 15/10/2026, Codex: record separate Human implementation scope and policy-sync review checkpoint; preserve historical entries. Reference AI-CONV-003 / Human prompt / #116. Breaking change: **No — factual governance only**.
+OPS-001 **0.3.91 → 0.3.92**, 15/10/2026, Codex: reconcile verified PR A merge/postmerge CI and PR B local final-candidate validation evidence; preserve released seven-input provenance and pending fixed-SHA review gate. Reference AI-CONV-003 / PR #118 / PR #119 / #116. Breaking change: **No — factual governance only**.
 
 ### GOV-REVIEWER-001 — standing V1 independent review default (15/10/2026; documentation sync candidate)
 
