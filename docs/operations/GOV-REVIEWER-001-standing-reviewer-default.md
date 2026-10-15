@@ -4,7 +4,7 @@
 |---|---|
 | Document ID | GOV-REVIEWER-001 |
 | Version | 0.1.0 |
-| Status | Human model-selection decision effective 2026-10-14; this documentation sync remains pending its own review/CI/merge |
+| Status | Human model-selection decision effective 2026-10-14; this governance sync, including metadata validator/test alignment, remains pending independent review/CI/merge |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Date | 2026-10-15 |
@@ -31,9 +31,9 @@ The **Gemini 3.8 Flash High** report on AI-CONV-002 candidate `beb69bf9ff0972b27
 - **Product/runtime AI**: no change to provider selection, API budget (still zero until authorized), Claims policy, real/confidential research, tenant/security/retention, USPTO filing-readiness or Render deployment.
 - **Preserve** all source-attributed findings and historical model availability context. When actual review model is unavailable, a session's identity is unverifiable, or a required gate is missing: **STOP the affected operation** and record what is missing.
 
-## Publication checklist for this docs-only task
+## Publication checklist for this governance-only task
 
-- [ ] Review exactly this docs-only final SHA using actual Gemini 3.8 Flash High / Antigravity STRICT READ-ONLY; preserve model/session/SHA/verdict and findings.
+- [ ] Review the entire governance-only final SHA (three policy documents and two metadata validator/test files) using actual Gemini 3.8 Flash High / Antigravity STRICT READ-ONLY; preserve model/session/SHA/verdict and findings.
 - [ ] Verify required PR exact-head CI SUCCESS and clean scope/diff/secret checks.
 - [ ] Verify updated base/head, separate Render no/off controls and applicable AGENTS.md §8/19 gates.
 - [ ] Perform only an authorized normal expected-head-protected merge; no forced merge or invented PASS.
