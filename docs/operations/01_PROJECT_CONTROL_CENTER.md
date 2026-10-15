@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.90 |
+| Version | 0.3.91 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -18,6 +18,18 @@
 | Related task ID | SPEC-004 |
 | Source of Truth | Operational status bridge; bản nguồn Git tại `docs/operations/01_PROJECT_CONTROL_CENTER.md` |
 | Confidentiality level | Internal |
+
+### AI-CONV-003 — approved HD policy / separately authorized prototype (15/10/2026)
+
+- [Human policy-only decision](https://github.com/nshaokiet/ai-ip-description-generator/issues/116#issuecomment-6187375281) approves Hybrid HD-01–HD-07. The later direct Human implementation prompt is recorded separately as [HUMAN-AI-CONV-003-SYNTHETIC-IMPLEMENTATION-2026-10-15](../decisions/AI-CONV-003-synthetic-implementation-authorization.md); earlier no-authorization statements remain historical.
+- Fresh fetched main `a14769123a5be426db2ba4b374f708a365f36f7b`; isolated `docs/ai-conv-003-hd-policy-sync`, `.worktrees/ai-conv-003-policy-sync`. [Specification v0.1.1 candidate](../tasks/AI-CONV-003-claims-semantic-authority-specification.md) preserves exact v0.1.0 proposal bytes and sets prototype acceptance, family restrictions, simulated Human limits and separate migration proposal.
+- **PR A: policy synchronization candidate / independent review pending.** Gemini 3.8 Flash High / Antigravity STRICT READ-ONLY exact-SHA specification review, exact-head CI and all merge gates required before integration. Separate PR B prototype pending policy review/integration. No prototype implementation/test/PASS/merge/product Claims claim.
+- Existing P2-005/P2-006 provenance reprojects the original seven inputs; enriched reconstruction cannot silently pass. Independent overlay is the authorized fallback. No released schema/API/validator/runtime behavior changes or hidden eighth input. Positive METHOD/PROCESS/COMPOSITION disabled; SYSTEM/APPARATUS only for synthetic further eligibility validation.
+- Existing #111/#113 governance closeout and PR #117 exact-main push CI remain separately unverified here. PR-only workflow listing is not proof of main CI. Both Render no/off checks remain mandatory at integration; no deployment/configuration change authorized or attempted.
+- MCP returned `Unknown task: AI-CONV-003` on 15/10/2026: claim/state **BLOCKED BY TOOL CAPABILITY**; no fabricated lease/transition. Manual quota guard returned CONTINUE (recorded 100, threshold 8, old manual cycle; not a fresh quota measurement).
+- Issue #116 stays OPEN. BLK-003 OPEN; real/confidential data, paid/provider use, production, deployment, V2/Phase H and AI-CONV-004/005/006 remain separately gated.
+
+OPS-001 **0.3.90 → 0.3.91**, 15/10/2026, Codex: record separate Human implementation scope and policy-sync review checkpoint; preserve historical entries. Reference AI-CONV-003 / Human prompt / #116. Breaking change: **No — factual governance only**.
 
 ### GOV-REVIEWER-001 — standing V1 independent review default (15/10/2026; documentation sync candidate)
 
