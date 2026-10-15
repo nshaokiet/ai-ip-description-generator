@@ -33,6 +33,12 @@ RECONSTRUCTION = ROOT / "tests/fixtures/supported-draft-claims/v1.0.0/base-synth
 CANDIDATES = ROOT / "tests/fixtures/synthetic-claims-authority/v1.0.0/candidate-semantics.json"
 EVIDENCE_ID = "EV-SYNTHETIC"
 TIMESTAMP = "2026-10-15T09:00:00Z"
+AUTHORITY_CONFIGURATION = {
+    "policy_version": "AI-CONV-003/0.1.1",
+    "source_document_synthetic": True,
+    "eligible_families": ["SYSTEM", "APPARATUS"],
+}
+SYNTHETIC_AUTHORITY_KEY = b"ai-conv-003-synthetic-authority-key-v1"
 
 
 def _json(path: Path) -> dict:
@@ -42,9 +48,11 @@ def _json(path: Path) -> dict:
 def _context(source: dict | None = None) -> AuthorityContext:
     return context_from_reconstruction(
         _json(RECONSTRUCTION) if source is None else source,
+        configuration_snapshot=AUTHORITY_CONFIGURATION,
         session_id="synthetic-session-003",
         revision=7,
         revision_token="rev-7-synthetic-authority",
+        synthetic_authority_key=SYNTHETIC_AUTHORITY_KEY,
     )
 
 
@@ -56,10 +64,12 @@ def _overlay(
     entries: list[tuple[str, dict[str, str], str]],
     *,
     context: AuthorityContext | None = None,
+    evidence_ids: list[str] | None = None,
     methods: bool = False,
     compositions: bool = False,
 ) -> dict:
     context = _context() if context is None else context
+    evidence_ids = [EVIDENCE_ID] if evidence_ids is None else evidence_ids
     decisions = []
     assertions = []
     for index, (predicate, target, value) in enumerate(entries, start=1):
@@ -69,7 +79,7 @@ def _overlay(
             predicate=predicate,
             target=target,
             value=value,
-            evidence_ids=[EVIDENCE_ID],
+            evidence_ids=evidence_ids,
             timestamp=TIMESTAMP,
         )
         decisions.append(decision)
@@ -80,7 +90,7 @@ def _overlay(
                 predicate=predicate,
                 target=target,
                 value=value,
-                evidence_ids=[EVIDENCE_ID],
+                evidence_ids=evidence_ids,
                 authority_decision_id=decision["decision_id"],
             )
         )
@@ -109,7 +119,11 @@ def _positive_structural_entries() -> list[tuple[str, dict[str, str], str]]:
 
 def _resign_decision(decision: dict) -> None:
     decision["decision_digest"] = canonical_digest(
-        {key: value for key, value in decision.items() if key != "decision_digest"}
+        {
+            key: value
+            for key, value in decision.items()
+            if key not in {"decision_digest", "decision_seal"}
+        }
     )
 
 
@@ -230,6 +244,27 @@ def test_hd01_inferred_membership_is_never_authority():
     _resign_assertion(overlay["assertions"][0])
     _resign_overlay(overlay)
     _error("INFERRED_AUTHORITY_UNSUPPORTED", validate_overlay, overlay, context)
+
+
+def test_hd01_evidence_must_support_the_exact_structural_target():
+    source = _json(RECONSTRUCTION)
+    source["review_package"]["evidence"].append(
+        {
+            "evidence_id": "EV-UNRELATED",
+            "document_id": source["document_metadata"]["document_id"],
+            "evidence_type": "TEXT",
+            "locator": {"page": 2, "chunk_id": "SYNTHETIC-UNRELATED"},
+            "excerpt": "Synthetic unrelated administrative text.",
+        }
+    )
+    context = _context(source)
+    target = {"solution_id": "IR-SOL-1", "element_id": "IR-ELEM-1"}
+    overlay = _overlay(
+        [("SOLUTION_MEMBERSHIP", target, "MEMBER")],
+        context=context,
+        evidence_ids=["EV-UNRELATED"],
+    )
+    _error("TARGET_EVIDENCE_MISMATCH", validate_overlay, overlay, context)
 
 
 # HD-02 — conservative essentiality.
@@ -557,6 +592,36 @@ def test_hd06_stale_revision_is_rejected():
     _error("STALE_REVISION", validate_overlay, overlay, context)
 
 
+def test_hd06_changed_configuration_invalidates_confirmation():
+    context = _context()
+    overlay = _overlay([_positive_structural_entries()[0]], context=context)
+    changed = replace(context, configuration_digest="c" * 64)
+    _error("CONFIGURATION_MISMATCH", validate_overlay, overlay, changed)
+
+
+def test_hd06_changed_reconstruction_invalidates_confirmation():
+    context = _context()
+    overlay = _overlay([_positive_structural_entries()[0]], context=context)
+    changed = replace(context, reconstruction_digest="d" * 64)
+    _error("RECONSTRUCTION_MISMATCH", validate_overlay, overlay, changed)
+
+
+def test_hd06_cross_session_confirmation_reuse_is_rejected():
+    context = _context()
+    overlay = _overlay([_positive_structural_entries()[0]], context=context)
+    changed = replace(context, session_id="another-synthetic-session")
+    _error("SESSION_MISMATCH", validate_overlay, overlay, changed)
+
+
+def test_hd06_recomputed_public_digest_cannot_forge_confirmation():
+    context = _context()
+    overlay = _overlay([_positive_structural_entries()[0]], context=context)
+    overlay["decisions"][0]["timestamp"] = "2026-10-15T09:00:01Z"
+    _resign_decision(overlay["decisions"][0])
+    _resign_overlay(overlay)
+    _error("DECISION_FORGED", validate_overlay, overlay, context)
+
+
 def test_hd06_revoked_confirmation_is_inactive():
     context = _context()
     predicate, target, value = _positive_structural_entries()[0]
@@ -615,7 +680,7 @@ def test_hd06_explicit_supersession_invalidates_old_confirmation():
         timestamp="2026-10-15T09:03:00Z",
         supersedes_decision_id="D-OLD",
     )
-    assertion = make_authority_assertion(
+    new_assertion = make_authority_assertion(
         context,
         assertion_id="A-NEW",
         predicate="ELEMENT_ESSENTIALITY",
@@ -624,8 +689,22 @@ def test_hd06_explicit_supersession_invalidates_old_confirmation():
         evidence_ids=[EVIDENCE_ID],
         authority_decision_id="D-NEW",
     )
-    overlay = make_overlay(context, decisions=[old, new], assertions=[assertion])
+    overlay = make_overlay(context, decisions=[old, new], assertions=[new_assertion])
     validate_overlay(overlay, context)
+
+    old_assertion = make_authority_assertion(
+        context,
+        assertion_id="A-OLD",
+        predicate="ELEMENT_ESSENTIALITY",
+        target=target,
+        value="ESSENTIAL",
+        evidence_ids=[EVIDENCE_ID],
+        authority_decision_id="D-OLD",
+    )
+    stale_overlay = make_overlay(
+        context, decisions=[old, new], assertions=[old_assertion]
+    )
+    _error("CONFIRMATION_INACTIVE", validate_overlay, stale_overlay, context)
 
 
 def test_hd06_tampered_decision_and_overlay_are_rejected():

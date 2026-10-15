@@ -8,9 +8,10 @@ APPARATUS candidate may proceed to the existing P2-004 validation surface.
 from __future__ import annotations
 
 from copy import deepcopy
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime
 import hashlib
+import hmac
 import json
 from typing import Any, Iterable, Mapping
 
@@ -58,7 +59,8 @@ _TARGET_KEYS = {
     },
 }
 _BINDING_KEYS = {
-    "document_id", "source_sha256", "session_id", "revision", "revision_token"
+    "document_id", "source_sha256", "reconstruction_digest",
+    "configuration_digest", "session_id", "revision", "revision_token",
 }
 
 
@@ -77,13 +79,19 @@ class SyntheticAuthorityError(ValueError):
 class AuthorityContext:
     document_id: str
     source_sha256: str
+    reconstruction_digest: str
+    configuration_digest: str
     evidence_records: Mapping[str, Any]
     solution_ids: frozenset[str]
     element_ids: frozenset[str]
     source_method_step_ids: frozenset[str]
+    solution_evidence_ids: Mapping[str, frozenset[str]]
+    element_evidence_ids: Mapping[str, frozenset[str]]
+    method_step_evidence_ids: Mapping[str, frozenset[str]]
     session_id: str
     revision: int
     revision_token: str
+    synthetic_authority_key: bytes = field(repr=False)
 
 
 @dataclass(frozen=True)
@@ -115,9 +123,11 @@ def canonical_digest(value: Any) -> str:
 def context_from_reconstruction(
     reconstruction: Any,
     *,
+    configuration_snapshot: Mapping[str, Any],
     session_id: str,
     revision: int,
     revision_token: str,
+    synthetic_authority_key: bytes,
 ) -> AuthorityContext:
     """Create an immutable validation context without assigning membership."""
     try:
@@ -130,13 +140,23 @@ def context_from_reconstruction(
         context = AuthorityContext(
             document_id=metadata["document_id"],
             source_sha256=metadata["sha256"],
+            reconstruction_digest=canonical_digest(reconstruction),
+            configuration_digest=canonical_digest(configuration_snapshot),
             evidence_records=evidence_records,
             solution_ids=frozenset(x["solution_id"] for x in model["solution_concepts"]),
             element_ids=frozenset(x["element_id"] for x in model["elements"]),
             source_method_step_ids=frozenset(x["step_id"] for x in model["method_steps"]),
+            solution_evidence_ids=_entity_evidence_map(
+                model["solution_concepts"], "solution_id"
+            ),
+            element_evidence_ids=_entity_evidence_map(model["elements"], "element_id"),
+            method_step_evidence_ids=_entity_evidence_map(
+                model["method_steps"], "step_id"
+            ),
             session_id=session_id,
             revision=revision,
             revision_token=revision_token,
+            synthetic_authority_key=synthetic_authority_key,
         )
     except (KeyError, TypeError):
         raise SyntheticAuthorityError("INVALID_CONTEXT") from None
@@ -185,6 +205,9 @@ def make_synthetic_decision(
         "supersedes_decision_id": supersedes_decision_id,
     }
     decision["decision_digest"] = canonical_digest(decision)
+    decision["decision_seal"] = _decision_seal(
+        context, decision["decision_digest"]
+    )
     return decision
 
 
@@ -229,6 +252,10 @@ def make_overlay(
         "document_binding": {
             "document_id": context.document_id,
             "source_sha256": context.source_sha256,
+            "reconstruction_digest": context.reconstruction_digest,
+        },
+        "configuration_binding": {
+            "configuration_digest": context.configuration_digest,
         },
         "session_binding": {
             "session_id": context.session_id,
@@ -249,7 +276,7 @@ def validate_overlay(overlay: Any, context: AuthorityContext) -> dict[str, Any]:
     _validate_context(context)
     required = {
         "schema_version", "overlay_type", "notice", "document_binding",
-        "session_binding", "family_policy", "candidate_methods",
+        "configuration_binding", "session_binding", "family_policy", "candidate_methods",
         "candidate_compositions", "decisions", "assertions", "overlay_digest",
     }
     if type(overlay) is not dict or set(overlay) != required:
@@ -369,6 +396,8 @@ def _binding(context: AuthorityContext) -> dict[str, Any]:
     return {
         "document_id": context.document_id,
         "source_sha256": context.source_sha256,
+        "reconstruction_digest": context.reconstruction_digest,
+        "configuration_digest": context.configuration_digest,
         "session_id": context.session_id,
         "revision": context.revision,
         "revision_token": context.revision_token,
@@ -378,13 +407,16 @@ def _binding(context: AuthorityContext) -> dict[str, Any]:
 def _validate_context(context: AuthorityContext) -> None:
     if (
         not context.document_id
-        or len(context.source_sha256) != 64
-        or any(char not in "0123456789abcdef" for char in context.source_sha256)
+        or not _valid_sha256(context.source_sha256)
+        or not _valid_sha256(context.reconstruction_digest)
+        or not _valid_sha256(context.configuration_digest)
         or not context.evidence_records
         or not context.session_id
         or type(context.revision) is not int
         or context.revision < 1
         or not context.revision_token
+        or type(context.synthetic_authority_key) is not bytes
+        or len(context.synthetic_authority_key) < 32
     ):
         raise SyntheticAuthorityError("INVALID_CONTEXT")
     for evidence_id, record in context.evidence_records.items():
@@ -396,6 +428,21 @@ def _validate_context(context: AuthorityContext) -> None:
             or record.get("document_id") != context.document_id
         ):
             raise SyntheticAuthorityError("INVALID_CONTEXT")
+    expected_maps = (
+        (context.solution_ids, context.solution_evidence_ids),
+        (context.element_ids, context.element_evidence_ids),
+        (context.source_method_step_ids, context.method_step_evidence_ids),
+    )
+    for entity_ids, support_map in expected_maps:
+        if set(support_map) != set(entity_ids):
+            raise SyntheticAuthorityError("INVALID_CONTEXT")
+        for evidence_ids in support_map.values():
+            if (
+                type(evidence_ids) is not frozenset
+                or not evidence_ids
+                or not evidence_ids.issubset(context.evidence_records)
+            ):
+                raise SyntheticAuthorityError("INVALID_CONTEXT")
 
 
 def _evidence_ids(values: Iterable[str]) -> list[str]:
@@ -411,7 +458,14 @@ def _evidence_ids(values: Iterable[str]) -> list[str]:
 
 
 def _validate_overlay_binding(overlay: dict[str, Any], context: AuthorityContext) -> None:
-    expected_document = {"document_id": context.document_id, "source_sha256": context.source_sha256}
+    expected_document = {
+        "document_id": context.document_id,
+        "source_sha256": context.source_sha256,
+        "reconstruction_digest": context.reconstruction_digest,
+    }
+    expected_configuration = {
+        "configuration_digest": context.configuration_digest,
+    }
     expected_session = {
         "session_id": context.session_id,
         "revision": context.revision,
@@ -421,8 +475,18 @@ def _validate_overlay_binding(overlay: dict[str, Any], context: AuthorityContext
         raise SyntheticAuthorityError("DOCUMENT_MISMATCH", paths=("/document_binding/document_id",))
     if overlay["document_binding"].get("source_sha256") != context.source_sha256:
         raise SyntheticAuthorityError("SOURCE_HASH_MISMATCH", paths=("/document_binding/source_sha256",))
+    if overlay["document_binding"].get("reconstruction_digest") != context.reconstruction_digest:
+        raise SyntheticAuthorityError(
+            "RECONSTRUCTION_MISMATCH",
+            paths=("/document_binding/reconstruction_digest",),
+        )
     if overlay["document_binding"] != expected_document:
         raise SyntheticAuthorityError("INVALID_OVERLAY", paths=("/document_binding",))
+    if overlay["configuration_binding"] != expected_configuration:
+        raise SyntheticAuthorityError(
+            "CONFIGURATION_MISMATCH",
+            paths=("/configuration_binding",),
+        )
     if overlay["session_binding"].get("session_id") != context.session_id:
         raise SyntheticAuthorityError("SESSION_MISMATCH", paths=("/session_binding/session_id",))
     if overlay["session_binding"] != expected_session:
@@ -496,7 +560,7 @@ def _validate_decisions(
             "decision_id", "action", "actor_id", "actor_role", "timestamp",
             *_BINDING_KEYS, "predicate", "target", "value", "evidence_ids",
             "evidence_digest", "subject_decision_id", "supersedes_decision_id",
-            "decision_digest",
+            "decision_digest", "decision_seal",
         }
         if type(decision) is not dict or set(decision) != expected:
             raise SyntheticAuthorityError("DECISION_INVALID", paths=(path,))
@@ -508,9 +572,21 @@ def _validate_decisions(
         decision_timestamp = _validate_timestamp(decision["timestamp"], path)
         _validate_semantics(decision, context, methods, compositions, path)
         _validate_evidence_binding(decision, context, path)
-        unsigned = {key: deepcopy(value) for key, value in decision.items() if key != "decision_digest"}
+        unsigned = {
+            key: deepcopy(value)
+            for key, value in decision.items()
+            if key not in {"decision_digest", "decision_seal"}
+        }
         if decision["decision_digest"] != canonical_digest(unsigned):
             raise SyntheticAuthorityError("DECISION_TAMPERED", paths=(path + "/decision_digest",))
+        expected_seal = _decision_seal(context, decision["decision_digest"])
+        if (
+            type(decision["decision_seal"]) is not str
+            or not hmac.compare_digest(decision["decision_seal"], expected_seal)
+        ):
+            raise SyntheticAuthorityError(
+                "DECISION_FORGED", paths=(path + "/decision_seal",)
+            )
         key = (decision["predicate"], _target_key(decision["target"]))
         if decision["action"] == "CONFIRM":
             if decision["subject_decision_id"] is not None:
@@ -635,6 +711,16 @@ def _validate_record_binding(record: Mapping[str, Any], context: AuthorityContex
         raise SyntheticAuthorityError("DOCUMENT_MISMATCH", paths=(path + "/document_id",))
     if record["source_sha256"] != context.source_sha256:
         raise SyntheticAuthorityError("SOURCE_HASH_MISMATCH", paths=(path + "/source_sha256",))
+    if record["reconstruction_digest"] != context.reconstruction_digest:
+        raise SyntheticAuthorityError(
+            "RECONSTRUCTION_MISMATCH",
+            paths=(path + "/reconstruction_digest",),
+        )
+    if record["configuration_digest"] != context.configuration_digest:
+        raise SyntheticAuthorityError(
+            "CONFIGURATION_MISMATCH",
+            paths=(path + "/configuration_digest",),
+        )
     if record["session_id"] != context.session_id:
         raise SyntheticAuthorityError("SESSION_MISMATCH", paths=(path + "/session_id",))
     if record["revision"] != context.revision or record["revision_token"] != context.revision_token:
@@ -673,6 +759,7 @@ def _validate_semantics(
             or target["element_id"] not in context.element_ids
         ):
             raise SyntheticAuthorityError("ENTITY_NOT_FOUND", paths=(path + "/target",))
+        _validate_structural_evidence(record, context, path)
         return
     if predicate.startswith("METHOD_"):
         steps = methods.get(target["method_id"])
@@ -720,3 +807,50 @@ def _validate_method_relationships(assertions: Iterable[Mapping[str, Any]]) -> N
 
 def _target_key(target: Mapping[str, str]) -> str:
     return canonical_json(dict(target))
+
+
+def _valid_sha256(value: Any) -> bool:
+    return (
+        type(value) is str
+        and len(value) == 64
+        and all(char in "0123456789abcdef" for char in value)
+    )
+
+
+def _entity_evidence_map(
+    entities: Iterable[Mapping[str, Any]], identifier: str
+) -> dict[str, frozenset[str]]:
+    result: dict[str, frozenset[str]] = {}
+    for entity in entities:
+        entity_id = entity[identifier]
+        evidence_ids = entity["support"]["evidence_ids"]
+        if entity_id in result or type(evidence_ids) is not list:
+            raise KeyError
+        result[entity_id] = frozenset(evidence_ids)
+    return result
+
+
+def _validate_structural_evidence(
+    record: Mapping[str, Any], context: AuthorityContext, path: str
+) -> None:
+    target = record["target"]
+    evidence_ids = set(record["evidence_ids"])
+    solution_ids = context.solution_evidence_ids[target["solution_id"]]
+    element_ids = context.element_evidence_ids[target["element_id"]]
+    permitted = solution_ids | element_ids
+    if (
+        not evidence_ids.issubset(permitted)
+        or not evidence_ids.intersection(solution_ids)
+        or not evidence_ids.intersection(element_ids)
+    ):
+        raise SyntheticAuthorityError(
+            "TARGET_EVIDENCE_MISMATCH", paths=(path + "/evidence_ids",)
+        )
+
+
+def _decision_seal(context: AuthorityContext, decision_digest: str) -> str:
+    return hmac.new(
+        context.synthetic_authority_key,
+        decision_digest.encode("ascii"),
+        hashlib.sha256,
+    ).hexdigest()
