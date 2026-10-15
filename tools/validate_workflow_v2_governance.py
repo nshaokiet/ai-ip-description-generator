@@ -286,10 +286,10 @@ def validate_repository(root: Path):
     policy = read_marker((root / MARKER).read_text(encoding="utf-8"))
     validate_policy(policy)
     agents = (root / "AGENTS.md").read_text(encoding="utf-8")
-    adoption = "| Version | 0.6.1 |" in agents or any(
+    adoption = "| Version | 0.6.2 |" in agents or any(
         (root / relative).exists() and heading in (root / relative).read_text(encoding="utf-8")
         for relative, heading in ADOPTION_SECTIONS.items())
-    agent_version = "0.6.1" if adoption else "0.5.0"
+    agent_version = "0.6.2" if adoption else "0.5.0"
     protocol_version = "0.3.1" if adoption else "0.2.0"
     for relative, phrases in {
         "AGENTS.md": (f"| Version | {agent_version} |", "## 24. Conditional Workflow V2 governance",

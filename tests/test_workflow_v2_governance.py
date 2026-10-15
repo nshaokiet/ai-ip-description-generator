@@ -415,7 +415,7 @@ class ConditionalAdoptionDeclarationTests(unittest.TestCase):
 
     def test_current_document_versions_and_spec_provenance_are_required(self):
         for relative, before, after in (
-            ("AGENTS.md", "| Version | 0.6.1 |", "| Version | 0.5.0 |"),
+            ("AGENTS.md", "| Version | 0.6.2 |", "| Version | 0.5.0 |"),
             ("docs/operations/AUTONOMOUS_AGENT_PROTOCOL.md", "Version: 0.3.1", "Version: 0.2.0"),
             (policy_check.ADOPTION_SPEC, "## 6. Committed-spec ADMIN reconciliation and freeze gate", "No freeze gate"),
             (policy_check.ADOPTION_SPEC, "19C98EDB6C1EEAC33374C293BF22DCBCFD288363FDF54329DDEE62EF3B980D60", "missing"),
@@ -448,7 +448,7 @@ class ConditionalAdoptionDeclarationTests(unittest.TestCase):
             path = self.root / relative
             body = path.read_text(encoding="utf-8")
             body = body.replace(heading + policy_check.current_section(body, heading), "", 1)
-            body = body.replace("| Version | 0.6.1 |", "| Version | 0.5.0 |")
+            body = body.replace("| Version | 0.6.2 |", "| Version | 0.5.0 |")
             body = body.replace("Version: 0.3.1", "Version: 0.2.0")
             path.write_text(body, encoding="utf-8")
         self.assertEqual(policy_check.validate_repository(self.root), policy())
