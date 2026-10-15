@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.89 |
+| Version | 0.3.90 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -18,6 +18,15 @@
 | Related task ID | SPEC-004 |
 | Source of Truth | Operational status bridge; bản nguồn Git tại `docs/operations/01_PROJECT_CONTROL_CENTER.md` |
 | Confidentiality level | Internal |
+
+### GOV-REVIEWER-001 — standing V1 independent review default (15/10/2026; documentation sync candidate)
+
+- [Issue #113](https://github.com/nshaokiet/ai-ip-description-generator/issues/113) records the Human's **14/10/2026** prospective [standing reviewer decision](https://github.com/nshaokiet/ai-ip-description-generator/pull/112#issuecomment-6164405254): **Gemini 3.8 Flash High / Antigravity STRICT READ-ONLY** is the default **reviewer model/profile choice** for future independently reviewed, authorized **Workflow V1** tasks. No recurring Human model-selection request when that default applies; explicit task-specific Human override takes precedence. Actual unavailable/mismatched model stops the review until Human resolves it.
+- Per-review actual runtime model, identity/session (disclose reuse), immutable final SHA, diff/test/security evidence, explicit independent verdict and current CI/merge preflight are all still required. No Codex self-PASS, retroactive PASS or automatic task authorization. Original AI-CONV-002 review at `beb69bf9ff0972b27147c62a938323a74f3a0193` was before this choice; later exact-SHA review/merge evidence is preserved, not reinterpreted.
+- Separate V2/Phase H enrollment/required Security and Quality streams and MANUAL_EXTERNAL remain unchanged. Selection of governance reviewer is not product model/API/provider funding, Claims/data, production or Render/deployment authorization. See [prospective reviewer operating guide](GOV-REVIEWER-001-standing-reviewer-default.md) and AGENTS.md §6.1.
+- **This change is a docs-only candidate awaiting its own fixed-SHA independent review, CI and conditional merge**. No independent PASS, main merge, CI completion or task closeout is claimed here. Existing AI-CONV-002 historical closeout and Issue #111 state remain separate.
+
+OPS-001 **0.3.89 → 0.3.90**, 15/10/2026, ChatGPT/Codex; prospective default reviewer model documentation only, [Issue #113](https://github.com/nshaokiet/ai-ip-description-generator/issues/113); Breaking change: **No — existing authorization/review gates retained**.
 
 ### AI-CONV-002 — reviewed implementation merged; factual closeout conditional (15/10/2026)
 
