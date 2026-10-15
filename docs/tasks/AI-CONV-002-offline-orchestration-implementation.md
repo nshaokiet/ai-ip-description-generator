@@ -2,8 +2,8 @@
 
 | Attribute | Value |
 |---|---|
-| Document version | 0.1.1 |
-| Status | REMEDIATED CANDIDATE — NEW FIXED-SHA REVIEW REQUIRED |
+| Document version | 0.1.2 |
+| Status | IMPLEMENTATION MERGED — POSTMERGE/GOVERNANCE CLOSEOUT CONDITIONAL |
 | Workflow | V1 |
 | Human authorization | `HUMAN-AI-CONV-002-OFFLINE-WORKFLOW-V1-2026-10-14`; [Issue #111](https://github.com/nshaokiet/ai-ip-description-generator/issues/111) |
 | Authorized baseline | `d358018e093a8db4161afb6d9caecfa51c8e00d3` |
@@ -153,3 +153,13 @@ Local remediation validation (Windows, Python 3.14.6, Node 24.18.0):
 - Frontend `npm run lint`, `npm run typecheck`, `npm run build`: **PASS**. `npm run test:lint-security`: **73/73 passed**. `npm audit` and `npm audit --omit=dev`: **0 vulnerabilities** each. `python -m pip check`: no broken requirements.
 - `git diff --check`, six-file scope guard and added-line credential/private-key marker scan: **PASS**. Marker scan is not an exhaustive secret detector.
 - Initial sandbox npm installation failed on cache/network access; retry using a task-specific temporary cache and approved sandbox escalation succeeded. No dependency/lockfile changes. Browser E2E and Linux document layout/reference QA are required in exact-head GitHub CI, not claimed as local Windows executions.
+
+## Implementation merge / factual closeout checkpoint — 15/10/2026
+
+Document **0.1.1 → 0.1.2**, Codex. Breaking change: **No**; documentation and implementation status only.
+
+- [Fresh post-remediation reviewer receipt](https://github.com/nshaokiet/ai-ip-description-generator/pull/112#issuecomment-6183497350): Human-attributed Gemini 3.8 Flash High / Antigravity STRICT READ-ONLY PASS at `0ee0c93807b9ad193e9924c48eabec948258fe64`, six files; Critical/High/Medium 0, Low 1. Conversation `82c3975a-d2a2-446b-b2aa-7d1353d1d4b0` reused; not authenticated GitHub-native review.
+- Fresh immutable Git-archive six-suite execution: **368 passed**. The historical 302 count on the prior candidate had 22 orchestration tests; current orchestration contains 88. Local remediation full suite 1007/3; exact-head CI Linux full backend 1008/2, CI #38671480576 SUCCESS. No invented new six-suite 302 result.
+- MEDIUM-01 and MEDIUM-02 source and regression fixes reviewed at final SHA; cleanup residual LOW is accepted explicitly, `CLEANUP_FAILED` fail-closed, deletion can be partial and is not atomic. Seven-object provenance, no-supported-Claims path and released contracts unchanged.
+- [PR #112](https://github.com/nshaokiet/ai-ip-description-generator/pull/112) normal expected-head merge completed: `6081fad0fa07cd4eb79360ded5a19d8b83a45c4c`, merge tree matches reviewed `bd97d27ec766a2dd45b2a3cc5406d2ad6ba3949a`. Postmerge [main CI #38675509812](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/38675509812) remains an explicit evidence gate; factual docs synchronization requires its own independent review, merge, final main CI and readback. Issue #111 remains OPEN pending full closeout.
+- MCP task status is not asserted (prior Unknown task); Render no/off is attributed to external review receipt, no new Render connector verification claimed. No paid API, real data, production, deploy, Claims semantics change, AI-CONV-003+ or Phase H/V2.
