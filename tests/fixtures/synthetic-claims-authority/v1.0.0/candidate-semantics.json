@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0.0",
+  "candidate_methods": [
+    {
+      "method_id": "SYNTHETIC-METHOD-001",
+      "step_ids": [
+        "IR-STEP-1",
+        "IR-STEP-2"
+      ]
+    }
+  ],
+  "candidate_compositions": [
+    {
+      "composition_id": "SYNTHETIC-COMPOSITION-001",
+      "materials": [
+        {
+          "material_id": "SYNTHETIC-MATERIAL-A",
+          "amount_ids": [
+            "SYNTHETIC-AMOUNT-A"
+          ]
+        },
+        {
+          "material_id": "SYNTHETIC-MATERIAL-B",
+          "amount_ids": [
+            "SYNTHETIC-AMOUNT-B"
+          ]
+        }
+      ]
+    },
+    {
+      "composition_id": "SYNTHETIC-COMPOSITION-002",
+      "materials": [
+        {
+          "material_id": "SYNTHETIC-MATERIAL-C",
+          "amount_ids": [
+            "SYNTHETIC-AMOUNT-C"
+          ]
+        }
+      ]
+    }
+  ],
+  "notice": "Synthetic candidate identifiers only; no production or legal authority."
+}
