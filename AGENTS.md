@@ -8,13 +8,13 @@
 |---|---|
 | Document ID | SPEC-003 |
 | Document title | AGENTS.md — Quy tắc phối hợp AI của dự án |
-| Version | 0.6.1 |
+| Version | 0.6.2 |
 | Status | Proposed conditional Phase G adoption — pending dual review and accepted merge/postmerge verification |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Human / Product Owner |
 | Created date | 18/09/2026 |
-| Last updated | 08/10/2026 |
+| Last updated | 15/10/2026 |
 | Related task ID | SPEC-003 |
 | Source of Truth | GitHub — `AGENTS.md` |
 | Confidentiality level | Internal |
@@ -33,6 +33,7 @@
 | 0.4.1 | 0.5.0 | 07/10/2026 | Codex | Conditional V2 selection, four roles, manual/external verification and rollback; retain V1 | Human GOV-AGENT-001-E E-01–E-06; spec v0.2.1; exact base `5d8d4b555b1c11407db4671b9c2af88f4baad8bb` | Independent governance review pending | Yes — workflow governance; pre-1.0 minor follows 0.4.0 convention; no product/API change |
 | 0.5.0 | 0.6.0 | 08/10/2026 | Codex | Prospective conditional project adoption; G-01–G-09; retain V1, manual gates and operational limits | HUMAN-GOV-AGENT-001-G-ADOPT-V2-CONDITIONAL-2026-10-08; frozen G spec 0.1.0 | Dual independent fixed-SHA review pending; effective after accepted G merge/postmerge verification | Yes — prospective governance; no product/API change; preserve history and separately reviewed rollback |
 | 0.6.0 | 0.6.1 | 08/10/2026 | Codex | Reconcile frozen G spec v0.1.1 and preserved v0.1.0 supersession | Human SEC-001/SEC-002 remediation approval | Supported freeze spec3/provenance8; dual review pending | No — factual references only |
+| 0.6.1 | 0.6.2 | 15/10/2026 | ChatGPT/Codex | Record prospective Gemini 3.8 Flash High / Antigravity STRICT READ-ONLY reviewer default for authorized V1 tasks; preserve independent review gates and historical records | Human standing choice effective 14/10/2026 | [GOV-REVIEWER-001 #113](https://github.com/nshaokiet/ai-ip-description-generator/issues/113); [Human decision](https://github.com/nshaokiet/ai-ip-description-generator/pull/112#issuecomment-6164405254) | No — reviewer model-selection guidance only |
 
 ## 1. Project identity
 
@@ -107,6 +108,16 @@ Antigravity là **Independent Review & QA Environment**:
 - Trả `PASS`, `REQUEST CHANGES` hoặc blocker với bằng chứng, branch/SHA và exact model/profile.
 - Chỉ gửi review report qua kênh review/handoff được phép. Không sửa tracked/production artefact, implementation branch hoặc approval/task state; không commit, push, merge, deploy hay remediate trong reviewer role.
 - Codex ghi report vào Review Log/MCP và giữ nguyên nội dung/attribution. Reviewer PASS không miễn trừ CI, scope gate hay ngoại lệ Human.
+
+### 6.1 Standing independent reviewer model — Workflow V1 (effective 14/10/2026)
+
+For **new task-authorized Workflow V1 independent specification/code reviews**, the default selection is **Gemini 3.8 Flash High / Antigravity STRICT READ-ONLY**. This prospective model/profile selection was explicitly decided by Human on **14/10/2026** ([source decision](https://github.com/nshaokiet/ai-ip-description-generator/pull/112#issuecomment-6164405254); [governance task #113](https://github.com/nshaokiet/ai-ip-description-generator/issues/113)). Do not repeatedly request model selection when this default applies; an explicit later task-specific Human choice overrides it. No model alias or substitute is implicitly authorized. If the actual active model differs or is unavailable, **STOP the review gate and request Human selection**.
+
+This standing choice **does not grant task authorization, implementation/merge authority, automatic PASS or release permissions**. Each review still requires a genuinely independent read-only session, observed actual model/profile and session identity (including reuse disclosure), final immutable review SHA, changed-file scope, tests/security findings and explicit PASS / REQUEST CHANGES / BLOCKED. CI SUCCESS, branch/main/PR freshness, no blockers, expected-head protection, Render safety and other Section 8/19 gates remain separate and mandatory. Codex self-review never substitutes for Antigravity.
+
+The AI-CONV-002 historical Gemini 3.8 Flash High report on `beb69bf9ff0972b27147c62a938323a74f3a0193` predates the decision and **did not retroactively become gate-eligible**; its later independently reviewed remediated SHA and actual merge receipts remain separate historical evidence. Do not bulk rewrite older reviewer names or verdicts.
+
+**V2 / Phase H:** this default is not V2 enrollment, role assignment or identity proof; where applicable, Security and Quality must remain separately independent with their own actual identities/sessions, verdicts and MANUAL_EXTERNAL/conditional merge gates. This is governance reviewer selection **only**, not product AI/provider/model configuration; no paid API, Claims, confidential research, production security or deployment authorization follows. Operational checklist: [GOV-REVIEWER-001 standing reviewer guide](docs/operations/GOV-REVIEWER-001-standing-reviewer-default.md).
 
 ## 7. Vai trò Project Orchestrator MCP
 
