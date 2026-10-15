@@ -8,6 +8,7 @@ does not call a provider, network service, database, or persistent store.
 from __future__ import annotations
 
 import hashlib
+import math
 from copy import deepcopy
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
@@ -21,7 +22,14 @@ from backend.app.services.invention_reconstruction import reconstruct_invention
 from backend.app.services.supported_draft_claims_generation import (
     generate_supported_draft_claims,
 )
-from backend.app.services.supported_draft_claims_validation import sha256_canonical
+from backend.app.services.supported_draft_claims_validation import (
+    sha256_canonical,
+    validate_generation_config as validate_p4_config,
+)
+from backend.app.services.uspto_specification_generation_validation import (
+    validate_generated_specification,
+    validate_generation_config as validate_p3_config,
+)
 from backend.app.services.uspto_document_package import (
     assemble_uspto_document_package,
 )
@@ -37,7 +45,7 @@ from backend.app.services.uspto_specification_generation import (
 )
 
 
-ORCHESTRATION_CONTRACT_VERSION = "1.0.0"
+ORCHESTRATION_CONTRACT_VERSION = "1.0.1"
 PROVENANCE_KEYS = (
     "source_envelope",
     "structured_analysis",
@@ -402,6 +410,17 @@ class OfflineUSPTOOrchestrator:
         with self._lock:
             record = self._require_current(session_id, expected_revision_token)
             self._verify_integrity(record)
+            # Reject non-JSON values before copying or model coercion. Preparing
+            # a rejected revision must never mutate the live record or files.
+            for value in (
+                source_envelope, structured_analysis,
+                p2_003_generation_config, p2_004_generation_config,
+            ):
+                if value is not _UNSET:
+                    _validate_revision_json(
+                        value.model_dump(mode="python")
+                        if isinstance(value, ExtractionInputEnvelope) else value
+                    )
             next_envelope = (
                 record.source_envelope
                 if source_envelope is _UNSET
@@ -435,39 +454,71 @@ class OfflineUSPTOOrchestrator:
             if not (source_changed or p3_changed or p4_changed):
                 return _status(record)
 
-            self._remove_render_output(record)
-            record.source_envelope = deepcopy(next_envelope)
-            record.structured_analysis = deepcopy(next_analysis)
-            record.p2_003_generation_config = deepcopy(next_p3)
-            record.p2_004_generation_config = deepcopy(next_p4)
+            candidate = deepcopy(record)
+            candidate.source_envelope = deepcopy(next_envelope)
+            candidate.structured_analysis = deepcopy(next_analysis)
+            candidate.p2_003_generation_config = deepcopy(next_p3)
+            candidate.p2_004_generation_config = deepcopy(next_p4)
             if source_changed:
                 metadata = next_envelope["document_metadata"]
-                record.document_id = metadata["document_id"]
-                record.source_sha256 = metadata["sha256"]
-                record.reconstruction = None
-                record.specification = None
-                record.supported_claims = None
-                record.package = None
-                record.state = "SOURCE_READY"
+                candidate.document_id = metadata["document_id"]
+                candidate.source_sha256 = metadata["sha256"]
+                candidate.reconstruction = None
+                candidate.specification = None
             elif p3_changed:
-                record.specification = None
-                record.supported_claims = None
-                record.package = None
-                record.state = "RECONSTRUCTION_READY"
+                candidate.specification = None
+            candidate.supported_claims = None
+            candidate.package = None
+            if candidate.reconstruction is None:
+                candidate.specification = None
+                candidate.state = "SOURCE_READY"
+            elif candidate.specification is None:
+                candidate.state = "RECONSTRUCTION_READY"
             else:
-                record.supported_claims = None
-                record.package = None
-                record.state = "SPECIFICATION_READY"
-            record.revision += 1
-            record.error_code = None
-            record.error_paths = ()
-            record.render_manifest = ()
-            record.artifact_digests = self._current_json_digests(record)
-            record.revision_token = _revision_token(
-                record.session_id, record.revision, record.artifact_digests
-            )
-            record.updated_at = datetime.now(timezone.utc)
-            return _status(record)
+                candidate.state = "SPECIFICATION_READY"
+            candidate.revision += 1
+            candidate.error_code = None
+            candidate.error_paths = ()
+            candidate.render_directory = None
+            candidate.render_manifest = ()
+            try:
+                for key in (
+                    "source_envelope", "structured_analysis",
+                    "p2_003_generation_config", "p2_004_generation_config",
+                ):
+                    _validate_revision_json(getattr(candidate, key))
+                # Validate all root inputs using released contracts, including
+                # selections when upstream stages have not yet been executed.
+                expected = reconstruct_invention(
+                    candidate.source_envelope, candidate.structured_analysis
+                )
+                p3 = validate_p3_config(candidate.p2_003_generation_config, expected)
+                p4 = validate_p4_config(candidate.p2_004_generation_config, expected)
+                if p3 != p4["p2_003_generation_config"]:
+                    raise ValueError("inconsistent configs")
+                if candidate.reconstruction is not None:
+                    if candidate.reconstruction != expected:
+                        raise ValueError("invalid retained reconstruction")
+                if candidate.specification is not None:
+                    validate_generated_specification(candidate.specification, expected, p3)
+                candidate.artifact_digests = self._current_json_digests(candidate)
+                candidate.revision_token = _revision_token(
+                    candidate.session_id, candidate.revision, candidate.artifact_digests
+                )
+                candidate.updated_at = datetime.now(timezone.utc)
+                prepared_status = _status(candidate)
+            except Exception:
+                raise USPTOOfflineOrchestrationError(
+                    "INVALID_REVISION_INPUT", stage="session", paths=("/revision",),
+                    session_id=record.session_id, revision=record.revision,
+                ) from None
+
+            # Cleanup may fail after some files were removed. The existing
+            # helper explicitly marks the old revision FAILED/CLEANUP_FAILED;
+            # never publish a candidate or claim rollback of filesystem writes.
+            self._remove_render_output(record)
+            self._sessions[session_id] = candidate
+            return prepared_status
 
     def get_session_status(self, session_id: str) -> OrchestrationStatus:
         """Return path-free status metadata without source or generated prose."""
@@ -821,6 +872,33 @@ class OfflineUSPTOOrchestrator:
             session_id=record.session_id,
             revision=record.revision,
             upstream_code=upstream_code,
+        ) from None
+
+
+def _validate_revision_json(value: Any) -> None:
+    """Require JSON-native values; do not coerce tuples, keys or NaN/Infinity."""
+
+    def visit(item: Any) -> None:
+        if item is None or type(item) in (str, bool, int):
+            return
+        if type(item) is float and math.isfinite(item):
+            return
+        if type(item) is list:
+            for child in item:
+                visit(child)
+            return
+        if type(item) is dict and all(type(key) is str for key in item):
+            for child in item.values():
+                visit(child)
+            return
+        raise ValueError("non-JSON value")
+
+    try:
+        visit(value)
+        sha256_canonical(value)
+    except Exception:
+        raise USPTOOfflineOrchestrationError(
+            "INVALID_CANONICAL_INPUT", stage="session", paths=("/revision",)
         ) from None
 
 

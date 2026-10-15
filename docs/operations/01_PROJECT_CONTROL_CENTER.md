@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.87 |
+| Version | 0.3.88 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -18,6 +18,16 @@
 | Related task ID | SPEC-004 |
 | Source of Truth | Operational status bridge; bản nguồn Git tại `docs/operations/01_PROJECT_CONTROL_CENTER.md` |
 | Confidentiality level | Internal |
+
+### AI-CONV-002 — MEDIUM blocker remediation candidate (15/10/2026)
+
+- Explicit Human remediation instruction authorizes MEDIUM-01/02 fixes under existing Issue #111 / Workflow V1. The [blocker receipt](https://github.com/nshaokiet/ai-ip-description-generator/pull/112#issuecomment-6182824064) supersedes prior merge readiness, not historical review attribution.
+- Internal contract 1.0.1 implements prerequisite-based revision readiness and prepare/validate/hash/token → verified cleanup → commit. Invalid candidate rejection preserves the live session and render files. Cleanup failures explicitly fail the old revision without committing candidate inputs; partial file deletion is not rolled back.
+- [Implementation handoff v0.1.1](../tasks/AI-CONV-002-offline-orchestration-implementation.md) records tests, limits and both LOW reconciliations. Status: **REMEDIATED CANDIDATE / NEW FIXED-SHA REVIEW REQUIRED / NOT MERGED**; exact candidate CI and review evidence belong in PR #112.
+- Required reviewer: Gemini 3.8 Flash High / Antigravity STRICT READ-ONLY. Prior external PASS used a reused conversation ID, 22 newly reported tests and 302 prior supporting tests; it cannot approve a changed implementation SHA.
+- MCP read is now available but returns `Unknown task: AI-CONV-002`; lease/progress is **BLOCKED BY TOOL CAPABILITY**. No fabricated lease/state. No AI-CONV-003+, V2/Phase H, provider/data, Render or deployment changes.
+
+OPS-001 **0.3.87 → 0.3.88**, 15/10/2026, Codex; reason: authorized MEDIUM-01/02 remediation; Breaking change: No.
 
 ### AI-CONV-002 — offline orchestration implementation candidate (14/10/2026)
 
