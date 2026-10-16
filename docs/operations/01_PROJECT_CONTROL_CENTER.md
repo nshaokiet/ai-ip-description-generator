@@ -8,16 +8,27 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.92 |
+| Version | 0.3.93 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High |
 | Created date | 18/09/2026 |
-| Last updated | 15/10/2026 GMT+7 |
+| Last updated | 16/10/2026 GMT+7 |
 | Related task ID | SPEC-004 |
 | Source of Truth | Operational status bridge; bản nguồn Git tại `docs/operations/01_PROJECT_CONTROL_CENTER.md` |
 | Confidentiality level | Internal |
+
+### AI-CONV-003 — implementation merged, main CI verified; factual governance sync candidate (16/10/2026)
+
+- **Verified main:** `8d593a8ac744deb74c3d1e2b7545f815b70b4f41`, [PR B #119](https://github.com/nshaokiet/ai-ip-description-generator/pull/119) **MERGED** on 15/10/2026 by normal expected-head-protected merge of reviewed `cbb3ababa4ed64862b1eb0fdbe1b52cdc746b02d`; merge-tree/file comparison reports no diff from reviewed candidate, exactly seven scoped implementation/test/fixture/docs files relative to prior main.
+- **Independent review evidence:** Initial attributed Gemini 3.8 Flash High report contained fabricated function/test names and incorrect seven-input P2-005 citations; [blocking discrepancy receipt](https://github.com/nshaokiet/ai-ip-description-generator/pull/119#issuecomment-6194379122) was recorded before merge. Human then supplied a corrective **Gemini 3.8 Flash High / Antigravity STRICT READ-ONLY PASS** from **fresh session `169941d8-7702-4a3c-877a-2d3aa2a85eb9` (reuse NO)** on the same exact implementation SHA; corrected references and [canonical verification receipt](https://github.com/nshaokiet/ai-ip-description-generator/pull/119#issuecomment-6194711395). Not a GitHub-native review submission; no retroactive validation of inaccurate report. No blocking implementation/security findings in corrective report.
+- **Testing and CI:** Codex local full offline **1056 passed / 3 skipped**; reported corrective Gemini isolated **49 authority**, **417 relevant regressions**, **38 governance** PASS. [Head CI #38744324845 attempt 2](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/38744324845) and [postmerge push CI #38753691739](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/38753691739) independently verified `COMPLETED/SUCCESS` at the exact reviewed and merge SHAs, respectively; 34/34 steps PASS for both.
+- **Render:** fresh connected frontend/backend checks after the merge showed `autoDeploy=no`, `autoDeployTrigger=off`, previews OFF and unchanged historical live deploy SHA `8c36b2bc662ed41b2a9b3635d5d4d29110b1d9bb`. No deploy or configuration modification.
+- **Boundaries:** Policy [#118](https://github.com/nshaokiet/ai-ip-description-generator/pull/118) merged beforehand; internal additive authority overlay v1.0.0 only. SYSTEM/APPARATUS positive synthetic eligibility means **further unchanged P2-004 validation**, not real-paper Claims. METHOD/PROCESS and COMPOSITION positive authority remain disabled. Released P2-002 through P2-006, seven-input P2-005/P2-006 provenance and P2-003 product `claims_runtime_implemented=false` remain unchanged.
+- **Outstanding:** [Issue #116](https://github.com/nshaokiet/ai-ip-description-generator/issues/116) stays OPEN for Human governance disposition; MCP state remains `BLOCKED BY TOOL CAPABILITY — Unknown task: AI-CONV-003`. This status PR is **governance-only candidate**; effective factual closeout requires independent Gemini fixed-SHA review of this docs diff, exact-head CI, normal protected merge, exact-main CI and fresh Render checks. Do not assert final CLOSED/COMPLETED before those gates and Human sign-off. AI-CONV-004/005/006, paid/provider/real research input, production, public runtime Claims and Workflow V2/Phase H are not authorized by this sync.
+
+OPS-001 **0.3.92 → 0.3.93**, 16/10/2026, ChatGPT: append verified AI-CONV-003 PR #119 merge/main CI, fresh corrected review and scope governance checkpoint while retaining prior dated candidate history. Breaking change: **No — factual docs only**.
 
 ### AI-CONV-003 — PR A merged / PR B final-candidate validation (15/10/2026)
 
