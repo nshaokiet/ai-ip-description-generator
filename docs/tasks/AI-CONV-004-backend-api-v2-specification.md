@@ -3,28 +3,29 @@
 | Field | Value |
 |---|---|
 | Task | AI-CONV-004 |
-| Document version | 0.1.2 — CANDIDATE A DETAILED DESIGN APPROVED FOR DRAFTING / EXACT WIRE CONTRACT NOT FROZEN |
+| Document version | 0.1.3 — CANDIDATE A FINALIZATION-DRAFT PROPOSAL / NOT FROZEN / NO IMPLEMENTATION AUTHORITY |
 | Document date | 2026-10-16 (Asia/Ho_Chi_Minh) |
-| Status | DETAILED SPECIFICATION CANDIDATE — NEW INDEPENDENT REVIEW, EXACT WIRE/SECURITY FREEZE PENDING |
+| Status | FINALIZATION-DRAFT SPECIFICATION CANDIDATE — NEW INDEPENDENT REVIEW, CI AND EXPLICIT HUMAN FREEZE PENDING |
 | Tracking issue | [#121](https://github.com/nshaokiet/ai-ip-description-generator/issues/121) |
-| Human authorization | Specification preparation `HUMAN-AI-CONV-004-BACKEND-V2-SPEC-PREPARATION-2026-10-16`; bounded Candidate A selection `HUMAN-AI-CONV-004-CANDIDATE-A-POLICY-2026-10-16` — [Candidate A policy #6207131354](https://github.com/nshaokiet/ai-ip-description-generator/issues/121#issuecomment-6207131354); [detailed design drafting approval #6208917696](https://github.com/nshaokiet/ai-ip-description-generator/issues/121#issuecomment-6208917696). **Neither authorizes final freeze or code implementation.** |
+| Human authorization | Specification preparation `HUMAN-AI-CONV-004-BACKEND-V2-SPEC-PREPARATION-2026-10-16`; bounded Candidate A selection `HUMAN-AI-CONV-004-CANDIDATE-A-POLICY-2026-10-16` — [Candidate A policy #6207131354](https://github.com/nshaokiet/ai-ip-description-generator/issues/121#issuecomment-6207131354); [detailed design drafting approval #6208917696](https://github.com/nshaokiet/ai-ip-description-generator/issues/121#issuecomment-6208917696); [v0.1.3 finalization-draft authorization #6210611707](https://github.com/nshaokiet/ai-ip-description-generator/issues/121#issuecomment-6210611707). **None authorizes final freeze or code implementation.** |
 | Workflow | Workflow V1; Codex prepares candidate, Gemini 3.8 Flash High / Antigravity STRICT READ-ONLY independently reviews final SHA |
 | Baseline | `main` at `ddc92f9a2d321e3e8507619276a200d35e7de696` (PR #120 merge) |
 | Parent contracts | AI-CONV-001 v0.1.1; AI-CONV-002 internal orchestration v1.0.1; AI-CONV-003 synthetic authority overlay v1.0.0; released P2-002…P2-006 |
 | Breaking change | No — Candidate A policy and proposed wire examples only; released v1 and USPTO stages unchanged |
 | Runtime, data, budget | No endpoint implementation, no provider calls, no real/confidential source, no production, no Render deployment, no Workflow V2 / Phase H activation |
 
-## 0. Version lineage and limited Human policy approval
+## 0. Version lineage and explicit limited Human authorization
 
 | Version | Date | Change | Authorization / status |
 |---|---|---|---|
 | **0.1.0** | 2026-10-16 | Initial three-option Backend API v2 proposal and HD-V2-01…09 decision packet | [Preserved exact pre-decision artifact](history/AI-CONV-004-backend-api-v2-specification-v0.1.0.md); initial independent [Gemini-attributed specification PASS](https://github.com/nshaokiet/ai-ip-description-generator/pull/122#issuecomment-6207049807), no architecture freeze |
 | **0.1.1** | 2026-10-16 | Candidate A policy-selected specification and initial security/negative-test requirements | [Byte-identical historical v0.1.1](history/AI-CONV-004-backend-api-v2-specification-v0.1.1.md); [attributed independent PASS on earlier SHA](https://github.com/nshaokiet/ai-ip-description-generator/pull/122#issuecomment-6208837151), not transferable |
-| **0.1.2** | 2026-10-16 | Human-endorsed detailed proposal for two GETs, bearer guard, privacy, error and time/space bounds; no API implementation | [Human approval for drafting only](https://github.com/nshaokiet/ai-ip-description-generator/issues/121#issuecomment-6208917696); new fixed-SHA Gemini review/CI and later Human final freeze still mandatory |
+| **0.1.2** | 2026-10-16 | Two GET detailed design; review integrity incident followed by corrective new-session PASS | [Byte-identical v0.1.2 history](history/AI-CONV-004-backend-api-v2-specification-v0.1.2.md); [false prior review blocked](https://github.com/nshaokiet/ai-ip-description-generator/pull/122#issuecomment-6210308524); [new-session corrective PASS receipt](https://github.com/nshaokiet/ai-ip-description-generator/pull/122#issuecomment-6210567224); accepted only for v0.1.2 |
+| **0.1.3** | 2026-10-16 | L-01 disposition (no client version negotiation), exact candidate capability/Host/Origin/TTL/cursor/error rules, negative acceptance criteria and freeze decision checklist | [Human authorized new finalization draft ONLY](https://github.com/nshaokiet/ai-ip-description-generator/issues/121#issuecomment-6210611707); **new fixed-SHA reviewer PASS + exact-head CI required; final Human freeze and separate implementation authorization outstanding** |
 
 **Human-selected design direction:** Candidate **A ONLY**, local-loopback, synthetic-only and GET/read-only. Candidate B (review writes, mutations) and C (real-paper/public Claims/exports) remain disabled and require separate explicit authorization. Product Claims stay disabled. Original seven-input P2-005/P2-006 provenance remains intact.
 
-**Approval granularity:** Human approved Candidate A policy and the later detailed technical package **for v0.1.2 drafting and review**, not as an implemented, finally frozen contract. Exactly two GET routes, proposed values 15-minute capability, 60-minute session, 50 concurrent sessions and 25/50 evidence pagination are design candidates. Final capability bootstrapping, error/response contract freeze and implementation remain separately gated. Do not reclassify `PROPOSED` samples as released types or claim a user role/account exists.
+**Approval granularity:** Human approved Candidate A and detailed design for v0.1.2 and explicitly approved preparation of a v0.1.3 finalization draft to resolve LOW L-01. **None** is an implemented or final frozen contract. Exactly two GET routes, proposed values 15-minute capability, 60-minute session, 50 concurrent sessions and 25/50 evidence pagination are design candidates. Final capability bootstrapping, error/response contract freeze and implementation remain separately gated. Do not reclassify `PROPOSED` samples as released types or claim a user role/account exists.
 
 ## 1. Purpose and authorization boundary
 
@@ -79,7 +80,7 @@ Canonical references: `docs/tasks/AI-CONV-001-source-grounded-uspto-v2-orchestra
 | **B — Bounded synthetic review workflow** | Candidate POST create/advance revision and synthetic review decision endpoints, only under a new offline opt-in | Models Human review lifecycle and rejection semantics | Requires identity, authorization, persistence, CSRF/cross-session and audit decisions; synthetic actor is not authenticated; **do not implement until Human selects safeguards** |
 | **C — Product Claims/export API** | Public positive Claims, document package/PDF/DOCX export, real Human approvals and real-paper processing | Product-value target | **DEFERRED / NOT AUTHORIZED**: new authority, versioned projection migration, real auth, data/privacy and production/provider approvals required |
 
-**Human-approved sequence:** detail Candidate A two GET schemas and negative tests in v0.1.2, retain Candidate B as deferred and exclude Candidate C. **This does not freeze any wire-level endpoint or authorize implementation.**
+**Human-approved sequence:** refine v0.1.3 into a reviewable finalization draft, specifically L-01, secure same-process bootstrap, strict protocol and negative tests; retain Candidate B as deferred and exclude Candidate C. **This does not freeze any wire-level endpoint or authorize implementation.**
 
 ## 4. Candidate A API surface — EXACTLY TWO PROPOSED GETs, NOT IMPLEMENTED
 
