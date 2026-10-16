@@ -119,29 +119,68 @@ The previously proposed third `GET .../package-status` is **DEFERRED / REMOVED F
 
 All types below are **proposed** versioned design objects; they have no released schema, server route, or frontend binding yet.
 
-### 5.1 Example read-only response shape (illustrative; not contract)
+### 5.1 Candidate strict GET response schemas — proposal only, NOT RELEASED
+
+**Status GET proposed HTTP 200 response** (all keys required, extra keys forbidden):
 
 ```json
 {
-  "api_version": "2.0.0-proposal",
+  "api_version": "2.0.0",
   "session_id": "synthetic-session-id",
   "revision": 1,
   "stage": "CLAIMS_REVIEW_REQUIRED",
-  "claims": {
-    "status": "HUMAN_CONFIRMATION_REQUIRED",
-    "count": 0,
-    "product_runtime_enabled": false
-  },
-  "source_identity": {
-    "document_id": "synthetic-document-id",
-    "source_sha256": "synthetic-source-digest"
-  },
+  "claims_status": "HUMAN_CONFIRMATION_REQUIRED",
+  "claims_count": 0,
   "review_required": true,
+  "product_claims_runtime_enabled": false
+}
+```
+
+Exactly eight top-level allowlisted properties; `api_version="2.0.0"` is a **proposed future value** and is not an existing public contract. `stage` must be allowlisted from trusted offline orchestration and `claims_status` from trusted package state. `claims_count` is nonnegative metadata, never returned Claim text. `HUMAN_CONFIRMATION_REQUIRED` with zero Claims is a valid outcome, and product-runtime state is always `false`. Response is synthetic-only; never append source identity, raw source SHA, document filename, private decision seal, revision token or bearer capability.
+
+**Evidence-index GET proposed HTTP 200 response** (all keys required, extras forbidden):
+
+```json
+{
+  "api_version": "2.0.0",
+  "session_id": "synthetic-session-id",
+  "revision": 1,
+  "items": [
+    {"evidence_id": "synthetic-evidence-001", "digest": "synthetic-approved-digest"}
+  ],
+  "next_cursor": null
+}
+```
+
+Exactly five top-level keys and two keys per evidence item, `items` length **0..50**, sorted by synthetic evidence ID. Digest is a **vetted synthetic-safe fingerprint**, not an actual paper/content/source hash disclosed by default. `next_cursor` is null or a bounded authenticated page cursor (not a bearer). An empty page is valid. **No total count, locator, source excerpts or raw document data.**
+
+**Static safe error envelope — proposed only:**
+
+```json
+{
+  "code": "session_unavailable",
+  "message": "The session is unavailable.",
   "correlation_id": "synthetic-correlation-id"
 }
 ```
 
-**Illustrative only:** field names, enum sets, formats, revision lifetime and safe disclosure of synthetic identifiers/digests are **not frozen**. In particular, the sample **intentionally omits revision/capability tokens**: they must never be returned by a GET as proof of authority. Access-control bootstrap and wire guard are independent design decisions. Real source hashes must not be surfaced simply because they are SHA-256 values. Do not promote this sample to a released schema.
+Exactly three fields; `code` from a closed allowlist, `message` static, and `correlation_id` server-generated bounded safe ASCII, never client-provided. No trace, credentials, source text, file paths or arbitrary reflected input.
+
+**Candidate privacy-preserving HTTP map (not finally frozen):**
+
+| Proposed HTTP code | Safe `code` | Scope and precedence |
+|---|---|---|
+| **200** | Success, no error envelope | Only after trusted listener, capability and session/revision checks |
+| **404** | `session_unavailable` | Absent/expired/foreign/unauthorized session or capability, including malformed/absent bearer: *uniform generic response*, no existence oracle |
+| **409** | `stale_revision` | Only after successful owner/capability authorization and mismatch against trusted current revision |
+| **422** | `invalid_request` | Only after relevant capability authorization; malformed authorized query/limit/cursor/version, no FastAPI early-422 session leak |
+| **404** | `feature_disabled` or generic 404 | If router is absent when flag OFF, framework generic 404 must remain acceptable; do not promise custom JSON from an unregistered router |
+| **500** | `internal_error` | Sanitized static failure; never disclose exception/path/source |
+| **TBD** | `unsupported_api_version` | If version negotiation is needed; exact request-version mechanism remains a final freeze decision |
+
+**Authorization order proposal:** enforce peer/listener, Host and Origin/proxy policy and global size checks first; apply OFF flag; reject absent/malformed bearer uniformly; verify scoped capability ownership **before** revealing session-specific validation (including FastAPI/Pydantic path/query errors); then check current revision and bounded input; only then return status/evidence metadata. Malformed Host and pre-auth errors use safe generic responses without resource enumeration. Uniform error *status, body and observable behavior* must be tested, not inferred from return code alone.
+
+**All snippets are proposal samples only**, not actual running endpoints or already-released JSON Schema/OpenAPI files. No external authenticator exists here.
 
 ### 5.2 Mandatory candidate invariants
 
@@ -153,23 +192,28 @@ All types below are **proposed** versioned design objects; they have no released
 - **Released-contract compatibility:** AI-CONV-002 and P2-005/P2-006 validation remains the source of truth; the seven-input projector stays exact. A hypothetical v2 authority-bearing projection requires a later **separately approved migration contract**, not an injected property.
 - **Fail-closed output:** `CLAIMS_REVIEW_REQUIRED` and `HUMAN_CONFIRMATION_REQUIRED` + zero Claims are legitimate non-error outcomes. Preserve draft-only, non-filing and non-legal-advice notices; do not advertise issued USPTO B2 status.
 
-### 5.3 Candidate field and error profiles — review targets, not approved wire contract
+### 5.3 Candidate exact field/query constraints — still subject to Human freeze
 
-| Proposed field/domain | Candidate constraint | Required rejection / limitation |
+| Domain | Proposed type / limit | Mandatory security behavior |
 |---|---|---|
-| `api_version` | One explicitly selected supported version; `2.0.0-proposal` is non-production placeholder | Reject absent, unknown, mixed and downgrade-inconsistent versions |
-| `session_id` | Server-generated opaque synthetic identifier, strict max length and syntax | Reject malformed or cross-session identifiers; not an access credential |
-| `revision` and `stage` | Nonnegative bounded integer; allowlisted current orchestration enum | Reject stale/future revisions, unknown stages and inconsistent status combinations |
-| `claims.status`, `claims.count` | Status-only; `HUMAN_CONFIRMATION_REQUIRED` with `count=0` is valid | Never return actual positive Claims or infer approval from status |
-| `source_identity` / evidence-index | Only explicitly allowed synthetic IDs/digests after owner validation | No raw paper text, file names, freeform locators, absolute paths or third-party source metadata |
-| `correlation_id` | Server-issued bounded identifier, if exposure later approved | Never disclose paths, credentials, stack traces or sensitive logs |
-| Evidence page | Proposed deterministic ID order, bounded page size and total count | Reject unbounded reads, malformed pagination and cursor replay |
+| `api_version` | Future proposed literal `"2.0.0"` in responses | No silent downgrade or implication that v2 is currently deployed |
+| Path `session_id` | Opaque synthetic server-generated URL-safe ASCII, proposed 1..64 characters | Not a credential; bind to owned in-memory session |
+| Path `revision` | Strict integer 1..2,147,483,647 | Reject stale/future, no coercion |
+| Query `limit` | Optional integer 1..50, default 25 | Reject duplicate, negative, zero, 51+, float, scientific-notation and oversized values |
+| Query `cursor` | Optional scoped opaque authenticated token, proposed max 512 ASCII chars | Bind to session, revision, capability, page position and expiry; no plain source IDs |
+| `Authorization` | Candidate HTTP `Bearer` opaque per-session capability | Checked by trusted server-side verifier, no public bootstrap, URL/GET reflection or log |
+| Status `stage` | Existing trusted orchestration enum | Never derived from caller parameters |
+| Status `claims_status`, `claims_count` | Trusted enum and nonnegative bounded integer | `HUMAN_CONFIRMATION_REQUIRED` with zero is valid, no Claim text or essentiality promotion |
+| Evidence `items[]` | Synthetic `evidence_id`, vetted synthetic-only bounded `digest` strings, each proposed 1..128 chars | No raw source fingerprint/locator/filename/content, deterministic sort, max 50 |
+| Evidence `next_cursor` | null or authenticated scope-bound opaque token | No raw bearer, source excerpt, count, unbounded cursor |
+| Error `code/message/correlation_id` | Static safe closed allowlist; correlation ID proposed 1..64 safe characters | No user/reflected header, path, stack or token |
+| Every v2 model | Strict closed object with bounded serialization | Reject extra/mismatched fields, unsafe encodings, oversized header/body |
 
-**Candidate error taxonomy (not accepted HTTP map):** `invalid_request`, `unsupported_api_version`, `session_unavailable`, `stale_revision`, `source_identity_mismatch`, `unsupported_operation`, `capability_rejected`, `feature_disabled`. These are static safe **proposed codes only**. Exact HTTP statuses, response envelope, privacy uniformity, retry semantics and the omission of sensitive diagnostic details require Human freeze.
+**No FastAPI route, Pydantic model, JSON Schema/OpenAPI file, implementation test, server setting, credential or deployment is added under this specification task.** Exact regex/enums, cursor verifier/key custody and privacy-equivalent error map remain subject to new independent review and final Human contract freeze.
 
 ## 6. Errors, revisions, concurrency and idempotency (proposal)
 
-A public API error contract is **not yet decided**. A candidate must preserve existing v1 error behavior and propose separate versioned v2 codes. Possible semantic mappings requiring review: malformed/unknown field → 400/422; unauthorized/forbidden → 401/403 **only after an authentication policy exists**; document/session not found → 404 or privacy-preserving uniform 404; stale revision/conflict → 409; source/provenance contract invalid → 422; unavailable/disabled capability → 403/404/409 as determined by Human API policy. Exact wire status, name and error envelope are **PENDING**.
+The candidate error map, response envelope and fail-closed authorization order are now proposed in §5.1. `404 session_unavailable` applies uniformly to missing/unauthorized sessions; only authorized requests may receive `409 stale_revision` or `422 invalid_request`. Feature-disabled behavior must avoid inventing a custom response if the router was never mounted. All status codes, privacy equivalence and error wire types remain **UNFROZEN** pending independent security review and explicit final Human approval; released v1 error handling is untouched.
 
 Proposed error envelope should contain only an allowlisted code, static safe message, correlation ID and bounded public field references; no source excerpt, credentials, filesystem paths, document titles, arbitrary attacker-supplied field names, secret tokens or stack traces.
 
@@ -186,7 +230,7 @@ Current synthetic actor `SYNTHETIC_REVIEWER_001` is a test-only identity convent
 - Whether source data may ever include real or confidential papers and whether any AI provider is authorized (both currently **NO**).
 - Whether any runtime/budget or deployment change is permitted (currently **NO**).
 
-A feature flag, synthetic actor and untrusted proxy header are not authentication/authorization. **Approved policy is ephemeral per-process storage only**, bounded TTL, no persistent database. Propose a configurable synthetic TTL (for example 15 minutes) as a test parameter; **no numeric retention limit is Human-approved yet**. No public route or real-user workflow may be inferred from a synthetic test actor.
+A feature flag, synthetic actor and untrusted proxy header are not authentication/authorization. Human explicitly approved the numerical **15-minute capability TTL, maximum 60-minute synthetic session TTL and 50-session process capacity as drafting values for v0.1.2**; they are **not implemented settings or a frozen security contract**. Session retirement/eviction and capability revocation must be trusted internal lifecycle operations, never side effects of a GET; no DB or persistent audit is selected. No public route or real-user workflow may be inferred from a synthetic test actor.
 
 ## 8. Backward compatibility and migration strategy
 
