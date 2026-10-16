@@ -145,7 +145,7 @@ All types below are **proposed** versioned design objects; they have no released
 }
 ```
 
-Exactly eight top-level allowlisted properties; `api_version="2.0.0"` is a **proposed future value** and is not an existing public contract. `stage` must be allowlisted from trusted offline orchestration and `claims_status` from trusted package state. `claims_count` is nonnegative metadata, never returned Claim text. `HUMAN_CONFIRMATION_REQUIRED` with zero Claims is a valid outcome, and product-runtime state is always `false`. Response is synthetic-only; never append source identity, raw source SHA, document filename, private decision seal, revision token or bearer capability.
+Exactly eight top-level allowlisted properties; `api_version="2.0.0"` is a **proposed future value** and is not an existing public contract. `stage` must be allowlisted from trusted offline orchestration and `claims_status` from trusted package state. `claims_count` is **zero for this Candidate A fail-closed status-only design**, never a count of unapproved internal P2-004 draft candidates or returned Claim text. `HUMAN_CONFIRMATION_REQUIRED` with zero Claims is a valid outcome, and product-runtime state is always `false`. Response is synthetic-only; never append source identity, raw source SHA, document filename, private decision seal, revision token or bearer capability.
 
 **Evidence-index GET proposed HTTP 200 response** (all keys required, extras forbidden):
 
@@ -203,28 +203,29 @@ Exactly three fields; `code` from a closed allowlist, `message` static, and `cor
 - **Released-contract compatibility:** AI-CONV-002 and P2-005/P2-006 validation remains the source of truth; the seven-input projector stays exact. A hypothetical v2 authority-bearing projection requires a later **separately approved migration contract**, not an injected property.
 - **Fail-closed output:** `CLAIMS_REVIEW_REQUIRED` and `HUMAN_CONFIRMATION_REQUIRED` + zero Claims are legitimate non-error outcomes. Preserve draft-only, non-filing and non-legal-advice notices; do not advertise issued USPTO B2 status.
 
-### 5.3 Candidate exact field/query constraints — still subject to Human freeze
+### 5.3 Candidate explicit field grammar and request normalization (FINALIZATION DRAFT, NOT FROZEN)
 
-| Domain | Proposed type / limit | Mandatory security behavior |
+| Candidate field / transport | Proposed precise accepted grammar and bounds | Fail-closed interpretation |
 |---|---|---|
-| `api_version` | Exact future candidate output literal `"2.0.0"`; no client input negotiation | No special `unsupported_api_version` error, no silent downgrade or implication that v2 is currently deployed |
-| Path `session_id` | Opaque synthetic server-generated URL-safe ASCII, proposed 1..64 characters | Not a credential; bind to owned in-memory session |
-| Path `revision` | Strict integer 1..2,147,483,647 | Reject stale/future, no coercion |
-| Query `limit` | Optional integer 1..50, default 25 | Reject duplicate, negative, zero, 51+, float, scientific-notation and oversized values |
-| Query `cursor` | Optional scoped opaque authenticated token, proposed max 512 ASCII chars | Bind to session, revision, capability, page position and expiry; no plain source IDs |
-| `Authorization` | Candidate HTTP `Bearer` opaque per-session capability | Checked by trusted server-side verifier, no public bootstrap, URL/GET reflection or log |
-| Status `stage` | Existing trusted orchestration enum | Never derived from caller parameters |
-| Status `claims_status`, `claims_count` | Trusted enum and nonnegative bounded integer | `HUMAN_CONFIRMATION_REQUIRED` with zero is valid, no Claim text or essentiality promotion |
-| Evidence `items[]` | Synthetic `evidence_id`, vetted synthetic-only bounded `digest` strings, each proposed 1..128 chars | No raw source fingerprint/locator/filename/content, deterministic sort, max 50 |
-| Evidence `next_cursor` | null or authenticated scope-bound opaque token | No raw bearer, source excerpt, count, unbounded cursor |
-| Error `code/message/correlation_id` | Static safe closed allowlist; correlation ID proposed 1..64 safe characters | No user/reflected header, path, stack or token |
-| Every v2 model | Strict closed object with bounded serialization | Reject extra/mismatched fields, unsafe encodings, oversized header/body |
+| Response `api_version` | **Literal string `"2.0.0"` only**, read from server-owned contract; path namespace `/api/v2` | No client version query or header. Any unexpected client `version`/version metadata is an unknown field (post-authorization `422 invalid_request`), not a special version-negotiation error |
+| Path `session_id` | `^[A-Za-z0-9_-]{1,64}$` ASCII synthetic opaque identifier; server generated, no percent-decoding ambiguity | Never a credential; bind to active internal session/document scope |
+| Evidence path `revision` | `^[1-9][0-9]{0,9}$`, numeric value **1..2,147,483,647**, no leading zero | Active server-side revision must match; stale authorized requester gets 409 |
+| Evidence query `limit` | Optional canonical decimal `^(?:[1-9]|[1-4][0-9]|50)$`, **default 25** | Reject duplicates, 0/51+, float, exponent, whitespace, non-ASCII digits, coercion |
+| Evidence query `cursor` | Optional unpadded base64url ASCII `^[A-Za-z0-9_-]{1,512}$`, canonical round-trip required | Constant-time authenticated cursor verification; bind scope, session, revision, page size, expiry; reject tamper after auth |
+| `Authorization` | Exactly one header with literal scheme `Bearer ` + 43 unpadded base64url chars `[A-Za-z0-9_-]{43}` decoding to **32 bytes**; no duplicates or line folding | HMAC verifier scoped and checked in constant time; token NEVER returned/logged; no URL/cookie bootstrap |
+| Response `claims_count` and `product_claims_runtime_enabled` | For current fail-closed Candidate A synthetic status: `claims_count=0`, `product_claims_runtime_enabled=false` | Never count internal tentative standalone P2-004 candidate claims as released product claims |
+| `stage`, `claims_status`, `review_required` | Server-owned enum/boolean from retained immutable orchestration snapshot, with valid `CLAIMS_REVIEW_REQUIRED` / `HUMAN_CONFIRMATION_REQUIRED` example | Do not invent unknown stage enums, convert UNKNOWN/OPTIONAL/CONDITIONAL to ESSENTIAL, or accept caller-provided review flags |
+| Evidence `items[]` | Array length **0..50**; item keys exactly `evidence_id`, `digest` with URL-safe bounded synthetic strings proposed **1..128** | Strict source-bound evidence validation; digest must be a **vetted synthetic-safe** value, not an unredacted real source hash |
+| Evidence `next_cursor` | `null` or bounded authenticated cursor string | No total count, plaintext source ID, raw paper metadata, bearer secret or duplicate page |
+| Error envelope | Exactly `code`, `message`, `correlation_id` only; correlation ID generated server-side, proposed ASCII `[A-Za-z0-9_-]{1,64}` | All message text static and bounded; no extra field path, stack trace, token, host header or user-reflected values |
+| Unknown request field | GETs have **no body** and no query except `limit`/`cursor` on evidence route | No `Accept-Version`, `X-API-Version`, `?version` or accidental Pydantic extra-field coercion |
+| Global envelope | Canonical UTF-8 JSON, strictly closed objects, bounded headers/path/query and response | Reject invalid Unicode/duplicate query/JSON fields; no positive Claims/runtimes, no file writes |
 
-**No FastAPI route, Pydantic model, JSON Schema/OpenAPI file, implementation test, server setting, credential or deployment is added under this specification task.** Exact regex/enums, cursor verifier/key custody and privacy-equivalent error map remain subject to new independent review and final Human contract freeze.
+**No JSON Schema/OpenAPI file, route, middleware, secret, Pydantic model or test is created by this specification PR.** Regex/digest privacy, error-observability consistency, local Host configuration and exact enum sets need independent security review and separate Human final freeze.
 
 ## 6. Errors, revisions, concurrency and idempotency (proposal)
 
-The proposed v0.1.3 error map and fail-closed authorization order are in §5.1: uniform `404 session_unavailable` when the untrusted requester cannot establish ownership, post-auth `409 stale_revision` and `422 invalid_request` for typed query/cursor violations, generic framework 404 when feature OFF and safe static 500. **No client version negotiation or `unsupported_api_version` error/status** is in scope, explicitly resolving prior reviewer L-01. The map, privacy equivalence and exact representation remain **UNFROZEN** pending independent review and explicit final Human security approval; released v1 errors are untouched.
+The proposed v0.1.3 error map and fail-closed authorization order are in §5.1: uniform `404 session_unavailable` when the untrusted requester cannot establish ownership, post-auth `409 stale_revision` and `422 invalid_request` for typed query/cursor violations, **generic framework 404 when feature OFF or route/method is unregistered**, and safe static 500. **No client version negotiation or `unsupported_api_version` error/status** is in scope, explicitly resolving prior reviewer L-01. The map, privacy equivalence and exact representation remain **UNFROZEN** pending independent review and explicit final Human security approval; released v1 errors are untouched.
 
 Proposed error envelope contains **exactly three keys**: allowlisted static `code`, static safe `message`, and bounded server-issued `correlation_id`. **No field references** are included (they would violate the closed three-key schema); no source excerpts, credentials, paths, document titles, reflected values, tokens or stack traces.
 
