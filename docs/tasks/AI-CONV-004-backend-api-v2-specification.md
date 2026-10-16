@@ -3,11 +3,11 @@
 | Field | Value |
 |---|---|
 | Task | AI-CONV-004 |
-| Document version | 0.1.1 — HUMAN-APPROVED CANDIDATE A POLICY / WIRE CONTRACT NOT FROZEN |
+| Document version | 0.1.2 — CANDIDATE A DETAILED DESIGN APPROVED FOR DRAFTING / EXACT WIRE CONTRACT NOT FROZEN |
 | Document date | 2026-10-16 (Asia/Ho_Chi_Minh) |
-| Status | POLICY-ALIGNED SPECIFICATION CANDIDATE — NEW INDEPENDENT REVIEW / FINAL HUMAN CONTRACT FREEZE PENDING |
+| Status | DETAILED SPECIFICATION CANDIDATE — NEW INDEPENDENT REVIEW, EXACT WIRE/SECURITY FREEZE PENDING |
 | Tracking issue | [#121](https://github.com/nshaokiet/ai-ip-description-generator/issues/121) |
-| Human authorization | Specification preparation `HUMAN-AI-CONV-004-BACKEND-V2-SPEC-PREPARATION-2026-10-16`; bounded Candidate A selection `HUMAN-AI-CONV-004-CANDIDATE-A-POLICY-2026-10-16` — [Issue #121 decision](https://github.com/nshaokiet/ai-ip-description-generator/issues/121#issuecomment-6207131354). **Neither authorizes implementation.** |
+| Human authorization | Specification preparation `HUMAN-AI-CONV-004-BACKEND-V2-SPEC-PREPARATION-2026-10-16`; bounded Candidate A selection `HUMAN-AI-CONV-004-CANDIDATE-A-POLICY-2026-10-16` — [Candidate A policy #6207131354](https://github.com/nshaokiet/ai-ip-description-generator/issues/121#issuecomment-6207131354); [detailed design drafting approval #6208917696](https://github.com/nshaokiet/ai-ip-description-generator/issues/121#issuecomment-6208917696). **Neither authorizes final freeze or code implementation.** |
 | Workflow | Workflow V1; Codex prepares candidate, Gemini 3.8 Flash High / Antigravity STRICT READ-ONLY independently reviews final SHA |
 | Baseline | `main` at `ddc92f9a2d321e3e8507619276a200d35e7de696` (PR #120 merge) |
 | Parent contracts | AI-CONV-001 v0.1.1; AI-CONV-002 internal orchestration v1.0.1; AI-CONV-003 synthetic authority overlay v1.0.0; released P2-002…P2-006 |
@@ -19,11 +19,12 @@
 | Version | Date | Change | Authorization / status |
 |---|---|---|---|
 | **0.1.0** | 2026-10-16 | Initial three-option Backend API v2 proposal and HD-V2-01…09 decision packet | [Preserved exact pre-decision artifact](history/AI-CONV-004-backend-api-v2-specification-v0.1.0.md); initial independent [Gemini-attributed specification PASS](https://github.com/nshaokiet/ai-ip-description-generator/pull/122#issuecomment-6207049807), no architecture freeze |
-| **0.1.1** | 2026-10-16 | Reconcile explicit Human **Candidate A** limited policy selection; narrow read-only routes, local access/security floor, ephemeral sessions, safe synthetic metadata and test matrix; mark exact contract/freeze as outstanding | [Human decision receipt](https://github.com/nshaokiet/ai-ip-description-generator/issues/121#issuecomment-6207131354); **new fixed-SHA Gemini review and CI required**; no implementation authority |
+| **0.1.1** | 2026-10-16 | Candidate A policy-selected specification and initial security/negative-test requirements | [Byte-identical historical v0.1.1](history/AI-CONV-004-backend-api-v2-specification-v0.1.1.md); [attributed independent PASS on earlier SHA](https://github.com/nshaokiet/ai-ip-description-generator/pull/122#issuecomment-6208837151), not transferable |
+| **0.1.2** | 2026-10-16 | Human-endorsed detailed proposal for two GETs, bearer guard, privacy, error and time/space bounds; no API implementation | [Human approval for drafting only](https://github.com/nshaokiet/ai-ip-description-generator/issues/121#issuecomment-6208917696); new fixed-SHA Gemini review/CI and later Human final freeze still mandatory |
 
 **Human-selected design direction:** Candidate **A ONLY**, local-loopback, synthetic-only and GET/read-only. Candidate B (review writes, mutations) and C (real-paper/public Claims/exports) remain disabled and require separate explicit authorization. Product Claims stay disabled. Original seven-input P2-005/P2-006 provenance remains intact.
 
-**Approval granularity:** Human approved the bounded policy package, **not** exact paths, JSON schemas, HTTP error mapping, capability/ownership implementation, deployment, an API-contract freeze or any code implementation. The specifications of these remaining choices below are **reviewable recommendations only**. Do not reclassify `PROPOSED` samples as released types or claim a user role/account exists.
+**Approval granularity:** Human approved Candidate A policy and the later detailed technical package **for v0.1.2 drafting and review**, not as an implemented, finally frozen contract. Exactly two GET routes, proposed values 15-minute capability, 60-minute session, 50 concurrent sessions and 25/50 evidence pagination are design candidates. Final capability bootstrapping, error/response contract freeze and implementation remain separately gated. Do not reclassify `PROPOSED` samples as released types or claim a user role/account exists.
 
 ## 1. Purpose and authorization boundary
 
@@ -78,40 +79,41 @@ Canonical references: `docs/tasks/AI-CONV-001-source-grounded-uspto-v2-orchestra
 | **B — Bounded synthetic review workflow** | Candidate POST create/advance revision and synthetic review decision endpoints, only under a new offline opt-in | Models Human review lifecycle and rejection semantics | Requires identity, authorization, persistence, CSRF/cross-session and audit decisions; synthetic actor is not authenticated; **do not implement until Human selects safeguards** |
 | **C — Product Claims/export API** | Public positive Claims, document package/PDF/DOCX export, real Human approvals and real-paper processing | Product-value target | **DEFERRED / NOT AUTHORIZED**: new authority, versioned projection migration, real auth, data/privacy and production/provider approvals required |
 
-**Human-approved sequence:** refine Candidate A's proposed strict GET schemas and negative tests in v0.1.1, retain Candidate B as deferred and exclude Candidate C. **This does not freeze any wire-level endpoint or authorize implementation.**
+**Human-approved sequence:** detail Candidate A two GET schemas and negative tests in v0.1.2, retain Candidate B as deferred and exclude Candidate C. **This does not freeze any wire-level endpoint or authorize implementation.**
 
-## 4. Candidate A API surface (DESIGN POLICY SELECTED; ALL ROUTES NOT IMPLEMENTED)
+## 4. Candidate A API surface — EXACTLY TWO PROPOSED GETs, NOT IMPLEMENTED
 
-The additive `/api/v2` namespace is an **approved design direction for specification drafting only**, not an accepted wire contract or registered route. Exact field/path naming, authentication/capability guard and HTTP status conventions are still pending Human freeze. Every path below is **illustrative, NOT IMPLEMENTED**, and conveys no permission to create it.
+The Human approved the **detailed design as the basis of v0.1.2 drafting** in [Issue #121 #6208917696](https://github.com/nshaokiet/ai-ip-description-generator/issues/121#issuecomment-6208917696). These are **proposed**, not finally frozen or registered HTTP routes.
 
-| Candidate endpoint | Proposed purpose | Proposed boundary |
+| Proposed operation | Allowlisted information only | Explicit prohibition |
 |---|---|---|
-| `GET /api/v2/sessions/{session_id}/status` | **Candidate A policy**: bounded synthetic stage/revision/review-needed status; no original document content | Local-loopback, feature OFF by default, protected by an independently selected server-side scoped ownership/capability guard |
-| `GET /api/v2/sessions/{session_id}/revisions/{revision}/evidence-index` | **Candidate A policy**: bounded synthetic evidence IDs/digests only, deterministic sort/pagination to be specified | No raw source/prose, filenames, absolute paths, unbounded locators or secret tokens; reject stale/foreign evidence |
-| `GET /api/v2/sessions/{session_id}/package-status` | **Candidate A policy**: status-only, preserving valid no-Claims and Human-review states | Never generate/render/approve a package, expose raw artifacts or re-label zero Claims as failure |
-| `POST /api/v2/sessions` | **Deferred B:** create synthetic session from already validated, source-bound objects | Not safe without scoped session, identity, storage and replay policy |
-| `POST /api/v2/sessions/{session_id}/review-decisions` | **Deferred B:** submit scoped synthetic decision/supersession/revocation record | Not a real Human approval, must be disabled pending authn/authz and policy |
-| `GET /api/v2/sessions/{session_id}/exports/{format}` | **Deferred C:** retrieve verified USPTO v2 artifact | Requires separate renderer, export authority and data-retention security decision |
+| `GET /api/v2/sessions/{session_id}/status` | Safe synthetic session revision, stage, zero-Claims and Human-review-required metadata; package status folded into this response | No separate package-status route, package content, positive Claims, real source data or mutation |
+| `GET /api/v2/sessions/{session_id}/revisions/{revision}/evidence-index` | Bounded page of synthetic `evidence_id` and vetted non-sensitive digest, exact revision binding | No prose, raw source fingerprints/locations, filenames, paths, raw evidence, unbounded listing or export |
 
-No `POST` in this table is approved for implementation. No enabled endpoint may report successful Human approval purely from a boolean, checkbox, caller-supplied actor ID or public hash.
+The previously proposed third `GET .../package-status` is **DEFERRED / REMOVED FROM CANDIDATE A**. All review writes, POST session creation, document exports and public Claims belong to unapproved B/C future scopes; no hidden or alternative routes are allowed.
 
-### 4.1 Local-only access gate and proposed request/response semantics (NOT FROZEN)
+### 4.1 Candidate local security and request path (not frozen)
 
-**Human-approved security floor:** A future candidate implementation must remain **disabled by default** under a **separate** opt-in switch (not the existing v1 `AI_IP_ENABLE_LOCAL_ORCHESTRATION_API`), bind exclusively to loopback, deny non-loopback ingress, reject untrusted forwarding/Host/Origin paths, and expose no metadata to an untrusted process. A feature flag or client-claimed loopback address alone is never a proof of session ownership.
+- Dedicated proposed `AI_IP_ENABLE_LOCAL_SYNTHETIC_V2_API` flag **OFF by default**, independent from existing local v1 opt-in. This setting **does not currently exist** in deployed code.
+- Bind only to literal loopback `127.0.0.1` or `::1`, validate true transport peer. Strict Host allowlist for local listener; reject DNS rebinding, unexpected browser Origin, unapproved forwarded/proxy headers and non-loopback socket peers. Never trust `X-Forwarded-For` or a caller-supplied actor ID as proof of identity. No CORS broadening.
+- Both GETs require `Authorization: Bearer <opaque-capability>` as a **candidate**. No query-string, cookie, URL fragment/path, GET response or public mint endpoint may supply this secret. Unauthenticated resource enumeration must fail uniformly.
+- Guard is scoped server-side to session, document/source identity, active revision, read-only operations, expiry and revocation. Bearer possession is a synthetic **local capability**, **not real Human authentication**. A compromised same-user local process remains an explicit threat.
+- JSON GETs are pure reads: **no session creation, cleanup write, key rotation, evidence reconstruction, Claims promotion, model/provider call, export, rendering, audit mutation, file/database write or outbound network access**. Expiry check is nonmutating; trusted internal lifecycle owns cleanup.
 
-**Design proposal requiring later Human contract freeze:**
-- A **server-generated, unpredictable, per-session scoped capability** (or a stronger explicitly selected local-session ownership guard) must be checked **server-side for every GET**. Do not mint, disclose, or refresh this authority through an unauthenticated GET, query string, response body, public URL, or synthetic actor ID; bootstrap from a trusted local application flow **out of band**, design still pending.
-- The guard must bind at least capability scope, synthetic session ID, document/source identity, revision applicability and expiry. Store only safe keyed/opaque internal representations; compare securely and revoke/expire on cleanup, session change and revision invalidation. Exact token representation/storage/rotation and lifecycle remain **PENDING HUMAN**.
-- Reject hostile `Host` headers/DNS rebinding, proxy spoofing (`X-Forwarded-For` cannot establish peer identity), unauthorized CORS/Origin, malformed/oversized identifiers, stale revision and token reuse across sessions. The concrete network peer/proxy trust model and controls are a **reviewable security requirement**, not a feature already present.
-- Reads are non-mutating: no model call, subprocess, disk render, package assembly, audit approval, export, implicit session creation, synthetic decision signing or cleanup side effect triggered by client GET. Existing expired sessions may return a safe expired/not-found result without leaking their presence to unauthorized callers.
-- Use canonical, deterministic bounded outputs; no traces, absolute paths, source content, filenames, raw HMAC material, capability tokens, private decision seals or other stored secrets. **Only synthetic IDs, stage/status, counts and carefully reviewed digests** may be proposed for disclosure.
-- Responses for foreign, nonexistent, expired and unauthorized sessions should avoid enumeration through a uniform safe failure; choose exact `404/403` behavior, status-code matrix and correlation ID exposure only at a separate contract-freeze gate.
+### 4.2 Candidate trusted in-process capability lifecycle (not implemented)
 
-**Proposed GET-only v2 transport:** JSON over HTTP on **loopback only**, strict field allowlists with no `additionalProperties`, fixed version and types; a response is not a legal approval or filing-ready Patent B2 assertion. Exact endpoint names/HTTP statuses remain unfrozen. An external or public deployment cannot inherit these assumptions.
+1. A future **trusted same-process** synthetic offline orchestrator creates an already source-bound internal session, with no HTTP session-creation path.
+2. A trusted **in-process bootstrap** derives an unpredictable CSPRNG bearer capability after session creation. Only a trusted CLI/test harness receives secret material **out of band**, not through a new web endpoint. Exact bootstrap channel and OS-user/process threat boundary require later Human security freeze.
+3. Store only a derived keyed verifier, not plaintext capability. Proposed HMAC-based scoped verifier uses a separately protected ephemeral process key and constant-time comparison; secure storage, rotation and canonical serialization require independent security review.
+4. Bind verifier to session/document identity, revision applicability, read-only scope and absolute expiry. Revoke on trusted cleanup, supersession or revision invalidation. Reject cross-session/document/revision and replay of invalidated tokens; never log or reflect token or verifier.
+5. Human-endorsed **proposal limits**: capability absolute TTL **15 minutes**; session in-memory TTL **no more than 60 minutes**; **maximum 50 concurrent synthetic sessions per process**. A capability cannot outlive its session. Session creation over capacity fails closed; GET never evicts.
+6. The capability does **not** establish a real user/organization identity, durable audit, production authorization or permission to use real/confidential source data.
 
-### 4.2 Deferred operations and explicit non-goals
+### 4.3 Pagination, privacy and atomic reads (candidate)
 
-Candidate B `POST` operations and Candidate C export/Claims endpoints in §4 are **historical design alternatives only**, not part of selected Candidate A; do not use the table as a build backlog. Candidate A cannot itself accept Human confirmations, change essentiality, sign/revoke decisions or promote P2-004 eligibility. No positive method/composition or real-paper Claims are authorized.
+- Proposed evidence-index query parameters: `limit` optional strict integer **1..50**, default **25**; `cursor` optional bounded opaque authenticated cursor, no extra query fields. Cursor binds to **session, revision, bearer scope, deterministic evidence order, position and expiration**; reject stale, malformed, expired, tampered or cross-session/revision cursors.
+- Proposed deterministic ascending `evidence_id` sort with stable digest tie-break; snapshot-pinned, bounded response. Return **no total count**. Do not expose raw source/document SHA, filenames, paths, locators, third-party data, source prose or secrets.
+- GET reads a trusted immutable snapshot; concurrent revision changes fail closed without side effects. Successful retries while the snapshot is valid are deterministic. Expiry and state retirement occur only via trusted lifecycle, not during GET.
 
 ## 5. Candidate representation and validation rules
 
