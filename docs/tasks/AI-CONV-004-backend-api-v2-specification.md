@@ -71,7 +71,7 @@ Do not rename existing routes as `/api/v2` or assume external availability merel
 
 Canonical references: `docs/tasks/AI-CONV-001-source-grounded-uspto-v2-orchestration.md`, `docs/tasks/AI-CONV-002-offline-orchestration-implementation.md`, `docs/tasks/AI-CONV-003-claims-semantic-authority-specification.md`, `backend/app/services/uspto_document_package_validation.py` and `backend/app/services/uspto_offline_orchestration.py`.
 
-## 3. Design alternatives (not Human-selected)
+## 3. Design alternatives (Candidate A selected for specification; B/C deferred)
 
 | Candidate | Proposed exposure | Benefit | Blockers / recommendation |
 |---|---|---|---|
@@ -263,30 +263,36 @@ The following are **tests to design**, not tests already implemented.
 | AC-14 | All GETs require a valid server-side scoped capability or approved stronger local ownership guard | ID guessing, forged boolean/synthetic actor, absent/expired/stolen/replayed or cross-session capability, bootstrap via public GET |
 | AC-15 | Information disclosure is bounded and deterministic with strict v2 schema | Unbounded evidence enumeration, source hash/filename/path leakage, response tokens, freeform locators, oversized pagination |
 | AC-16 | Read-only operations have no source/session mutation or outbound provider effects | GET invokes pipeline, export, approval, cleanup, credential mint, file write, DB or network call |
+| AC-17 | Candidate A has exactly two GETs; package status is folded into status | Third package-status route or any POST/review/export/Claims route accidentally reachable |
+| AC-18 | Trusted in-process capability bootstrap and `Authorization` bearer privacy hold | Unauthenticated capability mint via HTTP, secret in URL/cookie/GET response/log, cross-session or revoked/revision replay, insecure verifier |
+| AC-19 | 15-minute absolute capability, <=60-minute in-memory session, <=50 sessions/process enforced without GET mutation | Expired capability accepted; capability outlives session; 51st creation silently evicts/overflows; stale GET mutates cleanup |
+| AC-20 | Evidence query default 25, limit 1..50, deterministic ID order, opaque bound cursor and no total count | 0/51/float/huge limit; tampered, expired, foreign or stale cursor; source/locator leak; ambiguous duplicate query |
+| AC-21 | Authentication and privacy checks precede resource-specific validation; unauthorized resources uniformly opaque | FastAPI pre-auth 422 reveals session existence; 409 returned to unauthorized user; timing/status oracle; forged Host/forwarded header |
+| AC-22 | Proposed status/evidence JSON strictly allowlisted, source-free and token-free | Extra `source_identity`, raw SHA, filename/path, bearer/revision token, secret/seal, source prose or unsafe digest appears |
 
 Evidence gates for a **future** implementation: targeted offline tests, full relevant P2-002…P2-006 + AI-CONV-002/003 regression, security/negative coverage, supported schema validation, source/contract hashes, baseline v1 API regression, independent fixed-SHA reviewer PASS, exact-head CI SUCCESS, Render OFF/no verify, and protected merge with exact-main postmerge CI. These are not acceptance evidence for currently non-existent v2 code.
 
-## 10. Human decision ledger — limited policy selected; wire/freeze pending
+## 10. Human decision ledger — detailed v0.1.2 drafting approved, FINAL freeze pending
 
-Human explicitly approved the nine-part **bounded Candidate A policy package** in [Issue #121 receipt #6207131354](https://github.com/nshaokiet/ai-ip-description-generator/issues/121#issuecomment-6207131354). Do not collapse a design direction into exact API contract authority. Status means what the Human actually approved:
+The Human approved both [Candidate A limited design policy #6207131354](https://github.com/nshaokiet/ai-ip-description-generator/issues/121#issuecomment-6207131354) and [detailed wire/security package for v0.1.2 specification drafting #6208917696](https://github.com/nshaokiet/ai-ip-description-generator/issues/121#issuecomment-6208917696). This approval enables **documentation and review, not a final accepted wire contract** or code.
 
-| Gate | Human-approved direction (2026-10-16) | Residual freeze/implementation gate |
+| Gate | Approved as limited direction / reviewed design candidate | Still pending or explicitly excluded |
 |---|---|---|
-| **HD-V2-01** | **APPROVED — Candidate A only**, synthetic, local-loopback, GET/read-only; B and C deferred | No approved API implementation or network ingress |
-| **HD-V2-02** | **POLICY APPROVED:** additive candidate `/api/v2`, versioned strict JSON, safe errors and no-Claims statuses | **PENDING:** exact paths, fields, error HTTP codes, JSON Schema/OpenAPI and response privacy |
-| **HD-V2-03** | **SECURITY FLOOR APPROVED:** loopback-only, new opt-in OFF, scoped server-side capability/ownership guard mandatory | **PENDING:** real capability bootstrap, lifetime, ownership binding, token custody, Host/Origin/proxy behavior and final authn/authz approval |
-| **HD-V2-04** | **APPROVED:** per-process ephemeral synthetic sessions, bounded TTL/staleness; no persistent store | **PENDING:** exact TTL, bounds, concurrency/idempotency, cleanup safety and retry behavior |
-| **HD-V2-05** | **APPROVED:** bounded synthetic IDs/status/digests; no prose/original names/absolute paths/unrestricted locator/tokens | **PENDING:** exact allowed fields, pagination, correlation ID and exposure of source digests |
-| **HD-V2-06** | **CONFIRMED DISABLED:** product Claims OFF, METHOD/PROCESS/COMPOSITION positive OFF; SYSTEM/APPARATUS synthetic eligibility for further P2-004 only; seven-input provenance stays unchanged | Future positive Claims and versioned migration each need separate Human decision; **not authorized** here |
-| **HD-V2-07** | **APPROVED:** GET-only informational operations; no review writes, exports, provider or state-changing GET; local synthetic tests only | No deployment, public rollout or mutation enabled; exact read-only response profiles require separate contract freeze |
-| **HD-V2-08** | **EXPLICITLY NOT AUTHORIZED:** paid/live AI, real/confidential research, public network ingress, Render/production, security release | All remain prohibited until separate Human exception |
-| **HD-V2-09** | **APPROVED TO PREPARE v0.1.1 AND REVIEW:** maintain v0.1.0 history, new fixed-SHA independent review and exact-head CI | **PENDING:** separate explicit Human acceptance/freeze of full wire/security contract and separate implementation task authorization |
+| **HD-V2-01** | **APPROVED:** synthetic local-loopback, GET-only Candidate A; B/C deferred | No endpoint implementation or public network |
+| **HD-V2-02** | **DRAFTING DESIGN APPROVED:** exactly two proposed `/api/v2` GETs, safe JSON `api_version="2.0.0"` future, no-Claims statuses, candidate 404/409/422/500 errors | **PENDING separate Human FINAL WIRE FREEZE:** precise paths, schema/regex/version/error privacy mapping following new review |
+| **HD-V2-03** | **DRAFTING DESIGN APPROVED:** default-OFF independent v2 flag, loopback/Host/Origin/proxy checks, trusted in-process out-of-band scoped bearer bootstrap, server-held keyed verifier | **PENDING separate Human SECURITY FREEZE:** actual bootstrap/OS-process trust, verifier storage/rotation, header and privacy model; no real authn/authz |
+| **HD-V2-04** | **DRAFTING VALUES APPROVED:** ephemeral per-process, capability absolute TTL 15m, session max 60m, max 50 sessions, fail-closed revocation/expiry | **PENDING final review/freeze:** concurrency, capacity, timestamp and cleanup semantics; no DB |
+| **HD-V2-05** | **DRAFTING VALUES APPROVED:** synthetic metadata only, page default 25/max 50, opaque revision/scope-bound cursor | **PENDING final review/freeze:** safe digest allowlist, pagination privacy, exact string format and exposure |
+| **HD-V2-06** | **CONFIRMED DISABLED:** public product Claims runtime, METHOD/PROCESS/COMPOSITION positive authority, P2-005/P2-006 seven-input provenance migration | Any real Claims or altered source projection requires separate Human approval |
+| **HD-V2-07** | **APPROVED POLICY:** informational GET only, no export/review write/provider/render and no GET-side state changes | No deployment or production, no mutating API |
+| **HD-V2-08** | **NOT AUTHORIZED:** real/confidential research, paid/live AI, Render/production, public ingress and V2/Phase H | Separate explicit exception would be required |
+| **HD-V2-09** | **APPROVED NOW:** archive reviewed v0.1.1 byte-identically, revise PR #122 to v0.1.2 docs-only, obtain NEW fixed-SHA Gemini 3.8 Flash High STRICT READ-ONLY review and exact-HEAD CI | **PENDING final Human acceptance/freeze of complete wire/security contract AND separate later implementation authorization** |
 
-**Authority check:** v0.1.1 is an **approved bounded-policy proposal**, **NOT** frozen Backend API v2 specification. The wire-format and capability designs in §§4–6 remain subject to explicit Human selection after independent review. No API implementation, actual credentials, runtime code, schema migration or deployment may follow from this ledger alone.
+**Gate interpretation:** approval to **write and review** a proposed precise API design is **not** approval to implement or deploy it. Even after Gemini PASS and CI SUCCESS at new HEAD, PR #122 remains DRAFT until governance/Human determines whether and how to freeze/merge this proposed contract.
 
 ## 11. Workflow V1 review, merge and next-task gates
 
-**Specification-only deliverable:** this v0.1.1 Markdown file **plus immutable historical v0.1.0 archive** on the existing documentation-only PR branch, with explicit **POLICY APPROVED / WIRE CONTRACT PROPOSED / NOT FROZEN** status. Documentation may clarify current task references if separately approved, but it must not alter code, tests, schemas, dependencies, FastAPI routing or public contracts.
+**Specification-only deliverable:** this v0.1.2 Markdown file **plus immutable historical v0.1.0 and v0.1.1 archives** on the existing documentation-only PR branch, with explicit **POLICY APPROVED / WIRE CONTRACT PROPOSED / NOT FROZEN** status. Documentation may clarify current task references if separately approved, but it must not alter code, tests, schemas, dependencies, FastAPI routing or public contracts.
 
 - Codex/ChatGPT source audit must include actual route prefixes, opt-in feature flag, AI-CONV-001/002/003 and released P2-002…006. Never claim v2 exists.
 - Independent **Gemini 3.8 Flash High / Antigravity STRICT READ-ONLY** must inspect exact reviewed SHA, source/line accuracy, unsupported claims, positive/negative ACs, migration, threat model, Human decisions and scope. Report actual model/profile, session/reuse and PASS / REQUEST CHANGES / BLOCKED.
@@ -294,4 +300,4 @@ Human explicitly approved the nine-part **bounded Candidate A policy package** i
 - After merge, verify exact-main CI, doc lineage and issue status. Later v2 implementation remains STOP until **separate Human implementation authorization** on approved policy/contracts.
 - AI-CONV-003 closeout, AI-CONV-002/#111, GOV-REVIEWER-001/#113, BLK-003, EVAL-001 product runtime, V2/Phase H and provider/production decisions remain independent; do not turn one into another's approval.
 
-**Disposition as of 2026-10-16:** Human approved **limited Candidate A design policy** and preparation of this v0.1.1 revision. Exact wire contract/security bootstrap, freeze and implementation decisions **PENDING**. AI-CONV-004 implementation **NOT STARTED**, all proposed endpoints **NOT IMPLEMENTED**, product Claims runtime **NOT ENABLED**.
+**Disposition as of 2026-10-16:** Human approved Candidate A policy and detailed **v0.1.2 drafting design only**. Independent Gemini review at new exact SHA, CI and explicit final wire/security contract freeze are still **PENDING**; API implementation is **NOT AUTHORIZED**, no backend/API routes/schemas changed, product Claims remain disabled. AI-CONV-004 implementation **NOT STARTED**, all proposed endpoints **NOT IMPLEMENTED**, product Claims runtime **NOT ENABLED**.
