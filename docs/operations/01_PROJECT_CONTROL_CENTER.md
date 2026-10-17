@@ -8,16 +8,27 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.93 |
+| Version | 0.3.94 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High |
 | Created date | 18/09/2026 |
-| Last updated | 16/10/2026 GMT+7 |
+| Last updated | 17/10/2026 GMT+7 |
 | Related task ID | SPEC-004 |
 | Source of Truth | Operational status bridge; bản nguồn Git tại `docs/operations/01_PROJECT_CONTROL_CENTER.md` |
 | Confidentiality level | Internal |
+
+### AI-CONV-004-IMPL — authorized Candidate A implementation checkpoint (17/10/2026)
+
+- Workflow **V1**. Human authorization `HUMAN-AI-CONV-004-CANDIDATE-A-IMPLEMENTATION-2026-10-17` is recorded in [Issue #123](https://github.com/nshaokiet/ai-ip-description-generator/issues/123). Frozen specification v0.1.3 is blob `cdee9c041932ec911cd84dd1c16ab7dbb5bb7f94`; implementation baseline/current main at branch creation is PR #122 merge `34c457100127f3f3954aa0fdc0a13791e40e998a`.
+- Isolated branch `feat/ai-conv-004-candidate-a-api-v2` implements the exact two synthetic-only informational GETs through a same-process ASGI factory that is not imported or registered by the released/default application. Dedicated flag defaults OFF; no listener, browser, CLI/IPC, public route, Render or deployment is added.
+- Candidate state is ephemeral single-process RAM with 32-byte CSPRNG bearer, separately keyed HMAC verifiers/cursors, constant-time checks, absolute monotonic 900s capability / 3600s session expiry, 50 active-session cap and trusted cleanup outside GET. Responses preserve zero product Claims and source-free allowlists. Original seven-input P2-005/P2-006 provenance is unchanged.
+- AC-01–AC-29 are mapped in `tests/backend/test_local_synthetic_v2_api.py`; implementer targeted result is **37 passed**, relevant v1 / P2-002…P2-006 / AI-CONV-002/003 regression result is **522 passed / 1 skipped**, and full offline result with Windows subprocess UTF-8 mode is **1093 passed / 3 skipped**. Initial full execution without UTF-8 mode had one pre-existing governance subprocess CP1252→UTF-8 decode failure after 1092 pass/3 skip; the isolated test and clean full rerun passed under `PYTHONUTF8=1`, with no out-of-scope source change. Exact-head CI and independent review evidence remain pending.
+- Status is **IMPLEMENTATION IN PROGRESS — Draft PR / CI / independent Gemini 3.8 Flash High / Antigravity STRICT READ-ONLY fixed-SHA review pending; STOP BEFORE MERGE**. Project Orchestrator returned `Unknown task: AI-CONV-004-IMPL`, therefore MCP state is **BLOCKED BY TOOL CAPABILITY** and no lease/transition is fabricated.
+- Boundaries: no real/confidential research input, paid/provider call, Claims enablement, product/released v1 behavior change, external dependency/service, production, Render configuration/deploy, Workflow V2/Phase H, merge or next-task authorization.
+
+OPS-001 **0.3.93 → 0.3.94**, 17/10/2026, Codex: record Human-authorized AI-CONV-004 Candidate A implementation checkpoint, local evidence and pending gates. Breaking change: **No — additive isolated synthetic-only candidate; not merged**.
 
 ### AI-CONV-003 — implementation merged, main CI verified; factual governance sync candidate (16/10/2026)
 

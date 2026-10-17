@@ -52,6 +52,7 @@ class Settings:
         default_factory=lambda: Path(tempfile.gettempdir()) / "ai-ip-generator" / "exports"
     )
     enable_local_orchestration_api: bool = False
+    enable_local_synthetic_v2_api: bool = False
     max_upload_bytes: int = 10 * MEBIBYTE
     max_pdf_pages: int = 50
     upload_ttl_seconds: int = 60 * 60
@@ -106,6 +107,9 @@ class Settings:
             storage_root=root,
             enable_local_orchestration_api=_environment_flag(
                 "AI_IP_ENABLE_LOCAL_ORCHESTRATION_API"
+            ),
+            enable_local_synthetic_v2_api=_environment_flag(
+                "AI_IP_ENABLE_LOCAL_SYNTHETIC_V2_API"
             ),
             openai_api_key=api_key,
             openai_timeout_seconds=_environment_integer(
