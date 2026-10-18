@@ -344,7 +344,7 @@ test('B1 database with persisted spec/candidate/evidence upgrades additively to 
     exec(f,'DROP TABLE checkpoint_assignments; DROP TABLE review_attempts; DELETE FROM schema_migrations WHERE version=3');
     f.restart();assert.equal(f.store.v2.candidate('B2-T')!.id,candidate.id);
     assert.deepEqual(query(f,'SELECT * FROM implementation_evidence'),before);
-    assert.equal(query(f,'SELECT MAX(version) AS v FROM schema_migrations')[0]!.v,3);
+    assert.equal(query(f,'SELECT MAX(version) AS v FROM schema_migrations')[0]!.v,4);
     f.restart();assert.equal(query(f,'SELECT COUNT(*) AS n FROM schema_migrations WHERE version=3')[0]!.n,1);
   }finally{f.cleanup();}
 });

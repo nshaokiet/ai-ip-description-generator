@@ -1,6 +1,6 @@
 import { DatabaseSync } from 'node:sqlite';
 
-export const CURRENT_SCHEMA_VERSION = 3;
+export const CURRENT_SCHEMA_VERSION = 4;
 
 const REQUIRED_V2_COLUMNS: Record<string, string[]> = {
   task_workflow: [
@@ -337,6 +337,26 @@ function validateV2(db: DatabaseSync): void {
   }
 }
 
+function validateV4(db: DatabaseSync): void {
+  const expected = ['task_id','manifest_version','canonical_manifest_json','authorization_ref','registered_at'];
+  const columns = db.prepare('PRAGMA table_info(task_registrations)').all() as Array<{name:string;pk:number;notnull:number}>;
+  if (columns.length !== expected.length || expected.some(c => !columns.some(r => r.name===c)) ||
+      columns.find(r=>r.name==='task_id')?.pk !== 1 ||
+      columns.filter(r=>r.name!=='task_id').some(r=>r.notnull !== 1))
+    throw new Error('Schema version 4 is incompatible: task_registrations columns');
+  const keys = db.prepare('PRAGMA foreign_key_list(task_registrations)').all() as Array<{table:string;from:string;to:string}>;
+  if (!keys.some(r=>r.table==='tasks' && r.from==='task_id' && r.to==='id'))
+    throw new Error('Schema version 4 is incompatible: missing task foreign key');
+  const objects = db.prepare("SELECT name,sql FROM sqlite_master WHERE name IN ('trg_task_registrations_no_update','trg_task_registrations_no_delete')").all() as Array<{name:string;sql:string}>;
+  for (const name of ['trg_task_registrations_no_update','trg_task_registrations_no_delete']) {
+    if (!objects.some(r => r.name === name && /RAISE\s*\(\s*ABORT/i.test(r.sql)))
+      throw new Error('Schema version 4 is incompatible: immutable provenance trigger');
+  }
+  if (db.prepare('PRAGMA foreign_key_check').get()) throw new Error('Schema version 4 foreign key integrity failure');
+  const integrity = db.prepare('PRAGMA quick_check').get() as {quick_check:string};
+  if (integrity.quick_check !== 'ok') throw new Error('Schema version 4 integrity failure');
+}
+
 export function migrateDatabase(db: DatabaseSync): void {
   db.exec('BEGIN IMMEDIATE');
   try {
@@ -403,6 +423,27 @@ export function migrateDatabase(db: DatabaseSync): void {
     }
     if (!db.prepare("SELECT 1 FROM sqlite_master WHERE type='index' AND name='idx_review_attempts_target'").get())
       throw new Error('Schema version 3 is incompatible: missing review attempt index');
+    const v4 = db.prepare('SELECT 1 FROM schema_migrations WHERE version=4').get();
+    if (!v4) {
+      db.exec(`
+        CREATE TABLE task_registrations (
+          task_id TEXT PRIMARY KEY REFERENCES tasks(id),
+          manifest_version INTEGER NOT NULL CHECK(manifest_version=1),
+          canonical_manifest_json TEXT NOT NULL,
+          authorization_ref TEXT NOT NULL,
+          registered_at INTEGER NOT NULL CHECK(registered_at>=0)
+        );
+        CREATE TRIGGER trg_task_registrations_no_update
+          BEFORE UPDATE ON task_registrations BEGIN
+          SELECT RAISE(ABORT,'task registration provenance is immutable'); END;
+        CREATE TRIGGER trg_task_registrations_no_delete
+          BEFORE DELETE ON task_registrations BEGIN
+          SELECT RAISE(ABORT,'task registration provenance is immutable'); END;
+      `);
+      db.prepare('INSERT INTO schema_migrations(version,description,applied_at) VALUES (4,?,?)')
+        .run('GOV-MCP-001 prospective V1 registration provenance; no legacy backfill', Date.now());
+    }
+    validateV4(db);
     db.exec('COMMIT');
   } catch (error) {
     db.exec('ROLLBACK');
