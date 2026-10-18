@@ -1,6 +1,6 @@
 # Project Orchestrator MCP (local tooling)
 
-A local MCP server for the AI IP Description Generator task queue. Version 0.3.0.
+A local MCP server for the AI IP Description Generator task queue. Version 0.4.0.
 This tool does not invoke the application pipeline, AI providers, Git commands or paid APIs.
 
 ## Requirements and install
@@ -24,7 +24,7 @@ journal files, is local and must not be committed.
 
 Phase B1 installed SQLite schema version `2`, recorded in `schema_migrations`. Schema
 availability is separate from workflow activation: **Workflow V2 is NOT
-activated by this package version**. Package `0.3.0` preserves all 13 Workflow V1
+activated by this package version**. Package `0.4.0` preserves all 13 Workflow V1
 tools and 11 Phase B2 tools, and adds one Phase B3 read (25 total).
 
 Schema version 2 additively installs `task_workflow`, `task_assignments`,
@@ -53,6 +53,46 @@ Migration runs inside `BEGIN IMMEDIATE`, is restart-safe and idempotent, and
 keeps `foreign_keys=ON`, WAL, and the 5000 ms busy timeout model. A failed or
 incompatible migration is rolled back and never resets or deletes the existing
 database. Budget/quota tables and enforcement semantics are unchanged.
+
+## Workflow V1 prospective task registration (schema v4)
+
+The local administrator can register **one new prospective Workflow V1 task**:
+
+```text
+npm run admin -- register-task /absolute/path/to/manifest.json
+```
+
+Set `PROJECT_ORCH_DB` to an explicitly selected absolute SQLite path first. The
+command is local-admin-only and is **not an MCP tool**. A registration is always
+`PLANNED`, with null approval, owner, branch and lease. It never grants Human
+approval, transitions a task, enrolls V2, backfills historical tasks, or proves
+the authority of its recorded GitHub comment URL. The operator must independently
+inspect the exact Human authorization, task ID, scope, and dependency graph.
+
+The manifest is a UTF-8 JSON object of at most 64 KiB, containing exactly:
+`manifest_version` (1), `task_id` (3–50 uppercase ASCII ID), `title` (1–200
+code points), `priority` (integer 0–100), `dependencies` (0–50 existing IDs),
+`authorization_ref` (exact repository issue/PR comment URL), and
+`frozen_until_epoch_ms` (null or nonnegative safe integer). Duplicate keys,
+unknown fields, invalid paths, unsafe URLs, and dependency cycles are rejected.
+Successful output includes only `outcome`, `task_id`, and `status`. A canonical
+retry returns `ALREADY_REGISTERED` without altering existing rows; a conflicting
+same-ID registration fails without repair or overwrite. v4 stores immutable
+registration provenance; seed/legacy entries remain without provenance.
+
+**Active database rollout is a separate approval gate.** Before an authorized
+rollout, stop all MCP and CLI writers; verify the exact database path and schema
+version; use SQLite's consistent backup API (or a clean shutdown and checkpoint)
+to produce a backup of the database including uncheckpointed WAL contents;
+record the backup location and cryptographic hash. Verify restoration on an
+isolated path, run the migration against a disposable v3 copy, and compare legacy
+task/status/approval/owner/lease, dependencies, budget, progress, checkpoint and
+V2 evidence snapshots, plus `PRAGMA integrity_check` and `foreign_key_check`.
+Only then, with separate rollout authorization, start the upgraded writer. On
+failure stop writers and preserve the original database and error evidence;
+restore the verified backup offline. Do not run an older schema-v3 binary on
+the v4 database or assume rollback is safe after post-backup writes. This
+implementation does **not** migrate or access the active database.
 
 ## Workflow V2 tools/state (Phase B2)
 

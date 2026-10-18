@@ -170,7 +170,7 @@ test('fresh database initializes V1 plus B1 and B2 additive schemas without enro
     const conn = db(f.file);
     try {
       const versions = conn.prepare('SELECT version FROM schema_migrations ORDER BY version').all() as Array<{ version: number }>;
-      assert.deepEqual(versions.map(row => row.version), [1, 2, CURRENT_SCHEMA_VERSION]);
+      assert.deepEqual(versions.map(row => row.version), [1, 2, 3, CURRENT_SCHEMA_VERSION]);
       const tables = new Set((conn.prepare("SELECT name FROM sqlite_master WHERE type='table'").all() as Array<{ name: string }>).map(row => row.name));
       for (const name of ['tasks','dependencies','budget','progress','checkpoints','task_workflow','task_assignments','task_specs','implementation_evidence','reviews','ci_evidence','evidence_verifications']) assert.ok(tables.has(name));
       assert.equal((conn.prepare('SELECT COUNT(*) AS n FROM task_workflow').get() as { n: number }).n, 0);
@@ -256,7 +256,7 @@ test('future schema version is rejected without resetting the database', () => {
     conn.exec('CREATE TABLE schema_migrations(version INTEGER PRIMARY KEY,description TEXT NOT NULL,applied_at INTEGER NOT NULL)');
     conn.prepare('INSERT INTO schema_migrations VALUES (99,?,?)').run('future', 1);
     conn.close();
-    assert.throws(() => new Store(f.file), /newer than supported version 3/);
+    assert.throws(() => new Store(f.file), /newer than supported version 4/);
     const after = db(f.file);
     try { assert.equal((after.prepare('SELECT COUNT(*) AS n FROM tasks WHERE id=?').get('LEGACY-A') as { n: number }).n, 1); }
     finally { after.close(); }

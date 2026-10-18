@@ -16,6 +16,17 @@ test('real stdio MCP launches offline with no API key and preserves 13 V1 tools 
     Object.entries(process.env).filter(([key,value]) => key !== 'OPENAI_API_KEY' && value !== undefined)
   ) as Record<string,string>;
   env.PROJECT_ORCH_DB = join(dir,'state.sqlite');
+  // AC-01/02/10: local CLI registration is visible through exact-ID lookup,
+  // while the public MCP registration tool surface remains unchanged.
+  const input=join(dir,'synthetic-register.json');
+  writeFileSync(input,JSON.stringify({
+    manifest_version:1,task_id:'SYNTH-STDIO-01',title:'Synthetic stdio registration',priority:3,
+    dependencies:[],authorization_ref:'https://github.com/nshaokiet/ai-ip-description-generator/issues/999#issuecomment-123',
+    frozen_until_epoch_ms:null
+  }));
+  const register=spawnSync(process.execPath,[join(dirname(server),'admin.js'),'register-task',input],{env,encoding:'utf8'});
+  assert.equal(register.status,0,register.stderr);
+  assert.equal(JSON.parse(register.stdout).outcome,'CREATED');
   const transport = new StdioClientTransport({ command: process.execPath, args: [server], env, stderr: 'pipe' });
   const client = new Client({ name: 'offline-test-client', version: '0.1.0' });
   try {
@@ -27,10 +38,17 @@ test('real stdio MCP launches offline with no API key and preserves 13 V1 tools 
     assert.equal(names.includes('project.record_verification'),false); // Admin recording path only in B2.
     assert.equal(names.includes('project.claim_task'),true);
     assert.ok(names.includes('project.get_merge_gate'));
+    assert.equal(names.some(name=>/register[-_]?task/.test(name)),false);
     assert.equal(names.some(name => /merge|reset|activate/.test(name) && name!=='project.get_merge_gate'),false);
     const result = await client.callTool({ name: 'budget.should_continue', arguments: {} });
     assert.equal(result.isError,undefined);
     assert.equal((result.structuredContent as { result: { decision: string } }).result.decision,'CONTINUE');
+    const registered=await client.callTool({name:'project.get_state',arguments:{task_id:'SYNTH-STDIO-01'}});
+    assert.equal(registered.isError,undefined);
+    const item=(registered.structuredContent as {result:{tasks:Array<{status:string;approval_ref:string|null;owner:string|null}>}}).result.tasks[0]!;
+    assert.equal(item.status,'PLANNED');assert.equal(item.approval_ref,null);assert.equal(item.owner,null);
+    const missing=await client.callTool({name:'project.get_state',arguments:{task_id:'SYNTH-UNKNOWN'}});
+    assert.equal(missing.isError,true);
   } finally {
     await client.close();
     rmSync(dir,{ recursive: true, force: true });

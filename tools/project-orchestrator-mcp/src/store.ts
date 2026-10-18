@@ -4,6 +4,7 @@ import { homedir } from 'node:os';
 import { dirname, isAbsolute, join } from 'node:path';
 import { migrateDatabase } from './migrations.js';
 import { V2Store } from './v2-store.js';
+import { RegistrationError, validateRegistration, type RegistrationManifest } from './registration.js';
 
 export const STATES = [
   'PLANNED', 'APPROVED', 'CLAIMED', 'IN_PROGRESS', 'IMPLEMENTED',
@@ -155,6 +156,61 @@ export class Store {
         .run(id, title, priority, 'PLANNED', frozenUntil ?? null);
       for (const dep of dependencies) this.db.prepare('INSERT INTO dependencies VALUES (?,?)').run(id, dep);
     });
+  }
+  // Local admin only: no MCP tool, implicit authorization, or lifecycle transition.
+  registerTask(input: RegistrationManifest): {outcome: 'CREATED' | 'ALREADY_REGISTERED';task_id:string;status:Status} {
+    const manifest = validateRegistration(input);
+    const id = manifest.task_id;
+    const canonical = JSON.stringify(manifest);
+    try {
+      return this.tx(() => {
+        const row = this.db.prepare('SELECT * FROM tasks WHERE id=?').get(id) as Task | undefined;
+        const prior = this.db.prepare('SELECT * FROM task_registrations WHERE task_id=?').get(id) as
+          {canonical_manifest_json:string;authorization_ref:string;manifest_version:number} | undefined;
+        if (row) {
+          if (!prior || prior.manifest_version !== 1 || prior.authorization_ref !== manifest.authorization_ref ||
+              prior.canonical_manifest_json !== canonical || row.title !== manifest.title ||
+              row.priority !== manifest.priority || row.frozen_until !== manifest.frozen_until_epoch_ms ||
+              !!this.db.prepare('SELECT 1 FROM task_workflow WHERE task_id=?').get(id))
+            throw new RegistrationError('REGISTRATION_CONFLICT');
+          const edges = (this.db.prepare('SELECT requires_id FROM dependencies WHERE task_id=? ORDER BY requires_id').all(id) as
+            Array<{requires_id:string}>).map(r => r.requires_id);
+          if (JSON.stringify(edges) !== JSON.stringify(manifest.dependencies))
+            throw new RegistrationError('REGISTRATION_CONFLICT');
+          return {outcome:'ALREADY_REGISTERED' as const,task_id:id,status:row.status};
+        }
+        if (prior) throw new RegistrationError('REGISTRATION_CONFLICT');
+        // Walk every reachable dependency under the same SQLite write lock. Existing
+        // corrupted cycles are rejected, even when the proposed task is new.
+        const visiting = new Set<string>();
+        const visited = new Set<string>();
+        const walk = (dependency:string):void => {
+          if (visiting.has(dependency) || dependency === id)
+            throw new RegistrationError('REGISTRATION_DEPENDENCY');
+          if (visited.has(dependency)) return;
+          if (!this.db.prepare('SELECT 1 FROM tasks WHERE id=?').get(dependency))
+            throw new RegistrationError('REGISTRATION_DEPENDENCY');
+          visiting.add(dependency);
+          const edges = this.db.prepare('SELECT requires_id FROM dependencies WHERE task_id=?').all(dependency) as Array<{requires_id:string}>;
+          for (const edge of edges) walk(edge.requires_id);
+          visiting.delete(dependency);
+          visited.add(dependency);
+        };
+        for (const dependency of manifest.dependencies) walk(dependency);
+        this.db.prepare('INSERT INTO tasks (id,title,priority,status,frozen_until) VALUES (?,?,?,?,?)')
+          .run(id,manifest.title,manifest.priority,'PLANNED',manifest.frozen_until_epoch_ms);
+        for (const dependency of manifest.dependencies)
+          this.db.prepare('INSERT INTO dependencies(task_id,requires_id) VALUES (?,?)').run(id,dependency);
+        this.db.prepare('INSERT INTO task_registrations(task_id,manifest_version,canonical_manifest_json,authorization_ref,registered_at) VALUES (?,?,?,?,?)')
+          .run(id,1,canonical,manifest.authorization_ref,Date.now());
+        return {outcome:'CREATED' as const,task_id:id,status:'PLANNED' as const};
+      });
+    } catch (error) {
+      if (error instanceof RegistrationError) throw error;
+      if (error instanceof Error && /SQLITE_BUSY|database is locked/i.test(error.message))
+        throw new RegistrationError('REGISTRATION_DB_BUSY');
+      throw new RegistrationError('REGISTRATION_DB_ERROR');
+    }
   }
   // Local administrative operation; intentionally NOT exposed as an MCP tool.
   approveTask(id: string, reference: string): Task {
