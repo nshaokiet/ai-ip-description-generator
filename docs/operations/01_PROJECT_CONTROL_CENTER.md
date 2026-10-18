@@ -8,16 +8,26 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.94 |
+| Version | 0.3.95 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High |
 | Created date | 18/09/2026 |
-| Last updated | 17/10/2026 GMT+7 |
+| Last updated | 18/10/2026 GMT+7 |
 | Related task ID | SPEC-004 |
 | Source of Truth | Operational status bridge; bản nguồn Git tại `docs/operations/01_PROJECT_CONTROL_CENTER.md` |
 | Confidentiality level | Internal |
+
+### AI-CONV-004-IMPL — verified governance merge / factual status reconciliation (18/10/2026)
+
+- **Scope/authority:** Workflow V1, frozen Candidate A specification v0.1.3 (blob `cdee9c041932ec911cd84dd1c16ab7dbb5bb7f94`). Human implementation and separate merge authorization were approved and recorded in [Issue #123](https://github.com/nshaokiet/ai-ip-description-generator/issues/123). This subsection updates status evidence only; older dated premerge checkpoints below are historical and retained intact.
+- **Immutable reviewed and merged Git evidence:** [PR #124](https://github.com/nshaokiet/ai-ip-description-generator/pull/124) **MERGED** from reviewed HEAD `2305ae4a1cb367370328d660b8313f8d0c621587` into final `main` [`92a9dc182e8aef98f51a9dc71da8f309a7f680a1`](https://github.com/nshaokiet/ai-ip-description-generator/commit/92a9dc182e8aef98f51a9dc71da8f309a7f680a1), parent `34c457100127f3f3954aa0fdc0a13791e40e998a` + reviewed head; reviewed candidate and merge tree both `955b102fc2af5f3f0f99fcc00c31560000854e8d`. Exactly six authorized changed files `+1455/-2`. No frozen contract, released v1 router, provider, dependent package, seven-input provenance, Claims runtime or CI workflow modified.
+- **Review/CI:** [Gemini 3.8 Flash High / Antigravity STRICT READ-ONLY external fixed-head PASS](https://github.com/nshaokiet/ai-ip-description-generator/pull/124#issuecomment-6245541963) (five INFO, zero reported blocking, reviewer session `25b1e601-98eb-40ec-8dbf-7fff70f5e616`, **REUSED YES**, not GitHub-native approval); [head CI #39008524882](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/39008524882) and [exact-main push CI #39097292502](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/39097292502) both **COMPLETED/SUCCESS**, main **34/34 steps**. Implementer local full suite reported **1093 passed / 3 skipped**; Gemini selected tests reported **37 passed/1 warning** and **149 passed/1 warning**; preserve their separate attribution.
+- **Release boundary:** Same-process isolated synthetic-only, exact two GETs and default-OFF opt-in; released/default v1 unaffected, Claims runtime OFF. Render frontend/backend **autoDeploy=no**, **trigger=off**, previews OFF; latest live historical commit `8c36b2bc662ed41b2a9b3635d5d4d29110b1d9bb`, **no new deployment**. No public/production identity, browser/IPC, paid/live provider, real/confidential paper, positive Claims or Workflow V2/Phase H enabled or approved.
+- **Open closeout debt:** [Issue #123](https://github.com/nshaokiet/ai-ip-description-generator/issues/123) remains **OPEN** pending this status-sync PR's independent fixed-SHA review, exact-head CI, normal protected merge and exact-main postmerge CI, then separate evidence-based Issue disposition. Project Orchestrator returned `Unknown task: AI-CONV-004-IMPL` — **BLOCKED BY TOOL CAPABILITY**, no fabricated lease/state. Native `main` branch protection/required status checks were disabled at merge (no bypass); future protection configuration requires a separate explicit permissions/policy task, and is **not** modified here.
+
+OPS-001 **0.3.94 → 0.3.95**, 18/10/2026, ChatGPT: reconcile evidence-backed AI-CONV-004-IMPL reviewed merge, exact-main CI and unchanged Render; maintain open issue and MCP limitation. **No breaking change — factual governance documentation only.**
 
 ### AI-CONV-004-IMPL — authorized Candidate A implementation checkpoint (17/10/2026)
 
