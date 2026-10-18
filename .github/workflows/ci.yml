@@ -12,6 +12,45 @@ permissions:
   contents: read
 
 jobs:
+  mcp-tests:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24.18.0"
+          cache: npm
+          cache-dependency-path: tools/project-orchestrator-mcp/package-lock.json
+
+      - name: Install, typecheck, build and test MCP
+        working-directory: tools/project-orchestrator-mcp
+        shell: bash
+        env:
+          MCP_EXPECTED_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$MCP_EXPECTED_SHA"
+          mcp_ci_dir="$(mktemp -d "$RUNNER_TEMP/mcp-ci.XXXXXXXX")"
+          trap 'if [[ "$mcp_ci_dir" == "$RUNNER_TEMP"/mcp-ci.* ]]; then rm -rf -- "$mcp_ci_dir"; fi' EXIT
+          [[ "$mcp_ci_dir" == "$RUNNER_TEMP"/mcp-ci.* && "$mcp_ci_dir" == /* ]]
+          export PROJECT_ORCH_DB="$mcp_ci_dir/state.sqlite"
+          echo "Node: $(node --version)"
+          echo "npm: $(npm --version)"
+          echo "MCP package version: $(node -p "require('./package.json').version")"
+          npm ci
+          npm run typecheck
+          echo "MCP typecheck PASS"
+          npm run build
+          echo "MCP build PASS"
+          npm test
+          echo "MCP test suite PASS"
+
   build-and-test:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
