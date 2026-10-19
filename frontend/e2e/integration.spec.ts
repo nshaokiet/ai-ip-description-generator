@@ -7,6 +7,16 @@ const backend = `http://127.0.0.1:${process.env.PLAYWRIGHT_BACKEND_PORT ?? "8000
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => { window.localStorage.setItem("aiip.locale", "en"); });
 });
+test.afterEach(async ({ page }) => {
+  const response = await page.request.get(`${backend}/__test/provider-activity`);
+  expect(response.ok()).toBeTruthy();
+  expect(await response.json()).toEqual({
+    provider_api_requests: 0,
+    unexpected_provider_client_attempts: 0,
+    unexpected_egress_attempts: 0,
+    negative_tripwire_blocked_attempts: 0,
+  });
+});
 const mediaTypes = {
   pdf: "application/pdf",
   docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",

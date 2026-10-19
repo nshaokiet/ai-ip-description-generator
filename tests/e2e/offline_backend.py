@@ -6,6 +6,10 @@ import tempfile
 from pathlib import Path
 
 from fastapi.responses import Response
+from tests.e2e.provider_tripwire import ProviderTripwire, sanitize_provider_environment
+
+# Sanitize before importing application/provider modules or creating any runtime.
+sanitize_provider_environment()
 
 from backend.app.core.config import Settings
 from backend.app.main import create_app
@@ -18,6 +22,8 @@ from backend.app.services.synthetic_demo import (
     synthetic_pdf,
 )
 
+
+TRIPWIRE = ProviderTripwire().install()
 
 TEMP_ROOT = tempfile.TemporaryDirectory(prefix="ai-ip-p0-006-browser-")
 
@@ -58,3 +64,9 @@ def test_docx() -> Response:
         synthetic_docx([paragraph_xml("Synthetic optical sensor calibration and temperature coefficient for offline browser testing.")]),
         media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
     )
+
+@app.get("/__test/provider-activity")
+def test_provider_activity() -> dict[str, int]:
+    """Expose counters only, and fail if any unexpected provider activity was attempted."""
+    TRIPWIRE.assert_no_unexpected_activity()
+    return TRIPWIRE.snapshot()

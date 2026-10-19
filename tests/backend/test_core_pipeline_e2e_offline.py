@@ -18,10 +18,11 @@ from backend.app.services.core_pipeline import (
     PipelineOrchestrationError,
 )
 from backend.app.services.draft_business_validation import validate_draft_business_rules
-from backend.app.services.draft_runtime import DraftRuntimeMetadata, DraftRuntimeResult
+from backend.app.services.draft_runtime import DraftRuntimeError, DraftRuntimeMetadata, DraftRuntimeResult
 from backend.app.services.draft_validation import validate_canonical_draft
 from backend.app.services.document_validation import DOCX_MEDIA_TYPE, PDF_MEDIA_TYPE
 from backend.app.services.extraction_runtime import (
+    ExtractionRuntimeError,
     ExtractionRuntimeMetadata,
     ExtractionRuntimeResult,
 )
@@ -241,6 +242,44 @@ class CorePipelineOfflineE2ETests(unittest.TestCase):
         self.assertEqual(("preparation", "document_unknown"), (captured.exception.stage, captured.exception.code))
         self.assertEqual([], extraction.invocations)
         self.assertEqual([], draft.invocations)
+
+    def test_deleted_source_is_rejected_without_provider_or_source_remnants(self) -> None:
+        document_id = self.upload(
+            "deleted.pdf", synthetic_pdf(["Synthetic deleted source."]), PDF_MEDIA_TYPE
+        )
+        self.assertTrue(self.app.state.document_storage.delete(document_id))
+        pipeline, extraction, draft = self.pipeline()
+        with self.assertRaises(PipelineOrchestrationError) as captured:
+            pipeline.run_pipeline(document_id)
+        self.assertEqual("document_unknown", captured.exception.code)
+        self.assertEqual([], extraction.invocations)
+        self.assertEqual([], draft.invocations)
+        self.assertFalse(self.app.state.document_storage.path_for(document_id).exists())
+
+    def test_extraction_refusal_and_draft_incomplete_clean_source(self) -> None:
+        for stage, failure in (
+            ("extraction", ExtractionRuntimeError("model_refusal", "Safe extraction refusal")),
+            ("draft_generation", DraftRuntimeError("model_incomplete", "Safe incomplete draft")),
+        ):
+            with self.subTest(stage=stage):
+                document_id = self.upload(
+                    f"{stage}.pdf",
+                    synthetic_pdf(["Synthetic isolated failure case."]),
+                    PDF_MEDIA_TYPE,
+                )
+                pipeline, extraction, draft = self.pipeline()
+                target = extraction if stage == "extraction" else draft
+                method = "run_extraction" if stage == "extraction" else "run_draft_generation"
+                with patch.object(target, method, side_effect=failure):
+                    with self.assertRaises(PipelineOrchestrationError) as captured:
+                        pipeline.run_pipeline(document_id)
+                self.assertEqual(stage, captured.exception.stage)
+                self.assertEqual(failure.code, captured.exception.code)
+                self.assertNotIn(str(self.storage_root), str(captured.exception))
+                self.assertFalse(self.app.state.document_storage.path_for(document_id).exists())
+                self.assertIsNone(self.app.state.document_registry.get(document_id))
+                if stage == "extraction":
+                    self.assertEqual([], draft.invocations)
 
     def test_registry_lookup_occurs_only_inside_preparation_service(self) -> None:
         document_id = self.upload(
