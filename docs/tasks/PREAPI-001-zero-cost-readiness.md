@@ -52,7 +52,7 @@ Prepare the current repo to be one independently approved, budget-capped provide
 
 - Trace the real schema/contract edges from the parser envelope through AI-001, v1 draft, v2 reconstruction/specification/Claims/package and renderer. Specify exact inputs and evidence indices; do not assume synthetic demo samples represent arbitrary uploads.
 - Build source-file-to-test-case coverage matrix. Mark unimplemented/unsupported transitions, schemas, Human confirmation boundaries, absent provider metadata and proof-of-provenance requirements.
-- Preserve released seven-input P2-005/P2-006 validation: source_envelope, structured_analysis, reconstruction, specification, claims, P2-003 config and P2-004 config. The validator must re-read all seven originals; package digest alone is not rendering authority.
+- Preserve released seven-input P2-005/P2-006 validation: source_envelope, structured_analysis, reconstruction, specification, p2_003_generation_config, supported_claims and p2_004_generation_config. The validator must re-read all seven originals; package digest alone is not rendering authority.
 - Produce docs-only spec; no changes to application, runtime, workflows or flags. Independent fixed-SHA review and Human freeze/merge remain separate.
 
 ### PREAPI-001-B — Mock-backed full v1 E2E (future implementation authorization)
