@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Task | PREAPI-001 / Issue #131 |
-| Specification | v0.1.2 DRAFT — independent review and Human freeze pending |
+| Specification | v0.1.3 DRAFT — independent review and Human freeze pending |
 | Initial baseline | f3e9994ffa255600ceeaffc1d4d7640140aba1fb (PR #130 merged) |
 | Workflow | V1; Codex implementation, Gemini 3.8 Flash High/Antigravity STRICT READ-ONLY review |
 | Authorization | HUMAN-PREAPI-001-ZERO-COST-PREPARATION-2026-10-19; preparation and Draft PR only |
@@ -14,6 +14,8 @@
 Version note: v0.1.1 (2026-10-19, Codex) corrects the v1 client-supplied revision/source-binding limitation in the proposed offline tests; v0.1.0 remains in Git history. No runtime contract or authorization changes.
 
 Version note: v0.1.2 (2026-10-19, Codex) distinguishes zero unexpected provider attempts in normal synthetic execution from an intentional negative tripwire probe that must be blocked before client/request execution. No runtime contract or authorization changes.
+
+Version note: v0.1.3 (2026-10-19, Codex) disambiguates this Draft's eight PRE-01..PRE-08 review checks from the six broader, differently worded PRE-01..PRE-06 criteria in Issue #131. No runtime contract or authorization changes.
 
 ## 1. Product objective and non-claims
 
@@ -89,6 +91,8 @@ Prepare the current repo to be one independently approved, budget-capped provide
 
 ## 5. Acceptance criteria for readiness specification
 
+The PRE-01..PRE-08 identifiers below are **PREAPI-A specification review checks**. Issue #131 separately numbers six parent workstream criteria PRE-01..PRE-06; identical numbers do not mean identical text or completion status. Reviewer reports must name the source ("spec PRE-xx" versus "Issue #131 PRE-xx"). This Draft addresses parent criteria through the mapping below but does not complete future executable work or the funded pilot.
+
 | AC | Acceptance |
 |---|---|
 | PRE-01 | Two distinct documented pipelines (v1 provider adapter and offline USPTO v2), with actual source-file and test links |
@@ -99,6 +103,15 @@ Prepare the current repo to be one independently approved, budget-capped provide
 | PRE-06 | Mock E2E and six-gold-score integration test plans include negative tests and pass/fail evidence without API spend |
 | PRE-07 | Future smoke runbook specifies model entitlement check, safe API key handling, spending cap, input licensing, refusal/failure reporting and stop controls |
 | PRE-08 | Dependencies, exact commands and no-fee go/no-go exit checklist allow repeatable follow-up Codex Draft PRs |
+
+| Issue #131 criterion | Specification checks / remaining gate |
+|---|---|
+| PRE-01 (zero-cost execution) | Spec PRE-02/03/06/08; actual future test execution remains separately gated |
+| PRE-02 (source-to-test matrix) | Spec PRE-01/04/05/08; implementation evidence not inferred from inventory |
+| PRE-03 (no scope or deployment drift) | Spec PRE-03/04/05; current one-file Draft diff is documentation-only |
+| PRE-04 (future API pilot runbook) | Spec PRE-07/08; live provider/model/budget decisions remain Human-gated |
+| PRE-05 (EVAL-001 semantics) | Spec PRE-02/06/07; PRODUCT_RUNTIME remains NOT_DETERMINED |
+| PRE-06 (separate source-change governance) | Spec PRE-03/04/08; future code/review/merge needs separate authorization |
 
 ## 6. Planned test inventory and repeatable checks
 
