@@ -175,3 +175,70 @@ The existing framework command python eval/semantic/v1/tools/evaluator.py may re
 | PREAPI-E EVAL-001 audit | Yes | Synthetic fixture scoring validation with unchanged product-runtime NOT_DETERMINED status | Mock outputs labelled as product runtime, altered gold, actual DB migration |
 
 **Future funded gate, not part of this authorization:** approve real API provider/model availability, billed account, licensed test corpus, explicit max USD/call/token/retry budgets, secure key injection, response safety and provider kill switch. ChatGPT/Codex subscription access is not API billing proof. Keep BLK-003 and confidential-source restrictions. Distinguish OFFLINE_READY after separate approved workstreams from LIVE_PROVIDER_VALIDATED only after a later authorized live run.
+
+## 11. Postmerge-governance and exact-head CI checkpoint (2026-10-19)
+
+- GOV-MCP-CI-001 [Issue #129](https://github.com/nshaokiet/ai-ip-description-generator/issues/129) is **CLOSED / COMPLETED** after successful guarded merge and direct final-main CI verification; it is not an active-database rollout. [Issue #126](https://github.com/nshaokiet/ai-ip-description-generator/issues/126) remains **OPEN**.
+- PREAPI-001 Draft [PR #132](https://github.com/nshaokiet/ai-ip-description-generator/pull/132) was independently read back at prior HEAD `3d695ea08bcee006d187e6bfb227486af2240dce`. [Exact-HEAD PR CI #39189309087](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/39189309087) **COMPLETED/SUCCESS**: `mcp-tests` 7/7 steps; `build-and-test` 34/34 steps. These are CI results, **not** external Gemini spec approval.
+- **After this documentation addendum, review and CI must use its new HEAD**; no stale reviewed-head or old-CI success may substitute. As of this checkpoint, **no PR #132 independent review submission or thread was found**. Status remains Draft/unmerged, no Human freeze/merge permission.
+
+## 12. Critical v1-to-v2 boundary contract — preliminary, NOT FROZEN
+
+**Source observation:** `backend/app/services/core_pipeline.py` constructs its validated extraction envelope inside `run_pipeline` and calls `_cleanup_source(document_id)` in `finally`; its public `PipelineResult` exposes `analysis`, `draft` and `metadata`, **not the original full validated envelope**. The opt-in `/api/documents/{document_id}/process` response similarly returns analysis/draft/metadata. Therefore **do not infer that a v1 processing response is sufficient for a later USPTO v2 run**. Re-reading a cleaned-up upload or synthesizing a lookalike envelope from `analysis` is forbidden.
+
+PREAPI-C1 must design a new **trusted, local, opt-in, synthetic-only** orchestration boundary with these invariants, subject to independent contract review and later Human approval:
+
+1. **Atomic intake / evidence custody:** within one trusted process, validate the uploaded synthetic PDF/DOCX into `ExtractionInputEnvelope`; bind immutable document ID, source SHA-256, evidence units/IDs and canonical envelope digest. Preserve the canonical envelope alongside matching validated `structured_analysis` **before** cleanup. If any stage fails, discard retained state and clean original/output files.
+2. **Provenance consistency:** prove analysis belongs to the same source and that citations/evidence IDs resolve against that saved envelope. Foreign, missing or duplicated evidence, changed document ID/hash, missing originals or noncanonical JSON must fail closed; do not substitute a fixed demo fixture for a newly uploaded source.
+3. **Offline stages:** pass saved envelope and analysis plus separately validated P2-003 and P2-004 configs into `OfflineUSPTOOrchestrator.start_session`; advance through reconstruction, specification, supported-draft-Claims authority, package and optional render. Revalidate all `PROVENANCE_KEYS` (`source_envelope`, `structured_analysis`, `reconstruction`, `specification`, `p2_003_generation_config`, `supported_claims`, `p2_004_generation_config`) before download. Do not use a package digest as standalone authority.
+4. **Review and revision:** bind session ID, revision and opaque revision token to source digest and all seven originals. Any changed source, analysis, configs or draft invalidates downstream package and export, requiring recomputation and an explicit Human review checkpoint. A claims-empty result stays `CLAIMS_REVIEW_REQUIRED`/Human confirmation; never infer patentability or promote unsupported positive Claims.
+5. **Transport/security:** the existing `backend/app/api/local_synthetic_v2.py` provides two isolated trusted same-process GET operations and capabilities, and `backend/app/main.py` does **not** import or mount it. PREAPI-C1 must **not** silently expose that bearer capability or any new browser/public endpoint. First define an independent trust boundary, authentication, retention/expiry, safe error mapping and session ownership before any route/UI implementation.
+6. **Artifacts:** successful synthetic v2 render must deliver **four** manifest-bound output files (PDF/DOCX pairs) with sizes and SHA-256; downloads must be current-revision and session-bound, returned with safe filenames, appropriate media types, `no-store`, and post-download/expiry cleanup. Filename/path must never select arbitrary host files.
+
+**C1 proposed check cases (implementation NOT AUTHORIZED):** V2-01 synthetic PDF; V2-02 synthetic DOCX; V2-03 foreign document or evidence splice; V2-04 original envelope absent after cleanup; V2-05 tampered config or stale revision; V2-06 ungrounded analysis; V2-07 unsupported Claims state; V2-08 package-only render attempt; V2-09 cross-session/export path traversal; V2-10 interrupted render/cleanup. For each case capture the source digest, outcome code, seven-key verification verdict, number of outputs (0 or 4), and **provider calls = 0**, without recording raw source or private paths.
+
+## 13. Provider-free PREAPI-B/D executable-test specification
+
+Existing `tests/e2e/offline_backend.py` already builds `create_app(..., extraction_runtime=SyntheticDemoExtractionRuntime(), draft_runtime=SyntheticDemoDraftRuntime())`; `frontend/playwright.config.ts` launches its local test backend and Next server via Playwright `webServer`. PREAPI-B should reuse this composition and strengthen **negative coverage**, not replace functioning positive E2E tests.
+
+A new test-only isolation harness must: (a) clear provider credential from the subprocess environment; (b) inject explicit fake runtimes into every processing test app; (c) intercept/deny unexpected provider SDK construction and outbound network access during actual product test execution, allowing only loopback as required; (d) count attempted calls and fail the test if nonzero; (e) verify the test process cannot silently fall back to real runtime when a fake is absent; (f) exercise PDF and DOCX success, schema/refusal/error/retry, cross-document substitution, no-source cleanup and output cleanup; (g) emit redacted machine evidence with immutable test SHA and exact counts.
+
+**Explicit risk:** the two `RUN_OPENAI_*_LIVE_TESTS=0` switches control opt-in live tests only. Merely unsetting `OPENAI_API_KEY` or hiding errors is **not** a complete network-deny mechanism. Interception must cover all actual product execution paths. CI dependencies and public patent-reference downloads in the existing workflow are **external connections** but are not paid model/provider calls; therefore report `provider_api_requests=0` separately from broad `total_network_requests`.
+
+Proposed PREAPI-D default-off report fields (schema design only, no generated result yet):
+
+~~~json
+{
+  "report_version": "preapi-1",
+  "mode": "OFFLINE_ONLY",
+  "candidate_git_sha": "<exact test commit>",
+  "provider_api_requests": 0,
+  "provider_client_attempts": 0,
+  "synthetic_v1_e2e": "NOT_RUN",
+  "synthetic_v2_e2e": "NOT_IMPLEMENTED",
+  "source_binding": "NOT_VERIFIED",
+  "seven_input_validation": "NOT_VERIFIED",
+  "evaluator_product_runtime": "NOT_DETERMINED",
+  "model_entitlement": "UNVERIFIED",
+  "credential_status": "ABSENT_OR_NOT_INSPECTED",
+  "readiness": "BLOCKED_PENDING_IMPLEMENTATION"
+}
+~~~
+
+An offline harness may become `READY_FOR_AUTHORIZED_PROVIDER_SMOKE` only once its **own** offline criteria truly pass; it must never assert `LIVE_PROVIDER_VALIDATED` or `EVAL_ACCEPTED`. Real provider capability and access cannot be inferred from an SDK import, a model-like string or a ChatGPT subscription. The future live opt-in must require a **separate Human decision plus a bounded request count, token budget, timeout/retry policy and enforced USD cap**, with a fail-closed STOP switch; amount and model pricing require current verification at authorization time.
+
+## 14. Remaining readiness gates and implementation ownership
+
+| Gate | Required evidence | Status on this Draft |
+|---|---|---|
+| A specification | Source inventory, v1/v2 provenance and reviewable offline plan | **DRAFT**, not frozen or merged |
+| A exact-head CI | Both jobs green for final doc HEAD | **MUST RECHECK AFTER THIS COMMIT** |
+| A independent review | Gemini fixed-SHA strict read-only report including actual session/model/findings | **PENDING**, cannot self-certify |
+| A Human freeze/merge | Separate explicit approval | **NOT AUTHORIZED** |
+| B code | Offline network/provider tripwire and incremental v1 E2E | **NOT STARTED; independent approval required** |
+| C1 then C2 | Frozen trusted synthetic-v2 product contract; gated adapter/UI and four-file export | **NOT STARTED; independent approvals required** |
+| D code | Fail-closed offline readiness CLI and machine report | **NOT STARTED; independent approval required** |
+| E code | Six accepted-gold fixture validation without product-runtime claims | **NOT STARTED; independent approval required** |
+| Future paid pilot | Separate provider/account/model, lawful sources, USD/call/token cap, key handling and rollback approval | **BLOCKED / SPEND USD 0** |
+
+When handing off to Antigravity for independent PREAPI-A review, ask the reviewer to examine Sections 9–14 against **actual main source**, challenge the mandatory source-envelope custody issue, verify safety boundaries, exact PR diff and fresh CI head. No edits, approvals by inference, paid API calls, deployment or active SQLite access during review.
