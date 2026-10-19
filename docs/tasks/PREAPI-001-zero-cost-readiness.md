@@ -111,3 +111,67 @@ Human separately decides provider/platform, actual API model ID, OpenAI API bill
 No paid provider/network calls; no use of user's real/confidential/unpublished papers; no Render rollout; no public endpoint; no production auth/tenant/storage change; no Claims product activation; no MCP active database migration; no fabricated MCP leases/tasks; no changes to AGENTS.md, frozen contracts or branch protection. Every new code change remains a separate Draft PR under Workflow V1 fixed-SHA Gemini independent review followed by explicit Human merge approval.
 
 **Current task status:** SPECIFICATION DRAFT / ZERO COST / CODE IMPLEMENTATION NOT STARTED / NO MERGE AUTHORIZATION. This is a roadmap specification, not a verified live AI test.
+
+
+## 9. Source-verified acceptance matrix (audit addendum, 2026-10-19)
+
+This audit is based on existing source/test paths. **Presence of regression tests is not new test execution or proof that this PR has passed.** Target missing integration seams instead of implementing the existing positive cases again.
+
+| Boundary | Existing code/tests | Already covered | Incremental gap |
+|---|---|---|---|
+| PDF/DOCX → evidence | backend/app/api/routes/documents.py; backend/app/services/document_parsing.py; tests/backend/test_document_upload.py; test_document_parsing.py | Validation, source-unit preparation | Explicit no-provider, cross-document and expiry/replay negative integration evidence |
+| Evidence → AI-001 extraction | backend/app/services/extraction_runtime.py; tests/backend/test_extraction_runtime.py | Mock Responses client, schema/grounding errors, refusal, timeout, safe logs | Explicit forbidden-provider transport tripwire across full E2E |
+| AI-001 → draft | backend/app/services/draft_runtime.py; tests/backend/test_draft_runtime.py | Mocked provider contract, business validation, refusal, incomplete | Multi-stage source identity and zero-provider-invocation assertions |
+| Upload → v1 draft → DOCX | tests/backend/test_core_pipeline_e2e_offline.py; test_local_orchestration_api.py; tests/e2e/offline_backend.py; frontend/e2e/integration.spec.ts | Existing real HTTP PDF/DOCX, review, revision digest, export, cleanup, retry and errors | Add only genuinely missing failures and explicit no-network proof; do not rebuild existing positive flow |
+| v2 source → P2-002 through P2-006 | backend/app/services/uspto_offline_orchestration.py; tests/backend/test_uspto_offline_orchestration.py | Seven retained originals, revision/digest tamper, document splice rejection and cleanup | Product integration of arbitrary newly uploaded *synthetic* source, Human review and gated exports |
+| Candidate A v2 API | backend/app/api/local_synthetic_v2.py; tests/backend/test_local_synthetic_v2_api.py | In-process two-GET, capability scopes, strict default OFF | No released public/product upload API; must freeze separate API/UX contract |
+| Four USPTO files/demo | backend/app/services/uspto_offline_renderer.py; tests/backend/test_uspto_offline_renderer.py; backend/app/services/uspto_synthetic_delivery.py; tests/backend/test_uspto_synthetic_delivery.py; frontend/e2e-demo/uspto-exports.spec.ts | Four files from verified synthetic sources or fixed demo | Upload-linked provenance-based export and authorization boundary absent |
+| EVAL-001 | eval/semantic/v1/tools/evaluator.py; tests/eval/test_semantic_evaluator.py; eval/semantic/v1/reports/framework-status.json | Scoring engine and blocked framework status | Fixture harness only, never substitute for PRODUCT_RUNTIME results |
+
+### 9.1 Critical safety correction: live-test flags do not prevent all runtime calls
+
+The two RUN_OPENAI_*_LIVE_TESTS flags in backend/app/core/config.py default to OFF, but backend/app/main.py wires real OpenAIExtractionRuntime and OpenAIDraftRuntime into the opt-in local processing router when the caller does not explicitly inject fakes. Thus **setting live-test flags to 0 does not make an arbitrary running local processing application provider-safe**.
+
+PREAPI-B/D must require all of the following:
+
+1. Create only a test application with explicit fake Extraction and Draft runtimes (see tests/e2e/offline_backend.py); unset OPENAI_API_KEY in the isolated test process, including when the host had a key.
+2. Prove an unexpected provider-client construction, SDK request or non-loopback product network access fails the test. Local loopback connections used by Playwright are allowed; external package installs/CI fixture downloads are unrelated to product provider calls.
+3. Assert provider-call count = **0** across success, malformed input, refusal, retry, cleanup and browser flow. Mark all outputs as MOCK/SYNTHETIC; mock results do not establish semantic quality.
+4. Never use logging-only detection or a hidden environment toggle as a safety control. Fail the test/job on an unapproved request.
+
+Current configuration limits are **48,000 extraction** and **64,000 draft output tokens**, with **2 retries per stage**; these maxima are *not* a USD budget cap. Future paid pilot must derive and enforce a worst-case cap including both stages, retry policy and exact provider pricing. The actual availability of configured model gpt-5.6-sol is unverified. Do not silently modify frozen production settings to claim readiness.
+
+### 9.2 Repeatable targeted offline commands
+
+Run from repo root after installing Python 3.12 and pinned requirements. These invoke existing unit/offline suites, **not** the live tests; commands are source-observed but have NOT been executed in this audit.
+
+~~~bash
+export RUN_OPENAI_LIVE_TESTS=0 RUN_OPENAI_DRAFT_LIVE_TESTS=0
+unset OPENAI_API_KEY
+python -m pytest tests/backend/test_extraction_runtime.py \
+  tests/backend/test_draft_runtime.py \
+  tests/backend/test_core_pipeline_e2e_offline.py \
+  tests/backend/test_local_orchestration_api.py \
+  tests/backend/test_uspto_offline_orchestration.py \
+  tests/backend/test_local_synthetic_v2_api.py \
+  tests/backend/test_uspto_offline_renderer.py \
+  tests/backend/test_uspto_synthetic_delivery.py \
+  tests/eval/test_semantic_evaluator.py \
+  -q -p no:cacheprovider
+~~~
+
+Existing full CI uses python -m pytest tests -q -p no:cacheprovider. MCP CI independently runs npm ci, npm run typecheck, npm run build, npm test with a disposable absolute PROJECT_ORCH_DB below RUNNER_TEMP; frontend scripts include lint, typecheck, build, test:e2e. For frontend Playwright, use its configured test servers/dependencies: merely typing npm run test:e2e does not guarantee a test server is running.
+
+The existing framework command python eval/semantic/v1/tools/evaluator.py may rewrite tracked reports. Run it in a disposable checkout and inspect the diff. Correct no-provider outcome is BLOCKED_FOR_PRODUCT_RUNTIME_EVIDENCE / NOT_DETERMINED with 6 accepted gold cases and zero accepted product runs.
+
+## 10. Bounded next task sequence / stop conditions
+
+| Stage | Separate Human approval required before source code | Deliverable | STOP if |
+|---|---|---|---|
+| PREAPI-B incremental mock v1 E2E | Yes | Provider tripwire and only uncovered negative cases, actual test logs and no-live-call proof | Real client request, secrets, unexpected source/schema mutation |
+| PREAPI-C1 v2 product API and UI contract | Contract review and freeze | Local auth/session/data-flow boundary distinct from Candidate A; HTTP route/UX specification | Any unapproved public route, browser bearer transport, Claims promotion |
+| PREAPI-C2 v2 synthetic product adapter/UI | Yes, after C1 freeze | Synthetic uploaded source linked to all seven originals, immutable revision/Human gate, four exports and cleanup | Package-only renderer, foreign evidence, unsupported Claims, deployment |
+| PREAPI-D dry-run harness | Yes | Default-fail-closed CLI/readiness report, key PRESENT/ABSENT only, no provider network and budget-cap design | Real model discovery/call, model entitlement asserted without evidence, leaked key/source |
+| PREAPI-E EVAL-001 audit | Yes | Synthetic fixture scoring validation with unchanged product-runtime NOT_DETERMINED status | Mock outputs labelled as product runtime, altered gold, actual DB migration |
+
+**Future funded gate, not part of this authorization:** approve real API provider/model availability, billed account, licensed test corpus, explicit max USD/call/token/retry budgets, secure key injection, response safety and provider kill switch. ChatGPT/Codex subscription access is not API billing proof. Keep BLK-003 and confidential-source restrictions. Distinguish OFFLINE_READY after separate approved workstreams from LIVE_PROVIDER_VALIDATED only after a later authorized live run.
