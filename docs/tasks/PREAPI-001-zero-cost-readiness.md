@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Task | PREAPI-001 / Issue #131 |
-| Specification | v0.1.1 DRAFT — independent review and Human freeze pending |
+| Specification | v0.1.2 DRAFT — independent review and Human freeze pending |
 | Initial baseline | f3e9994ffa255600ceeaffc1d4d7640140aba1fb (PR #130 merged) |
 | Workflow | V1; Codex implementation, Gemini 3.8 Flash High/Antigravity STRICT READ-ONLY review |
 | Authorization | HUMAN-PREAPI-001-ZERO-COST-PREPARATION-2026-10-19; preparation and Draft PR only |
@@ -12,6 +12,8 @@
 | Merge | NOT AUTHORIZED for this Draft or any subsequent implementation |
 
 Version note: v0.1.1 (2026-10-19, Codex) corrects the v1 client-supplied revision/source-binding limitation in the proposed offline tests; v0.1.0 remains in Git history. No runtime contract or authorization changes.
+
+Version note: v0.1.2 (2026-10-19, Codex) distinguishes zero unexpected provider attempts in normal synthetic execution from an intentional negative tripwire probe that must be blocked before client/request execution. No runtime contract or authorization changes.
 
 ## 1. Product objective and non-claims
 
@@ -203,7 +205,7 @@ PREAPI-C1 must design a new **trusted, local, opt-in, synthetic-only** orchestra
 
 Existing `tests/e2e/offline_backend.py` already builds `create_app(..., extraction_runtime=SyntheticDemoExtractionRuntime(), draft_runtime=SyntheticDemoDraftRuntime())`; `frontend/playwright.config.ts` launches its local test backend and Next server via Playwright `webServer`. PREAPI-B should reuse this composition and strengthen **negative coverage**, not replace functioning positive E2E tests.
 
-A new test-only isolation harness must: (a) clear provider credential from the subprocess environment; (b) inject explicit fake runtimes into every processing test app; (c) intercept/deny unexpected provider SDK construction and outbound network access during actual product test execution, allowing only loopback as required; (d) count attempted calls and fail the test if nonzero; (e) verify the test process cannot silently fall back to real runtime when a fake is absent; (f) reuse PDF and DOCX success and target uncovered schema/refusal/error/retry, **mismatched** cross-document substitution, no-source cleanup and output cleanup; (g) emit redacted machine evidence with immutable test SHA and exact counts. A self-consistent foreign analysis/draft pair is a documented v1 custody gap, not a PREAPI-B pass assertion or authorization to change production behavior.
+A new test-only isolation harness must: (a) clear provider credential from the subprocess environment; (b) inject explicit fake runtimes into every processing test app; (c) intercept/deny unexpected provider SDK construction and outbound network access during actual product test execution, allowing only loopback as required; (d) count unexpected client/request attempts and fail normal synthetic tests if nonzero; (e) run a separate **intentional negative probe** with a fake omitted, which passes only if the guard blocks construction before a provider client/request exists; (f) reuse PDF and DOCX success and target uncovered schema/refusal/error/retry, **mismatched** cross-document substitution, no-source cleanup and output cleanup; (g) emit redacted machine evidence with immutable test SHA and exact counts. Keep blocked negative-probe attempts in a separate counter; do not misreport them as zero attempted actions. A self-consistent foreign analysis/draft pair is a documented v1 custody gap, not a PREAPI-B pass assertion or authorization to change production behavior.
 
 **Explicit risk:** the two `RUN_OPENAI_*_LIVE_TESTS=0` switches control opt-in live tests only. Merely unsetting `OPENAI_API_KEY` or hiding errors is **not** a complete network-deny mechanism. Interception must cover all actual product execution paths. CI dependencies and public patent-reference downloads in the existing workflow are **external connections** but are not paid model/provider calls; therefore report `provider_api_requests=0` separately from broad `total_network_requests`.
 
@@ -216,6 +218,7 @@ Proposed PREAPI-D default-off report fields (schema design only, no generated re
   "candidate_git_sha": "<exact test commit>",
   "provider_api_requests": 0,
   "provider_client_attempts": 0,
+  "negative_tripwire_blocked_attempts": "NOT_RUN",
   "synthetic_v1_e2e": "NOT_RUN",
   "synthetic_v2_e2e": "NOT_IMPLEMENTED",
   "source_binding": "NOT_VERIFIED",
