@@ -2,14 +2,14 @@
 
 | Field | Value |
 |---|---|
-| Version | 0.1.0 — review candidate, NOT FROZEN |
+| Version | 0.1.1 — Human policy decisions incorporated; review candidate, NOT FROZEN |
 | Status | DRAFT SPECIFICATION — implementation and merge not authorized by this document |
-| Workflow | V1; independent fixed-SHA Gemini 3.8 Flash High / Antigravity STRICT READ-ONLY review pending |
+| Workflow | V1; previous v0.1.0 independent review PASS, NEW fixed-SHA Gemini 3.8 Flash High / Antigravity STRICT READ-ONLY review required after v0.1.1 changes |
 | Owner | Human / Product Owner |
 | Author | Codex |
 | Date | 19/10/2026 |
 | Baseline | `cdc879adedbb1c5d1945d2e5722d61df4959aebb` |
-| Related | PREAPI-001 [#131](https://github.com/nshaokiet/ai-ip-description-generator/issues/131), B [#133](https://github.com/nshaokiet/ai-ip-description-generator/issues/133), [readiness specification](PREAPI-001-zero-cost-readiness.md) v0.1.3 |
+| Related | PREAPI-001 [#131](https://github.com/nshaokiet/ai-ip-description-generator/issues/131), B [#133](https://github.com/nshaokiet/ai-ip-description-generator/issues/133), [readiness specification](PREAPI-001-zero-cost-readiness.md) v0.1.3; [Human policy approval receipt on PR #137](https://github.com/nshaokiet/ai-ip-description-generator/pull/137#issuecomment-6263970995) |
 
 ## 1. Scope and decision boundary
 
@@ -51,7 +51,7 @@ The exact `PROVENANCE_KEYS` in `uspto_offline_orchestration.py` are: `source_env
 
 ## 4. Lifecycle and failure contract
 
-The following are **proposed C1 error codes**, not claims that current code emits them. All client-facing messages are fixed and source-safe; internal logs contain code, correlation/custody ID class and revision only. Every transition requires live owner scope, unexpired record, current revision token and retained upload binding. `ABORTED`/`EXPIRED` are terminal. TTL duration and retention require Human decision.
+The following are **proposed C1 error codes**, not claims that current code emits them. All client-facing messages are fixed and source-safe; internal logs contain code, correlation/custody ID class and revision only. Every transition requires live process-local owner scope, unexpired record, current revision token and retained upload binding. `ABORTED`/`EXPIRED` are terminal. The Human-approved synthetic-only TTL and expiry order are specified in Section 7.1; production retention and deletion guarantees remain out of scope.
 
 | Transition | Trusted input and invariant | Failure/code; filesystem and retry behavior |
 |---|---|---|
@@ -70,7 +70,7 @@ Concurrency: serialize transitions and manifest publication per custody ID; neve
 
 ## 5. Trust, review and output boundary
 
-Execution is local trusted caller only, opt-in and synthetic. No route is added. The Candidate A bearer is a same-process test capability, not browser authorization. A future browser API needs a separate Human decision for authentication, owner isolation, CSRF/CORS, bearer storage/transport, rate limits, retention, security review and deployment. Reject path-like IDs, symlink escapes, caller-selected output paths and arbitrary filesystem reads. Do not log source prose, prompts, tokens, credentials, bearer values, full hashes in public logs or private absolute paths. Audit events use safe IDs, stage/code, revision, timing and digest-verification verdict without raw source content. TTL, deletion assurance and backup/retention are unresolved Human policy gates; ordinary unlink is not assured secure deletion.
+Execution is local trusted caller only, opt-in and synthetic. No route is added. The Candidate A bearer is a same-process test capability, not browser authorization. A future browser API needs a separate Human decision for authentication, owner isolation, CSRF/CORS, bearer storage/transport, rate limits, retention, security review and deployment. Reject path-like IDs, symlink escapes, caller-selected output paths and arbitrary filesystem reads. Do not log source prose, prompts, tokens, credentials, bearer values, full hashes in public logs or private absolute paths. Audit events use safe IDs, stage/code, revision, timing and digest-verification verdict without raw source content. Synthetic volatile TTL/expiry behavior is set in Section 7.1; persistent backup/retention and deletion assurance are **not authorized**. Ordinary unlink is not assured secure deletion.
 
 Human review must show missing information as missing, preserve `CLAIMS_REVIEW_REQUIRED` and `filing_ready=false`, and record the reviewed revision. `claims=[]` is not a positive Claims determination. Unsupported Claims remain absent; no patentability or filing decision is implied. P2-003's `claims_runtime_implemented=false` and current product Claims-disable boundary remain unchanged. Review is a content checkpoint, not legal approval.
 
@@ -88,12 +88,12 @@ Every case uses disposable synthetic fixtures, fake extraction/draft runtimes an
 | V2-04 | Source already cleaned, no retained canonical envelope → v2 handoff from `PipelineResult` | `SOURCE_MISSING`/`CUSTODY_UNAVAILABLE`; no inferred envelope/session/files | No trusted envelope digest; no leftover upload/output; normal counters zero | No — C1 required |
 | V2-05 | Package-valid revision → change P2-003/P2-004 config or replay old token | `STALE_REVISION`; downstream state reset, old manifest unavailable | New config digest, old token/digests rejected; remove old output; normal counters zero | No — C1 required |
 | V2-06 | Synthetic duplicate evidence ID, forged locator/excerpt or missing grounding → intake/analysis | `EVIDENCE_INVALID`/`ANALYSIS_UNGROUNDED`; zero session/export | Compare saved source/evidence digests; delete upload and partial state; normal counters zero | No — C1 required |
-| V2-07 | Authentic-style fixture with no eligible Claims or unsupported family → review/package | `CLAIMS_REVIEW_REQUIRED`; no positive Claims, missing data visible; four **drafts** only after allowed Human review | All seven originals still match; no stale outputs; normal counters zero | No — C1 required; review policy decision pending |
+| V2-07 | Synthetic fixture with no eligible Claims or unsupported family → review/package | `CLAIMS_REVIEW_REQUIRED`; no positive Claims, missing data visible; four clearly labeled **non-filing-ready drafts** only after explicit manual incomplete-Claims acknowledgment bound to the current revision | All seven originals still match; acknowledgment/revision match and invalidation checked; normal counters zero | No — C1 implementation required; Human policy chosen in Section 7.1 |
 | V2-08 | Valid package JSON, no retained seven originals → renderer request | `PROVENANCE_MISMATCH`; no advertised manifest/output | Package digest cannot substitute absent originals; staging empty; normal counters zero | No — C1 required |
 | V2-09 | Two owner scopes/current render → cross-session download or `../` filename | `SESSION_UNAVAILABLE`/`EXPORT_UNAVAILABLE`; no bytes/path disclosed, valid session unchanged | Current manifest digest unmodified; no wrong-owner cleanup; normal counters zero | No — C1 required |
 | V2-10 | Interrupt after 1–3 staging files or inject cleanup failure → retry/expire | `RENDER_INCOMPLETE`/safe cleanup code; no complete manifest, access revoked | Staging digests not promoted; owned-path orphan inventory and cleanup-failure audit; normal counters zero | No — C1 required |
 
-## 7. Architecture decision record — proposed, Human decision pending
+## 7. Architecture decision record — design policies Human-approved; spec NOT FROZEN
 
 | Criterion | A. Trusted same-process atomic coordinator (**recommended for synthetic milestone**) | B. Server-retained custody store with explicit expiry |
 |---|---|---|
@@ -103,7 +103,25 @@ Every case uses disposable synthetic fixtures, fake extraction/draft runtimes an
 | Testability / rollback | Synthetic process tests; disable flag and discard ephemeral sessions | Storage integration and restore tests; rollback/data migration needs separate plan |
 | Retention / production risk | Short volatile TTL proposed, no persistence or secure deletion claim | Greater data-retention and production migration risk |
 
-Recommend A only for a **local synthetic proof**. Freeze requires Human to decide (1) whether C1 may create a new trusted coordinator and its precise owner model; (2) allowed synthetic data, TTL and cleanup-failure disposition; (3) Human review checkpoint semantics for non-final drafts; (4) whether four exports may be produced after `CLAIMS_REVIEW_REQUIRED`; and (5) whether any future browser transport is in scope (default: no). B or production persistence needs separate architecture/security authorization. Neither option proves paid model entitlement, semantic quality or filing readiness.
+Recommend A only for a **local synthetic proof**. The Human approved the five bounded C1 **design-policy decisions** in Section 7.1, but the updated specification is still a review candidate and C1 executable implementation remains unauthorized. Option B, production persistence, tenant ownership and external/browser transport require separate architecture/security decisions. Neither option proves paid model entitlement, semantic quality or filing readiness.
+
+## 7.1 Approved Human design-policy decisions — synthetic/offline C1 only
+
+**Authority:** the Human explicitly approved the five proposals in the ChatGPT decision turn on 19/10/2026, [recorded verbatim as scoped design policy on PR #137](https://github.com/nshaokiet/ai-ip-description-generator/pull/137#issuecomment-6263970995). Approval is to **revise this specification**, not to freeze/merge this new HEAD, implement C1, open a public route, or deploy. Prior Gemini PASS was on v0.1.0 `2dec33780e831fa610868432e4b955494a7babef`; v0.1.1 requires **new independent fixed-SHA review and CI**.
+
+1. **Architecture, identity and owner scope (APPROVED DESIGN POLICY).** Use **Option A**, trusted in-process atomic coordinator, synthetic fixtures only. Owner scope is one trusted **process-local** execution context, with a random opaque per-session `custody_id` and explicit source/session/revision binding. This is **not** tenant isolation, a web authentication model, a persistent database or a cross-process authority. A restart loses volatile custody, revokes all prior session references and must not adopt caller-supplied originals. Any multi-tenant, durable or cross-process deployment is a separate security and Human authorization gate.
+
+2. **TTL and cleanup (APPROVED DESIGN POLICY).** Use **30 minutes idle TTL** measured from the last successfully authorized state-changing operation, and an independent, hard **2-hour maximum absolute lifetime** from custody commit; effective expiry is the **earlier** deadline. Only successful trusted workflow progress can refresh the idle deadline, never a public read/poll or an invalid request; no refresh can extend the absolute limit. Use monotonic elapsed time while process lives, fail closed on restart. Upon expiry or abort: **revoke lookup/access first**, invalidate revision token and manifest, then clean only service-owned staging/source/output paths. If cleanup fails, retain a sanitized cleanup-failure marker for reconciliation but never restore access, advertise files, or silently count cleanup as successful. No assurance of physical secure erase, cross-process recovery or durable cleanup audit is claimed; those require a later implementation/security policy.
+
+3. **Human review semantics (APPROVED DESIGN POLICY).** A trusted, **explicit manual Human acknowledgment** is required for **each current immutable revision** before any four-artifact draft export. Bind review decision, revision token and recorded actor/context inside process-local trusted custody (not untrusted caller-authored JSON). Any altered original, source, analysis, config, Claims outcome or draft, expiry or new revision invalidates approval and downstream package/artifacts. A test harness may simulate this callback only as a labeled synthetic fixture; the production reviewer identity/auth model remains unapproved. Human confirmation is content review only, not patentability or legal approval.
+
+4. **`CLAIMS_REVIEW_REQUIRED` and exports (APPROVED DESIGN POLICY).** Under a current revision with missing/unsupported/empty Claims, display missing Claims explicitly, require a second **affirmative acknowledgment that Claims are incomplete**, then allow the existing **four manifest-bound PDF/DOCX files only as clearly marked SYNTHETIC DRAFT / NOT FILING READY**. Do **not** promote or invent Claims, change P2-004/Claims semantics, set `filing_ready=true`, or call the output filing-ready. Missing affirmative acknowledgment, stale source/review token or incomplete manifest means **zero available export artifacts**. Implementing a new visual watermark or altering frozen renderer semantics would require separate scoped approval; for this specification, the draft status and manifest/review record must not misrepresent export authority.
+
+5. **Transport (APPROVED DESIGN POLICY).** C1 is strictly trusted **in-process**, local synthetic-only, default OFF. **No new HTTP route**, browser API, cookie/auth session, public endpoint, or Candidate A bearer/capability delivered to frontend. A future browser-facing transport, multi-user owner model or bearer-based authorization requires separate security architecture review and Human approval; no implicit authority is conferred by this policy approval.
+
+**Acceptance implications:** V2-01/02 must exercise the 30-minute idle and 2-hour absolute-bound design without waiting in real time (injected monotonic clock), plus process restart revocation; V2-05 checks review/token invalidation on changed originals; V2-07 checks incomplete-Claims acknowledgment and non-filing-ready draft markings; V2-09 verifies process-local owner/revision isolation and denial of all forbidden transport assumptions; V2-10 checks revoke-before-clean and cleanup-error fail-closed. All V2-01..V2-10 are still **NOT IMPLEMENTED / NOT RUN**. Exact detailed positive/negative test steps are future C1 implementation work only.
+
+**Remaining separate gates:** fresh independent review and CI for v0.1.1, explicit Human freeze/merge authority, separate implementation authorization, future real-data governance, production retention/security, owner/auth and deployment decisions. Provider budget stays USD 0.
 
 ## 8. Dependencies, compatibility and reviewer checklist
 
