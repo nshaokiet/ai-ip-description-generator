@@ -31,7 +31,7 @@ concurrency:
 jobs:
   prune:
     # Never run on a forked repository or an untrusted pull request.
-    if: github.repository == 'nshaokiet/ai-ip-description-generator'
+    if: github.repository == 'nshaokiet/ai-ip-description-generator' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -39,6 +39,7 @@ jobs:
         uses: actions/checkout@v7
         with:
           persist-credentials: false
+          ref: main
       - name: Check Python
         run: python3 --version
       - name: Dry-run or delete allowlisted older successful-run QA artifacts
