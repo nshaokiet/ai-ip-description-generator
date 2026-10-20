@@ -331,7 +331,11 @@ class TrustedCustodyCoordinator:
             if (record.package is None or record.output_directory is None
                     or {item.filename for item in record.manifest} != set(FILES)):
                 raise ValueError("manifest incomplete")
-            directory = record.output_directory / (record.package["package_id"] + "-p2-006")
+            parent = record.output_directory
+            if (parent.is_symlink() or parent.parent != self.output_root
+                    or parent.name != record.custody_id or not parent.is_dir()):
+                raise ValueError("artifact parent invalid")
+            directory = parent / (record.package["package_id"] + "-p2-006")
             if directory.is_symlink() or {item.name for item in directory.iterdir()} != set(FILES):
                 raise ValueError("artifact directory invalid")
             for item in record.manifest:
@@ -499,10 +503,14 @@ class TrustedCustodyCoordinator:
                 outputs = render_uspto_document_package(package, **deepcopy(record.originals), output_dir=parent)
                 self._validate_originals(record)
                 validate_uspto_document_package(package, **deepcopy(record.originals))
+                expected_directory = parent / (package["package_id"] + "-p2-006")
+                if (parent.is_symlink() or expected_directory.is_symlink()
+                        or set(outputs) != set(FILES)):
+                    raise CustodyError("RENDER_INCOMPLETE")
                 manifest = []
                 for name in FILES:
                     path = outputs[name]
-                    if path.is_symlink() or path.stat().st_size == 0:
+                    if path.parent != expected_directory or path.is_symlink() or path.stat().st_size == 0:
                         raise CustodyError("RENDER_INCOMPLETE")
                     with path.open("rb") as stream:
                         signature = stream.read(4)

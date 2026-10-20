@@ -394,3 +394,17 @@ def test_modified_artifact_revokes_entire_bundle(setup):
     assert_code("EXPORT_UNAVAILABLE", custody.status, result.custody_id, owner="trusted-owner", revision_token=result.revision_token)
     assert record.manifest == () and record.state == "ABORTED"
     assert_code("SESSION_UNAVAILABLE", custody.download, result.custody_id, owner="trusted-owner", revision_token=result.revision_token, filename=FILES[1])
+
+
+def test_symlinked_artifact_parent_is_denied_before_read(setup):
+    _, _, custody, _ = setup
+    receipt = commit(setup)
+    rendered = review_and_render(custody, receipt)
+    parent = custody._records[receipt.custody_id].output_directory
+    original = Path.is_symlink
+    def fake_symlink(path):
+        return path == parent or original(path)
+    with patch.object(Path, "is_symlink", fake_symlink):
+        assert_code("EXPORT_UNAVAILABLE", custody.download, rendered.custody_id, owner="trusted-owner", revision_token=rendered.revision_token, filename=FILES[0])
+    assert custody._records[receipt.custody_id].state == "ABORTED"
+    assert custody.sweep_expired() == 1
