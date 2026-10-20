@@ -1,0 +1,57 @@
+name: QA artifact cleanup
+
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: "Delete selected old successful-run QA artifacts (false = dry-run only)"
+        type: boolean
+        required: true
+        default: false
+      min_age_hours:
+        description: "Minimum artifact age; 24h recommended"
+        type: choice
+        required: true
+        default: "24"
+        options:
+          - "12"
+          - "24"
+          - "48"
+          - "72"
+
+# Actions write is scoped only to this manually invoked maintenance workflow.
+permissions:
+  contents: read
+  actions: write
+
+concurrency:
+  group: qa-artifact-cleanup
+  cancel-in-progress: false
+
+jobs:
+  prune:
+    # Never run on a forked repository or an untrusted pull request.
+    if: github.repository == 'nshaokiet/ai-ip-description-generator'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout reviewed default-branch script
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Check Python
+        run: python3 --version
+      - name: Dry-run or delete allowlisted older successful-run QA artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_HOST: github.com
+          APPLY: ${{ inputs.apply }}
+          AGE_HOURS: ${{ inputs.min_age_hours }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          args=(--min-age-hours "$AGE_HOURS")
+          if [[ "$APPLY" == "true" ]]; then
+            args+=(--apply)
+          fi
+          python3 tools/maintenance/prune_actions_qa_artifacts.py "${args[@]}"
