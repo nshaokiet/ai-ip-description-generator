@@ -87,9 +87,9 @@ def main() -> int:
     )
     protected = set(args.keep_run)
     protected.update(int(r["id"]) for r in
-                     (r for r in successes if r.get("head_branch") == "main")[:args.keep_main_runs])
+                     [r for r in successes if r.get("head_branch") == "main"][:args.keep_main_runs])
     protected.update(int(r["id"]) for r in
-                     (r for r in successes if r.get("event") == "pull_request")[:args.keep_pr_runs])
+                     [r for r in successes if r.get("event") == "pull_request"][:args.keep_pr_runs])
     threshold = datetime.now(timezone.utc) - timedelta(hours=args.min_age_hours)
 
     candidates = []
