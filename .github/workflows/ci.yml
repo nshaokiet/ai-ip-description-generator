@@ -112,31 +112,6 @@ jobs:
           curl --fail --location --retry 2 https://patentimages.storage.googleapis.com/42/19/af/1c5089854ab9d4/US11044591.pdf --output "$RUNNER_TEMP/p2-006-reference-qa/US11044591.pdf"
           python tests/backend/measure_p2_006_references.py "$RUNNER_TEMP/p2-006-reference-qa" --verify docs/tasks/P2-006-reference-measurements.json --compare "$RUNNER_TEMP/p2-006-layout-qa"
 
-      - name: Archive public reference calibration (QA only)
-        if: ${{ failure() || inputs.upload_qa_artifacts }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: p2-006-public-reference-calibration
-          path: |
-            ${{ runner.temp }}/p2-006-reference-qa/*.png
-            ${{ runner.temp }}/p2-006-reference-qa/*.json
-          if-no-files-found: warn
-          retention-days: 2
-
-      - name: Archive synthetic renderer layout QA
-        if: ${{ failure() || inputs.upload_qa_artifacts }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: p2-006-synthetic-layout-qa
-          path: |
-            ${{ runner.temp }}/p2-006-layout-qa/*.pdf
-            ${{ runner.temp }}/p2-006-layout-qa/*.png
-            ${{ runner.temp }}/p2-006-layout-qa/*.json
-            ${{ runner.temp }}/p2-006-layout-qa/p2-005-*-p2-006/*.pdf
-            ${{ runner.temp }}/p2-006-layout-qa/p2-005-*-p2-006/*.docx
-          if-no-files-found: warn
-          retention-days: 2
-
       - uses: actions/setup-node@v7
         with:
           node-version: "24.18.0"
@@ -165,15 +140,6 @@ jobs:
           npm ls --all --json > "$RUNNER_TEMP/dep-001-security/dependency-tree.json"
           npm run test:lint-security | tee "$RUNNER_TEMP/dep-001-security/lint-security.log"
 
-      - name: Archive DEP-001 security evidence
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: dep-001-security
-          path: ${{ runner.temp }}/dep-001-security/
-          if-no-files-found: error
-          retention-days: 2
-
       - name: Typecheck frontend
         working-directory: frontend
         run: npm run typecheck
@@ -191,17 +157,6 @@ jobs:
         env:
           PLAYWRIGHT_PYTHON: python
         run: npm run test:e2e
-
-      - name: Archive synthetic UIUX browser evidence
-        if: ${{ failure() || inputs.upload_qa_artifacts }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: uiux-003-synthetic-browser-qa
-          path: |
-            frontend/test-results/
-            docs/qa/uiux-003/before/
-          if-no-files-found: warn
-          retention-days: 2
 
       - name: Checkout fixed UIUX-003 compatibility source
         uses: actions/checkout@v7
@@ -234,15 +189,6 @@ jobs:
           ! grep -R -E 'OPENAI_API_KEY|sk-[A-Za-z0-9_-]{20,}|gpt-5\.6-sol' out
           npm run test:e2e:demo
 
-      - name: Archive isolated UIUX-003 compatibility results
-        if: ${{ failure() || inputs.upload_qa_artifacts }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: dep-001-uiux003-compatibility
-          path: tmp/dep-001-uiux003-source/frontend/test-results/
-          if-no-files-found: warn
-          retention-days: 2
-
       - name: Build Render static demo export
         working-directory: frontend
         env:
@@ -262,3 +208,71 @@ jobs:
         env:
           PLAYWRIGHT_PYTHON: python
         run: npm run test:e2e:demo
+
+      # Capture the functional test result BEFORE any artifact upload can change job.status.
+      # This prevents an upload failure from triggering extra optional QA uploads.
+      - name: Snapshot functional test status before evidence uploads
+        id: functional_test_status
+        if: always()
+        shell: bash
+        run: |
+          if [[ "${{ job.status }}" == "failure" ]]; then
+            echo "failed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "failed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Evidence uploads must not be interleaved with required functional tests.
+      - name: Archive DEP-001 security evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dep-001-security
+          path: ${{ runner.temp }}/dep-001-security/
+          if-no-files-found: error
+          retention-days: 2
+
+      - name: Archive public reference calibration (QA only)
+        if: ${{ always() && (steps.functional_test_status.outputs.failed == 'true' || inputs.upload_qa_artifacts) }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: p2-006-public-reference-calibration
+          path: |
+            ${{ runner.temp }}/p2-006-reference-qa/*.png
+            ${{ runner.temp }}/p2-006-reference-qa/*.json
+          if-no-files-found: warn
+          retention-days: 2
+
+      - name: Archive synthetic renderer layout QA
+        if: ${{ always() && (steps.functional_test_status.outputs.failed == 'true' || inputs.upload_qa_artifacts) }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: p2-006-synthetic-layout-qa
+          path: |
+            ${{ runner.temp }}/p2-006-layout-qa/*.pdf
+            ${{ runner.temp }}/p2-006-layout-qa/*.png
+            ${{ runner.temp }}/p2-006-layout-qa/*.json
+            ${{ runner.temp }}/p2-006-layout-qa/p2-005-*-p2-006/*.pdf
+            ${{ runner.temp }}/p2-006-layout-qa/p2-005-*-p2-006/*.docx
+          if-no-files-found: warn
+          retention-days: 2
+
+      - name: Archive synthetic UIUX browser evidence
+        if: ${{ always() && (steps.functional_test_status.outputs.failed == 'true' || inputs.upload_qa_artifacts) }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: uiux-003-synthetic-browser-qa
+          path: |
+            frontend/test-results/
+            docs/qa/uiux-003/before/
+          if-no-files-found: warn
+          retention-days: 2
+
+      - name: Archive isolated UIUX-003 compatibility results
+        if: ${{ always() && (steps.functional_test_status.outputs.failed == 'true' || inputs.upload_qa_artifacts) }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: dep-001-uiux003-compatibility
+          path: tmp/dep-001-uiux003-source/frontend/test-results/
+          if-no-files-found: warn
+          retention-days: 2
