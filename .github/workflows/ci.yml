@@ -7,6 +7,13 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      upload_qa_artifacts:
+        description: "Preserve optional QA screenshots/layout outputs for manual review"
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -106,18 +113,18 @@ jobs:
           python tests/backend/measure_p2_006_references.py "$RUNNER_TEMP/p2-006-reference-qa" --verify docs/tasks/P2-006-reference-measurements.json --compare "$RUNNER_TEMP/p2-006-layout-qa"
 
       - name: Archive public reference calibration (QA only)
-        if: always()
+        if: ${{ failure() || inputs.upload_qa_artifacts }}
         uses: actions/upload-artifact@v4
         with:
           name: p2-006-public-reference-calibration
           path: |
             ${{ runner.temp }}/p2-006-reference-qa/*.png
             ${{ runner.temp }}/p2-006-reference-qa/*.json
-          if-no-files-found: error
-          retention-days: 7
+          if-no-files-found: warn
+          retention-days: 2
 
       - name: Archive synthetic renderer layout QA
-        if: always()
+        if: ${{ failure() || inputs.upload_qa_artifacts }}
         uses: actions/upload-artifact@v4
         with:
           name: p2-006-synthetic-layout-qa
@@ -128,7 +135,7 @@ jobs:
             ${{ runner.temp }}/p2-006-layout-qa/p2-005-*-p2-006/*.pdf
             ${{ runner.temp }}/p2-006-layout-qa/p2-005-*-p2-006/*.docx
           if-no-files-found: warn
-          retention-days: 7
+          retention-days: 2
 
       - uses: actions/setup-node@v7
         with:
@@ -165,7 +172,7 @@ jobs:
           name: dep-001-security
           path: ${{ runner.temp }}/dep-001-security/
           if-no-files-found: error
-          retention-days: 7
+          retention-days: 2
 
       - name: Typecheck frontend
         working-directory: frontend
@@ -186,7 +193,7 @@ jobs:
         run: npm run test:e2e
 
       - name: Archive synthetic UIUX browser evidence
-        if: always()
+        if: ${{ failure() || inputs.upload_qa_artifacts }}
         uses: actions/upload-artifact@v4
         with:
           name: uiux-003-synthetic-browser-qa
@@ -194,7 +201,7 @@ jobs:
             frontend/test-results/
             docs/qa/uiux-003/before/
           if-no-files-found: warn
-          retention-days: 7
+          retention-days: 2
 
       - name: Checkout fixed UIUX-003 compatibility source
         uses: actions/checkout@v7
@@ -228,13 +235,13 @@ jobs:
           npm run test:e2e:demo
 
       - name: Archive isolated UIUX-003 compatibility results
-        if: always()
+        if: ${{ failure() || inputs.upload_qa_artifacts }}
         uses: actions/upload-artifact@v4
         with:
           name: dep-001-uiux003-compatibility
           path: tmp/dep-001-uiux003-source/frontend/test-results/
           if-no-files-found: warn
-          retention-days: 7
+          retention-days: 2
 
       - name: Build Render static demo export
         working-directory: frontend
