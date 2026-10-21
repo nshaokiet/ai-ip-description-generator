@@ -8,16 +8,34 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.95 |
+| Version | 0.3.96 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High |
 | Created date | 18/09/2026 |
-| Last updated | 18/10/2026 GMT+7 |
+| Last updated | 21/10/2026 GMT+7 |
 | Related task ID | SPEC-004 |
 | Source of Truth | Operational status bridge; bản nguồn Git tại `docs/operations/01_PROJECT_CONTROL_CENTER.md` |
 | Confidentiality level | Internal |
+
+### CI-V2-001 — authorized upload hardening candidate (21/10/2026)
+
+Human's CI optimization instruction authorizes V1 CI-V2-001 implementation and
+separate CI-V2-002/003 specifications; no V2 enrollment. Existing Draft [PR #144](https://github.com/nshaokiet/ai-ip-description-generator/pull/144)
+is resumed without duplication. [Task/evidence/rollback](../tasks/CI-V2-001-workflow-hardening.md):
+archives moved after functional gates, pre-upload failure snapshot, security evidence
+still mandatory, 25 local focused checks and actionlint PASS. Predecessor CI
+39594108615 FAILED at pinned Ubuntu snapshot HTTP 503; artifact quota failure also
+observed. Complete final-head CI and genuine fixed-SHA Gemini review remain gates.
+Human will return external Gemini review. MCP `Unknown task: CI-V2-001` is
+BLOCKED BY TOOL CAPABILITY; no lease/state or completion invented. Current status:
+**IMPLEMENTED CANDIDATE / DRAFT, NOT MERGE ELIGIBLE**. Final SHA/checkpoint in PR.
+No paid provider, real/confidential research data, deployment, Claims activation,
+security waiver, cleanup deletion or billing change.
+
+OPS-001 **0.3.95 → 0.3.96**, 21/10/2026, Codex: append authorized CI hardening
+candidate and blockers; historical entries preserved. Breaking change: **No**.
 
 ### AI-CONV-004-IMPL — verified governance merge / factual status reconciliation (18/10/2026)
 
