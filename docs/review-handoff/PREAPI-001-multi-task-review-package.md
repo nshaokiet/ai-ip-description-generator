@@ -1,5 +1,19 @@
 # PREAPI-001 — Deferred independent review handoff
 
+## 21/10/2026 GitHub readback — current status (supersedes the earlier candidate table)
+
+- Main and PR #139 are at C1 merge `7abc63e12e18a8027de1d4be4c71ad7aa182cb91`. The Human-attributed Gemini 3.8 Flash High review PASS on implementation head `8eee90cc4e7c4e3916c76132c1ce92e8bf85182a` and premerge CI #39381046966 SUCCESS are reported in the PR. Postmerge push/main [CI #39555439292](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/39555439292) completed **FAILURE**. `mcp-tests` succeeded. `build-and-test` passed backend/document/security preparation, then failed at steps 18 and 23 when GitHub returned `Failed to CreateArtifact: Artifact storage quota has been hit`; downstream frontend/browser steps were skipped. C1 implementation is merged, but postmerge closeout is **PENDING**.
+- Cleanup [#39539532225](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/39539532225) succeeded earlier and reportedly deleted 100 allowlisted QA artifacts (nominal 1,526,045,634 bytes). A fresh C1 upload failure at 06:34 UTC proves storage availability had **not** recovered then. The connector cannot list repository-wide artifacts or dispatch the allowlisted cleanup workflow; no additional deletion or quota recovery is claimed.
+- #140–#143 remain open Drafts at their earlier heads. Their failed CI runs remain failures. No failed-job rerun was started while quota was still returning an upload error. The user's Gemini PASS report for C2/D/E and old-head #143 is treated as reported context; no attributable exact-head review record was found in those PR discussions. Confirm original report, model/profile, session and final SHA before merge. This document update creates a new #143 head requiring fresh review.
+- #140 C2 now depends on merged C1, but its internal owner/Human-authorizer interface and any browser-facing transport remain Human decisions. See [C2 decision package](../tasks/PREAPI-001-C2-decision-package.md). [Funded pilot checklist](../operations/PREAPI-001-funded-pilot-checklist.md) is preparation only; provider budget remains USD 0.
+
+### Safe resume order
+
+1. Verify main and each PR head/base, then inspect fresh GitHub storage/CI evidence. If the previous quota error has ceased, rerun only a bounded failed job on the unchanged SHA, starting with C1 postmerge; stop on a repeated storage error. Do not interpret an attempted rerun as SUCCESS.
+2. After C1 exact-main CI succeeds, publish a factual C1 closeout receipt and update parent Issue #131. Re-evaluate #141/#142/#143 exact-head CI individually, with complete job coverage. Keep #140 behind the C2 Human architecture decision.
+3. For each proposed merge, verify the original independent review on the exact final head, required CI SUCCESS, branch/PR mergeability, authorization and absence of blockers immediately beforehand. A changed #143 documentation head requires its own fresh review. Keep all Draft PRs unmerged until these gates pass.
+
+
 | Field | Value |
 |---|---|
 | Version | 0.1.0 |
@@ -7,7 +21,7 @@
 | Status | Candidate handoff; independent review NOT RUN in this session |
 | Base | `main` `d7516d4322f828c5802ec6d9e5ef5f8dffa5721d` for #140–#142; #139 records its own PR base and changes |
 
-The Human's 21/10/2026 review-deferred instruction prohibits invoking Computer Use or Antigravity/Gemini, merging, or deploying during this session. These are four separate Draft PRs. Review each exact head independently under the applicable V1 governance procedure; do not combine their verdicts or infer CI/review PASS from local tests. Verify current heads and bases again before any later review.
+At initial preparation, the Human deferred Computer Use and Antigravity/Gemini, merging, and deployment. The dated readback above records the newer instruction's conditional merge gates; no merge has been performed from this document. These are four separate Draft PRs. Review each exact head independently under the applicable V1 governance procedure; do not combine their verdicts or infer CI/review PASS from local tests. Verify current heads and bases again before any later review.
 
 | Candidate | Scope and files | Fixed GitHub HEAD / tree | Implementer evidence | Review focus |
 |---|---|---|---|---|
