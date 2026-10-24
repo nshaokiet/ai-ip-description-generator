@@ -1,0 +1,440 @@
+{
+  "task_id": "DEP-001-SR-20261024",
+  "parent_task": "AIIP-PR146-RECOVERY-20261024",
+  "version": "1.0.0",
+  "date": "2026-10-24 Asia/Saigon",
+  "base_commit": "53c253be874236c6f38a5333a6f7f3390de9f51e",
+  "human_authorization_sha256": "199b5e35ad72cd180c433205460e9cb33e8837a5173048f1eb2a676b3a658dd6",
+  "runtime": {
+    "node": "24.18.0",
+    "npm": "11.16.0",
+    "python_browser_harness": "3.12.10"
+  },
+  "baseline_audit_command_results": {
+    "production_audit_exit": 1,
+    "node": "v24.18.0",
+    "full_audit_exit": 1,
+    "npm": "11.16.0"
+  },
+  "before_full_audit": {
+    "auditReportVersion": 2,
+    "vulnerabilities": {
+      "next": {
+        "name": "next",
+        "severity": "critical",
+        "isDirect": true,
+        "via": [
+          {
+            "source": 1242816,
+            "name": "next",
+            "dependency": "next",
+            "title": "Next.js: Unauthenticated Remote Code Execution in Image Optimization API when SVG files are used",
+            "url": "https://github.com/advisories/GHSA-2464-fhr4-w9xw",
+            "severity": "critical",
+            "cwe": [
+              "CWE-1395"
+            ],
+            "cvss": {
+              "score": 0,
+              "vectorString": null
+            },
+            "range": ">=16.0.0 <=16.4.0"
+          },
+          {
+            "source": 1242818,
+            "name": "next",
+            "dependency": "next",
+            "title": "Next.js: Denial of Service in App Router using Server Actions",
+            "url": "https://github.com/advisories/GHSA-p3m5-59mp-jv5r",
+            "severity": "high",
+            "cwe": [
+              "CWE-770"
+            ],
+            "cvss": {
+              "score": 0,
+              "vectorString": null
+            },
+            "range": ">=16.0.0 <=16.4.0"
+          },
+          {
+            "source": 1242859,
+            "name": "next",
+            "dependency": "next",
+            "title": "Next.js: Unauthenticated Remote Code Execution in `use cache` functions returning typed arrays",
+            "url": "https://github.com/advisories/GHSA-673q-mjm6-r5xr",
+            "severity": "critical",
+            "cwe": [
+              "CWE-502"
+            ],
+            "cvss": {
+              "score": 0,
+              "vectorString": null
+            },
+            "range": ">=16.0.0 <=16.4.0"
+          }
+        ],
+        "effects": [],
+        "range": "16.0.0 - 16.4.0",
+        "nodes": [
+          "node_modules/next"
+        ],
+        "fixAvailable": {
+          "name": "next",
+          "version": "16.4.3",
+          "isSemVerMajor": false
+        }
+      },
+      "zod": {
+        "name": "zod",
+        "severity": "high",
+        "isDirect": false,
+        "via": [
+          {
+            "source": 1243066,
+            "name": "zod",
+            "dependency": "zod",
+            "title": "Zod can exhaust memory while validating oversized constrained collections",
+            "url": "https://github.com/advisories/GHSA-mrhx-c7xc-m3w5",
+            "severity": "high",
+            "cwe": [
+              "CWE-770"
+            ],
+            "cvss": {
+              "score": 7.5,
+              "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+            },
+            "range": "<4.6.6"
+          }
+        ],
+        "effects": [],
+        "range": "<4.6.6",
+        "nodes": [
+          "node_modules/zod"
+        ],
+        "fixAvailable": true
+      }
+    },
+    "metadata": {
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 1,
+        "critical": 1,
+        "total": 2
+      },
+      "dependencies": {
+        "prod": 19,
+        "dev": 335,
+        "optional": 66,
+        "peer": 0,
+        "peerOptional": 0,
+        "total": 392
+      }
+    }
+  },
+  "before_production_audit": {
+    "auditReportVersion": 2,
+    "vulnerabilities": {
+      "next": {
+        "name": "next",
+        "severity": "critical",
+        "isDirect": true,
+        "via": [
+          {
+            "source": 1242816,
+            "name": "next",
+            "dependency": "next",
+            "title": "Next.js: Unauthenticated Remote Code Execution in Image Optimization API when SVG files are used",
+            "url": "https://github.com/advisories/GHSA-2464-fhr4-w9xw",
+            "severity": "critical",
+            "cwe": [
+              "CWE-1395"
+            ],
+            "cvss": {
+              "score": 0,
+              "vectorString": null
+            },
+            "range": ">=16.0.0 <=16.4.0"
+          },
+          {
+            "source": 1242818,
+            "name": "next",
+            "dependency": "next",
+            "title": "Next.js: Denial of Service in App Router using Server Actions",
+            "url": "https://github.com/advisories/GHSA-p3m5-59mp-jv5r",
+            "severity": "high",
+            "cwe": [
+              "CWE-770"
+            ],
+            "cvss": {
+              "score": 0,
+              "vectorString": null
+            },
+            "range": ">=16.0.0 <=16.4.0"
+          },
+          {
+            "source": 1242859,
+            "name": "next",
+            "dependency": "next",
+            "title": "Next.js: Unauthenticated Remote Code Execution in `use cache` functions returning typed arrays",
+            "url": "https://github.com/advisories/GHSA-673q-mjm6-r5xr",
+            "severity": "critical",
+            "cwe": [
+              "CWE-502"
+            ],
+            "cvss": {
+              "score": 0,
+              "vectorString": null
+            },
+            "range": ">=16.0.0 <=16.4.0"
+          }
+        ],
+        "effects": [],
+        "range": "16.0.0 - 16.4.0",
+        "nodes": [
+          "node_modules/next"
+        ],
+        "fixAvailable": {
+          "name": "next",
+          "version": "16.4.3",
+          "isSemVerMajor": false
+        }
+      }
+    },
+    "metadata": {
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 1,
+        "total": 1
+      },
+      "dependencies": {
+        "prod": 19,
+        "dev": 335,
+        "optional": 66,
+        "peer": 0,
+        "peerOptional": 0,
+        "total": 392
+      }
+    }
+  },
+  "candidate_audit_command_results": {
+    "production_audit_exit": 0,
+    "full_audit_exit": 0,
+    "dependency_tree_exit": 0,
+    "zod_explain_exit": 0
+  },
+  "after_full_audit": {
+    "auditReportVersion": 2,
+    "vulnerabilities": {},
+    "metadata": {
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0,
+        "total": 0
+      },
+      "dependencies": {
+        "prod": 19,
+        "dev": 335,
+        "optional": 66,
+        "peer": 0,
+        "peerOptional": 0,
+        "total": 392
+      }
+    }
+  },
+  "after_production_audit": {
+    "auditReportVersion": 2,
+    "vulnerabilities": {},
+    "metadata": {
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0,
+        "total": 0
+      },
+      "dependencies": {
+        "prod": 19,
+        "dev": 335,
+        "optional": 66,
+        "peer": 0,
+        "peerOptional": 0,
+        "total": 392
+      }
+    }
+  },
+  "dependency_delta": [
+    {
+      "path": "",
+      "before": "0.1.0",
+      "after": "0.1.0",
+      "new": false,
+      "removed": false
+    },
+    {
+      "path": "node_modules/@next/env",
+      "before": "16.3.8",
+      "after": "16.4.1",
+      "new": false,
+      "removed": false
+    },
+    {
+      "path": "node_modules/@next/swc-darwin-arm64",
+      "before": "16.3.8",
+      "after": "16.4.1",
+      "new": false,
+      "removed": false
+    },
+    {
+      "path": "node_modules/@next/swc-darwin-x64",
+      "before": "16.3.8",
+      "after": "16.4.1",
+      "new": false,
+      "removed": false
+    },
+    {
+      "path": "node_modules/@next/swc-linux-arm64-gnu",
+      "before": "16.3.8",
+      "after": "16.4.1",
+      "new": false,
+      "removed": false
+    },
+    {
+      "path": "node_modules/@next/swc-linux-arm64-musl",
+      "before": "16.3.8",
+      "after": "16.4.1",
+      "new": false,
+      "removed": false
+    },
+    {
+      "path": "node_modules/@next/swc-linux-x64-gnu",
+      "before": "16.3.8",
+      "after": "16.4.1",
+      "new": false,
+      "removed": false
+    },
+    {
+      "path": "node_modules/@next/swc-linux-x64-musl",
+      "before": "16.3.8",
+      "after": "16.4.1",
+      "new": false,
+      "removed": false
+    },
+    {
+      "path": "node_modules/@next/swc-win32-arm64-msvc",
+      "before": "16.3.8",
+      "after": "16.4.1",
+      "new": false,
+      "removed": false
+    },
+    {
+      "path": "node_modules/@next/swc-win32-x64-msvc",
+      "before": "16.3.8",
+      "after": "16.4.1",
+      "new": false,
+      "removed": false
+    },
+    {
+      "path": "node_modules/next",
+      "before": "16.3.8",
+      "after": "16.4.1",
+      "new": false,
+      "removed": false
+    },
+    {
+      "path": "node_modules/zod",
+      "before": "4.6.5",
+      "after": "4.6.6",
+      "new": false,
+      "removed": false
+    }
+  ],
+  "installation": {
+    "npm_ci_ignore_scripts_exit": 0
+  },
+  "reproducibility": {
+    "dependency_tree_exit": 0,
+    "clean_install_exit": 0,
+    "lock_unchanged": true,
+    "lock_sha256_before": "b1f48c35e7eb4c7c82fdee9b8110cf6e11b25a558d81ca443f6eded8f776bdd5",
+    "lock_sha256_after": "b1f48c35e7eb4c7c82fdee9b8110cf6e11b25a558d81ca443f6eded8f776bdd5"
+  },
+  "installed_graph_equal_after_reinstall": true,
+  "functional_command_exit_codes": {
+    "build": 0,
+    "lint": 0,
+    "test:lint-security": 0,
+    "typecheck": 0
+  },
+  "lint_security": {
+    "passed": 73,
+    "failed": 0,
+    "skipped": 0,
+    "exit": 0
+  },
+  "browser": {
+    "status": "PASS",
+    "provider_flags": "0/0",
+    "backend_port": 18146,
+    "frontend_port": 18147,
+    "exit_code": 0,
+    "stats": {
+      "startTime": "2026-10-24T09:12:14.961Z",
+      "duration": 105628.477,
+      "expected": 78,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    }
+  },
+  "static_demo": {
+    "static_build_exit": 0,
+    "isolated_temp": "D:\\AIIP-PR146-RECOVERY-20261024\\demo-temp",
+    "selected_secret_marker_scan_exit": 0,
+    "demo_suite_exit": 0,
+    "passed": 8,
+    "failed": 0
+  },
+  "initial_attempts": {
+    "browser": {
+      "status": "ABORTED_TEST_CONFIGURATION_ERROR",
+      "cause": "Build proxy localhost8000 vs task backend18146; corrected build-only BACKEND_URL, no assertion/source change"
+    },
+    "demo": {
+      "demo_suite_exit": 1,
+      "selected_secret_marker_scan_exit": 0,
+      "static_build_exit": 0,
+      "passed": 6,
+      "failed": 2,
+      "cause": "Shared temp PermissionError; corrected task TEMP/TMP, no ACL/source/assertion change"
+    }
+  },
+  "final_manifest_sha256": {
+    "frontend/package.json": "7397f56674d704367eab6be6d515c2e86bb0c48c5d55dad11fe5c65fc6cc35a2",
+    "frontend/package-lock.json": "b1f48c35e7eb4c7c82fdee9b8110cf6e11b25a558d81ca443f6eded8f776bdd5"
+  },
+  "review_status": "PENDING independent Gemini3.8FlashHigh/Antigravity STRICT READ-ONLY on published final SHA",
+  "hosted_ci_status": "NOT_YET_OBSERVED_FOR_THIS_SECURITY_CANDIDATE",
+  "prior_pr146_ci": {
+    "run_id": 40078806412,
+    "head": "29daeb208f7736a448297f699e674192c124c7da",
+    "status": "COMPLETED_FAILURE",
+    "unchanged": true
+  },
+  "security_boundaries": {
+    "application_source_changes": false,
+    "workflow_changes": false,
+    "c2_fixture_approvals": 0,
+    "paid_provider_calls": 0,
+    "deployment": false,
+    "audit_suppression": false
+  }
+}
