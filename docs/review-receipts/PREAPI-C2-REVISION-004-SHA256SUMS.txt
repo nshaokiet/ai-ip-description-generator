@@ -1,0 +1,2 @@
+1e2f5376f526e7e3176c8731deb2d49dccf1ef1de7b347643a60d4b011f8ce3f  docs/tasks/PREAPI-001-C2-synthetic-adapter-contract.md
+bb0e666ff38fbbd44891e947383a1e90eb2d2df5369827baed796639500d5e80  docs/review-receipts/PREAPI-C2-REVISION-004-REVIEW-RECEIPT-CORRECTION.md

@@ -25,12 +25,12 @@ Mọi đầu ra đều cần người dùng và chuyên gia sở hữu trí tu�
 
 ## Project status
 
-Tiến độ được đối chiếu ngày **21/10/2026**. Draft là công việc chưa được chấp nhận hoàn tất.
+Tiến độ được đối chiếu ngày **24/10/2026**. Draft là công việc chưa được chấp nhận hoàn tất.
 
 | Workstream | Status | Current focus |
 |---|---|---|
 | PREAPI-001 / C1 | BLOCKED | Mã quản lý nguồn đã merge; còn chờ postmerge CI và closeout. |
-| PREAPI-C2 | IN PROGRESS | [Draft specification](https://github.com/nshaokiet/ai-ip-description-generator/pull/140); chờ quyết định phạm vi adapter và luồng review nội bộ, chưa có triển khai C2. |
+| PREAPI-C2 | IN PROGRESS | Human đã duyệt Option A; [REVISION-004 specification-only](docs/decisions/PREAPI-C2-REVISION-004-architecture-authorization.md) chờ review fixed-SHA và required CI. Chưa cấp quyền triển khai hoặc duyệt fixture C2. |
 | PREAPI-D | IN PROGRESS | [Draft checker](https://github.com/nshaokiet/ai-ip-description-generator/pull/141) kiểm tra điều kiện provider offline; chưa merge, chưa xác minh quyền gọi mô hình. |
 | PREAPI-E | IN PROGRESS | [Draft evaluator check](https://github.com/nshaokiet/ai-ip-description-generator/pull/142) kiểm tra bộ mẫu và phép chấm; chưa merge, chưa đánh giá AI thật. |
 | CI-V2-001 | BLOCKED | [PR #144](https://github.com/nshaokiet/ai-ip-description-generator/pull/144) đã qua review code và kiểm tra chức năng; CI vẫn lỗi upload bằng chứng bảo mật do quota. |
@@ -42,7 +42,7 @@ Tiến độ được đối chiếu ngày **21/10/2026**. Draft là công việ
 ## Next Steps
 
 1. Khôi phục khả năng lưu artifact, hoàn tất CI-V2-001 và xác minh postmerge C1.
-2. Chốt phạm vi C2, review đặc tả rồi xin phép riêng cho tích hợp nguồn → bản nháp → tài liệu tổng hợp.
+2. Hoàn tất review fixed-SHA và CI cho đặc tả C2 đã duyệt kiến trúc; xin phép riêng trước triển khai và dùng fixture C2.
 3. Hoàn tất review, CI và quy trình chấp nhận các Draft PREAPI-D/E cùng hồ sơ governance liên quan.
 4. Lập kế hoạch triển khai riêng cho CI-V2-002/003; đặc tả không tự cấp quyền sửa CI.
 5. Chuẩn bị pilot có giới hạn chi phí sau khi provider, mô hình, dữ liệu và ngân sách được phê duyệt.

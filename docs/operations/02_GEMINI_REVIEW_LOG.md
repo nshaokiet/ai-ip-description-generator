@@ -10,13 +10,13 @@
 | Document title | Gemini Review Log |
 | Project | AI Intellectual Property Description Generator |
 | Project deadline | 02/10/2026 |
-| Version | 0.3.54 |
+| Version | 0.3.55 |
 | Status | Active review log |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High + Gemini 3.8 Flash High (historical); Google Antigravity (Advanced Agentic Coding) for REV-P0-006-IMPLEMENTATION, REV-P0-007-SPECIFICATION, REV-P0-007-IMPLEMENTATION and REV-P0-008-SPECIFICATION; Google Antigravity / Gemini 1.5 Pro (Advanced Agentic Coding) for REV-P0-008-IMPLEMENTATION; Gemini 3.1 Pro High for REV-P0-009-IMPLEMENTATION, REV-EVAL-001-SPECIFICATION, REV-EVAL-001-FRAMEWORK-IMPLEMENTATION, REV-EVAL-001-GOLD, REV-P0-010-FINAL-CLOSEOUT, REV-P1-001-IMPLEMENTATION, REV-DEPLOY-001-ROADMAP, REV-P1-002-IMPLEMENTATION, REV-P1-003-IMPLEMENTATION, REV-P1-003-CLOSEOUT, REV-P1-004-IMPLEMENTATION, REV-P1-004-CLOSEOUT, REV-P1-005-IMPLEMENTATION, REV-P1-005-CLOSEOUT, REV-P1-006-IMPLEMENTATION, REV-P1-006-CLOSEOUT, REV-DEPLOY-001-IMPLEMENTATION, REV-DEPLOY-001-REWRITE-REMEDIATION, REV-P2-001-IMPLEMENTATION, REV-P2-000-SPECIFICATION, REV-P2-000-IMPLEMENTATION, REV-P2-000-R2-IMPLEMENTATION, REV-P2-000-R3-IMPLEMENTATION and REV-P2-000-R3-CLOSEOUT |
 | Created date | 18/09/2026 |
-| Last updated | 16/10/2026 GMT+7 |
+| Last updated | 24/10/2026 GMT+7 |
 | P2-002 reviewer / task | Gemini 3.1 Pro High / Antigravity read-only; REV-P2-002-SPECIFICATION, REV-P2-002-IMPLEMENTATION and REV-P2-002-CLOSEOUT |
 | P2-004 reviewer / task | Gemini 3.1 Pro High / Antigravity read-only; REV-P2-004-SPECIFICATION, IMPLEMENTATION and CLOSEOUT all CLOSED — PASS / findings NONE; separate final-status reconciliation fixed-SHA review PENDING; Human-supplied external review evidence, not GitHub-native approval |
 | P2-003 reviewer / task | Gemini 3.1 Pro High / Antigravity read-only; REV-P2-003-SPECIFICATION, REV-P2-003-IMPLEMENTATION and REV-P2-003-CLOSEOUT; Human-supplied external review evidence, not GitHub-native approval; implementation and closeout reviews CLOSED — PASS / findings NONE |
@@ -3837,3 +3837,14 @@ REVIEW-001 **0.3.51 → 0.3.52**, Codex; append-only evidence/resolution entry, 
 - Required next gate: new Gemini 3.8 Flash High / Antigravity STRICT READ-ONLY report and exact-new-SHA CI SUCCESS, then separate final V1 preflight. No review PASS or merge/completion is fabricated by this implementer entry.
 
 Review Log **0.3.52 → 0.3.53**, 15/10/2026, Codex. Append attributed external review, reviewed SHA, actual merge/tree and regression-count reconciliation; conditional CI/governance gates and cleanup LOW retained. Breaking change: **No — factual log only**.
+
+## REV-PREAPI-C2-REVISION-004 — advisory receipt verified; fixed-Git-SHA gate pending (24/10/2026)
+
+- [Unmodified final correction/addendum](../review-receipts/PREAPI-C2-REVISION-004-REVIEW-RECEIPT-CORRECTION.md), document ID `PREAPI-C2-REV-004-RECEIPT-CORRECTION-001`, dated 24/10/2026, attributes **PASS affirmed without qualification** to **Gemini 3.8 Flash High / Antigravity IDE / STRICT READ-ONLY**, on standalone candidate SHA-256 `1e2f5376f526e7e3176c8731deb2d49dccf1ef1de7b347643a60d4b011f8ce3f`. Reported session `ad05f382-626d-4391-90fa-1b8080cf9759`, **REUSED YES** across prior SEC-GOV-CI/C2 reviews. No independent execution/model authentication or GitHub-native review is asserted.
+- Receipt actual SHA-256 `bb0e666ff38fbbd44891e947383a1e90eb2d2df5369827baed796639500d5e80`, 4,993 bytes; original Antigravity file and authorized output copy match. [Separate manifest](../review-receipts/PREAPI-C2-REVISION-004-SHA256SUMS.txt) pins receipt and 80,892-byte specification. No circular self-hash or edit of reviewed artifacts.
+- **Correction disposition: ACCEPT.** Review narrative's `SourceCustodyCoordinator` was incorrect; direct Git inspection confirms `TrustedCustodyCoordinator` at C1 merge `7abc63e12e18a8027de1d4be4c71ad7aa182cb91`. Both names are absent from the candidate, so no candidate remediation occurred. Receipt reports F01–F09 resolved and T01–T80 correctly mapped; these are attributed reviewer conclusions, not executed C2 test results.
+- The final addendum affirms the prior technical report; its full predecessor is not independently read or recreated here. Its “Cryptographic Sign-Off” wording is retained verbatim and does not establish an authenticated digital signature. Its request to seek Human architecture approval precedes the later actual [Human decision](../decisions/PREAPI-C2-REVISION-004-architecture-authorization.md), quoted from the user session, which authorizes specification-only integration and conditional gated merge.
+- **This advisory file-digest PASS cannot satisfy the final Git-SHA merge gate.** [New independent request](../review-handoff/PREAPI-C2-REVISION-004-fixed-sha-review.md) must target the exact committed final SHA/tree and full eight-path documentation diff. No new PASS or CI SUCCESS is recorded in advance. Required CI failure/storage error blocks merge; retain OPEN/DRAFT.
+- Original review history remains intact. C1/C2 implementation NOT AUTHORIZED; approved C2 fixtures **0**; T01–T80 **PROPOSED / NOT RUN**; no paid API, real paper or deployment; product-runtime semantic status NOT_DETERMINED.
+
+REVIEW-001 **0.3.54 → 0.3.55**, 24/10/2026, Codex: append verified advisory correction provenance and distinct final-SHA review requirement. Breaking change: **No — factual review history only**.
