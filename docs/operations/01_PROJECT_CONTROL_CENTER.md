@@ -8,13 +8,13 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.95 |
+| Version | 0.3.96 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High |
 | Created date | 18/09/2026 |
-| Last updated | 18/10/2026 GMT+7 |
+| Last updated | 24/10/2026 GMT+7 |
 | Related task ID | SPEC-004 |
 | Source of Truth | Operational status bridge; bản nguồn Git tại `docs/operations/01_PROJECT_CONTROL_CENTER.md` |
 | Confidentiality level | Internal |
@@ -1155,3 +1155,13 @@ Historical UIUX-003 retry-start checkpoint (12/10/2026): “kiểm tra lại th�
 Current UIUX-003 postmerge verification (supersedes the pending/STOP states above): [actual-main attempt 2](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/38195673818/attempts/2) **COMPLETED / SUCCESS**, all 34 steps on exact actual merge `6dd6a78adcdb35ba56c6cd9bb1dbac60ca0757f1`. Logs confirm Python **904 PASS/2 SKIP**, integrated browser **78 PASS**, isolated original UIUX compatibility **77 PASS**, compatibility/current demos **5+5 PASS**; signed pinned document tools/QA/reference, lint/typecheck/build/static/secret gates succeed. Actual [security artifact11741624680](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/38195673818/artifacts/11741624680), SHA256 `771a54515bc944210be76fd7544c4ba7aee6f6e02000ac91c355a41988f6f331`, downloaded/read: full/prod audits **0/0**, no dependency-tree problems, adapter **73 PASS/0 FAIL**. [Browser artifact11742365768](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/38195673818/artifacts/11742365768), public-reference11741709283 and synthetic-layout11741304971 are nonexpired and tied to exact merge. Attempt1 failure/incomplete artifacts remain history and are not success evidence. [Canonical postmerge PASS receipt](https://github.com/nshaokiet/ai-ip-description-generator/pull/104#issuecomment-6122899989). Fresh Codex Render post-CI reads retain both no/off and old deploy IDs/live63d5a612; no new deployment. **IMPLEMENTATION MERGED YES / POSTMERGE VERIFIED YES / GOVERNANCE CLOSED PENDING this factual synchronization's own exact-final-main CI, fresh Render and receipt/readback.** No new review, MCP state, deployment or next-task permission inferred.
 
 Control Center **0.3.88 → 0.3.89**, 15/10/2026, Codex. Record actual reviewed implementation merge/tree and test-count reconciliation with conditional postmerge/governance gates; preserve MEDIUM findings and historical receipt. Breaking change: **No — factual governance only**.
+
+### PREAPI-C2 REVISION-004 — Human architecture accepted / specification-only integration (24/10/2026)
+
+- Actual Human session instruction approves **Option A — Internal Synthetic Adapter First**, synthetic-only/default OFF, specified additive C1 design and mandatory review; authorizes the specification branch/PR and conditional merge after all gates. [Decision and verbatim authority](../decisions/PREAPI-C2-REVISION-004-architecture-authorization.md). **C1/C2 application implementation and every C2 synthetic fixture remain unauthorized**.
+- Canonical candidate is copied unchanged: 80,892 bytes, SHA-256 `1e2f5376f526e7e3176c8731deb2d49dccf1ef1de7b347643a60d4b011f8ce3f`. Final Antigravity receipt: 4,993 bytes, SHA-256 `bb0e666ff38fbbd44891e947383a1e90eb2d2df5369827baed796639500d5e80`; source/output/repository copies checked separately. [Checksum manifest](../review-receipts/PREAPI-C2-REVISION-004-SHA256SUMS.txt); original packet SHA-256 `48cc6fd70c9066bc6da9d8081d069b6f22d471fd0caaee4a44856b1cad3b8b16`, not committed.
+- Advisory technical PASS affirmed by **Gemini 3.8 Flash High / Antigravity STRICT READ-ONLY**, reused session `ad05f382-626d-4391-90fa-1b8080cf9759`; attribution is procedural, not authenticated identity. **Final-Git-SHA independent review and new exact-head required CI remain pending**. Historical PENDING labels in the immutable candidate/receipt are preserved as authoring-time history.
+- Dedicated branch/worktree `docs/preapi-c2-revision-004-specification` from actual main `53c253be874236c6f38a5333a6f7f3390de9f51e`. Documentation/checksums only; PR #140/#143 history preserved. [Fixed-SHA review handoff](../review-handoff/PREAPI-C2-REVISION-004-fixed-sha-review.md). Keep PR OPEN/DRAFT if artifact storage or another gate fails; no CI waiver or task completion claimed.
+- MCP returned `Unknown task: PREAPI-C2`: **BLOCKED BY TOOL CAPABILITY**; no lease/state/registration invented. Approved C2 fixtures **0**; T01–T80 **PROPOSED / NOT RUN**; admission default-deny, API USD 0, EVAL-001 PRODUCT_RUNTIME NOT_DETERMINED, BLK-003 OPEN; no real paper, provider, application or deployment action.
+
+OPS-001 **0.3.95 → 0.3.96**, 24/10/2026, Codex: append Human-approved architecture/specification integration provenance and pending gates. Breaking change: **No — documentation only**.
