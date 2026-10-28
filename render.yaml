@@ -7,6 +7,8 @@ services:
     staticPublishPath: frontend/out
     autoDeployTrigger: checksPass
     envVars:
+      - key: NODE_VERSION
+        value: "24.22.1"
       - key: RENDER_STATIC_EXPORT
         value: "1"
       - key: NEXT_PUBLIC_DEMO_STAGING

@@ -4,6 +4,6 @@
   "private": true,
   "type": "module",
   "exports": "./index.mjs",
-  "engines": { "node": ">=24" },
+  "engines": { "node": ">=24.22.1 <25" },
   "dependencies": { "tinyglobby": "0.2.17" }
 }
