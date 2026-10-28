@@ -1,6 +1,5 @@
 """Offline regression checks for SEC-RUNTIME-20261028."""
 import json
-import os
 from pathlib import Path
 import re
 import ssl
@@ -57,7 +56,6 @@ class RuntimeSecurityTests(unittest.TestCase):
             self.assertNotRegex(text, r"(?i)NODE_TLS_REJECT_UNAUTHORIZED\s*[:=]\s*[\"']?0")
             self.assertNotRegex(text, r"(?i)PYTHONHTTPSVERIFY\s*[:=]\s*[\"']?0")
 
-    @unittest.skipUnless(os.environ.get("SEC_RUNTIME_REQUIRE_PATCHED_CERTIFI") == "1", "patched certifi verification requires isolated resolved environment")
     def test_patched_installed_certifi_bundle(self):
         import certifi
         self.assertGreaterEqual(tuple(map(int, certifi.__version__.split("."))), (2026, 10, 19))
