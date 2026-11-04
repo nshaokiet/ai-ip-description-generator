@@ -19,18 +19,20 @@ Mọi đầu ra đều cần người dùng và chuyên gia sở hữu trí tu�
 - **Structured Invention Analysis:** Schema, nguồn dẫn, thông tin còn thiếu và quy tắc kiểm tra; adapter AI đã có mã và kiểm thử bằng mock, chưa xác thực với mô hình thật.
 - **Invention Reconstruction & USPTO Contracts:** Các thành phần tái dựng sáng chế và sinh mô tả đã triển khai offline; chưa tích hợp thành luồng sản phẩm v2 cho bài báo tùy ý.
 - **Human Review & Validation:** Giao diện minh họa hỗ trợ chỉnh sửa, phiên bản và kiểm tra bản nháp được chọn trước xuất DOCX.
-- **Offline Claims Support:** Thành phần độc lập kiểm tra yêu cầu bảo hộ có căn cứ; Claims trong luồng sản phẩm vẫn tắt.
+- **Offline Claims Support:** Thành phần kiểm tra yêu cầu bảo hộ có căn cứ được dùng trong adapter synthetic nội bộ; Claims production vẫn tắt.
 - **PDF/DOCX Rendering:** Bộ dựng tài liệu và gói xuất v2 đã được kiểm thử với dữ liệu tổng hợp; demo cung cấp bộ tài liệu mẫu cố định.
 - **Offline & Synthetic E2E:** Kiểm thử backend, frontend, trình duyệt, nguồn dẫn, bảo mật và MCP; kết quả tổng hợp không chứng minh chất lượng AI trên bài báo thật.
 
 ## Project status
 
 Tiến độ được đối chiếu ngày **21/10/2026**. Draft là công việc chưa được chấp nhận hoàn tất.
+PRODUCT-001A được cập nhật riêng ngày **04/11/2026** trên nhánh triển khai; chờ review và CI.
 
 | Workstream | Status | Current focus |
 |---|---|---|
+| PRODUCT-001A | IN REVIEW — CANDIDATE | [Adapter offline synthetic nội bộ](docs/tasks/PRODUCT-001A-offline-synthetic-workflow.md): upload mới → custody → review đủ dữ liệu → bốn PDF/DOCX có manifest; chưa merge, chưa có UI v2 hoặc đánh giá AI thật. |
 | PREAPI-001 / C1 | BLOCKED | Mã quản lý nguồn đã merge; còn chờ postmerge CI và closeout. |
-| PREAPI-C2 | IN PROGRESS | [Draft specification](https://github.com/nshaokiet/ai-ip-description-generator/pull/140); chờ quyết định phạm vi adapter và luồng review nội bộ, chưa có triển khai C2. |
+| PREAPI-C2 | IN PROGRESS | [Draft specification REVISION-004](https://github.com/nshaokiet/ai-ip-description-generator/pull/146); PRODUCT-001A triển khai increment nội bộ riêng, chưa hoàn tất C2 pilot/presenter. |
 | PREAPI-D | IN PROGRESS | [Draft checker](https://github.com/nshaokiet/ai-ip-description-generator/pull/141) kiểm tra điều kiện provider offline; chưa merge, chưa xác minh quyền gọi mô hình. |
 | PREAPI-E | IN PROGRESS | [Draft evaluator check](https://github.com/nshaokiet/ai-ip-description-generator/pull/142) kiểm tra bộ mẫu và phép chấm; chưa merge, chưa đánh giá AI thật. |
 | CI-V2-001 | BLOCKED | [PR #144](https://github.com/nshaokiet/ai-ip-description-generator/pull/144) đã qua review code và kiểm tra chức năng; CI vẫn lỗi upload bằng chứng bảo mật do quota. |
@@ -42,7 +44,7 @@ Tiến độ được đối chiếu ngày **21/10/2026**. Draft là công việ
 ## Next Steps
 
 1. Khôi phục khả năng lưu artifact, hoàn tất CI-V2-001 và xác minh postmerge C1.
-2. Chốt phạm vi C2, review đặc tả rồi xin phép riêng cho tích hợp nguồn → bản nháp → tài liệu tổng hợp.
+2. Review PRODUCT-001A trên SHA cố định; sau đó xác định phạm vi presenter/review UI v2 và admission cho pilot.
 3. Hoàn tất review, CI và quy trình chấp nhận các Draft PREAPI-D/E cùng hồ sơ governance liên quan.
 4. Lập kế hoạch triển khai riêng cho CI-V2-002/003; đặc tả không tự cấp quyền sửa CI.
 5. Chuẩn bị pilot có giới hạn chi phí sau khi provider, mô hình, dữ liệu và ngân sách được phê duyệt.

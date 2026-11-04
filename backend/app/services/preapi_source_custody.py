@@ -19,6 +19,9 @@ from typing import Any, Callable, Protocol
 from uuid import uuid4
 
 from backend.app.schemas.analysis_input import ExtractionInputEnvelope
+from backend.app.services.custody_review import (
+    C1ReviewProjection, C1ReviewTarget, freeze_originals,
+)
 from backend.app.services.document_parsing import DocumentPreparationService, compute_sha256
 from backend.app.services.document_registry import DocumentRegistry
 from backend.app.services.document_storage import DocumentStorage
@@ -133,6 +136,8 @@ class TrustedCustodyCoordinator:
         enabled: bool = False, clock: Callable[[], float] = time.monotonic,
         max_records: int = 32,
         review_authorizer: Callable[[str, str, str], bool] | None = None,
+        require_bound_review: bool = False,
+        review_binding_authorizer: Callable[[C1ReviewTarget], bool] | None = None,
     ) -> None:
         if max_records < 1 or max_records > 256:
             raise ValueError("max_records must be between 1 and 256")
@@ -146,6 +151,9 @@ class TrustedCustodyCoordinator:
         self.clock = clock
         self.max_records = max_records
         self.review_authorizer = review_authorizer
+        self._require_bound_review = require_bound_review
+        self._review_binding_authorizer = review_binding_authorizer
+        self._coordinator_instance_id = uuid4().hex
         self._records: dict[str, _Record] = {}
         self._intaking: set[str] = set()
         self._lock = RLock()
@@ -398,6 +406,50 @@ class TrustedCustodyCoordinator:
             self._require(record, owner, revision_token)
             return self._receipt(record)  # read never refreshes idle TTL
 
+    def _snapshot_digest(self, record: _Record) -> str:
+        return sha256_canonical({
+            "domain": "PREAPI-C2-REVIEW-0.2.0",
+            "coordinator_instance_id": self._coordinator_instance_id,
+            "custody_id": record.custody_id, "document_id": record.document_id,
+            "revision": record.revision, "source_sha256": record.source_sha256,
+            "originals_sha256": record.digests,
+            "render_policy_baseline": "7abc63e12e18a8027de1d4be4c71ad7aa182cb91",
+        })
+
+    def get_review_projection(
+        self, custody_id: str, *, owner: str, revision_token: str,
+    ) -> C1ReviewProjection:
+        """Complete immutable locked revision; reads never extend its lifetime."""
+        record = self._find(custody_id)
+        with record.lock:
+            self._require(record, owner, revision_token)
+            originals = freeze_originals(record.originals)
+            digest = self._snapshot_digest(record)
+            self._require(record, owner, revision_token)  # expiry during construction
+            return C1ReviewProjection(
+                "0.2.0", self._coordinator_instance_id, record.custody_id,
+                record.document_id, record.revision, record.state, record.source_sha256,
+                tuple((key, record.digests[key]) for key in PROVENANCE_KEYS), originals,
+                self._claims_incomplete(record), digest,
+                "7abc63e12e18a8027de1d4be4c71ad7aa182cb91",
+            )
+
+    def _bound_review(self, record: _Record, actor: str, context: str, decision: str) -> bool:
+        if not self._require_bound_review:
+            return True
+        if self._review_binding_authorizer is None:
+            return False
+        target = C1ReviewTarget(
+            self._coordinator_instance_id, record.custody_id, record.document_id,
+            record.owner, record.revision,
+            hashlib.sha256(record.revision_token.encode()).hexdigest(),
+            self._snapshot_digest(record), actor, context, decision,
+        )
+        try:
+            return self._review_binding_authorizer(target) is True
+        except Exception:
+            return False
+
     def revise(
         self, custody_id: str, *, owner: str, revision_token: str,
         structured_analysis: dict[str, Any] | None = None,
@@ -449,8 +501,10 @@ class TrustedCustodyCoordinator:
             self._require(record, owner, revision_token)
             if record.state != "REVIEW_PENDING":
                 raise CustodyError("INVALID_STATE")
-            if not self._authorized_review(actor, context, "CONTENT_REVIEW_ACKNOWLEDGED"):
+            if (not self._authorized_review(actor, context, "CONTENT_REVIEW_ACKNOWLEDGED")
+                    or not self._bound_review(record, actor, context, "CONTENT_REVIEW_ACKNOWLEDGED")):
                 raise CustodyError("REVIEW_REQUIRED")
+            self._require(record, owner, revision_token)
             record.review = ReviewAcknowledgment(record.custody_id, owner, actor, context, record.revision, record.revision_token, self.clock(), "CONTENT_REVIEW_ACKNOWLEDGED")
             record.state = "CLAIMS_REVIEW_REQUIRED" if self._claims_incomplete(record) else "REVIEW_RECORDED"
             self._refresh(record)
@@ -465,8 +519,11 @@ class TrustedCustodyCoordinator:
             self._require(record, owner, revision_token)
             if record.state != "CLAIMS_REVIEW_REQUIRED" or record.review is None:
                 raise CustodyError("INVALID_STATE")
-            if acknowledge is not True or not self._authorized_review(actor, context, "CLAIMS_INCOMPLETE_ACKNOWLEDGED"):
+            if (acknowledge is not True
+                    or not self._authorized_review(actor, context, "CLAIMS_INCOMPLETE_ACKNOWLEDGED")
+                    or not self._bound_review(record, actor, context, "CLAIMS_INCOMPLETE_ACKNOWLEDGED")):
                 raise CustodyError("CLAIMS_REVIEW_REQUIRED")
+            self._require(record, owner, revision_token)
             record.claims_review = ReviewAcknowledgment(record.custody_id, owner, actor, context, record.revision, record.revision_token, self.clock(), "CLAIMS_INCOMPLETE_ACKNOWLEDGED")
             record.state = "REVIEW_RECORDED"
             self._refresh(record)
