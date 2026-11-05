@@ -25,7 +25,7 @@ Mọi đầu ra đều cần người dùng và chuyên gia sở hữu trí tu�
 
 ## Project status
 
-Tiến độ được đối chiếu ngày **05/11/2026**. Đọc [checkpoint canonical](docs/operations/01_PROJECT_CONTROL_CENTER.md#resume-foundation-001-current-baseline) trước khi tiếp tục. Main vẫn `53c253be`; cập nhật này là documentary candidate, chưa merge. Draft là công việc chưa được chấp nhận hoàn tất.
+Tiến độ được đối chiếu ngày **05/11/2026**. Đọc [checkpoint canonical](docs/operations/01_PROJECT_CONTROL_CENTER.md#resume-foundation-001-current-baseline) trước khi tiếp tục. Main đã tích hợp bản vá bảo mật PR #147 tại `478f7d30`; foundation #151 là documentary candidate được đồng bộ từ `main` mới nhưng vẫn chưa merge. Draft là công việc chưa được chấp nhận hoàn tất.
 
 | Workstream | Status | Current focus |
 |---|---|---|
@@ -38,14 +38,14 @@ Tiến độ được đối chiếu ngày **05/11/2026**. Đọc [checkpoint ca
 | Governance & Integration | PENDING | [PR #143](https://github.com/nshaokiet/ai-ip-description-generator/pull/143) CONFLICTING; reconcile overlap với #146/foundation, không tự đóng hoặc thay review. |
 | EVAL-001 Product Runtime | AWAITING FUNDING | Chưa có kết quả chạy provider được chấp nhận; chất lượng ngữ nghĩa vẫn NOT_DETERMINED. |
 | README-REFRESH-001 | MERGED / CI DEBT | [PR #145](https://github.com/nshaokiet/ai-ip-description-generator/pull/145) đã merge vào `53c253be`; exact-main push CI attempt2 vẫn FAILURE, không suy thành accepted closeout. |
-| DEP-001-SR-20261024 | READY FOR HUMAN MERGE DECISION / DRAFT | [#147](https://github.com/nshaokiet/ai-ip-description-generator/pull/147)4c30d37: Technical PASS plus source-attested V1 provenance accepted; CI41981410850 SUCCESS/artifact audit0/security73+2 verified, fresh audits0. [Evidence and limits](docs/tasks/AIIP-INDEPENDENT-REVIEW-20261105-provenance-closeout.md). Human merge decision required; no merge/deploy. |
+| DEP-001-SR-20261024 | MERGED / POSTMERGE CI SUCCESS | [#147](https://github.com/nshaokiet/ai-ip-description-generator/pull/147) merged into `main` at `478f7d30` from reviewed HEAD `4c30d37`. [Postmerge CI42038735811](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/42038735811) SUCCESS with mandatory `dep-001-security` artifact, full/prod audit0 and security73+2 PASS. [Evidence and limits](docs/tasks/AIIP-INDEPENDENT-REVIEW-20261105-provenance-closeout.md). No deployment. |
 | PRODUCT-001A | PENDING REVIEW PROVENANCE / CI | [PR #149](https://github.com/nshaokiet/ai-ip-description-generator/pull/149) OPEN/DRAFT; internal source-bound workflow, chưa trên main. Technical PASS do Human chuyển tiếp; model/session chưa xác minh; hosted CI fail QA HTTP503. [Report/corrections](docs/tasks/PRODUCT-001A-review-reconciliation.md). |
 | PRODUCT-001B | PROPOSED — WEB | [Contract browser0.2.0](docs/tasks/PRODUCT-001B-trusted-local-review-presenter.md) thay khuyến nghị terminal-first; chưa freeze/duyệt implementation/auth policy, chưa triển khai. |
-| RESUME-FOUNDATION-001 | PREFERRED #151 / Draft-BLOCKED | CI42034588440 on31d9fce FAILURE: QA installer HTTP503, mandatory security archive absent; skipped steps not PASS. Provenance-complete documentary PASS only for00f3833; changed candidate needs fresh review/CI. Preserve #150; normal integration conditional on authorized #147 merge and verified main CI. |
+| RESUME-FOUNDATION-001 | PREFERRED #151 / INTEGRATED CANDIDATE — DRAFT | Historical CI42034588440 on31d9fce FAILURE (QA installer HTTP503, mandatory security archive absent); skipped steps not PASS. PR147's verified main baseline is integrated through a normal merge commit; final integrated candidate requires NEW exact-head CI/security artifact and independent review. Preserve #150 unchanged. |
 
 ## Next Steps
 
-1. Human merge decision for unchanged147 after reviewing [provenance limits](docs/tasks/AIIP-INDEPENDENT-REVIEW-20261105-provenance-closeout.md); verify real main CI/artifacts after any authorized merge. [HTTP503 installer plan](docs/tasks/CI-V2-001-document-layout-installer-recovery-plan.md) is proposed only; then normal151 integration and new final-SHA CI/review, preserving150.
+1. PR147 postmerge CI/security evidence verified; validate this normal `main` → #151 integration, complete required exact-head CI/security artifacts and obtain independent final-SHA Gemini/Antigravity review before a separate #151 merge decision. [HTTP503 recovery plan](docs/tasks/CI-V2-001-document-layout-installer-recovery-plan.md) remains plan-only; preserve #150.
 2. Reconcile CI144/conflicts và QA installer503 trong task tương ứng; giữ mandatory evidence/checks, xác minh postmerge C1.
 3. Hoàn tất review provenance/CI của #146/#149; duyệt contract/auth/fixtures cho B trước triển khai một luồng web tổng hợp xuyên suốt.
 4. Persistence, author answers/review history/retention/recovery là increment riêng; rồi mới pilot provider khi có quyền và kinh phí.
@@ -102,7 +102,7 @@ cd ..
 .\.venv\Scripts\python.exe tools\local_dev.py
 ```
 
-Mở htt[private local path redacted; original retained privately]
+Mở http://127.0.0.1:3000; dùng Ctrl+C để dừng. Launcher mặc định không bật API orchestration; xem runbook để kiểm thử luồng tổng hợp. Không thêm API key cho hướng dẫn này.
 
 ## Maintenance
 
