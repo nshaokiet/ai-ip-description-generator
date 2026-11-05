@@ -25,7 +25,9 @@ Mọi đầu ra đều cần người dùng và chuyên gia sở hữu trí tu�
 
 ## Project status
 
-Tiến độ được đối chiếu ngày **21/10/2026**. Draft là công việc chưa được chấp nhận hoàn tất.
+**Current checkpoint (05/11/2026):** [RESUME-FOUNDATION-001 canonical baseline](docs/operations/01_PROJECT_CONTROL_CENTER.md) và [PRODUCT-001B browser-first decision](docs/tasks/PRODUCT-001B-web-integration-decision.md). Hướng sản phẩm là **website Next.js + FastAPI**, không phải terminal. [PRODUCT-001A PR #149](https://github.com/nshaokiet/ai-ip-description-generator/pull/149) và [security PR #147](https://github.com/nshaokiet/ai-ip-description-generator/pull/147) đều **OPEN/DRAFT, chưa merge**. CI hiện tại chưa đạt; audit/security, QA và browser E2E còn gate. AI thật, semantic acceptance, quyền dùng dữ liệu thật và production vẫn **NOT DETERMINED / NOT AUTHORIZED**.
+
+**Bảng bên dưới là snapshot lịch sử ngày 21/10/2026**, giữ để truy vết; không dùng thay checkpoint ngày 05/11. Draft không phải completed.
 
 | Workstream | Status | Current focus |
 |---|---|---|
@@ -40,6 +42,10 @@ Tiến độ được đối chiếu ngày **21/10/2026**. Draft là công việ
 | README-REFRESH-001 | IN PROGRESS | Rút gọn tổng quan; chờ review độc lập và required CI. |
 
 ## Next Steps
+
+**Selected next existing task (05/11/2026):** tiếp tục DEP-001-SR-20261024 / [PR #147](https://github.com/nshaokiet/ai-ip-description-generator/pull/147): đối chiếu lockfile/head với audit mới ở [#148](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/41770184393), phân loại advisory và lập sửa lỗi/gate hợp lệ. Sau đó giải quyết CI/QA, review #149, rồi triển khai riêng web PRODUCT-001B theo acceptance/browser/auth được review. Không merge/deploy trong lượt foundation.
+
+**Các bước dưới đây là roadmap lịch sử từ snapshot 21/10, không tự động phê duyệt task mới.**
 
 1. Khôi phục khả năng lưu artifact, hoàn tất CI-V2-001 và xác minh postmerge C1.
 2. Chốt phạm vi C2, review đặc tả rồi xin phép riêng cho tích hợp nguồn → bản nháp → tài liệu tổng hợp.
