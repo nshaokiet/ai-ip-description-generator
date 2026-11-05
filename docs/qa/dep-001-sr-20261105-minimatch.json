@@ -1,0 +1,533 @@
+{
+  "version": "1.0.0",
+  "task_id": "DEP-001-SR-20261024",
+  "recorded_at_utc": "2026-11-05T06:31:32.057767+00:00",
+  "timezone": "Asia/Saigon",
+  "status": "LOCAL VALIDATION PASS; new independent final-SHA review and required CI PENDING",
+  "base": {
+    "sha": "c50be576b39acd2eac9da096efd11060545463d1",
+    "tree": "7dfcba0f5356c5eaf12aa0c3af6e9c650b0b5504",
+    "main_sha": "53c253be874236c6f38a5333a6f7f3390de9f51e"
+  },
+  "authorization": {
+    "source": "Human direct bounded option1 approval, then explicit three-resolve probe setup correction approval in RESUME-FOUNDATION-001-WEB,2026-11-05",
+    "scope": "only typescript-estree8.70.1 scoped minimatch>=11.0.1 override/required transitives, dependency regression tests, related docs/evidence; update147 after checks pass",
+    "conditions": [
+      "preserve Next/React/ESLint/root minimatch3.1.5/adapter",
+      "isolated graph/regression/audit/build/browser proof",
+      "stop on genuine incompatibility/out-of-scope change",
+      "actual independent final-SHA Gemini/Antigravity review and required CI",
+      "no merge/deploy/provider/gate waiver"
+    ]
+  },
+  "advisory": {
+    "url": "https://github.com/advisories/GHSA-g3hv-75wg-m249",
+    "severity": "MODERATE",
+    "affected": ">=7.0.0 <11.0.1",
+    "patched": "11.0.1",
+    "baseline_full_package_nodes": 8,
+    "baseline_production_nodes": 0,
+    "consumer_range": "^10.2.2",
+    "reachability": "NOT_VERIFIED; actual consumer uses dot:true; no waiver based on default optimization"
+  },
+  "override": {
+    "selector": "@typescript-eslint/typescript-estree@8.70.1",
+    "minimatch": "11.0.1"
+  },
+  "lock_delta": [
+    {
+      "path": "node_modules/@isaacs/nonrecursive-glob-match",
+      "before": null,
+      "after": "1.0.3",
+      "integrity": "sha512-SI7kyKHq4XXDRozw+r9GlRZkia1ZkFrpLW98r2IC2Bpr8YkFGE3fvjzmxCG0x78A++69HmDNrDvSMYBZmHGpKA=="
+    },
+    {
+      "path": "node_modules/eslint-config-next/node_modules/typescript-eslint/node_modules/minimatch",
+      "before": "10.2.6",
+      "after": "11.0.1",
+      "integrity": "sha512-t+Vn6DX4wPCxS23y03C0uhF7S1jpi1GfqPrnlEipCJaA2ykiNbMkVlDutZtmvLfRcUN6R8AYVlzTsQrT4RZoLQ=="
+    }
+  ],
+  "unchanged_pins": {
+    "node_modules/next": "16.4.1",
+    "node_modules/react": "19.3.0",
+    "node_modules/react-dom": "19.3.0",
+    "node_modules/eslint": "9.39.5",
+    "node_modules/minimatch": "3.1.5",
+    "node_modules/@next/eslint-plugin-next": "16.3.8",
+    "node_modules/eslint-config-next/node_modules/typescript-eslint": "8.70.1"
+  },
+  "brace_expansion": "existing5.0.12 satisfies required ^5.0.12; unchanged node",
+  "tested_source_files": {
+    "frontend/package.json": {
+      "tested_workspace_sha256": "679de8476fbaa80c4c0d0eb52ee6bcf49deb2745a8830712f864af970f3436c6",
+      "git_content_blob": "e680710befdcd3153b92deced4875d619d2f3d8b"
+    },
+    "frontend/package-lock.json": {
+      "tested_workspace_sha256": "8172525c26dbc24eff0213764581ce79cd8dfcab26ca4509fb804d91dae51f18",
+      "git_content_blob": "49bc8c83c0ddb700e66a860f0633358a2808f3ca"
+    },
+    "frontend/tools/dep-001-minimatch-compat.test.mjs": {
+      "tested_workspace_sha256": "5cec447aec4e0fb2bed9452a6c3fe6d175c541b1d0e8f49c08a51e1d0d8c3765",
+      "git_content_blob": "10c6dd6da7b651384db2385b0215491033f9d153"
+    }
+  },
+  "environment": {
+    "node": "24.18.0",
+    "npm": "11.16.0",
+    "python": "3.12.10",
+    "browser": "pinned Playwright1.63.0 Chromium, actual headless execution"
+  },
+  "initial_clean_install": {
+    "command": [
+      "npm.cmd",
+      "ci",
+      "--ignore-scripts",
+      "--registry=https://registry.npmjs.org"
+    ],
+    "exit_code": 0,
+    "installed": 334,
+    "audited": 335,
+    "vulnerabilities": 0,
+    "basis": "actual tool-confirmed install result"
+  },
+  "installed_full_audit": {
+    "auditReportVersion": 2,
+    "vulnerabilities": {},
+    "metadata": {
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0,
+        "total": 0
+      },
+      "dependencies": {
+        "prod": 19,
+        "dev": 336,
+        "optional": 66,
+        "peer": 0,
+        "peerOptional": 0,
+        "total": 393
+      }
+    }
+  },
+  "installed_production_audit": {
+    "auditReportVersion": 2,
+    "vulnerabilities": {},
+    "metadata": {
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0,
+        "total": 0
+      },
+      "dependencies": {
+        "prod": 19,
+        "dev": 336,
+        "optional": 66,
+        "peer": 0,
+        "peerOptional": 0,
+        "total": 393
+      }
+    }
+  },
+  "core_checks": [
+    {
+      "check": "full-audit",
+      "command": [
+        "npm.cmd",
+        "audit",
+        "--json",
+        "--registry=https://registry.npmjs.org"
+      ],
+      "exit_code": 0,
+      "seconds": 2.04,
+      "finished_at_utc": "2026-11-05T06:12:33.239981+00:00",
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0,
+        "total": 0
+      }
+    },
+    {
+      "check": "production-audit",
+      "command": [
+        "npm.cmd",
+        "audit",
+        "--omit=dev",
+        "--json",
+        "--registry=https://registry.npmjs.org"
+      ],
+      "exit_code": 0,
+      "seconds": 3.08,
+      "finished_at_utc": "2026-11-05T06:12:36.334102+00:00",
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0,
+        "total": 0
+      }
+    },
+    {
+      "check": "installed-graph",
+      "command": [
+        "npm.cmd",
+        "ls",
+        "--all",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 1.68,
+      "finished_at_utc": "2026-11-05T06:12:38.012007+00:00"
+    },
+    {
+      "check": "explain-minimatch",
+      "command": [
+        "npm.cmd",
+        "explain",
+        "minimatch",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 1.68,
+      "finished_at_utc": "2026-11-05T06:12:39.719913+00:00"
+    },
+    {
+      "check": "lint-security",
+      "command": [
+        "npm.cmd",
+        "run",
+        "test:lint-security"
+      ],
+      "exit_code": 0,
+      "seconds": 5.48,
+      "finished_at_utc": "2026-11-05T06:12:45.204906+00:00",
+      "test_summary": []
+    },
+    {
+      "check": "lint",
+      "command": [
+        "npm.cmd",
+        "run",
+        "lint"
+      ],
+      "exit_code": 0,
+      "seconds": 12.13,
+      "finished_at_utc": "2026-11-05T06:12:57.341148+00:00"
+    },
+    {
+      "check": "typecheck",
+      "command": [
+        "npm.cmd",
+        "run",
+        "typecheck"
+      ],
+      "exit_code": 0,
+      "seconds": 7.0,
+      "finished_at_utc": "2026-11-05T06:13:04.371181+00:00"
+    },
+    {
+      "check": "normal-build",
+      "command": [
+        "npm.cmd",
+        "run",
+        "build"
+      ],
+      "exit_code": 0,
+      "seconds": 17.28,
+      "finished_at_utc": "2026-11-05T06:13:21.665349+00:00"
+    },
+    {
+      "check": "browser",
+      "command": [
+        "npm.cmd",
+        "run",
+        "test:e2e"
+      ],
+      "exit_code": 0,
+      "seconds": 161.26,
+      "finished_at_utc": "2026-11-05T06:16:02.936561+00:00",
+      "stats": {
+        "startTime": "2026-11-05T06:13:23.372Z",
+        "duration": 159520.138,
+        "expected": 78,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    }
+  ],
+  "original_security_suite": {
+    "passed": 73,
+    "failed": 0,
+    "skipped": 0,
+    "unchanged": true
+  },
+  "new_probe": {
+    "attempt1": {
+      "status": "SETUP ERROR before matcher assertions",
+      "error": "ERR_PACKAGE_PATH_NOT_EXPORTED",
+      "log_sha256": "bc76e0b13c975c211461c6bdfd49416332841c6c7eaed0673b946a7471e446f9",
+      "disposition": "trial paused; original logs retained; no PR update"
+    },
+    "human_followup": "exactly3 resolves to exported entry points, assertions unchanged, remaining checks expressly authorized",
+    "attempt2": {
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0,
+      "log_sha256": "4b316d8254f0d2cce3eb87a9253fbbe87d063391009a8cf8c4e5b2e1f00c9162"
+    },
+    "coverage": "15 matcher expectations through actual estree resolution, plus representative optimizationLevel2 patterns in bounded3-second/128MiB child; stress smoke, not universal security proof"
+  },
+  "candidate_checks": [
+    {
+      "check": "lint-new-probe",
+      "command": [
+        "npm.cmd",
+        "run",
+        "lint"
+      ],
+      "exit_code": 0,
+      "seconds": 15.7,
+      "finished_at_utc": "2026-11-05T06:22:23.787034+00:00"
+    },
+    {
+      "check": "static-build",
+      "command": [
+        "npm.cmd",
+        "run",
+        "build"
+      ],
+      "exit_code": 0,
+      "seconds": 42.46,
+      "finished_at_utc": "2026-11-05T06:23:06.247757+00:00"
+    },
+    {
+      "check": "selected-static-provider-marker-scan",
+      "exit_code": 0,
+      "matches": [],
+      "scope": "selected markers and index presence, not independent security acceptance"
+    },
+    {
+      "check": "demo",
+      "command": [
+        "npm.cmd",
+        "run",
+        "test:e2e:demo"
+      ],
+      "exit_code": 0,
+      "seconds": 37.65,
+      "finished_at_utc": "2026-11-05T06:23:45.539770+00:00"
+    },
+    {
+      "check": "repeat-clean-install",
+      "command": [
+        "npm.cmd",
+        "ci",
+        "--ignore-scripts",
+        "--registry=https://registry.npmjs.org"
+      ],
+      "exit_code": 0,
+      "seconds": 81.62,
+      "finished_at_utc": "2026-11-05T06:25:07.161159+00:00"
+    },
+    {
+      "check": "repeat-installed-graph",
+      "command": [
+        "npm.cmd",
+        "ls",
+        "--all",
+        "--json"
+      ],
+      "exit_code": 0,
+      "seconds": 2.06,
+      "finished_at_utc": "2026-11-05T06:25:09.219348+00:00"
+    },
+    {
+      "check": "clean-install-graph-reproducibility",
+      "exit_code": 0
+    }
+  ],
+  "current_browser": {
+    "source_base": "c50be576b39acd2eac9da096efd11060545463d1",
+    "stats": {
+      "startTime": "2026-11-05T06:13:23.372Z",
+      "duration": 159520.138,
+      "expected": 78,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    }
+  },
+  "current_demo": {
+    "passed": 8,
+    "scope": "actual list reporter stdout; separate from browser JSON"
+  },
+  "fixed_source_compatibility": {
+    "source_sha": "102b7e90dc3bfc1f79c197a20184f97b89070bf2",
+    "overlay": "candidate manifest/lock/.npmrc/frontend tools only; isolated checkout mirrors existing CI",
+    "checks": [
+      {
+        "check": "clean-install",
+        "command": [
+          "npm.cmd",
+          "ci",
+          "--ignore-scripts",
+          "--registry=https://registry.npmjs.org"
+        ],
+        "exit_code": 0,
+        "seconds": 108.3,
+        "finished_at_utc": "2026-11-05T06:24:11.762406+00:00"
+      },
+      {
+        "check": "lint-new-probe",
+        "command": [
+          "npm.cmd",
+          "run",
+          "lint"
+        ],
+        "exit_code": 0,
+        "seconds": 19.39,
+        "finished_at_utc": "2026-11-05T06:24:31.150607+00:00"
+      },
+      {
+        "check": "typecheck",
+        "command": [
+          "npm.cmd",
+          "run",
+          "typecheck"
+        ],
+        "exit_code": 0,
+        "seconds": 9.88,
+        "finished_at_utc": "2026-11-05T06:24:41.030130+00:00"
+      },
+      {
+        "check": "normal-build",
+        "command": [
+          "npm.cmd",
+          "run",
+          "build"
+        ],
+        "exit_code": 0,
+        "seconds": 17.28,
+        "finished_at_utc": "2026-11-05T06:24:58.311215+00:00"
+      },
+      {
+        "check": "browser-compatibility",
+        "command": [
+          "npx.cmd",
+          "playwright",
+          "test",
+          "e2e/integration.spec.ts",
+          "e2e/uiux-003.spec.ts"
+        ],
+        "exit_code": 0,
+        "seconds": 140.41,
+        "finished_at_utc": "2026-11-05T06:27:18.722412+00:00",
+        "stats": {
+          "startTime": "2026-11-05T06:25:01.799Z",
+          "duration": 136869.764,
+          "expected": 77,
+          "skipped": 0,
+          "unexpected": 0,
+          "flaky": 0
+        }
+      },
+      {
+        "check": "static-build",
+        "command": [
+          "npm.cmd",
+          "run",
+          "build"
+        ],
+        "exit_code": 0,
+        "seconds": 13.01,
+        "finished_at_utc": "2026-11-05T06:27:31.742947+00:00"
+      },
+      {
+        "check": "selected-static-provider-marker-scan",
+        "exit_code": 0,
+        "matches": [],
+        "scope": "selected markers and index presence, not independent security acceptance"
+      },
+      {
+        "check": "demo",
+        "command": [
+          "npm.cmd",
+          "run",
+          "test:e2e:demo"
+        ],
+        "exit_code": 0,
+        "seconds": 19.37,
+        "finished_at_utc": "2026-11-05T06:27:51.764083+00:00"
+      }
+    ],
+    "browser_stats": {
+      "startTime": "2026-11-05T06:25:01.799Z",
+      "duration": 136869.764,
+      "expected": 77,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "demo_passed": 5
+  },
+  "reproducibility": {
+    "repeat_clean_install": "PASS",
+    "complete_installed_graph_equal": true,
+    "lock_sha256_unchanged": "8172525c26dbc24eff0213764581ce79cd8dfcab26ca4509fb804d91dae51f18"
+  },
+  "private_log_digests": {
+    "full-audit.stdout.log": "88773f26acdbc2f2585859d9c57c2946faf6c52bdde05052c369bb16681b44b5",
+    "production-audit.stdout.log": "88773f26acdbc2f2585859d9c57c2946faf6c52bdde05052c369bb16681b44b5",
+    "installed-graph.stdout.log": "20302e72bfb1ebfc541f2fbd49c4966438524a85c0308034373954abfbf4ee50",
+    "lint-security.stdout.log": "91035e2cc9ab4a664f500e154aec83658c11e688207bf5a8c317ce3970cd4cdc",
+    "minimatch-compat.stdout.log": "bc76e0b13c975c211461c6bdfd49416332841c6c7eaed0673b946a7471e446f9",
+    "minimatch-compat-attempt2.stdout.log": "4b316d8254f0d2cce3eb87a9253fbbe87d063391009a8cf8c4e5b2e1f00c9162",
+    "browser-results.json": "ddf2ddda9c53147d2f6810ec192f73a71ec314e315d47a6db7bb48230c1d3260",
+    "candidate/demo.stdout.log": "4c208f820cfb412713bd41b776f2d0988be9576b8899f3f8dabc15690f112c13",
+    "compatibility/browser-compatibility-results.json": "44a7fbe997b0a9b59c22e652209d3ca49aa19a74e8836fdcfd25cd1fa9ca01fc",
+    "compatibility/demo.stdout.log": "49e5cab81f68ca2fa911b6fe1b4530946a7e426878944f70a0578f67522363d6"
+  },
+  "privacy": "safe technical summaries/digests only; raw logs/original reviews/personal paths retained privately",
+  "independent_review": "PENDING; original c50be PASS is history, not this candidate",
+  "hosted_ci": "PENDING new exact PR-head run; no exception",
+  "mcp": "BLOCKED BY TOOL CAPABILITY; no registration/lease invented",
+  "boundaries": {
+    "application_sources_changed": false,
+    "existing_lint_contract_or_tests_changed": false,
+    "provider_calls": 0,
+    "merge": false,
+    "deployment": false,
+    "semantic_acceptance": "NOT_DETERMINED",
+    "existing_gates_weakened": false,
+    "workflow_or_threshold_changed": false,
+    "security_entry_adds_fail_closed_probe": true
+  },
+  "final_security_entry": {
+    "command": "npm run test:lint-security",
+    "exit_code": 0,
+    "legacy_suite": {
+      "passed": 73,
+      "failed": 0,
+      "skipped": 0
+    },
+    "new_probe_suite": {
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0
+    },
+    "behavior": "original command first, new probe second under fail-closed &&; existing workflow invokes both without workflow change",
+    "log_sha256": "ad4bf5dab8dbae5184c20db3acc82a5fb4d7aa5c9d3d9cbbc3b150176fc8ef3c",
+    "timing": "wired after unchanged-runtime/graph suites; final entry independently executed; runtime/dependencies unchanged"
+  }
+}
