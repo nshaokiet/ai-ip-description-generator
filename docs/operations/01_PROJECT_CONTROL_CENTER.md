@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.102 |
+| Version | 0.3.103 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -20,6 +20,86 @@
 | Confidentiality level | Public-safe documentary projection; original internal records retained privately |
 
 ## RESUME-FOUNDATION-001 current baseline
+
+### RESUME-FOUNDATION-001-WEB — current resumption, 05/11/2026
+
+Human explicitly selects **PR151 as the preferred foundation candidate**.
+Earlier “supplement to150” priority is superseded by this direction; no merge or
+closure is authorized by priority alone. Main remains53c253be874236c6f38a5333a6f7f3390de9f51e,
+tree6459c1cecb8a4e56f2cbbbeab2e9439a39bd1b6e. Source website remains Next.js +
+FastAPI, upload → processing → Human review → validate → four USPTO v2 artifacts.
+
+| Candidate | Refreshed evidence and disposition |
+|---|---|
+| [PR151](https://github.com/nshaokiet/ai-ip-description-generator/pull/151),90fee6a | OPEN/DRAFT, mergeable; no native review or new external report received. [CI41960539678](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/41960539678) now **FAILURE**, audit step only; MCP SUCCESS. Actual backend log1127PASS/2SKIP, frontend install10findings (8MODERATE/1HIGH/1CRITICAL). Preserve historical pending checkpoint; no fresh suite PASS claimed from log readback. This resumption's documentary commit needs a new exact-SHA handoff/CI. |
+| [PR150](https://github.com/nshaokiet/ai-ip-description-generator/pull/150),d88201a5 | OPEN/DRAFT, mergeable; no native review/new report. [CI41957523844](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/41957523844) **FAILURE**, audit step only; MCP SUCCESS. Same base/code graph. Keep untouched; do not merge both independently. |
+| [PR147](https://github.com/nshaokiet/ai-ip-description-generator/pull/147),c50be576 | OPEN/DRAFT; historical attributed code PASS stays scoped to that SHA/tree and does not cover future remediation. Required CI still FAILURE. Fresh locked-graph audit8MODERATE/full exit1; production0/exit0. Root cause is nested minimatch10.2.6 through typescript-estree8.70.1; eight affected package nodes are one advisory chain, not eight proven exploits. |
+
+**Overlap reconciliation:** README and Control Center overlap across150/151.
+Both agree on website direction, server-owned custody/auth/revision, separate
+content/Claims decisions, exact four artifacts, two different-content PDF/DOCX
+fixtures, volatile restart failure and DEP-001-SR/147 as next task. PR151 carries
+the detailed B contract plus fresh audit/Render readback and public-safe evidence;
+PR150 retains its three-file checkpoint/B decision and report-attributed evidence.
+Its report-read observation and our earlier unavailable-report observation remain
+separately attributed and time-scoped. Preserve150's original/history; use151's
+canonical summary going forward. No competing terminal or second pipeline is adopted.
+
+**Remediation scope decision:** existing authorization permits compatible security
+fixes. The primary advisory's minimum fix is minimatch11.0.1, outside the consumer's
+`^10.2.2`, with a new required transitive package. The proposed bounded override
+and exact boundaries are in [continuation0.1.1](../tasks/DEP-001-SR-20261024-continuation.md).
+Initially that major/dependency scope was **BLOCKED pending Human disposition**;
+no override/install/PR147 change was performed while pending. Human subsequently
+approved the exact scoped trial plus required transitives and tests; an isolated
+implementation now preserves existing pins/adapter and is under validation.
+Installed full/prod audits0, graph valid, existing security73/73, lint/typecheck/
+normal build and current browser78/78 have passed on the unchanged trial lock.
+A newly authored additional probe then failed at setup with
+ERR_PACKAGE_PATH_NOT_EXPORTED before matcher assertions. Codex paused the trial
+under Human's stop-on-failure condition, preserved the log, and proposed only a
+three-line exported-entry resolution fix. Human then explicitly authorized that
+exact setup fix and remaining checks; attempt2 passed2/2 with unchanged assertions.
+At that pre-publication checkpoint no PR147 update had occurred. Update was conditional on relevant checks
+pass; no merge/deploy authorized. Existing passes do not erase the probe failure.
+Independent foundation documentation and evidence reconciliation continue. MCP tools remain
+unavailable; no task registration/lease/approval is invented.
+
+[Current public-safe readback](../qa/resume-foundation-001-web-resume-20261105.json)
+contains exact SHA/scope/CI/audit attribution without raw reviews, personal paths
+or sensitive operational metadata. Original evidence remains unchanged privately.
+Review is **PENDING**, CI/security gates unchanged, provider budget0, no deploy.
+Next: obtain actual Gemini/Antigravity read-only review on the final implementation SHA
+and inspect required CI; local trial checks are now complete.
+
+OPS-0010.3.102→0.3.103,05/11/2026,Codex,Human RESUME-FOUNDATION-001-WEB:
+prioritize151, reconcile150 overlap, refresh CI/audit and scoped-remediation blocker.
+Breaking change: No—documentary only. The dated snapshot below is prior history.
+
+**Subsequent scoped implementation publication:** all related local checks passed;
+PR147 was normally fast-forwarded fromc50be576 to
+**4c30d37d6ad73dede6ea8439fae897a86fffbdc0**, tree
+**b440f3021c39c9504cd49753dae63acfc1a3a0ed**. The full PR now has8paths against
+main; the one-commit continuation changes6paths. Scope is exact estree8.70.1→
+minimatch11.0.1 override, required nonrecursive-glob-match1.0.3, two new probes,
+safe evidence/task docs and task status. No unrelated runtime/CI source changed.
+
+Installed full/prod audit0, valid graph, repeat clean install identical graph/lock;
+unchanged original security73 plus new probe2 separately PASS, then final
+fail-closed security entry executes73 first and2 second for the existing CI command.
+Current source browser78/demo8; fixed source102b7e9 browser77/demo5; lint/typecheck/
+normal/static builds and selected static marker checks PASS. Initial probe setup
+failure, trial pause, exact Human-approved three-resolve fix and attempt2 remain
+separate evidence, not a retroactive PASS. Source counts are not summed.
+
+[Implementation evidence](https://github.com/nshaokiet/ai-ip-description-generator/blob/4c30d37d6ad73dede6ea8439fae897a86fffbdc0/docs/qa/dep-001-sr-20261105-minimatch.json)
+and PR147 body carry fixed-SHA handoff. [Exact-head CI41981410850](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/41981410850)
+was IN_PROGRESS at readback, MCP SUCCESS; no overall CI PASS or new independent
+Gemini/Antigravity review claimed. Old c50be external PASS is stale for this new
+head. Reviewer execution is external/unavailable to this Codex tool session;
+handoff prepared, actual report PENDING. No merge/deploy permitted by this trial.
+Main remains53c253be; its graph and151's dependency CI are not repaired by an
+unmerged147 branch. Future integration must preserve151/150 overlap disposition.
 
 **05/11/2026, Asia/Saigon; observations around 09:25–09:50 GMT+7.**
 This is the canonical resume entry. Exact API/audit times, complete SHA values,

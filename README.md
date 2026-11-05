@@ -38,10 +38,10 @@ Tiến độ được đối chiếu ngày **05/11/2026**. Đọc [checkpoint ca
 | Governance & Integration | PENDING | [PR #143](https://github.com/nshaokiet/ai-ip-description-generator/pull/143) CONFLICTING; reconcile overlap với #146/foundation, không tự đóng hoặc thay review. |
 | EVAL-001 Product Runtime | AWAITING FUNDING | Chưa có kết quả chạy provider được chấp nhận; chất lượng ngữ nghĩa vẫn NOT_DETERMINED. |
 | README-REFRESH-001 | MERGED / CI DEBT | [PR #145](https://github.com/nshaokiet/ai-ip-description-generator/pull/145) đã merge vào `53c253be`; exact-main push CI attempt2 vẫn FAILURE, không suy thành accepted closeout. |
-| DEP-001-SR-20261024 | BLOCKED / CONTINUATION PROPOSED | [PR #147](https://github.com/nshaokiet/ai-ip-description-generator/pull/147) OPEN/DRAFT; fresh full audit8MODERATE, prod0. [Task kế tiếp đề xuất](docs/tasks/DEP-001-SR-20261024-continuation.md); MCP main còn3HIGH/5MODERATE, remediation riêng. |
+| DEP-001-SR-20261024 | LOCAL VALIDATION PASS / REVIEW-CI PENDING | [PR #147](https://github.com/nshaokiet/ai-ip-description-generator/pull/147) đã cập nhật4c30d37: audit0, security73+probe2, browser78/compat77, demo8/compat5, graph reproducibility PASS. Attempt1 setup failure giữ nguyên; [scope](docs/tasks/DEP-001-SR-20261024-continuation.md). New independent review/required CI chưa đạt. |
 | PRODUCT-001A | PENDING REVIEW PROVENANCE / CI | [PR #149](https://github.com/nshaokiet/ai-ip-description-generator/pull/149) OPEN/DRAFT; internal source-bound workflow, chưa trên main. Technical PASS do Human chuyển tiếp; model/session chưa xác minh; hosted CI fail QA HTTP503. [Report/corrections](docs/tasks/PRODUCT-001A-review-reconciliation.md). |
 | PRODUCT-001B | PROPOSED — WEB | [Contract browser0.2.0](docs/tasks/PRODUCT-001B-trusted-local-review-presenter.md) thay khuyến nghị terminal-first; chưa freeze/duyệt implementation/auth policy, chưa triển khai. |
-| RESUME-FOUNDATION-001 | PUBLIC-SAFE CANDIDATE | Baseline, PR140–149, [web decision](docs/decisions/RESUME-FOUNDATION-001-web-direction.md), backlog/next task đã soạn; Human đã cho phép push/Draft PR bản lược bỏ; raw review/evidence giữ local; review/CI/merge PENDING. |
+| RESUME-FOUNDATION-001 | PREFERRED CANDIDATE #151 / CI BLOCKED | Human ưu tiên [#151](https://github.com/nshaokiet/ai-ip-description-generator/pull/151); #150 overlap đã đối chiếu, giữ nguyên. Cả hai CI FAILURE tại audit; independent review PENDING. Raw evidence giữ private. |
 
 ## Next Steps
 

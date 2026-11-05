@@ -1,0 +1,434 @@
+{
+  "version": "1.0.0",
+  "task": "RESUME-FOUNDATION-001-WEB / DEP-001-SR-20261024",
+  "observed_at_utc": "2026-11-05T06:17:52.094049+00:00",
+  "timezone": "Asia/Saigon",
+  "main": {
+    "sha": "53c253be874236c6f38a5333a6f7f3390de9f51e",
+    "tree": "6459c1cecb8a4e56f2cbbbeab2e9439a39bd1b6e"
+  },
+  "human_direction": {
+    "foundation_priority": 151,
+    "pr150": "preserve; reconcile overlap, no merge/closure",
+    "product": "Next.js + FastAPI website with source-bound review/validation/four USPTO v2 artifacts"
+  },
+  "prs": [
+    {
+      "number": 147,
+      "head": "c50be576b39acd2eac9da096efd11060545463d1",
+      "base": "53c253be874236c6f38a5333a6f7f3390de9f51e",
+      "state": "OPEN",
+      "draft": true,
+      "mergeable": "MERGEABLE",
+      "native_review_count": 0,
+      "new_review_comments": "existing attributed receipt only; no new external verdict",
+      "checks": [
+        {
+          "name": "mcp-tests",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/40081813108/job/120836747547"
+        },
+        {
+          "name": "build-and-test",
+          "conclusion": "FAILURE",
+          "url": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/40081813108/job/120836747750"
+        }
+      ]
+    },
+    {
+      "number": 150,
+      "head": "d88201a5db48e753581361ca670625df65f2f32b",
+      "base": "53c253be874236c6f38a5333a6f7f3390de9f51e",
+      "state": "OPEN",
+      "draft": true,
+      "mergeable": "MERGEABLE",
+      "native_review_count": 0,
+      "new_review_comments": 0,
+      "checks": [
+        {
+          "name": "mcp-tests",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/41957523844/job/127015887781"
+        },
+        {
+          "name": "build-and-test",
+          "conclusion": "FAILURE",
+          "url": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/41957523844/job/127015888168"
+        }
+      ]
+    },
+    {
+      "number": 151,
+      "head": "90fee6a20ff72e151b1477832e1d3c591f61c4b9",
+      "base": "53c253be874236c6f38a5333a6f7f3390de9f51e",
+      "state": "OPEN",
+      "draft": true,
+      "mergeable": "MERGEABLE",
+      "native_review_count": 0,
+      "new_review_comments": 0,
+      "checks": [
+        {
+          "name": "mcp-tests",
+          "conclusion": "SUCCESS",
+          "url": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/41960539678/job/127025585295"
+        },
+        {
+          "name": "build-and-test",
+          "conclusion": "FAILURE",
+          "url": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/41960539678/job/127025585003"
+        }
+      ]
+    }
+  ],
+  "ci_readback": [
+    {
+      "run": 41957523844,
+      "url": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/41957523844",
+      "failed_steps": [
+        "Verify DEP-001 full and production security graphs"
+      ],
+      "backend_log_summary": "1127 passed / 2 skipped; historical exact-run readback, not new local suite",
+      "install_log_findings": {
+        "moderate": 8,
+        "high": 1,
+        "critical": 1
+      },
+      "cause": "required dependency audit; no quota/503 failure observed in these two runs"
+    },
+    {
+      "run": 41960539678,
+      "url": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/41960539678",
+      "failed_steps": [
+        "Verify DEP-001 full and production security graphs"
+      ],
+      "backend_log_summary": "1127 passed / 2 skipped; historical exact-run readback, not new local suite",
+      "install_log_findings": {
+        "moderate": 8,
+        "high": 1,
+        "critical": 1
+      },
+      "cause": "required dependency audit; no quota/503 failure observed in these two runs"
+    }
+  ],
+  "overlap": {
+    "files": [
+      "README.md",
+      "docs/operations/01_PROJECT_CONTROL_CENTER.md"
+    ],
+    "agreement": [
+      "web direction",
+      "server-owned source/auth/owner/custody/revision",
+      "separate content/incomplete-Claims decisions",
+      "four fixed artifacts",
+      "two distinct PDF/DOCX contents",
+      "no restart recovery without persistence",
+      "next DEP-001-SR147"
+    ],
+    "disposition": "151 preferred by latest Human direction; preserve150 exact source/history; separate report-observation attribution"
+  },
+  "baseline_pr147_audit": {
+    "head": "c50be576b39acd2eac9da096efd11060545463d1",
+    "method": "npm audit --package-lock-only --ignore-scripts --json",
+    "full_exit": 1,
+    "full": {
+      "info": 0,
+      "low": 0,
+      "moderate": 8,
+      "high": 0,
+      "critical": 0,
+      "total": 8
+    },
+    "production_exit": 0,
+    "production": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    },
+    "packages": [
+      {
+        "name": "@typescript-eslint/eslint-plugin",
+        "severity": "moderate",
+        "paths": [
+          "node_modules/eslint-config-next/node_modules/typescript-eslint/node_modules/@typescript-eslint/eslint-plugin"
+        ]
+      },
+      {
+        "name": "@typescript-eslint/parser",
+        "severity": "moderate",
+        "paths": [
+          "node_modules/eslint-config-next/node_modules/typescript-eslint/node_modules/@typescript-eslint/parser"
+        ]
+      },
+      {
+        "name": "@typescript-eslint/type-utils",
+        "severity": "moderate",
+        "paths": [
+          "node_modules/eslint-config-next/node_modules/typescript-eslint/node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/type-utils"
+        ]
+      },
+      {
+        "name": "@typescript-eslint/typescript-estree",
+        "severity": "moderate",
+        "paths": [
+          "node_modules/eslint-config-next/node_modules/typescript-eslint/node_modules/@typescript-eslint/typescript-estree"
+        ]
+      },
+      {
+        "name": "@typescript-eslint/utils",
+        "severity": "moderate",
+        "paths": [
+          "node_modules/eslint-config-next/node_modules/typescript-eslint/node_modules/@typescript-eslint/utils"
+        ]
+      },
+      {
+        "name": "eslint-config-next",
+        "severity": "moderate",
+        "paths": [
+          "node_modules/eslint-config-next"
+        ]
+      },
+      {
+        "name": "minimatch",
+        "severity": "moderate",
+        "paths": [
+          "node_modules/eslint-config-next/node_modules/typescript-eslint/node_modules/minimatch"
+        ]
+      },
+      {
+        "name": "typescript-eslint",
+        "severity": "moderate",
+        "paths": [
+          "node_modules/eslint-config-next/node_modules/typescript-eslint"
+        ]
+      }
+    ]
+  },
+  "scope_authorization": {
+    "source": "Direct Human reply approving bounded option1 in this resumption, 2026-11-05",
+    "status": "BOUNDED TRIAL AUTHORIZED",
+    "scope": [
+      "only typescript-estree8.70.1 branch scoped minimatch>=11.0.1 override and required transitives",
+      "preserve Next/React, ESLint root, root minimatch3.1.5 and lint adapter",
+      "isolated graph/regression/audit/build/browser proof",
+      "update147 only after related checks pass",
+      "actual independent final-SHA Gemini/Antigravity review",
+      "stop on failed validation/out-of-scope breaking change; no merge/deploy/gate waiver"
+    ]
+  },
+  "registry_decision": {
+    "advisory": "https://github.com/advisories/GHSA-g3hv-75wg-m249",
+    "consumer_range": "^10.2.2",
+    "installed_before": "10.2.6",
+    "minimum_patched": "11.0.1",
+    "latest_parent_still_uses": "^10.2.2",
+    "required_transitives": [
+      "brace-expansion ^5.0.12",
+      "@isaacs/nonrecursive-glob-match ^1.0.1"
+    ]
+  },
+  "trial_graph": {
+    "base": "c50be576b39acd2eac9da096efd11060545463d1",
+    "changed_nodes": [
+      {
+        "path": "node_modules/eslint-config-next/node_modules/typescript-eslint/node_modules/minimatch",
+        "from": "10.2.6",
+        "to": "11.0.1"
+      },
+      {
+        "path": "node_modules/@isaacs/nonrecursive-glob-match",
+        "from": null,
+        "to": "1.0.3"
+      }
+    ],
+    "lock_sha256": "8172525c26dbc24eff0213764581ce79cd8dfcab26ca4509fb804d91dae51f18",
+    "unchanged_pins": [
+      "next16.4.1",
+      "react/react-dom19.3.0",
+      "eslint9.39.5",
+      "root minimatch3.1.5",
+      "Next lint plugin16.3.8",
+      "typescript-eslint8.70.1"
+    ],
+    "existing_security_contract": {
+      "passed": 73,
+      "failed": 0,
+      "skipped": 0,
+      "unchanged": true
+    },
+    "executed_checks": [
+      {
+        "check": "full-audit",
+        "command": [
+          "npm.cmd",
+          "audit",
+          "--json",
+          "--registry=https://registry.npmjs.org"
+        ],
+        "exit_code": 0,
+        "seconds": 2.04,
+        "finished_at_utc": "2026-11-05T06:12:33.239981+00:00",
+        "vulnerabilities": {
+          "info": 0,
+          "low": 0,
+          "moderate": 0,
+          "high": 0,
+          "critical": 0,
+          "total": 0
+        }
+      },
+      {
+        "check": "production-audit",
+        "command": [
+          "npm.cmd",
+          "audit",
+          "--omit=dev",
+          "--json",
+          "--registry=https://registry.npmjs.org"
+        ],
+        "exit_code": 0,
+        "seconds": 3.08,
+        "finished_at_utc": "2026-11-05T06:12:36.334102+00:00",
+        "vulnerabilities": {
+          "info": 0,
+          "low": 0,
+          "moderate": 0,
+          "high": 0,
+          "critical": 0,
+          "total": 0
+        }
+      },
+      {
+        "check": "installed-graph",
+        "command": [
+          "npm.cmd",
+          "ls",
+          "--all",
+          "--json"
+        ],
+        "exit_code": 0,
+        "seconds": 1.68,
+        "finished_at_utc": "2026-11-05T06:12:38.012007+00:00"
+      },
+      {
+        "check": "explain-minimatch",
+        "command": [
+          "npm.cmd",
+          "explain",
+          "minimatch",
+          "--json"
+        ],
+        "exit_code": 0,
+        "seconds": 1.68,
+        "finished_at_utc": "2026-11-05T06:12:39.719913+00:00"
+      },
+      {
+        "check": "lint-security",
+        "command": [
+          "npm.cmd",
+          "run",
+          "test:lint-security"
+        ],
+        "exit_code": 0,
+        "seconds": 5.48,
+        "finished_at_utc": "2026-11-05T06:12:45.204906+00:00"
+      },
+      {
+        "check": "lint",
+        "command": [
+          "npm.cmd",
+          "run",
+          "lint"
+        ],
+        "exit_code": 0,
+        "seconds": 12.13,
+        "finished_at_utc": "2026-11-05T06:12:57.341148+00:00"
+      },
+      {
+        "check": "typecheck",
+        "command": [
+          "npm.cmd",
+          "run",
+          "typecheck"
+        ],
+        "exit_code": 0,
+        "seconds": 7.0,
+        "finished_at_utc": "2026-11-05T06:13:04.371181+00:00"
+      },
+      {
+        "check": "normal-build",
+        "command": [
+          "npm.cmd",
+          "run",
+          "build"
+        ],
+        "exit_code": 0,
+        "seconds": 17.28,
+        "finished_at_utc": "2026-11-05T06:13:21.665349+00:00"
+      },
+      {
+        "check": "browser",
+        "command": [
+          "npm.cmd",
+          "run",
+          "test:e2e"
+        ],
+        "exit_code": 0,
+        "seconds": 161.26,
+        "finished_at_utc": "2026-11-05T06:16:02.936561+00:00",
+        "stats": {
+          "startTime": "2026-11-05T06:13:23.372Z",
+          "duration": 159520.138,
+          "expected": 78,
+          "skipped": 0,
+          "unexpected": 0,
+          "flaky": 0
+        }
+      }
+    ],
+    "additional_probe": {
+      "status": "ATTEMPT1 SETUP ERROR PRESERVED; ATTEMPT2 PASS2/2",
+      "error": "ERR_PACKAGE_PATH_NOT_EXPORTED: newly authored probe attempted a package.json subpath; matcher assertions not reached",
+      "disposition": "original failure retained privately; proposed three-line entry-point resolution fix; Human continuation disposition pending; no PR147 update",
+      "resolution": "Human approved exactly3 exported-entry resolves, unchanged assertions; remaining checks completed"
+    },
+    "local_validation": "all related local checks PASS; external review/CI pending",
+    "remaining_checks": {
+      "current_demo": 8,
+      "fixed_source_browser": 77,
+      "fixed_source_demo": 5,
+      "repeat_install_graph": "PASS"
+    },
+    "public_evidence_url": "https://github.com/nshaokiet/ai-ip-description-generator/blob/4c30d37d6ad73dede6ea8439fae897a86fffbdc0/docs/qa/dep-001-sr-20261105-minimatch.json"
+  },
+  "independent_review": "PENDING; no new external verdict or self-approval",
+  "mcp": "BLOCKED BY TOOL CAPABILITY; no registration/lease/approval invented",
+  "privacy": "public-safe summary only; raw logs/original reviews/personal paths retained privately",
+  "runtime_boundary": "No application/provider/Claims/auth/runtime/CI/deploy change; only authorized dependency trial",
+  "semantic_acceptance": "NOT_DETERMINED",
+  "implementation_publication": {
+    "pr": 147,
+    "head": "4c30d37d6ad73dede6ea8439fae897a86fffbdc0",
+    "tree": "b440f3021c39c9504cd49753dae63acfc1a3a0ed",
+    "previous_head": "c50be576b39acd2eac9da096efd11060545463d1",
+    "method": "normal fast-forward of existing PR branch; no force/history rewrite",
+    "continuation_files": 6,
+    "complete_pr_files": 8,
+    "local_validation": "PASS; exact per-source counts retained",
+    "security_entry": "original73 then new2, fail-closed &&; existing workflow/thresholds unchanged",
+    "ci_run": 41981410850,
+    "ci_url": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/41981410850",
+    "ci_readback": "IN_PROGRESS; mcp-tests SUCCESS",
+    "independent_review": "PENDING, external Gemini/Antigravity unavailable in Codex tools; actual report not received",
+    "handoff": "PR147 body, exact final SHA/tree",
+    "merge_or_deploy": false
+  },
+  "updated_at_utc": "2026-11-05T06:39:30.795025+00:00",
+  "documentary_validation": {
+    "new_relative_links_checked": 4,
+    "public_content_patterns": "PASS",
+    "external_review": "PENDING"
+  }
+}

@@ -10,7 +10,7 @@
 | Document title | Gemini Review Log |
 | Project | AI Intellectual Property Description Generator |
 | Project deadline | 02/10/2026 |
-| Version | 0.3.61 |
+| Version | 0.3.62 |
 | Status | Active review log |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -3890,3 +3890,39 @@ Review Log0.3.60→0.3.61,05/11/2026,Codex: public-safe summary under Human dire
 Raw review, individual session identifiers and personal path references remain
 in original private evidence; visible redaction markers do not replace originals.
 No external review verdict or mandatory evidence gate is changed. Breaking change: No.
+
+
+## RESUME-FOUNDATION-001-WEB / DEP-001-SR continuation — 05/11/2026
+
+Review Log0.3.61→0.3.62,Codex: factual resumption and implementation handoff;
+format unchanged, breaking change No. **No new independent verdict received.**
+
+- Human prefers PR151 as foundation candidate. PR150 remains OPEN/DRAFT and
+  unchanged; README/Control Center overlap and shared B invariants compared in
+  [canonical checkpoint](01_PROJECT_CONTROL_CENTER.md#resume-foundation-001-current-baseline).
+  Both prior exact-head CI runs FAILED at audit, MCP SUCCESS; neither has a new
+  native/external review. A new documentary candidate SHA needs its own review.
+- PR147 historical attributed external PASS covers c50be576 only. Human separately
+  approved the estree8.70.1-scoped minimatch11.0.1/required transitive trial and then
+  exactly3 exported-entry resolve corrections after an initial new-probe setup
+  failure. No actual matcher assertion ran in attempt1; trial paused, raw logs
+  preserved privately. Attempt2 passed2/2 with unchanged assertions. These are
+  implementer test results, not reviewer PASS or approval fabricated by Codex.
+- After related local checks passed, PR147 normally fast-forwarded to
+  **4c30d37d6ad73dede6ea8439fae897a86fffbdc0**, tree
+  **b440f3021c39c9504cd49753dae63acfc1a3a0ed**. Local installed full/prod audits0,
+  unchanged original security73 then new probe2 passed in final fail-closed entry;
+  current browser78/demo8, fixed source102b7e9 browser77/demo5, builds/lint/typecheck,
+  selected marker checks and repeat clean-install graph/lock PASS separately.
+- [Public scoped evidence](https://github.com/nshaokiet/ai-ip-description-generator/blob/4c30d37d6ad73dede6ea8439fae897a86fffbdc0/docs/qa/dep-001-sr-20261105-minimatch.json)
+  retains source/command/hash attribution and setup failure disposition. Raw
+  reviews/personal paths/logs remain private. No tests or prior findings removed.
+- Requested reviewer: actual independent Gemini/Antigravity STRICT READ-ONLY on
+  exact4c30d37, full8-file PR and6-file continuation, actual model/profile/session/
+  reuse and no-tracked-write declaration. Handoff prepared in PR147 body; tool
+  session cannot execute the external reviewer. Actual new report **PENDING**.
+- [Exact-head CI41981410850](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/41981410850)
+  IN_PROGRESS at readback; MCP SUCCESS, build-and-test not complete. No full CI
+  SUCCESS, merge eligibility or closeout inferred. Final state requires fresh
+  readback. Human explicitly forbids merge/deploy; no provider/real-data/semantic
+  acceptance or MCP task-state transition is inferred.
