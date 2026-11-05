@@ -25,7 +25,7 @@ Mọi đầu ra đều cần người dùng và chuyên gia sở hữu trí tu�
 
 ## Project status
 
-**Current checkpoint (05/11/2026):** [RESUME-FOUNDATION-001 canonical baseline](docs/operations/01_PROJECT_CONTROL_CENTER.md#resume-foundation-001--web-first-canonical-checkpoint-observed-05112026-gmt7) và [PRODUCT-001B browser-first decision](docs/tasks/PRODUCT-001B-web-integration-decision.md). Hướng sản phẩm là **website Next.js + FastAPI**, không phải terminal. [PRODUCT-001A PR #149](https://github.com/nshaokiet/ai-ip-description-generator/pull/149) và [security PR #147](https://github.com/nshaokiet/ai-ip-description-generator/pull/147) đều **OPEN/DRAFT, chưa merge**. CI hiện tại chưa đạt; audit/security, QA và browser E2E còn gate. AI thật, semantic acceptance, quyền dùng dữ liệu thật và production vẫn **NOT DETERMINED / NOT AUTHORIZED**.
+**Current checkpoint (05/11/2026):** [RESUME-FOUNDATION-001 canonical baseline](docs/operations/01_PROJECT_CONTROL_CENTER.md) và [PRODUCT-001B browser-first decision](docs/tasks/PRODUCT-001B-web-integration-decision.md). Hướng sản phẩm là **website Next.js + FastAPI**, không phải terminal. [PRODUCT-001A PR #149](https://github.com/nshaokiet/ai-ip-description-generator/pull/149) và [security PR #147](https://github.com/nshaokiet/ai-ip-description-generator/pull/147) đều **OPEN/DRAFT, chưa merge**. CI hiện tại chưa đạt; audit/security, QA và browser E2E còn gate. AI thật, semantic acceptance, quyền dùng dữ liệu thật và production vẫn **NOT DETERMINED / NOT AUTHORIZED**.
 
 **Bảng bên dưới là snapshot lịch sử ngày 21/10/2026**, giữ để truy vết; không dùng thay checkpoint ngày 05/11. Draft không phải completed.
 
