@@ -38,14 +38,14 @@ Tiến độ được đối chiếu ngày **05/11/2026**. Đọc [checkpoint ca
 | Governance & Integration | PENDING | [PR #143](https://github.com/nshaokiet/ai-ip-description-generator/pull/143) CONFLICTING; reconcile overlap với #146/foundation, không tự đóng hoặc thay review. |
 | EVAL-001 Product Runtime | AWAITING FUNDING | Chưa có kết quả chạy provider được chấp nhận; chất lượng ngữ nghĩa vẫn NOT_DETERMINED. |
 | README-REFRESH-001 | MERGED / CI DEBT | [PR #145](https://github.com/nshaokiet/ai-ip-description-generator/pull/145) đã merge vào `53c253be`; exact-main push CI attempt2 vẫn FAILURE, không suy thành accepted closeout. |
-| DEP-001-SR-20261024 | LOCAL VALIDATION PASS / REVIEW-CI PENDING | [PR #147](https://github.com/nshaokiet/ai-ip-description-generator/pull/147) đã cập nhật4c30d37: audit0, security73+probe2, browser78/compat77, demo8/compat5, graph reproducibility PASS. Attempt1 setup failure giữ nguyên; [scope](docs/tasks/DEP-001-SR-20261024-continuation.md). New independent review/required CI chưa đạt. |
+| DEP-001-SR-20261024 | CI SUCCESS / REVIEW PROVENANCE PENDING | [PR #147](https://github.com/nshaokiet/ai-ip-description-generator/pull/147)4c30d37: Technical PASS reported; hosted41981410850 SUCCESS, artifact audit0/security73+2 verified; fresh audit0. Actual runtime/implementation-reuse addendum PENDING. Draft, not yet READY FOR HUMAN MERGE DECISION. [Reconciliation](docs/tasks/AIIP-INDEPENDENT-REVIEW-20261105-reconciliation.md). |
 | PRODUCT-001A | PENDING REVIEW PROVENANCE / CI | [PR #149](https://github.com/nshaokiet/ai-ip-description-generator/pull/149) OPEN/DRAFT; internal source-bound workflow, chưa trên main. Technical PASS do Human chuyển tiếp; model/session chưa xác minh; hosted CI fail QA HTTP503. [Report/corrections](docs/tasks/PRODUCT-001A-review-reconciliation.md). |
 | PRODUCT-001B | PROPOSED — WEB | [Contract browser0.2.0](docs/tasks/PRODUCT-001B-trusted-local-review-presenter.md) thay khuyến nghị terminal-first; chưa freeze/duyệt implementation/auth policy, chưa triển khai. |
-| RESUME-FOUNDATION-001 | PREFERRED CANDIDATE #151 / CI BLOCKED | Human ưu tiên [#151](https://github.com/nshaokiet/ai-ip-description-generator/pull/151); #150 overlap đã đối chiếu, giữ nguyên. Cả hai CI FAILURE tại audit; independent review PENDING. Raw evidence giữ private. |
+| RESUME-FOUNDATION-001 | PREFERRED #151 / Draft-BLOCKED | Documentary PASS reported only for00f3833; hosted41981992184 audit FAILURE:8MODERATE/1HIGH/1CRITICAL. Provenance addendum pending; new documentary HEAD needs fresh review/CI. Preserve #150; sync only after authorized #147 merge and verified main integration. |
 
 ## Next Steps
 
-1. Review gói foundation; tiếp tục đề xuất DEP-001-SR tại PR147 theo scope được duyệt, xử lý graph frontend và MCP riêng.
+1. Obtain direct reviewer addendum for147/151; reassess unchanged147 gates before Human merge decision. Keep Draft. After authorized147 merge and verified main, integrate151 normally and obtain new exact-SHA CI/re-review; preserve150.
 2. Reconcile CI144/conflicts và QA installer503 trong task tương ứng; giữ mandatory evidence/checks, xác minh postmerge C1.
 3. Hoàn tất review provenance/CI của #146/#149; duyệt contract/auth/fixtures cho B trước triển khai một luồng web tổng hợp xuyên suốt.
 4. Persistence, author answers/review history/retention/recovery là increment riêng; rồi mới pilot provider khi có quyền và kinh phí.

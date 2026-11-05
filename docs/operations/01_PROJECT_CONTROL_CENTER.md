@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.103 |
+| Version | 0.3.104 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -20,6 +20,40 @@
 | Confidentiality level | Public-safe documentary projection; original internal records retained privately |
 
 ## RESUME-FOUNDATION-001 current baseline
+
+### Independent review reconciliation — 05/11/2026, latest checkpoint
+
+[Attributed reconciliation and synchronization plan](../tasks/AIIP-INDEPENDENT-REVIEW-20261105-reconciliation.md)
+and [public-safe receipt1.0.0](../qa/aiip-independent-review-20261105.json)
+supersede the earlier same-day PENDING-report/CI snapshots below. Original reports
+were read and fingerprinted without modification. Full hashes, exact HEAD/tree,
+review test scopes and factual corrections are in those receipts; originals,
+raw logs and individual session identifier remain local.
+
+| Candidate | Current evidence / disposition |
+|---|---|
+| PR147, `4c30d37d6ad73dede6ea8439fae897a86fffbdc0`, tree `b440f3021c39c9504cd49753dae63acfc1a3a0ed` | Gemini3.8 Flash High / Antigravity Technical PASS reported. Actual hosted41981410850 SUCCESS, both jobs; security artifact digest/content verified, full/prod0, security73+2. Fresh npm audits0 and graph valid. **PENDING REVIEW PROVENANCE; not yet READY FOR HUMAN MERGE DECISION.** Implementation SHA unchanged. |
+| PR151 reviewed `00f3833a7ca35a69bdcd90ef1b57524be9ebd0e2`, tree `eda62523f2309897a6f1ba043579e666638a59df` | Documentary Technical PASS reported. Actual hosted41981992184 FAILURE at required audit; artifact10 affected nodes:8MODERATE/1HIGH/1CRITICAL, inherited main graph. **Draft/BLOCKED**; no dependency remediation in foundation. This reconciliation changes documentary HEAD: old PASS is history and new candidate requires exact-head CI/re-review. |
+| PR150, `d88201a5db48e753581361ca670625df65f2f32b` | OPEN/DRAFT preserved, no edit/closure/merge. PR151 remains Human-preferred. |
+
+Human subsequently reports both reviews used the same reviewer session with
+Turn13 inheritance, no tracked writes and CLEAN worktrees. Actual runtime
+model/profile and reuse with implementation still await direct reviewer addendum.
+Do not promote provenance to VERIFIED, native approval or merge eligibility.
+This is a V1 evidence reconciliation, not V2 dual-stream enrollment.
+
+Main remains53c253be, tree6459c1ce; no merge/deploy/paid API/gate change.
+Keep both147/151 Draft per latest Human direction. After sufficient addendum,
+refresh147 scope/head/base/CI/permissions/Render and report eligibility to Human.
+Only after an actual authorized147 merge and verified main integration/CI, normal
+merge main into151, preserve150/other-agent work and shared history, resolve
+documentary overlap, freeze new SHA/tree and obtain fresh CI/independent review.
+No future CI SUCCESS or reuse of old-SHA PASS is assumed. MCP tools remain
+unavailable; registration/lease UNVERIFIED, no operational transition fabricated.
+
+OPS-0010.3.103->0.3.104,05/11/2026,Codex: append separate attributed review
+reconciliation, verify artifact/audit evidence and prepare post147 integration.
+Breaking change: No. Earlier dated entries below remain historical.
 
 ### RESUME-FOUNDATION-001-WEB — current resumption, 05/11/2026
 

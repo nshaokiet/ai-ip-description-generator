@@ -10,7 +10,7 @@
 | Document title | Gemini Review Log |
 | Project | AI Intellectual Property Description Generator |
 | Project deadline | 02/10/2026 |
-| Version | 0.3.62 |
+| Version | 0.3.63 |
 | Status | Active review log |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -3926,3 +3926,58 @@ format unchanged, breaking change No. **No new independent verdict received.**
   SUCCESS, merge eligibility or closeout inferred. Final state requires fresh
   readback. Human explicitly forbids merge/deploy; no provider/real-data/semantic
   acceptance or MCP task-state transition is inferred.
+
+
+## AIIP-INDEPENDENT-REVIEW-20261105 — separate original report reconciliation
+
+[Complete public-safe reconciliation](../tasks/AIIP-INDEPENDENT-REVIEW-20261105-reconciliation.md)
+contains the two original fingerprints, exact HEAD/tree, findings/dispositions,
+executed-versus-inspected scopes, provenance limits and synchronization handoff.
+Original report bytes remain unchanged locally; no raw report/session identifier
+or personal path is published. Hashes establish retained-byte fingerprints only.
+
+### PR147 — AIIP-INDEPENDENT-REVIEW-20261105-PR147
+
+- Attributed Gemini3.8 Flash High / Antigravity IDE STRICT READ-ONLY **Technical
+  PASS** on4c30d37d6ad73dede6ea8439fae897a86fffbdc0,
+  treeb440f3021c39c9504cd49753dae63acfc1a3a0ed. Original6878bytes,
+  SHA256 `f3c957d6d11bee788e81c547db8c8bcb32b16ad405bc459fd007ec494b3c2ed2`.
+- Reviewer reports executing security73+2 and full/prod audits0; broader suites
+  were inspected hosted evidence. Codex separately verified actual41981410850
+  SUCCESS, both jobs, mandatory13394746788 digest/content and fresh audits0/graph.
+  Hosted backend1127/2skip, browser78/compat77, demo8/compat5 stay separate scopes.
+- FINDING-PR147-01 INFO ACCEPT: initial setup failure and exact approved3-resolve
+  fix retained. Bounded stress is not universal ReDoS proof; job name corrected
+  to build-and-test, 73+2 are test cases rather than measured assertion count.
+- Reviewer merge recommendation is attributed only. Provenance addendum remains
+  PENDING; **not yet READY FOR HUMAN MERGE DECISION**, no merge/deploy authority.
+
+### PR151 — AIIP-INDEPENDENT-REVIEW-20261105-PR151
+
+- Attributed same model/environment/mode **Documentary Technical PASS** on
+  00f3833a7ca35a69bdcd90ef1b57524be9ebd0e2,
+  treeeda62523f2309897a6f1ba043579e666638a59df. Original8861bytes,
+  SHA256 `7f0d97ea30a521f66cdbe279c7aa0c4a13a6ffeadc10f1cc5e4e785b5e28ceb4`.
+- Actual41981992184 FAILURE at required audit; artifact13394279105 records
+  **10 nodes:8MODERATE/1HIGH/1CRITICAL**, correcting report's16-or8 description.
+  Only full-audit.json exists in that failed security artifact. Main-identical
+  lockfile explains inherited failure, not a waived gate or successful skipped
+  functional suite. Documentary scope14paths; no new runtime/dependency/CI edit.
+- Predicted future CI SUCCESS and reuse of this PASS after sync are rejected as
+  gate evidence. Changed documentary HEAD requires fresh review/CI. Keep Draft/
+  BLOCKED; preserve150; dependency remediation stays in147.
+
+### Shared provenance and authority limits
+
+The reports omit session/reuse metadata. Human subsequently relays one shared
+session, Turn13 inheritance, no tracked writes/commit/push/merge/deploy and CLEAN
+worktrees. Individual ID retained privately; actual runtime model/profile and
+reuse with implementation remain UNCONFIRMED pending direct addendum under
+GOV-REVIEWER-001. No VERIFIED identity, native approval or new independent PASS
+is asserted. Zero native reviews at readback. Both PRs remain Draft per Human;
+no task completion/MCP lease/merge/deploy/paid API/security-gate change.
+
+REVIEW-0010.3.62->0.3.63,05/11/2026,Codex: append source-attributed original report
+reconciliation and explicit corrections; preserve all earlier review history.
+Breaking change: No. Final candidate SHA/tree and applicable CI/re-review status
+are recorded in the post-commit PR handoff.
