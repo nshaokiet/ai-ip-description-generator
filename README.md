@@ -25,7 +25,11 @@ Mọi đầu ra đều cần người dùng và chuyên gia sở hữu trí tu�
 
 ## Project status
 
-Tiến độ được đối chiếu ngày **21/10/2026**. Draft là công việc chưa được chấp nhận hoàn tất.
+Tiến độ được đối chiếu ngày **24/10/2026**. Draft là công việc chưa được chấp nhận hoàn tất.
+
+Riêng DEP-001-SR được cập nhật ngày05/11/2026 theo bounded Human approval;
+các dòng khác giữ snapshot lịch sử. [Foundation ưu tiên #151](https://github.com/nshaokiet/ai-ip-description-generator/pull/151)
+giữ checkpoint website hiện hành; thay đổi này không triển khai PRODUCT-001B.
 
 | Workstream | Status | Current focus |
 |---|---|---|
@@ -33,6 +37,7 @@ Tiến độ được đối chiếu ngày **21/10/2026**. Draft là công việ
 | PREAPI-C2 | IN PROGRESS | [Draft specification](https://github.com/nshaokiet/ai-ip-description-generator/pull/140); chờ quyết định phạm vi adapter và luồng review nội bộ, chưa có triển khai C2. |
 | PREAPI-D | IN PROGRESS | [Draft checker](https://github.com/nshaokiet/ai-ip-description-generator/pull/141) kiểm tra điều kiện provider offline; chưa merge, chưa xác minh quyền gọi mô hình. |
 | PREAPI-E | IN PROGRESS | [Draft evaluator check](https://github.com/nshaokiet/ai-ip-description-generator/pull/142) kiểm tra bộ mẫu và phép chấm; chưa merge, chưa đánh giá AI thật. |
+| DEP-001-SR-20261024 | LOCAL VALIDATION PASS / REVIEW-CI PENDING | [Scoped minimatch continuation](docs/tasks/DEP-001-SR-20261024-minimatch-continuation.md): installed full/prod audit0, security73 + probe2, browser78/compat77, demo8/compat5 PASS; failure setup probe đầu được giữ. Cần independent review/CI trên final SHA; không merge/deploy. |
 | CI-V2-001 | BLOCKED | [PR #144](https://github.com/nshaokiet/ai-ip-description-generator/pull/144) đã qua review code và kiểm tra chức năng; CI vẫn lỗi upload bằng chứng bảo mật do quota. |
 | CI-V2-002 / CI-V2-003 | PLANNED | [Đặc tả đã soạn](https://github.com/nshaokiet/ai-ip-description-generator/tree/docs/ci-v2-002-003-planning); chưa triển khai CI phân tầng và tối ưu storage. |
 | Governance & Integration | IN PROGRESS | [Draft reconciliation](https://github.com/nshaokiet/ai-ip-description-generator/pull/143) và các hồ sơ closeout còn mở; không thay thế quyền triển khai sản phẩm. |
