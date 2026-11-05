@@ -8,13 +8,13 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.95 |
+| Version | 0.3.96 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High |
 | Created date | 18/09/2026 |
-| Last updated | 18/10/2026 GMT+7 |
+| Last updated | 05/11/2026 GMT+7 |
 | Related task ID | SPEC-004 |
 | Source of Truth | Operational status bridge; bản nguồn Git tại `docs/operations/01_PROJECT_CONTROL_CENTER.md` |
 | Confidentiality level | Internal |
@@ -1155,3 +1155,44 @@ Historical UIUX-003 retry-start checkpoint (12/10/2026): “kiểm tra lại th�
 Current UIUX-003 postmerge verification (supersedes the pending/STOP states above): [actual-main attempt 2](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/38195673818/attempts/2) **COMPLETED / SUCCESS**, all 34 steps on exact actual merge `6dd6a78adcdb35ba56c6cd9bb1dbac60ca0757f1`. Logs confirm Python **904 PASS/2 SKIP**, integrated browser **78 PASS**, isolated original UIUX compatibility **77 PASS**, compatibility/current demos **5+5 PASS**; signed pinned document tools/QA/reference, lint/typecheck/build/static/secret gates succeed. Actual [security artifact11741624680](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/38195673818/artifacts/11741624680), SHA256 `771a54515bc944210be76fd7544c4ba7aee6f6e02000ac91c355a41988f6f331`, downloaded/read: full/prod audits **0/0**, no dependency-tree problems, adapter **73 PASS/0 FAIL**. [Browser artifact11742365768](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/38195673818/artifacts/11742365768), public-reference11741709283 and synthetic-layout11741304971 are nonexpired and tied to exact merge. Attempt1 failure/incomplete artifacts remain history and are not success evidence. [Canonical postmerge PASS receipt](https://github.com/nshaokiet/ai-ip-description-generator/pull/104#issuecomment-6122899989). Fresh Codex Render post-CI reads retain both no/off and old deploy IDs/live63d5a612; no new deployment. **IMPLEMENTATION MERGED YES / POSTMERGE VERIFIED YES / GOVERNANCE CLOSED PENDING this factual synchronization's own exact-final-main CI, fresh Render and receipt/readback.** No new review, MCP state, deployment or next-task permission inferred.
 
 Control Center **0.3.88 → 0.3.89**, 15/10/2026, Codex. Record actual reviewed implementation merge/tree and test-count reconciliation with conditional postmerge/governance gates; preserve MEDIUM findings and historical receipt. Breaking change: **No — factual governance only**.
+
+## PRODUCT-001A reconciliation / PRODUCT-001B scope — 2026-11-05
+
+Human task “PRODUCT-001A — Review Reconciliation and Product Continuation”:
+USD 0, no merge/deploy. [Fixed-SHA reconciliation](../tasks/PRODUCT-001A-review-reconciliation.md)
+records PR #149 OPEN/DRAFT at `cf9097fda4688db08fd505e21fcbf3c0e53a9d5c`,
+tree `b75cf5d35bef555933dae6c42037b544525092e0`.
+**Technical PASS is external reviewer-reported**, confirmed/relayed by Human;
+no GitHub-native approval. Reviewer description: "Independent Senior Application
+Security & Systems QA Reviewer", Strict Read-Only, dated 2026-11-04.
+Exact Gemini model/profile/session and independently verified provenance are
+**NOT VERIFIED**; standing defaults do not fill those fields.
+Human identifies original upload `Pasted text(20261104-151926).txt` and recovered
+Markdown. Full body/bytes are inaccessible here, so **verbatim archival PENDING**;
+no reconstructed original or fabricated hash. Preserve original inaccuracies;
+record corrections separately.
+
+Source confirms **1800-second idle**, **7200-second absolute** C1 limits.
+No runtime change. Dependency source mapping retains actual **CRITICAL/HIGH**
+Next advisories and **MODERATE** nested minimatch globparts advisory, with
+mitigation/range/reachability recorded separately and no fresh audit counts
+invented. Earlier clean audits are historical, not this SHA's acceptance.
+[Hosted CI 41848393889](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/41848393889):
+**FAILED**; backend **1160 PASS / 2 SKIP**, MCP **SUCCESS**; layout-tool install
+failed on signed Ubuntu snapshot HTTP **503**, frontend/audit/browser skipped.
+Missing security artifact producer caused an additional upload failure; no
+new quota diagnosis. No retry, workflow/runtime/dependency change or gate waiver.
+
+Narrow separate infrastructure proposal: finite APT download retries and strict
+update errors in the existing installer, retaining exact snapshot/package pins,
+signature checks and QA gates. **Not applied/tested.**
+[PRODUCT-001B proposed scope](../tasks/PRODUCT-001B-trusted-local-review-presenter.md):
+trusted same-process terminal presenter reusing A custody/extraction/rendering;
+explicit complete review and separate incomplete-Claims acknowledgment, inert
+source display, private authority retained in host, no browser exposure.
+Planning only, not implementation/merge approval or A completion.
+Original-report archival, provenance and required CI/security acceptance remain
+open. Local tools failed; GitHub evidence was used. MCP **BLOCKED BY TOOL CAPABILITY**;
+no state/lease/transition fabricated.
+
+Control Center **0.3.95 → 0.3.96**, 2026-11-05, Codex: factual PRODUCT-001A review/CI reconciliation and proposed B scope; original history retained. Breaking change: No.

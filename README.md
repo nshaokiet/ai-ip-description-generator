@@ -26,11 +26,12 @@ Mọi đầu ra đều cần người dùng và chuyên gia sở hữu trí tu�
 ## Project status
 
 Tiến độ được đối chiếu ngày **21/10/2026**. Draft là công việc chưa được chấp nhận hoàn tất.
-PRODUCT-001A được cập nhật riêng ngày **04/11/2026** trên nhánh triển khai; chờ review và CI.
+PRODUCT-001A/001B được đối chiếu riêng ngày **05/11/2026** trên nhánh tài liệu; PR #149 vẫn OPEN/DRAFT, chưa merge.
 
 | Workstream | Status | Current focus |
 |---|---|---|
-| PRODUCT-001A | IN REVIEW — CANDIDATE | [Adapter offline synthetic nội bộ](docs/tasks/PRODUCT-001A-offline-synthetic-workflow.md): upload mới → custody → review đủ dữ liệu → bốn PDF/DOCX có manifest; chưa merge, chưa có UI v2 hoặc đánh giá AI thật. |
+| PRODUCT-001A | TECHNICAL PASS REPORTED / CI FAILED | [Đối chiếu review đúng SHA](docs/tasks/PRODUCT-001A-review-reconciliation.md): verdict bên ngoài do Human xác nhận; provenance NOT VERIFIED, chờ lưu nguyên văn báo cáo. Backend 1160 PASS/2 SKIP, MCP SUCCESS; layout install HTTP 503, frontend/audit/browser SKIPPED; security gates còn mở. |
+| PRODUCT-001B | PROPOSED SCOPE — PLANNING ONLY | [Trusted Local Review Presenter](docs/tasks/PRODUCT-001B-trusted-local-review-presenter.md): đề xuất presenter terminal cùng process, tái sử dụng PRODUCT-001A; chưa triển khai, không đưa adapter/token/revision secret ra browser. |
 | PREAPI-001 / C1 | BLOCKED | Mã quản lý nguồn đã merge; còn chờ postmerge CI và closeout. |
 | PREAPI-C2 | IN PROGRESS | [Draft specification REVISION-004](https://github.com/nshaokiet/ai-ip-description-generator/pull/146); PRODUCT-001A triển khai increment nội bộ riêng, chưa hoàn tất C2 pilot/presenter. |
 | PREAPI-D | IN PROGRESS | [Draft checker](https://github.com/nshaokiet/ai-ip-description-generator/pull/141) kiểm tra điều kiện provider offline; chưa merge, chưa xác minh quyền gọi mô hình. |
@@ -44,7 +45,7 @@ PRODUCT-001A được cập nhật riêng ngày **04/11/2026** trên nhánh tri�
 ## Next Steps
 
 1. Khôi phục khả năng lưu artifact, hoàn tất CI-V2-001 và xác minh postmerge C1.
-2. Review PRODUCT-001A trên SHA cố định; sau đó xác định phạm vi presenter/review UI v2 và admission cho pilot.
+2. Lưu nguyên văn báo cáo PRODUCT-001A đã khôi phục, xác minh provenance; xử lý CI snapshot và dependency riêng. Review phạm vi PRODUCT-001B presenter local tái sử dụng A; PR #149 vẫn Draft.
 3. Hoàn tất review, CI và quy trình chấp nhận các Draft PREAPI-D/E cùng hồ sơ governance liên quan.
 4. Lập kế hoạch triển khai riêng cho CI-V2-002/003; đặc tả không tự cấp quyền sửa CI.
 5. Chuẩn bị pilot có giới hạn chi phí sau khi provider, mô hình, dữ liệu và ngân sách được phê duyệt.
