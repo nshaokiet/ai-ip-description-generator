@@ -10,7 +10,7 @@
 | Document title | Gemini Review Log |
 | Project | AI Intellectual Property Description Generator |
 | Project deadline | 02/10/2026 |
-| Version | 0.3.63 |
+| Version | 0.3.64 |
 | Status | Active review log |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -3981,3 +3981,52 @@ REVIEW-0010.3.62->0.3.63,05/11/2026,Codex: append source-attributed original rep
 reconciliation and explicit corrections; preserve all earlier review history.
 Breaking change: No. Final candidate SHA/tree and applicable CI/re-review status
 are recorded in the post-commit PR handoff.
+
+
+## AIIP-INDEPENDENT-REVIEW-20261105 — provenance addenda closeout
+
+[Full closeout](../tasks/AIIP-INDEPENDENT-REVIEW-20261105-provenance-closeout.md)
+and [public-safe receipt](../qa/aiip-review-provenance-closeout-20261105.json)
+preserve exact source fingerprints, attribution, limitations and gate readback.
+Original reports and addenda remain unchanged locally; all4backup/source byte
+comparisons match. Individual session ID and raw personal paths remain private.
+
+### PR147 exact4c30d37 / treeb440f302
+
+Addendum5332bytes, SHA256
+`5c24de828be812aca133a99dc1797db7b28902bee893bf4dded193150e32cd8c`.
+Reviewer Gemini3.8 Flash High / Antigravity, active High profile, disclosed reused
+session with151 atTurn13, no implementation in this session, no tracked writes/
+commit/push/merge/deploy/approval-state change, STRICT READ-ONLY; Technical PASS
+reconfirmed on4c30d37d6ad73dede6ea8439fae897a86fffbdc0 only. INFO setup finding
+and previous factual/coverage corrections remain unchanged history.
+
+### PR151 exact00f3833 / treeeda62523
+
+Addendum5002bytes, SHA256
+`1a13948c9b617c3499a9935506a8b14aafe2ba4cf50be2c0be27aabb98989ea0`.
+Same actual model/profile and session reuse/no-implementation/read-only declarations;
+Documentary Technical PASS reconfirmed only for00f3833a7ca35a69bdcd90ef1b57524be9ebd0e2.
+It does not review31d9fce or any subsequent changed candidate. Addendum's rebase
+recommendation is superseded by Human's explicit normal-merge/no-force direction.
+CI42034588440 on31d9fce FAILED at installer503; mandatory security archive absent;
+skipped audit/frontend/build/browser are not PASS. Old41981992184 audit10 is a
+separate historical result, not fresh audit execution in42034588440.
+
+### Provenance disposition and authority
+
+**ACCEPTED as source-attested Workflow V1 procedural evidence.** Direct reviewer
+artifacts now provide the previously missing actual-runtime/profile/session/
+reuse/no-implementation declarations. Their cited runtime transcript was not
+present at the checked locations; Codex did not independently replay it or the
+entire tool history. No authenticated runtime identity, native approval, new
+Codex independent verdict or V2 separate-session streams claimed.
+
+Fresh147 hosted SUCCESS/security artifact/audits0/graph/scope/platform/Render
+checks support **READY FOR HUMAN MERGE DECISION**, while remaining Draft with
+no merge/deploy authority.151 remains Draft/BLOCKED; final changed-SHA CI/review
+and conditional main integration PENDING. CI503 plan only, no workflow/gate edits.
+
+REVIEW-0010.3.63->0.3.64,05/11/2026,Codex: append direct addendum provenance
+closeout and preserve previous pending snapshots/findings/source attribution.
+Breaking change: No. No Completed/MCP/approval transition fabricated.

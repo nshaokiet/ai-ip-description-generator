@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.104 |
+| Version | 0.3.105 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -20,6 +20,47 @@
 | Confidentiality level | Public-safe documentary projection; original internal records retained privately |
 
 ## RESUME-FOUNDATION-001 current baseline
+
+### Review closeout — 05/11/2026, latest checkpoint
+
+[Provenance closeout1.0.0](../tasks/AIIP-INDEPENDENT-REVIEW-20261105-provenance-closeout.md)
+and [safe receipt](../qa/aiip-review-provenance-closeout-20261105.json) supersede
+only the prior PENDING-addendum observations. Both addenda and originals match
+retained Antigravity source bytes. They declare Gemini3.8 Flash High/High profile,
+one disclosed reused reviewer session, no implementation of either target and
+STRICT READ-ONLY. **Provenance ACCEPTED as source-attested V1 procedural evidence**;
+no authenticated identity/native approval claimed. Cited runtime transcript was
+not present at checked locations; Codex did not independently replay its event.
+Originals/session identifier remain local and unchanged; earlier entries preserved.
+
+- **PR1474c30d37/treeb440f302: READY FOR HUMAN MERGE DECISION**, still OPEN/DRAFT.
+  Attributed exact-SHA Technical PASS reconfirmed; hosted41981410850 SUCCESS,
+  both checks; mandatory13394746788 digest/content valid, full/prod0 and73+2PASS.
+  Fresh audits0/valid graph, scope unchanged, main53c253be, mergeable/clean;
+  Render both autoDeploy=no/trigger=off/previews off. Human decision still needed;
+  no merge or mark-ready performed. Refresh all gates immediately before action.
+- **PR15131d9fce/tree869dd312: Draft/BLOCKED.** Actual42034588440 FAILURE at
+  installer Ubuntu snapshot HTTP503/exit100; mandatory security archive absent.
+  Backend1127PASS/2SKIP, MCP SUCCESS; frontend/audit/build/browser SKIPPED is not
+  PASS. Historical00f3833 audit10 remains separate (8MODERATE/1HIGH/1CRITICAL).
+  Its provenance-complete documentary PASS covers only00f3833, not31d9fce or
+  this closeout candidate. New fixed SHA/tree handoff is recorded after commit.
+- **PR150d88201a5 preserved OPEN/DRAFT**, unchanged. PR14443e07dfa remains
+  Draft/CONFLICTING; existing CI-V2 upload scope does not automatically approve
+  installer extension. [Bounded HTTP503 plan1.0.0](../tasks/CI-V2-001-document-layout-installer-recovery-plan.md)
+  prepared; no workflow/installer edit, pin fallback or gate waiver.
+
+Main remains53c253be. Only after an actual authorized147 merge and verified
+exact-main CI/security artifacts may normal main integration into151 proceed,
+preserving150/other-agent/shared history. If main CI fails503, record blocker and
+handle separately authorized CI remediation first. New integrated HEAD/tree,
+required CI and Gemini/Antigravity review remain PENDING; no future SHA/PASS is
+invented. Latest actual post-commit CI result belongs in the live PR handoff.
+MCP tools unavailable; registration/lease UNVERIFIED. No paid AI, merge or deploy.
+
+OPS-0010.3.104->0.3.105,05/11/2026,Codex: source-attributed addendum closeout,
+147 readiness for Human decision,151 bootstrap failure and bounded CI plan.
+Breaking change: No — documentary only. Earlier snapshots below are history.
 
 ### Independent review reconciliation — 05/11/2026, latest checkpoint
 
