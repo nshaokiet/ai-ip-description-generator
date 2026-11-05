@@ -1,5 +1,13 @@
 # MVP Processing Workflow
 
+> Current direction,05/11/2026: website Next.js + FastAPI, upload → source → draft
+> → browser Human review/edit → validate → four USPTO v2 artifacts. This is the
+> target, not a claim that B is implemented. Read [canonical checkpoint](operations/01_PROJECT_CONTROL_CENTER.md#resume-foundation-001-current-baseline),
+> [Human web delta](decisions/RESUME-FOUNDATION-001-web-direction.md) and [B proposal](tasks/PRODUCT-001B-trusted-local-review-presenter.md).
+> The v1 workflow below remains historical/compatible baseline; local/synthetic
+> does not choose a terminal product. MCP is development coordination. New browser
+> security/persistence/provider policy requires its own approval; foundation changes no runtime.
+
 ## 1. User Upload
 
 Accepted initial formats:

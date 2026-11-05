@@ -1,12 +1,21 @@
 # PREAPI-001 — Remaining zero-cost readiness plan
 
+> Current planning pointer05/11/2026: [foundation baseline](../operations/01_PROJECT_CONTROL_CENTER.md#resume-foundation-001-current-baseline)
+> and [dependency backlog/next task](RESUME-FOUNDATION-001.md) supersede the dated
+> current-state/next-action rows below. C1 is merged but closeout pending; C2R4
+> is PR146/spec-only; A is PR149/unmerged; B is a browser proposal. Original
+> rows remain the19/10 planning snapshot, not current registration or approval.
+
 | Field | Value |
 |---|---|
-| Version | 0.1.1 — Human-approved C1 design-policy update; planning Draft, not implementation authorization |
+| Version | 0.1.2 — current checkpoint pointer; historical0.1.1 plan preserved, not implementation authorization |
 | Date / baseline | 19/10/2026 / original C1 base `cdc879adedbb1c5d1945d2e5722d61df4959aebb`; governance PR #136 merged `c113f2e647d40f96ae7ec26275cdf9dfc0157ea0` |
 | Source | [PREAPI v0.1.3](PREAPI-001-zero-cost-readiness.md), [C1 contract candidate](PREAPI-001-C1-source-custody-contract.md), [EVAL-001](EVAL-001-semantic-quality-evaluation.md), repository source/tests |
 
 This plan distinguishes evidence already on main from proposals. `OFFLINE_READY` means a bounded synthetic path was executed without a paid provider. `SPECIFICATION_READY` means a reviewable contract exists, not that it is frozen or implemented. `IMPLEMENTATION_PENDING` means no authorized code result. `AWAITING_FUNDING` covers live provider evaluation. `LIVE_PROVIDER_VALIDATED` applies to **none** of these rows.
+
+0.1.1→0.1.2,05/11/2026,Codex,RESUME-FOUNDATION-001: route current state/backlog
+to canonical foundation checkpoint without rewriting the historical plan. Breaking change: No.
 
 | Task | Current state | Implemented | Tested / evidence | Blocker | Human approval needed | Next action |
 |---|---|---|---|---|---|---|
