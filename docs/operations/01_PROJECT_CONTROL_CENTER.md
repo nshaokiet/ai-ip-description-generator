@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.105 |
+| Version | 0.3.106 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -20,6 +20,49 @@
 | Confidentiality level | Public-safe documentary projection; original internal records retained privately |
 
 ## RESUME-FOUNDATION-001 current baseline
+
+### START-PRODUCT-001B-WEB-001 — gated website contract, 05/11/2026
+
+[Concrete contract0.1.0](../tasks/PRODUCT-001B-WEB-001.md) and
+[dated dependency/CI source receipt1.0.0](../qa/product-001b-web-001-foundation-20261105.json)
+record the new Human instruction. Verification, dependency reconciliation and
+contract/plan preparation are authorized; phase4 expressly requires Human
+security design, fixture admission and implementation-scope decisions first.
+
+Main is **478f7d30b6c89f7d4dc8cade2d8a9365b974ec75**, treeb440f302;147 MERGED.
+Exact-main42038735811 SUCCESS. Foundation151 **bc991c7ad2f42635b523ecff24daf77a3027fb93**,
+tree197f5919, normally merges e2f4b7b + main478f7d3.42041866712 attempt2 SUCCESS;
+mandatory13424296589 downloaded, ZIP digest matches, full/prod0/security73+2PASS.
+Attempt1 HTTP401 and older503 failures remain separate history. No current-bc991c7
+Gemini report found in checked backup/handoff; native reviews0. **Keep151 Draft;
+CI SUCCESS is not independent review PASS.**150d88201a5 remains untouched Draft.
+
+A/149cf9097fd and C2/14629daeb20 remain Draft/CONFLICTING with failed required CI.
+A facade/bound-review extension is not on main; standalone validate-before-render
+is not present in A. C2 architecture acceptance is specification-only, not browser/
+fixture/code permission. Existing C1/P2/v1 UI/demo can be reused but do not alone
+provide B's session-bound two-source/four-export journey. No146/149merge performed.
+
+B contract now proposes exact routes/DTO/errors, HTTPS/host pairing/HttpOnly
+session/CSRF/owner controls, source admission/limits, safe complete seven-record
+projection, narrow validated edit with invalidation, separate Human decisions,
+validate/render/download custody binding and exact four artifacts. File/module
+implementation plan and W01-W12 matrix are concrete; all new B tests NOT RUN.
+**Spec DRAFT/not frozen; D01-D07 Human decisions and fixture byte identities
+PENDING; runtime/auth/transport implementation BLOCKED.** No policy is activated.
+
+Own documentation branch is stacked on151bc991c7 to preserve its review target.
+Do not modify151 merely to update its status. After actual reviewed/authorized
+foundation merge, normal integrate/retarget planning branch and run required
+main-target exact-head CI/review. Existing CI filters PRs to main; any manual
+branch CI is separate validation, not substituted required PR CI. Final SHA/tree/
+PR/status live in the post-commit handoff. MCP tools unavailable; registration/
+lease UNVERIFIED. No paid AI, real research, deployment or app/CI/gate change.
+Resume: **RESUME-PRODUCT-001B-WEB-001**.
+
+OPS-0010.3.105->0.3.106,05/11/2026,Codex: new authorized gated B planning,
+fresh accepted-main/foundation evidence and concrete contract. Breaking change:
+No runtime change. Earlier foundation/147 snapshots below remain history.
 
 ### Review closeout — 05/11/2026, latest checkpoint
 
