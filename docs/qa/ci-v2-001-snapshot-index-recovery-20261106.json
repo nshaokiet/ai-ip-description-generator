@@ -3,11 +3,18 @@
   "date": "2026-11-06",
   "source_main": "417708d9154d86226504e69cc6587a3ca0a78c09",
   "failed_postmerge_run": 42177917762,
-  "failed_attempts": [1, 2],
+  "failed_attempts": [
+    1,
+    2
+  ],
   "failure_cause": "Signed pinned Ubuntu snapshot HTTP502/503; layout installer exit100; required security artifact missing",
   "scope": "installer, new pinned index helper, deterministic tests, task and QA receipts only",
   "local_validation": {
-    "helper_tests": {"passed": 19, "failed": 0, "skipped": 0},
+    "helper_tests": {
+      "passed": 20,
+      "failed": 0,
+      "skipped": 0
+    },
     "command": "python -m pytest tests/backend/test_p2_006_snapshot_index.py -q",
     "bash_syntax": "PASS",
     "python_compile": "PASS",
@@ -21,12 +28,20 @@
     "signed_sources": true,
     "apt_strict_errors": true,
     "max_update_attempts": 3,
-    "backoff_seconds": [2, 5],
+    "backoff_seconds": [
+      2,
+      5
+    ],
     "allowed_retries": "pinned snapshot HTTP502/503 index acquisition only",
     "live_fallback": false,
     "workflow_changed": false,
     "mandatory_security_artifact_unchanged": true
   },
-  "pending": ["final_sha_hosted_ci", "mandatory_artifact_digest_and_audit", "independent_gemini_review", "human_merge_decision"],
+  "pending": [
+    "final_sha_hosted_ci",
+    "mandatory_artifact_digest_and_audit",
+    "independent_gemini_review",
+    "human_merge_decision"
+  ],
   "status": "DRAFT_IMPLEMENTATION_UNREVIEWED_NOT_MERGE_ELIGIBLE"
 }
