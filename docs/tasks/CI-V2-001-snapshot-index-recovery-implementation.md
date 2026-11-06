@@ -18,7 +18,7 @@ Exact-main [postmerge CI #42177917762](https://github.com/nshaokiet/ai-ip-descri
 
 ## Validation and honest boundaries
 
-Deterministic local unit tests of mocked APT (no network/root/package install): **19 PASS**, covering first success, 502/503 recovery, mixed errors, exhausted retries, returncode0 with partial indexes, missing indexes, 404/signature/hash errors, invalid snapshot, script invariants. `bash -n` and Python compile PASS. Shellcheck unavailable locally; **NOT RUN**. These local tests do **not** demonstrate real signed Ubuntu package availability, layout QA, CI or security audit.
+Deterministic local unit tests of mocked APT (no network/root/package install): **20 PASS**, covering first success, 502/503 recovery, mixed errors, exhausted retries, returncode0 with partial indexes, missing indexes, 404/signature/hash errors, invalid snapshot, script invariants. `bash -n` and Python compile PASS. Shellcheck unavailable locally; **NOT RUN**. These local tests do **not** demonstrate real signed Ubuntu package availability, layout QA, CI or security audit.
 
 Required acceptance on final immutable candidate: current-main-target `pull_request` CI SUCCESS with real pinned Ubuntu install, document layout/reference validation, backend/MCP/browser gates and a present, independently verified mandatory DEP-001 ZIP and audit evidence. Follow with actual Gemini 3.8 Flash High / Antigravity STRICT READ-ONLY exact-SHA independent review, applicable governance gates and a separate Human merge decision. If upstream remains down, status **BLOCKED**, not PASS.
 
