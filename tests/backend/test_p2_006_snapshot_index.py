@@ -96,6 +96,16 @@ def test_persistent_transient_fails_after_three(tmp_path):
     assert len(calls) == 3 and delays == [2, 5]
 
 
+def test_strict_apt_e_summary_with_only_pinned_http503_is_retryable(tmp_path):
+    diagnostic = transient(503).replace("W: Failed to fetch", "E: Failed to fetch")
+    diagnostic = diagnostic.replace("W: Some index files failed to download.", module.INDEX_SUMMARY)
+    run, calls = fake_runner([(diagnostic, 100, False), ("", 0, True)])
+    delays = []
+    assert module.update_snapshot_indexes(apt_dir(tmp_path), SNAPSHOT, runner=run,
+                                          sleeper=delays.append).name == "lists-2"
+    assert len(calls) == 2 and delays == [2]
+
+
 def test_apt_exit_zero_but_partial_index_warning_must_retry(tmp_path):
     run, calls = fake_runner([(transient(502), 0, False), ("", 0, True)])
     assert module.update_snapshot_indexes(apt_dir(tmp_path), SNAPSHOT, runner=run,
