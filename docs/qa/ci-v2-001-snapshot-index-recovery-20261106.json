@@ -11,15 +11,28 @@
   "scope": "installer, new pinned index helper, deterministic tests, task and QA receipts only",
   "local_validation": {
     "helper_tests": {
-      "passed": 20,
+      "passed": 25,
       "failed": 0,
       "skipped": 0
     },
-    "command": "python -m pytest tests/backend/test_p2_006_snapshot_index.py -q",
-    "bash_syntax": "PASS",
-    "python_compile": "PASS",
-    "shellcheck": "NOT_RUN: unavailable",
-    "live_ubuntu_install": "NOT_RUN: requires hosted CI"
+    "existing_p2_environment_tests": {
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0
+    },
+    "existing_mocked_ci_artifact_maintenance_tests": {
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0
+    },
+    "command": "python -B -m pytest tests/backend/test_p2_006_snapshot_index.py tests/backend/test_p2_006_qa_environment.py -q -p no:cacheprovider --basetemp <isolated-temp> --junitxml <private-evidence>/FOCUSED_AFTER_FIX.xml",
+    "python": "Python 3.12.10",
+    "focused_log_sha256": "c58ac9f99c00c262bd7155e1cfe3e2147dbc52af2c7884c286b87b7b2e89c860",
+    "bash_syntax": "PASS Git for Windows Bash; syntax only, not Ubuntu package execution",
+    "python_compile": "PASS target Python3.12 in-memory compile, no tracked output",
+    "shellcheck": "NOT_RUN: executable not found in checked PATH",
+    "live_ubuntu_install": "PENDING new final-SHA hosted CI; previous live run stopped at external packageHTTP500",
+    "raw_red_green_logs": "Preserved privately; no failed result erased"
   },
   "invariants": {
     "ubuntu": "24.04/amd64",
@@ -38,10 +51,46 @@
     "mandatory_security_artifact_unchanged": true
   },
   "pending": [
-    "final_sha_hosted_ci",
-    "mandatory_artifact_digest_and_audit",
-    "independent_gemini_review",
+    "new_final_sha_hosted_ci",
+    "live_install_and_runtime_pins",
+    "full_P2_006_layout_reference_checks",
+    "mandatory_security_artifact_digest_and_audits",
+    "actual_independent_gemini_review_after_hosted_gates_pass",
     "human_merge_decision"
   ],
-  "status": "DRAFT_IMPLEMENTATION_UNREVIEWED_NOT_MERGE_ELIGIBLE"
+  "status": "LOCAL_FAIL_CLOSED_FIX_VALIDATED_HOSTED_AND_INDEPENDENT_REVIEW_PENDING",
+  "version": "1.0.1",
+  "autonomous_remediation_authority": "Human CI-V2-001 PR154 AUTONOMOUS DIAGNOSIS & REMEDIATION, 2026-11-06",
+  "prior_candidate_failure": {
+    "run": 42182826367,
+    "head": "d4df289ba8b0292d8f6fb32462a7a7d225ec9e47",
+    "attempt": 1,
+    "conclusion": "failure",
+    "index_phase": "Succeeded at attempt1/3; isolated signed pinned indexes used for package resolution",
+    "actual_failure": "apt-get install package acquisition HTTP500 for libuno-salhelpergcc3-3t64_24.2.7-0ubuntu0.24.04.7_amd64.deb",
+    "exit_code": 100,
+    "classification": "EXTERNAL_PACKAGE_ACQUISITION_HTTP500; not index retry classifier failure",
+    "source_lines": [
+      "2026-11-06T07:54:42.1768010Z [P2-006 pinned index attempt 1/3]",
+      "2026-11-06T07:58:52.8309579Z Err:36 https://snapshot.ubuntu.com/ubuntu/20261009T000000Z noble-updates/main amd64 libuno-salhelpergcc3-3t64 amd64 4:24.2.7-0ubuntu0.24.04.7",
+      "2026-11-06T07:58:52.8311651Z   500  Internal Server Error [server address omitted]",
+      "2026-11-06T07:58:52.8350570Z E: Failed to fetch https://snapshot.ubuntu.com/ubuntu/20261009T000000Z/pool/main/libr/libreoffice/libuno-salhelpergcc3-3t64_24.2.7-0ubuntu0.24.04.7_amd64.deb  500  Internal Server Error [server address omitted]",
+      "2026-11-06T07:58:52.8388513Z ##[error]Process completed with exit code 100."
+    ],
+    "backend_metrics": [
+      "2026-11-06T07:52:56.6771224Z 1180 passed, 2 skipped in 503.06s (0:08:23)"
+    ],
+    "security_artifact": "ABSENT because producer not reached; later archive fails if-no-files-found:error",
+    "uploaded_uiux_artifact": "13486857100 contains7 tracked before screenshots; not evidence of skipped browser execution",
+    "separate_discovered_defect": "APT rc0 + complete InRelease paths + explicit partial/stale-index summary was accepted; red regression reproduced2failures, now denied by minimal success guard",
+    "unallowed_scope_not_taken": "No package retry,HTTP500 retry,live fallback,pin/signature/workflow/gate change"
+  },
+  "separate_helper_defect": {
+    "reproduction": "rc0 with nonempty InRelease files and E/W partial/stale-index summary, without eligible fetch details",
+    "before_fix": "2 new regressions FAIL/23PASS; originals20unchanged",
+    "fix": "Never accept partial-index summary as success; existing eligible502/503retry classification unchanged",
+    "after_fix": "25helperPASS +4existing environmentPASS;0fail/error/skip",
+    "existing_assertions_preserved": true,
+    "new_boundary_cases": "UnrecognizedHTTP500 and package-poolHTTP502/503 are not index retries"
+  }
 }

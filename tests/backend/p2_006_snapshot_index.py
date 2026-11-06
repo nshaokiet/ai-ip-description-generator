@@ -90,11 +90,16 @@ def update_snapshot_indexes(
                        and _inrelease_path(lists, snapshot, suite).stat().st_size > 0
                        for suite in SUITES)
         has_fetch_errors = "Failed to fetch" in diagnostics
+        # InRelease files alone do not prove every component index was acquired.
+        # Never accept APT's partial/stale-index summary, even with exit status 0.
+        has_partial_index_summary = "some index files failed to download" in diagnostics.lower()
         has_integrity_error = any(marker.lower() in diagnostics.lower()
                                   for marker in BAD_SECURITY_MARKERS)
         has_other_error = any(line.startswith("E:") and "Failed to fetch" not in line and line.strip() != INDEX_SUMMARY
                               for line in diagnostics.splitlines())
-        if result.returncode == 0 and complete and not (has_fetch_errors or has_integrity_error or has_other_error):
+        if result.returncode == 0 and complete and not (
+            has_fetch_errors or has_partial_index_summary or has_integrity_error or has_other_error
+        ):
             return lists
         retryable = _transient_only(diagnostics, snapshot)
         if not retryable:

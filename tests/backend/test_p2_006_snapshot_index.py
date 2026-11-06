@@ -161,3 +161,30 @@ def test_installer_keeps_exact_pins_and_does_not_install_on_retry_failure():
     assert "verify_p2_006_qa_environment.py" in text
     assert "snapshot.ubuntu.com" in text
     assert "continue-on-error" not in text
+
+
+@pytest.mark.parametrize("summary", [
+    module.INDEX_SUMMARY,
+    module.INDEX_SUMMARY.replace("E:", "W:", 1),
+])
+def test_partial_index_summary_alone_cannot_pass_with_exit_zero_and_inrelease_files(tmp_path, summary):
+    run, calls = fake_runner([(summary, 0, True)])
+    delays = []
+    with pytest.raises(module.SnapshotIndexError, match="retryable=false"):
+        module.update_snapshot_indexes(apt_dir(tmp_path), SNAPSHOT, runner=run,
+                                       sleeper=delays.append)
+    assert len(calls) == 1 and delays == []
+
+
+@pytest.mark.parametrize("bad", [
+    transient(500),
+    f"E: Failed to fetch https://snapshot.ubuntu.com/ubuntu/{SNAPSHOT}/pool/main/example.deb  502 Bad Gateway",
+    f"E: Failed to fetch https://snapshot.ubuntu.com/ubuntu/{SNAPSHOT}/pool/main/example.deb  503 Service Unavailable",
+])
+def test_http500_or_package_acquisition_is_not_an_index_retry(tmp_path, bad):
+    run, calls = fake_runner([(bad, 100, True)])
+    delays = []
+    with pytest.raises(module.SnapshotIndexError, match="retryable=false"):
+        module.update_snapshot_indexes(apt_dir(tmp_path), SNAPSHOT, runner=run,
+                                       sleeper=delays.append)
+    assert len(calls) == 1 and delays == []
