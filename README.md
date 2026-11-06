@@ -40,7 +40,7 @@ Tiến độ được đối chiếu ngày **05/11/2026**. Đọc [checkpoint ca
 | README-REFRESH-001 | MERGED / CI DEBT | [PR #145](https://github.com/nshaokiet/ai-ip-description-generator/pull/145) đã merge vào `53c253be`; exact-main push CI attempt2 vẫn FAILURE, không suy thành accepted closeout. |
 | DEP-001-SR-20261024 | MERGED / EXACT-MAIN CI SUCCESS | #147 merged into478f7d3; main CI42038735811 SUCCESS. Broader governance/production acceptance remains separate. |
 | PRODUCT-001A | PENDING REVIEW PROVENANCE / CI | [PR #149](https://github.com/nshaokiet/ai-ip-description-generator/pull/149) OPEN/DRAFT; internal source-bound workflow, chưa trên main. Technical PASS do Human chuyển tiếp; model/session chưa xác minh; hosted CI fail QA HTTP503. [Report/corrections](docs/tasks/PRODUCT-001A-review-reconciliation.md). |
-| PRODUCT-001B | CONTRACT DRAFT / RUNTIME BLOCKED | [WEB-0010.1.0](docs/tasks/PRODUCT-001B-WEB-001.md) concretizes B0.2.0: DTO/security/export/module/test plan prepared; Human design/fixture/scope approvals and accepted dependencies pending. No runtime started. |
+| PRODUCT-001B | SPEC0.1.1 / RE-REVIEW PENDING / RUNTIME BLOCKED | [#152](https://github.com/nshaokiet/ai-ip-description-generator/pull/152): advisory Gemini4 Argon High REQUEST CHANGES (3HIGH/3MEDIUM/1LOW); [all7documentary fixes](docs/tasks/PRODUCT-001B-WEB-001-review-remediation.md) proposed. New default3.8review, D01-D07/BF/BP4/fixture/dependency approvals pending; not FROZEN. |
 | RESUME-FOUNDATION-001 | #151 CI SUCCESS / REVIEW PENDING | Main478f7d3 includes merged147. Foundation151bc991c7 has CI42041866712 attempt2 SUCCESS and artifact audit0/security73+2 verified; new exact-SHA Gemini review still pending. Keep Draft;150 preserved. |
 
 ## Next Steps

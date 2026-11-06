@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.106 |
+| Version | 0.3.107 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -20,6 +20,45 @@
 | Confidentiality level | Public-safe documentary projection; original internal records retained privately |
 
 ## RESUME-FOUNDATION-001 current baseline
+
+### PRODUCT-001B-WEB-001 — seven-finding remediation, 06/11/2026
+
+[Spec0.1.1](../tasks/PRODUCT-001B-WEB-001.md),
+[full seven-finding reconciliation](../tasks/PRODUCT-001B-WEB-001-review-remediation.md)
+and [public-safe receipt](../qa/product-001b-web-001-remediation-20261106.json)
+record Human's documentary REVIEW REMEDIATION instruction. Original report50927
+bytes/hash43646a9c...bb4a0de and source/backup identity verified, full226lines read;
+original unchanged local. Reported actual model **Gemini4 Argon High**, reused
+STRICT READ-ONLY session, differs from standing **Gemini3.8 Flash High**. Preserve
+technical **REQUEST CHANGES:3HIGH/3MEDIUM/1LOW**, advisory only; no retroactive
+model approval or new PASS. New default3.8final-SHA review remains PENDING.
+
+All7findings have explicit source/root cause/disposition/remediation/T01-T07 and
+unresolved D decisions.0.1.1 specifies parent-only prepare/worker/commit and native
+limit semantics, raw-source deletion vs retained-provenance lifecycle, all7actual
+document_id patterns/digest domains/derived-ID classification, bounded POST pairing,
+review→Claims→validate sequencing, app-services source-specific fixture runtime/
+admitted edit semantics, Next streaming/offlineTLS and actual frontend/e2e path.
+Report's count6 corrected to7 from executed existing pure P2 functions; original
+claim retained separately. No business schema/renderer/runtime code changed.
+
+Existing C1/P2 assembly/renderer regressions **53PASS**,1deprecation warning on
+Python3.12.10; these do not prove B worker/OS/IPC/TLS/browser feasibility. All B
+runtime acceptance remains NOT RUN. Manual42048919315 on old22d070c SUCCESS,
+both jobs; mandatory13427265002 digest/content verified, audit0. This historical
+workflow_dispatch is not new candidate CI or required main-target PR CI.
+
+Main478f7d3,151bc991c7,150d88201a5,14629daeb20,149cf9097fd preserved.151review
+still PENDING;146/149unaccepted/conflicting. BF-01..05/BP4-01..05 explicit and
+not falsely closed. **Spec DRAFT/not FROZEN/APPROVED; D01-D07/fixture bytes/hash/
+security/scope authority still pending, runtime BLOCKED.** Normal FF push only
+to152 after validation; final HEAD/tree and actual new CI in PR handoff. No raw
+report/session/private path publication, paid provider, merge/deploy or gate edit.
+MCP tools unavailable/lease UNVERIFIED. Earlier snapshots below remain history.
+Resume: **RESUME-PRODUCT-001B-WEB-001-REMEDIATION**.
+
+OPS-0010.3.106->0.3.107,06/11/2026,Codex: seven-finding documentary remediation
+and honest advisory/model/CI/freeze boundaries. Breaking change: No runtime change.
 
 ### START-PRODUCT-001B-WEB-001 — gated website contract, 05/11/2026
 
