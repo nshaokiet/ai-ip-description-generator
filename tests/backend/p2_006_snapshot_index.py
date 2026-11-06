@@ -16,6 +16,7 @@ from typing import Callable
 SNAPSHOT_RE = re.compile(r"^\d{8}T\d{6}Z$")
 SUITES = ("noble", "noble-updates", "noble-security")
 RETRY_DELAYS = (2, 5)
+INDEX_SUMMARY = "E: Some index files failed to download. They have been ignored, or old ones used instead."
 BAD_SECURITY_MARKERS = (
     "NO_PUBKEY", "BADSIG", "EXPKEYSIG", "REVKEYSIG", "Hash Sum mismatch",
     "is not signed", "does not have a Release file", "Clearsigned file isn't valid",
@@ -46,7 +47,7 @@ def _transient_only(diagnostics: str, snapshot: str) -> bool:
         return False
     # Do not retry a mixed permanent or unknown APT error, even when a 503 exists.
     for line in diagnostics.splitlines():
-        if line.startswith("E:") and "Failed to fetch" not in line:
+        if line.startswith("E:") and "Failed to fetch" not in line and line.strip() != INDEX_SUMMARY:
             return False
     return True
 
@@ -91,7 +92,7 @@ def update_snapshot_indexes(
         has_fetch_errors = "Failed to fetch" in diagnostics
         has_integrity_error = any(marker.lower() in diagnostics.lower()
                                   for marker in BAD_SECURITY_MARKERS)
-        has_other_error = any(line.startswith("E:") and "Failed to fetch" not in line
+        has_other_error = any(line.startswith("E:") and "Failed to fetch" not in line and line.strip() != INDEX_SUMMARY
                               for line in diagnostics.splitlines())
         if result.returncode == 0 and complete and not (has_fetch_errors or has_integrity_error or has_other_error):
             return lists
