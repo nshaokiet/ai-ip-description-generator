@@ -1,0 +1,2420 @@
+{
+  "version": "1.1.0",
+  "task_id": "RESUME-FOUNDATION-001",
+  "observed_at_utc": "2026-11-05T02:45:41.448734+00:00",
+  "timezone": "Asia/Saigon",
+  "authorization": {
+    "source": "Human direct foundation instruction and later explicit public-safe publication instruction, 2026-11-05",
+    "scope": "documentation, reconciliation and planning; push/Draft PR only after public-safe verification; no merge/deploy/security-gate change",
+    "foundation_source_sha256": "f605e05a18a206ea41a28791106976a1891a5d4ae812b4a01a3acc38f4c1a83f"
+  },
+  "repository": {
+    "full_name": "nshaokiet/ai-ip-description-generator",
+    "private": false,
+    "visibility": "public",
+    "default_branch": "main",
+    "archived": false
+  },
+  "code_base_sha": "53c253be874236c6f38a5333a6f7f3390de9f51e",
+  "code_base_tree": "6459c1cecb8a4e56f2cbbbeab2e9439a39bd1b6e",
+  "candidate_branch": "docs/resume-foundation-001-public-safe-20261105",
+  "candidate_identity": "Exact final HEAD/tree recorded after commit in fixed-SHA PR handoff; no self-reference",
+  "public_safe_projection": {
+    "raw_review_published": false,
+    "personal_paths_published": false,
+    "sensitive_operational_metadata_published": false,
+    "full_evidence_and_review": "retained unchanged privately; public summaries do not replace required source verification",
+    "internal_candidate_commit": "8154344c58f383538509a8c172eb10253a0fe9e0",
+    "internal_candidate_is_ancestor_of_public_branch": false
+  },
+  "protection": {
+    "branch_protected": false,
+    "protection_api": "404 Branch not protected",
+    "rulesets": [],
+    "checked_read_only": true
+  },
+  "pull_requests": [
+    {
+      "number": 140,
+      "title": "PREAPI-C2 — Draft synthetic adapter and review contract",
+      "state": "OPEN",
+      "isDraft": true,
+      "headRefOid": "0b46eea63679380cff0d93d2864f04238738a7fd",
+      "baseRefOid": "d7516d4322f828c5802ec6d9e5ef5f8dffa5721d",
+      "headRefName": "docs/preapi-c2-contract",
+      "baseRefName": "main",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "UNSTABLE",
+      "url": "https://github.com/nshaokiet/ai-ip-description-generator/pull/140",
+      "reviews": [],
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-21T04:48:22Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/39545978861/job/119044127721",
+          "name": "mcp-tests",
+          "startedAt": "2026-10-21T04:47:43Z",
+          "status": "COMPLETED",
+          "workflowName": "CI"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-21T04:54:15Z",
+          "conclusion": "FAILURE",
+          "detailsUrl": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/39545978861/job/119044127471",
+          "name": "build-and-test",
+          "startedAt": "2026-10-21T04:47:43Z",
+          "status": "COMPLETED",
+          "workflowName": "CI"
+        }
+      ],
+      "in_main_ancestry": false,
+      "runs": [
+        {
+          "id": 39545978861,
+          "head_sha": "0b46eea63679380cff0d93d2864f04238738a7fd",
+          "event": "pull_request",
+          "attempt": 1,
+          "status": "completed",
+          "conclusion": "failure",
+          "url": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/39545978861"
+        }
+      ],
+      "head_tree": "09667b5d2dbfd4803d23f6550f1832ec8732a2c1"
+    },
+    {
+      "number": 141,
+      "title": "PREAPI-D — Draft offline provider readiness preflight",
+      "state": "OPEN",
+      "isDraft": true,
+      "headRefOid": "91cfdeeb49f7ba341e7700ad967e2646940430fd",
+      "baseRefOid": "d7516d4322f828c5802ec6d9e5ef5f8dffa5721d",
+      "headRefName": "feat/preapi-d-offline-readiness",
+      "baseRefName": "main",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "UNSTABLE",
+      "url": "https://github.com/nshaokiet/ai-ip-description-generator/pull/141",
+      "reviews": [],
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-21T04:50:35Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/39546171580/job/119044739662",
+          "name": "mcp-tests",
+          "startedAt": "2026-10-21T04:49:55Z",
+          "status": "COMPLETED",
+          "workflowName": "CI"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-21T04:56:19Z",
+          "conclusion": "FAILURE",
+          "detailsUrl": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/39546171580/job/119044739840",
+          "name": "build-and-test",
+          "startedAt": "2026-10-21T04:49:54Z",
+          "status": "COMPLETED",
+          "workflowName": "CI"
+        }
+      ],
+      "in_main_ancestry": false,
+      "runs": [
+        {
+          "id": 39546171580,
+          "head_sha": "91cfdeeb49f7ba341e7700ad967e2646940430fd",
+          "event": "pull_request",
+          "attempt": 1,
+          "status": "completed",
+          "conclusion": "failure",
+          "url": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/39546171580"
+        }
+      ],
+      "head_tree": "6edeb8d598606b1c0108659f2f64e95aca86b364"
+    },
+    {
+      "number": 142,
+      "title": "PREAPI-E — Draft fixture-only evaluation readiness check",
+      "state": "OPEN",
+      "isDraft": true,
+      "headRefOid": "03f696b77b6cbbed3c03f584846653eae9f4b5c1",
+      "baseRefOid": "d7516d4322f828c5802ec6d9e5ef5f8dffa5721d",
+      "headRefName": "feat/preapi-e-fixture-evaluation",
+      "baseRefName": "main",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "UNSTABLE",
+      "url": "https://github.com/nshaokiet/ai-ip-description-generator/pull/142",
+      "reviews": [],
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-21T04:51:19Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/39546255007/job/119044997485",
+          "name": "mcp-tests",
+          "startedAt": "2026-10-21T04:50:49Z",
+          "status": "COMPLETED",
+          "workflowName": "CI"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-21T04:54:47Z",
+          "conclusion": "FAILURE",
+          "detailsUrl": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/39546255007/job/119044997242",
+          "name": "build-and-test",
+          "startedAt": "2026-10-21T04:50:49Z",
+          "status": "COMPLETED",
+          "workflowName": "CI"
+        }
+      ],
+      "in_main_ancestry": false,
+      "runs": [
+        {
+          "id": 39546255007,
+          "head_sha": "03f696b77b6cbbed3c03f584846653eae9f4b5c1",
+          "event": "pull_request",
+          "attempt": 1,
+          "status": "completed",
+          "conclusion": "failure",
+          "url": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/39546255007"
+        }
+      ],
+      "head_tree": "577399b55179590867533629e6e7a22d9f166fe1"
+    },
+    {
+      "number": 143,
+      "title": "docs: reconcile C1 postmerge failure and prepare C2/pilot decisions",
+      "state": "OPEN",
+      "isDraft": true,
+      "headRefOid": "df2eacba73ad8d0ce580e7ed83933af4f0484fe8",
+      "baseRefOid": "d7516d4322f828c5802ec6d9e5ef5f8dffa5721d",
+      "headRefName": "docs/preapi-001-readiness-reconciliation",
+      "baseRefName": "main",
+      "mergeable": "CONFLICTING",
+      "mergeStateStatus": "DIRTY",
+      "url": "https://github.com/nshaokiet/ai-ip-description-generator/pull/143",
+      "reviews": [],
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-21T06:57:38Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/39558639521/job/119084313253",
+          "name": "mcp-tests",
+          "startedAt": "2026-10-21T06:57:03Z",
+          "status": "COMPLETED",
+          "workflowName": "CI"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-21T07:04:26Z",
+          "conclusion": "FAILURE",
+          "detailsUrl": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/39558639521/job/119084313010",
+          "name": "build-and-test",
+          "startedAt": "2026-10-21T06:57:03Z",
+          "status": "COMPLETED",
+          "workflowName": "CI"
+        }
+      ],
+      "in_main_ancestry": false,
+      "runs": [
+        {
+          "id": 39558639521,
+          "head_sha": "df2eacba73ad8d0ce580e7ed83933af4f0484fe8",
+          "event": "pull_request",
+          "attempt": 1,
+          "status": "completed",
+          "conclusion": "failure",
+          "url": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/39558639521"
+        }
+      ],
+      "head_tree": "7c1bde7f7af84ad8e55c76c33e8ebf82af0e82e7"
+    },
+    {
+      "number": 144,
+      "title": "CI-V2-001: run all functional checks before evidence uploads",
+      "state": "OPEN",
+      "isDraft": true,
+      "headRefOid": "43e07dfa36b217066647af23f2dda2c6c715bd0c",
+      "baseRefOid": "7abc63e12e18a8027de1d4be4c71ad7aa182cb91",
+      "headRefName": "ci/ci-v2-001-workflow-hardening",
+      "baseRefName": "main",
+      "mergeable": "CONFLICTING",
+      "mergeStateStatus": "DIRTY",
+      "url": "https://github.com/nshaokiet/ai-ip-description-generator/pull/144",
+      "reviews": [],
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-21T11:56:17Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/39595590479/job/119206965497",
+          "name": "mcp-tests",
+          "startedAt": "2026-10-21T11:55:39Z",
+          "status": "COMPLETED",
+          "workflowName": "CI"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-21T12:11:05Z",
+          "conclusion": "FAILURE",
+          "detailsUrl": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/39595590479/job/119206965430",
+          "name": "build-and-test",
+          "startedAt": "2026-10-21T11:55:39Z",
+          "status": "COMPLETED",
+          "workflowName": "CI"
+        }
+      ],
+      "in_main_ancestry": false,
+      "runs": [
+        {
+          "id": 39595590479,
+          "head_sha": "43e07dfa36b217066647af23f2dda2c6c715bd0c",
+          "event": "pull_request",
+          "attempt": 1,
+          "status": "completed",
+          "conclusion": "failure",
+          "url": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/39595590479"
+        }
+      ],
+      "head_tree": "b5f8bff51503445694047de753ec69b8f0e8a055"
+    },
+    {
+      "number": 145,
+      "title": "docs: refresh project README with Vietnamese descriptions",
+      "state": "MERGED",
+      "isDraft": false,
+      "headRefOid": "2c6d622f05ec27d128589c051685d9e4880b1462",
+      "baseRefOid": "7abc63e12e18a8027de1d4be4c71ad7aa182cb91",
+      "headRefName": "docs/readme-professional-refresh",
+      "baseRefName": "main",
+      "mergeable": "UNKNOWN",
+      "mergeStateStatus": "UNKNOWN",
+      "url": "https://github.com/nshaokiet/ai-ip-description-generator/pull/145",
+      "reviews": [],
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-21T12:35:33Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/39600737300/job/119224278259",
+          "name": "mcp-tests",
+          "startedAt": "2026-10-21T12:34:55Z",
+          "status": "COMPLETED",
+          "workflowName": "CI"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-21T12:40:41Z",
+          "conclusion": "FAILURE",
+          "detailsUrl": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/39600737300/job/119224278542",
+          "name": "build-and-test",
+          "startedAt": "2026-10-21T12:34:55Z",
+          "status": "COMPLETED",
+          "workflowName": "CI"
+        }
+      ],
+      "in_main_ancestry": true,
+      "runs": [
+        {
+          "id": 39600737300,
+          "head_sha": "2c6d622f05ec27d128589c051685d9e4880b1462",
+          "event": "pull_request",
+          "attempt": 1,
+          "status": "completed",
+          "conclusion": "failure",
+          "url": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/39600737300"
+        }
+      ],
+      "head_tree": "6459c1cecb8a4e56f2cbbbeab2e9439a39bd1b6e"
+    },
+    {
+      "number": 146,
+      "title": "docs: integrate Human-approved PREAPI-C2 REVISION-004 specification",
+      "state": "OPEN",
+      "isDraft": true,
+      "headRefOid": "29daeb208f7736a448297f699e674192c124c7da",
+      "baseRefOid": "53c253be874236c6f38a5333a6f7f3390de9f51e",
+      "headRefName": "docs/preapi-c2-revision-004-specification",
+      "baseRefName": "main",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "UNSTABLE",
+      "url": "https://github.com/nshaokiet/ai-ip-description-generator/pull/146",
+      "reviews": [],
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-24T08:38:49Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/40078806412/job/120827841616",
+          "name": "mcp-tests",
+          "startedAt": "2026-10-24T08:38:11Z",
+          "status": "COMPLETED",
+          "workflowName": "CI"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-24T08:44:33Z",
+          "conclusion": "FAILURE",
+          "detailsUrl": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/40078806412/job/120827841406",
+          "name": "build-and-test",
+          "startedAt": "2026-10-24T08:38:12Z",
+          "status": "COMPLETED",
+          "workflowName": "CI"
+        }
+      ],
+      "in_main_ancestry": false,
+      "runs": [
+        {
+          "id": 40078806412,
+          "head_sha": "29daeb208f7736a448297f699e674192c124c7da",
+          "event": "pull_request",
+          "attempt": 1,
+          "status": "completed",
+          "conclusion": "failure",
+          "url": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/40078806412"
+        }
+      ],
+      "head_tree": "d1f8880dad44363db4f612d76b9d709435f6089c"
+    },
+    {
+      "number": 147,
+      "title": "security: patch Next and Zod audit vulnerabilities",
+      "state": "OPEN",
+      "isDraft": true,
+      "headRefOid": "c50be576b39acd2eac9da096efd11060545463d1",
+      "baseRefOid": "53c253be874236c6f38a5333a6f7f3390de9f51e",
+      "headRefName": "security/dep-001-audit-remediation-20261024",
+      "baseRefName": "main",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "UNSTABLE",
+      "url": "https://github.com/nshaokiet/ai-ip-description-generator/pull/147",
+      "reviews": [],
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-24T09:24:52Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/40081813108/job/120836747547",
+          "name": "mcp-tests",
+          "startedAt": "2026-10-24T09:24:20Z",
+          "status": "COMPLETED",
+          "workflowName": "CI"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-10-24T09:30:13Z",
+          "conclusion": "FAILURE",
+          "detailsUrl": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/40081813108/job/120836747750",
+          "name": "build-and-test",
+          "startedAt": "2026-10-24T09:24:20Z",
+          "status": "COMPLETED",
+          "workflowName": "CI"
+        }
+      ],
+      "in_main_ancestry": false,
+      "runs": [
+        {
+          "id": 40081813108,
+          "head_sha": "c50be576b39acd2eac9da096efd11060545463d1",
+          "event": "pull_request",
+          "attempt": 1,
+          "status": "completed",
+          "conclusion": "failure",
+          "url": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/40081813108"
+        }
+      ],
+      "head_tree": "7dfcba0f5356c5eaf12aa0c3af6e9c650b0b5504"
+    },
+    {
+      "number": 148,
+      "title": "test(ci): docs-only PR to verify Actions after storage reset",
+      "state": "OPEN",
+      "isDraft": true,
+      "headRefOid": "c868475d8ae3e6ee3dafcd21f27e6cf1cfaf4344",
+      "baseRefOid": "53c253be874236c6f38a5333a6f7f3390de9f51e",
+      "headRefName": "test/ci-smoke-public-20261104",
+      "baseRefName": "main",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "UNSTABLE",
+      "url": "https://github.com/nshaokiet/ai-ip-description-generator/pull/148",
+      "reviews": [],
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-11-04T03:57:19Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/41770184393/job/126377799033",
+          "name": "mcp-tests",
+          "startedAt": "2026-11-04T03:56:53Z",
+          "status": "COMPLETED",
+          "workflowName": "CI"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-11-04T04:03:56Z",
+          "conclusion": "FAILURE",
+          "detailsUrl": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/41770184393/job/126377798716",
+          "name": "build-and-test",
+          "startedAt": "2026-11-04T03:56:52Z",
+          "status": "COMPLETED",
+          "workflowName": "CI"
+        }
+      ],
+      "in_main_ancestry": false,
+      "runs": [
+        {
+          "id": 41770184393,
+          "head_sha": "c868475d8ae3e6ee3dafcd21f27e6cf1cfaf4344",
+          "event": "pull_request",
+          "attempt": 1,
+          "status": "completed",
+          "conclusion": "failure",
+          "url": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/41770184393"
+        }
+      ],
+      "head_tree": "64d2b374a2cb53ced4795cc5ed97c47aa312089d"
+    },
+    {
+      "number": 149,
+      "title": "PRODUCT-001A: integrate offline synthetic upload, review and USPTO exports",
+      "state": "OPEN",
+      "isDraft": true,
+      "headRefOid": "cf9097fda4688db08fd505e21fcbf3c0e53a9d5c",
+      "baseRefOid": "53c253be874236c6f38a5333a6f7f3390de9f51e",
+      "headRefName": "feat/product-001a-offline-synthetic-20261104",
+      "baseRefName": "main",
+      "mergeable": "MERGEABLE",
+      "mergeStateStatus": "UNSTABLE",
+      "url": "https://github.com/nshaokiet/ai-ip-description-generator/pull/149",
+      "reviews": [],
+      "statusCheckRollup": [
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-11-04T14:31:47Z",
+          "conclusion": "SUCCESS",
+          "detailsUrl": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/41848393889/job/126637829472",
+          "name": "mcp-tests",
+          "startedAt": "2026-11-04T14:31:26Z",
+          "status": "COMPLETED",
+          "workflowName": "CI"
+        },
+        {
+          "__typename": "CheckRun",
+          "completedAt": "2026-11-04T14:39:54Z",
+          "conclusion": "FAILURE",
+          "detailsUrl": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/41848393889/job/126637829943",
+          "name": "build-and-test",
+          "startedAt": "2026-11-04T14:31:26Z",
+          "status": "COMPLETED",
+          "workflowName": "CI"
+        }
+      ],
+      "in_main_ancestry": false,
+      "runs": [
+        {
+          "id": 41848393889,
+          "head_sha": "cf9097fda4688db08fd505e21fcbf3c0e53a9d5c",
+          "event": "pull_request",
+          "attempt": 1,
+          "status": "completed",
+          "conclusion": "failure",
+          "url": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/41848393889"
+        }
+      ],
+      "head_tree": "b75cf5d35bef555933dae6c42037b544525092e0"
+    }
+  ],
+  "workflow_runs": [
+    {
+      "id": 39545978861,
+      "name": "CI",
+      "head_sha": "0b46eea63679380cff0d93d2864f04238738a7fd",
+      "event": "pull_request",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/39545978861",
+      "updated_at": "2026-10-21T04:54:16Z",
+      "failed_steps": [
+        {
+          "job": "build-and-test",
+          "step": "Archive DEP-001 security evidence"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Archive synthetic UIUX browser evidence"
+        }
+      ],
+      "skipped_steps": [
+        {
+          "job": "build-and-test",
+          "step": "Archive public reference calibration (QA only)"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Archive synthetic renderer layout QA"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Typecheck frontend"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Build frontend"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Install Playwright Chromium"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Run synthetic browser E2E"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Checkout fixed UIUX-003 compatibility source"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Verify isolated fixed UIUX-003 compatibility without changing PR 104"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Build Render static demo export"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Verify static demo output contains no provider secret markers"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Run Render synthetic demo browser E2E"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Post Run actions/setup-node@v7"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Post Run actions/setup-python@v7"
+        }
+      ],
+      "artifacts": [],
+      "log_source": "existing public GitHub Actions job logs; raw downloaded copies retained privately"
+    },
+    {
+      "id": 39546171580,
+      "name": "CI",
+      "head_sha": "91cfdeeb49f7ba341e7700ad967e2646940430fd",
+      "event": "pull_request",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/39546171580",
+      "updated_at": "2026-10-21T04:56:19Z",
+      "failed_steps": [
+        {
+          "job": "build-and-test",
+          "step": "Archive DEP-001 security evidence"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Archive synthetic UIUX browser evidence"
+        }
+      ],
+      "skipped_steps": [
+        {
+          "job": "build-and-test",
+          "step": "Archive public reference calibration (QA only)"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Archive synthetic renderer layout QA"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Typecheck frontend"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Build frontend"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Install Playwright Chromium"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Run synthetic browser E2E"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Checkout fixed UIUX-003 compatibility source"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Verify isolated fixed UIUX-003 compatibility without changing PR 104"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Build Render static demo export"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Verify static demo output contains no provider secret markers"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Run Render synthetic demo browser E2E"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Post Run actions/setup-node@v7"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Post Run actions/setup-python@v7"
+        }
+      ],
+      "artifacts": [],
+      "log_source": "existing public GitHub Actions job logs; raw downloaded copies retained privately"
+    },
+    {
+      "id": 39546255007,
+      "name": "CI",
+      "head_sha": "03f696b77b6cbbed3c03f584846653eae9f4b5c1",
+      "event": "pull_request",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/39546255007",
+      "updated_at": "2026-10-21T04:54:48Z",
+      "failed_steps": [
+        {
+          "job": "build-and-test",
+          "step": "Archive DEP-001 security evidence"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Archive synthetic UIUX browser evidence"
+        }
+      ],
+      "skipped_steps": [
+        {
+          "job": "build-and-test",
+          "step": "Archive public reference calibration (QA only)"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Archive synthetic renderer layout QA"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Typecheck frontend"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Build frontend"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Install Playwright Chromium"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Run synthetic browser E2E"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Checkout fixed UIUX-003 compatibility source"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Verify isolated fixed UIUX-003 compatibility without changing PR 104"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Build Render static demo export"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Verify static demo output contains no provider secret markers"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Run Render synthetic demo browser E2E"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Post Run actions/setup-node@v7"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Post Run actions/setup-python@v7"
+        }
+      ],
+      "artifacts": [],
+      "log_source": "existing public GitHub Actions job logs; raw downloaded copies retained privately"
+    },
+    {
+      "id": 39555439292,
+      "name": "CI",
+      "head_sha": "7abc63e12e18a8027de1d4be4c71ad7aa182cb91",
+      "event": "push",
+      "attempt": 2,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/39555439292",
+      "updated_at": "2026-10-21T07:44:08Z",
+      "failed_steps": [
+        {
+          "job": "build-and-test",
+          "step": "Archive DEP-001 security evidence"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Archive synthetic UIUX browser evidence"
+        }
+      ],
+      "skipped_steps": [
+        {
+          "job": "build-and-test",
+          "step": "Archive public reference calibration (QA only)"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Archive synthetic renderer layout QA"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Typecheck frontend"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Build frontend"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Install Playwright Chromium"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Run synthetic browser E2E"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Checkout fixed UIUX-003 compatibility source"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Verify isolated fixed UIUX-003 compatibility without changing PR 104"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Build Render static demo export"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Verify static demo output contains no provider secret markers"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Run Render synthetic demo browser E2E"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Post Run actions/setup-node@v7"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Post Run actions/setup-python@v7"
+        }
+      ],
+      "artifacts": [],
+      "log_source": "existing public GitHub Actions job logs; raw downloaded copies retained privately"
+    },
+    {
+      "id": 39558639521,
+      "name": "CI",
+      "head_sha": "df2eacba73ad8d0ce580e7ed83933af4f0484fe8",
+      "event": "pull_request",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/39558639521",
+      "updated_at": "2026-10-21T07:04:27Z",
+      "failed_steps": [
+        {
+          "job": "build-and-test",
+          "step": "Archive DEP-001 security evidence"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Archive synthetic UIUX browser evidence"
+        }
+      ],
+      "skipped_steps": [
+        {
+          "job": "build-and-test",
+          "step": "Archive public reference calibration (QA only)"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Archive synthetic renderer layout QA"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Typecheck frontend"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Build frontend"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Install Playwright Chromium"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Run synthetic browser E2E"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Checkout fixed UIUX-003 compatibility source"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Verify isolated fixed UIUX-003 compatibility without changing PR 104"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Build Render static demo export"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Verify static demo output contains no provider secret markers"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Run Render synthetic demo browser E2E"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Post Run actions/setup-node@v7"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Post Run actions/setup-python@v7"
+        }
+      ],
+      "artifacts": [],
+      "log_source": "existing public GitHub Actions job logs; raw downloaded copies retained privately"
+    },
+    {
+      "id": 39595590479,
+      "name": "CI",
+      "head_sha": "43e07dfa36b217066647af23f2dda2c6c715bd0c",
+      "event": "pull_request",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/39595590479",
+      "updated_at": "2026-10-21T12:11:06Z",
+      "failed_steps": [
+        {
+          "job": "build-and-test",
+          "step": "Archive DEP-001 security evidence"
+        }
+      ],
+      "skipped_steps": [
+        {
+          "job": "build-and-test",
+          "step": "Archive public reference calibration (QA only)"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Archive synthetic renderer layout QA"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Archive synthetic UIUX browser evidence"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Archive isolated UIUX-003 compatibility results"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Post Run actions/setup-node@v7"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Post Run actions/setup-python@v7"
+        }
+      ],
+      "artifacts": [],
+      "log_source": "existing public GitHub Actions job logs; raw downloaded copies retained privately"
+    },
+    {
+      "id": 39600737300,
+      "name": "CI",
+      "head_sha": "2c6d622f05ec27d128589c051685d9e4880b1462",
+      "event": "pull_request",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/39600737300",
+      "updated_at": "2026-10-21T12:40:42Z",
+      "failed_steps": [
+        {
+          "job": "build-and-test",
+          "step": "Install offline document layout QA tools"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Archive DEP-001 security evidence"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Archive synthetic UIUX browser evidence"
+        }
+      ],
+      "skipped_steps": [
+        {
+          "job": "build-and-test",
+          "step": "Validate synthetic editable DOCX layout using headless LibreOffice"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Reproduce both public patent reference measurements"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Run actions/setup-node@v7"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Show Node versions"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Install frontend dependencies"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Lint frontend"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Verify DEP-001 full and production security graphs"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Typecheck frontend"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Build frontend"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Install Playwright Chromium"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Run synthetic browser E2E"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Checkout fixed UIUX-003 compatibility source"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Verify isolated fixed UIUX-003 compatibility without changing PR 104"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Build Render static demo export"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Verify static demo output contains no provider secret markers"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Run Render synthetic demo browser E2E"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Post Run actions/setup-python@v7"
+        }
+      ],
+      "artifacts": [],
+      "log_source": "existing public GitHub Actions job logs; raw downloaded copies retained privately"
+    },
+    {
+      "id": 39602584975,
+      "name": "CI",
+      "head_sha": "53c253be874236c6f38a5333a6f7f3390de9f51e",
+      "event": "push",
+      "attempt": 2,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/39602584975",
+      "updated_at": "2026-10-22T01:57:59Z",
+      "failed_steps": [
+        {
+          "job": "build-and-test",
+          "step": "Archive DEP-001 security evidence"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Archive synthetic UIUX browser evidence"
+        }
+      ],
+      "skipped_steps": [
+        {
+          "job": "build-and-test",
+          "step": "Archive public reference calibration (QA only)"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Archive synthetic renderer layout QA"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Typecheck frontend"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Build frontend"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Install Playwright Chromium"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Run synthetic browser E2E"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Checkout fixed UIUX-003 compatibility source"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Verify isolated fixed UIUX-003 compatibility without changing PR 104"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Build Render static demo export"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Verify static demo output contains no provider secret markers"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Run Render synthetic demo browser E2E"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Post Run actions/setup-node@v7"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Post Run actions/setup-python@v7"
+        }
+      ],
+      "artifacts": [],
+      "log_source": "existing public GitHub Actions job logs; raw downloaded copies retained privately"
+    },
+    {
+      "id": 39709994119,
+      "name": "QA artifact cleanup",
+      "head_sha": "53c253be874236c6f38a5333a6f7f3390de9f51e",
+      "event": "workflow_dispatch",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/39709994119",
+      "updated_at": "2026-10-22T02:11:45Z",
+      "failed_steps": [],
+      "skipped_steps": [],
+      "artifacts": [],
+      "log_source": "existing public GitHub Actions job logs; raw downloaded copies retained privately"
+    },
+    {
+      "id": 40078806412,
+      "name": "CI",
+      "head_sha": "29daeb208f7736a448297f699e674192c124c7da",
+      "event": "pull_request",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/40078806412",
+      "updated_at": "2026-10-24T08:44:33Z",
+      "failed_steps": [
+        {
+          "job": "build-and-test",
+          "step": "Verify DEP-001 full and production security graphs"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Archive DEP-001 security evidence"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Archive synthetic UIUX browser evidence"
+        }
+      ],
+      "skipped_steps": [
+        {
+          "job": "build-and-test",
+          "step": "Archive public reference calibration (QA only)"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Archive synthetic renderer layout QA"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Typecheck frontend"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Build frontend"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Install Playwright Chromium"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Run synthetic browser E2E"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Checkout fixed UIUX-003 compatibility source"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Verify isolated fixed UIUX-003 compatibility without changing PR 104"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Build Render static demo export"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Verify static demo output contains no provider secret markers"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Run Render synthetic demo browser E2E"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Post Run actions/setup-node@v7"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Post Run actions/setup-python@v7"
+        }
+      ],
+      "artifacts": [],
+      "log_source": "existing public GitHub Actions job logs; raw downloaded copies retained privately"
+    },
+    {
+      "id": 40081813108,
+      "name": "CI",
+      "head_sha": "c50be576b39acd2eac9da096efd11060545463d1",
+      "event": "pull_request",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/40081813108",
+      "updated_at": "2026-10-24T09:30:14Z",
+      "failed_steps": [
+        {
+          "job": "build-and-test",
+          "step": "Archive DEP-001 security evidence"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Archive synthetic UIUX browser evidence"
+        }
+      ],
+      "skipped_steps": [
+        {
+          "job": "build-and-test",
+          "step": "Archive public reference calibration (QA only)"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Archive synthetic renderer layout QA"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Typecheck frontend"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Build frontend"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Install Playwright Chromium"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Run synthetic browser E2E"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Checkout fixed UIUX-003 compatibility source"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Verify isolated fixed UIUX-003 compatibility without changing PR 104"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Build Render static demo export"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Verify static demo output contains no provider secret markers"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Run Render synthetic demo browser E2E"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Post Run actions/setup-node@v7"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Post Run actions/setup-python@v7"
+        }
+      ],
+      "artifacts": [],
+      "log_source": "existing public GitHub Actions job logs; raw downloaded copies retained privately"
+    },
+    {
+      "id": 41770184393,
+      "name": "CI",
+      "head_sha": "c868475d8ae3e6ee3dafcd21f27e6cf1cfaf4344",
+      "event": "pull_request",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/41770184393",
+      "updated_at": "2026-11-04T04:03:57Z",
+      "failed_steps": [
+        {
+          "job": "build-and-test",
+          "step": "Verify DEP-001 full and production security graphs"
+        }
+      ],
+      "skipped_steps": [
+        {
+          "job": "build-and-test",
+          "step": "Archive public reference calibration (QA only)"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Archive synthetic renderer layout QA"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Typecheck frontend"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Build frontend"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Install Playwright Chromium"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Run synthetic browser E2E"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Checkout fixed UIUX-003 compatibility source"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Verify isolated fixed UIUX-003 compatibility without changing PR 104"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Build Render static demo export"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Verify static demo output contains no provider secret markers"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Run Render synthetic demo browser E2E"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Post Run actions/setup-node@v7"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Post Run actions/setup-python@v7"
+        }
+      ],
+      "artifacts": [
+        {
+          "id": 13294802014,
+          "name": "dep-001-security",
+          "size_in_bytes": 1722,
+          "digest": "sha256:ea42319cc2d11b5bd8718dcc60f99a6c6a33a033b9b66c18a87b6b606df9b188",
+          "expired": false,
+          "created_at": "2026-11-04T04:03:52Z"
+        },
+        {
+          "id": 13294368979,
+          "name": "uiux-003-synthetic-browser-qa",
+          "size_in_bytes": 1381492,
+          "digest": "sha256:dfcfdc1d2fc999fe4fc8b0fc7f12cabcee5c02aac4ffaea685704d9d548c9519",
+          "expired": false,
+          "created_at": "2026-11-04T04:03:54Z"
+        }
+      ],
+      "log_source": "existing public GitHub Actions job logs; raw downloaded copies retained privately"
+    },
+    {
+      "id": 41848393889,
+      "name": "CI",
+      "head_sha": "cf9097fda4688db08fd505e21fcbf3c0e53a9d5c",
+      "event": "pull_request",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/41848393889",
+      "updated_at": "2026-11-04T14:39:55Z",
+      "failed_steps": [
+        {
+          "job": "build-and-test",
+          "step": "Install offline document layout QA tools"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Archive DEP-001 security evidence"
+        }
+      ],
+      "skipped_steps": [
+        {
+          "job": "build-and-test",
+          "step": "Validate synthetic editable DOCX layout using headless LibreOffice"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Reproduce both public patent reference measurements"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Run actions/setup-node@v7"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Show Node versions"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Install frontend dependencies"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Lint frontend"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Verify DEP-001 full and production security graphs"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Typecheck frontend"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Build frontend"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Install Playwright Chromium"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Run synthetic browser E2E"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Checkout fixed UIUX-003 compatibility source"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Verify isolated fixed UIUX-003 compatibility without changing PR 104"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Build Render static demo export"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Verify static demo output contains no provider secret markers"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Run Render synthetic demo browser E2E"
+        },
+        {
+          "job": "build-and-test",
+          "step": "Post Run actions/setup-python@v7"
+        }
+      ],
+      "artifacts": [
+        {
+          "id": 13334790744,
+          "name": "uiux-003-synthetic-browser-qa",
+          "size_in_bytes": 1381492,
+          "digest": "sha256:2d07028ac4ab807bb03d6ecb3df333d7b81d8bf1002e663e691cc93304ea9458",
+          "expired": false,
+          "created_at": "2026-11-04T14:39:52Z"
+        }
+      ],
+      "log_source": "existing public GitHub Actions job logs; raw downloaded copies retained privately"
+    }
+  ],
+  "audits": [
+    {
+      "target": "frontend-main",
+      "sha": "53c253be874236c6f38a5333a6f7f3390de9f51e",
+      "scope": "full",
+      "exit_code": 1,
+      "lock_sha256": "a24199699e969e4822da326b19f983cef2606bafc3ab4745852bcd7f303acd9d",
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 8,
+        "high": 1,
+        "critical": 1,
+        "total": 10
+      },
+      "error": null,
+      "packages": [
+        {
+          "name": "@typescript-eslint/eslint-plugin",
+          "severity": "moderate",
+          "nodes": [
+            "node_modules/eslint-config-next/node_modules/typescript-eslint/node_modules/@typescript-eslint/eslint-plugin"
+          ],
+          "via": [
+            "@typescript-eslint/parser",
+            "@typescript-eslint/type-utils",
+            "@typescript-eslint/utils"
+          ],
+          "locked_versions": {
+            "node_modules/eslint-config-next/node_modules/typescript-eslint/node_modules/@typescript-eslint/eslint-plugin": "8.70.1"
+          },
+          "reachability": "NOT_VERIFIED; affected locked graph, not demonstrated exploit"
+        },
+        {
+          "name": "@typescript-eslint/parser",
+          "severity": "moderate",
+          "nodes": [
+            "node_modules/eslint-config-next/node_modules/typescript-eslint/node_modules/@typescript-eslint/parser"
+          ],
+          "via": [
+            "@typescript-eslint/typescript-estree"
+          ],
+          "locked_versions": {
+            "node_modules/eslint-config-next/node_modules/typescript-eslint/node_modules/@typescript-eslint/parser": "8.70.1"
+          },
+          "reachability": "NOT_VERIFIED; affected locked graph, not demonstrated exploit"
+        },
+        {
+          "name": "@typescript-eslint/type-utils",
+          "severity": "moderate",
+          "nodes": [
+            "node_modules/eslint-config-next/node_modules/typescript-eslint/node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/type-utils"
+          ],
+          "via": [
+            "@typescript-eslint/typescript-estree",
+            "@typescript-eslint/utils"
+          ],
+          "locked_versions": {
+            "node_modules/eslint-config-next/node_modules/typescript-eslint/node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/type-utils": "8.70.1"
+          },
+          "reachability": "NOT_VERIFIED; affected locked graph, not demonstrated exploit"
+        },
+        {
+          "name": "@typescript-eslint/typescript-estree",
+          "severity": "moderate",
+          "nodes": [
+            "node_modules/eslint-config-next/node_modules/typescript-eslint/node_modules/@typescript-eslint/typescript-estree"
+          ],
+          "via": [
+            "minimatch"
+          ],
+          "locked_versions": {
+            "node_modules/eslint-config-next/node_modules/typescript-eslint/node_modules/@typescript-eslint/typescript-estree": "8.70.1"
+          },
+          "reachability": "NOT_VERIFIED; affected locked graph, not demonstrated exploit"
+        },
+        {
+          "name": "@typescript-eslint/utils",
+          "severity": "moderate",
+          "nodes": [
+            "node_modules/eslint-config-next/node_modules/typescript-eslint/node_modules/@typescript-eslint/utils"
+          ],
+          "via": [
+            "@typescript-eslint/typescript-estree"
+          ],
+          "locked_versions": {
+            "node_modules/eslint-config-next/node_modules/typescript-eslint/node_modules/@typescript-eslint/utils": "8.70.1"
+          },
+          "reachability": "NOT_VERIFIED; affected locked graph, not demonstrated exploit"
+        },
+        {
+          "name": "eslint-config-next",
+          "severity": "moderate",
+          "nodes": [
+            "node_modules/eslint-config-next"
+          ],
+          "via": [
+            "typescript-eslint"
+          ],
+          "locked_versions": {
+            "node_modules/eslint-config-next": "16.3.8"
+          },
+          "reachability": "NOT_VERIFIED; affected locked graph, not demonstrated exploit"
+        },
+        {
+          "name": "minimatch",
+          "severity": "moderate",
+          "nodes": [
+            "node_modules/eslint-config-next/node_modules/typescript-eslint/node_modules/minimatch"
+          ],
+          "via": [
+            {
+              "title": "minimatch has potential denial of service via globparts amplification",
+              "severity": "moderate",
+              "range": ">=7.0.0 <11.0.1",
+              "url": "https://github.com/advisories/GHSA-g3hv-75wg-m249"
+            }
+          ],
+          "locked_versions": {
+            "node_modules/eslint-config-next/node_modules/typescript-eslint/node_modules/minimatch": "10.2.6"
+          },
+          "reachability": "NOT_VERIFIED; affected locked graph, not demonstrated exploit"
+        },
+        {
+          "name": "next",
+          "severity": "critical",
+          "nodes": [
+            "node_modules/next"
+          ],
+          "via": [
+            {
+              "title": "Next.js: Unauthenticated Remote Code Execution in Image Optimization API when SVG files are used",
+              "severity": "critical",
+              "range": ">=16.0.0 <=16.4.0",
+              "url": "https://github.com/advisories/GHSA-2464-fhr4-w9xw"
+            },
+            {
+              "title": "Next.js: Denial of Service in App Router using Server Actions",
+              "severity": "high",
+              "range": ">=16.0.0 <=16.4.0",
+              "url": "https://github.com/advisories/GHSA-p3m5-59mp-jv5r"
+            },
+            {
+              "title": "Next.js: Unauthenticated Remote Code Execution in `use cache` functions returning typed arrays",
+              "severity": "critical",
+              "range": ">=16.0.0 <=16.4.0",
+              "url": "https://github.com/advisories/GHSA-673q-mjm6-r5xr"
+            }
+          ],
+          "locked_versions": {
+            "node_modules/next": "16.3.8"
+          },
+          "reachability": "NOT_VERIFIED; affected locked graph, not demonstrated exploit"
+        },
+        {
+          "name": "typescript-eslint",
+          "severity": "moderate",
+          "nodes": [
+            "node_modules/eslint-config-next/node_modules/typescript-eslint"
+          ],
+          "via": [
+            "@typescript-eslint/eslint-plugin",
+            "@typescript-eslint/parser",
+            "@typescript-eslint/typescript-estree",
+            "@typescript-eslint/utils"
+          ],
+          "locked_versions": {
+            "node_modules/eslint-config-next/node_modules/typescript-eslint": "8.70.1"
+          },
+          "reachability": "NOT_VERIFIED; affected locked graph, not demonstrated exploit"
+        },
+        {
+          "name": "zod",
+          "severity": "high",
+          "nodes": [
+            "node_modules/zod"
+          ],
+          "via": [
+            {
+              "title": "Zod can exhaust memory while validating oversized constrained collections",
+              "severity": "high",
+              "range": "<4.6.6",
+              "url": "https://github.com/advisories/GHSA-mrhx-c7xc-m3w5"
+            }
+          ],
+          "locked_versions": {
+            "node_modules/zod": "4.6.5"
+          },
+          "reachability": "NOT_VERIFIED; affected locked graph, not demonstrated exploit"
+        }
+      ],
+      "observed_at_utc": "2026-11-05T02:38:31.935559+00:00",
+      "method": "npm audit --package-lock-only --ignore-scripts --json --registry=https://registry.npmjs.org",
+      "raw_report_sha256": "9bae24100aabec94cb261f0b15d5ef48e2a8fae7af162ec68b6c0afae2c9b125"
+    },
+    {
+      "target": "frontend-main",
+      "sha": "53c253be874236c6f38a5333a6f7f3390de9f51e",
+      "scope": "production",
+      "exit_code": 1,
+      "lock_sha256": "a24199699e969e4822da326b19f983cef2606bafc3ab4745852bcd7f303acd9d",
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 1,
+        "total": 1
+      },
+      "error": null,
+      "packages": [
+        {
+          "name": "next",
+          "severity": "critical",
+          "nodes": [
+            "node_modules/next"
+          ],
+          "via": [
+            {
+              "title": "Next.js: Unauthenticated Remote Code Execution in Image Optimization API when SVG files are used",
+              "severity": "critical",
+              "range": ">=16.0.0 <=16.4.0",
+              "url": "https://github.com/advisories/GHSA-2464-fhr4-w9xw"
+            },
+            {
+              "title": "Next.js: Denial of Service in App Router using Server Actions",
+              "severity": "high",
+              "range": ">=16.0.0 <=16.4.0",
+              "url": "https://github.com/advisories/GHSA-p3m5-59mp-jv5r"
+            },
+            {
+              "title": "Next.js: Unauthenticated Remote Code Execution in `use cache` functions returning typed arrays",
+              "severity": "critical",
+              "range": ">=16.0.0 <=16.4.0",
+              "url": "https://github.com/advisories/GHSA-673q-mjm6-r5xr"
+            }
+          ],
+          "locked_versions": {
+            "node_modules/next": "16.3.8"
+          },
+          "reachability": "NOT_VERIFIED; affected locked graph, not demonstrated exploit"
+        }
+      ],
+      "observed_at_utc": "2026-11-05T02:38:34.425818+00:00",
+      "method": "npm audit --package-lock-only --ignore-scripts --json --registry=https://registry.npmjs.org --omit=dev",
+      "raw_report_sha256": "4e92d82beb9ea0ec1b1e225c74ab7fefd936af50dd4c16abdb23c1e5287021ee"
+    },
+    {
+      "target": "frontend-pr147",
+      "sha": "c50be576b39acd2eac9da096efd11060545463d1",
+      "scope": "full",
+      "exit_code": 1,
+      "lock_sha256": "b1f48c35e7eb4c7c82fdee9b8110cf6e11b25a558d81ca443f6eded8f776bdd5",
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 8,
+        "high": 0,
+        "critical": 0,
+        "total": 8
+      },
+      "error": null,
+      "packages": [
+        {
+          "name": "@typescript-eslint/eslint-plugin",
+          "severity": "moderate",
+          "nodes": [
+            "node_modules/eslint-config-next/node_modules/typescript-eslint/node_modules/@typescript-eslint/eslint-plugin"
+          ],
+          "via": [
+            "@typescript-eslint/parser",
+            "@typescript-eslint/type-utils",
+            "@typescript-eslint/utils"
+          ],
+          "locked_versions": {
+            "node_modules/eslint-config-next/node_modules/typescript-eslint/node_modules/@typescript-eslint/eslint-plugin": "8.70.1"
+          },
+          "reachability": "NOT_VERIFIED; affected locked graph, not demonstrated exploit"
+        },
+        {
+          "name": "@typescript-eslint/parser",
+          "severity": "moderate",
+          "nodes": [
+            "node_modules/eslint-config-next/node_modules/typescript-eslint/node_modules/@typescript-eslint/parser"
+          ],
+          "via": [
+            "@typescript-eslint/typescript-estree"
+          ],
+          "locked_versions": {
+            "node_modules/eslint-config-next/node_modules/typescript-eslint/node_modules/@typescript-eslint/parser": "8.70.1"
+          },
+          "reachability": "NOT_VERIFIED; affected locked graph, not demonstrated exploit"
+        },
+        {
+          "name": "@typescript-eslint/type-utils",
+          "severity": "moderate",
+          "nodes": [
+            "node_modules/eslint-config-next/node_modules/typescript-eslint/node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/type-utils"
+          ],
+          "via": [
+            "@typescript-eslint/typescript-estree",
+            "@typescript-eslint/utils"
+          ],
+          "locked_versions": {
+            "node_modules/eslint-config-next/node_modules/typescript-eslint/node_modules/@typescript-eslint/eslint-plugin/node_modules/@typescript-eslint/type-utils": "8.70.1"
+          },
+          "reachability": "NOT_VERIFIED; affected locked graph, not demonstrated exploit"
+        },
+        {
+          "name": "@typescript-eslint/typescript-estree",
+          "severity": "moderate",
+          "nodes": [
+            "node_modules/eslint-config-next/node_modules/typescript-eslint/node_modules/@typescript-eslint/typescript-estree"
+          ],
+          "via": [
+            "minimatch"
+          ],
+          "locked_versions": {
+            "node_modules/eslint-config-next/node_modules/typescript-eslint/node_modules/@typescript-eslint/typescript-estree": "8.70.1"
+          },
+          "reachability": "NOT_VERIFIED; affected locked graph, not demonstrated exploit"
+        },
+        {
+          "name": "@typescript-eslint/utils",
+          "severity": "moderate",
+          "nodes": [
+            "node_modules/eslint-config-next/node_modules/typescript-eslint/node_modules/@typescript-eslint/utils"
+          ],
+          "via": [
+            "@typescript-eslint/typescript-estree"
+          ],
+          "locked_versions": {
+            "node_modules/eslint-config-next/node_modules/typescript-eslint/node_modules/@typescript-eslint/utils": "8.70.1"
+          },
+          "reachability": "NOT_VERIFIED; affected locked graph, not demonstrated exploit"
+        },
+        {
+          "name": "eslint-config-next",
+          "severity": "moderate",
+          "nodes": [
+            "node_modules/eslint-config-next"
+          ],
+          "via": [
+            "typescript-eslint"
+          ],
+          "locked_versions": {
+            "node_modules/eslint-config-next": "16.3.8"
+          },
+          "reachability": "NOT_VERIFIED; affected locked graph, not demonstrated exploit"
+        },
+        {
+          "name": "minimatch",
+          "severity": "moderate",
+          "nodes": [
+            "node_modules/eslint-config-next/node_modules/typescript-eslint/node_modules/minimatch"
+          ],
+          "via": [
+            {
+              "title": "minimatch has potential denial of service via globparts amplification",
+              "severity": "moderate",
+              "range": ">=7.0.0 <11.0.1",
+              "url": "https://github.com/advisories/GHSA-g3hv-75wg-m249"
+            }
+          ],
+          "locked_versions": {
+            "node_modules/eslint-config-next/node_modules/typescript-eslint/node_modules/minimatch": "10.2.6"
+          },
+          "reachability": "NOT_VERIFIED; affected locked graph, not demonstrated exploit"
+        },
+        {
+          "name": "typescript-eslint",
+          "severity": "moderate",
+          "nodes": [
+            "node_modules/eslint-config-next/node_modules/typescript-eslint"
+          ],
+          "via": [
+            "@typescript-eslint/eslint-plugin",
+            "@typescript-eslint/parser",
+            "@typescript-eslint/typescript-estree",
+            "@typescript-eslint/utils"
+          ],
+          "locked_versions": {
+            "node_modules/eslint-config-next/node_modules/typescript-eslint": "8.70.1"
+          },
+          "reachability": "NOT_VERIFIED; affected locked graph, not demonstrated exploit"
+        }
+      ],
+      "observed_at_utc": "2026-11-05T02:38:38.118572+00:00",
+      "method": "npm audit --package-lock-only --ignore-scripts --json --registry=https://registry.npmjs.org",
+      "raw_report_sha256": "235a75576c0c189a9658bf6ead8c6475c736dae5c286bbd8b716ce58675d8ad1"
+    },
+    {
+      "target": "frontend-pr147",
+      "sha": "c50be576b39acd2eac9da096efd11060545463d1",
+      "scope": "production",
+      "exit_code": 0,
+      "lock_sha256": "b1f48c35e7eb4c7c82fdee9b8110cf6e11b25a558d81ca443f6eded8f776bdd5",
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0,
+        "total": 0
+      },
+      "error": null,
+      "packages": [],
+      "observed_at_utc": "2026-11-05T02:38:39.566170+00:00",
+      "method": "npm audit --package-lock-only --ignore-scripts --json --registry=https://registry.npmjs.org --omit=dev",
+      "raw_report_sha256": "82cc4ae05190681099c71bfe65fc5a33068ebfd28a7b496b6000b2ec5f9ffede"
+    },
+    {
+      "target": "mcp-main",
+      "sha": "53c253be874236c6f38a5333a6f7f3390de9f51e",
+      "scope": "full",
+      "exit_code": 1,
+      "lock_sha256": "77400509d072d9be233eb6d13cd87eb92d92d93a23da6960c3849b789986357a",
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 5,
+        "high": 3,
+        "critical": 0,
+        "total": 8
+      },
+      "error": null,
+      "packages": [
+        {
+          "name": "@hono/node-server",
+          "severity": "moderate",
+          "nodes": [
+            "node_modules/@hono/node-server"
+          ],
+          "via": [
+            {
+              "title": "@hono/node-server: `serveStatic` decodes the request path a second time, leading to bypass of middleware on static paths",
+              "severity": "moderate",
+              "range": ">=1.19.10 <2.1.3",
+              "url": "https://github.com/advisories/GHSA-rmxm-3fg6-px4f"
+            }
+          ],
+          "locked_versions": {
+            "node_modules/@hono/node-server": "2.1.1"
+          },
+          "reachability": "NOT_VERIFIED; affected locked graph, not demonstrated exploit"
+        },
+        {
+          "name": "@modelcontextprotocol/sdk",
+          "severity": "high",
+          "nodes": [
+            "node_modules/@modelcontextprotocol/sdk"
+          ],
+          "via": [
+            {
+              "title": "MCP TypeScript SDK: OAuth client could send credentials to an authorization server chosen by the MCP server",
+              "severity": "high",
+              "range": ">=1.12.0 <1.31.0",
+              "url": "https://github.com/advisories/GHSA-6qxp-vccf-f47h"
+            },
+            {
+              "title": "MCP TypeScript SDK: Experimental tasks were not tied to the session that created them",
+              "severity": "high",
+              "range": ">=1.24.0 <1.32.0",
+              "url": "https://github.com/advisories/GHSA-22jm-h49p-29qw"
+            },
+            {
+              "title": "MCP TypeScript SDK: One HTTP request within the default size limit could exhaust server memory during validation",
+              "severity": "high",
+              "range": ">=1.3.0 <1.32.0",
+              "url": "https://github.com/advisories/GHSA-46jr-4wx8-v453"
+            },
+            {
+              "title": "MCP TypeScript SDK: Server bearer authentication accepted tokens issued for another service",
+              "severity": "moderate",
+              "range": ">=1.6.0 <1.32.0",
+              "url": "https://github.com/advisories/GHSA-rvq5-wwqv-78pq"
+            },
+            {
+              "title": "MCP TypeScript SDK: HTTP server transports and handlers did not limit request body size or JSON-RPC batch length",
+              "severity": "high",
+              "range": ">=1.10.0 <1.30.1",
+              "url": "https://github.com/advisories/GHSA-f897-62hf-6gxq"
+            },
+            {
+              "title": "MCP TypeScript client SDK: HTTP client transports and OAuth requests followed cross-origin redirects and re-sent custom headers and request bodies",
+              "severity": "moderate",
+              "range": "<1.32.0",
+              "url": "https://github.com/advisories/GHSA-6prh-2h8m-c8cw"
+            }
+          ],
+          "locked_versions": {
+            "node_modules/@modelcontextprotocol/sdk": "1.30.0"
+          },
+          "reachability": "NOT_VERIFIED; affected locked graph, not demonstrated exploit"
+        },
+        {
+          "name": "body-parser",
+          "severity": "high",
+          "nodes": [
+            "node_modules/body-parser"
+          ],
+          "via": [
+            {
+              "title": "body-parser vulnerable to Denial of Service via trailing bytes after a compressed request body",
+              "severity": "high",
+              "range": ">=2.0.0 <2.4.0",
+              "url": "https://github.com/advisories/GHSA-27r3-jxmh-p828"
+            }
+          ],
+          "locked_versions": {
+            "node_modules/body-parser": "2.3.0"
+          },
+          "reachability": "NOT_VERIFIED; affected locked graph, not demonstrated exploit"
+        },
+        {
+          "name": "fast-uri",
+          "severity": "moderate",
+          "nodes": [
+            "node_modules/fast-uri"
+          ],
+          "via": [
+            {
+              "title": "fast-uri vulnerable to URI scheme spoofing via percent-encoded scheme decoding",
+              "severity": "moderate",
+              "range": ">=3.0.0 <3.1.9",
+              "url": "https://github.com/advisories/GHSA-w74x-v6f9-j3xg"
+            },
+            {
+              "title": "fast-uri vulnerable to improper path equivalence in relative reference normalization",
+              "severity": "low",
+              "range": ">=3.0.0 <3.1.9",
+              "url": "https://github.com/advisories/GHSA-xhq7-xmqj-769h"
+            },
+            {
+              "title": "fast-uri vulnerable to host confusion via unchecked WHATWG host canonicalization",
+              "severity": "moderate",
+              "range": ">=3.1.3 <3.1.9",
+              "url": "https://github.com/advisories/GHSA-wjr9-j795-jxcr"
+            },
+            {
+              "title": "fast-uri vulnerable to scheme injection via an unescaped first-segment colon in suffix references",
+              "severity": "low",
+              "range": ">=3.0.0 <3.1.9",
+              "url": "https://github.com/advisories/GHSA-333x-w4r6-6crp"
+            }
+          ],
+          "locked_versions": {
+            "node_modules/fast-uri": "3.1.8"
+          },
+          "reachability": "NOT_VERIFIED; affected locked graph, not demonstrated exploit"
+        },
+        {
+          "name": "hono",
+          "severity": "moderate",
+          "nodes": [
+            "node_modules/hono"
+          ],
+          "via": [
+            {
+              "title": "Hono: `serveStatic` decodes the request path a second time, leading to bypass of middleware on static paths",
+              "severity": "moderate",
+              "range": ">=4.12.4 <4.13.11",
+              "url": "https://github.com/advisories/GHSA-5r4p-p66f-jhc7"
+            }
+          ],
+          "locked_versions": {
+            "node_modules/hono": "4.13.9"
+          },
+          "reachability": "NOT_VERIFIED; affected locked graph, not demonstrated exploit"
+        },
+        {
+          "name": "ip-address",
+          "severity": "moderate",
+          "nodes": [
+            "node_modules/ip-address"
+          ],
+          "via": [
+            {
+              "title": "ip-address: Address6 matches a zone identifier in quadratic time ahead of its length limit, allowing a single long string to stall the process",
+              "severity": "moderate",
+              "range": "<=10.7.3",
+              "url": "https://github.com/advisories/GHSA-rxp7-6hxx-x8q5"
+            }
+          ],
+          "locked_versions": {
+            "node_modules/ip-address": "10.7.2"
+          },
+          "reachability": "NOT_VERIFIED; affected locked graph, not demonstrated exploit"
+        },
+        {
+          "name": "qs",
+          "severity": "moderate",
+          "nodes": [
+            "node_modules/qs"
+          ],
+          "via": [
+            {
+              "title": "qs : qs.stringify with arrayFormat 'comma' throws an uncaught TypeError on array elements carrying a non-callable own toString (DoS)",
+              "severity": "moderate",
+              "range": ">=6.7.0 <=6.16.0",
+              "url": "https://github.com/advisories/GHSA-6pq8-jhm2-2vcw"
+            }
+          ],
+          "locked_versions": {
+            "node_modules/qs": "6.16.0"
+          },
+          "reachability": "NOT_VERIFIED; affected locked graph, not demonstrated exploit"
+        },
+        {
+          "name": "zod",
+          "severity": "high",
+          "nodes": [
+            "node_modules/zod"
+          ],
+          "via": [
+            {
+              "title": "Zod can exhaust memory while validating oversized constrained collections",
+              "severity": "high",
+              "range": "<4.6.6",
+              "url": "https://github.com/advisories/GHSA-mrhx-c7xc-m3w5"
+            }
+          ],
+          "locked_versions": {
+            "node_modules/zod": "4.6.0"
+          },
+          "reachability": "NOT_VERIFIED; affected locked graph, not demonstrated exploit"
+        }
+      ],
+      "observed_at_utc": "2026-11-05T02:38:44.064782+00:00",
+      "method": "npm audit --package-lock-only --ignore-scripts --json --registry=https://registry.npmjs.org",
+      "raw_report_sha256": "a0d1184f8e1a72f58e25ee8fb440dba8d7ed76764214c8294844d85baa7876a3"
+    },
+    {
+      "target": "mcp-main",
+      "sha": "53c253be874236c6f38a5333a6f7f3390de9f51e",
+      "scope": "production",
+      "exit_code": 1,
+      "lock_sha256": "77400509d072d9be233eb6d13cd87eb92d92d93a23da6960c3849b789986357a",
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 5,
+        "high": 3,
+        "critical": 0,
+        "total": 8
+      },
+      "error": null,
+      "packages": [
+        {
+          "name": "@hono/node-server",
+          "severity": "moderate",
+          "nodes": [
+            "node_modules/@hono/node-server"
+          ],
+          "via": [
+            {
+              "title": "@hono/node-server: `serveStatic` decodes the request path a second time, leading to bypass of middleware on static paths",
+              "severity": "moderate",
+              "range": ">=1.19.10 <2.1.3",
+              "url": "https://github.com/advisories/GHSA-rmxm-3fg6-px4f"
+            }
+          ],
+          "locked_versions": {
+            "node_modules/@hono/node-server": "2.1.1"
+          },
+          "reachability": "NOT_VERIFIED; affected locked graph, not demonstrated exploit"
+        },
+        {
+          "name": "@modelcontextprotocol/sdk",
+          "severity": "high",
+          "nodes": [
+            "node_modules/@modelcontextprotocol/sdk"
+          ],
+          "via": [
+            {
+              "title": "MCP TypeScript SDK: OAuth client could send credentials to an authorization server chosen by the MCP server",
+              "severity": "high",
+              "range": ">=1.12.0 <1.31.0",
+              "url": "https://github.com/advisories/GHSA-6qxp-vccf-f47h"
+            },
+            {
+              "title": "MCP TypeScript SDK: Experimental tasks were not tied to the session that created them",
+              "severity": "high",
+              "range": ">=1.24.0 <1.32.0",
+              "url": "https://github.com/advisories/GHSA-22jm-h49p-29qw"
+            },
+            {
+              "title": "MCP TypeScript SDK: One HTTP request within the default size limit could exhaust server memory during validation",
+              "severity": "high",
+              "range": ">=1.3.0 <1.32.0",
+              "url": "https://github.com/advisories/GHSA-46jr-4wx8-v453"
+            },
+            {
+              "title": "MCP TypeScript SDK: Server bearer authentication accepted tokens issued for another service",
+              "severity": "moderate",
+              "range": ">=1.6.0 <1.32.0",
+              "url": "https://github.com/advisories/GHSA-rvq5-wwqv-78pq"
+            },
+            {
+              "title": "MCP TypeScript SDK: HTTP server transports and handlers did not limit request body size or JSON-RPC batch length",
+              "severity": "high",
+              "range": ">=1.10.0 <1.30.1",
+              "url": "https://github.com/advisories/GHSA-f897-62hf-6gxq"
+            },
+            {
+              "title": "MCP TypeScript client SDK: HTTP client transports and OAuth requests followed cross-origin redirects and re-sent custom headers and request bodies",
+              "severity": "moderate",
+              "range": "<1.32.0",
+              "url": "https://github.com/advisories/GHSA-6prh-2h8m-c8cw"
+            }
+          ],
+          "locked_versions": {
+            "node_modules/@modelcontextprotocol/sdk": "1.30.0"
+          },
+          "reachability": "NOT_VERIFIED; affected locked graph, not demonstrated exploit"
+        },
+        {
+          "name": "body-parser",
+          "severity": "high",
+          "nodes": [
+            "node_modules/body-parser"
+          ],
+          "via": [
+            {
+              "title": "body-parser vulnerable to Denial of Service via trailing bytes after a compressed request body",
+              "severity": "high",
+              "range": ">=2.0.0 <2.4.0",
+              "url": "https://github.com/advisories/GHSA-27r3-jxmh-p828"
+            }
+          ],
+          "locked_versions": {
+            "node_modules/body-parser": "2.3.0"
+          },
+          "reachability": "NOT_VERIFIED; affected locked graph, not demonstrated exploit"
+        },
+        {
+          "name": "fast-uri",
+          "severity": "moderate",
+          "nodes": [
+            "node_modules/fast-uri"
+          ],
+          "via": [
+            {
+              "title": "fast-uri vulnerable to URI scheme spoofing via percent-encoded scheme decoding",
+              "severity": "moderate",
+              "range": ">=3.0.0 <3.1.9",
+              "url": "https://github.com/advisories/GHSA-w74x-v6f9-j3xg"
+            },
+            {
+              "title": "fast-uri vulnerable to improper path equivalence in relative reference normalization",
+              "severity": "low",
+              "range": ">=3.0.0 <3.1.9",
+              "url": "https://github.com/advisories/GHSA-xhq7-xmqj-769h"
+            },
+            {
+              "title": "fast-uri vulnerable to host confusion via unchecked WHATWG host canonicalization",
+              "severity": "moderate",
+              "range": ">=3.1.3 <3.1.9",
+              "url": "https://github.com/advisories/GHSA-wjr9-j795-jxcr"
+            },
+            {
+              "title": "fast-uri vulnerable to scheme injection via an unescaped first-segment colon in suffix references",
+              "severity": "low",
+              "range": ">=3.0.0 <3.1.9",
+              "url": "https://github.com/advisories/GHSA-333x-w4r6-6crp"
+            }
+          ],
+          "locked_versions": {
+            "node_modules/fast-uri": "3.1.8"
+          },
+          "reachability": "NOT_VERIFIED; affected locked graph, not demonstrated exploit"
+        },
+        {
+          "name": "hono",
+          "severity": "moderate",
+          "nodes": [
+            "node_modules/hono"
+          ],
+          "via": [
+            {
+              "title": "Hono: `serveStatic` decodes the request path a second time, leading to bypass of middleware on static paths",
+              "severity": "moderate",
+              "range": ">=4.12.4 <4.13.11",
+              "url": "https://github.com/advisories/GHSA-5r4p-p66f-jhc7"
+            }
+          ],
+          "locked_versions": {
+            "node_modules/hono": "4.13.9"
+          },
+          "reachability": "NOT_VERIFIED; affected locked graph, not demonstrated exploit"
+        },
+        {
+          "name": "ip-address",
+          "severity": "moderate",
+          "nodes": [
+            "node_modules/ip-address"
+          ],
+          "via": [
+            {
+              "title": "ip-address: Address6 matches a zone identifier in quadratic time ahead of its length limit, allowing a single long string to stall the process",
+              "severity": "moderate",
+              "range": "<=10.7.3",
+              "url": "https://github.com/advisories/GHSA-rxp7-6hxx-x8q5"
+            }
+          ],
+          "locked_versions": {
+            "node_modules/ip-address": "10.7.2"
+          },
+          "reachability": "NOT_VERIFIED; affected locked graph, not demonstrated exploit"
+        },
+        {
+          "name": "qs",
+          "severity": "moderate",
+          "nodes": [
+            "node_modules/qs"
+          ],
+          "via": [
+            {
+              "title": "qs : qs.stringify with arrayFormat 'comma' throws an uncaught TypeError on array elements carrying a non-callable own toString (DoS)",
+              "severity": "moderate",
+              "range": ">=6.7.0 <=6.16.0",
+              "url": "https://github.com/advisories/GHSA-6pq8-jhm2-2vcw"
+            }
+          ],
+          "locked_versions": {
+            "node_modules/qs": "6.16.0"
+          },
+          "reachability": "NOT_VERIFIED; affected locked graph, not demonstrated exploit"
+        },
+        {
+          "name": "zod",
+          "severity": "high",
+          "nodes": [
+            "node_modules/zod"
+          ],
+          "via": [
+            {
+              "title": "Zod can exhaust memory while validating oversized constrained collections",
+              "severity": "high",
+              "range": "<4.6.6",
+              "url": "https://github.com/advisories/GHSA-mrhx-c7xc-m3w5"
+            }
+          ],
+          "locked_versions": {
+            "node_modules/zod": "4.6.0"
+          },
+          "reachability": "NOT_VERIFIED; affected locked graph, not demonstrated exploit"
+        }
+      ],
+      "observed_at_utc": "2026-11-05T02:38:45.800251+00:00",
+      "method": "npm audit --package-lock-only --ignore-scripts --json --registry=https://registry.npmjs.org --omit=dev",
+      "raw_report_sha256": "a0d1184f8e1a72f58e25ee8fb440dba8d7ed76764214c8294844d85baa7876a3"
+    }
+  ],
+  "review_summary": {
+    "reviewed_head": "cf9097fda4688db08fd505e21fcbf3c0e53a9d5c",
+    "reviewed_base": "53c253be874236c6f38a5333a6f7f3390de9f51e",
+    "reviewed_tree": "b75cf5d35bef555933dae6c42037b544525092e0",
+    "reported_verdict": "technical code/architecture PASS, Human-relayed; required CI failed",
+    "exact_model_profile_session": "NOT_VERIFIED",
+    "source_provenance": "recovered local report; original-upload equivalence NOT_VERIFIED",
+    "private_report_sha256": "050f689907c4bd8a1ec1a61d9a4c120656e8b8486a57548326d4c16a89f57ab6",
+    "raw_report_publication": "EXCLUDED",
+    "corrections": [
+      "idle TTL1800 seconds, absolute7200",
+      "inherited Low does not lower actual advisory severity"
+    ],
+    "external_acceptance": "PENDING"
+  },
+  "historical_b": {
+    "source_sha": "ff511e5b4e384268224d586a8abd3cea11313655",
+    "path": "docs/tasks/history/PRODUCT-001B-trusted-local-review-presenter-v0.1.0.md",
+    "sha256": "43c2221d91c97bd05a97c6b316910d5dd7fa66be2b2194e9c59ea9991ccdbb59"
+  },
+  "mcp": {
+    "tools_exposed": false,
+    "status": "BLOCKED BY TOOL CAPABILITY",
+    "registration_and_lease": "UNVERIFIED; no state fabricated",
+    "active_writer_started": false
+  },
+  "tests_this_turn": {
+    "runtime_suites": "NOT_RUN",
+    "browser": "NOT_RUN",
+    "provider": "NOT_RUN; budget USD 0",
+    "render_http_smoke": "NOT_RUN",
+    "audit": "fresh locked-graph audits only"
+  },
+  "semantic_acceptance": "NOT_DETERMINED",
+  "production_readiness": "NO",
+  "render": {
+    "checked_read_only": true,
+    "workspace_confirmed_by_human": true,
+    "services": [
+      {
+        "name": "ai-ip-synthetic-demo-backend",
+        "autoDeploy": "no",
+        "autoDeployTrigger": "off",
+        "previews": "off",
+        "live_commit": "8c36b2bc662ed41b2a9b3635d5d4d29110b1d9bb"
+      },
+      {
+        "name": "ai-ip-synthetic-demo-frontend",
+        "autoDeploy": "no",
+        "autoDeployTrigger": "off",
+        "previews": "off",
+        "live_commit": "8c36b2bc662ed41b2a9b3635d5d4d29110b1d9bb"
+      }
+    ],
+    "verification": "Render connector metadata read; no HTTP health or live Blueprint verification",
+    "mutations": false
+  },
+  "public_safe_validation": {
+    "files": 13,
+    "relative_links_checked": 38,
+    "raw_report_excluded": true,
+    "personal_path_resource_identifier_credential_pattern_scan": "PASS",
+    "full_private_original_preserved": "PASS",
+    "internal_commits_in_ancestry": false,
+    "scope": "docs only; no runtime/test/security-gate change",
+    "independent_review": "PENDING"
+  }
+}

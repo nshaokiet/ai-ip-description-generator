@@ -25,33 +25,32 @@ Mọi đầu ra đều cần người dùng và chuyên gia sở hữu trí tu�
 
 ## Project status
 
-Tiến độ được đối chiếu ngày **24/10/2026**. Draft là công việc chưa được chấp nhận hoàn tất.
-
-Riêng DEP-001-SR được cập nhật ngày05/11/2026 theo bounded Human approval;
-các dòng khác giữ snapshot lịch sử. [Foundation ưu tiên #151](https://github.com/nshaokiet/ai-ip-description-generator/pull/151)
-giữ checkpoint website hiện hành; thay đổi này không triển khai PRODUCT-001B.
+Tiến độ được đối chiếu ngày **05/11/2026**. Đọc [checkpoint canonical](docs/operations/01_PROJECT_CONTROL_CENTER.md#resume-foundation-001-current-baseline) trước khi tiếp tục. Main đã tích hợp bản vá bảo mật PR #147 tại `478f7d30`; foundation #151 là documentary candidate được đồng bộ từ `main` mới nhưng vẫn chưa merge. Draft là công việc chưa được chấp nhận hoàn tất.
 
 | Workstream | Status | Current focus |
 |---|---|---|
 | PREAPI-001 / C1 | BLOCKED | Mã quản lý nguồn đã merge; còn chờ postmerge CI và closeout. |
-| PREAPI-C2 | IN PROGRESS | [Draft specification](https://github.com/nshaokiet/ai-ip-description-generator/pull/140); chờ quyết định phạm vi adapter và luồng review nội bộ, chưa có triển khai C2. |
+| PREAPI-C2 REVISION-004 | PENDING CI / ACCEPTANCE | [PR #146](https://github.com/nshaokiet/ai-ip-description-generator/pull/146) có Human architecture acceptance và attributed fixed-SHA review PASS; CI fail audit/quota. Spec-only; [#140](https://github.com/nshaokiet/ai-ip-description-generator/pull/140) là Draft cũ chồng phạm vi. |
 | PREAPI-D | IN PROGRESS | [Draft checker](https://github.com/nshaokiet/ai-ip-description-generator/pull/141) kiểm tra điều kiện provider offline; chưa merge, chưa xác minh quyền gọi mô hình. |
 | PREAPI-E | IN PROGRESS | [Draft evaluator check](https://github.com/nshaokiet/ai-ip-description-generator/pull/142) kiểm tra bộ mẫu và phép chấm; chưa merge, chưa đánh giá AI thật. |
-| DEP-001-SR-20261024 | LOCAL VALIDATION PASS / REVIEW-CI PENDING | [Scoped minimatch continuation](docs/tasks/DEP-001-SR-20261024-minimatch-continuation.md): installed full/prod audit0, security73 + probe2, browser78/compat77, demo8/compat5 PASS; failure setup probe đầu được giữ. Cần independent review/CI trên final SHA; không merge/deploy. |
-| CI-V2-001 | BLOCKED | [PR #144](https://github.com/nshaokiet/ai-ip-description-generator/pull/144) đã qua review code và kiểm tra chức năng; CI vẫn lỗi upload bằng chứng bảo mật do quota. |
+| CI-V2-001 | BLOCKED | [PR #144](https://github.com/nshaokiet/ai-ip-description-generator/pull/144) có external code PASS; CI lịch sử fail quota, hiện CONFLICTING. Run #148 ngày04/11 upload được artifact; không mặc định quota vẫn là nguyên nhân mọi lỗi. |
 | CI-V2-002 / CI-V2-003 | PLANNED | [Đặc tả đã soạn](https://github.com/nshaokiet/ai-ip-description-generator/tree/docs/ci-v2-002-003-planning); chưa triển khai CI phân tầng và tối ưu storage. |
-| Governance & Integration | IN PROGRESS | [Draft reconciliation](https://github.com/nshaokiet/ai-ip-description-generator/pull/143) và các hồ sơ closeout còn mở; không thay thế quyền triển khai sản phẩm. |
+| Governance & Integration | PENDING | [PR #143](https://github.com/nshaokiet/ai-ip-description-generator/pull/143) CONFLICTING; reconcile overlap với #146/foundation, không tự đóng hoặc thay review. |
 | EVAL-001 Product Runtime | AWAITING FUNDING | Chưa có kết quả chạy provider được chấp nhận; chất lượng ngữ nghĩa vẫn NOT_DETERMINED. |
-| README-REFRESH-001 | IN PROGRESS | Rút gọn tổng quan; chờ review độc lập và required CI. |
+| README-REFRESH-001 | MERGED / CI DEBT | [PR #145](https://github.com/nshaokiet/ai-ip-description-generator/pull/145) đã merge vào `53c253be`; exact-main push CI attempt2 vẫn FAILURE, không suy thành accepted closeout. |
+| DEP-001-SR-20261024 | MERGED / POSTMERGE CI SUCCESS | [#147](https://github.com/nshaokiet/ai-ip-description-generator/pull/147) merged into `main` at `478f7d30` from reviewed HEAD `4c30d37`. [Postmerge CI42038735811](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/42038735811) SUCCESS with mandatory `dep-001-security` artifact, full/prod audit0 and security73+2 PASS. [Evidence and limits](docs/tasks/AIIP-INDEPENDENT-REVIEW-20261105-provenance-closeout.md). No deployment. |
+| PRODUCT-001A | PENDING REVIEW PROVENANCE / CI | [PR #149](https://github.com/nshaokiet/ai-ip-description-generator/pull/149) OPEN/DRAFT; internal source-bound workflow, chưa trên main. Technical PASS do Human chuyển tiếp; model/session chưa xác minh; hosted CI fail QA HTTP503. [Report/corrections](docs/tasks/PRODUCT-001A-review-reconciliation.md). |
+| PRODUCT-001B | PROPOSED — WEB | [Contract browser0.2.0](docs/tasks/PRODUCT-001B-trusted-local-review-presenter.md) thay khuyến nghị terminal-first; chưa freeze/duyệt implementation/auth policy, chưa triển khai. |
+| RESUME-FOUNDATION-001 | PREFERRED #151 / INTEGRATED CANDIDATE — DRAFT | Historical CI42034588440 on31d9fce FAILURE (QA installer HTTP503, mandatory security archive absent); skipped steps not PASS. PR147's verified main baseline is integrated through a normal merge commit; final integrated candidate requires NEW exact-head CI/security artifact and independent review. Preserve #150 unchanged. |
 
 ## Next Steps
 
-1. Khôi phục khả năng lưu artifact, hoàn tất CI-V2-001 và xác minh postmerge C1.
-2. Chốt phạm vi C2, review đặc tả rồi xin phép riêng cho tích hợp nguồn → bản nháp → tài liệu tổng hợp.
-3. Hoàn tất review, CI và quy trình chấp nhận các Draft PREAPI-D/E cùng hồ sơ governance liên quan.
-4. Lập kế hoạch triển khai riêng cho CI-V2-002/003; đặc tả không tự cấp quyền sửa CI.
-5. Chuẩn bị pilot có giới hạn chi phí sau khi provider, mô hình, dữ liệu và ngân sách được phê duyệt.
-6. Khi được cấp kinh phí và quyền thực thi, kiểm thử pipeline AI thật, đánh giá chất lượng và xử lý các yêu cầu production.
+1. PR147 postmerge CI/security evidence verified; validate this normal `main` → #151 integration, complete required exact-head CI/security artifacts and obtain independent final-SHA Gemini/Antigravity review before a separate #151 merge decision. [HTTP503 recovery plan](docs/tasks/CI-V2-001-document-layout-installer-recovery-plan.md) remains plan-only; preserve #150.
+2. Reconcile CI144/conflicts và QA installer503 trong task tương ứng; giữ mandatory evidence/checks, xác minh postmerge C1.
+3. Hoàn tất review provenance/CI của #146/#149; duyệt contract/auth/fixtures cho B trước triển khai một luồng web tổng hợp xuyên suốt.
+4. Persistence, author answers/review history/retention/recovery là increment riêng; rồi mới pilot provider khi có quyền và kinh phí.
+
+[Backlog theo dependency và acceptance](docs/tasks/RESUME-FOUNDATION-001.md). Sản phẩm đích là website Next.js + FastAPI; local/offline/synthetic là môi trường kiểm thử. MCP điều phối phát triển, không phải database hồ sơ website.
 
 Các bước đề xuất phải qua quyết định phạm vi tương ứng; danh sách này không tự cấp quyền thực hiện.
 
@@ -71,7 +70,7 @@ Quyền truy cập mô hình trên tài khoản API và giá thực tế chưa �
 
 **TBD — Pending Provider and Budget Approval:** Chưa xác định chi phí, hạn mức pilot hoặc nhu cầu hạ tầng trả phí; không bắt đầu pilot khi chưa có phê duyệt riêng.
 Bài báo thật chưa được xác thực qua pipeline AI và chưa đạt semantic acceptance.
-**GitHub Actions artifact quota là blocker riêng:** Mua tín dụng AI API không khôi phục quota lưu artifact của GitHub.
+**GitHub Actions có blocker riêng:** quota upload đã lỗi ở các run tháng10; run148 đã upload thành công, còn run149 lỗi QA503 và thiếu output. Mua tín dụng AI API không xử lý các gate này.
 
 ## Production Readiness
 

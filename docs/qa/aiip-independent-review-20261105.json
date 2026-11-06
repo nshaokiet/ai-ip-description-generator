@@ -1,0 +1,235 @@
+{
+  "document_id": "AIIP-INDEPENDENT-REVIEW-20261105-RECONCILIATION",
+  "version": "1.0.0",
+  "date": "2026-11-05",
+  "author": "Codex reconciliation, not independent reviewer",
+  "source_readback_utc": "2026-11-05T13:09:19.284711+00:00",
+  "original_hash_scope": "Computed from original local bytes; no independent prior hash manifest or signature supplied",
+  "reports": [
+    {
+      "pr": 147,
+      "bytes": 6878,
+      "sha256": "f3c957d6d11bee788e81c547db8c8bcb32b16ad405bc459fd007ec494b3c2ed2",
+      "head": "4c30d37d6ad73dede6ea8439fae897a86fffbdc0",
+      "tree": "b440f3021c39c9504cd49753dae63acfc1a3a0ed",
+      "reported_model_profile": "Gemini 3.8 Flash High",
+      "reported_environment": "Antigravity IDE / STRICT READ-ONLY",
+      "reported_verdict": "Technical PASS",
+      "provenance_status": "PENDING_DIRECT_ADDENDUM",
+      "session_disclosure": "Human reports same reviewer session, Turn 13 inheritance; individual identifier retained privately",
+      "implementation_session_reuse": "UNCONFIRMED",
+      "actual_runtime_model_profile": "UNCONFIRMED",
+      "tracked_writes": "Human relays reviewer assertion of no tracked writes and clean worktrees; not independently authenticated"
+    },
+    {
+      "pr": 151,
+      "bytes": 8861,
+      "sha256": "7f0d97ea30a521f66cdbe279c7aa0c4a13a6ffeadc10f1cc5e4e785b5e28ceb4",
+      "head": "00f3833a7ca35a69bdcd90ef1b57524be9ebd0e2",
+      "tree": "eda62523f2309897a6f1ba043579e666638a59df",
+      "reported_model_profile": "Gemini 3.8 Flash High",
+      "reported_environment": "Antigravity IDE / STRICT READ-ONLY",
+      "reported_verdict": "Documentary Technical PASS",
+      "provenance_status": "PENDING_DIRECT_ADDENDUM",
+      "session_disclosure": "Human reports same reviewer session, Turn 13 inheritance; individual identifier retained privately",
+      "implementation_session_reuse": "UNCONFIRMED",
+      "actual_runtime_model_profile": "UNCONFIRMED",
+      "tracked_writes": "Human relays reviewer assertion of no tracked writes and clean worktrees; not independently authenticated"
+    }
+  ],
+  "main": {
+    "head": "53c253be874236c6f38a5333a6f7f3390de9f51e",
+    "tree": "6459c1cecb8a4e56f2cbbbeab2e9439a39bd1b6e"
+  },
+  "pr147": {
+    "head": "4c30d37d6ad73dede6ea8439fae897a86fffbdc0",
+    "tree": "b440f3021c39c9504cd49753dae63acfc1a3a0ed",
+    "state": "OPEN/DRAFT",
+    "technical_checks": "SATISFACTORY_AT_READBACK",
+    "merge_eligibility": "PENDING_REVIEW_PROVENANCE_NOT_READY_FOR_HUMAN_MERGE_DECISION",
+    "ci": {
+      "run": 41981410850,
+      "head": "4c30d37d6ad73dede6ea8439fae897a86fffbdc0",
+      "status": "COMPLETED/SUCCESS",
+      "jobs": [
+        {
+          "id": 127092108907,
+          "name": "mcp-tests",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "id": 127092109272,
+          "name": "build-and-test",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ]
+    },
+    "security_artifact": {
+      "id": 13394746788,
+      "bytes": 14368,
+      "sha256": "1653898363ebec1037ac1077fc0617df67cb1ecb2013dfe612e5f7228a54e837",
+      "digest_matches_metadata": true,
+      "members": [
+        "dependency-tree.json",
+        "full-audit.json",
+        "lint-security.log",
+        "production-audit.json"
+      ],
+      "full_audit_total": 0,
+      "production_audit_total": 0,
+      "security_tests": {
+        "original": 73,
+        "additional_probe": 2,
+        "failed": 0,
+        "skipped": 0
+      }
+    },
+    "fresh_npm_checks": {
+      "full": {
+        "exit_code": 0,
+        "vulnerabilities": {
+          "info": 0,
+          "low": 0,
+          "moderate": 0,
+          "high": 0,
+          "critical": 0,
+          "total": 0
+        },
+        "problems": [],
+        "sha256": "88773f26acdbc2f2585859d9c57c2946faf6c52bdde05052c369bb16681b44b5"
+      },
+      "production": {
+        "exit_code": 0,
+        "vulnerabilities": {
+          "info": 0,
+          "low": 0,
+          "moderate": 0,
+          "high": 0,
+          "critical": 0,
+          "total": 0
+        },
+        "problems": [],
+        "sha256": "88773f26acdbc2f2585859d9c57c2946faf6c52bdde05052c369bb16681b44b5"
+      },
+      "graph": {
+        "exit_code": 0,
+        "vulnerabilities": null,
+        "problems": [],
+        "sha256": "20302e72bfb1ebfc541f2fbd49c4966438524a85c0308034373954abfbf4ee50"
+      }
+    },
+    "hosted_regression_counts": {
+      "backend_pass": 1127,
+      "backend_skip": 2,
+      "current_browser_pass": 78,
+      "fixed_source_browser_pass": 77,
+      "current_demo_pass": 8,
+      "fixed_source_demo_pass": 5
+    },
+    "reviewer_executed_reported": [
+      "security entry: original73 then probe2 PASS",
+      "full/production audits0"
+    ],
+    "hosted_counts_are_not_reviewer_reruns": true,
+    "all_check_runs_readback": [
+      {
+        "name": "build-and-test",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "mcp-tests",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ],
+    "legacy_commit_status": {
+      "statuses": [],
+      "aggregate_api_state": "pending",
+      "interpretation": "No legacy status contexts; actual two check-runs SUCCESS, no extra pending legacy context inferred"
+    }
+  },
+  "pr151_reviewed": {
+    "head": "00f3833a7ca35a69bdcd90ef1b57524be9ebd0e2",
+    "tree": "eda62523f2309897a6f1ba043579e666638a59df",
+    "state": "OPEN/DRAFT",
+    "merge_eligibility": "BLOCKED_CI_AND_PENDING_PROVENANCE",
+    "ci": {
+      "run": 41981992184,
+      "status": "COMPLETED/FAILURE",
+      "failed_step": "Verify DEP-001 full and production security graphs"
+    },
+    "security_artifact": {
+      "id": 13394279105,
+      "sha256": "30a0355ad0a739051e3fcce60f95d4c3eb75d559c6de12f3a2aba210ad5a706e",
+      "members": [
+        "full-audit.json"
+      ],
+      "vulnerabilities": {
+        "total": 10,
+        "moderate": 8,
+        "high": 1,
+        "critical": 1
+      },
+      "production_audit_and_graph_and_security_log": "ABSENT_IN_FAILED_ARTIFACT"
+    },
+    "lockfile_identical_to_main": true,
+    "lockfile_git_blob": "8472b7b31ca49d00725b95429bab66a27132107a",
+    "changed_doc_candidate_requires_fresh_review_and_ci": true
+  },
+  "pr150_preserved": {
+    "head": "d88201a5db48e753581361ca670625df65f2f32b",
+    "tree": "56d6554b4628b3fa8201a36d382e06d7d3e946ce",
+    "state": "OPEN/DRAFT",
+    "modified_or_closed": false
+  },
+  "policy_checks": {
+    "main_protected": false,
+    "rulesets": [],
+    "native_reviews": {
+      "147": 0,
+      "150": 0,
+      "151": 0
+    },
+    "render_both_demo_services": {
+      "autoDeploy": "no",
+      "autoDeployTrigger": "off",
+      "previews": "off"
+    },
+    "mcp_registration_lease": "UNVERIFIED; tools unavailable",
+    "paid_ai_calls": 0,
+    "merge": false,
+    "deploy": false,
+    "gates_changed": false,
+    "repository_permissions_readback": {
+      "admin": true,
+      "maintain": true,
+      "push": true,
+      "pull": true,
+      "permission_is_not_human_merge_authority": true
+    }
+  },
+  "limits": [
+    "Original reports and individual session identifiers remain local",
+    "External attribution and hashes are not authenticated runtime identity or native approval",
+    "No universal ReDoS resistance or vulnerability absence claim",
+    "Skipped foundation CI steps are not PASS",
+    "New documentation HEAD/tree recorded in final PR handoff; old review does not approve it"
+  ],
+  "next_actions": [
+    "Direct reviewer addendum on actual runtime model/profile and reuse with implementation",
+    "Recheck unchanged147 gates before READY FOR HUMAN MERGE DECISION; Human disposition required",
+    "After authorized147 merge and verified main CI, normal merge main into151 without shared-history rewrite",
+    "Preserve150 and other-agent changes; resolve README/Control Center overlap, new final-SHA CI and independent re-review"
+  ],
+  "documentary_validation": {
+    "json": "PASS",
+    "new_relative_links": "PASS",
+    "diff_whitespace": "PASS",
+    "selected_sensitive_pattern_and_new_branch_blob_scan": "PASS; limited scan, not absolute disclosure guarantee",
+    "governance_structure": "PASS; not identity/activation/merge verification",
+    "original_reports_hashes_unchanged": true
+  }
+}
