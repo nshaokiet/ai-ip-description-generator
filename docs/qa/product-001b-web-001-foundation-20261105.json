@@ -1,0 +1,295 @@
+{
+  "document_id": "PRODUCT-001B-WEB-001-FOUNDATION-READBACK",
+  "version": "1.0.0",
+  "date": "2026-11-05 Asia/Saigon",
+  "observed_utc": "2026-11-05T14:46:12.314417+00:00",
+  "authority": {
+    "instruction": "START-PRODUCT-001B-WEB-001",
+    "original_instruction_sha256": "0a373946b94ed981537beb08d9eeef03df078c28c568fb6d14bcd394113b89d2",
+    "scope": "Verification/dependency reconciliation/contract planning; runtime conditional on explicit phase4 approvals"
+  },
+  "main": {
+    "head": "478f7d30b6c89f7d4dc8cade2d8a9365b974ec75",
+    "tree": "b440f3021c39c9504cd49753dae63acfc1a3a0ed",
+    "postmerge_ci": {
+      "head": "478f7d30b6c89f7d4dc8cade2d8a9365b974ec75",
+      "status": "completed",
+      "conclusion": "success",
+      "attempt": 1,
+      "jobs": [
+        {
+          "id": 127283602257,
+          "name": "build-and-test",
+          "conclusion": "success",
+          "failed_or_skipped": [
+            "Archive public reference calibration (QA only)",
+            "Archive synthetic renderer layout QA",
+            "Archive synthetic UIUX browser evidence",
+            "Archive isolated UIUX-003 compatibility results"
+          ]
+        },
+        {
+          "id": 127283602890,
+          "name": "mcp-tests",
+          "conclusion": "success",
+          "failed_or_skipped": []
+        }
+      ],
+      "artifacts": [
+        {
+          "id": 13421730499,
+          "name": "dep-001-security",
+          "digest": "sha256:f1965c122970d9f8a9397708fda91b8555319f306c68c9dad0a654fdc5bf41a3"
+        }
+      ]
+    }
+  },
+  "prs": {
+    "146": {
+      "head": "29daeb208f7736a448297f699e674192c124c7da",
+      "tree": "d1f8880dad44363db4f612d76b9d709435f6089c",
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "mergeable": false,
+      "mergeable_state": "dirty"
+    },
+    "147": {
+      "head": "4c30d37d6ad73dede6ea8439fae897a86fffbdc0",
+      "tree": "b440f3021c39c9504cd49753dae63acfc1a3a0ed",
+      "state": "closed",
+      "draft": false,
+      "merged": true,
+      "mergeable": null,
+      "mergeable_state": "unknown"
+    },
+    "149": {
+      "head": "cf9097fda4688db08fd505e21fcbf3c0e53a9d5c",
+      "tree": "b75cf5d35bef555933dae6c42037b544525092e0",
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "mergeable": false,
+      "mergeable_state": "dirty"
+    },
+    "150": {
+      "head": "d88201a5db48e753581361ca670625df65f2f32b",
+      "tree": "56d6554b4628b3fa8201a36d382e06d7d3e946ce",
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "mergeable": false,
+      "mergeable_state": "dirty"
+    },
+    "151": {
+      "head": "bc991c7ad2f42635b523ecff24daf77a3027fb93",
+      "tree": "197f59197aaa8cf8673e70cf5cc394e393c4ff86",
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "mergeable": true,
+      "mergeable_state": "clean"
+    }
+  },
+  "foundation": {
+    "head": "bc991c7ad2f42635b523ecff24daf77a3027fb93",
+    "tree": "197f59197aaa8cf8673e70cf5cc394e393c4ff86",
+    "parents": [
+      "e2f4b7bcd6aa25bf43fe71e1f25accd0aee6b894",
+      "478f7d30b6c89f7d4dc8cade2d8a9365b974ec75"
+    ],
+    "ci": {
+      "head": "bc991c7ad2f42635b523ecff24daf77a3027fb93",
+      "status": "completed",
+      "conclusion": "success",
+      "attempt": 2,
+      "jobs": [
+        {
+          "id": 127296626965,
+          "name": "build-and-test",
+          "conclusion": "success",
+          "failed_or_skipped": [
+            "Archive public reference calibration (QA only)",
+            "Archive synthetic renderer layout QA",
+            "Archive synthetic UIUX browser evidence",
+            "Archive isolated UIUX-003 compatibility results"
+          ]
+        },
+        {
+          "id": 127296630691,
+          "name": "mcp-tests",
+          "conclusion": "success",
+          "failed_or_skipped": []
+        }
+      ],
+      "artifacts": [
+        {
+          "id": 13424296589,
+          "name": "dep-001-security",
+          "digest": "sha256:1277327dcdd1c8b0f0932ce414fcf8c006e907d37f72950d8f2ed27d9c6b2735"
+        },
+        {
+          "id": 13421597458,
+          "name": "uiux-003-synthetic-browser-qa",
+          "digest": "sha256:768927ac755325174d6fe45fa46580506da83f2c0628c976d2fd681addc97391"
+        }
+      ]
+    },
+    "security_artifact": {
+      "id": 13424296589,
+      "sha256": "1277327dcdd1c8b0f0932ce414fcf8c006e907d37f72950d8f2ed27d9c6b2735",
+      "bytes": 14370,
+      "files": [
+        "dependency-tree.json",
+        "lint-security.log",
+        "full-audit.json",
+        "production-audit.json"
+      ],
+      "full-audit.json": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0,
+        "total": 0
+      },
+      "production-audit.json": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0,
+        "total": 0
+      },
+      "tests": [
+        73,
+        2
+      ]
+    },
+    "native_reviews": 0,
+    "independent_exact_head_review": "PENDING; no bc991c7 report found in checked local backup/GitHub handoff",
+    "handoff_comment_ids": [
+      6660063360,
+      6660387884
+    ],
+    "old_review_target": "00f3833a7ca35a69bdcd90ef1b57524be9ebd0e2",
+    "old_review_is_not_current_approval": true,
+    "initial_attempt_failure": "HTTP401 from pinned snapshot; single Human-directed failed-job retry unchanged; not HTTP503"
+  },
+  "dependencies": {
+    "product_A": {
+      "head": "cf9097fda4688db08fd505e21fcbf3c0e53a9d5c",
+      "on_main": false,
+      "facade": "backend/app/services/product_synthetic_workflow.py:OfflineSyntheticWorkflow",
+      "bound_projection": "backend/app/services/custody_review.py:C1ReviewProjection",
+      "validate_without_render_method": "ABSENT; proposed approved additive facade needed",
+      "gates": {
+        "head": "cf9097fda4688db08fd505e21fcbf3c0e53a9d5c",
+        "native_reviews": 0,
+        "checks": [
+          {
+            "name": "build-and-test",
+            "status": "completed",
+            "conclusion": "failure",
+            "url": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/41848393889/job/126637829943"
+          },
+          {
+            "name": "mcp-tests",
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/41848393889/job/126637829472"
+          }
+        ]
+      },
+      "review_provenance": "PENDING per existing PRODUCT-001A reconciliation"
+    },
+    "C2": {
+      "head": "29daeb208f7736a448297f699e674192c124c7da",
+      "scope": "Architecture accepted; specification-only; application code and fixtures NOT authorized by that decision; no browser transport",
+      "gates": {
+        "head": "29daeb208f7736a448297f699e674192c124c7da",
+        "native_reviews": 0,
+        "checks": [
+          {
+            "name": "mcp-tests",
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/40078806412/job/120827841616"
+          },
+          {
+            "name": "build-and-test",
+            "status": "completed",
+            "conclusion": "failure",
+            "url": "https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/40078806412/job/120827841406"
+          }
+        ]
+      }
+    },
+    "C1_core": "On main, trusted same-process; bound projection extension is in149",
+    "P2_assembly_renderer": "On main; reuse existing7original validation and4exact files",
+    "existing_web": "v1 single-DOCX plus fixed synthetic demo; not B source-bound4artifact journey"
+  },
+  "source_blob_oids": {
+    "AGENTS.md": "6ab4ba126df1f2e4827669478968c4ea9509130a",
+    "PROJECT_CONTEXT.md": "8c454d8c4822ecb1ee88c4d5357121d79fe8e439",
+    "docs/system-specification.md": "bc11057a203e7310ce8e72bc70694855ca15857f",
+    "docs/tasks/PRODUCT-001B-trusted-local-review-presenter.md": "2bf57ac5c0f46b8166502ca28f99ccceee3a0446",
+    "docs/decisions/RESUME-FOUNDATION-001-web-direction.md": "fac832a7a894433a08fb7156ac832a846dd7f69d",
+    "backend/app/services/preapi_source_custody.py": "fb6de295bed37a6aa70c0c848366072ee03ad26c",
+    "backend/app/services/uspto_document_package.py": "314d953954959bbafb82a54ed5999658bcf52d68",
+    "backend/app/services/uspto_document_package_validation.py": "00e5c26b82e4dcc654dd072b09f9d09bd862b7ea",
+    "backend/app/services/uspto_offline_renderer.py": "3c4f2e76e2c06a7a90c0498a0db70ba3098fe974",
+    "backend/app/api/routes/documents.py": "d47654858f13bbf383d907a79a6b82991433918f",
+    "backend/app/api/routes/local_orchestration.py": "ab29261741edb5a05e964a23c940e75a166635bc",
+    "backend/app/main.py": "a9c8c828b55fde968e552ae700dec1da7c4be6ac",
+    "frontend/src/lib/api/client.ts": "61280e5c912e853c9eeb9c246130efa9f30ed232",
+    "frontend/src/lib/types/contracts.ts": "c3bf60cf18bdba7a3cf7b066b56869e7ba27f424",
+    "frontend/src/components/EvidenceCard.tsx": "bef6efd5052704c4d693e6724e9ad3663a71ac38"
+  },
+  "scope": {
+    "spec": "docs/tasks/PRODUCT-001B-WEB-001.md",
+    "spec_version": "0.1.0",
+    "status": "DRAFT_NOT_FROZEN",
+    "phase4_runtime": "BLOCKED awaiting D01-D07 and accepted dependencies",
+    "second_fixture_bytes_hash": "PENDING_NOT_MATERIALIZED",
+    "new_runtime_or_auth_or_transport_changes": false,
+    "new_business_schema_or_pipeline_or_renderer": false,
+    "fixtures_created_or_used": false,
+    "paid_ai_calls": 0,
+    "deploy": false,
+    "merges": false,
+    "pr150_modified": false,
+    "mcp_registration_lease": "UNVERIFIED; no exposed tools"
+  },
+  "validation_at_this_turn": {
+    "executed": [
+      "Live refs/checks/review/comment readbacks",
+      "Downloaded artifact13424296589 and compared digest/members/audits/security log",
+      "Git source/parent/blob comparisons",
+      "Documentary checks recorded in final handoff after execution"
+    ],
+    "not_executed": [
+      "New application/backend/frontend/browser/security regression suites",
+      "New B endpoint/fixture/provider flow",
+      "Independent Gemini review",
+      "Spec freeze or runtime approval"
+    ]
+  },
+  "review_handoff": "Final planning HEAD/tree recorded after commit; Gemini3.8 Flash High/Antigravity STRICT READ-ONLY actual model/profile/session/reuse/verdict PENDING",
+  "stacking": {
+    "base_branch": "docs/resume-foundation-001-public-safe-20261105",
+    "base_head": "bc991c7ad2f42635b523ecff24daf77a3027fb93",
+    "reason": "Preserve151 candidate while planning independent B contract",
+    "pr_ci_filter": "Existing workflow only PRs targeting main; stacked PR may have no PR CI",
+    "manual_ci": "Any branch workflow_dispatch is validation only; required main-target CI remains pending after retarget"
+  },
+  "resume_keyword": "RESUME-PRODUCT-001B-WEB-001",
+  "documentary_validation": {
+    "json": "PASS",
+    "new_relative_links": "PASS",
+    "W01_W12_D01_D07_coverage": "PRESENT; not executed application acceptance",
+    "diff_whitespace": "PASS",
+    "governance_structure": "PASS; structural only",
+    "selected_sensitive_pattern_scan": "PASS; limited scan, not disclosure guarantee"
+  }
+}

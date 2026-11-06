@@ -10,7 +10,7 @@
 | Document title | Gemini Review Log |
 | Project | AI Intellectual Property Description Generator |
 | Project deadline | 02/10/2026 |
-| Version | 0.3.64 |
+| Version | 0.3.66 |
 | Status | Active review log |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -4030,3 +4030,60 @@ and conditional main integration PENDING. CI503 plan only, no workflow/gate edit
 REVIEW-0010.3.63->0.3.64,05/11/2026,Codex: append direct addendum provenance
 closeout and preserve previous pending snapshots/findings/source attribution.
 Breaking change: No. No Completed/MCP/approval transition fabricated.
+
+
+## PRODUCT-001B-WEB-001 — foundation review gate and new contract handoff
+
+Human START-PRODUCT-001B-WEB-001 authorizes verification and gated contract
+preparation. Main478f7d3/147MERGED and exact-main CI42038735811 SUCCESS verified.
+151bc991c7/tree197f5919 has hosted42041866712 attempt2 SUCCESS, mandatory
+artifact13424296589 digest/content checked (full/prod0/security73+2PASS).
+Attempt1 HTTP401 retained; no CI result is promoted to review PASS.
+
+**Exact-bc991c7 independent Gemini review PENDING**: zero native reviews, no new
+matching report found in checked local backup; live PR handoff explicitly pending.
+Old00f3833 documentary PASS/addendum is history, not approval for the integrated
+candidate.151 remains Draft;150 untouched.146/149 retain their own review/CI/
+provenance/authorization gates; no merge or imported approval.
+
+[New concrete B spec0.1.0](../tasks/PRODUCT-001B-WEB-001.md) is DRAFT/not frozen.
+Actual Gemini3.8 Flash High / Antigravity STRICT READ-ONLY design review on its
+final planning SHA/tree is PENDING, with actual model/profile/session/reuse and
+commands/limits/findings/verdict required. Future runtime needs Human security,
+fixture and scope acceptance first. W01-W12 and implementation tests are planned,
+NOT RUN; no source-derived new review, CI approval or MCP state fabricated.
+
+REVIEW-0010.3.64->0.3.65,05/11/2026,Codex: append verified CI vs pending review
+boundary and new B contract handoff. Breaking change: No—documentary only.
+
+
+## PRODUCT-001B-WEB-001 — advisory REQUEST CHANGES and documentary remediation
+
+Original AIIP-PRODUCT-001B-WEB-001-INDEPENDENT-DESIGN-REVIEW.md:50927bytes,
+SHA256 `43646a9cec166466e90b3d534a1f842a04fef951c5f91cb59db1a6ac2bb4a0de`,
+backup/source bytes equal, full226lines read; unchanged privately. Exact reviewed
+HEAD22d070c64ef7328ca893b06ad40044ac4f5ae722,
+treea51d7314dcd914fea3d6dba1870b7429550040b5. Source reports actual Gemini4
+Argon High / Antigravity STRICT READ-ONLY, reused session and no implementation/
+tracked changes/commit/push/merge/deploy/state mutations. Individual ID retained
+locally; this is attribution, not authenticated runtime identity.
+
+Preserve documentary scope/public-safe inspection PASS separately from technical
+**REQUEST CHANGES**,3HIGH/3MEDIUM/1LOW F-WEB-01..07, and governance/runtime BLOCKED.
+Actual model differs from default3.8; Human remediation instruction leaves Argon
+**ADVISORY ONLY**, with no retroactive model selection. New actual Gemini3.8 Flash
+High exact-final-SHA review is required before treating this as a gate verdict.
+
+[Seven-finding table and T01-T07](../tasks/PRODUCT-001B-WEB-001-review-remediation.md)
+record source lines/root causes/dispositions/proposed fixes/unresolved decisions.
+[Spec0.1.1](../tasks/PRODUCT-001B-WEB-001.md) updates W01-W12/D01-D07/BF/BP4;
+all7are documentary remediation proposed, NOT independently closed. Report's
+6-pointer count is corrected to7 source-proven patterns while original retained;
+no severity changed.53existing C1/P2regressions PASS/1warning, not B acceptance.
+Old22manualCI42048919315 SUCCESS is historical workflow_dispatch only; no new-SHA
+PASS, required main-target CI or model exception inferred.151bc991c7independent
+review/acceptance and146/149gates remain separate; no merge/runtime/deploy.
+
+REVIEW-0010.3.65->0.3.66,06/11/2026,Codex: append attributed advisory report,
+controlled spec remediation and pending fixed-SHA3.8re-review. Earlier review
+history/originals preserved. Breaking change: No runtime/policy activation.
