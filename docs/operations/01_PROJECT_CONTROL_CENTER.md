@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.105 |
+| Version | 0.3.108 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -20,6 +20,17 @@
 | Confidentiality level | Public-safe documentary projection; original internal records retained privately |
 
 ## RESUME-FOUNDATION-001 current baseline
+
+### Post-foundation A dependency recovery — 06/11/2026
+
+Main6278b081/tree197f5919 includes Human-authorized151merge and exact-main CI42156455402 SUCCESS, security13475625084 digest/content verified/full-prod0. PR152 remains Draft975ac11, now main-target requiredCI42157764515 SUCCESS/security13476050015 verified. That closes the foundation/retarget/requiredCI prerequisite only; D01-D07/freeze/fixtures/runtime remain unapproved. Older dated snapshots below are history.
+
+Human RESUME-AIIP-POST-FOUNDATION-DEPENDENCY-RECOVERY authorizes scoped A recovery, tests/new CI and C2 specification planning. [A recovery1.0.0](../tasks/PRODUCT-001A-post-foundation-recovery.md) normally integrates originalcf9097fd onto accepted main in a separate branch; only README conflicts, all11other A paths/4fixture bytes preserved. New final SHA/tree/PR/CI belong in post-commit handoff. Local tests are recorded by actual QA result after execution; no old PASS promoted. Original149/146/150/152 unchanged. Independent new fixed-SHA review and required CI mandatory; no merge/deploy authorized.
+
+C2 remains specification-only: README/PCC/ReviewLog conflict; original spec/receipt hashes and Human architecture decision retained in a separate recovery plan, no C2 implementation or approved fixtures. Actual152second Gemini receipt remains pending; parent diff6files +982/-185, separate full7files +1600/-5. BF04review/acceptance differs from actual merge/postmergeCI; no freeze/D05/B1-B6 permission.
+
+OPS-0010.3.105→0.3.108,06/11/2026,Codex: post-foundation A recovery status; intervening152candidate versions retained separately. Breaking change: No; no authority/gate change.
+
 
 ### Review closeout — 05/11/2026, latest checkpoint
 

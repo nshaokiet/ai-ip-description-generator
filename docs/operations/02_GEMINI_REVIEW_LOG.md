@@ -10,7 +10,7 @@
 | Document title | Gemini Review Log |
 | Project | AI Intellectual Property Description Generator |
 | Project deadline | 02/10/2026 |
-| Version | 0.3.64 |
+| Version | 0.3.67 |
 | Status | Active review log |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -4030,3 +4030,14 @@ and conditional main integration PENDING. CI503 plan only, no workflow/gate edit
 REVIEW-0010.3.63->0.3.64,05/11/2026,Codex: append direct addendum provenance
 closeout and preserve previous pending snapshots/findings/source attribution.
 Breaking change: No. No Completed/MCP/approval transition fabricated.
+
+
+## PRODUCT-001A — post-foundation recovery, 06/11/2026
+
+REVIEW-0010.3.64→0.3.67,Codex; intervening152candidate entries remain separately preserved. Format unchanged; breaking change No. This is integration evidence, not independent PASS.
+
+Original149cf9097fd technical PASS remains Human-relayed with unresolved actual-model/session provenance; it does not approve this changed integration SHA. New actual Gemini3.8 Flash High / Antigravity STRICT READ-ONLY final-SHA review is PENDING. Original code/test/fixture blobs retained; only README merge conflict plus factual recovery/status docs. [Scope/matrix/handoff](../tasks/PRODUCT-001A-post-foundation-recovery.md).
+
+Historical41848393889 backend1160PASS/2SKIP then Ubuntu snapshot503/exit100/security producer absent is not CI SUCCESS. Current main42156455402 and152required42157764515 SUCCESS/security full-prod0 are baseline evidence, not new A recovery PASS. Exact recovery head/tree, new CI and actual reviewer findings belong in post-commit PR handoff. No old or simulated approval, scope extension, merge or deployment.
+
+151review/merge/postmerge accepted separately.152actual second correction receipt still pending:6files +982/-185 parent diff,7files +1600/-5 full; BF04foundationreview boundary differs from BP404 integration prerequisites. C2 plan/spec-only and B D01-D07/fixtures/freeze/runtime gates stay distinct. Raw originals/session/operational logs stay local; no source report rewritten.
