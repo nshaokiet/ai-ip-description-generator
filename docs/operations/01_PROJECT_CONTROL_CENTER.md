@@ -8,18 +8,47 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.108 |
+| Version | 0.3.109 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High |
 | Created date | 18/09/2026 |
-| Last updated | 05/11/2026 GMT+7 — foundation candidate; historical entries preserved |
+| Last updated | 07/11/2026 GMT+7 — B documentary recovery; historical entries preserved |
 | Related task ID | SPEC-004 |
 | Source of Truth | Operational status bridge; bản nguồn Git tại `docs/operations/01_PROJECT_CONTROL_CENTER.md` |
 | Confidentiality level | Public-safe documentary projection; original internal records retained privately |
 
 ## RESUME-FOUNDATION-001 current baseline
+
+### PRODUCT-001B / WEB-001 post-PR154 documentary recovery — 07/11/2026
+
+Current main18029914/treee2b11c33 includes accepted151/153/154 normal integrations.
+[Current overlay and gate matrix](../tasks/PRODUCT-001B-WEB-001-post154-recovery.md)
+is factual status reconciliation, NOT specification freeze or new authority.
+Main42338312056 SUCCESS/security13560043546 ZIP4022ff92… was independently downloaded,
+full/prod0 and security73+2PASS. Original A-main42177917762 attempts1/2 failed at
+signed Ubuntu indexHTTP502/503; required security absent. Those failures remain
+history; current green evidence is from the later accepted154 integration.
+
+New isolated docs-only branch starts at180299148595edae6d12e2c254dd3559ff7b75ad.
+Original152975ac11/tree1b75390c remains OPEN/DRAFT/conflicting and untouched.
+Four original B spec/remediation/QA blobs preserved byte-for-byte; shared documents
+start from current main, retaining all A/CI/foundation history. New SHA/tree/PR,
+actual local checks and required main-target CI/security belong in post-commit
+handoff; no old PASS approves the changed candidate. New independent review PENDING.
+
+Actual second Gemini correction remains missing: parent6files+982/-185, full7files
++1600/-5, BF04 exact-foundationreview/acceptance distinct from BP404merge/CI.
+Original Argon advisory REQUEST CHANGES and3.8design PASS/first correction are
+separately attributed; no Codex-created reviewer verdict. D01–D07, PDF-A/DOCX-B
+admission, freeze/Phase4/B1–B6, C2 runtime, provider/real data/deploy remain unapproved.
+Integrated A controller PDF/DOCX are not two-content B admission.146 remains a
+separate specification-only recovery. MCP registration/lease UNVERIFIED; no state
+or approval invented. [Safe evidence](../qa/product-001b-web-001-post154-recovery-20261107.json).
+
+OPS-0010.3.108→0.3.109,07/11/2026,Codex: append factual B recovery checkpoint;
+prior histories retained, no product/security policy change. Breaking change: No.
 
 ### Post-foundation A dependency recovery — 06/11/2026
 

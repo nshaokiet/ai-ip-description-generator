@@ -10,13 +10,13 @@
 | Document title | Gemini Review Log |
 | Project | AI Intellectual Property Description Generator |
 | Project deadline | 02/10/2026 |
-| Version | 0.3.67 |
+| Version | 0.3.68 |
 | Status | Active review log |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High + Gemini 3.8 Flash High (historical); Google Antigravity (Advanced Agentic Coding) for REV-P0-006-IMPLEMENTATION, REV-P0-007-SPECIFICATION, REV-P0-007-IMPLEMENTATION and REV-P0-008-SPECIFICATION; Google Antigravity / Gemini 1.5 Pro (Advanced Agentic Coding) for REV-P0-008-IMPLEMENTATION; Gemini 3.1 Pro High for REV-P0-009-IMPLEMENTATION, REV-EVAL-001-SPECIFICATION, REV-EVAL-001-FRAMEWORK-IMPLEMENTATION, REV-EVAL-001-GOLD, REV-P0-010-FINAL-CLOSEOUT, REV-P1-001-IMPLEMENTATION, REV-DEPLOY-001-ROADMAP, REV-P1-002-IMPLEMENTATION, REV-P1-003-IMPLEMENTATION, REV-P1-003-CLOSEOUT, REV-P1-004-IMPLEMENTATION, REV-P1-004-CLOSEOUT, REV-P1-005-IMPLEMENTATION, REV-P1-005-CLOSEOUT, REV-P1-006-IMPLEMENTATION, REV-P1-006-CLOSEOUT, REV-DEPLOY-001-IMPLEMENTATION, REV-DEPLOY-001-REWRITE-REMEDIATION, REV-P2-001-IMPLEMENTATION, REV-P2-000-SPECIFICATION, REV-P2-000-IMPLEMENTATION, REV-P2-000-R2-IMPLEMENTATION, REV-P2-000-R3-IMPLEMENTATION and REV-P2-000-R3-CLOSEOUT |
 | Created date | 18/09/2026 |
-| Last updated | 05/11/2026 GMT+7 — foundation reconciliation |
+| Last updated | 07/11/2026 GMT+7 — B documentary recovery; historical entries preserved |
 | P2-002 reviewer / task | Gemini 3.1 Pro High / Antigravity read-only; REV-P2-002-SPECIFICATION, REV-P2-002-IMPLEMENTATION and REV-P2-002-CLOSEOUT |
 | P2-004 reviewer / task | Gemini 3.1 Pro High / Antigravity read-only; REV-P2-004-SPECIFICATION, IMPLEMENTATION and CLOSEOUT all CLOSED — PASS / findings NONE; separate final-status reconciliation fixed-SHA review PENDING; Human-supplied external review evidence, not GitHub-native approval |
 | P2-003 reviewer / task | Gemini 3.1 Pro High / Antigravity read-only; REV-P2-003-SPECIFICATION, REV-P2-003-IMPLEMENTATION and REV-P2-003-CLOSEOUT; Human-supplied external review evidence, not GitHub-native approval; implementation and closeout reviews CLOSED — PASS / findings NONE |
@@ -4041,3 +4041,35 @@ Original149cf9097fd technical PASS remains Human-relayed with unresolved actual-
 Historical41848393889 backend1160PASS/2SKIP then Ubuntu snapshot503/exit100/security producer absent is not CI SUCCESS. Current main42156455402 and152required42157764515 SUCCESS/security full-prod0 are baseline evidence, not new A recovery PASS. Exact recovery head/tree, new CI and actual reviewer findings belong in post-commit PR handoff. No old or simulated approval, scope extension, merge or deployment.
 
 151review/merge/postmerge accepted separately.152actual second correction receipt still pending:6files +982/-185 parent diff,7files +1600/-5 full; BF04foundationreview boundary differs from BP404 integration prerequisites. C2 plan/spec-only and B D01-D07/fixtures/freeze/runtime gates stay distinct. Raw originals/session/operational logs stay local; no source report rewritten.
+
+
+## PRODUCT-001B / WEB-001 — post-PR154 documentary recovery, 07/11/2026
+
+REVIEW-0010.3.67→0.3.68,Codex. Factual integration/review reconciliation, not a new
+independent verdict. All earlier reports, model attribution, findings and A/CI
+snapshots above remain unchanged history. [Current overlay](../tasks/PRODUCT-001B-WEB-001-post154-recovery.md)
+and [safe receipt](../qa/product-001b-web-001-post154-recovery-20261107.json).
+
+- Argon advisory50927bytes/hash43646a9c…: Gemini4 Argon High, REQUEST CHANGES,
+  3HIGH/3MEDIUM/1LOW; advisory only, no retroactive model-policy approval.
+- Actual3.8PR152 original15764bytes/hash659f89b9… and first correction17412bytes/
+  hashbed15e4c… match reviewer-source and private-backup bytes. Source-attested
+  reused-session/read-only design PASS/F-WEB01..07 DESIGN-LEVEL CLOSED reported;
+  no runtime, freeze, Human decision or new-candidate acceptance inferred.
+- Genuine separately hashed second correction is NOT FOUND. First addendum's
+  parent+1152/-5 is wrong: actual22d070c..975ac11=6files+982/-185; fullbc991c7..
+  975ac11=7files+1600/-5. BF04 is foundation151exactreview/acceptance in spec§10,
+  not merge/postmergeCI. Reconciliation remains PENDING, not silently corrected
+  on Gemini's behalf. Original reports and first addendum are not rewritten.
+- Foundation151accepted exactbc991c7 review/integration/mainCI is historical
+  evidence; A153reviewed58d7564 is merged, original149 merged through ancestry.
+  Original A-main42177917762 failures/security absence remain;154current-main
+  42338312056SUCCESS/security13560043546/full-prod0 closes the later CI recovery.
+- Four B files remain original blobs. New main-based recovery changes shared
+  governance/status and adds a factual overlay only. Require new actual3.8FlashHigh
+  STRICT READ-ONLY fixed-final-SHA review, exact model/profile/session/reuse and
+  executed-vs-inspected tests. Original975ac11review does not approve this tree.
+- D01–D07/BF03/BF05/BP401/BP403 and freeze/fixture/runtime authority stay open;
+  BP402A integration established, BP404new-candidate CI tracked post-commit.
+  Raw originals/session/paths/logs private; no native approval, merge, deployment,
+  paid API or confidential source use. Format unchanged; Breaking change: No.

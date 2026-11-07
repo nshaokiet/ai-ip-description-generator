@@ -25,29 +25,29 @@ Mọi đầu ra đều cần người dùng và chuyên gia sở hữu trí tu�
 
 ## Project status
 
-Tiến độ foundation/A được đối chiếu ngày **06/11/2026**; các dòng khác giữ snapshot có nguồn. Đọc [checkpoint canonical](docs/operations/01_PROJECT_CONTROL_CENTER.md#resume-foundation-001-current-baseline) trước khi tiếp tục. Main đã tích hợp PR #147 và foundation #151 tại `6278b081`; exact-main CI42156455402 SUCCESS. PRODUCT-001A đang được recovery trên nhánh riêng, chưa merge hoặc được chấp nhận. Draft là công việc chưa được chấp nhận hoàn tất.
+Tiến độ được đối chiếu ngày **07/11/2026**: foundation #151, PRODUCT-001A #153 và installer recovery #154 đã tích hợp; main `18029914`, [exact-main CI42338312056](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/42338312056) SUCCESS với security artifact13560043546/audits0. [B documentary recovery](docs/tasks/PRODUCT-001B-WEB-001-post154-recovery.md) giữ nguyên spec0.1.1 và Human gates; không phải runtime acceptance. Các snapshot cũ được giữ trong checkpoint; Draft chưa được chấp nhận hoàn tất.
 
 | Workstream | Status | Current focus |
 |---|---|---|
-| PREAPI-001 / C1 | BLOCKED | Mã quản lý nguồn đã merge; còn chờ postmerge CI và closeout. |
+| PREAPI-001 / C1 | CORE / BOUND REVIEW INTEGRATED | Core và A/C1 bound-review đã tích hợp qua #153; current-main CI sau #154 SUCCESS. Broader C1 governance không tự Completed; B transport/security cần phê duyệt riêng. |
 | PREAPI-C2 REVISION-004 | PENDING CI / ACCEPTANCE | [PR #146](https://github.com/nshaokiet/ai-ip-description-generator/pull/146) có Human architecture acceptance và attributed fixed-SHA review PASS; CI fail audit/quota. Spec-only; [#140](https://github.com/nshaokiet/ai-ip-description-generator/pull/140) là Draft cũ chồng phạm vi. |
 | PREAPI-D | IN PROGRESS | [Draft checker](https://github.com/nshaokiet/ai-ip-description-generator/pull/141) kiểm tra điều kiện provider offline; chưa merge, chưa xác minh quyền gọi mô hình. |
 | PREAPI-E | IN PROGRESS | [Draft evaluator check](https://github.com/nshaokiet/ai-ip-description-generator/pull/142) kiểm tra bộ mẫu và phép chấm; chưa merge, chưa đánh giá AI thật. |
-| CI-V2-001 | BLOCKED | [PR #144](https://github.com/nshaokiet/ai-ip-description-generator/pull/144) có external code PASS; CI lịch sử fail quota, hiện CONFLICTING. Run #148 ngày04/11 upload được artifact; không mặc định quota vẫn là nguyên nhân mọi lỗi. |
+| CI-V2-001 | INSTALLER RECOVERY MERGED / #144 PENDING | [#154 closeout](https://github.com/nshaokiet/ai-ip-description-generator/pull/154#issuecomment-6702377862): bounded signed snapshot index recovery, exact-main CI42338312056/security verified. Original #144 upload-hardening/conflicts vẫn riêng; các failure cũ giữ nguyên. |
 | CI-V2-002 / CI-V2-003 | PLANNED | [Đặc tả đã soạn](https://github.com/nshaokiet/ai-ip-description-generator/tree/docs/ci-v2-002-003-planning); chưa triển khai CI phân tầng và tối ưu storage. |
 | Governance & Integration | PENDING | [PR #143](https://github.com/nshaokiet/ai-ip-description-generator/pull/143) CONFLICTING; reconcile overlap với #146/foundation, không tự đóng hoặc thay review. |
 | EVAL-001 Product Runtime | AWAITING FUNDING | Chưa có kết quả chạy provider được chấp nhận; chất lượng ngữ nghĩa vẫn NOT_DETERMINED. |
 | README-REFRESH-001 | MERGED / CI DEBT | [PR #145](https://github.com/nshaokiet/ai-ip-description-generator/pull/145) đã merge vào `53c253be`; exact-main push CI attempt2 vẫn FAILURE, không suy thành accepted closeout. |
 | DEP-001-SR-20261024 | MERGED / POSTMERGE CI SUCCESS | [#147](https://github.com/nshaokiet/ai-ip-description-generator/pull/147) merged into `main` at `478f7d30` from reviewed HEAD `4c30d37`. [Postmerge CI42038735811](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/42038735811) SUCCESS with mandatory `dep-001-security` artifact, full/prod audit0 and security73+2 PASS. [Evidence and limits](docs/tasks/AIIP-INDEPENDENT-REVIEW-20261105-provenance-closeout.md). No deployment. |
-| PRODUCT-001A | LOCAL105PASS / RECOVERY REVIEW-CI PENDING | [Original #149](https://github.com/nshaokiet/ai-ip-description-generator/pull/149) preserved at cf9097fd; separate normal integration onto main6278b081 retains A/C1 code, tests and four fixture bytes. [Recovery scope and gates](docs/tasks/PRODUCT-001A-post-foundation-recovery.md). No browser/security-policy change or fixture admission. |
-| PRODUCT-001B | PROPOSED — WEB | [Contract browser0.2.0](docs/tasks/PRODUCT-001B-trusted-local-review-presenter.md) thay khuyến nghị terminal-first; chưa freeze/duyệt implementation/auth policy, chưa triển khai. |
+| PRODUCT-001A | INTEGRATED / CURRENT MAIN CI SUCCESS | [#153](https://github.com/nshaokiet/ai-ip-description-generator/pull/153) merged at417708d9, reviewed tree48b36b12 preserved. Original exact-main CI42177917762 failed twice at installer; [#154 recovery](https://github.com/nshaokiet/ai-ip-description-generator/pull/154#issuecomment-6702377862) supplies new green main evidence. Four existing fixtures are local-test-only, not B admission. |
+| PRODUCT-001B | DOCUMENTARY RECOVERY / REVIEW PROVENANCE PENDING | [WEB-001 spec0.1.1](docs/tasks/PRODUCT-001B-WEB-001.md) copied unchanged; [current dependency/gate overlay](docs/tasks/PRODUCT-001B-WEB-001-post154-recovery.md). Original #152 remains Draft975ac11; historical second correction and new final-SHA review pending. D01–D07/fixtures/freeze/B1–B6 not authorized. |
 | RESUME-FOUNDATION-001 | MERGED / POSTMERGE CI SUCCESS | [#151](https://github.com/nshaokiet/ai-ip-description-generator/pull/151) merged at6278b081, tree197f5919 unchanged from reviewedbc991c7. [CI42156455402](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/42156455402) SUCCESS/security artifact13475625084 verified; #150 preserved. |
 
 ## Next Steps
 
-1. Recover PRODUCT-001A against accepted main on a separate branch, run targeted and required hosted CI/security evidence, then obtain a new independent fixed-SHA review; no merge before gates. [Recovery plan](docs/tasks/PRODUCT-001A-post-foundation-recovery.md).
-2. Reconcile CI144/conflicts và QA installer503 trong task tương ứng; giữ mandatory evidence/checks, xác minh postmerge C1.
-3. Hoàn tất review provenance/CI của #146/#149; duyệt contract/auth/fixtures cho B trước triển khai một luồng web tổng hợp xuyên suốt.
+1. Validate the separate [B documentary recovery](docs/tasks/PRODUCT-001B-WEB-001-post154-recovery.md), required new main-target PR CI/security and exact-final-SHA independent review; preserve #152 and accepted A/CI history.
+2. Obtain the actual second Gemini correction receipt for original #152; reconcile C2 #146 specification-only on its own branch. #144 upload-hardening conflicts remain separate from accepted #154 installer recovery.
+3. Obtain explicit Human D01–D07, fixture materialization/admission, exact-spec freeze and Phase4 scope decisions before B runtime. Existing controller PDF/DOCX represent one source, not the required distinct DOCX-B.
 4. Persistence, author answers/review history/retention/recovery là increment riêng; rồi mới pilot provider khi có quyền và kinh phí.
 
 [Backlog theo dependency và acceptance](docs/tasks/RESUME-FOUNDATION-001.md). Sản phẩm đích là website Next.js + FastAPI; local/offline/synthetic là môi trường kiểm thử. MCP điều phối phát triển, không phải database hồ sơ website.
@@ -70,7 +70,7 @@ Quyền truy cập mô hình trên tài khoản API và giá thực tế chưa �
 
 **TBD — Pending Provider and Budget Approval:** Chưa xác định chi phí, hạn mức pilot hoặc nhu cầu hạ tầng trả phí; không bắt đầu pilot khi chưa có phê duyệt riêng.
 Bài báo thật chưa được xác thực qua pipeline AI và chưa đạt semantic acceptance.
-**GitHub Actions có blocker riêng:** quota upload đã lỗi ở các run tháng10; run148 đã upload thành công, còn run149 lỗi QA503 và thiếu output. Mua tín dụng AI API không xử lý các gate này.
+**GitHub Actions có lịch sử lỗi riêng:** quota upload tháng10 và QA installer failures vẫn được lưu. Current main sau #154 có CI42338312056 SUCCESS/security0; new B candidate cần CI riêng. Mua tín dụng AI API không thay thế CI/review gates.
 
 ## Production Readiness
 

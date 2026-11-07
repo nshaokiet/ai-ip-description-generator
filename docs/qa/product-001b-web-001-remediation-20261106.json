@@ -1,0 +1,329 @@
+{
+  "document_id": "PRODUCT-001B-WEB-001-REMEDIATION-20261106",
+  "version": "1.0.0",
+  "date": "2026-11-06 Asia/Saigon",
+  "author": "Codex implementation/reconciliation, not independent reviewer",
+  "authority": "Human RESUME-PRODUCT-001B-WEB-001 REVIEW REMEDIATION, documentary/evidence only",
+  "review": {
+    "filename": "AIIP-PRODUCT-001B-WEB-001-INDEPENDENT-DESIGN-REVIEW.md",
+    "bytes": 50927,
+    "sha256": "43646a9cec166466e90b3d534a1f842a04fef951c5f91cb59db1a6ac2bb4a0de",
+    "matches_human_provided_expected_hash": true,
+    "backup_original_bytes_equal": true,
+    "full_report_lines_read": 226,
+    "reported_actual_model_profile": "Gemini 4 Argon High / Antigravity STRICT READ-ONLY",
+    "session_reuse_reported": true,
+    "individual_session_identifier": "Retained privately; not published",
+    "independence_read_only": "Source-attested; no authenticated identity claim",
+    "technical_verdict": "REQUEST CHANGES",
+    "documentary_scope_verdict_reported": "PASS; not technical/model/merge approval",
+    "governance_verdict_reported": "BLOCKED",
+    "role_in_this_task": "ADVISORY_ONLY; no retroactive model approval",
+    "standing_default": "Gemini 3.8 Flash High",
+    "required_new_gate_review": "PENDING on final0.1.1SHA; actual model/profile/session/reuse/independence/verdict required"
+  },
+  "reviewed_candidate": {
+    "head": "22d070c64ef7328ca893b06ad40044ac4f5ae722",
+    "tree": "a51d7314dcd914fea3d6dba1870b7429550040b5",
+    "base": "bc991c7ad2f42635b523ecff24daf77a3027fb93",
+    "old_spec": "0.1.0 accessible by immutable commit"
+  },
+  "specification": {
+    "path": "docs/tasks/PRODUCT-001B-WEB-001.md",
+    "version": "0.1.1",
+    "status": "DRAFT_NOT_FROZEN_NOT_APPROVED",
+    "runtime_started": false,
+    "final_sha_tree": "Recorded post-commit in PR152 handoff; not self-embedded"
+  },
+  "findings": [
+    {
+      "id": "F-WEB-01",
+      "severity": "HIGH",
+      "original_report_header_line": 146,
+      "original_report_location_line": 147,
+      "disposition": "ACCEPT",
+      "spec_sections": [
+        "4.1",
+        "4.2",
+        "8"
+      ],
+      "acceptance_proposal": "T01",
+      "runtime_acceptance": "NOT_IMPLEMENTED_NOT_RUN",
+      "closure": "DOCUMENTARY_REMEDIATION_PROPOSED_RE_REVIEW_REQUIRED",
+      "unresolved_human_decisions": [
+        "D03",
+        "D06"
+      ]
+    },
+    {
+      "id": "F-WEB-02",
+      "severity": "HIGH",
+      "original_report_header_line": 151,
+      "original_report_location_line": 152,
+      "disposition": "ACCEPT",
+      "spec_sections": [
+        "4.3",
+        "5",
+        "6"
+      ],
+      "acceptance_proposal": "T02",
+      "runtime_acceptance": "NOT_IMPLEMENTED_NOT_RUN",
+      "closure": "DOCUMENTARY_REMEDIATION_PROPOSED_RE_REVIEW_REQUIRED",
+      "unresolved_human_decisions": [
+        "D03",
+        "D04",
+        "D06"
+      ]
+    },
+    {
+      "id": "F-WEB-03",
+      "severity": "HIGH",
+      "original_report_header_line": 156,
+      "original_report_location_line": 157,
+      "disposition": "ACCEPT; arithmetic/source precision corrections noted separately",
+      "spec_sections": [
+        "5.2"
+      ],
+      "acceptance_proposal": "T03",
+      "runtime_acceptance": "NOT_IMPLEMENTED_NOT_RUN",
+      "closure": "DOCUMENTARY_REMEDIATION_PROPOSED_RE_REVIEW_REQUIRED",
+      "unresolved_human_decisions": [
+        "D02",
+        "D04"
+      ]
+    },
+    {
+      "id": "F-WEB-04",
+      "severity": "MEDIUM",
+      "original_report_header_line": 161,
+      "original_report_location_line": 162,
+      "disposition": "ACCEPT",
+      "spec_sections": [
+        "3.1",
+        "5",
+        "8"
+      ],
+      "acceptance_proposal": "T04",
+      "runtime_acceptance": "NOT_IMPLEMENTED_NOT_RUN",
+      "closure": "DOCUMENTARY_REMEDIATION_PROPOSED_RE_REVIEW_REQUIRED",
+      "unresolved_human_decisions": [
+        "D01",
+        "D02"
+      ]
+    },
+    {
+      "id": "F-WEB-05",
+      "severity": "MEDIUM",
+      "original_report_header_line": 166,
+      "original_report_location_line": 167,
+      "disposition": "ACCEPT",
+      "spec_sections": [
+        "5.1",
+        "5.2a",
+        "5.3"
+      ],
+      "acceptance_proposal": "T05",
+      "runtime_acceptance": "NOT_IMPLEMENTED_NOT_RUN",
+      "closure": "DOCUMENTARY_REMEDIATION_PROPOSED_RE_REVIEW_REQUIRED",
+      "unresolved_human_decisions": [
+        "D04"
+      ]
+    },
+    {
+      "id": "F-WEB-06",
+      "severity": "MEDIUM",
+      "original_report_header_line": 171,
+      "original_report_location_line": 172,
+      "disposition": "ACCEPT",
+      "spec_sections": [
+        "5.2",
+        "7",
+        "8"
+      ],
+      "acceptance_proposal": "T06",
+      "runtime_acceptance": "NOT_IMPLEMENTED_NOT_RUN",
+      "closure": "DOCUMENTARY_REMEDIATION_PROPOSED_RE_REVIEW_REQUIRED",
+      "unresolved_human_decisions": [
+        "D04",
+        "D05",
+        "D06"
+      ]
+    },
+    {
+      "id": "F-WEB-07",
+      "severity": "LOW",
+      "original_report_header_line": 176,
+      "original_report_location_line": 177,
+      "disposition": "ACCEPT",
+      "spec_sections": [
+        "3.1",
+        "8",
+        "9"
+      ],
+      "acceptance_proposal": "T07",
+      "runtime_acceptance": "NOT_IMPLEMENTED_NOT_RUN",
+      "closure": "DOCUMENTARY_REMEDIATION_PROPOSED_RE_REVIEW_REQUIRED",
+      "unresolved_human_decisions": [
+        "D01",
+        "D03",
+        "D06"
+      ]
+    }
+  ],
+  "severity_counts": {
+    "HIGH": 3,
+    "MEDIUM": 3,
+    "LOW": 1
+  },
+  "source_inventory": {
+    "document_id_occurrences": [
+      "/source_envelope/document_metadata/document_id",
+      "/structured_analysis/document_metadata/document_id",
+      "/structured_analysis/evidence/0/document_id",
+      "/reconstruction/document_metadata/document_id",
+      "/reconstruction/review_package/evidence/0/document_id",
+      "/specification/document_metadata/source_document/document_id",
+      "/supported_claims/source_identity/document_id"
+    ],
+    "distinct_pointer_patterns": [
+      "/reconstruction/document_metadata/document_id",
+      "/reconstruction/review_package/evidence/*/document_id",
+      "/source_envelope/document_metadata/document_id",
+      "/specification/document_metadata/source_document/document_id",
+      "/structured_analysis/document_metadata/document_id",
+      "/structured_analysis/evidence/*/document_id",
+      "/supported_claims/source_identity/document_id"
+    ],
+    "pattern_count": 7,
+    "derived_metadata": [
+      "/specification/document_metadata/draft_id",
+      "/supported_claims/claims_draft_id",
+      "/supported_claims/source_identity/p2_002_identity",
+      "/supported_claims/source_identity/p2_003_draft_id",
+      "/supported_claims/source_identity/p2_003_content_sha256"
+    ],
+    "source_fixture_sha256": "9a4be99442b39f871cb4bde7573fc9ddb47d942a6ad8fc4164c894122f18a233",
+    "scope": "Executed existing pure generation functions only; no B runtime implemented or fixture created"
+  },
+  "source_corrections": [
+    "Report says6document_id pointers but enumerates7; executed original functions confirm7patterns",
+    "C1 intake global locks are short; A.start spans heavy work and C1.render holds record lock",
+    "RLIMIT_AS bounds address space, Windows Job Object memory bounds committed virtual memory; not equivalent RSS",
+    "Title canonical max500characters; rationale evaluated against actual schema and B4096UTF8byte command cap"
+  ],
+  "existing_contract_regressions": {
+    "recorded_utc": "2026-11-06T01:28:00.478651+00:00",
+    "python_version": "Python 3.12.10",
+    "files": [
+      "tests/backend/test_preapi_c1_source_custody.py",
+      "tests/backend/test_uspto_document_package_v1.py",
+      "tests/backend/test_uspto_offline_renderer.py"
+    ],
+    "exit": 0,
+    "log_sha256": "4a2a291604b8d5d91538b30d6df1c7a20f51998f63609a502e993c8c99796812",
+    "scope": "Existing C1/P2 assembly/renderer regressions; not new B runtime/worker/TLS acceptance",
+    "passed": 53,
+    "warnings": 1,
+    "new_B_runtime_feasibility": false
+  },
+  "historical_manual_ci22": {
+    "run": 42048919315,
+    "head": "22d070c64ef7328ca893b06ad40044ac4f5ae722",
+    "event": "workflow_dispatch",
+    "status": "completed",
+    "conclusion": "success",
+    "jobs": [
+      {
+        "name": "build-and-test",
+        "conclusion": "success"
+      },
+      {
+        "name": "mcp-tests",
+        "conclusion": "success"
+      }
+    ],
+    "artifact": {
+      "id": 13427265002,
+      "bytes": 14385,
+      "sha256": "854638d81f3962b6a08734c807024dbb4aa0462055c315e3fba4edb473e14abe",
+      "members": [
+        "full-audit.json",
+        "lint-security.log",
+        "dependency-tree.json",
+        "production-audit.json"
+      ],
+      "audits": {
+        "full-audit.json": {
+          "info": 0,
+          "low": 0,
+          "moderate": 0,
+          "high": 0,
+          "critical": 0,
+          "total": 0
+        },
+        "production-audit.json": {
+          "info": 0,
+          "low": 0,
+          "moderate": 0,
+          "high": 0,
+          "critical": 0,
+          "total": 0
+        }
+      }
+    },
+    "not_required_main_target_pr_ci": true,
+    "does_not_approve_new_sha": true
+  },
+  "blockers": {
+    "BF-01": "PROPOSED_SPEC_FIXES_RE_REVIEW_PENDING",
+    "BF-02": "OPEN_MODEL_GATE_NEW_DEFAULT_REVIEW_PENDING",
+    "BF-03": "OPEN_HUMAN_D01_D04_D07_DECISIONS",
+    "BF-04": "OPEN_FOUNDATION_EXACT_REVIEW_ACCEPTANCE",
+    "BF-05": "OPEN_FIXTURE_BYTES_HASH_ADMISSION",
+    "BP4-01": "BLOCKED_BF_FROZEN_SPEC_PHASE4_AUTHORITY",
+    "BP4-02": "BLOCKED_A_DEPENDENCY",
+    "BP4-03": "BLOCKED_C2_BOUNDARY_DISPOSITION",
+    "BP4-04": "BLOCKED_FOUNDATION_INTEGRATION_MAIN_TARGET_PR_CI",
+    "BP4-05": "CONTINUING_ZERO_PROVIDER_SYNTHETIC_DRAFT_NO_DEPLOY_SEPARATE_REVIEWS"
+  },
+  "preserved": {
+    "151": "bc991c7ad2f42635b523ecff24daf77a3027fb93",
+    "150": "d88201a5db48e753581361ca670625df65f2f32b",
+    "146": "29daeb208f7736a448297f699e674192c124c7da",
+    "149": "cf9097fda4688db08fd505e21fcbf3c0e53a9d5c",
+    "main": "478f7d30b6c89f7d4dc8cade2d8a9365b974ec75"
+  },
+  "scope": {
+    "only_docs_evidence": true,
+    "runtime_auth_transport_fixtures_workflows_dependencies_changed": false,
+    "merge": false,
+    "deploy": false,
+    "paid_ai_calls": 0,
+    "original_report_modified": false,
+    "mcp": "Tools unavailable; registration/lease UNVERIFIED"
+  },
+  "acceptance_matrix": "W01-W12 updated; T01-T07 proposals, no B acceptance PASS",
+  "new_ci": "Actual final-SHA manual validation recorded in post-commit handoff; required main-target PR CI pending after accepted retarget",
+  "resume_keyword": "RESUME-PRODUCT-001B-WEB-001-REMEDIATION",
+  "recorded_utc": "2026-11-06T01:34:14.117804+00:00",
+  "proposed_memory_contract": {
+    "worker_allocation_mib": 512,
+    "dedicated_B_aggregate_budget_mib": 1536,
+    "retained_payload_accounting_mib": 128,
+    "Linux": "RLIMIT_AS worker plus delegated cgroupv2 aggregate memory.max/swap.max",
+    "Windows": "Job Object committed-memory budgets, nested worker job",
+    "metrics_not_equivalent_to_RSS": true,
+    "human_D03_approval": "PENDING",
+    "native_B_acceptance": "NOT_RUN"
+  },
+  "documentary_validation": {
+    "json": "PASS",
+    "introduced_relative_links": "PASS",
+    "seven_pointer_and_finding_inventory": "PASS",
+    "W01_W12_D01_D07_BF_BP4_present": true,
+    "diff_whitespace": "PASS",
+    "governance_structure": "PASS; structural only",
+    "selected_sensitive_pattern_scan": "PASS; limited scan, not disclosure guarantee",
+    "original_report_unchanged": true
+  }
+}
