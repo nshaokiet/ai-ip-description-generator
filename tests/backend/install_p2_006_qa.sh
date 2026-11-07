@@ -14,12 +14,12 @@ deb [signed-by=/usr/share/keyrings/ubuntu-archive-keyring.gpg] https://snapshot.
 deb [signed-by=/usr/share/keyrings/ubuntu-archive-keyring.gpg] https://snapshot.ubuntu.com/ubuntu/$snapshot noble-security main universe
 EOF
 # Ignore runner/PPA/live indexes; dependencies resolve only from the same snapshot.
-mkdir -p "$qa_apt/lists/partial"
-chmod 755 "$qa_apt" "$qa_apt/lists" "$qa_apt/lists/partial"
+# Every retry receives fresh lists; partial or unsigned indexes must fail closed.
+chmod 755 "$qa_apt"
+verified_lists="$(python "$root/tests/backend/p2_006_snapshot_index.py" "$qa_apt" "$snapshot")"
 options=(-o "Dir::Etc::sourcelist=$qa_apt/sources.list" -o 'Dir::Etc::sourceparts=-'
-         -o "Dir::State::lists=$qa_apt/lists" -o 'Acquire::Check-Valid-Until=false')
+         -o "Dir::State::lists=$verified_lists" -o 'Acquire::Check-Valid-Until=false')
 # Expired historical metadata is expected; archive signature/hash checks stay enabled.
-sudo apt-get "${options[@]}" update -qq
 mapfile -t packages < <(python -c 'import json,sys; d=json.load(open(sys.argv[1])); print("\n".join(k+"="+v for k,v in d["packages"].items()))' "$definition")
 sudo apt-get "${options[@]}" install -y --no-install-recommends --allow-downgrades "${packages[@]}"
 python "$root/tests/backend/verify_p2_006_qa_environment.py"
