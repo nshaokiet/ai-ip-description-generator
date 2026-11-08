@@ -8,18 +8,31 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.109 |
+| Version | 0.3.110 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High |
 | Created date | 18/09/2026 |
-| Last updated | 07/11/2026 GMT+7 — B documentary recovery; historical entries preserved |
+| Last updated | 08/11/2026 GMT+7 — C2 spec-only post-PR155 recovery; history preserved |
 | Related task ID | SPEC-004 |
 | Source of Truth | Operational status bridge; bản nguồn Git tại `docs/operations/01_PROJECT_CONTROL_CENTER.md` |
 | Confidentiality level | Public-safe documentary projection; original internal records retained privately |
 
 ## RESUME-FOUNDATION-001 current baseline
+
+### PREAPI-C2 REVISION-004 post-PR155 specification recovery — 08/11/2026
+
+Accepted main `27c24f70ac1fe528e04cb2a8d59e94e8cc34f346` includes documentation-only PR155; exact-main [CI42449793664](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/42449793664) SUCCESS and mandatory security artifact13605153288 SHA256 `4045149bab83f3cbab90b58c586ed5f8369c08e8cccb346e2b66e5f2aaa7896c`/full-prod0/security73+2PASS. This proves accepted baseline CI, not new C2 candidate CI.
+
+Historical [PR146](https://github.com/nshaokiet/ai-ip-description-generator/pull/146) is OPEN/DRAFT/conflicting at `29daeb208f7736a448297f699e674192c124c7da`/tree `d1f8880dad44363db4f612d76b9d709435f6089c`, with earlier CI40078806412 FAILURE (audit1HIGH+1CRITICAL, artifact quota) and external exact-old-SHA Gemini specification PASS with Workflow V1 provenance limitations. No CI exception, retroactive PASS or silent merge.
+
+The [isolated C2 documentary recovery plan](../tasks/PREAPI-C2-REVISION-004-post155-recovery.md) preserves all five unique original C2 decision/spec/receipt/manifest/handoff blobs, includes the original Human Option A specification-only authority and 80 unique proposed T01–T80 tests, and selectively adds current factual status to README, Control Center and Review Log. It does NOT run C2 tests, admit C2 fixtures, freeze PRODUCT-001B, approve D01–D07, activate C2/B1–B6 runtime, deploy, use paid provider or confidential paper.
+
+New Draft candidate HEAD/tree, changed-file scope, hosted CI/security and independent final-SHA Gemini review must be verified after publication, with no old-SHA PASS reused. Current C2 integration gate **PENDING**; no automatic merge eligibility. Original146, old reports and existing Drafts remain untouched. Source-attributed history stays append-only.
+
+OPS-001 0.3.109→0.3.110, 08/11/2026: post-PR155 C2 spec-only factual reconciliation; no product/runtime policy change.
+
 
 ### PRODUCT-001B / WEB-001 post-PR154 documentary recovery — 07/11/2026
 

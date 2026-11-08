@@ -10,19 +10,29 @@
 | Document title | Gemini Review Log |
 | Project | AI Intellectual Property Description Generator |
 | Project deadline | 02/10/2026 |
-| Version | 0.3.68 |
+| Version | 0.3.69 |
 | Status | Active review log |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High + Gemini 3.8 Flash High (historical); Google Antigravity (Advanced Agentic Coding) for REV-P0-006-IMPLEMENTATION, REV-P0-007-SPECIFICATION, REV-P0-007-IMPLEMENTATION and REV-P0-008-SPECIFICATION; Google Antigravity / Gemini 1.5 Pro (Advanced Agentic Coding) for REV-P0-008-IMPLEMENTATION; Gemini 3.1 Pro High for REV-P0-009-IMPLEMENTATION, REV-EVAL-001-SPECIFICATION, REV-EVAL-001-FRAMEWORK-IMPLEMENTATION, REV-EVAL-001-GOLD, REV-P0-010-FINAL-CLOSEOUT, REV-P1-001-IMPLEMENTATION, REV-DEPLOY-001-ROADMAP, REV-P1-002-IMPLEMENTATION, REV-P1-003-IMPLEMENTATION, REV-P1-003-CLOSEOUT, REV-P1-004-IMPLEMENTATION, REV-P1-004-CLOSEOUT, REV-P1-005-IMPLEMENTATION, REV-P1-005-CLOSEOUT, REV-P1-006-IMPLEMENTATION, REV-P1-006-CLOSEOUT, REV-DEPLOY-001-IMPLEMENTATION, REV-DEPLOY-001-REWRITE-REMEDIATION, REV-P2-001-IMPLEMENTATION, REV-P2-000-SPECIFICATION, REV-P2-000-IMPLEMENTATION, REV-P2-000-R2-IMPLEMENTATION, REV-P2-000-R3-IMPLEMENTATION and REV-P2-000-R3-CLOSEOUT |
 | Created date | 18/09/2026 |
-| Last updated | 07/11/2026 GMT+7 — B documentary recovery; historical entries preserved |
+| Last updated | 08/11/2026 GMT+7 — C2 specification-only recovery; earlier reports preserved |
 | P2-002 reviewer / task | Gemini 3.1 Pro High / Antigravity read-only; REV-P2-002-SPECIFICATION, REV-P2-002-IMPLEMENTATION and REV-P2-002-CLOSEOUT |
 | P2-004 reviewer / task | Gemini 3.1 Pro High / Antigravity read-only; REV-P2-004-SPECIFICATION, IMPLEMENTATION and CLOSEOUT all CLOSED — PASS / findings NONE; separate final-status reconciliation fixed-SHA review PENDING; Human-supplied external review evidence, not GitHub-native approval |
 | P2-003 reviewer / task | Gemini 3.1 Pro High / Antigravity read-only; REV-P2-003-SPECIFICATION, REV-P2-003-IMPLEMENTATION and REV-P2-003-CLOSEOUT; Human-supplied external review evidence, not GitHub-native approval; implementation and closeout reviews CLOSED — PASS / findings NONE |
 | Related task ID | AI-CONV-001; P2-005; P2-007; REVIEW-001; SPEC-001; SPEC-002; SPEC-003; AI-001; AI-002; AI-003; DOC-001; APP-001; APP-002; AI-RUNTIME-001; AI-RUNTIME-002; APP-003; P0-006; P0-007; P0-008; P0-009; EVAL-001; P0-010; P1-001; P1-002; P1-003; P1-004; P1-005; P1-006; DEPLOY-001; P2-001; P2-000; P2-002; P2-003; P2-004 |
 | Source of Truth | Review history; bản nguồn Git tại `docs/operations/02_GEMINI_REVIEW_LOG.md` |
 | Confidentiality level | Public-safe summary projection; original reviews retained privately; research findings remain Confidential |
+
+## PREAPI-C2 REVISION-004 — post-PR155 specification recovery (08/11/2026)
+
+Historical [PR146](https://github.com/nshaokiet/ai-ip-description-generator/pull/146) at `29daeb208f7736a448297f699e674192c124c7da`/tree `d1f8880dad44363db4f612d76b9d709435f6089c`: Gemini3.8FlashHigh / Antigravity STRICT READ-ONLY source-attested external specification PASS; independently attributed original report 22626bytes SHA256 `a4377a60bc326771f7801898e2cd238d097ee2c43693a5da817430ba5767622f`. Staged-tree equivalence, session reuse and source-attribution limits were disclosed. F01–F09 resolved at DESIGN level; T01–T80 remain PROPOSED/NOT RUN and C2 approved fixtures count0. This does not approve a new SHA or runtime.
+
+Historical [CI40078806412](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/40078806412) on old146 is FAILURE (audit 1HIGH+1CRITICAL and artifact-quota errors; later steps skipped). Accepted post-155 `main=27c24f70ac1fe528e04cb2a8d59e94e8cc34f346` has separate successful [CI42449793664](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/42449793664), but this main result cannot be substituted for required C2 recovery exact-head CI/security.
+
+New [documentary recovery](../tasks/PREAPI-C2-REVISION-004-post155-recovery.md) preserves five original unique C2 blob identities, three shared governance files retain newer main history; reviewer verdict for any NEW final-SHA candidate is **PENDING**. No source code, dependency, tests, workflow, fixture, active SQLite, new security policy, paid API or deployment authorized/altered. Original reviewer artifacts and PR146 unchanged; independent Gemini3.8FlashHigh / Antigravity STRICT READ-ONLY review on new HEAD/tree required.
+
+REVIEW-001 0.3.68→0.3.69 / 08/11/2026: append attributed historical C2 evidence and changed-candidate PENDING review, no new PASS/freeze/merge.
 
 ## REV-AI-CONV-003 — independent corrective code review and protected implementation merge (16/10/2026 factual closeout candidate)
 
