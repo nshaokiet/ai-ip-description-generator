@@ -88,6 +88,14 @@ def inspect_offline(environment: Mapping[str, str], *, root: Path = ROOT) -> dic
         and environment.get("RUN_OPENAI_DRAFT_LIVE_TESTS", "0") == "0" else "BLOCKED"
     )
 
+    # Live-test switches do NOT disable provider calls through the opt-in local
+    # orchestration route. Fail closed if either product route is enabled.
+    checks["product_routes_off"] = (
+        "PASS" if environment.get("AI_IP_ENABLE_LOCAL_ORCHESTRATION_API", "0") == "0"
+        and environment.get("AI_IP_ENABLE_LOCAL_SYNTHETIC_V2_API", "0") == "0"
+        else "BLOCKED"
+    )
+
     # Do not include, hash, truncate, log or interpolate the credential value.
     credential_status = "PRESENT" if bool(environment.get("OPENAI_API_KEY", "").strip()) else "ABSENT"
     return {
