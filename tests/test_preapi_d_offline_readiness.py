@@ -49,6 +49,16 @@ def test_live_flags_block_and_report_is_deterministic():
     assert readiness.inspect_offline({"RUN_OPENAI_DRAFT_LIVE_TESTS": "1"})["readiness"] == "BLOCKED"
 
 
+def test_product_runtime_route_flags_must_stay_off():
+    for flag in ("AI_IP_ENABLE_LOCAL_ORCHESTRATION_API",
+                 "AI_IP_ENABLE_LOCAL_SYNTHETIC_V2_API"):
+        for enabled_value in ("1", "not-a-flag"):
+            report = readiness.inspect_offline({flag: enabled_value})
+            assert report["checks"]["product_routes_off"] == "BLOCKED"
+            assert report["readiness"] == "BLOCKED"
+    assert readiness.inspect_offline({})["checks"]["product_routes_off"] == "PASS"
+
+
 def test_missing_prompt_and_invalid_schema_block(tmp_path, monkeypatch):
     monkeypatch.setattr(readiness, "CANONICAL_PROMPT_PATH", tmp_path / "missing.md")
     assert readiness.inspect_offline({})["checks"]["extraction_prompt"] == "BLOCKED"
