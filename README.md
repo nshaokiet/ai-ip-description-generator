@@ -43,11 +43,11 @@ Dự án hướng tới một **website Next.js + FastAPI** giúp nhóm nghiên 
 
 ## Trạng thái dự án — 09/11/2026
 
-Base `main`: `2f5366d2056f43442bb97f566c26065f93d1f569` (sau [PR #156](https://github.com/nshaokiet/ai-ip-description-generator/pull/156), [postmerge CI #42461643292](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/42461643292) SUCCESS). Các bản ghi lịch sử đầy đủ nằm tại [Project Control Center](docs/operations/01_PROJECT_CONTROL_CENTER.md) và [review log](docs/operations/02_GEMINI_REVIEW_LOG.md); README tập trung vào mục tiêu và đường găng còn lại.
+Base `main` tại thời điểm cập nhật: `d74a6e8a767bfc04884bdf8a187a54f7015d7d98` (normal merge [PR #158](https://github.com/nshaokiet/ai-ip-description-generator/pull/158); exact-main [CI #42550280526](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/42550280526) đang chạy khi đối chiếu, **chưa xác nhận postmerge PASS**). Các bản ghi lịch sử đầy đủ nằm tại [Project Control Center](docs/operations/01_PROJECT_CONTROL_CENTER.md) và [review log](docs/operations/02_GEMINI_REVIEW_LOG.md); README tập trung vào mục tiêu và đường găng còn lại.
 
 | Workstream | Trạng thái hiện hành |
 |---|---|
-| MCP-SECURITY-REMEDIATION-001 | [PR #158](https://github.com/nshaokiet/ai-ip-description-generator/pull/158) **OPEN/DRAFT/UNMERGED**, exact-head CI [#42495521049](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/42495521049) SUCCESS; [provenance receipt](https://github.com/nshaokiet/ai-ip-description-generator/pull/158#issuecomment-6730380071) `READY FOR HUMAN MERGE DECISION`, **chưa có merge approval**. Rủi ro input/resource còn lại là quyết định hardening riêng. |
+| MCP-SECURITY-REMEDIATION-001 | [PR #158](https://github.com/nshaokiet/ai-ip-description-generator/pull/158) **MERGED** bằng normal merge được Human phê duyệt, tree khớp reviewed HEAD; [merge receipt](https://github.com/nshaokiet/ai-ip-description-generator/pull/158#issuecomment-6730713740). Exact-main [CI #42550280526](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/42550280526) đang chạy khi ghi nhận; chỉ đóng issue #157 sau khi kiểm chứng đầy đủ. Rủi ro input/resource còn lại được giữ **OPEN / PLANNED / NOT AUTHORIZED** tại [#160](https://github.com/nshaokiet/ai-ip-description-generator/issues/160). |
 | Core A/C1, P2-002…P2-006 và offline Claims | Module và các kiểm thử synthetic đã có; không tự suy ra luồng website hay Claims product được bật |
 | API-READY-001 — hướng ưu tiên mới | **Định hướng do Human yêu cầu**, chưa phải task implementation được đăng ký/ủy quyền; rà soát gap trước khi phê duyệt bản vá tối thiểu |
 | PRODUCT-001B | Documentary baseline đã merge, WEB-001 v0.1.1 **NOT FROZEN**; D01–D07 và B1–B6 chưa được phê duyệt. **Không mặc định triển khai** website đa người dùng/phức tạp trong phase API-ready. |
@@ -56,7 +56,7 @@ Base `main`: `2f5366d2056f43442bb97f566c26065f93d1f569` (sau [PR #156](https://g
 
 ## Next Steps — đường ngắn nhất đến API_READY
 
-1. **Khép PR #158 đúng gate:** Human quyết định merge riêng tại exact HEAD, sau đó xác minh main CI/security; không gộp với thay đổi product.
+1. **Đối chiếu hậu merge PR #158:** kiểm tra exact-main CI/security #42550280526 trước khi đóng issue #157; duy trì issue #160 cho hardening riêng, không gộp vào scope API-ready.
 2. **API-READY-001 / gap inventory (planning):** đối chiếu code và test hiện có cho `PDF/DOCX → parse/evidence → mock analysis → reconstruction → specification + standalone supported claims hoặc explicit refusal → validation/human review → DOCX/PDF`. Ghi rõ điểm đứt; không viết lại module đã có.
 3. **Minimal integration (chỉ sau scoped authorization):** nối các adapter/mock và export còn thiếu bằng các thay đổi nhỏ, có test. Giữ default offline, không gọi provider trả phí; không tự phát triển PRODUCT-001B B1–B6, auth/multi-user, storage production hoặc giao diện phức tạp.
 4. **Offline API-readiness acceptance:** ít nhất hai nguồn synthetic PDF/DOCX thực sự khác nội dung; chạy E2E đúng đường xử lý, validate schema/evidence/Claims support hoặc explicit refusal, kiểm tra byte DOCX/PDF và test lỗi. Không đánh dấu PASS nếu chỉ chạy demo cố định.
