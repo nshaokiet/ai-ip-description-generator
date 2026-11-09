@@ -1,0 +1,114 @@
+{
+  "document_id": "PREAPI-C2-REVISION-004-POST155-SPEC-RECOVERY",
+  "version": "1.0.0",
+  "date": "2026-11-08",
+  "author": "ChatGPT documentary integration, not independent reviewer",
+  "authority": "Original Human 2026-10-24 Option A specification-only; no C2 runtime or fixture admission",
+  "base": {
+    "commit": "27c24f70ac1fe528e04cb2a8d59e94e8cc34f346",
+    "tree": "03bae455968afc39ce4205120346a0eac76cfccf",
+    "pr155_merge": true,
+    "postmerge_ci": {
+      "run": 42449793664,
+      "event": "push",
+      "attempt": 1,
+      "conclusion": "success",
+      "artifact": {
+        "id": 13605153288,
+        "bytes": 14366,
+        "sha256": "4045149bab83f3cbab90b58c586ed5f8369c08e8cccb346e2b66e5f2aaa7896c",
+        "full_audit_vulnerabilities": 0,
+        "production_audit_vulnerabilities": 0,
+        "security_tests": "73+2 PASS"
+      }
+    }
+  },
+  "original146": {
+    "commit": "29daeb208f7736a448297f699e674192c124c7da",
+    "tree": "d1f8880dad44363db4f612d76b9d709435f6089c",
+    "original_ci_run": 40078806412,
+    "original_ci_status": "failure",
+    "original_review_original_bytes": 22626,
+    "original_review_sha256": "a4377a60bc326771f7801898e2cd238d097ee2c43693a5da817430ba5767622f",
+    "technical_spec_review": "Gemini3.8FlashHigh source-attested PASS old SHA only",
+    "approved_fixtures": 0,
+    "proposed_tests": 80,
+    "executed_c2_tests": 0
+  },
+  "preserve_origins": [
+    {
+      "path": "docs/decisions/PREAPI-C2-REVISION-004-architecture-authorization.md",
+      "sha": "37d1408332e3ec17ce4da3545b65cca33ba544f4",
+      "expected_sha": "37d1408332e3ec17ce4da3545b65cca33ba544f4",
+      "byte_identical_by_git_blob": true
+    },
+    {
+      "path": "docs/review-handoff/PREAPI-C2-REVISION-004-fixed-sha-review.md",
+      "sha": "b4004ba171a70093ce4b9263dc6339ed1302eb04",
+      "expected_sha": "b4004ba171a70093ce4b9263dc6339ed1302eb04",
+      "byte_identical_by_git_blob": true
+    },
+    {
+      "path": "docs/review-receipts/PREAPI-C2-REVISION-004-REVIEW-RECEIPT-CORRECTION.md",
+      "sha": "9ed18277716c7ab71d398b1cb836982a9d7712db",
+      "expected_sha": "9ed18277716c7ab71d398b1cb836982a9d7712db",
+      "byte_identical_by_git_blob": true
+    },
+    {
+      "path": "docs/review-receipts/PREAPI-C2-REVISION-004-SHA256SUMS.txt",
+      "sha": "ab308fc4324124d52a6371489fe7720fdc685b05",
+      "expected_sha": "ab308fc4324124d52a6371489fe7720fdc685b05",
+      "byte_identical_by_git_blob": true
+    },
+    {
+      "path": "docs/tasks/PREAPI-001-C2-synthetic-adapter-contract.md",
+      "sha": "4d7cf5aa8016c2fd79b1f6529ed28e6eec257c11",
+      "expected_sha": "4d7cf5aa8016c2fd79b1f6529ed28e6eec257c11",
+      "byte_identical_by_git_blob": true
+    }
+  ],
+  "shared_main_blobs": [
+    {
+      "path": "README.md",
+      "prior_sha": "145b44c59302c910718055d6a155fa013d9861e1",
+      "source": "accepted main"
+    },
+    {
+      "path": "docs/operations/01_PROJECT_CONTROL_CENTER.md",
+      "prior_sha": "a2c82ddde1257283a92f568c128cda1951c2afcc",
+      "source": "accepted main"
+    },
+    {
+      "path": "docs/operations/02_GEMINI_REVIEW_LOG.md",
+      "prior_sha": "7b4b8bc1e768f804d407e9b460217f8da5c18da3",
+      "source": "accepted main"
+    }
+  ],
+  "required_gates": {
+    "new_final_sha_review": "PENDING",
+    "new_required_pr_ci": "PENDING",
+    "mandatory_new_zip_hash": "PENDING",
+    "human_merge_decision": "PENDING",
+    "implementation": "NOT_AUTHORIZED",
+    "fixtures": "NOT_ADMITTED",
+    "phase4": "NOT_AUTHORIZED",
+    "d01_to_d07": "NOT_APPROVED"
+  },
+  "changed_paths": [
+    "README.md",
+    "docs/operations/01_PROJECT_CONTROL_CENTER.md",
+    "docs/operations/02_GEMINI_REVIEW_LOG.md",
+    "docs/decisions/PREAPI-C2-REVISION-004-architecture-authorization.md",
+    "docs/review-handoff/PREAPI-C2-REVISION-004-fixed-sha-review.md",
+    "docs/review-receipts/PREAPI-C2-REVISION-004-REVIEW-RECEIPT-CORRECTION.md",
+    "docs/review-receipts/PREAPI-C2-REVISION-004-SHA256SUMS.txt",
+    "docs/tasks/PREAPI-001-C2-synthetic-adapter-contract.md",
+    "docs/tasks/PREAPI-C2-REVISION-004-post155-recovery.md",
+    "docs/qa/preapi-c2-revision004-post155-recovery-20261108.json"
+  ],
+  "scope": "DOCS_ONLY",
+  "no_shared_history_rewrite": true,
+  "no_runtime_code": true,
+  "no_provider_calls": true,
+  "no_deploy": true
+}

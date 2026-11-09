@@ -8,16 +8,31 @@
 |---|---|
 | Document ID | SPEC-002 |
 | Document title | Project Context — AI Intellectual Property Description Generator |
-| Version | 0.4.37 |
+| Version | 0.4.38 |
 | Status | Approved baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT |
 | Reviewer | Human / Product Owner |
 | Created date | 18/09/2026 |
-| Last updated | 09/10/2026 |
+| Last updated | 05/11/2026 — documentary reconciliation candidate |
 | Related task ID | SPEC-002 |
 | Source of Truth | GitHub — `PROJECT_CONTEXT.md` |
 | Confidentiality level | Internal; research inputs are Confidential by default |
+
+### Current resume pointer — 05/11/2026
+
+Human RESUME-FOUNDATION-001 xác nhận hướng **website Next.js + FastAPI**.
+Local/offline/synthetic là môi trường/chế độ test; MCP là coordination, không
+phải database hồ sơ website. [Decision và supersession](docs/decisions/RESUME-FOUNDATION-001-web-direction.md)
+thay khuyến nghị PRODUCT-001B terminal-first bằng browser proposal, chưa cấp quyền
+implementation/auth/retention/provider/production. Đọc [Control Center canonical](docs/operations/01_PROJECT_CONTROL_CENTER.md#resume-foundation-001-current-baseline)
+cho main53c253be, PR140–149, review/CI/audit/Render và bước tiếp tục; các mốc bên
+dưới giữ nguyên lịch sử. Repository hiện PUBLIC theo API05/11; không suy quyền
+dùng dữ liệu mật. Chỉ thị/gates trong AGENTS vẫn có thẩm quyền cao hơn các câu
+role/status cũ tại đây. Candidate foundation chưa independent review/merge.
+
+0.4.37→0.4.38,05/11/2026,Codex: thêm current pointer/web direction theo Human,
+giữ lịch sử; RESUME-FOUNDATION-001; Breaking change: No—documentation only.
 
 ### Lịch sử phiên bản
 

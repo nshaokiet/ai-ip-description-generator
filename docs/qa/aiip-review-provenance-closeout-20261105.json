@@ -1,0 +1,313 @@
+{
+  "document_id": "AIIP-REVIEW-PROVENANCE-CLOSEOUT-20261105",
+  "version": "1.0.0",
+  "author": "Codex reconciliation; independent verdict attributed to original reviewer",
+  "date": "2026-11-05 Asia/Saigon",
+  "observed_utc": "2026-11-05T13:30:12.507818+00:00",
+  "source_artifacts": [
+    {
+      "file": "AIIP-REVIEW-PR147-INDEPENDENT-REPORT.md",
+      "bytes": 6878,
+      "sha256": "f3c957d6d11bee788e81c547db8c8bcb32b16ad405bc459fd007ec494b3c2ed2",
+      "brain_source_bytes_match": true
+    },
+    {
+      "file": "AIIP-REVIEW-PR147-PROVENANCE-ADDENDUM.md",
+      "bytes": 5332,
+      "sha256": "5c24de828be812aca133a99dc1797db7b28902bee893bf4dded193150e32cd8c",
+      "brain_source_bytes_match": true
+    },
+    {
+      "file": "AIIP-REVIEW-PR151-INDEPENDENT-REPORT.md",
+      "bytes": 8861,
+      "sha256": "7f0d97ea30a521f66cdbe279c7aa0c4a13a6ffeadc10f1cc5e4e785b5e28ceb4",
+      "brain_source_bytes_match": true
+    },
+    {
+      "file": "AIIP-REVIEW-PR151-PROVENANCE-ADDENDUM.md",
+      "bytes": 5002,
+      "sha256": "1a13948c9b617c3499a9935506a8b14aafe2ba4cf50be2c0be27aabb98989ea0",
+      "brain_source_bytes_match": true
+    }
+  ],
+  "provenance": {
+    "verdict": "ACCEPTED_SOURCE_ATTESTED_WORKFLOW_V1_PROCEDURAL_EVIDENCE",
+    "actual_runtime_model_attested": "Gemini 3.8 Flash High",
+    "profile_attested": "Active High thinking profile",
+    "session": "Individual identifier retained privately; source/backup correspondence checked",
+    "reuse_between147_and151": true,
+    "review_turn_reported": 13,
+    "implementation_in_session_attested": {
+      "147": false,
+      "151": false
+    },
+    "strict_read_only_attested": true,
+    "tracked_writes_commit_push_merge_deploy_approval_changes_attested": false,
+    "runtime_log_event": "Reviewer cites model selection event; transcript absent at checked source/backup locations, not independently replayed",
+    "identity_authenticated": false,
+    "native_github_approval": false,
+    "scope": "V1 source-attributed external review; no V2 separate-stream or cryptographic identity claim"
+  },
+  "main": {
+    "head": "53c253be874236c6f38a5333a6f7f3390de9f51e",
+    "tree": "6459c1cecb8a4e56f2cbbbeab2e9439a39bd1b6e"
+  },
+  "pr147": {
+    "head": "4c30d37d6ad73dede6ea8439fae897a86fffbdc0",
+    "tree": "b440f3021c39c9504cd49753dae63acfc1a3a0ed",
+    "base": "53c253be874236c6f38a5333a6f7f3390de9f51e",
+    "draft": true,
+    "state": "open",
+    "merged": false,
+    "mergeable": true,
+    "mergeable_state": "clean",
+    "native_reviews": 0,
+    "readiness": "READY FOR HUMAN MERGE DECISION",
+    "review_verdict_attributed": "Technical PASS reconfirmed by original/addendum",
+    "merge_permission": "NOT_GRANTED_IN_THIS_TASK; keep Draft",
+    "ci": {
+      "head": "4c30d37d6ad73dede6ea8439fae897a86fffbdc0",
+      "status": "completed",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "name": "mcp-tests",
+          "conclusion": "success",
+          "failed_steps": []
+        },
+        {
+          "name": "build-and-test",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "artifacts": [
+        {
+          "id": 13394746788,
+          "name": "dep-001-security",
+          "digest": "sha256:1653898363ebec1037ac1077fc0617df67cb1ecb2013dfe612e5f7228a54e837",
+          "expired": false
+        }
+      ]
+    },
+    "all_check_runs": [
+      {
+        "name": "build-and-test",
+        "head": "4c30d37d6ad73dede6ea8439fae897a86fffbdc0",
+        "conclusion": "success"
+      },
+      {
+        "name": "mcp-tests",
+        "head": "4c30d37d6ad73dede6ea8439fae897a86fffbdc0",
+        "conclusion": "success"
+      }
+    ],
+    "security_artifact": {
+      "sha256": "1653898363ebec1037ac1077fc0617df67cb1ecb2013dfe612e5f7228a54e837",
+      "bytes": 14368,
+      "members": [
+        "dependency-tree.json",
+        "full-audit.json",
+        "lint-security.log",
+        "production-audit.json"
+      ],
+      "full-audit.json": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0,
+        "total": 0
+      },
+      "production-audit.json": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0,
+        "total": 0
+      },
+      "test_cases": [
+        73,
+        2
+      ]
+    },
+    "fresh_npm_checks": {
+      "full": {
+        "exit": 0,
+        "vulnerabilities": {
+          "info": 0,
+          "low": 0,
+          "moderate": 0,
+          "high": 0,
+          "critical": 0,
+          "total": 0
+        },
+        "problems": []
+      },
+      "production": {
+        "exit": 0,
+        "vulnerabilities": {
+          "info": 0,
+          "low": 0,
+          "moderate": 0,
+          "high": 0,
+          "critical": 0,
+          "total": 0
+        },
+        "problems": []
+      },
+      "graph": {
+        "exit": 0,
+        "vulnerabilities": null,
+        "problems": []
+      }
+    },
+    "full_diff_paths": 8,
+    "continuation_paths": 6,
+    "implementation_changed_by_closeout": false,
+    "regressions_hosted_not_new_reviewer_runs": {
+      "backend_pass": 1127,
+      "backend_skip": 2,
+      "current_browser": 78,
+      "compat_browser": 77,
+      "current_demo": 8,
+      "compat_demo": 5
+    }
+  },
+  "pr151_before_closeout": {
+    "head": "31d9fce57681e4e21fe552e894898f29d84d23c8",
+    "tree": "869dd312d7f8c04c0b9e8a8540564f174e779ded",
+    "base": "53c253be874236c6f38a5333a6f7f3390de9f51e",
+    "draft": true,
+    "state": "open",
+    "merged": false,
+    "mergeable": true,
+    "mergeable_state": "unstable",
+    "native_reviews": 0,
+    "status": "Draft/BLOCKED",
+    "documentary_review_target": "00f3833a7ca35a69bdcd90ef1b57524be9ebd0e2",
+    "documentary_review_tree": "eda62523f2309897a6f1ba043579e666638a59df",
+    "review_does_not_approve31d9fce_or_later": true,
+    "ci": {
+      "head": "31d9fce57681e4e21fe552e894898f29d84d23c8",
+      "status": "completed",
+      "conclusion": "failure",
+      "jobs": [
+        {
+          "name": "build-and-test",
+          "conclusion": "failure",
+          "failed_steps": [
+            "Install offline document layout QA tools",
+            "Archive DEP-001 security evidence"
+          ]
+        },
+        {
+          "name": "mcp-tests",
+          "conclusion": "success",
+          "failed_steps": []
+        }
+      ],
+      "artifacts": [
+        {
+          "id": 13417119104,
+          "name": "uiux-003-synthetic-browser-qa",
+          "digest": "sha256:5fec6c6fda37ad8c8dfa12581849063ba3778e52fa293a55a846192b80033e59",
+          "expired": false
+        }
+      ]
+    },
+    "root_cause": "Document-layout QA installer Ubuntu snapshot HTTP503 exit100; security evidence producer not reached; mandatory archive missing",
+    "skipped_frontend_audit_build_browser": "NOT_PASS",
+    "historical_reviewed_head_audit": {
+      "run": 41981992184,
+      "total": 10,
+      "moderate": 8,
+      "high": 1,
+      "critical": 1
+    },
+    "new_candidate_sha_tree": "Recorded after commit in Draft PR handoff; fresh CI/review required"
+  },
+  "pr150_preserved": {
+    "head": "d88201a5db48e753581361ca670625df65f2f32b",
+    "tree": "56d6554b4628b3fa8201a36d382e06d7d3e946ce",
+    "base": "53c253be874236c6f38a5333a6f7f3390de9f51e",
+    "draft": true,
+    "state": "open",
+    "merged": false,
+    "mergeable": true,
+    "mergeable_state": "unstable",
+    "native_reviews": 0
+  },
+  "ci_plan": {
+    "path": "docs/tasks/CI-V2-001-document-layout-installer-recovery-plan.md",
+    "version": "1.0.0",
+    "implementation": "NOT_EXECUTED",
+    "scope": "Existing CI-V2 upload scope retained; concrete bounded installer extension authorization pending",
+    "pr144": {
+      "head": "43e07dfa36b217066647af23f2dda2c6c715bd0c",
+      "tree": "b5f8bff51503445694047de753ec69b8f0e8a055",
+      "base": "7abc63e12e18a8027de1d4be4c71ad7aa182cb91",
+      "draft": true,
+      "state": "open",
+      "merged": false,
+      "mergeable": false,
+      "mergeable_state": "dirty",
+      "native_reviews": 0
+    },
+    "proposed_attempts": 3,
+    "proposed_delays_seconds": [
+      2,
+      5
+    ],
+    "pins_sources_signatures_mandatory_evidence": "PRESERVED",
+    "mocked_and_real_hosted_tests": "PLANNED_NOT_EXECUTED"
+  },
+  "platform": {
+    "branch_protected": false,
+    "rulesets": [],
+    "permissions": {
+      "admin": true,
+      "maintain": true,
+      "push": true,
+      "triage": true,
+      "pull": true
+    },
+    "render_both_services": {
+      "autoDeploy": "no",
+      "autoDeployTrigger": "off",
+      "previews": "off"
+    },
+    "no_settings_change": true,
+    "mcp": "Tools unavailable; registration/lease UNVERIFIED"
+  },
+  "conditional_followup": {
+    "147_merged": false,
+    "main_changed": false,
+    "normal_main_integration_into151": "PENDING until actual authorized147 merge and verified exact-main CI/artifacts",
+    "force_push": false,
+    "final_integrated151_ci_and_independent_review": "PENDING; do not invent final integrated SHA"
+  },
+  "actions": {
+    "merge": false,
+    "deploy": false,
+    "mark_ready": false,
+    "paid_ai_calls": 0,
+    "workflow_or_installer_changes": false,
+    "security_review_gate_changes": false
+  },
+  "limitations": [
+    "Source attestations accepted procedurally, not authenticated runtime identity",
+    "No standalone Codex independent PASS",
+    "New documentary HEAD review/CI pending; prior PASS remains historical",
+    "No fresh full regression reruns for unchanged implementation; actual hosted results inspected"
+  ],
+  "documentary_validation": {
+    "json": "PASS",
+    "introduced_relative_links": "PASS",
+    "whitespace": "PASS",
+    "governance_structure": "PASS; structural only",
+    "selected_sensitive_pattern_scan": "PASS; not absolute disclosure guarantee",
+    "original4hashes_unchanged": true
+  }
+}

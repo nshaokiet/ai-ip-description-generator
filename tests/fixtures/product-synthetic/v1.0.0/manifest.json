@@ -1,0 +1,31 @@
+{
+  "version": "1.0.0",
+  "purpose": "PRODUCT_001A_LOCAL_TEST_ONLY",
+  "approval_status": "REVIEW_PENDING_NOT_C2_PILOT_APPROVAL",
+  "fixtures": [
+    {
+      "filename": "controller.pdf",
+      "sha256": "9bc8d4e20b2b88d2df0780294069e048b96c09a22a7012baa1efe5ba7f523975",
+      "media_type": "application/pdf",
+      "size_bytes": 1015
+    },
+    {
+      "filename": "controller.docx",
+      "sha256": "8acc395f19d2625c577149080f507d69928dd7fd8898620455a662360edaf997",
+      "media_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "size_bytes": 1099
+    },
+    {
+      "filename": "unsupported.pdf",
+      "sha256": "af733c3c02c5c023a580eab22ef08d7940e121b923534a4e75b012f44811077a",
+      "media_type": "application/pdf",
+      "size_bytes": 703
+    },
+    {
+      "filename": "empty.pdf",
+      "sha256": "41b2f4ef0528aa32462df9ec723aeec7ae821deb08ffe576141ff6964d1e1737",
+      "media_type": "application/pdf",
+      "size_bytes": 660
+    }
+  ]
+}

@@ -1,0 +1,215 @@
+{
+  "document_id": "PRODUCT-001A-POST-FOUNDATION-RECOVERY-20261106",
+  "version": "1.0.0",
+  "author": "Codex",
+  "date": "2026-11-06",
+  "authorization": [
+    "Human RESUME-AIIP-POST-FOUNDATION-DEPENDENCY-RECOVERY",
+    "Original Human RESUME-AIIP-PRODUCT-001A-20261104 scoped internal synthetic A/public Draft publication"
+  ],
+  "base": {
+    "sha": "6278b081327bca121b4d24cc8c4b2021bd9e42c4",
+    "tree": "197f59197aaa8cf8673e70cf5cc394e393c4ff86"
+  },
+  "original_a": {
+    "pr": 149,
+    "head": "cf9097fda4688db08fd505e21fcbf3c0e53a9d5c",
+    "files": 12,
+    "scope": "Trusted same-process A/C1 code/tests/local synthetic fixtures; no browser endpoint"
+  },
+  "recovery": {
+    "branch": "integration/product-001a-main-recovery-20261106",
+    "strategy": "Normal merge, main first parent; no shared rewrite/main merge",
+    "actual_conflicts": [
+      "README.md"
+    ],
+    "resolution": "Accepted main status plus explicit recovery candidate/plan; no application resolution edits",
+    "candidate_head_tree": "Recorded in post-commit immutable PR handoff"
+  },
+  "preserved_original_paths": [
+    {
+      "path": "backend/app/services/custody_review.py",
+      "bytes": 3337,
+      "sha256": "8ccc45e7661e161c4a80b1e309f59eda8b8c871980931925384846cd51d9db8b",
+      "canonical_blob_equal": true,
+      "fixture_worktree_equal": null
+    },
+    {
+      "path": "backend/app/services/preapi_source_custody.py",
+      "bytes": 31156,
+      "sha256": "d7eded054b2e38a3fc147ff507b86f00a884a3297b4e41290ced8c5e7855633e",
+      "canonical_blob_equal": true,
+      "fixture_worktree_equal": null
+    },
+    {
+      "path": "backend/app/services/product_synthetic_workflow.py",
+      "bytes": 14649,
+      "sha256": "6678775255cd899bfaf8b6082e9f8484af291e37af101f635fa0d7f2d4c21aa5",
+      "canonical_blob_equal": true,
+      "fixture_worktree_equal": null
+    },
+    {
+      "path": "docs/tasks/PRODUCT-001A-offline-synthetic-workflow.md",
+      "bytes": 8522,
+      "sha256": "455f5dc5cf4709cb503d2ea064a11ede7a763a3aca2e284b6bc66bdc3ff1a250",
+      "canonical_blob_equal": true,
+      "fixture_worktree_equal": null
+    },
+    {
+      "path": "tests/backend/test_product_synthetic_workflow.py",
+      "bytes": 23388,
+      "sha256": "24fdaec0f97832fe8344d694325e3225968bb4589c112ce9d39d00f054d8b0df",
+      "canonical_blob_equal": true,
+      "fixture_worktree_equal": null
+    },
+    {
+      "path": "tests/fixtures/product-synthetic/v1.0.0/.gitattributes",
+      "bytes": 27,
+      "sha256": "235e4c290690a9ce8bc3300d67be40d6f3f157f54766ebdeb4fa1f589773704c",
+      "canonical_blob_equal": true,
+      "fixture_worktree_equal": null
+    },
+    {
+      "path": "tests/fixtures/product-synthetic/v1.0.0/controller.docx",
+      "bytes": 1099,
+      "sha256": "8acc395f19d2625c577149080f507d69928dd7fd8898620455a662360edaf997",
+      "canonical_blob_equal": true,
+      "fixture_worktree_equal": true
+    },
+    {
+      "path": "tests/fixtures/product-synthetic/v1.0.0/controller.pdf",
+      "bytes": 1015,
+      "sha256": "9bc8d4e20b2b88d2df0780294069e048b96c09a22a7012baa1efe5ba7f523975",
+      "canonical_blob_equal": true,
+      "fixture_worktree_equal": true
+    },
+    {
+      "path": "tests/fixtures/product-synthetic/v1.0.0/empty.pdf",
+      "bytes": 660,
+      "sha256": "41b2f4ef0528aa32462df9ec723aeec7ae821deb08ffe576141ff6964d1e1737",
+      "canonical_blob_equal": true,
+      "fixture_worktree_equal": true
+    },
+    {
+      "path": "tests/fixtures/product-synthetic/v1.0.0/manifest.json",
+      "bytes": 990,
+      "sha256": "b4817c2899d172fcf9a6e51fd73990c72db42f8b70d3b5e7894ef251aa460f4a",
+      "canonical_blob_equal": true,
+      "fixture_worktree_equal": null
+    },
+    {
+      "path": "tests/fixtures/product-synthetic/v1.0.0/unsupported.pdf",
+      "bytes": 703,
+      "sha256": "af733c3c02c5c023a580eab22ef08d7940e121b923534a4e75b012f44811077a",
+      "canonical_blob_equal": true,
+      "fixture_worktree_equal": true
+    }
+  ],
+  "fixtures": {
+    "version": "1.0.0",
+    "purpose": "PRODUCT_001A_LOCAL_TEST_ONLY",
+    "approval_status": "REVIEW_PENDING_NOT_C2_PILOT_APPROVAL",
+    "fixtures": [
+      {
+        "filename": "controller.pdf",
+        "sha256": "9bc8d4e20b2b88d2df0780294069e048b96c09a22a7012baa1efe5ba7f523975",
+        "media_type": "application/pdf",
+        "size_bytes": 1015
+      },
+      {
+        "filename": "controller.docx",
+        "sha256": "8acc395f19d2625c577149080f507d69928dd7fd8898620455a662360edaf997",
+        "media_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "size_bytes": 1099
+      },
+      {
+        "filename": "unsupported.pdf",
+        "sha256": "af733c3c02c5c023a580eab22ef08d7940e121b923534a4e75b012f44811077a",
+        "media_type": "application/pdf",
+        "size_bytes": 703
+      },
+      {
+        "filename": "empty.pdf",
+        "sha256": "41b2f4ef0528aa32462df9ec723aeec7ae821deb08ffe576141ff6964d1e1737",
+        "media_type": "application/pdf",
+        "size_bytes": 660
+      }
+    ]
+  },
+  "targeted_tests": {
+    "totals": {
+      "tests": 105,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    },
+    "groups": {
+      "tests.backend.test_product_synthetic_workflow": 33,
+      "tests.backend.test_preapi_c1_source_custody": 22,
+      "tests.backend.test_local_orchestration_api.LocalOrchestrationAPITests": 19,
+      "tests.backend.test_uspto_document_package_v1": 19,
+      "tests.backend.test_uspto_offline_renderer": 12
+    },
+    "python": "Python 3.12.10",
+    "command": "python -B -m pytest tests/backend/test_product_synthetic_workflow.py tests/backend/test_preapi_c1_source_custody.py tests/backend/test_local_orchestration_api.py tests/backend/test_uspto_document_package_v1.py tests/backend/test_uspto_offline_renderer.py -q -p no:cacheprovider --basetemp <isolated-temp> --junitxml <private-evidence>/TARGETED_TESTS.xml",
+    "elapsed_seconds": 267.89,
+    "log_sha256": "148c07c12ffcefa9d467ac3f7c9233158c1528d33b03a526ac7487f6ef92b0ba",
+    "junit_sha256": "828eb07afc53d7228b117768a2c3e80825b3303d2a3bf30e242f9d7084d561a0",
+    "warning": "One existing Starlette/AnyIO BlockingPortal deprecation",
+    "scope_limit": "Existing A/C1/v1/P2 contracts, not C2/B/native worker/browser/pilot/semantic acceptance"
+  },
+  "setup_note": "Initial preservation helper compared CRLF checkout text to LF Git bytes and stopped before tests. Canonical staged/source blob comparison then verified11paths; all4fixture working-copy bytes also identical. No application/test assertion changed. Original output retained locally.",
+  "historical_ci": {
+    "run": 41848393889,
+    "head": "cf9097fda4688db08fd505e21fcbf3c0e53a9d5c",
+    "conclusion": "failure",
+    "backend_pass": 1160,
+    "backend_skipped": 2,
+    "cause": "Ubuntu snapshot HTTP503 / installer exit100; later audit/browser producers skipped/security archive absent"
+  },
+  "baseline_ci_artifacts": [
+    {
+      "run": 42156455402,
+      "artifact": 13475625084,
+      "bytes": 14358,
+      "sha256": "881441f4ac52c572b86dcdc559c2ad6c602f11e832cb75c627253ab77afc6dde",
+      "digest_match": true,
+      "audit_totals": {
+        "full-audit.json": 0,
+        "production-audit.json": 0
+      }
+    },
+    {
+      "run": 42157764515,
+      "artifact": 13476050015,
+      "bytes": 14352,
+      "sha256": "b31c7387054fbf3f7e8dba067d640487b9ad12e37f9e275dcda7420878b9f78b",
+      "digest_match": true,
+      "audit_totals": {
+        "full-audit.json": 0,
+        "production-audit.json": 0
+      }
+    }
+  ],
+  "new_recovery_ci": "PENDING real final-SHA main-target PR run; no baseline/historical PASS reused",
+  "independent_review": {
+    "required": "Actual Gemini3.8 Flash High / Antigravity STRICT READ-ONLY, final SHA/tree, selected model/profile/private session/reuse/independence/findings",
+    "status": "PENDING; old149report does not approve recovery SHA"
+  },
+  "boundaries": {
+    "merge_authorized": false,
+    "paid_api_budget": 0,
+    "deployment": false,
+    "real_research": false,
+    "browser_endpoint": false,
+    "new_auth_security_policy": false,
+    "c2_runtime": false,
+    "c2_fixtures_approved": 0,
+    "b_spec_frozen": false,
+    "b_runtime_authorized": false,
+    "b_d01_d07": "PROPOSED/PENDING",
+    "b_two_distinct_content_fixtures": "NOT SATISFIED by same-controller A PDF/DOCX; D05 materialization+admission separately required",
+    "pr152_head_preserved": "975ac1146d32369c612c601f720537fcf89de531",
+    "pr152_second_receipt": "PENDING actual artifact/hash; do not author Gemini verdict"
+  }
+}
