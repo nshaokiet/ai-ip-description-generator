@@ -30,7 +30,8 @@ NOT_DETERMINED.
 | Model syntax | Fixed model constants in `backend/app/core/config.py` | Syntax only; entitlement `UNVERIFIED` |
 | Timeouts and token caps | Existing `Settings` constraints, nonsecret `OPENAI_*` numeric environment | `BLOCKED` if invalid or over approved local caps |
 | Retry ceiling | Existing extraction/Draft max-retry constants | `BLOCKED` if outside 0–2 |
-| Default-off | `RUN_OPENAI_LIVE_TESTS`, `RUN_OPENAI_DRAFT_LIVE_TESTS` | `BLOCKED` unless both exactly `0` or absent |
+| Live test flags default-off | `RUN_OPENAI_LIVE_TESTS`, `RUN_OPENAI_DRAFT_LIVE_TESTS` | `BLOCKED` unless both exactly `0` or absent; these flags do **not** block normal provider runtime calls |
+| Product route flags default-off | `AI_IP_ENABLE_LOCAL_ORCHESTRATION_API`, `AI_IP_ENABLE_LOCAL_SYNTHETIC_V2_API` | `BLOCKED` unless both exactly `0` or absent; local orchestration may call a provider when enabled |
 | Credential presence | `OPENAI_API_KEY` | `PRESENT`/`ABSENT` only; never value, length, prefix, suffix or hash |
 
 The checker exposes no live mode. Tests patch `OpenAI` and socket transport to
@@ -57,6 +58,8 @@ Sample sanitized fields (actual report values depend on local files and SDK):
   "readiness": "READY_FOR_AUTHORIZED_PROVIDER_SMOKE"
 }
 ```
+
+The readiness verdict is a **static preflight report**, not a process-wide kill switch. Existing live-test flags gate test execution only. The local orchestration API flag can enable normal provider-backed processing, which is why the offline preflight requires it OFF even if both live-test flags are `0`. Cost enforcement remains NOT_IMPLEMENTED until a separate funded scope is approved.
 
 ## Future live gate
 
