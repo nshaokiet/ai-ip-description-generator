@@ -12,6 +12,7 @@ from dataclasses import FrozenInstanceError, replace
 from pathlib import Path
 from types import SimpleNamespace
 from threading import Event
+from xml.etree import ElementTree
 
 import pytest
 from fastapi.testclient import TestClient
@@ -39,6 +40,25 @@ IDENTITIES = tuple(SyntheticFixtureIdentity(item["sha256"], item["media_type"], 
                    for item in MANIFEST["fixtures"])
 
 
+API_INPUTS = ROOT / "tests/fixtures/api-ready/v1.0.0"
+API_MANIFEST = json.loads((API_INPUTS / "manifest.json").read_text())
+RESEARCH_B = API_MANIFEST["fixtures"][1]
+TWO_SOURCES = ["controller.pdf", "research-b.docx"]
+B_IDENTITY = SyntheticFixtureIdentity(
+    RESEARCH_B["sha256"], RESEARCH_B["media_type"], RESEARCH_B["size_bytes"],
+)
+
+
+def source_template(entry):
+    payload = (ROOT / entry["analysis_path"]).read_bytes()
+    if entry["source_id"] == "controller-a":
+        payload = payload.replace(b"\r\n", b"\n")  # Hash the existing Git blob, not checkout EOLs.
+    if len(payload) != entry["analysis_size_bytes"] or hashlib.sha256(payload).hexdigest() != entry["analysis_sha256"]:
+        raise ValueError("Synthetic analysis identity mismatch")
+    value = json.loads(payload)
+    return value["structured_analysis"] if entry["analysis_json_pointer"] else value
+
+
 class SourceCheckingRuntime:
     synthetic_only = True
 
@@ -51,10 +71,18 @@ class SourceCheckingRuntime:
         # Reusing expected analysis is safe only after the actual parsed source matches.
         assert len(envelope.source_units) == 1
         unit = envelope.source_units[0]
-        if unit.content != TEMPLATE["source_envelope"]["source_units"][0]["content"]:
-            raise ValueError("Unsupported synthetic technical content")
+        metadata = envelope.document_metadata
+        if (metadata.sha256, metadata.media_type) == (RESEARCH_B["sha256"], RESEARCH_B["media_type"]):
+            if hashlib.sha256(unit.content.encode()).hexdigest() != RESEARCH_B["parsed_content_sha256"]:
+                raise ValueError("Unsupported synthetic technical content")
+            analysis = source_template(RESEARCH_B)
+        else:
+            known = any(metadata.sha256 == item["sha256"] and metadata.media_type == item["media_type"]
+                        for item in MANIFEST["fixtures"] if item["filename"].startswith("controller."))
+            if not known or unit.content != TEMPLATE["source_envelope"]["source_units"][0]["content"]:
+                raise ValueError("Unsupported synthetic technical content")
+            analysis = deepcopy(source_template(API_MANIFEST["fixtures"][0]))
         self.envelopes.append(envelope)
-        analysis = deepcopy(TEMPLATE["structured_analysis"])
         analysis["document_metadata"] = envelope.document_metadata.model_dump(exclude_none=True)
         old_id = analysis["evidence"][0]["evidence_id"]
 
@@ -83,7 +111,7 @@ def host(tmp_path):
     workflow = OfflineSyntheticWorkflow(
         app.state.document_storage, app.state.document_registry,
         app.state.document_preparation_service, output_root=tmp_path / "exports",
-        extraction_runtime=runtime, fixtures=IDENTITIES,
+        extraction_runtime=runtime, fixtures=IDENTITIES + (B_IDENTITY,),
         authorize_invocation=lambda: authorized[0],
         review_authorizer=lambda actor, context, decision: (
             actor == "test-human" and context == "trusted-local-review"
@@ -96,8 +124,9 @@ def host(tmp_path):
 
 
 def register(host, name="controller.pdf"):
-    entry = next(item for item in MANIFEST["fixtures"] if item["filename"] == name)
-    payload = (INPUTS / name).read_bytes()
+    entry = (RESEARCH_B if name == "research-b.docx" else
+             next(item for item in MANIFEST["fixtures"] if item["filename"] == name))
+    payload = (ROOT / entry["path"] if name == "research-b.docx" else INPUTS / name).read_bytes()
     assert hashlib.sha256(payload).hexdigest() == entry["sha256"]
     assert len(payload) == entry["size_bytes"]
     response = host.client.post("/api/documents", files={"file": (name, payload, entry["media_type"])})
@@ -129,14 +158,27 @@ def export(host, ref):
     return host.workflow.render(ref)
 
 
-@pytest.mark.parametrize("kind", ["pdf", "docx"])
-def test_new_upload_to_complete_review_and_four_valid_artifacts(host, kind):
+@pytest.mark.parametrize("name", ["controller.pdf", "controller.docx", "research-b.docx"])
+def test_new_upload_to_complete_review_and_four_valid_artifacts(host, name):
     tripwire = ProviderTripwire().install()
     try:
-        ref, source = start(host, f"controller.{kind}")
+        ref, source = start(host, name)
         snapshot = host.workflow.review(ref)
         documents = review_documents(snapshot.originals)
-        assert len(documents) == 7
+        assert set(documents) == {
+            "source_envelope", "structured_analysis", "reconstruction", "specification",
+            "p2_003_generation_config", "supported_claims", "p2_004_generation_config",
+        }
+        assert documents["specification"]["review_boundary"]["claims_runtime_implemented"] is False
+        claims = documents["supported_claims"]
+        assert claims["status"] == "HUMAN_CONFIRMATION_REQUIRED" and claims["claims"] == []
+        assert snapshot.claims_review_required
+        expected = source_template(RESEARCH_B if name == "research-b.docx" else API_MANIFEST["fixtures"][0])
+        assert documents["structured_analysis"]["technical_problems"] == expected["technical_problems"]
+        assert documents["structured_analysis"]["technical_solutions"] == expected["technical_solutions"]
+        assert all(item["essentiality"] == "UNKNOWN" for item in documents["reconstruction"]["invention_model"]["elements"])
+        marker, foreign = (("perforated membrane", "calibration coefficient") if name == "research-b.docx"
+                           else ("calibration coefficient", "perforated membrane"))
         assert snapshot.source_sha256 == hashlib.sha256(source).hexdigest()
         assert documents["source_envelope"]["document_metadata"]["document_id"] == ref.document_id
         assert documents["structured_analysis"]["document_metadata"] == documents["source_envelope"]["document_metadata"]
@@ -156,12 +198,20 @@ def test_new_upload_to_complete_review_and_four_valid_artifacts(host, kind):
             assert hashlib.sha256(payload).hexdigest() == item.sha256
             assert len(payload) == item.size_bytes
             if item.filename.endswith(".pdf"):
-                assert len(PdfReader(io.BytesIO(payload)).pages) > 0
+                pages = PdfReader(io.BytesIO(payload)).pages
+                assert len(pages) > 0
+                rendered_text = " ".join(page.extract_text() for page in pages)
             else:
                 with zipfile.ZipFile(io.BytesIO(payload)) as docx:
                     assert docx.testzip() is None
-                    assert any(b"DRAFT" in docx.read(name) for name in docx.namelist()
-                               if name.startswith("word/") and name.endswith(".xml"))
+                    rendered_text = " ".join(
+                        text for member in docx.namelist()
+                        if member.startswith("word/") and member.endswith(".xml")
+                        for text in ElementTree.fromstring(docx.read(member)).itertext()
+                    )
+            normalized = " ".join(rendered_text.lower().split())
+            assert marker in normalized and foreign not in normalized
+            assert "draft" in normalized and "claims incomplete" in normalized
         assert result.synthetic_draft and not result.filing_ready
         host.workflow.abort(ref)
         assert not (host.tmp / "exports" / result.custody_id).exists()
@@ -171,19 +221,23 @@ def test_new_upload_to_complete_review_and_four_valid_artifacts(host, kind):
         tripwire.close()
 
 
-def test_projection_is_complete_detached_and_recursively_immutable(host):
-    ref, _ = start(host)
+@pytest.mark.parametrize("name", TWO_SOURCES)
+def test_projection_is_complete_detached_and_recursively_immutable(host, name):
+    ref, _ = start(host, name)
     snapshot = host.workflow.review(ref)
     with pytest.raises(FrozenInstanceError):
         snapshot.originals.members = ()
     detached = review_documents(snapshot.originals)
-    detached["source_envelope"]["source_units"][0]["content"] = "forged"
+    for document in detached.values():
+        document.clear()
+        document["forged"] = True
     assert host.workflow.review(ref) == snapshot
     assert "forged" not in repr(host.workflow.review(ref))
 
 
-def test_human_and_separate_incomplete_claims_gates(host):
-    ref, _ = start(host)
+@pytest.mark.parametrize("name", TWO_SOURCES)
+def test_human_and_separate_incomplete_claims_gates(host, name):
+    ref, _ = start(host, name)
     with pytest.raises(CustodyError, match="Synthetic"):
         host.workflow.render(ref)
     with pytest.raises(CustodyError) as denied:
@@ -198,9 +252,11 @@ def test_human_and_separate_incomplete_claims_gates(host):
     assert host.workflow.render(ref).artifacts
 
 
-def test_cross_document_review_export_and_stale_revision_rejected(host):
-    first, _ = start(host)
-    second, _ = start(host, "controller.docx")
+@pytest.mark.parametrize("name", TWO_SOURCES)
+def test_cross_document_review_export_and_stale_revision_rejected(host, name):
+    first, _ = start(host, name)
+    other = next(item for item in TWO_SOURCES if item != name)
+    second, _ = start(host, other)
     a, b = host.workflow.review(first), host.workflow.review(second)
     assert a.review_snapshot_sha256 != b.review_snapshot_sha256
     with pytest.raises(ProductWorkflowError):
@@ -231,7 +287,7 @@ def test_cross_document_review_export_and_stale_revision_rejected(host):
 
 def test_mixed_document_revision_input_rejected_without_replacing_current(host):
     first, _ = start(host)
-    second, _ = start(host)
+    second, _ = start(host, "research-b.docx")
     foreign = review_documents(host.workflow.review(second).originals)["structured_analysis"]
     with pytest.raises(CustodyError) as error:
         host.workflow.revise(first, structured_analysis=foreign)
@@ -244,8 +300,9 @@ def test_mixed_document_revision_input_rejected_without_replacing_current(host):
     lambda analysis: analysis["evidence"][0].update(excerpt="Not in the uploaded source"),
     lambda analysis: analysis["evidence"][0].update(document_id="doc-foreign"),
 ])
-def test_missing_or_forged_evidence_cleans_uploaded_source(host, mutation):
-    document_id, _ = register(host)
+@pytest.mark.parametrize("name", TWO_SOURCES)
+def test_missing_or_forged_evidence_cleans_uploaded_source(host, mutation, name):
+    document_id, _ = register(host, name)
     host.runtime.mutate = mutation
     with pytest.raises(CustodyError) as error:
         host.workflow.start(document_id)
@@ -275,8 +332,9 @@ def test_unsupported_or_missing_technical_content_is_not_fabricated(host, name):
     assert not host.app.state.document_storage.path_for(document_id).exists()
 
 
-def test_unknown_bytes_and_modified_registered_bytes_are_not_admitted(host):
-    document_id, _ = register(host)
+@pytest.mark.parametrize("name", TWO_SOURCES)
+def test_unknown_bytes_and_modified_registered_bytes_are_not_admitted(host, name):
+    document_id, _ = register(host, name)
     path = host.app.state.document_storage.path_for(document_id)
     path.write_bytes(path.read_bytes() + b"tampered")
     with pytest.raises(ProductWorkflowError) as error:
@@ -305,8 +363,9 @@ def test_unauthorized_invocations_cannot_read_acknowledge_or_export(host):
         assert error.value.code == "UNAUTHORIZED"
 
 
-def test_reads_do_not_refresh_expiry_and_export_is_removed(host):
-    ref, _ = start(host)
+@pytest.mark.parametrize("name", TWO_SOURCES)
+def test_reads_do_not_refresh_expiry_and_export_is_removed(host, name):
+    ref, _ = start(host, name)
     result = export(host, ref)
     host.clock[0] += IDLE_SECONDS - 1
     host.workflow.review(ref)
@@ -318,8 +377,9 @@ def test_reads_do_not_refresh_expiry_and_export_is_removed(host):
 
 
 @pytest.mark.parametrize("tamper", ["file", "mime", "revision", "digest"])
-def test_tampered_manifest_or_artifact_never_returns_bytes(host, tamper):
-    ref, _ = start(host)
+@pytest.mark.parametrize("name", TWO_SOURCES)
+def test_tampered_manifest_or_artifact_never_returns_bytes(host, tamper, name):
+    ref, _ = start(host, name)
     result = export(host, ref)
     record = host.workflow._custody._records[result.custody_id]  # adversarial test only
     if tamper == "file":
@@ -506,3 +566,97 @@ def test_capacity_is_bounded_and_abort_releases_a_slot(host):
     replacement = host.workflow.start(pending)
     assert replacement.document_id == pending
     assert len(host.workflow._handles) == 4
+
+
+@pytest.fixture(autouse=True)
+def offline_provider_guard():
+    guard = ProviderTripwire().install()
+    try:
+        yield guard
+        guard.assert_no_unexpected_activity()
+    finally:
+        guard.close()
+
+
+def test_two_source_manifest_and_analysis_identities():
+    assert API_MANIFEST["scope"] == "SYNTHETIC_TEST_ONLY"
+    assert API_MANIFEST["production_admitted"] is False
+    assert API_MANIFEST["c2_pilot_admitted"] is False
+    assert API_MANIFEST["provider_budget_usd"] == 0
+    assert len(API_MANIFEST["fixtures"]) == 2
+    assert {entry["filename"] for entry in API_MANIFEST["fixtures"]} == set(TWO_SOURCES)
+    assert len({entry["sha256"] for entry in API_MANIFEST["fixtures"]}) == 2
+    assert len({entry["parsed_content_sha256"] for entry in API_MANIFEST["fixtures"]}) == 2
+    for entry in API_MANIFEST["fixtures"]:
+        payload = (ROOT / entry["path"]).read_bytes()
+        assert len(payload) == entry["size_bytes"]
+        assert hashlib.sha256(payload).hexdigest() == entry["sha256"]
+        assert entry["provenance"]
+        assert entry["analysis_media_type"] == "application/json"
+        source_template(entry)  # Verify analysis bytes independently of source bytes.
+    b = source_template(RESEARCH_B)
+    assert b["document_metadata"]["sha256"] == RESEARCH_B["sha256"]
+    assert b["document_metadata"]["media_type"] == RESEARCH_B["media_type"]
+    assert b["document_metadata"]["file_name"] == RESEARCH_B["filename"]
+    assert b["technical_problems"] != TEMPLATE["structured_analysis"]["technical_problems"]
+
+
+@pytest.mark.parametrize("name", TWO_SOURCES)
+def test_parsed_source_identity_and_cross_source_fake_analysis_rejected(host, name):
+    ref, _ = start(host, name)
+    envelope = host.runtime.envelopes[-1]
+    entry = next(item for item in API_MANIFEST["fixtures"] if item["filename"] == name)
+    unit = envelope.source_units[0]
+    assert hashlib.sha256(unit.content.encode()).hexdigest() == entry["parsed_content_sha256"]
+    actual = review_documents(host.workflow.review(ref).originals)["structured_analysis"]
+    assert actual["evidence"][0]["locator"] == unit.locator.model_dump(exclude_none=True)
+    assert actual["evidence"][0]["excerpt"] in unit.content
+    if name == "research-b.docx":
+        assert actual["evidence"][0]["locator"] == source_template(RESEARCH_B)["evidence"][0]["locator"]
+    other = next(item for item in API_MANIFEST["fixtures"] if item["filename"] != name)
+    foreign = source_template(other)
+    # Even with metadata/locator rebound by the fake, foreign evidence must fail grounding.
+    def swap(analysis):
+        metadata = analysis["document_metadata"]
+        evidence = analysis["evidence"][0]
+        analysis.clear()
+        analysis.update(deepcopy(foreign))
+        old = analysis["evidence"][0]["evidence_id"]
+        def rebind(value):
+            if isinstance(value, dict):
+                return {key: rebind(child) for key, child in value.items()}
+            if isinstance(value, list):
+                return [rebind(child) for child in value]
+            return evidence["evidence_id"] if value == old else value
+        bound = rebind(analysis)
+        analysis.clear()
+        analysis.update(bound)
+        analysis["document_metadata"] = metadata
+        analysis["evidence"][0].update({key: value for key, value in evidence.items() if key != "excerpt"})
+    host.runtime.mutate = swap
+    document_id, _ = register(host, name)
+    with pytest.raises(CustodyError) as error:
+        host.workflow.start(document_id)
+    assert error.value.code == "INTAKE_REJECTED"
+    assert host.app.state.document_registry.get(document_id) is None
+    assert not host.app.state.document_storage.path_for(document_id).exists()
+    assert host.workflow.review(ref).revision == 1
+    host.workflow.abort(ref)
+
+
+@pytest.mark.parametrize("name", TWO_SOURCES)
+@pytest.mark.parametrize("tamper", ["sha256", "media_type", "content"])
+def test_fake_extractor_rejects_mismatched_source_identity(host, name, tamper):
+    ref, _ = start(host, name)
+    envelope = host.runtime.envelopes[-1].model_copy(deep=True)
+    if tamper == "content":
+        other = next(item for item in API_MANIFEST["fixtures"] if item["filename"] != name)
+        foreign = source_template(other)["evidence"][0]["excerpt"]
+        envelope.source_units[0].content = foreign
+    else:
+        setattr(envelope.document_metadata, tamper, "0" * 64 if tamper == "sha256" else "text/plain")
+    before = len(host.runtime.envelopes)
+    with pytest.raises(ValueError, match="Unsupported synthetic technical content"):
+        host.runtime.run_extraction(envelope)
+    assert len(host.runtime.envelopes) == before
+    host.workflow.abort(ref)
