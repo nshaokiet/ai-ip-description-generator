@@ -1,0 +1,47 @@
+{
+  "version": "1.0.0",
+  "task_id": "API-READY-001-A",
+  "scope": "SYNTHETIC_TEST_ONLY",
+  "authorization": "Human API-READY-001-A instruction on 2026-11-09 authorizes creation and isolated synthetic testing of these new bytes; no production or PRODUCT-001B/C2 pilot admission.",
+  "planning_reference": "https://github.com/nshaokiet/ai-ip-description-generator/issues/131#issuecomment-6731189753",
+  "independent_review_status": "PENDING_AT_CREATION_NOT_INDEPENDENTLY_APPROVED",
+  "production_admitted": false,
+  "c2_pilot_admitted": false,
+  "provider_budget_usd": 0,
+  "fixtures": [
+    {
+      "path": "tests/fixtures/product-synthetic/v1.0.0/controller.pdf",
+      "filename": "controller.pdf",
+      "media_type": "application/pdf",
+      "size_bytes": 1015,
+      "sha256": "9bc8d4e20b2b88d2df0780294069e048b96c09a22a7012baa1efe5ba7f523975",
+      "source_id": "controller-a",
+      "technical_subject": "Optical sensor calibration",
+      "analysis_path": "tests/fixtures/invention-reconstruction/v1.0.0/representative-system.json",
+      "analysis_json_pointer": "/structured_analysis",
+      "analysis_sha256": "f453a7264e36cfbc7d71cc83ce3c5068ad360e95e56fb3896be840d1f63519c9",
+      "parsed_content_sha256": "7818a10a92b057db272ad6005f3f4daaf7372f73fc5b6a3a4f0606b9fe596704",
+      "provenance": "Existing controller PDF reused byte-for-byte; prior fixture status is unchanged.",
+      "analysis_size_bytes": 7026,
+      "analysis_media_type": "application/json",
+      "analysis_hash_scope": "GIT_BLOB_LF: existing JSON checkout CRLF normalized to LF"
+    },
+    {
+      "path": "tests/fixtures/api-ready/v1.0.0/research-b.docx",
+      "filename": "research-b.docx",
+      "media_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "size_bytes": 1210,
+      "sha256": "dc3fb54cd9344c20c0b76b5d8e2229c6d54d253f4c2ecfba96783af3ae731eb3",
+      "source_id": "research-b",
+      "technical_subject": "Vibrating membrane granular separation",
+      "analysis_path": "tests/fixtures/api-ready/v1.0.0/research-b-analysis.json",
+      "analysis_json_pointer": "",
+      "analysis_sha256": "b425fbf8e1f41551cbf00f51e3cff1ed2988182f0c70aff0dece54bdbf853dea",
+      "parsed_content_sha256": "54019588f7438b63955351e557268880118a12c86a5cee4d1bfd8c54fe14fac4",
+      "provenance": "Wholly synthetic prose and source-bound fake analysis authored by Codex for API-READY-001-A; no real research or provider. Deterministic minimal OOXML ZIP with fixed entry timestamps; no external relationships or macros.",
+      "analysis_size_bytes": 4704,
+      "analysis_media_type": "application/json",
+      "analysis_hash_scope": "EXACT_FILE_BYTES: UTF-8 JSON without line terminators"
+    }
+  ]
+}

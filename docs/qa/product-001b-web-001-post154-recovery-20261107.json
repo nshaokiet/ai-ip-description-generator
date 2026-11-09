@@ -1,0 +1,302 @@
+{
+  "document_id": "PRODUCT-001B-WEB-001-POST154-DOCS-RECOVERY",
+  "version": "1.0.0",
+  "date": "2026-11-07",
+  "author": "Codex implementer reconciliation; not independent reviewer",
+  "authority": "Human RESUME PRODUCT-001B / WEB-001 DOCUMENTARY RECOVERY",
+  "base": {
+    "head": "180299148595edae6d12e2c254dd3559ff7b75ad",
+    "tree": "e2b11c33b22df4da5f1499a37a3778c10dff7a13"
+  },
+  "original152": {
+    "head": "975ac1146d32369c612c601f720537fcf89de531",
+    "tree": "1b75390cd9e5a81d05fab50baf63e365c97da914",
+    "preserved": true,
+    "parent_diff": {
+      "files": 6,
+      "additions": 982,
+      "deletions": 185
+    },
+    "full_stacked_diff": {
+      "files": 7,
+      "additions": 1600,
+      "deletions": 5
+    }
+  },
+  "original_blobs": [
+    {
+      "path": "docs/tasks/PRODUCT-001B-WEB-001.md",
+      "original_blob": "08397bb3fdc57c10bbd31fa9f071939fff50bb89",
+      "copied_blob": "08397bb3fdc57c10bbd31fa9f071939fff50bb89",
+      "bytes": 61508,
+      "sha256": "e11e85883356c85296633e4880a53fa77cfd4850cfffff955f4fe98a87cdf2ab"
+    },
+    {
+      "path": "docs/tasks/PRODUCT-001B-WEB-001-review-remediation.md",
+      "original_blob": "4672cf9b2e2e5006f21a143d34b93a50c1e5f023",
+      "copied_blob": "4672cf9b2e2e5006f21a143d34b93a50c1e5f023",
+      "bytes": 14210,
+      "sha256": "8dfbb9488f420fcc05fb0e6a0424566567c79df5b41c7cd35b4abf54f2e24bb5"
+    },
+    {
+      "path": "docs/qa/product-001b-web-001-foundation-20261105.json",
+      "original_blob": "76afce9c25b24742ad215b9f6ee8f868d827ea8e",
+      "copied_blob": "76afce9c25b24742ad215b9f6ee8f868d827ea8e",
+      "bytes": 11173,
+      "sha256": "ae1a805e0225f64f35940e6a531c33ac666db70d47471c838cdada1326f59b39"
+    },
+    {
+      "path": "docs/qa/product-001b-web-001-remediation-20261106.json",
+      "original_blob": "6541875966032cc9383d566f9990275c9172771c",
+      "copied_blob": "6541875966032cc9383d566f9990275c9172771c",
+      "bytes": 11486,
+      "sha256": "0cc473a50841a23061c9c3026e977234a54cd7b78c3c5d2a2c2592005a5c1cc9"
+    }
+  ],
+  "accepted_baseline_ci": [
+    {
+      "label": "foundation151",
+      "run": 42156455402,
+      "sha": "6278b081327bca121b4d24cc8c4b2021bd9e42c4",
+      "event": "push",
+      "attempt": 1,
+      "conclusion": "success",
+      "jobs": [
+        {
+          "name": "build-and-test",
+          "conclusion": "success"
+        },
+        {
+          "name": "mcp-tests",
+          "conclusion": "success"
+        }
+      ],
+      "artifact": {
+        "id": 13475625084,
+        "bytes": 14358,
+        "sha256": "881441f4ac52c572b86dcdc559c2ad6c602f11e832cb75c627253ab77afc6dde",
+        "audits": {
+          "full-audit.json": {
+            "info": 0,
+            "low": 0,
+            "moderate": 0,
+            "high": 0,
+            "critical": 0,
+            "total": 0
+          },
+          "production-audit.json": {
+            "info": 0,
+            "low": 0,
+            "moderate": 0,
+            "high": 0,
+            "critical": 0,
+            "total": 0
+          }
+        },
+        "security_counts": [
+          "ℹ tests 73",
+          "ℹ pass 73",
+          "ℹ fail 0",
+          "ℹ skipped 0",
+          "ℹ tests 2",
+          "ℹ pass 2",
+          "ℹ fail 0",
+          "ℹ skipped 0"
+        ]
+      }
+    },
+    {
+      "label": "A153_premerge",
+      "run": 42164097446,
+      "sha": "58d7564f445d078df432919c1bbfcae11049668e",
+      "event": "pull_request",
+      "attempt": 1,
+      "conclusion": "success",
+      "jobs": [
+        {
+          "name": "mcp-tests",
+          "conclusion": "success"
+        },
+        {
+          "name": "build-and-test",
+          "conclusion": "success"
+        }
+      ],
+      "artifact": {
+        "id": 13478781196,
+        "bytes": 14364,
+        "sha256": "b195ddfff9418a006811f93b5030b16efcfd56571e4a57adc7917b75c9e392b6",
+        "audits": {
+          "full-audit.json": {
+            "info": 0,
+            "low": 0,
+            "moderate": 0,
+            "high": 0,
+            "critical": 0,
+            "total": 0
+          },
+          "production-audit.json": {
+            "info": 0,
+            "low": 0,
+            "moderate": 0,
+            "high": 0,
+            "critical": 0,
+            "total": 0
+          }
+        },
+        "security_counts": [
+          "ℹ tests 73",
+          "ℹ pass 73",
+          "ℹ fail 0",
+          "ℹ skipped 0",
+          "ℹ tests 2",
+          "ℹ pass 2",
+          "ℹ fail 0",
+          "ℹ skipped 0"
+        ]
+      }
+    },
+    {
+      "label": "CI154_exact_main",
+      "run": 42338312056,
+      "sha": "180299148595edae6d12e2c254dd3559ff7b75ad",
+      "event": "push",
+      "attempt": 1,
+      "conclusion": "success",
+      "jobs": [
+        {
+          "name": "build-and-test",
+          "conclusion": "success"
+        },
+        {
+          "name": "mcp-tests",
+          "conclusion": "success"
+        }
+      ],
+      "artifact": {
+        "id": 13560043546,
+        "bytes": 14364,
+        "sha256": "4022ff92f7ab266771ac9b2c1afad15ba99f9e968342e9dbf6564c8709bdabec",
+        "audits": {
+          "full-audit.json": {
+            "info": 0,
+            "low": 0,
+            "moderate": 0,
+            "high": 0,
+            "critical": 0,
+            "total": 0
+          },
+          "production-audit.json": {
+            "info": 0,
+            "low": 0,
+            "moderate": 0,
+            "high": 0,
+            "critical": 0,
+            "total": 0
+          }
+        },
+        "security_counts": [
+          "ℹ tests 73",
+          "ℹ pass 73",
+          "ℹ fail 0",
+          "ℹ skipped 0",
+          "ℹ tests 2",
+          "ℹ pass 2",
+          "ℹ fail 0",
+          "ℹ skipped 0"
+        ]
+      }
+    },
+    {
+      "label": "A153_original_exact_main",
+      "run": 42177917762,
+      "sha": "417708d9154d86226504e69cc6587a3ca0a78c09",
+      "attempts": [
+        1,
+        2
+      ],
+      "conclusion": "failure",
+      "artifact": "mandatory security absent; historical failed gate retained; not retroactive PASS"
+    }
+  ],
+  "review_originals": [
+    {
+      "filename": "AIIP-PRODUCT-001B-WEB-001-INDEPENDENT-DESIGN-REVIEW.md",
+      "original_bytes": 50927,
+      "original_sha256": "43646a9cec166466e90b3d534a1f842a04fef951c5f91cb59db1a6ac2bb4a0de",
+      "backup_present": true,
+      "backup_bytes": 50927,
+      "backup_sha256": "43646a9cec166466e90b3d534a1f842a04fef951c5f91cb59db1a6ac2bb4a0de",
+      "byte_identical": true
+    },
+    {
+      "filename": "AIIP-REVIEW-PR152-WEB-001-V011-INDEPENDENT-REPORT.md",
+      "original_bytes": 15764,
+      "original_sha256": "659f89b9228f7ce99295ecb89222913b137e64696142abe1336bedc991179172",
+      "backup_present": true,
+      "backup_bytes": 15764,
+      "backup_sha256": "659f89b9228f7ce99295ecb89222913b137e64696142abe1336bedc991179172",
+      "byte_identical": true
+    },
+    {
+      "filename": "AIIP-REVIEW-PR152-CORRECTION-ADDENDUM.md",
+      "original_bytes": 17412,
+      "original_sha256": "bed15e4c51620fb1fb65388f02166621aa5c7eaac8cf1d8b71f31ac525244ed7",
+      "backup_present": true,
+      "backup_bytes": 17412,
+      "backup_sha256": "bed15e4c51620fb1fb65388f02166621aa5c7eaac8cf1d8b71f31ac525244ed7",
+      "byte_identical": true
+    }
+  ],
+  "second_correction": {
+    "status": "PENDING_NOT_FOUND",
+    "codex_request_is_not_reviewer_receipt": true,
+    "needed": "Genuine separately hashed original/backup correcting parent6+982/-185 versus full7+1600/-5 and exact BF04review/acceptance boundary; preserve originals"
+  },
+  "human_decisions": {
+    "D01": "PENDING_NOT_APPROVED",
+    "D02": "PENDING_NOT_APPROVED",
+    "D03": "PENDING_NOT_APPROVED",
+    "D04": "PENDING_NOT_APPROVED",
+    "D05": "PENDING_NOT_APPROVED",
+    "D06": "PENDING_NOT_APPROVED",
+    "D07": "PENDING_NOT_APPROVED"
+  },
+  "scope": {
+    "changed_paths": [
+      "README.md",
+      "docs/operations/01_PROJECT_CONTROL_CENTER.md",
+      "docs/operations/02_GEMINI_REVIEW_LOG.md",
+      "docs/tasks/PRODUCT-001B-WEB-001.md",
+      "docs/tasks/PRODUCT-001B-WEB-001-review-remediation.md",
+      "docs/tasks/PRODUCT-001B-WEB-001-post154-recovery.md",
+      "docs/qa/product-001b-web-001-foundation-20261105.json",
+      "docs/qa/product-001b-web-001-remediation-20261106.json",
+      "docs/qa/product-001b-web-001-post154-recovery-20261107.json"
+    ],
+    "documentation_only": true,
+    "runtime_changes": false,
+    "fixture_materialization_or_admission": false,
+    "spec_frozen": false,
+    "provider_calls": 0,
+    "merge": false,
+    "deploy": false,
+    "C2_runtime": false
+  },
+  "final_sha_tree_ci_review": "Post-commit PR receipt; no future self-SHA or unexecuted PASS embedded",
+  "mcp": "Registration/lease UNVERIFIED; no current tool exposed or state fabricated",
+  "status_at_creation": "BLOCKED_REVIEW_PROVENANCE; new candidate CI and actual fixed-SHA review tracked after publication",
+  "resume_keyword": "RESUME-AIIP-POST154-PRODUCT001B-DOCS-RECOVERY",
+  "local_documentary_validation": {
+    "json": "PASS; three JSON receipts parsed",
+    "relative_links": "PASS; introduced Markdown file links resolve",
+    "source_blob_objects": "PASS; historical declared Git blobs exist",
+    "original_four_blobs": "PASS; exact original152 blob OIDs retained",
+    "shared_history": "PASS; all prior main PCC/ReviewLog lines retained in order except version/date metadata",
+    "gates": "PASS structural D01-D07/W01-W12/BF01-05/BP401-05 coverage; not approval",
+    "selected_sensitive_patterns": "PASS; credentials/private keys/personal paths/private reviewer session absent from9paths; limited check",
+    "governance_validator": "PASS existing tools/validate_workflow_v2_governance.py on Python3.12; structural only",
+    "whitespace": "PASS staged diff --check",
+    "runtime_tests": "NOT_RUN locally; docs-only scope, hosted required CI remains independent"
+  }
+}
