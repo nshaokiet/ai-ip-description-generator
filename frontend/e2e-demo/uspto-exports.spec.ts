@@ -15,6 +15,7 @@ test.beforeEach(async ({ page }) => {
 test("four P2-006 downloads are genuine files with expected signatures and filenames", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", {name: "USPTO-format reference exports"})).toBeVisible();
+  await expect(page.getByText("Download files rendered by P2-006 from a provenance-validated synthetic P2-005 sample. These files are independent of your active edited draft above.", {exact: true})).toBeVisible();
   await expect(page.getByText("Sample provenance validated · four exports available")).toBeVisible();
   await expect(page.getByText(/SYNTHETIC SAMPLE ONLY · DRAFT · NOT ISSUED · CLAIMS INCOMPLETE/)).toBeVisible();
   for (const name of filenames) {
@@ -35,6 +36,7 @@ test("native Vietnamese locale, keyboard focus, and narrow mobile exports", asyn
   await page.goto("/");
   await page.getByRole("combobox", {name: "Language"}).selectOption("vi");
   await expect(page.getByRole("heading", {name: "Bản tham chiếu định dạng USPTO"})).toBeVisible();
+  await expect(page.getByText("Tải tài liệu được tạo từ mẫu tổng hợp P2-005 đã xác minh nguồn bằng bộ xuất P2-006. Các tệp độc lập với bản nháp đang chỉnh sửa phía trên.", {exact: true})).toBeVisible();
   await expect(page.getByText(/CHỈ LÀ MẪU TỔNG HỢP · BẢN NHÁP/)).toBeVisible();
   const pdf = page.getByRole("button", {name: "Tải B2_REFERENCE_PREVIEW.pdf"});
   await expect(pdf).toBeEnabled();
