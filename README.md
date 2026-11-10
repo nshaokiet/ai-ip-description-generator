@@ -4,73 +4,77 @@
 
 # AI Intellectual Property Description Generator
 
-## Project Overview
+## Mục tiêu sản phẩm — API-ready, tối giản
 
-Hỗ trợ nhóm nghiên cứu chuyển bài báo khoa học thành phân tích sáng chế có nguồn dẫn và bản nháp mô tả theo cấu trúc USPTO để con người rà soát.
+**Scientific Paper (PDF/DOCX) → Source-grounded Invention Analysis → Patent Specification + Supported Draft Claims → Human Review → DOCX/PDF**
 
-**Scientific Paper → Invention Analysis → Human Review → Patent Specification Draft → PDF/DOCX**
+Dự án hướng tới một **website Next.js + FastAPI** giúp nhóm nghiên cứu chuyển bài báo khoa học được phép sử dụng thành **bộ bản nháp mô tả sáng chế theo cấu trúc USPTO (Hoa Kỳ)**, bao gồm **Patent Specification** và **Draft Claims** khi có đủ căn cứ. Bản nháp bằng tiếng Anh để tác giả/chuyên gia sở hữu trí tuệ rà soát; không phải hồ sơ sẵn sàng nộp hoặc bằng sáng chế đã được cấp.
 
-**COMPLETED — Local/Synthetic MVP.** Các thành phần offline và luồng minh họa đã hoạt động với dữ liệu tổng hợp; chuyển đổi bài báo bằng AI thật chưa được xác thực.
-Mọi đầu ra đều cần người dùng và chuyên gia sở hữu trí tuệ kiểm tra; không phải tư vấn pháp lý, kết luận khả năng bảo hộ hay hồ sơ sẵn sàng nộp.
+**Ưu tiên hiện tại: API-READY SCAFFOLD, không phải production.** Tận dụng các module đã có, nối các bước còn thiếu, chạy kiểm thử bằng mock và dữ liệu tổng hợp **không phát sinh phí API**. Khi có kinh phí/quyền sử dụng provider, cấu hình backend và thực hiện pilot có giới hạn để kiểm chứng luồng thực và chất lượng đầu ra. Có API key **không đồng nghĩa** hệ thống lập tức tạo được bản patent đạt yêu cầu từ mọi bài báo; kiểm thử provider thật và semantic evaluation vẫn bắt buộc.
 
-## Current Capabilities
+### Đầu ra mục tiêu
 
-- **PDF/DOCX Input:** Kiểm tra định dạng, đọc văn bản và bảng, giữ vị trí nguồn; không hỗ trợ OCR cho PDF chỉ có ảnh.
-- **Structured Invention Analysis:** Schema, nguồn dẫn, thông tin còn thiếu và quy tắc kiểm tra; adapter AI đã có mã và kiểm thử bằng mock, chưa xác thực với mô hình thật.
-- **Invention Reconstruction & USPTO Contracts:** Các thành phần tái dựng sáng chế và sinh mô tả đã triển khai offline; chưa tích hợp thành luồng sản phẩm v2 cho bài báo tùy ý.
-- **Human Review & Validation:** Giao diện minh họa hỗ trợ chỉnh sửa, phiên bản và kiểm tra bản nháp được chọn trước xuất DOCX.
-- **Offline Claims Support:** Thành phần độc lập kiểm tra yêu cầu bảo hộ có căn cứ; Claims trong luồng sản phẩm vẫn tắt.
-- **PDF/DOCX Rendering:** Bộ dựng tài liệu và gói xuất v2 đã được kiểm thử với dữ liệu tổng hợp; demo cung cấp bộ tài liệu mẫu cố định.
-- **Offline & Synthetic E2E:** Kiểm thử backend, frontend, trình duyệt, nguồn dẫn, bảo mật và MCP; kết quả tổng hợp không chứng minh chất lượng AI trên bài báo thật.
+- **Patent Specification Draft:** tên sáng chế, lĩnh vực kỹ thuật, bối cảnh, tóm tắt giải pháp, mô tả hình vẽ nếu có, mô tả chi tiết và abstract theo contract hiện có.
+- **Supported Draft Claims:** bản nháp independent/dependent claims với claim-to-source/specification support mapping **chỉ khi** tài liệu và contract cho phép; ghi rõ phần cần tác giả xác nhận.
+- **Validation & Human Review:** giữ evidence/locator, phát hiện thiếu căn cứ, mâu thuẫn và trạng thái chưa duyệt; không suy diễn tính mới, phạm vi bảo hộ tối ưu hay khả năng được cấp bằng.
+- **Export:** DOCX/PDF có thể đọc và kiểm tra, với trạng thái **DRAFT / HUMAN-IP-REVIEW-REQUIRED**, không tự nhận filing-ready.
 
-## Project status
+**Fail closed:** nếu bài báo không đủ thông tin kỹ thuật, hệ thống phải trả về thiếu căn cứ / `HUMAN_CONFIRMATION_REQUIRED` / Claims trống thay vì bịa claim element, invention embodiment, kết quả thí nghiệm hoặc legal claim scope.
 
-Đối chiếu ngày **08/11/2026**: #151, #153, #154 và #155 đã merge; main `27c24f70ac1fe528e04cb2a8d59e94e8cc34f346`, [exact-main CI42449793664](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/42449793664) SUCCESS với mandatory security artifact13605153288, full/production audits0, security73+2 PASS. PRODUCT-001B chỉ có **documentary baseline** được tích hợp, spec chưa freeze; PREAPI-C2 REVISION-004 recovery là một Draft riêng. Snapshot lịch sử được giữ trong Control Center.
+### Ranh giới của Claims hiện tại
 
-| Workstream | Status | Current focus |
-|---|---|---|
-| PREAPI-001 / C1 | CORE / BOUND REVIEW INTEGRATED | Core và A/C1 bound-review đã tích hợp qua #153; current-main CI sau #154 SUCCESS. Broader C1 governance không tự Completed; B transport/security cần phê duyệt riêng. |
-| PREAPI-C2 REVISION-004 | SPEC-ONLY RECOVERY / FRESH REVIEW PENDING | [Original #146](https://github.com/nshaokiet/ai-ip-description-generator/pull/146) vẫn Draft/conflicting; Human Option A architecture decision và original spec được giữ nguyên. [Post-#155 recovery](docs/tasks/PREAPI-C2-REVISION-004-post155-recovery.md) bảo toàn original blobs; candidate mới cần exact-SHA independent review và required CI/security. C2 implementation/fixtures vẫn chưa được phép. |
-| PREAPI-D | IN PROGRESS | [Draft checker](https://github.com/nshaokiet/ai-ip-description-generator/pull/141) kiểm tra điều kiện provider offline; chưa merge, chưa xác minh quyền gọi mô hình. |
-| PREAPI-E | IN PROGRESS | [Draft evaluator check](https://github.com/nshaokiet/ai-ip-description-generator/pull/142) kiểm tra bộ mẫu và phép chấm; chưa merge, chưa đánh giá AI thật. |
-| CI-V2-001 | INSTALLER RECOVERY MERGED / #144 PENDING | [#154 closeout](https://github.com/nshaokiet/ai-ip-description-generator/pull/154#issuecomment-6702377862): bounded signed snapshot index recovery, exact-main CI42338312056/security verified. Original #144 upload-hardening/conflicts vẫn riêng; các failure cũ giữ nguyên. |
-| CI-V2-002 / CI-V2-003 | PLANNED | [Đặc tả đã soạn](https://github.com/nshaokiet/ai-ip-description-generator/tree/docs/ci-v2-002-003-planning); chưa triển khai CI phân tầng và tối ưu storage. |
-| Governance & Integration | PENDING | [PR #143](https://github.com/nshaokiet/ai-ip-description-generator/pull/143) CONFLICTING; reconcile overlap với #146/foundation, không tự đóng hoặc thay review. |
-| EVAL-001 Product Runtime | AWAITING FUNDING | Chưa có kết quả chạy provider được chấp nhận; chất lượng ngữ nghĩa vẫn NOT_DETERMINED. |
-| README-REFRESH-001 | MERGED / CI DEBT | [PR #145](https://github.com/nshaokiet/ai-ip-description-generator/pull/145) đã merge vào `53c253be`; exact-main push CI attempt2 vẫn FAILURE, không suy thành accepted closeout. |
-| DEP-001-SR-20261024 | MERGED / POSTMERGE CI SUCCESS | [#147](https://github.com/nshaokiet/ai-ip-description-generator/pull/147) merged into `main` at `478f7d30` from reviewed HEAD `4c30d37`. [Postmerge CI42038735811](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/42038735811) SUCCESS with mandatory `dep-001-security` artifact, full/prod audit0 and security73+2 PASS. [Evidence and limits](docs/tasks/AIIP-INDEPENDENT-REVIEW-20261105-provenance-closeout.md). No deployment. |
-| PRODUCT-001A | INTEGRATED / CURRENT MAIN CI SUCCESS | [#153](https://github.com/nshaokiet/ai-ip-description-generator/pull/153) merged at417708d9, reviewed tree48b36b12 preserved. Original exact-main CI42177917762 failed twice at installer; [#154 recovery](https://github.com/nshaokiet/ai-ip-description-generator/pull/154#issuecomment-6702377862) supplies new green main evidence. Four existing fixtures are local-test-only, not B admission. |
-| PRODUCT-001B | DOCUMENTARY BASELINE MERGED / PHASE4 BLOCKED | [PR #155 closeout](https://github.com/nshaokiet/ai-ip-description-generator/pull/155#issuecomment-6717707842) documents exact-main CI/security PASS, original WEB-001 spec0.1.1 unchanged and still NOT FROZEN. Original #152 remains historical Draft; D01–D07, fixtures and B1–B6 remain unapproved. |
-| RESUME-FOUNDATION-001 | MERGED / POSTMERGE CI SUCCESS | [#151](https://github.com/nshaokiet/ai-ip-description-generator/pull/151) merged at6278b081, tree197f5919 unchanged from reviewedbc991c7. [CI42156455402](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/42156455402) SUCCESS/security artifact13475625084 verified; #150 preserved. |
+- Đã có thành phần **offline standalone** để sinh và kiểm tra supported draft Claims, cùng prototype semantic-authority synthetic. Đây **không phải** Claims đã tích hợp và kích hoạt trong luồng sản phẩm.
+- Đầu ra dương tính hiện tập trung vào **SYSTEM / APPARATUS** khi đáp ứng đầy đủ các điều kiện support/authority; **METHOD / PROCESS / COMPOSITION** chưa được phép khẳng định positive Claims qua overlay hiện có.
+- Để đưa Claims vào tài liệu xuất của sản phẩm cần **tích hợp được phê duyệt, validation và review riêng**; không tự bật `claims_runtime_implemented`, không sửa hợp đồng P2-002…P2-006 hoặc bỏ qua human/IP review.
 
-## Next Steps
+## Những gì đã có (không xây lại)
 
-1. Thẩm định Draft [C2 REVISION-004 post-#155 recovery](docs/tasks/PREAPI-C2-REVISION-004-post155-recovery.md) trên SHA mới; required PR CI/security và independent Gemini review mới là các gate riêng, không kế thừa historical #146 CI FAILURE.
-2. PRODUCT-001B documentary [#155](https://github.com/nshaokiet/ai-ip-description-generator/pull/155) đã merge với postmerge CI/security PASS; [#152](https://github.com/nshaokiet/ai-ip-description-generator/pull/152) giữ Draft gốc. #144 upload-hardening vẫn riêng.
-3. Human phải quyết định D01–D07, materialization/admission của hai nguồn fixture khác nội dung, freeze đặc tả đúng SHA và Phase4 scope trước B runtime. Existing controller PDF/DOCX represent one source, not the required distinct DOCX-B.
-4. Persistence, author answers/review history/retention/recovery là increment riêng; rồi mới pilot provider khi có quyền và kinh phí.
+| Thành phần | Bằng chứng/trạng thái |
+|---|---|
+| PDF/DOCX parsing và source evidence | Có module, kiểm thử offline; không OCR PDF chỉ có ảnh |
+| Structured extraction và draft runtime | Có mã tích hợp OpenAI Responses API cho extraction/draft và các schema/validator; **chưa nghiệm thu live-provider trên bài báo thật** |
+| Reconstruction / USPTO specification | Có bộ sinh, validation và offline orchestration; chưa có product E2E cho bài báo tùy ý |
+| Supported Draft Claims | Có bộ sinh/validator standalone và synthetic-authority prototype; **product Claims OFF** |
+| DOCX/PDF renderer | Đã kiểm thử với synthetic fixtures; demo hiện dùng mẫu cố định |
+| Next.js frontend + FastAPI backend | Nền tảng đã có; chưa xác nhận luồng browser upload → mock analysis → specification + claims → export end-to-end |
+| CI/backend/frontend/MCP | Có regression và security gates; CI PASS **không** chứng minh chất lượng semantic của AI |
 
-[Backlog theo dependency và acceptance](docs/tasks/RESUME-FOUNDATION-001.md). Sản phẩm đích là website Next.js + FastAPI; local/offline/synthetic là môi trường kiểm thử. MCP điều phối phát triển, không phải database hồ sơ website.
+**Trạng thái chính xác:** `LOCAL/SYNTHETIC MVP COMPLETE`; `API_READY END-TO-END = NOT VERIFIED`; `LIVE SEMANTIC ACCEPTANCE = NOT DETERMINED`; `PRODUCTION = NOT APPROVED`.
 
-Các bước đề xuất phải qua quyết định phạm vi tương ứng; danh sách này không tự cấp quyền thực hiện.
+## Trạng thái dự án — 09/11/2026
 
-## Funding Requirements
+**Mốc source-of-truth:** `main` tại thời điểm đồng bộ tài liệu = `b7a82b8183de734cd8ac6d84ffbdd9a90db94a4b` (PR #142 normal merge), gồm các increment không tốn phí #161, #141 và #142. [Exact-main CI #42625564182](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/42625564182) **đang chạy ở lần đối chiếu**: MCP SUCCESS, build-and-test/chứng cứ hậu merge còn PENDING; **không ghi postmerge PASS trước khi đủ bằng chứng**. Các receipt có SHA/CI/security chi tiết nằm tại [Issue #131](https://github.com/nshaokiet/ai-ip-description-generator/issues/131) và từng PR; không tái tạo nhật ký lịch sử trong README.
 
-**AI API runtime budget: USD 0.** Phần offline, mock và dữ liệu tổng hợp vẫn phát triển được mà không gọi AI trả phí.
-Quyền truy cập mô hình trên tài khoản API và giá thực tế chưa được xác minh.
+| Workstream | Trạng thái và giới hạn đã xác minh |
+|---|---|
+| API-READY-001-A | [PR #161](https://github.com/nshaokiet/ai-ip-description-generator/pull/161) **MERGED / postmerge CI/security PASS**; kiểm thử offline **2 nguồn synthetic khác nội dung** qua pipeline hiện có. Không có xác nhận API thật hoặc xử lý tùy ý mọi paper. |
+| PREAPI-D | [PR #141](https://github.com/nshaokiet/ai-ip-description-generator/pull/141) **MERGED**, [exact-main CI #42616869824](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/42616869824) SUCCESS; CLI offline preflight chỉ kiểm tra SDK, prompt/schema, cấu hình và cờ default-OFF. `future_live_budget_enforcement=NOT_IMPLEMENTED`, model entitlement UNVERIFIED. |
+| PREAPI-E | [PR #142](https://github.com/nshaokiet/ai-ip-description-generator/pull/142) **MERGED**; exact-main #42625564182 đang chờ closeout hậu merge khi ghi nhận. Bộ dữ liệu gold đã chấp nhận: **6 cases / 154 items (102 KEY, 52 SECONDARY)**; không đo chất lượng của AI thật. |
+| Core A/C1, PDF/DOCX, USPTO, Claims standalone | Các bộ xử lý/validator/rendering và synthetic tests đã có. **Product Claims runtime OFF**, không suy ra browser upload-to-patent v2 hay sản phẩm filing-ready. |
+| PRODUCT-001B / PREAPI-C2 | WEB-001 v0.1.1 chỉ có documentary baseline; **NOT FROZEN**; scope B1–B6, D01–D07 và C2 runtime chưa tự cấp phép. |
+| MCP Security / maintenance | [PR #158](https://github.com/nshaokiet/ai-ip-description-generator/pull/158) đã merge; [Issue #160](https://github.com/nshaokiet/ai-ip-description-generator/issues/160) giữ các rủi ro input/resource cần quyết định riêng. |
+| Funded provider pilot / EVAL-001 Product Runtime | **NOT RUN / NOT DETERMINED**; model/account entitlement và semantic-quality chưa nghiệm thu; API budget **USD 0**. |
 
-| Component | Purpose | Current status | Funding requirement |
-|---|---|---|---|
-| Live Extraction | Kiểm tra trích xuất và nguồn dẫn bằng AI thật | AWAITING FUNDING | Provider, mô hình và hạn mức |
-| Live Draft Generation | Kiểm tra bản nháp từ kết quả phân tích thật | AWAITING FUNDING | Lượt gọi và token được duyệt |
-| Real-Provider E2E | Xác minh luồng xử lý đầu cuối | AWAITING FUNDING | Pilot có giới hạn chi phí |
-| Semantic Evaluation | Đánh giá chất lượng trên bộ dữ liệu được phép | AWAITING FUNDING | Lượt chạy và tiêu chí được duyệt |
-| Provider Regression | Đo lỗi, retry, token và chi phí | AWAITING FUNDING | Ngân sách thử nghiệm riêng |
-| Production Infrastructure | Đáp ứng bảo mật, lưu trữ và vận hành | PLANNED | Chỉ xác định sau quyết định kiến trúc |
+## Next Steps — đường ngắn nhất đến API_READY
 
-**TBD — Pending Provider and Budget Approval:** Chưa xác định chi phí, hạn mức pilot hoặc nhu cầu hạ tầng trả phí; không bắt đầu pilot khi chưa có phê duyệt riêng.
-Bài báo thật chưa được xác thực qua pipeline AI và chưa đạt semantic acceptance.
-**GitHub Actions có lịch sử lỗi riêng:** quota upload tháng10 và QA installer failures vẫn được lưu. Current main sau #154 có CI42338312056 SUCCESS/security0; new B candidate cần CI riêng. Mua tín dụng AI API không thay thế CI/review gates.
+1. **Hoàn tất exact-main closeout PR #142:** chỉ nhận [CI #42625564182](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/42625564182) khi đủ kết quả hai job và artifact security hậu merge; không dùng CI trước merge thay thế.
+2. **Không xây lại các checker/pipeline đã có:** giữ các mốc offline hai nguồn synthetic (#161), preflight provider mặc định OFF (#141) và kiểm tra gold (#142). Không coi ba mốc này là bằng chứng chất lượng model thực hoặc UI E2E cho bài báo bất kỳ.
+3. **Chỉ audit gap tối thiểu còn lại:** kiểm tra thực trạng đường **website upload → evidence → mock reconstruction/specification → supported Claims hoặc explicit refusal → human/IP review → DOCX/PDF**. Nếu thiếu integration/test, lập task/acceptance cụ thể và xin phê duyệt phạm vi riêng; không tự kích hoạt PRODUCT-001B, Claims authority hoặc mở rộng multi-user/production.
+4. **Bảo toàn checklist để bật provider sau này:** SDK/model entitlement, key backend-only, token/timeouts/retry, fail-closed khi vượt hạn mức, kế hoạch smoke test **DISABLED**. Kiểm tra cấu hình offline **không phải** biện pháp enforce chi tiêu API live; chưa chấp thuận provider.
+5. **Khi có kinh phí và chấp thuận độc lập:** chạy pilot trên nguồn hợp pháp, đo grounding/Claims hallucination, chất lượng specification, chi phí/token và review người; chỉ sau đó mới quyết định phát triển tiếp.
+
+### Tiêu chí dừng phát triển để chờ kinh phí
+
+`API_READY` chỉ được ghi khi có bằng chứng **mock E2E PASS**, cấu hình/kiểm thử provider smoke test chuẩn bị sẵn (chưa gọi API), Claims fail-closed được kiểm tra, xuất DOCX/PDF hợp lệ và không có blocker kỹ thuật thuộc scope tối thiểu. Sau đó **tạm dừng mở rộng tính năng**, chờ provider pilot; không yêu cầu multi-user, deployment hay B1–B6 để đạt mốc này.
+
+Đây là **ưu tiên sản phẩm**, không phải phê duyệt thay đổi các contract/Claims runtime, input/security policy, dữ liệu thật, paid API hoặc production. Các thay đổi cần task/scope/review/CI theo [AGENTS.md](AGENTS.md).
+
+## Kinh phí và bật API
+
+- **Hiện tại:** provider/API budget **USD 0**; không gọi live provider và không commit API key. Các runtime adapter có mã không đồng nghĩa provider/model đã được phê duyệt hoặc kiểm thử.
+- **Trước khi có ngân sách:** hoàn thiện scaffold, mock tests và runbook cấu hình. Dùng backend environment/secret manager cho key; không để key trong frontend, log, git hoặc tài liệu công khai.
+- **Khi có ngân sách:** xác nhận provider/model và hạn mức, bật riêng trong môi trường thử nghiệm, chạy smoke test nhỏ và semantic evaluation được duyệt; đo error, latency, token/cost và chất lượng Claims. Không bảo đảm chỉ nhập key là tạo patent đạt chuẩn.
+- **Production:** chỉ xem xét sau pilot và quyết định bảo mật/dữ liệu riêng; chi phí hạ tầng chưa xác định.
 
 ## Production Readiness
 
