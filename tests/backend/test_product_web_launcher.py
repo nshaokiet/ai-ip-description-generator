@@ -6,6 +6,7 @@ import subprocess
 import sys
 import sysconfig
 import threading
+import tempfile
 import time
 from types import SimpleNamespace
 
@@ -164,8 +165,16 @@ def test_one_file_unlink_error_does_not_skip_other_owned_file(tmp_path, monkeypa
     assert not (value.root / "proxy.json").exists()
 
 
-def test_partial_startup_stops_real_ipc_and_cleans_owned_state(tmp_path, monkeypatch):
-    state, certificate, key = prepare(tmp_path)
+@pytest.fixture
+def short_private_root():
+    # Real AF_UNIX addresses must fit sun_path even under long pytest basetemp.
+    # Production permissions, peer checks and the actual channel remain enabled.
+    with tempfile.TemporaryDirectory(prefix="s1rc-") as directory:
+        yield restrict_owned(Path(directory))
+
+
+def test_partial_startup_stops_real_ipc_and_cleans_owned_state(short_private_root, monkeypatch):
+    state, certificate, key = prepare(short_private_root)
     actual_write, actual_control = launcher.write_private, launcher.PairingControl
     actual_socket = launcher.socket.socket
     controls, writes, sockets = [], [], []
