@@ -21,7 +21,7 @@ const syntheticCredential = "S1_SYNTHETIC_PARENT_CREDENTIAL";
 
 function control(action: string, selector?: string) {
   return spawnSync(python, ["-m", "backend.app.services.product_web_host_control", action,
-    configPath, ...(selector ? [selector] : [])], {
+    "--", configPath, ...(selector ? [selector] : [])], {
     cwd: repo, encoding: "utf8", windowsHide: true,
     env: { ...process.env, PYTHONDONTWRITEBYTECODE: "1" },
   });

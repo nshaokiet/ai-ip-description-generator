@@ -1,6 +1,6 @@
 # API-READY-WEB-GAP-001B-S1 — local transport and authentication
 
-Version 0.1.0, 2026-11-11. Implementation candidate; independent review and
+Version 0.1.1, 2026-11-12. Implementation candidate; independent review and
 separate Human merge decision required. Human's 2026-11-11 implementation order
 authorizes D-GAP-01/D-GAP-03 for S1 only. D-GAP-02, R0/R1, product routes,
 providers, deployment and merge are not authorized.
@@ -36,9 +36,10 @@ terminal, locate the new instance's `host.json` inside the private state parent
 (do not print its contents), compare the displayed selector, then run:
 
 ```text
-python -m backend.app.services.product_web_host_control approve <instance>/host.json <selector>
+python -m backend.app.services.product_web_host_control approve -- <instance>/host.json <selector>
 ```
 
+Use the `--` delimiter: a valid random pairing selector can begin with `-`.
 Approval does not log in. Complete login in the original browser context. Host
 `revoke-all <instance>/host.json` revokes all sessions; `shutdown` on the same
 protected channel revokes and stops the dedicated host. Control keys never appear
@@ -108,7 +109,7 @@ DACL and impersonated TokenUser; no second OS account or physical remote host wa
 used for penetration testing. Linux native/socket/browser results must be checked
 in exact-head CI; local Windows success is not cross-platform acceptance.
 
-Remediation Windows verification: 45 S1 cases plus 7 existing provider-tripwire
+Remediation Windows verification: 46 S1 cases plus 7 existing provider-tripwire
 cases PASS; all 3 real HTTPS browser cases PASS with synthetic unrelated
 credentials and invalid NODE_OPTIONS in the parent environment. Lint/typecheck/
 build PASS. New-head Linux CI and independent re-review remain separate gates.

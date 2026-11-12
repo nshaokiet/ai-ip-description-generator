@@ -14,7 +14,7 @@ import pytest
 
 from backend.app import local_product_web as launcher
 from backend.app.services.product_web_host_control import (
-    SecurityError, create_private_dir, restrict_owned, write_private,
+    PairingControl, SecurityError, create_private_dir, restrict_owned, write_private,
 )
 from tests.e2e.product_web_host import prepare
 
@@ -199,6 +199,25 @@ def test_partial_startup_stops_real_ipc_and_cleans_owned_state(short_private_roo
     assert len(controls) == 1 and not controls[0].thread.is_alive()
     assert sockets and all(value.fileno() == -1 for value in sockets)
     assert list(state.iterdir()) == []
+
+
+def test_operator_cli_accepts_dash_prefixed_selector_over_real_ipc(short_private_root):
+    selector, observed = "-" + "a" * 42, []
+    host = PairingControl(short_private_root,
+                          lambda value: observed.append(value) or value == selector,
+                          lambda: False).start()
+    config = short_private_root / "host.json"
+    try:
+        write_private(config, {"instance": host.instance, "address": host.address, "control_key": host.key})
+        environment = launcher._node_environment(config, short_private_root / "unused-cert", short_private_root / "unused-key")
+        result = subprocess.run([sys.executable, "-m", "backend.app.services.product_web_host_control",
+                                 "approve", "--", str(config), selector],
+                                cwd=Path(__file__).resolve().parents[2], env=environment,
+                                capture_output=True, text=True, timeout=10)
+        assert result.returncode == 0 and result.stdout.strip() == "Operator action accepted."
+        assert observed == [selector] and not result.stderr
+    finally:
+        host.stop()
 
 
 def test_failed_directory_verification_quarantines_instead_of_blind_deletion(tmp_path, monkeypatch):
