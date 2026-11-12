@@ -67,6 +67,27 @@ parent; it never deletes an existing host's files. Graceful shutdown removes onl
 its owned state/socket; after a crash, stale private files require operator inspection
 and cleanup before restart. No session/approval is restored after a restart.
 
+## S1-RC-01/02 remediation
+
+The Node child receives only defined `PATH`, `SYSTEMROOT`, `WINDIR`, `TEMP`,
+`TMP`, `TMPDIR`, `HOME` and `USERPROFILE` runtime values. Windows system/home
+values support its native runtime; Linux uses PATH/HOME and optional temporary
+locations. NODE_ENV is fixed to production, telemetry disabled, and only the
+four exact S1 file/interpreter variables are supplied by the launcher. Arbitrary
+credentials, AIIP_* variables, NODE_OPTIONS and Python startup overrides are not
+inherited. Shared-Python Linux builds additionally receive their compiled
+sysconfig LIBDIR as LD_LIBRARY_PATH so Node's ownership checker can re-execute
+Python; an ambient loader path is never copied.
+
+Teardown permanently seals/revokes sessions first, signals backend/control stop,
+then attempts each independent resource cleanup. The child has bounded terminate,
+kill-fallback and reap waits; a timeout does not itself kill it. A backend thread,
+IPC or child that cannot be confirmed stopped leaves private state quarantined
+and returns failure. Owned file removals are independent; unknown/crash-left
+directories are never recursively deleted. This cannot guarantee cleanup under
+arbitrary OS failure or process crashes. Tests distinguish successful cleanup
+from expected failure/quarantine, including partial startup and forced kill.
+
 ## Verification
 
 Focused native tests: `python -m pytest tests/backend/test_product_web_*.py -q`.
@@ -78,7 +99,7 @@ the ephemeral certificate. Existing CI discovers both backend and browser tests;
 Linux results belong to exact-head hosted evidence, not Windows test extrapolation.
 Python SDK/transport tripwires and the browser egress guard record unexpected activity.
 
-Local Windows 11/Python 3.12.10/Node 24.18.0 candidate verification: 34 S1 backend
+Original cad5586 Windows 11/Python 3.12.10/Node 24.18.0 verification: 34 S1 backend
 cases plus 7 existing provider-tripwire cases PASS; 3 real HTTPS browser cases PASS
 (independent sessions, proxy negatives, host restart); locked frontend lint,
 typecheck and build PASS. Unexpected Python client construction/API/egress and
@@ -86,6 +107,11 @@ browser egress counters were zero. Native tests read the actual current-user pip
 DACL and impersonated TokenUser; no second OS account or physical remote host was
 used for penetration testing. Linux native/socket/browser results must be checked
 in exact-head CI; local Windows success is not cross-platform acceptance.
+
+Remediation Windows verification: 45 S1 cases plus 7 existing provider-tripwire
+cases PASS; all 3 real HTTPS browser cases PASS with synthetic unrelated
+credentials and invalid NODE_OPTIONS in the parent environment. Lint/typecheck/
+build PASS. New-head Linux CI and independent re-review remain separate gates.
 
 API budget USD 0; provider NOT_RUN; Claims runtime DISABLED; semantic readiness
 NOT_DETERMINED; live spend enforcement NOT_IMPLEMENTED. No fixture admission,

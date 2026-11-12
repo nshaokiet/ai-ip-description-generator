@@ -17,6 +17,7 @@ let config: { proxy: string; port: number; control_key: string };
 let unexpectedBrowserEgress = 0;
 let hostLogs = "";
 let hostLogOverflow = false;
+const syntheticCredential = "S1_SYNTHETIC_PARENT_CREDENTIAL";
 
 function control(action: string, selector?: string) {
   return spawnSync(python, ["-m", "backend.app.services.product_web_host_control", action,
@@ -70,7 +71,10 @@ async function pair(value: BrowserContext) {
 async function startHost(reuse = false) {
   host = spawn(python, ["tests/e2e/product_web_host.py", "--root", root, ...(reuse ? ["--reuse"] : [])], {
     cwd: repo, windowsHide: true, stdio: ["ignore", "pipe", "pipe"],
-    env: { ...process.env, PYTHONDONTWRITEBYTECODE: "1", PYTHONUNBUFFERED: "1" },
+    env: { ...process.env, PYTHONDONTWRITEBYTECODE: "1", PYTHONUNBUFFERED: "1",
+      AWS_SECRET_ACCESS_KEY: syntheticCredential, GITHUB_TOKEN: syntheticCredential,
+      ANTHROPIC_API_KEY: syntheticCredential, AIIP_UNRELATED_TOKEN: syntheticCredential,
+      NODE_OPTIONS: "--s1-forbidden-option", NODE_ENV: "development" },
   });
   for (const output of [host.stdout, host.stderr]) {
     output?.on("data", (part) => {
@@ -110,6 +114,7 @@ test.afterAll(async () => {
   }
   expect(unexpectedBrowserEgress).toBe(0);
   expect(hostLogOverflow).toBe(false);
+  expect(hostLogs.includes(syntheticCredential)).toBe(false);
   if (config) expect(hostLogs.includes(config.proxy) || hostLogs.includes(config.control_key)).toBe(false);
   if (root) {
     expect(fs.existsSync(path.join(root, "provider.json"))).toBe(true);

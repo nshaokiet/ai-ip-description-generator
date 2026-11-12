@@ -13,6 +13,7 @@ import socket
 import ssl
 import subprocess
 import sys
+import sysconfig
 import threading
 import time
 
@@ -29,6 +30,7 @@ PRELOGIN, LOGIN = "__Host-aiip_prelogin", "__Host-aiip_web"
 TOKEN = re.compile(r"^[A-Za-z0-9_-]{43}$")
 HEADERS = {"Cache-Control": "no-store", "X-Content-Type-Options": "nosniff",
            "Referrer-Policy": "no-referrer", "X-Frame-Options": "DENY"}
+NODE_RUNTIME_ENV = ("PATH", "SYSTEMROOT", "WINDIR", "TEMP", "TMP", "TMPDIR", "HOME", "USERPROFILE")
 
 
 class AuthError(Exception):
@@ -46,8 +48,10 @@ class Sessions:
     def __init__(self, *, clock=time.monotonic):
         self.clock, self.lock = clock, threading.RLock()
         self.pending, self.authenticated, self.allocations = {}, {}, deque()
+        self.closed = False
 
     def _sweep(self):
+        _deny_unless(not self.closed, 503, "session_unavailable")
         now = self.clock()
         for records in (self.pending, self.authenticated):
             for key in tuple(records):
@@ -124,6 +128,12 @@ class Sessions:
             self.pending.clear()
             self.authenticated.clear()
             return True
+
+    def close(self):
+        with self.lock:
+            self.closed = True  # No new allocation or approval while teardown runs.
+            self.pending.clear()
+            self.authenticated.clear()
 
 
 def _guard(request: Request, proxy_secret: str, backend_host: str):
@@ -225,6 +235,85 @@ def create_local_app(*, enabled=False, sessions=None, proxy_secret=None, backend
     return app
 
 
+def _node_environment(proxy_path, certificate, key, *, parent=None):
+    parent = os.environ if parent is None else parent
+    environment = {name: parent[name] for name in NODE_RUNTIME_ENV if name in parent}
+    # Never inherit NODE_OPTIONS, arbitrary AIIP_* or unrelated credentials.
+    environment.update({"AIIP_S1_HOST_FILE": str(proxy_path), "AIIP_S1_CERT": str(certificate),
+                        "AIIP_S1_KEY": str(key), "AIIP_S1_PYTHON": sys.executable,
+                        "NODE_ENV": "production", "NEXT_TELEMETRY_DISABLED": "1"})
+    if sys.platform == "linux" and sysconfig.get_config_var("Py_ENABLE_SHARED"):
+        # The Node checker re-executes this Python. Hosted shared-Python builds
+        # need their compiled LIBDIR; never copy an ambient loader search path.
+        library = sysconfig.get_config_var("LIBDIR")
+        if not isinstance(library, str) or not Path(library).is_absolute() or not Path(library).is_dir():
+            raise SecurityError()
+        environment["LD_LIBRARY_PATH"] = library
+    return environment
+
+
+def _stop_child(process, timeout=5):
+    if process is None:
+        return
+    try:
+        if process.poll() is None:
+            process.terminate()
+        process.wait(timeout=timeout)
+    except Exception:
+        # wait(timeout) never kills a process. Reap after a bounded kill fallback.
+        try:
+            if process.poll() is None:
+                process.kill()
+        finally:
+            process.wait(timeout=timeout)
+    if process.poll() is None:
+        raise SecurityError()
+
+
+def _cleanup(sessions, process, server, thread, listener, control, root):
+    """Attempt independent teardown; quarantine state if any resource is unconfirmed."""
+    failures = []
+
+    def attempt(stage, action):
+        try:
+            action()
+        except Exception:
+            failures.append(stage)  # Codes only, never exception/credential contents.
+
+    attempt("sessions", sessions.close)
+    if control is not None:
+        attempt("control_signal", control.stopping.set)
+    if server is not None:
+        attempt("backend_signal", lambda: setattr(server, "should_exit", True))
+    attempt("child", lambda: _stop_child(process))
+    if thread is not None:
+        def join_backend():
+            thread.join(5)
+            if thread.is_alive():
+                raise SecurityError()
+        attempt("backend_thread", join_backend)
+    if listener is not None:
+        attempt("listener", listener.close)
+    if control is not None and hasattr(control, "thread"):
+        attempt("control", control.stop)
+    if failures or root is None:
+        return tuple(failures)
+    try:
+        safe_path(root, directory=True)
+    except Exception:
+        return ("state_directory",)
+    for name in ("host.json", "proxy.json"):
+        def remove_owned(name=name):
+            path = root / name
+            if path.exists() or path.is_symlink():
+                safe_path(path)
+                path.unlink()
+        attempt("state_file", remove_owned)
+    if not failures:
+        attempt("state_directory", root.rmdir)  # Never recursively delete unknown files.
+    return tuple(failures)
+
+
 def run(state_parent: Path, certificate: Path, key: Path):
     """Explicit launcher. Parent must already be provisioned as owner-private."""
     safe_path(state_parent, directory=True)
@@ -233,17 +322,16 @@ def run(state_parent: Path, certificate: Path, key: Path):
     ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER).load_cert_chain(certificate, key, password=b"")
     if any(state_parent.iterdir()):
         raise SecurityError()  # Never delete another/live or crash-left host directory.
-    root = create_private_dir(state_parent / ("s1-" + secrets.token_hex(16)))
-    listener = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    listener.bind(("127.0.0.1", 0))
-    listener.listen(16)
-    port = listener.getsockname()[1]
     sessions = Sessions()
-    control = PairingControl(root, sessions.approve, sessions.revoke_all)
-    process = server = thread = None
-    config_path = root / "host.json"
-    proxy_path = root / "proxy.json"
+    root = listener = control = process = server = thread = None
     try:
+        root = create_private_dir(state_parent / ("s1-" + secrets.token_hex(16)))
+        listener = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        listener.bind(("127.0.0.1", 0))
+        listener.listen(16)
+        port = listener.getsockname()[1]
+        control = PairingControl(root, sessions.approve, sessions.revoke_all)
+        config_path, proxy_path = root / "host.json", root / "proxy.json"
         control.start()
         credential = secrets.token_hex(32)
         write_private(config_path, {"instance": control.instance, "control_key": control.key,
@@ -255,11 +343,7 @@ def run(state_parent: Path, certificate: Path, key: Path):
             proxy_headers=False, access_log=False, log_level="error"))
         thread = threading.Thread(target=lambda: server.run(sockets=[listener]), daemon=True)
         thread.start()
-        inherited = {name: value for name, value in os.environ.items()
-                     if not name.startswith(("OPENAI_", "RUN_OPENAI_", "AI_IP_ENABLE_"))}
-        environment = {**inherited, "AIIP_S1_HOST_FILE": str(proxy_path),
-                       "AIIP_S1_CERT": str(certificate), "AIIP_S1_KEY": str(key),
-                       "AIIP_S1_PYTHON": sys.executable, "NEXT_TELEMETRY_DISABLED": "1"}
+        environment = _node_environment(proxy_path, certificate, key)
         repo = Path(__file__).resolve().parents[2]
         process = subprocess.Popen(["node", str(repo / "frontend/tools/product-web-local-https.mjs")],
                                    cwd=repo / "frontend", env=environment)
@@ -269,20 +353,8 @@ def run(state_parent: Path, certificate: Path, key: Path):
         if process.poll() is not None and process.returncode:
             raise SecurityError()
     finally:
-        sessions.revoke_all()
-        if process is not None and process.poll() is None:
-            process.terminate()
-            process.wait(timeout=5)
-        if server:
-            server.should_exit = True
-        if thread:
-            thread.join(5)
-        listener.close()
-        if hasattr(control, "thread"):
-            control.stop()
-        config_path.unlink(missing_ok=True)
-        proxy_path.unlink(missing_ok=True)
-        root.rmdir()
+        if _cleanup(sessions, process, server, thread, listener, control, root):
+            raise SecurityError() from None
 
 
 def main():
