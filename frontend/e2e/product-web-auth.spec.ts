@@ -5,6 +5,7 @@ import os from "node:os";
 import path from "node:path";
 import https from "node:https";
 import http from "node:http";
+import { createHash } from "node:crypto";
 
 const repo = path.resolve(__dirname, "../..");
 const python = process.env.PLAYWRIGHT_PYTHON ?? path.join(repo, ".venv", process.platform === "win32" ? "Scripts/python.exe" : "bin/python");
@@ -68,8 +69,8 @@ async function pair(value: BrowserContext) {
   return page;
 }
 
-async function startHost(reuse = false) {
-  host = spawn(python, ["tests/e2e/product_web_host.py", "--root", root, ...(reuse ? ["--reuse"] : [])], {
+async function startHost(reuse = false, synthetic = false) {
+  host = spawn(python, ["tests/e2e/product_web_host.py", "--root", root, ...(reuse ? ["--reuse"] : []), ...(synthetic ? ["--synthetic"] : [])], {
     cwd: repo, windowsHide: true, stdio: ["ignore", "pipe", "pipe"],
     env: { ...process.env, PYTHONDONTWRITEBYTECODE: "1", PYTHONUNBUFFERED: "1",
       AWS_SECRET_ACCESS_KEY: syntheticCredential, GITHUB_TOKEN: syntheticCredential,
@@ -219,6 +220,63 @@ test("a real host restart invalidates the previous browser credential", async ({
     await page.reload();
     await expect(page.getByRole("status")).toHaveText("anonymous");
     expect((await value.cookies()).find((item) => item.name === "__Host-aiip_web")?.value).toBe(cookie);
+  } finally {
+    await value.close();
+  }
+});
+
+test("S2 opt-in real HTTPS proxy preserves full review and all binary artifacts", async ({ browser }) => {
+  test.setTimeout(240_000);
+  const value = await context(browser);
+  try {
+    // S1 remains separately enabled; its transport rejects S2 while OFF.
+    const page = await pair(value);
+    const headers = { Origin: origin, "Sec-Fetch-Site": "same-origin" };
+    const base = "/api/product-web/v1/documents";
+    expect((await value.request.post(base, { headers, data: Buffer.from("unknown") })).status()).toBe(404);
+    expect(control("shutdown").status).toBe(0);
+    await expect.poll(() => host.exitCode, { timeout: 15_000 }).toBe(0);
+    await startHost(true, true);
+    await page.close();
+    await pair(value);
+    const csrf = (await (await value.request.get(endpoint, { headers })).json()).csrf;
+    const mutate = { ...headers, "X-AIIP-CSRF": csrf };
+    const fixture = fs.readFileSync(path.join(repo, "tests/fixtures/api-ready/v1.0.0/research-b.docx"));
+    const uploaded = await value.request.post(base, { timeout: 125_000, data: fixture, headers: {
+      ...mutate, "Content-Type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "X-AIIP-Filename": "research-b.docx",
+    } });
+    expect(uploaded.status()).toBe(201);
+    const document = (await uploaded.json()).document;
+    const review = await value.request.get(`${base}/${document}/review`, { headers, timeout: 125_000 });
+    expect(review.status()).toBe(200);
+    expect((await review.body()).length).toBeGreaterThan(8192);
+    const view = await review.json();
+    expect(Object.keys(view.originals)).toHaveLength(7);
+    expect(view.originals.supported_claims.claims).toEqual([]);
+    for (const action of ["ack-content", "ack-claims", "render"]) {
+      const result = await value.request.post(`${base}/${document}/${action}`, { timeout: 125_000,
+        headers: mutate, data: { revision: view.revision, view_id: view.view_id,
+          ...(action === "render" ? {} : { acknowledge: true }) } });
+      expect(result.status()).toBe(200);
+      if (action !== "render") continue;
+      const artifacts = (await result.json()).artifacts;
+      expect(artifacts).toHaveLength(4);
+      for (const artifact of artifacts) {
+        const download = await value.request.get(`${base}/${document}/revisions/1/artifacts/${artifact.filename}`, { headers, timeout: 125_000 });
+        expect(download.status()).toBe(200);
+        const bytes = await download.body();
+        expect(bytes.length).toBe(artifact.size_bytes);
+        expect(createHash("sha256").update(bytes).digest("hex")).toBe(artifact.sha256);
+        expect(download.headers()["content-type"]).toBe(artifact.media_type);
+        expect(download.headers()["cache-control"]).toBe("no-store");
+      }
+    }
+    const denied = await value.request.post(base, { headers: { ...mutate, "Content-Type": "application/pdf", "X-AIIP-Filename": "controller.pdf" }, data: Buffer.alloc(2049) });
+    expect(denied.status()).toBe(403);
+    expect((await value.request.post(`${base}/${document}/validate`, { headers: mutate, data: {} })).status()).toBe(404);
+    expect((await value.request.delete(endpoint, { headers: mutate, data: {} })).status()).toBe(200);
+    expect((await value.request.get(`${base}/${document}/review`, { headers })).status()).toBe(401);
   } finally {
     await value.close();
   }

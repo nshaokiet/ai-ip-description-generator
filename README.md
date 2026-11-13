@@ -53,6 +53,7 @@ Dự án hướng tới một **website Next.js + FastAPI** giúp nhóm nghiên 
 | Core A/C1, PDF/DOCX, USPTO, Claims standalone | Các bộ xử lý/validator/rendering và synthetic tests đã có. **Product Claims runtime OFF**, không suy ra browser upload-to-patent v2 hay sản phẩm filing-ready. |
 | PRODUCT-001B / PREAPI-C2 | WEB-001 v0.1.1 chỉ có documentary baseline; **NOT FROZEN**; scope B1–B6, D01–D07 và C2 runtime chưa tự cấp phép. |
 | API-READY-WEB-GAP-001B-S1 | [Local transport/auth foundation](docs/tasks/API-READY-WEB-GAP-001B-S1.md): Human cho phép D-GAP-01/03 ngày 11/11/2026, **implementation candidate / independent review pending**; chỉ HTTPS/pairing/session, chưa có document routes hoặc fixture admission. |
+| API-READY-WEB-GAP-001B-S2-A | [Minimal local synthetic backend bridge](docs/tasks/API-READY-WEB-GAP-001B-S2-A.md): Human approved 13/11/2026, **implementation candidate / local verification PASS / independent Security & Quality review pending**; final hosted CI evidence in Draft PR; default OFF, exactly two fixtures, limited R0, Claims disabled. No merge or S2-B. |
 | MCP Security / maintenance | [PR #158](https://github.com/nshaokiet/ai-ip-description-generator/pull/158) đã merge; [Issue #160](https://github.com/nshaokiet/ai-ip-description-generator/issues/160) giữ các rủi ro input/resource cần quyết định riêng. |
 | Funded provider pilot / EVAL-001 Product Runtime | **NOT RUN / NOT DETERMINED**; model/account entitlement và semantic-quality chưa nghiệm thu; API budget **USD 0**. |
 
