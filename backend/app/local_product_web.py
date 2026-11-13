@@ -49,6 +49,16 @@ class Sessions:
         self.clock, self.lock = clock, threading.RLock()
         self.pending, self.authenticated, self.allocations = {}, {}, deque()
         self.closed = False
+        self.on_invalidate = lambda owner: None
+
+    def authority(self, token, csrf=None, *, mutation=False):
+        with self.lock:
+            self._sweep()
+            record = self.authenticated.get(token)
+            _deny_unless(record is not None, 401, "session_unavailable")
+            if mutation:
+                _deny_unless(csrf and hmac.compare_digest(record["csrf"], csrf), 403, "csrf_rejected")
+            return dict(record)
 
     def _sweep(self):
         _deny_unless(not self.closed, 503, "session_unavailable")
@@ -56,6 +66,8 @@ class Sessions:
         for records in (self.pending, self.authenticated):
             for key in tuple(records):
                 if now >= records[key]["deadline"]:
+                    if "owner" in records[key]:
+                        self.on_invalidate(records[key]["owner"])
                     del records[key]
         while self.allocations and self.allocations[0] <= now - 60:
             self.allocations.popleft()
@@ -120,23 +132,27 @@ class Sessions:
             record = self.authenticated.get(token)
             _deny_unless(record is not None, 401, "session_unavailable")
             _deny_unless(csrf and hmac.compare_digest(record["csrf"], csrf), 403, "csrf_rejected")
+            self.on_invalidate(record["owner"])
             del self.authenticated[token]
             return {"state": "anonymous"}
 
     def revoke_all(self):
         with self.lock:
+            for record in self.authenticated.values():
+                self.on_invalidate(record["owner"])
             self.pending.clear()
             self.authenticated.clear()
             return True
 
     def close(self):
         with self.lock:
+            self.revoke_all()
             self.closed = True  # No new allocation or approval while teardown runs.
             self.pending.clear()
             self.authenticated.clear()
 
 
-def _guard(request: Request, proxy_secret: str, backend_host: str):
+def _guard(request: Request, proxy_secret: str, backend_host: str, *, source_upload=False):
     pairs = request.scope["headers"]
     _deny_unless(len(pairs) <= 64 and sum(len(k) + len(v) for k, v in pairs) <= 16384)
     values = {}
@@ -151,7 +167,7 @@ def _guard(request: Request, proxy_secret: str, backend_host: str):
     _deny_unless(values.get("sec-fetch-site") == "same-origin")
     origin = values.get("origin")
     _deny_unless(origin == ORIGIN if request.method != "GET" else origin in {None, ORIGIN})
-    if request.method != "GET":
+    if request.method != "GET" and not source_upload:
         _deny_unless(values.get("content-type", "").lower() == "application/json")
     cookies = {}
     for item in values.get("cookie", "").split(";"):
@@ -167,9 +183,12 @@ def _cookie(response, name, token, age):
                         samesite="strict", path="/")
 
 
-def create_local_app(*, enabled=False, sessions=None, proxy_secret=None, backend_port=None, control=None):
+def create_local_app(*, enabled=False, sessions=None, proxy_secret=None, backend_port=None, control=None,
+                     synthetic_enabled=False, state_root=None):
     app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None, redirect_slashes=False)
     if not enabled:
+        if synthetic_enabled:
+            raise SecurityError()
         return app
     if (not isinstance(sessions, Sessions) or not isinstance(control, PairingControl)
             or getattr(control.approve, "__self__", None) is not sessions
@@ -179,15 +198,25 @@ def create_local_app(*, enabled=False, sessions=None, proxy_secret=None, backend
             or type(backend_port) is not int or not 1 <= backend_port <= 65535):
         raise SecurityError()
 
+    bridge = None
+    if synthetic_enabled:
+        from backend.app.services.product_web_bridge import SyntheticBridge
+        bridge = SyntheticBridge(sessions, state_root)
+        app.state.synthetic_bridge = bridge
+
     @app.middleware("http")
     async def boundary(request, call_next):
         try:
             if control.error or not control.thread.is_alive():
                 sessions.revoke_all()
                 raise AuthError(503, "operator_control_unavailable")
-            headers, cookies = _guard(request, proxy_secret, f"127.0.0.1:{backend_port}")
+            upload = bridge is not None and request.method == "POST" and request.url.path == PREFIX + "/documents"
+            headers, cookies = _guard(request, proxy_secret, f"127.0.0.1:{backend_port}", source_upload=upload)
             request.state.s1_headers, request.state.s1_cookies = headers, cookies
             response = await call_next(request)
+            fence = getattr(request.state, "s2_fence", None)
+            if fence is not None:
+                fence()
         except AuthError as exc:
             response = JSONResponse({"error": {"code": exc.code}}, status_code=exc.status)
         except Exception:
@@ -232,6 +261,9 @@ def create_local_app(*, enabled=False, sessions=None, proxy_secret=None, backend
             return JSONResponse({"error": {"code": exc.code}}, status_code=exc.status)
         except (ValueError, UnicodeError):
             return JSONResponse({"error": {"code": "request_rejected"}}, status_code=400)
+    if bridge is not None:
+        from backend.app.api.product_web_synthetic import install_routes
+        install_routes(app, sessions, bridge)
     return app
 
 
@@ -270,7 +302,7 @@ def _stop_child(process, timeout=5):
         raise SecurityError()
 
 
-def _cleanup(sessions, process, server, thread, listener, control, root):
+def _cleanup(sessions, process, server, thread, listener, control, root, bridge=None):
     """Attempt independent teardown; quarantine state if any resource is unconfirmed."""
     failures = []
 
@@ -281,6 +313,8 @@ def _cleanup(sessions, process, server, thread, listener, control, root):
             failures.append(stage)  # Codes only, never exception/credential contents.
 
     attempt("sessions", sessions.close)
+    if bridge is not None:
+        attempt("synthetic_bridge", bridge.close)
     if control is not None:
         attempt("control_signal", control.stopping.set)
     if server is not None:
@@ -314,7 +348,7 @@ def _cleanup(sessions, process, server, thread, listener, control, root):
     return tuple(failures)
 
 
-def run(state_parent: Path, certificate: Path, key: Path):
+def run(state_parent: Path, certificate: Path, key: Path, *, synthetic_enabled=False):
     """Explicit launcher. Parent must already be provisioned as owner-private."""
     safe_path(state_parent, directory=True)
     safe_path(certificate)
@@ -323,7 +357,7 @@ def run(state_parent: Path, certificate: Path, key: Path):
     if any(state_parent.iterdir()):
         raise SecurityError()  # Never delete another/live or crash-left host directory.
     sessions = Sessions()
-    root = listener = control = process = server = thread = None
+    root = listener = control = process = server = thread = bridge = None
     try:
         root = create_private_dir(state_parent / ("s1-" + secrets.token_hex(16)))
         listener = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -336,10 +370,14 @@ def run(state_parent: Path, certificate: Path, key: Path):
         credential = secrets.token_hex(32)
         write_private(config_path, {"instance": control.instance, "control_key": control.key,
                                    "address": control.address})
-        write_private(proxy_path, {"port": port, "proxy": credential})
+        write_private(proxy_path, {"port": port, "proxy": credential, "synthetic": synthetic_enabled})
         import uvicorn
+        app = create_local_app(enabled=True, sessions=sessions, proxy_secret=credential,
+                               backend_port=port, control=control,
+                               synthetic_enabled=synthetic_enabled, state_root=root)
+        bridge = getattr(app.state, "synthetic_bridge", None)
         server = uvicorn.Server(uvicorn.Config(
-            create_local_app(enabled=True, sessions=sessions, proxy_secret=credential, backend_port=port, control=control),
+            app,
             proxy_headers=False, access_log=False, log_level="error"))
         thread = threading.Thread(target=lambda: server.run(sockets=[listener]), daemon=True)
         thread.start()
@@ -353,19 +391,21 @@ def run(state_parent: Path, certificate: Path, key: Path):
         if process.poll() is not None and process.returncode:
             raise SecurityError()
     finally:
-        if _cleanup(sessions, process, server, thread, listener, control, root):
+        if _cleanup(sessions, process, server, thread, listener, control, root, bridge):
             raise SecurityError() from None
 
 
 def main():
     parser = argparse.ArgumentParser(description="Explicit local S1 auth launcher")
     parser.add_argument("--enable", action="store_true", required=True)
+    parser.add_argument("--enable-synthetic-bridge", action="store_true")
     parser.add_argument("--state-parent", type=Path, required=True)
     parser.add_argument("--cert", type=Path, required=True)
     parser.add_argument("--key", type=Path, required=True)
     args = parser.parse_args()
     try:
-        run(args.state_parent.absolute(), args.cert.absolute(), args.key.absolute())
+        run(args.state_parent.absolute(), args.cert.absolute(), args.key.absolute(),
+            synthetic_enabled=args.enable_synthetic_bridge)
     except (Exception, KeyboardInterrupt):
         print("S1 local authentication unavailable.", file=sys.stderr)
         return 1

@@ -49,6 +49,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", type=Path, required=True)
     parser.add_argument("--reuse", action="store_true")
+    parser.add_argument("--synthetic", action="store_true")
     args = parser.parse_args()
     sanitize_provider_environment()
     os.environ["AI_IP_ENABLE_LOCAL_ORCHESTRATION_API"] = "0"
@@ -57,7 +58,7 @@ if __name__ == "__main__":
     try:
         material = ((args.root / "state", args.root / "tls/certificate.pem", args.root / "tls/private.pem")
                     if args.reuse else prepare(args.root))
-        run(*material)
+        run(*material, synthetic_enabled=args.synthetic)
     except (Exception, KeyboardInterrupt):
         print("S1 test host unavailable.", file=sys.stderr)
         raise SystemExit(1)

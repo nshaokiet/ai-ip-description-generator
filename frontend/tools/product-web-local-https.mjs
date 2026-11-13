@@ -43,7 +43,7 @@ function tlsMaterial() {
   return { cert, key, minVersion: "TLSv1.2" };
 }
 
-function guard(request, mutation = false) {
+function guard(request, mutation = false, sourceUpload = false) {
   const seen = new Set();
   requireSecurity(request.rawHeaders.length <= 128);
   for (let index = 0; index < request.rawHeaders.length; index += 2) {
@@ -60,7 +60,7 @@ function guard(request, mutation = false) {
   requireSecurity(suppliedOrigin === undefined || suppliedOrigin === origin);
   if (mutation) {
     requireSecurity(suppliedOrigin === origin && request.headers["sec-fetch-site"] === "same-origin");
-    requireSecurity(request.headers["content-type"] === "application/json");
+    if (!sourceUpload) requireSecurity(request.headers["content-type"] === "application/json");
   }
 }
 
@@ -70,40 +70,55 @@ function respond(response, status, value) {
 }
 
 async function proxy(request, response, host) {
-  const methods = request.url === `${prefix}/session/bootstrap` ? ["POST"] : ["GET", "POST", "DELETE"];
+  const route = syntheticRoute(request.url, request.method, host.synthetic === true);
+  const methods = route ? [request.method] : request.url === `${prefix}/session/bootstrap` ? ["POST"] : ["GET", "POST", "DELETE"];
   requireSecurity(methods.includes(request.method));
-  guard(request, request.method !== "GET");
+  guard(request, request.method !== "GET", route?.upload);
   requireSecurity(request.headers["sec-fetch-site"] === "same-origin");
+  requireSecurity(request.headers["transfer-encoding"] === undefined && request.headers["content-encoding"] === undefined);
+  const requestLimit = route ? 2048 : 4096;
   const declared = request.headers["content-length"];
-  requireSecurity(declared === undefined || (/^(0|[1-9][0-9]*)$/.test(declared) && Number(declared) <= 4096));
+  requireSecurity(declared === undefined || (/^(0|[1-9][0-9]*)$/.test(declared) && Number(declared) <= requestLimit));
+  if (route && request.method !== "GET") requireSecurity(declared !== undefined);
+  if (route?.upload) requireSecurity(["application/pdf", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"].includes(request.headers["content-type"]));
   let size = 0;
   const chunks = [];
   for await (const chunk of request) {
     size += chunk.length;
-    requireSecurity(size <= 4096);
+    requireSecurity(size <= requestLimit);
     chunks.push(chunk);
   }
   const headers = { "x-aiip-proxy": host.proxy };
-  for (const name of ["cookie", "origin", "content-type", "x-aiip-csrf", "x-aiip-bootstrap", "sec-fetch-site"]) {
+  requireSecurity(declared === undefined || Number(declared) === size);
+  if (route && request.method === "GET") requireSecurity(size === 0);
+  for (const name of ["cookie", "origin", "content-type", "x-aiip-csrf", "x-aiip-bootstrap", "sec-fetch-site", ...(route?.upload ? ["x-aiip-filename"] : [])]) {
     if (request.headers[name] !== undefined) headers[name] = request.headers[name];
   }
   headers["content-length"] = String(size);
   await new Promise((resolve, reject) => {
     const upstream = http.request({
       hostname: "127.0.0.1", port: host.port, path: request.url, method: request.method,
-      headers, timeout: 5000, agent: false,
+      headers, timeout: route ? 125000 : 5000, agent: false,
     }, (incoming) => {
       let bytes = 0;
       const parts = [];
       incoming.on("data", (part) => {
         bytes += part.length;
-        if (bytes > 8192) incoming.destroy(new Error("response limit"));
+        if (bytes > (route?.responseLimit ?? 8192)) incoming.destroy(new Error("response limit"));
         else parts.push(part);
       });
       incoming.on("error", reject);
       incoming.on("end", () => {
         if (response.destroyed) return resolve();
+        const mediaType = incoming.headers["content-type"];
+        const success = incoming.statusCode >= 200 && incoming.statusCode < 300;
+        const expected = route?.binary && success ? route.mediaType : "application/json";
+        if (mediaType !== expected) return reject(new Error("response type"));
+        if (incoming.headers["content-length"] !== String(bytes)) return reject(new Error("response framing"));
         const outputHeaders = { ...safeHeaders, "Content-Type": "application/json" };
+        outputHeaders["Content-Type"] = expected;
+        outputHeaders["Content-Length"] = String(bytes);
+        if (route?.binary && success) outputHeaders["Content-Disposition"] = `attachment; filename="${route.filename}"`;
         if (incoming.headers["set-cookie"]) outputHeaders["Set-Cookie"] = incoming.headers["set-cookie"];
         response.writeHead(incoming.statusCode ?? 503, outputHeaders);
         response.end(Buffer.concat(parts));
@@ -115,6 +130,20 @@ async function proxy(request, response, host) {
     response.once("close", () => upstream.destroy());
     upstream.end(Buffer.concat(chunks));
   });
+}
+
+function syntheticRoute(url, method, enabled) {
+  if (!enabled) return null;
+  const base = `${prefix}/documents`;
+  if (url === base && method === "POST") return { upload: true, responseLimit: 8192 };
+  const selector = "[0-9a-f]{32}";
+  if (new RegExp(`^${base}/${selector}$`).test(url) && method === "DELETE") return { responseLimit: 8192 };
+  if (new RegExp(`^${base}/${selector}/review$`).test(url) && method === "GET") return { responseLimit: 8 * 1024 * 1024 };
+  if (new RegExp(`^${base}/${selector}/(ack-content|ack-claims|render)$`).test(url) && method === "POST") return { responseLimit: 8192 };
+  const artifact = new RegExp(`^${base}/${selector}/revisions/[1-9][0-9]{0,8}/artifacts/(B2_REFERENCE_PREVIEW|USPTO_APPLICATION_DRAFT)\\.(pdf|docx)$`).exec(url);
+  if (artifact && method === "GET") return { binary: true, responseLimit: 8 * 1024 * 1024,
+    filename: `${artifact[1]}.${artifact[2]}`, mediaType: artifact[2] === "pdf" ? "application/pdf" : "application/vnd.openxmlformats-officedocument.wordprocessingml.document" };
+  return null;
 }
 
 function authenticationPage() {
@@ -190,7 +219,7 @@ try {
           const { html, csp } = authenticationPage();
           response.writeHead(200, { ...safeHeaders, "Content-Type": "text/html; charset=utf-8", "Content-Security-Policy": csp });
           response.end(html);
-        } else if ([`${prefix}/session`, `${prefix}/session/bootstrap`].includes(request.url)) {
+        } else if ([`${prefix}/session`, `${prefix}/session/bootstrap`].includes(request.url) || syntheticRoute(request.url, request.method, host.synthetic === true)) {
           await proxy(request, response, host);
         } else respond(response, 404, { error: { code: "not_found" } });
       } catch {

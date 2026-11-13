@@ -306,3 +306,23 @@ class OfflineSyntheticWorkflow:
             self._custody.abort(receipt.custody_id, owner=self._owner,
                                 revision_token=receipt.revision_token)
             self._handles.pop(ref.session_id, None)
+
+    def close(self) -> None:
+        """Trusted host retirement, never a browser operation.
+
+        The host has already revoked publication outside our locks. Wait for
+        in-process work, then use retained custody credentials solely to revoke
+        and dispose. No invocation authorization or result is reissued here.
+        """
+        with self._lock:
+            for receipt in tuple(self._handles.values()):
+                try:
+                    self._custody.abort(receipt.custody_id, owner=self._owner,
+                                        revision_token=receipt.revision_token)
+                except CustodyError as exc:
+                    if exc.code != "SESSION_UNAVAILABLE":
+                        raise
+            self._handles.clear()
+            self._custody.sweep_expired()
+            if self._custody.cleanup_failures:
+                raise ProductWorkflowError("CLEANUP_FAILED")
