@@ -5,6 +5,7 @@ import os from "node:os";
 import path from "node:path";
 import https from "node:https";
 import http from "node:http";
+import { createHash } from "node:crypto";
 
 const repo = path.resolve(__dirname, "../..");
 const python = process.env.PLAYWRIGHT_PYTHON ?? path.join(repo, ".venv", process.platform === "win32" ? "Scripts/python.exe" : "bin/python");
@@ -68,8 +69,8 @@ async function pair(value: BrowserContext) {
   return page;
 }
 
-async function startHost(reuse = false) {
-  host = spawn(python, ["tests/e2e/product_web_host.py", "--root", root, ...(reuse ? ["--reuse"] : [])], {
+async function startHost(reuse = false, synthetic = false, barrier = false) {
+  host = spawn(python, ["tests/e2e/product_web_host.py", "--root", root, ...(reuse ? ["--reuse"] : []), ...(synthetic ? ["--synthetic"] : []), ...(barrier ? ["--publication-barrier"] : [])], {
     cwd: repo, windowsHide: true, stdio: ["ignore", "pipe", "pipe"],
     env: { ...process.env, PYTHONDONTWRITEBYTECODE: "1", PYTHONUNBUFFERED: "1",
       AWS_SECRET_ACCESS_KEY: syntheticCredential, GITHUB_TOKEN: syntheticCredential,
@@ -104,6 +105,70 @@ test.beforeAll(async () => {
   test.setTimeout(120_000);
   root = fs.mkdtempSync(path.join(os.tmpdir(), "aiip-s1-browser-"));
   await startHost();
+});
+
+test("S2 publication barrier denies buffered review/artifact after completed revocation", async ({ browser }) => {
+  test.setTimeout(300_000);
+  expect(control("shutdown").status).toBe(0);
+  await expect.poll(() => host.exitCode, { timeout: 15_000 }).toBe(0);
+  await startHost(true, true, true);
+  const base = "/api/product-web/v1/documents";
+  const headers = { Origin: origin, "Sec-Fetch-Site": "same-origin" };
+  const cases = [];
+  for (const mode of ["logout", "cancel", "operator", "expiry", "artifact"]) {
+    const value = await context(browser);
+    try {
+      const page = await pair(value);
+      const csrf = (await (await value.request.get(endpoint, { headers })).json()).csrf;
+      const mutate = { ...headers, "X-AIIP-CSRF": csrf };
+      const uploaded = await value.request.post(base, { timeout: 125_000,
+        data: fs.readFileSync(path.join(repo, "tests/fixtures/product-synthetic/v1.0.0/controller.pdf")),
+        headers: { ...mutate, "Content-Type": "application/pdf", "X-AIIP-Filename": "controller.pdf" } });
+      expect(uploaded.status()).toBe(201);
+      const doc = (await uploaded.json()).document;
+      let target = `${base}/${doc}/review`;
+      if (mode === "artifact") {
+        const view = await (await value.request.get(target, { headers })).json();
+        for (const action of ["ack-content", "ack-claims", "render"]) {
+          const result = await value.request.post(`${base}/${doc}/${action}`, { headers: mutate, timeout: 125_000,
+            data: { revision: view.revision, view_id: view.view_id, ...(action === "render" ? {} : { acknowledge: true }) } });
+          expect(result.status()).toBe(200);
+          if (action === "render") target = `${base}/${doc}/revisions/${view.revision}/artifacts/${(await result.json()).artifacts[0].filename}`;
+        }
+      }
+      const held = path.join(root, "publication-held.json");
+      if (fs.existsSync(held)) fs.unlinkSync(held);
+      fs.writeFileSync(path.join(root, "publication-arm.json"), JSON.stringify({ target }));
+      let settled = false;
+      const pending = page.evaluate(async target => {
+        const response = await fetch(target);
+        return { status: response.status, text: await response.text(), receipt: response.headers.get("x-aiip-publication") };
+      }, target).then(result => { settled = true; return result; });
+      await expect.poll(() => fs.existsSync(held)).toBe(true);
+      expect(JSON.parse(fs.readFileSync(held, "utf8"))).toMatchObject({ status: 200, complete: true, has_receipt: true });
+      expect(settled).toBe(false);
+      if (mode === "logout") expect((await value.request.delete(endpoint, { headers: mutate, data: {} })).status()).toBe(200);
+      else if (mode === "cancel") expect((await value.request.delete(`${base}/${doc}`, { headers: mutate, data: {} })).status()).toBe(200);
+      else if (mode === "expiry") {
+        fs.writeFileSync(path.join(root, "clock-offset"), "1801");
+        expect((await (await value.request.get(endpoint, { headers })).json()).state).toBe("anonymous");
+      } else expect(control("revoke-all").status).toBe(0);
+      expect((await value.request.get(target, { headers })).status()).toBe(mode === "cancel" ? 404 : 401);
+      expect(settled).toBe(false);
+      fs.writeFileSync(path.join(root, "publication-release"), "1");
+      const denied = await pending;
+      expect(denied.status).toBe(401);
+      expect(JSON.parse(denied.text)).toEqual({ error: { code: "authority_revoked" } });
+      expect(denied.receipt).toBeNull();
+      cases.push({ mode, upstream_complete: true, buffered_bytes: JSON.parse(fs.readFileSync(held, "utf8")).bytes,
+        revocation_completed_before_release: true, browser_status: denied.status, protected_bytes_published: 0 });
+      console.log("S2_PUBLICATION_EVIDENCE", JSON.stringify(cases.at(-1)));
+      if (mode === "cancel") expect((await value.request.delete(endpoint, { headers: mutate, data: {} })).status()).toBe(200);
+      if (mode === "expiry") fs.unlinkSync(path.join(root, "clock-offset"));
+    } finally { await value.close(); }
+  }
+  fs.mkdirSync(path.join(repo, "frontend/test-results"), { recursive: true });
+  fs.writeFileSync(path.join(repo, "frontend/test-results/product-web-publication.json"), JSON.stringify({ platform: process.platform, cases }));
 });
 
 test.afterAll(async () => {
@@ -219,6 +284,63 @@ test("a real host restart invalidates the previous browser credential", async ({
     await page.reload();
     await expect(page.getByRole("status")).toHaveText("anonymous");
     expect((await value.cookies()).find((item) => item.name === "__Host-aiip_web")?.value).toBe(cookie);
+  } finally {
+    await value.close();
+  }
+});
+
+test("S2 opt-in real HTTPS proxy preserves full review and all binary artifacts", async ({ browser }) => {
+  test.setTimeout(240_000);
+  const value = await context(browser);
+  try {
+    // S1 remains separately enabled; its transport rejects S2 while OFF.
+    const page = await pair(value);
+    const headers = { Origin: origin, "Sec-Fetch-Site": "same-origin" };
+    const base = "/api/product-web/v1/documents";
+    expect((await value.request.post(base, { headers, data: Buffer.from("unknown") })).status()).toBe(404);
+    expect(control("shutdown").status).toBe(0);
+    await expect.poll(() => host.exitCode, { timeout: 15_000 }).toBe(0);
+    await startHost(true, true);
+    await page.close();
+    await pair(value);
+    const csrf = (await (await value.request.get(endpoint, { headers })).json()).csrf;
+    const mutate = { ...headers, "X-AIIP-CSRF": csrf };
+    const fixture = fs.readFileSync(path.join(repo, "tests/fixtures/api-ready/v1.0.0/research-b.docx"));
+    const uploaded = await value.request.post(base, { timeout: 125_000, data: fixture, headers: {
+      ...mutate, "Content-Type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "X-AIIP-Filename": "research-b.docx",
+    } });
+    expect(uploaded.status()).toBe(201);
+    const document = (await uploaded.json()).document;
+    const review = await value.request.get(`${base}/${document}/review`, { headers, timeout: 125_000 });
+    expect(review.status()).toBe(200);
+    expect((await review.body()).length).toBeGreaterThan(8192);
+    const view = await review.json();
+    expect(Object.keys(view.originals)).toHaveLength(7);
+    expect(view.originals.supported_claims.claims).toEqual([]);
+    for (const action of ["ack-content", "ack-claims", "render"]) {
+      const result = await value.request.post(`${base}/${document}/${action}`, { timeout: 125_000,
+        headers: mutate, data: { revision: view.revision, view_id: view.view_id,
+          ...(action === "render" ? {} : { acknowledge: true }) } });
+      expect(result.status()).toBe(200);
+      if (action !== "render") continue;
+      const artifacts = (await result.json()).artifacts;
+      expect(artifacts).toHaveLength(4);
+      for (const artifact of artifacts) {
+        const download = await value.request.get(`${base}/${document}/revisions/1/artifacts/${artifact.filename}`, { headers, timeout: 125_000 });
+        expect(download.status()).toBe(200);
+        const bytes = await download.body();
+        expect(bytes.length).toBe(artifact.size_bytes);
+        expect(createHash("sha256").update(bytes).digest("hex")).toBe(artifact.sha256);
+        expect(download.headers()["content-type"]).toBe(artifact.media_type);
+        expect(download.headers()["cache-control"]).toBe("no-store");
+      }
+    }
+    const denied = await value.request.post(base, { headers: { ...mutate, "Content-Type": "application/pdf", "X-AIIP-Filename": "controller.pdf" }, data: Buffer.alloc(2049) });
+    expect(denied.status()).toBe(403);
+    expect((await value.request.post(`${base}/${document}/validate`, { headers: mutate, data: {} })).status()).toBe(404);
+    expect((await value.request.delete(endpoint, { headers: mutate, data: {} })).status()).toBe(200);
+    expect((await value.request.get(`${base}/${document}/review`, { headers })).status()).toBe(401);
   } finally {
     await value.close();
   }

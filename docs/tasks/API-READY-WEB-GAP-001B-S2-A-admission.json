@@ -1,0 +1,36 @@
+{
+  "version": "1.0.0",
+  "task_id": "API-READY-WEB-GAP-001B-S2-A",
+  "authorization_reference": "Human explicit S2-A execution instruction, 2026-11-13, this task conversation; full Prompt 14 supplied in follow-up",
+  "scope": "SYNTHETIC_TEST_ONLY",
+  "admission": "LOCALHOST_S2_ONLY",
+  "production_admitted": false,
+  "c2_pilot_admitted": false,
+  "source_manifest": "tests/fixtures/api-ready/v1.0.0/manifest.json",
+  "fixtures": [
+    {
+      "path": "tests/fixtures/product-synthetic/v1.0.0/controller.pdf",
+      "filename": "controller.pdf",
+      "size_bytes": 1015,
+      "media_type": "application/pdf",
+      "sha256": "9bc8d4e20b2b88d2df0780294069e048b96c09a22a7012baa1efe5ba7f523975",
+      "analysis_sha256": "f453a7264e36cfbc7d71cc83ce3c5068ad360e95e56fb3896be840d1f63519c9",
+      "analysis_hash_scope": "GIT_BLOB_LF",
+      "parsed_content_sha256": "7818a10a92b057db272ad6005f3f4daaf7372f73fc5b6a3a4f0606b9fe596704"
+    },
+    {
+      "path": "tests/fixtures/api-ready/v1.0.0/research-b.docx",
+      "filename": "research-b.docx",
+      "size_bytes": 1210,
+      "media_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "sha256": "dc3fb54cd9344c20c0b76b5d8e2229c6d54d253f4c2ecfba96783af3ae731eb3",
+      "analysis_sha256": "b425fbf8e1f41551cbf00f51e3cff1ed2988182f0c70aff0dece54bdbf853dea",
+      "analysis_hash_scope": "EXACT_FILE_BYTES",
+      "parsed_content_sha256": "54019588f7438b63955351e557268880118a12c86a5cee4d1bfd8c54fe14fac4"
+    }
+  ],
+  "r0": "IN_PROCESS_NON_PREEMPTIVE; publication fencing and eventual cleanup, no hard CPU/RAM guarantee",
+  "claims_runtime": "DISABLED",
+  "provider": "NOT_RUN",
+  "budget_usd": 0
+}
