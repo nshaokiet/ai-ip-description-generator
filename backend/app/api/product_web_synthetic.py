@@ -5,6 +5,8 @@ import re
 
 from fastapi import Request
 from fastapi.responses import JSONResponse
+from starlette.concurrency import run_in_threadpool
+from backend.app.services.product_web_publication import PublicationError
 
 from backend.app.local_product_web import AuthError, LOGIN, PREFIX
 from backend.app.services.product_web_bridge import BODY_LIMIT, REVIEW_LIMIT, BridgeError, admit, require
@@ -47,8 +49,14 @@ class PublicationFence:
                     return
                 await send(start)
                 # Check immediately before body publication as well.
-                if fence:
-                    fence()
+                try:
+                    if fence:
+                        fence()
+                except (BridgeError, AuthError):
+                    # ASGI has no replacement-status/abort event after start.
+                    # Return incomplete: Uvicorn closes the upstream connection.
+                    # Node never publishes an incomplete buffered response.
+                    return
                 await send({"type": "http.response.body", "body": b"".join(parts)})
         await self.app(scope, receive, buffered)
 
@@ -98,7 +106,8 @@ def install_routes(app, sessions, bridge):
                     require(request.method == "POST", 404)
                     source = (headers.get("x-aiip-filename"), headers.get("content-type"), raw)
                     admit(*source)
-                    result, fence = await bridge.execute(token, "", "intake", {}, source=source)
+                    result, fence = await bridge.execute(token, "", "intake", {}, source=source,
+                                                        request_path=request.url.path)
                     request.state.s2_fence = fence
                     return result
                 def unique(pairs):
@@ -111,13 +120,13 @@ def install_routes(app, sessions, bridge):
                 require(type(data) is dict, 400)
                 if request.method == "DELETE":
                     require(data == {}, 400)
-                    bridge.cancel(token, selector)
+                    await run_in_threadpool(bridge.cancel, token, selector)
                     return JSONResponse({"state": "cancelled"})
                 require(action in {"ack-content", "ack-claims", "render"}, 404)
-            result, fence = await bridge.execute(token, selector, action, data)
+            result, fence = await bridge.execute(token, selector, action, data, request_path=request.url.path)
             request.state.s2_fence = fence
             return result
-        except (BridgeError, AuthError) as exc:
+        except (BridgeError, AuthError, PublicationError) as exc:
             return JSONResponse({"error": {"code": exc.code}}, status_code=exc.status)
         except (ValueError, UnicodeError, TimeoutError):
             return JSONResponse({"error": {"code": "request_rejected"}}, status_code=400)

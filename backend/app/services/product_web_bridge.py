@@ -21,6 +21,7 @@ from backend.app.services.document_validation import DocumentValidator
 from backend.app.services.product_synthetic_workflow import OfflineSyntheticWorkflow
 from backend.app.services.product_web_host_control import create_private_dir, safe_path, SecurityError
 from backend.app.services.product_web_synthetic_runtime import PINS, PinnedSyntheticRuntime
+from backend.app.services.product_web_publication import PublicationGate, PublicationError
 from backend.app.services.uspto_offline_renderer import FILES
 
 BODY_LIMIT = 2048
@@ -45,6 +46,7 @@ class Document:
     token: str = field(repr=False)
     selector: str = field(default_factory=lambda: secrets.token_hex(16))
     epoch: int = 0
+    operation: int = 0
     retired: bool = False
     ref: object = None
     workflow: object = None
@@ -65,20 +67,46 @@ class SyntheticBridge:
         self.runtime = PinnedSyntheticRuntime()
         self.lock, self.capacity = threading.RLock(), threading.Lock()
         self.documents = {}
+        self.publication = PublicationGate(root)
+        self.pending_revocations = set()
+        self.revocation_flush = threading.Lock()
         self.closed = self.quarantined = False
         self.stopping = threading.Event()
         # Session notifications only touch our small metadata lock, never custody.
         sessions.on_invalidate = self.revoke
+        sessions.after_invalidate = self.flush_revocations
         self.maintenance = threading.Thread(target=self._maintenance, daemon=True)
         self.maintenance.start()
 
     def revoke(self, owner):
         with self.lock:
+            self.pending_revocations.add(owner)
             item = self.documents.get(owner)
             if item is not None:
                 item.retired = True
                 item.epoch += 1
                 item.view = item.export = None
+
+    def flush_revocations(self):
+        # Called only after releasing Sessions/gateway/custody locks. The gate
+        # acquisition is the cross-process acknowledgment, not an HTTP recheck.
+        if not self.revocation_flush.acquire(timeout=1):
+            self.quarantined = True
+            raise PublicationError()
+        try:
+            with self.lock:
+                owners = set(self.pending_revocations)
+            if not owners:
+                return
+            try:
+                self.publication.invalidate(owners)
+            except PublicationError:
+                self.quarantined = True
+                raise
+            with self.lock:
+                self.pending_revocations.difference_update(owners)
+        finally:
+            self.revocation_flush.release()
 
     def _live(self, item, epoch, deadline):
         # Lock order is always Sessions -> gateway; never acquire workflow here.
@@ -122,6 +150,10 @@ class SyntheticBridge:
             with self.sessions.lock:
                 if not self.sessions.closed:
                     self.sessions._sweep()
+            try:
+                self.flush_revocations()
+            except PublicationError:
+                continue  # Sealed, not reset; host teardown reports quarantine.
             if self.capacity.acquire(blocking=False):
                 try:
                     self._reap()
@@ -136,6 +168,7 @@ class SyntheticBridge:
                 item.epoch += 1
         self.stopping.set()
         self.maintenance.join(1)
+        self.publication.invalidate(close=True)
         # This is a bounded wait, not forced thread termination.
         if not self.capacity.acquire(timeout=5):
             raise SecurityError()
@@ -144,6 +177,7 @@ class SyntheticBridge:
             if self.quarantined or self.maintenance.is_alive():
                 raise SecurityError()
             self.root.rmdir()
+            self.publication.dispose()
         finally:
             self.capacity.release()
 
@@ -154,8 +188,9 @@ class SyntheticBridge:
                 item = self.documents.get(record["owner"])
                 require(item is not None and item.selector == selector and not item.retired, 404)
                 self.revoke(item.owner)
+        self.flush_revocations()
 
-    async def execute(self, token, selector, action, data, *, source=None):
+    async def execute(self, token, selector, action, data, *, source=None, request_path=""):
         # Reserve before submitting to a thread pool. At most one task, no work queue.
         with self.sessions.lock:
             owner = self.sessions.authority(token)["owner"]
@@ -176,7 +211,10 @@ class SyntheticBridge:
                     require(item is not None and not item.retired
                             and (action == "intake" or item.selector == selector), 404)
                     epoch = item.epoch
+                    item.operation += 1
+                    operation = item.operation
                     deadline = min(self.sessions.authority(token)["deadline"], self.sessions.clock() + OP_SECONDS)
+                    budget_ms = (deadline - self.sessions.clock()) * 1000
                     item.deadline = deadline
             except BaseException:
                 self.capacity.release()
@@ -184,15 +222,23 @@ class SyntheticBridge:
         future = asyncio.create_task(run_in_threadpool(self._work, item, epoch, deadline, action, data, source))
         try:
             result = await asyncio.wait_for(asyncio.shield(future), OP_SECONDS)
+            if result.status_code < 400:
+                await run_in_threadpool(self.publication.issue, item, epoch, operation, action,
+                    request_path, budget_ms, result, lambda: self._live(item, epoch, deadline))
+            else:
+                await run_in_threadpool(self.flush_revocations)
+                return result, None
             self._live(item, epoch, deadline)
             return result, lambda: self._live(item, epoch, deadline)
         except TimeoutError:
             self.revoke(owner)
+            await run_in_threadpool(self.flush_revocations)
             future.add_done_callback(lambda task: task.exception() if not task.cancelled() else None)
             raise BridgeError(504, "operation_expired") from None
         except BaseException:
             # Thread may still compute. Fence it immediately, then its finally reaps.
             self.revoke(owner)
+            await run_in_threadpool(self.flush_revocations)
             # Retrieve late exceptions without exposing content to event-loop logging.
             future.add_done_callback(lambda task: task.exception() if not task.cancelled() else None)
             raise
@@ -232,16 +278,18 @@ class SyntheticBridge:
                 item.ref = item.workflow.start(item.upload_id)
             else:
                 if action != "review" and action != "download":
+                    fields = {"revision", "view_id"} | ({"acknowledge"} if action in {"ack-content", "ack-claims"} else set())
+                    require(set(data) == fields and type(data.get("revision")) is int
+                            and type(data.get("view_id")) is str, 400, "invalid_input")
+                    if action in {"ack-content", "ack-claims"}:
+                        require(data["acknowledge"] is True, 400, "invalid_input")
                     require(type(data.get("revision")) is int and data["revision"] == item.ref.revision
                             and item.view is not None and data.get("view_id") == item.view)
                 if action in {"ack-content", "ack-claims"}:
-                    require(set(data) == {"revision", "view_id", "acknowledge"}
-                            and data["acknowledge"] is True, 400)
                     item.workflow.acknowledge(item.ref, review_snapshot_sha256=item.digest,
                         actor=item.owner, context="S2_LOCAL_CONTENT_REVIEW", acknowledge=True,
                         incomplete_claims=action == "ack-claims")
                 elif action == "render":
-                    require(set(data) == {"revision", "view_id"}, 400)
                     item.export = item.workflow.render(item.ref)
                     require(len(item.export.artifacts) == 4)
                     for artifact in item.export.artifacts:
@@ -277,11 +325,18 @@ class SyntheticBridge:
             self._live(item, epoch, deadline)
             return Response(body, media_type="application/json", status_code=201 if action == "intake" else 200)
         except Exception as exc:
-            # Expected review gating is retryable. Other failures retire the document.
-            code = getattr(exc, "code", "document_unavailable")
-            if action == "intake" or code not in {"REVIEW_REQUIRED", "CLAIMS_REVIEW_REQUIRED", "INVALID_STATE", "document_unavailable"}:
+            if not self._allowed(item, epoch, deadline):
+                return JSONResponse({"error": {"code": "authority_revoked"}}, status_code=401)
+            code = getattr(exc, "code", "")
+            if isinstance(exc, BridgeError):
+                if action == "intake" or exc.status >= 500:
+                    self.revoke(item.owner)
+                return JSONResponse({"error": {"code": exc.code}}, status_code=exc.status)
+            retryable = {"REVIEW_REQUIRED", "CLAIMS_REVIEW_REQUIRED", "INVALID_STATE", "REVIEW_MISMATCH"}
+            if action == "intake" or code not in retryable:
                 self.revoke(item.owner)
-            return JSONResponse({"error": {"code": "document_unavailable"}}, status_code=409)
+            return JSONResponse({"error": {"code": "document_unavailable"}},
+                                status_code=409 if code in retryable else 503)
         finally:
             try:
                 if not self._allowed(item, epoch, deadline):

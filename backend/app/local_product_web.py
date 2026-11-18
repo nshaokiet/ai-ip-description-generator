@@ -19,6 +19,7 @@ import time
 
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
+from starlette.concurrency import run_in_threadpool
 
 from backend.app.services.product_web_host_control import (
     PairingControl, SecurityError, create_private_dir, safe_path, write_private,
@@ -50,6 +51,7 @@ class Sessions:
         self.pending, self.authenticated, self.allocations = {}, {}, deque()
         self.closed = False
         self.on_invalidate = lambda owner: None
+        self.after_invalidate = lambda: None
 
     def authority(self, token, csrf=None, *, mutation=False):
         with self.lock:
@@ -134,7 +136,8 @@ class Sessions:
             _deny_unless(csrf and hmac.compare_digest(record["csrf"], csrf), 403, "csrf_rejected")
             self.on_invalidate(record["owner"])
             del self.authenticated[token]
-            return {"state": "anonymous"}
+        self.after_invalidate()
+        return {"state": "anonymous"}
 
     def revoke_all(self):
         with self.lock:
@@ -142,14 +145,17 @@ class Sessions:
                 self.on_invalidate(record["owner"])
             self.pending.clear()
             self.authenticated.clear()
-            return True
+        self.after_invalidate()
+        return True
 
     def close(self):
         with self.lock:
-            self.revoke_all()
             self.closed = True  # No new allocation or approval while teardown runs.
+            for record in self.authenticated.values():
+                self.on_invalidate(record["owner"])
             self.pending.clear()
             self.authenticated.clear()
+        self.after_invalidate()
 
 
 def _guard(request: Request, proxy_secret: str, backend_host: str, *, source_upload=False):
@@ -208,12 +214,14 @@ def create_local_app(*, enabled=False, sessions=None, proxy_secret=None, backend
     async def boundary(request, call_next):
         try:
             if control.error or not control.thread.is_alive():
-                sessions.revoke_all()
+                await run_in_threadpool(sessions.revoke_all)
                 raise AuthError(503, "operator_control_unavailable")
             upload = bridge is not None and request.method == "POST" and request.url.path == PREFIX + "/documents"
             headers, cookies = _guard(request, proxy_secret, f"127.0.0.1:{backend_port}", source_upload=upload)
             request.state.s1_headers, request.state.s1_cookies = headers, cookies
             response = await call_next(request)
+            if bridge is not None:
+                await run_in_threadpool(bridge.flush_revocations)
             fence = getattr(request.state, "s2_fence", None)
             if fence is not None:
                 fence()
@@ -252,7 +260,7 @@ def create_local_app(*, enabled=False, sessions=None, proxy_secret=None, backend
                 _cookie(response, PRELOGIN, "", 0)
                 _cookie(response, LOGIN, token, 1800)
                 return response
-            value = sessions.logout(session, headers.get("x-aiip-csrf"))
+            value = await run_in_threadpool(sessions.logout, session, headers.get("x-aiip-csrf"))
             response = JSONResponse(value)
             _cookie(response, LOGIN, "", 0)
             _cookie(response, PRELOGIN, "", 0)
@@ -376,6 +384,12 @@ def run(state_parent: Path, certificate: Path, key: Path, *, synthetic_enabled=F
                                backend_port=port, control=control,
                                synthetic_enabled=synthetic_enabled, state_root=root)
         bridge = getattr(app.state, "synthetic_bridge", None)
+        if bridge is not None:
+            # Rewrite only our newly created private configuration before Node
+            # starts. The publication channel is local private state, no listener.
+            proxy_path.unlink()
+            write_private(proxy_path, {"port": port, "proxy": credential, "synthetic": True,
+                "publication": {"root": str(bridge.publication.root), "instance": bridge.publication.instance}})
         server = uvicorn.Server(uvicorn.Config(
             app,
             proxy_headers=False, access_log=False, log_level="error"))

@@ -11,6 +11,8 @@ import subprocess
 import sys
 import json
 import os
+import time
+from urllib.parse import quote
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
@@ -50,7 +52,26 @@ if __name__ == "__main__":
     parser.add_argument("--root", type=Path, required=True)
     parser.add_argument("--reuse", action="store_true")
     parser.add_argument("--synthetic", action="store_true")
+    parser.add_argument("--publication-barrier", action="store_true")
     args = parser.parse_args()
+    if args.publication_barrier:
+        # Test-only process scheduling and monotonic-clock control. No runtime
+        # flag, environment override or browser route can enable these hooks.
+        import backend.app.local_product_web as local
+        original_sessions, original_popen = local.Sessions, subprocess.Popen
+        class TestSessions(original_sessions):
+            def __init__(self):
+                def clock():
+                    offset = args.root / "clock-offset"
+                    return time.monotonic() + (float(offset.read_text()) if offset.exists() else 0)
+                super().__init__(clock=clock)
+        class TestChild(original_popen):
+            def __init__(self, command, *rest, **kwargs):
+                if command[0] == "node":
+                    preload = Path(__file__).with_name("product_web_publication_hold.mjs").as_uri()
+                    command = [command[0], "--import", preload + "?root=" + quote(str(args.root)), *command[1:]]
+                super().__init__(command, *rest, **kwargs)
+        local.Sessions, subprocess.Popen = TestSessions, TestChild
     sanitize_provider_environment()
     os.environ["AI_IP_ENABLE_LOCAL_ORCHESTRATION_API"] = "0"
     os.environ["AI_IP_ENABLE_LOCAL_SYNTHETIC_V2_API"] = "0"

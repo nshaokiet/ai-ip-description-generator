@@ -8,16 +8,29 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.110 |
+| Version | 0.3.111 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High |
 | Created date | 18/09/2026 |
-| Last updated | 08/11/2026 GMT+7 — C2 spec-only post-PR155 recovery; history preserved |
+| Last updated | 18/11/2026 GMT+7 — S2-A security remediation candidate; history preserved |
 | Related task ID | SPEC-004 |
 | Source of Truth | Operational status bridge; bản nguồn Git tại `docs/operations/01_PROJECT_CONTROL_CENTER.md` |
 | Confidentiality level | Public-safe documentary projection; original internal records retained privately |
+
+## S2-A security remediation candidate — 18/11/2026
+
+OPS-001 0.3.110 -> 0.3.111, Codex; factual task handoff only, no policy
+expansion. Human explicitly approved S2A-PUBLICATION-COORDINATION-001 in the
+current conversation for task API-READY-WEB-GAP-001B-S2-A / PR164. The
+[task record](../tasks/API-READY-WEB-GAP-001B-S2-A.md) v0.2.0 preserves the
+previous publication defect and new scoped coordination/test contract.
+Base6bb947c1 / reviewed e22e1cd remain history; correction requires its own exact
+SHA/CI/security artifact and independent re-review. PR remains Draft; not completed,
+no merge/deploy/Gemini invocation/S2-B/R1/provider/Claims authority. MCP state/lease
+not available and not fabricated. Provider NOT_RUN, budget USD0, Claims DISABLED,
+semantic readiness NOT_DETERMINED, live spend enforcement NOT_IMPLEMENTED.
 
 ## RESUME-FOUNDATION-001 current baseline
 

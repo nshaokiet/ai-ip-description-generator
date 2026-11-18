@@ -198,11 +198,11 @@ def test_separate_affirmations_stale_view_revision_and_no_generic_edit(host):
     assert current["view_id"] != view["view_id"]
     assert decision(host, doc, view, "ack-content").status_code == 409
     for bad in [{**current, "revision": 2}, {**current, "revision": True}]:
-        assert decision(host, doc, bad, "ack-content").status_code == 409
+        assert decision(host, doc, bad, "ack-content").status_code == (400 if bad["revision"] is True else 409)
     assert decision(host, doc, current, "ack-content").status_code == 200
     assert decision(host, doc, current, "render").status_code == 409
     assert host.http.post(f"{BASE}/{doc}/ack-claims", headers=host.headers,
-        json={"revision": 1, "view_id": current["view_id"], "acknowledge": False}).status_code == 409
+        json={"revision": 1, "view_id": current["view_id"], "acknowledge": False}).status_code == 400
     assert host.http.put(f"{BASE}/{doc}/analysis", headers=host.headers, json={}).status_code == 405
     assert decision(host, doc, current, "ack-claims").status_code == 200
     assert decision(host, doc, current, "render").status_code == 200
@@ -285,7 +285,9 @@ def test_oversized_response_is_fail_closed(host, monkeypatch):
     import backend.app.services.product_web_bridge as module
     doc = begin(host)
     monkeypatch.setattr(module, "REVIEW_LIMIT", 32)
-    assert host.http.get(f"{BASE}/{doc}/review", headers=host.headers).status_code != 200
+    result = host.http.get(f"{BASE}/{doc}/review", headers=host.headers)
+    assert result.status_code == 503 and result.json()["error"]["code"] == "response_limit"
+    assert host.http.get(f"{BASE}/{doc}/review", headers=host.headers).status_code == 404
 
 
 def test_source_analysis_substitution_and_line_ending_scope(host, monkeypatch):
@@ -319,7 +321,7 @@ def test_projection_preserves_null_absence_order_and_rejects_arbitrary_json(host
     from backend.app.services.custody_review import review_documents
     assert value["originals"] == review_documents(item.workflow.review(item.ref).originals)
     assert host.http.post(f"{BASE}/{doc}/ack-content", headers=host.headers,
-        json={"revision": 1, "view_id": value["view_id"], "acknowledge": True, "actor": "forged"}).status_code == 409
+        json={"revision": 1, "view_id": value["view_id"], "acknowledge": True, "actor": "forged"}).status_code == 400
 
 
 def test_operation_timeout_keeps_capacity_until_late_work_returns(host, monkeypatch):

@@ -6,6 +6,7 @@ import { X509Certificate, createPrivateKey, randomBytes } from "node:crypto";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
+import { publish } from "./product-web-publication.mjs";
 
 const frontend = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const origin = "https://localhost:3443";
@@ -95,6 +96,7 @@ async function proxy(request, response, host) {
     if (request.headers[name] !== undefined) headers[name] = request.headers[name];
   }
   headers["content-length"] = String(size);
+  const started = performance.now();
   await new Promise((resolve, reject) => {
     const upstream = http.request({
       hostname: "127.0.0.1", port: host.port, path: request.url, method: request.method,
@@ -108,7 +110,8 @@ async function proxy(request, response, host) {
         else parts.push(part);
       });
       incoming.on("error", reject);
-      incoming.on("end", () => {
+      incoming.on("end", async () => {
+        try {
         if (response.destroyed) return resolve();
         const mediaType = incoming.headers["content-type"];
         const success = incoming.statusCode >= 200 && incoming.statusCode < 300;
@@ -120,9 +123,16 @@ async function proxy(request, response, host) {
         outputHeaders["Content-Length"] = String(bytes);
         if (route?.binary && success) outputHeaders["Content-Disposition"] = `attachment; filename="${route.filename}"`;
         if (incoming.headers["set-cookie"]) outputHeaders["Set-Cookie"] = incoming.headers["set-cookie"];
-        response.writeHead(incoming.statusCode ?? 503, outputHeaders);
-        response.end(Buffer.concat(parts));
+        const payload = Buffer.concat(parts);
+        if (route && success && request.method !== "DELETE") {
+          await publish(host, incoming.headers["x-aiip-publication"], request, response, payload,
+            incoming.statusCode, outputHeaders, started);
+        } else {
+          response.writeHead(incoming.statusCode ?? 503, outputHeaders);
+          response.end(payload);
+        }
         resolve();
+        } catch (error) { reject(error); }
       });
     });
     upstream.on("timeout", () => upstream.destroy(new Error("deadline")));
@@ -207,6 +217,11 @@ try {
     privateFiles([process.env.AIIP_S1_HOST_FILE]);
     const host = JSON.parse(readFileSync(process.env.AIIP_S1_HOST_FILE, "utf8"));
     requireSecurity(/^[0-9a-f]{64}$/.test(host.proxy) && Number.isInteger(host.port) && host.port > 0 && host.port <= 65535);
+    if (host.synthetic) {
+      requireSecurity(host.publication && /^[0-9a-f]{64}$/.test(host.publication.instance));
+      // check-private(state.json) also verifies its owner-private parent.
+      privateFiles([path.join(host.publication.root, "state.json")]);
+    }
     // Existing Next dependency/build is reused only by this explicit local host.
     const next = (await import("next")).default;
     const app = next({ dev: false, dir: frontend, hostname: "localhost", port: 3443 });
@@ -222,8 +237,12 @@ try {
         } else if ([`${prefix}/session`, `${prefix}/session/bootstrap`].includes(request.url) || syntheticRoute(request.url, request.method, host.synthetic === true)) {
           await proxy(request, response, host);
         } else respond(response, 404, { error: { code: "not_found" } });
-      } catch {
-        if (!response.headersSent && !response.destroyed) respond(response, 403, { error: { code: "request_rejected" } });
+      } catch (error) {
+        const denied = error.message === "authority_revoked";
+        const publicationFailure = error.message === "publication_unavailable";
+        if (!response.headersSent && !response.destroyed) respond(response,
+          denied ? 401 : publicationFailure ? 503 : 403,
+          { error: { code: denied ? "authority_revoked" : publicationFailure ? "publication_unavailable" : "request_rejected" } });
         else response.destroy();
       }
     });

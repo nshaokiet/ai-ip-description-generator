@@ -1,7 +1,15 @@
 # API-READY-WEB-GAP-001B-S2-A — minimal local synthetic backend bridge
 
-Version 0.1.0, 2026-11-13, Codex. Implementation candidate; independent Security
-and Quality review PENDING. Parent issue #131. DO NOT MERGE.
+Version 0.2.0, 2026-11-18, Codex. Security remediation candidate under explicit
+Human amendment; fresh exact-HEAD CI and independent Security/Quality re-review
+required. Parent issue #131. PR164 remains DRAFT / DO NOT MERGE.
+
+0.1.0 -> 0.2.0, 2026-11-18, Codex: implement Human-approved
+S2A-PUBLICATION-COORDINATION-001, publication/revocation serialization, ASGI
+post-start abort handling and safe error distinctions. Breaking change: No
+product route/schema/fixture/provider change; security coordination and HTTP
+error corrections expressly authorized. Earlier verification/handoff below is
+preserved history, not review of the remediation candidate.
 
 ## Authority and baseline
 
@@ -125,3 +133,139 @@ Recommended next action: Return fixed-HEAD report to ChatGPT for independent rev
 
 API budget USD 0. Provider NOT_RUN. Product Claims runtime DISABLED. Semantic
 readiness NOT_DETERMINED. Live spend enforcement NOT_IMPLEMENTED.
+
+## S2A-PUBLICATION-COORDINATION-001 — authorized remediation
+
+Human explicitly approved LIMITED SECURITY REMEDIATION in the current task
+conversation on 2026-11-18, naming task, PR164, reviewed head
+`e22e1cd3810912385622d5bf095ff73044fd5d29` and base
+`6bb947c1cf67bcfb3ffc935b3a3fafcafb87f0af`. Authority covers F-01/F-02/F-03,
+minimal cross-process coordination, deterministic tests, normal continuation
+commits/push and fresh exact-HEAD CI/security artifacts. It excludes merge,
+Draft-to-Ready, Gemini invocation by Codex, S2-B/R1, deployment, real/arbitrary
+papers, paid providers, Claims activation and fixture/gold/policy changes.
+
+### Defect and review provenance
+
+Preserved local baseline diagnostics reproduced four real HTTPS/Chromium cases:
+36,343-byte seven-original reviews after completed logout, cancel and protected
+operator revoke-all, plus a 46,974-byte artifact after operator revoke-all.
+The latter matched its pre-revocation artifact digest. This was a reproducible
+contract violation, not a probability-based timing acceptance. h11 backpressure
+also allowed private upstream body delivery after both ASGI checks had passed.
+
+The original and backup external review reports remain unchanged privately:
+39,656 bytes each, byte-equal SHA256
+`11b16f1aba72cc4e7ade2da98d0b056635ab65b430be27810d9f972f8295c43c`.
+Requested model was Gemini 3.8 Flash High; actual reviewer-reported UI model
+was Gemini 4 Argon High / Antigravity, reused reviewer conversation, application
+tests NOT_RUN locally by reviewer. Its reported Security/Quality/overall PASS
+and three Low findings remain history; Codex does not adopt the non-blocking
+classification for the demonstrated publication gap. A changed HEAD is not
+independently reviewed by those historical reports.
+
+### Shared private gate and linearization
+
+The existing owner-private host state now contains `publication/state.json`,
+at most two one-shot receipts, and an exclusive `publication/gate` directory.
+Atomic mkdir on the local filesystem serializes Python receipt issue/revocation
+and Node's final transport handoff. This is private local IPC using standard
+libraries, not a database, queue, listener, new service or R1 worker. Startup
+verifies the state file and containing directory through the existing ACL/path
+checks. The state file is updated under the gate while preserving its provisioned
+ACL; partial/corrupt state denies publication. No stale-lock recovery or restart
+adoption exists. The existing empty-parent startup requirement still applies.
+
+Backend-issued receipts bind host instance, server-owned principal, session
+digest, document, revision, revocation epoch, operation sequence, action/path,
+response digest/size/status/MIME and deadline budget. No raw session, CSRF,
+custody token, control key or proxy credential is stored in the channel. The
+receipt header is consumed only by the private Node proxy and stripped from
+browser responses. Browser headers cannot supply publication authority.
+
+For a successful protected response, Node takes the same gate, validates the
+complete receipt and payload, consumes the receipt, then synchronously transfers
+the response to the connected TLS socket. No await occurs between validation
+and handoff. Any HTTP outputData remaining for a later callback causes connection
+destruction; transport corks are flushed synchronously before releasing the gate.
+**Publication linearizes at acceptance into the connected TLS transport while
+the shared gate is held.** This includes the TLS transport's output queue; it
+does not claim browser receipt, kernel delivery or cryptographic acknowledgment.
+
+Revocation immediately retires backend authority and then, outside all session,
+gateway/workflow/custody locks, acquires the shared gate and invalidates the
+owner's outstanding receipts. Completing this transaction is the revocation
+acknowledgment. Logout/cancel/operator/shutdown cannot acknowledge success before
+that point. Either Node's synchronous commit precedes invalidation or invalidation
+precedes and denies that commit; a later callback cannot revive a deleted receipt.
+Successful prior commits can reach the browser later and cannot be recalled.
+
+Gate waits use real monotonic time with a one-second bound; flush serialization
+also has a one-second bound. Missing peer state, malformed state, stale instance,
+replay, identity/digest/deadline mismatch and gate-owner failure deny publication.
+Gate timeout persists a failure marker; neither process silently clears/reuses
+that channel. Failed invalidation does not return successful revocation, and
+gateway quarantine prevents trusted reuse. Uncertain owned files remain for
+operator inspection, consistent with existing cleanup/quarantine semantics.
+
+Node's deadline is conservatively measured from before upstream submission,
+using the floored remaining session/operation budget at backend operation
+admission. This avoids comparing unrelated monotonic clock epochs and avoids
+extending authority by buffering/network delay. Expiry also retires backend
+receipts via maintenance and the HTTP boundary. The R0 timing model assumes
+normal same-host monotonic clocks; no hard real-time, OS scheduling, disk-I/O,
+process-crash recovery or CPU/RAM guarantee is introduced.
+
+### ASGI and error semantics
+
+Both existing ASGI checks remain. Denial before start yields 401; denial after
+start returns an incomplete upstream response for Uvicorn to close. It never
+sends a second start or protected body to conceal that denial. If an already
+awaited h11 send resumes after revocation, the data can still enter Node's private
+buffer; the shared final gate prevents browser publication. Tests exercise this
+actual h11 drain path and the final Node gate together.
+
+Malformed acknowledgment/render input yields safe 400, stale validly-shaped
+revision/view and missing review/Claims acknowledgments yield 409, revoked
+authority yields 401, and response-limit failures retain 503 response_limit.
+Corrupt/unexpected workflow output yields a redacted 503 and retires the affected
+resource. Error responses contain no protected document payload or exception
+internals; they are distinct from successful data requiring a receipt.
+
+### Targeted verification and handoff
+
+`tests/backend/test_product_web_publication.py` runs the actual Node publication
+function in separate processes. It controls both serialization orders and covers
+single use, cross-owner/path/revision/action/digest/epoch/operation binding,
+deadline expiry, missing/corrupt/closed peer state, gate timeout and persistent
+failure, private HTTP output buffering, and real h11 backpressure/response-start.
+Existing S1/S2/workflow/provider regression suites remain required.
+
+The real HTTPS test uses only the trusted test host's Node preload and clock
+fixture, inaccessible from production flags or browser routes. An end-listener
+barrier holds the unchanged proxy callback after FastAPI has completely delivered
+the response. Actual logout/cancel/operator/expiry completes, a fresh request
+confirms denial, then the barrier releases. Each held response must return 401
+with zero protected bytes. The artifact case plus the existing four-file positive
+download test preserve binary integrity. Safe per-case event summaries and
+provider/egress/cleanup/privacy counters are emitted; no raw host logs are stored.
+
+Final native Windows results, exact new HEAD/TREE/diff, hosted Linux run/jobs,
+new downloadable security archive/digest/audits and remaining limitations belong
+in the PR handoff. Old CI43387044778 and expired artifact14020490721 cannot prove
+the new candidate. Original diagnostics are preserved, not overwritten. All
+new independent review remains PENDING; no completion or merge claim is made.
+
+Task ID: API-READY-WEB-GAP-001B-S2-A
+Agent: Codex / IMPLEMENTER
+Reviewer: ChatGPT-coordinated independent Gemini re-review PENDING; not invoked
+Status: Remediation candidate; exact-final-HEAD CI/artifact/re-review gates required
+Version: 0.2.0
+Work completed: Shared private gate, revocation acknowledgment, ASGI/error fixes, deterministic coverage
+Files affected: Exact continuation diff in PR164
+Evidence checked: Human amendment, previous raw diagnostics, current baseline and scoped tests
+Findings: F-01/F-02/F-03 remediated in candidate; no independent closure claimed
+Decisions: Explicit Human S2A-PUBLICATION-COORDINATION-001, 2026-11-18
+Issues: Final hosted verification and independent review pending
+Security impact: Private local cross-process serialization; existing R0/account trust retained
+Recommended next action: Verify new CI/artifact, then return fixed SHA to ChatGPT; keep Draft, do not merge
