@@ -8,16 +8,26 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.110 |
+| Version | 0.3.111 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High |
 | Created date | 18/09/2026 |
-| Last updated | 08/11/2026 GMT+7 — C2 spec-only post-PR155 recovery; history preserved |
+| Last updated | 21/11/2026 Asia/Saigon — REALIGN-001 candidate; history preserved |
 | Related task ID | SPEC-004 |
 | Source of Truth | Operational status bridge; bản nguồn Git tại `docs/operations/01_PROJECT_CONTROL_CENTER.md` |
 | Confidentiality level | Public-safe documentary projection; original internal records retained privately |
+
+## REALIGN-001 — current checkpoint 21/11/2026
+
+**Phase 1 documentation candidate, not Completed.** Owner authorized audit/product realignment/gap/docs/roadmap now, governance amendment as a separate PR, then controlled free development only after gates. Public identity: Nguyễn Song Hào Kiệt — Independent Developer; sản phẩm độc lập. [Requirements](../strategy/AIIP_PRODUCT_REQUIREMENTS.md), [reality/gap/roadmap/funding backlog](../strategy/PRODUCT_DIRECTION_20261121.md).
+
+Main6bb947c1 / CI43357769931 SUCCESS (13/11); S1 auth163 merged.165 new4186b7a CI44905331090 SUCCESS, fresh independent reviews/provenance/Human merge authority pending.166 new37e9344 CI44889601897 FAILURE at audit.164 S2-A f08b071 unmerged.167 existing strategy PR expanded; new-head CI/review evidence recorded at PR after commit. Do not overwrite historical status/receipts below or infer closed issues from code presence.
+
+Phase 1 code/fixtures/templates/dependencies/CI/Render unchanged. AGENTS authority unchanged until separate reviewed governance amendment approved/integrated. Requested reviewer Gemini4 Argon(High)/Antigravity read-only per direct Owner selection; actual execution not available in this session, reviews PENDING; MCP state/lease NOT VERIFIED. No fabricated approval/PASS/state. Claims product DISABLED; USD0/providerNOT_RUN; semanticNOT_DETERMINED; productionNOT_APPROVED. Next business scope P0-CONF then manual P0-PRIOR after gates; UI legacy identity cleanup P0-ID separately.
+
+OPS-0010.3.110 → 0.3.111,21/11/2026,Codex,REALIGN-001: current documentary pointer, historical append-preserving projection; Breaking change No.
 
 ## RESUME-FOUNDATION-001 current baseline
 

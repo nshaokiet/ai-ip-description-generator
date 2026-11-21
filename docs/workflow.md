@@ -1,4 +1,16 @@
-# MVP Processing Workflow
+# AI-IP Processing Workflow
+
+## Current target — REALIGN-001, 21/11/2026
+
+Workflow projection version 0.1.0; Owner-directed target, repository review/integration pending. [Requirements](strategy/AIIP_PRODUCT_REQUIREMENTS.md) mô tả đủ 10 bước, consent/prior-art gates, ba output, VI/EN, roles và revisions. [Audit/roadmap](strategy/PRODUCT_DIRECTION_20261121.md) phân biệt implemented/disabled/mock/API-ready/partial/missing/blocked.
+
+Intake → Scientific Analysis → Confidentiality → Prior Art → Specification → Claims → Figure Redrawing → Editing → QA → Human Review/Export. **Confidentiality approval trước mọi external analysis/query**, dù thứ tự hiển thị bước 2 trước bước 3. Prior Art có thể nhập thủ công; incomplete phải có explicit chuyên viên continuation. Direct/chat edits invalidate review liên quan. Member có quyền hồ sơ được export DRAFT có warnings ở mọi trạng thái; Admin duyệt Approved for Export nội bộ.
+
+Phase 1 chỉ tài liệu, Claims product OFF. Code mới sau Phase 1 gates và Phase 1B governance approval/integration. Workflow development hiện hành ở AGENTS vẫn áp dụng; không tự merge amendment/deploy. Không phải mô tả rằng toàn bộ browser flow đã triển khai.
+
+## Historical MVP workflow — approved technical baseline
+
+Phần dưới giữ tương thích/lịch sử; các câu current/pending ở mốc 05/11 không ghi đè target 21/11. Không thay source/schema/runtime chỉ vì thêm target.
 
 > Current direction,05/11/2026: website Next.js + FastAPI, upload → source → draft
 > → browser Human review/edit → validate → four USPTO v2 artifacts. This is the

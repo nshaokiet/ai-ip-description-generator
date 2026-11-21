@@ -1,5 +1,9 @@
 # PREAPI-001 — Remaining zero-cost readiness plan
 
+> Current roadmap,21/11/2026: [REALIGN-001 P0/P1/P2](../strategy/PRODUCT_DIRECTION_20261121.md) và [Owner requirements](../strategy/AIIP_PRODUCT_REQUIREMENTS.md). Prior Art/manual, confidentiality, full outputs và internal-group operations được ưu tiên theo nghiệp vụ. API-ready synthetic chỉ là milestone; không dừng các gap miễn phí chỉ vì thiếu API. Phase 2 sau Phase 1/1B gates; không implicit Claims activation/merge/deploy.
+
+0.1.2 → 0.1.3,21/11/2026,Codex,REALIGN-001: current roadmap pointer/supersession only; Breaking change No. Các status bên dưới là lịch sử.
+
 > Current planning pointer05/11/2026: [foundation baseline](../operations/01_PROJECT_CONTROL_CENTER.md#resume-foundation-001-current-baseline)
 > and [dependency backlog/next task](RESUME-FOUNDATION-001.md) supersede the dated
 > current-state/next-action rows below. C1 is merged but closeout pending; C2R4
@@ -8,7 +12,7 @@
 
 | Field | Value |
 |---|---|
-| Version | 0.1.2 — current checkpoint pointer; historical0.1.1 plan preserved, not implementation authorization |
+| Version | 0.1.3 — REALIGN-001 current roadmap pointer; historical plans preserved |
 | Date / baseline | 19/10/2026 / original C1 base `cdc879adedbb1c5d1945d2e5722d61df4959aebb`; governance PR #136 merged `c113f2e647d40f96ae7ec26275cdf9dfc0157ea0` |
 | Source | [PREAPI v0.1.3](PREAPI-001-zero-cost-readiness.md), [C1 contract candidate](PREAPI-001-C1-source-custody-contract.md), [EVAL-001](EVAL-001-semantic-quality-evaluation.md), repository source/tests |
 
