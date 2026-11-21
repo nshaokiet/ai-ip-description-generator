@@ -8,18 +8,28 @@
 |---|---|
 | Document ID | SPEC-001 |
 | Document title | Đặc tả hệ thống — AI Intellectual Property Description Generator |
-| Version | 0.3.7 |
+| Version | 0.3.8 |
 | Status | Approved baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT |
 | Reviewer | Human / Product Owner |
 | Created date | 18/09/2026 |
-| Last updated | 28/09/2026 |
+| Last updated | 21/11/2026 — REALIGN-001 documentary overlay |
 | Related task ID | SPEC-001 |
 | Source of Truth | GitHub — `docs/system-specification.md` |
 | Confidentiality level | Internal; tài liệu nghiên cứu đầu vào phải được xử lý như Confidential |
 
 > Tài liệu này là approved baseline sau Gemini 3.1 Pro High review và Human decisions ngày 20/09/2026. Các mục còn nhãn `[CẦN XÁC NHẬN]` vẫn cần quyết định riêng trước phần implementation/release liên quan.
+
+## Current target overlay — 21/11/2026
+
+[Yêu cầu Owner hiện hành](strategy/AIIP_PRODUCT_REQUIREMENTS.md) là scope sản phẩm Nonprovisional Utility Patent drafting, cùng [audit/gap/roadmap](strategy/PRODUCT_DIRECTION_20261121.md). Sản phẩm phát triển độc lập của Nguyễn Song Hào Kiệt — Independent Developer.
+
+Các mục MVP bên dưới giữ approved technical baseline: “Claims ngoài MVP”, “Prior-art ngoài scope”, PDF/report/roles/export override “cần xác nhận” là giới hạn triển khai lịch sử, không còn là câu hỏi về mục tiêu nghiệp vụ. Target mới gồm Claims/figures, mandatory Prior Art (manual permitted), confidentiality consent trước mọi egress, ba loại output, VI/EN, Admin/Member và durable case versions/audit. Member xuất DRAFT mọi trạng thái có cảnh báo; chỉ Admin duyệt Approved for Export. Không tự bật Claims, sửa schema/template hoặc coi target là code đã chạy.
+
+Runtime/production acceptance và independent/CI/security gates không đổi. Governance autonomy amendment được review riêng trước hiệu lực. Phiên bản này không freeze executable product contract mới.
+
+0.3.7 → 0.3.8,21/11/2026,Codex,REALIGN-001: documentary target/supersession overlay, không rewrite lịch sử. Breaking change No — không đổi API/schema/template.
 
 ## 2. Lịch sử phiên bản
 

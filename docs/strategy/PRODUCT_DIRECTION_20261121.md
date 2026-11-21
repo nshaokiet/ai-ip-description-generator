@@ -1,132 +1,108 @@
-# PRODUCT-DIRECTION-20261121 — Website-first, API-ready product strategy
+# REALIGN-001 — Repository audit, gap analysis và roadmap
 
-| Field | Value |
+| Trường | Giá trị |
 |---|---|
-| Document / version | PRODUCT-DIRECTION-20261121 / 0.1.0 |
-| Prepared | 2026-11-21 (Asia/Ho_Chi_Minh) |
-| Status | **PROPOSED FOR HUMAN REVIEW — documentation-only; not an approved implementation spec** |
-| Direction | Website-first; reuse existing modules; prove end-to-end synthetic workflow before funded API pilot |
-| Repository baseline | `main` at `6bb947c1cf67bcfb3ffc935b3a3fafcafb87f0af` |
-| Workflow / authority | Existing V1 and AGENTS.md; Human request to reassess direction and update repository documentation, 2026-11-21 |
-| Budget / provider | **USD 0; provider NOT_RUN; no paid calls** |
-| Safety | No confidential/real unpublished paper, no deployment or live Claims enablement authorized |
+| Document / version | PRODUCT-DIRECTION-20261121 / 0.2.0 |
+| Date / owner | 21/11/2026 Asia/Saigon / Nguyễn Song Hào Kiệt — Independent Developer |
+| Status | Phase 1 documentation candidate; independent Security/Quality PENDING; không phải closeout |
+| Audit baseline | main `6bb947c1cf67bcfb3ffc935b3a3fafcafb87f0af`; tree `aaece7b6128648deae0ebb2b60749f786cb0ca8f` |
+| Candidate / authority | Draft PR167, `docs/product-direction-20261121-web-api-ready`; Master Project Realignment directive, 21/11/2026 |
+| Boundary | USD 0; không provider invocation, nghiên cứu thật, Claims activation, deployment hoặc merge |
 
-## 1. Executive decision proposal
+## A. Repository Reality Check
 
-**Build the usable Next.js + FastAPI website, not another offline-only product or a second conversion engine.** Existing local/offline/synthetic modules are implementation and test assets. The user-facing product path is:
+GitHub API xác nhận repository PUBLIC, default branch `main`; branch protection của main chưa bật ở lúc đọc. Không vì vậy mà miễn gate dự án. Checkout mới sạch, đúng SHA. Đã kiểm source tree, README/PROJECT_CONTEXT/AGENTS/system spec/workflow, decisions/tasks, schema/prompt, corpus/maps/templates, backend/frontend/tests, CI và render.yaml. Static audit cùng targeted offline checks không phải full acceptance/penetration test.
 
-**Permitted scientific PDF/DOCX → upload and source evidence → invention reconstruction / USPTO-style specification draft → source-linked Human/IP review and edits → validation and missing-support decisions → draft DOCX/PDF export.**
+Main [CI43357769931](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/43357769931): COMPLETED/SUCCESS trên đúng SHA, cả `mcp-tests` và `build-and-test` SUCCESS. Run ngày 13/11 không phải dependency audit mới ngày 21/11; không suy graph hiện vẫn sạch vulnerability.
 
-When a source is inadequate, return missing support or `HUMAN_CONFIRMATION_REQUIRED`; do not generate an unsupported invention, embodiment, legal conclusion or claim. Keep a reviewable source trail and distinguish source statements, inferences, and author-confirmed statements.
-
-The project target is a **draft of a U.S. nonprovisional utility-patent specification**, not a filing service, issued patent, legal opinion, or guaranteed patent application. The historical “B2-style” shorthand refers to an **issued-patent publication kind code**, not an official USPTO fill-in “Form B”. See [P2-001](../tasks/P2-001-uspto-target-specification-v2.md).
-
-**Near-term definition of success:** one complete, repeatable, default-OFF **browser-to-export synthetic workflow** on two different admitted technical samples (a text PDF and DOCX), with evidence, review, refusals, exact expected output artifacts, negative tests, security checks, and no provider spend. This is a goal, **not a claim of current end-to-end PASS**.
-
-## 2. Verified repository assets vs. unverified product claims
-
-| Capability | Reuse / evidence | Remaining limitation |
+| Open PR | HEAD lúc audit | Trạng thái / next action |
 |---|---|---|
-| PDF/DOCX upload/parsing/source locators | APP-001/APP-002, backend; synthetic offline coverage | OCR/scanned-only not supported; real/confidential inputs prohibited |
-| Extraction and structured draft runtimes | Internal OpenAI Responses API boundaries, schemas/validation | Provider NOT_RUN; semantic correctness not established |
-| Invention reconstruction, specification, reference checks | P2-001/P2-002/P2-003, source-custody C1, synthetic pipeline | Arbitrary-paper and full browser flow not accepted |
-| Supported draft Claims | P2-004 standalone and semantic-authority prototype | **Product Claims runtime DISABLED**; no automatic Claims enablement |
-| Document validation / editable export | Existing P2-005/P2-006 assembler, validators, DOCX/PDF renderers | Static demo is fixed sample; four-artifact browser export not verified |
-| Website UI/API | Next.js, FastAPI, v1 upload/process/review components | Product-001B's end-to-end session-bound browser flow not fully admitted/verified |
-| Authentication/security work | S1 local transport/auth foundation plus S2-A candidate PR #164 | Production owner isolation, retention, and BLK-003 remain unresolved |
-| Mock evaluation and CI | Two-content offline synthetic #161; gold 6 cases / 154 items; frontend/backend/MCP tests | Synthetic PASS does not prove live provider quality or production security |
+| [#165](https://github.com/nshaokiet/ai-ip-description-generator/pull/165) | `4186b7afd4845497decc041f3016968fada2c754` | [CI44905331090](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/44905331090) SUCCESS. Implementer đã sửa dynamic-directory finding, independent verification PENDING; hai Security/Quality review mới, historical authorization provenance disposition và Human merge authorization còn thiếu. OPEN/DRAFT. |
+| [#166](https://github.com/nshaokiet/ai-ip-description-generator/pull/166) | `37e9344465e5bc052bb02e9da60c23d67e7f62de` | Reviewer policy + metadata-validator correction; [CI44889601897](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/44889601897) FAILURE tại dependency audit. Direct Owner Argon choice có hiệu lực model selection, không phải PASS/merge authority. |
+| [#164](https://github.com/nshaokiet/ai-ip-description-generator/pull/164) | `f08b071ee76468f01ad20bfa917d1b6360e5b453` | S2-A default-OFF bridge chưa có trên main; [CI44230339727](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/44230339727) FAILURE theo PR receipt. Windows proof không thay Linux browser proof/reviews. |
+| [#167](https://github.com/nshaokiet/ai-ip-description-generator/pull/167) | audit-start `67dd983f6f84390169468f1a729d8a3e2f45bca7` | Existing strategy PR đang được mở rộng; old-head [CI44903839302](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/44903839302) FAILURE tại security graph. Không dùng làm kết quả HEAD mới. |
+| #152/#150/#148/#146/#144/#143/#140 | OPEN/DRAFT, legacy | Giữ nguyên; #148 diagnostic DO NOT MERGE. Đối chiếu supersession với main/#153/#154/#155/#156 trước quyết định riêng; không tự đóng hoặc merge. |
 
-**Do not rebuild** source extraction, reconstruction, Claims standalone, renderers, schemas, or test harnesses simply to produce a new task ID. Inspect existing contracts first; implement only missing adapters, integration points and tests.
+**11 open Draft PRs** lúc đọc. Sáu open issues: [#160](https://github.com/nshaokiet/ai-ip-description-generator/issues/160) MCP input/resource planning; [#131](https://github.com/nshaokiet/ai-ip-description-generator/issues/131) PREAPI; [#126](https://github.com/nshaokiet/ai-ip-description-generator/issues/126) unknown-task; [#121](https://github.com/nshaokiet/ai-ip-description-generator/issues/121) API-v2 spec; [#113](https://github.com/nshaokiet/ai-ip-description-generator/issues/113) old reviewer policy; [#111](https://github.com/nshaokiet/ai-ip-description-generator/issues/111) offline orchestration. Open issue không chứng minh code chưa merge.
 
-## 3. Current blocked work and dependency order (snapshot 2026-11-21)
+Không có tool Project Orchestrator/Antigravity/Gemini execution trong phiên này: MCP state/lease **NOT VERIFIED**, independent reviews **NOT RUN**. Requested reviewer theo direct Owner decision: **Gemini 4 Argon (High), Antigravity STRICT READ-ONLY**, actual profile/model/session/reuse phải được ghi; Security/Quality độc lập. #166 vẫn pending integration.
 
-These are **independent PRs**, not completed milestones:
+`render.yaml` cấu hình public synthetic demo và `checksPass`; repository config không phải live Render readback. Không đổi Render, không khẳng định live auto-deploy OFF. Trước merge phải xác minh platform để tránh deployment ngoài quyền.
 
-1. [PR #165 — dependency remediation](https://github.com/nshaokiet/ai-ip-description-generator/pull/165), HEAD `b4e7db7b123dc41e169483a50ca36d6f7821a9d4`: hosted CI `44263429631` SUCCESS, but independent Quality addendum identifies a **MEDIUM dynamic-directory/tsconfig include compatibility regression** (finding `DEP-RECON-QUAL-001`, `REQUEST CHANGES`). Remediation + new-head CI and independent review are required; historical task-initiation authorization is `AUTHORIZATION_PROVENANCE_NOT_VERIFIED` and requires actual-date Human disposition. **NOT MERGE ELIGIBLE**.
-2. [PR #166 — standing Argon reviewer policy](https://github.com/nshaokiet/ai-ip-description-generator/pull/166), HEAD `37e9344465e5bc052bb02e9da60c23d67e7f62de`: validator alignment done, targeted/back-end tests reported PASS; CI `44889601897` FAILURE at inherited Next.js audit gate. Do not disable audit or reuse its failed CI.
-3. [PR #164 — default-OFF S2-A bridge](https://github.com/nshaokiet/ai-ip-description-generator/pull/164), HEAD `f08b071ee76468f01ad20bfa917d1b6360e5b453`: OPEN/DRAFT, security and independent review/integration still gated. Do not assume an unmerged S2-A implementation exists on main.
+## B. Product Alignment
 
-**Proposed integration sequence:** finish #165 correctly → reassess #166 on updated main → reassess #164 and applicable S2-A dependencies → begin a narrowly approved PRODUCT-001B browser integration. Ordering is conditional on actual dependency and accepted-main checks, not a blanket permission to merge or rebase.
+Giữ website Next.js + FastAPI, parsing/reconstruction/Claims/renderer; không có căn cứ xây lại hoặc tạo CLI product thứ hai. Đề xuất 0.1.0 chỉ nhắm mock E2E rồi chờ API đã thiếu Prior Art/confidentiality/internal group/ba loại output. [Yêu cầu Owner mới](AIIP_PRODUCT_REQUIREMENTS.md) thay ưu tiên đó. `API_READY_SYNTHETIC` chỉ là mốc kỹ thuật.
 
-Security remediation and product gap analysis may proceed **in parallel as separate workstreams**, but implementation code that depends on unmerged branches must wait for accepted dependencies.
+README được bỏ nhận diện tổ chức, ghi sản phẩm độc lập. **UI còn legacy logo/attribution** ở `frontend/src/app/page.tsx`, `frontend/src/lib/uiPreferences.tsx`; xử lý P0-ID sau gates, không đổi UI trong Phase 1. Không công bố lại tên tổ chức/nghề nghiệp riêng tư hoặc phán quyết ownership. Không xóa history/evidence.
 
-## 4. Thin product roadmap — no parallel backend
+## C. Feature Gap Matrix
 
-### Stage A — Reconcile and unblock (in flight)
+Status áp dụng đúng phạm vi mỗi dòng: `Implemented & Verified` cần test thực của scope; `Offline/Mock Verified` chỉ synthetic; `API-Ready` chỉ interfaces/preflight, không live acceptance; `Deprecated` chỉ proposal bị Owner thay thế. Effort S/M/L tương đối, không phải cam kết thời gian. USD 0 là chi phí dự kiến với stack hiện có, không gồm vận hành production.
 
-- Resolve `DEP-RECON-QUAL-001` with a bounded adapter fix/tests on #165, new SHA, CI, independent Security/Quality and Human provenance/merge decisions.
-- Integrate #166/#164 only after their own exact-head/rebase, security, reviews and Human merge gates.
-- Preserve branch and report history; no “CI green means safe to merge” shortcut.
+| Requirement | Current implementation / status | Missing functionality / proposed action | Priority | Dependency | Cost / effort / API | Risk / testing |
+|---|---|---|---|---|---|---|---|
+| Independent identity | Docs Partial; UI legacy attribution | P0-ID: chỉnh UI identity, regression layout | P0 | Phase 1/1B | 0 / S / no | Sai attribution; string/UI checks |
+| PDF/DOCX intake | Offline/Mock Verified: validation/parsing text PDF + DOCX text/table | Nối browser v2; giữ 10 MiB/text-PDF 50-page constraints; scanned/OCR chưa có | P0 | S1/S2-A acceptance, fixture admission | 0 / M / no | File/path/parser abuse; reject/locator tests |
+| Full scientific input | Partially Implemented: TEXT/TABLE source units | Inventory image/formula/chart assets, không coi text extraction là full multimodal | P0 | Intake/evidence model | 0 / L / no infrastructure API | Mất số liệu/ý nghĩa; source/asset comparison |
+| Scientific analysis | Offline/Mock Verified reconstruction/specification; live Blocked | Adequacy/missing view, Human stop/continue | P0 | Grounding/browser | 0 / M / mock now | Hallucination; sparse/refusal/contradictions |
+| Confidentiality | Not Implemented consent workflow; defaults/tripwire có | Classification, bounded consent/revocation/query preview trước egress | P0 | Existing session/custody | 0 / M / no | Bí quyết lộ; denied/stale/revoked-scope tests |
+| Prior Art | Not Implemented per-paper; corpus chỉ reference | Manual evidence source/date/query/similarity/difference/limits; mandatory record hoặc explicit incomplete continuation | P0 | Confidentiality/revision | 0 / M / no; manual first | Query leak/fake citations; no-search/incomplete/refusal |
+| Patent specification | Offline/Mock Verified P2-002/003/005; API adapters có | Browser drafting sau confidentiality/Prior Art records, reuse pipeline | P0 | #164/S2 + prior steps | 0 / M / mock | Unsupported facts; source/manifest/revision checks |
+| Claims | Implemented but Disabled in product; standalone + synthetic SYSTEM/APPARATUS positives | Trace/refusal UI trước; activation/family expansion qua gate riêng | P0 | Source/spec/authority | 0 / L / validation no API | Unsupported elements/overbreadth; OFF/support tests |
+| Figures | Not Implemented redraw; metadata/references có | Asset map/deterministic redraw/reference numerals/fidelity approval | P0 | Asset/source locators | 0 / L / infrastructure no API | Sai topology/values; original/redraw compare; flag uncertainty |
+| Editing | Partially Implemented v1 `draftRevisions.ts`, UI, C1 revisions | Nối source-bound v2 edit/revalidation, chat interfaces/mock | P0 | Custody/browser/version design | 0 / M / mock | Stale edits/reviews; optimistic revision tests |
+| QA | Offline/Mock Verified schema/grounding/business/layout/support checks | Tổng hợp tám lớp; scientific/figure semantic review còn thủ công; serious edit confirmation | P0 | Validators/figures | 0 / M / real AI later | False PASS; unsupported/contradiction/missing tests |
+| Review/export states | Partially Implemented C1 ack + four synthetic exports | Four business states, Admin-only final approval, Member DRAFT export mọi trạng thái có warnings | P0 behavior; P1 RBAC | State/identity contract | 0 / M / no | Escalation/stale approval; incomplete draft tests |
+| Three outputs | Patent Draft Offline/Mock Verified; Annotated/Analysis export Not Implemented | Reuse renderer/projections, position notes + separate report, DOCX/PDF matrix | P0 | QA/Prior Art/export | 0 / M / no | Citation/private-note leak; integrity/content tests |
+| Vietnamese/English | UI toggle có; drafting Partially Implemented | Output language + terminology/values/Claims equivalence | P1 | Canonical content | 0 / M / mock; real AI later | Scope drift; bilingual review |
+| Internal Admin/Member | Local S1 pairing Implemented & Verified within its scope; RBAC Not Implemented | No public signup, server case permissions/Admin approval | P1 before team use | Auth/data policy | 0 / L / no | Cross-user read/write/download; role matrix tests |
+| Cases/version/audit | Partial ephemeral custody + in-memory UI revisions | Durable records/immutable approved versions, actor/time/reason/export history, restore/retention | P1 before real data | Access/private storage decision | 0 / L / no | Loss/exposure; isolation/restore/delete tests |
+| Provider interfaces | API-Ready extraction/draft adapters + offline preflight | Entitlement UNVERIFIED; live spend enforcement NOT_IMPLEMENTED; live semantic Blocked | P0 before paid pilot | Funding/data authorization | 0 prep / M; paid runtime gated | Spend/secrets; no-client tripwires/future caps |
+| Old defer-all proposal | Deprecated as current target | Preserve v0.1.0 in Git history; follow new requirements | P0 docs | Owner directive | 0 / S / no | Stale instructions; consistency/link checks |
 
-**Exit:** required accepted-main dependencies are verified, or gaps are explicitly listed as blocked with no fake green status.
+## D. Updated Roadmap
 
-### Stage B — Single-operator secure browser flow (next proposed build)
+Mỗi dòng là scope riêng; không triển khai toàn bộ roadmap một lần. Phase 2 còn chờ Phase 1 review/CI và Phase 1B approval/integration. Không hỏi lại yêu cầu đã chốt; chỉ xác định quyết định kỹ thuật/bảo mật còn thiếu trước task phụ thuộc.
 
-Reuse [PRODUCT-001B-WEB-001](../tasks/PRODUCT-001B-WEB-001.md), [PRODUCT-001B v0.2.0](../tasks/PRODUCT-001B-trusted-local-review-presenter.md), and existing C1/P2 contracts. **Do not duplicate them as PRODUCT-002.** Confirm design/security decisions `D01–D07`, fixtures/admission and the B1–B6 implementation boundary before authorization. Reuse local operator-controlled HTTPS/session model rather than inventing SaaS/multi-tenant production.
+| Order / task | Lý do / đầu ra tối thiểu | Dependency / exit |
+|---|---|---|
+| 0 — REALIGN-001 | Audit/docs/roadmap nhất quán, public-safe, tách target/runtime | PR167 new-head checks/reviews và merge/platform authority hiện hành |
+| 1 — GOV-AUTONOMY-001 | PR governance riêng để Owner duyệt một lần; không tự merge | Human approval/integration, phối hợp #166; giữ independent/CI/security gates |
+| P0-ID | UI đúng sản phẩm độc lập | Sau Phase 1/1B; scoped UI diff/checks, giữ history |
+| P0-CONF | Consent/egress gate, upload không đồng nghĩa API consent | Reuse S1/custody; default-deny, revoke/stale tests |
+| P0-PRIOR | **Task nghiệp vụ giá trị cao nhất tiếp theo:** manual Prior Art trước drafting | P0-CONF/revision; evidence/explicit incomplete continuation; không cần search API |
+| P0-WEB | Nối browser intake → analysis → confidentiality → Prior Art → review/edit → export | #165 → #164 fresh accepted dependencies; đối chiếu D01–D07/fixture decisions chưa giải quyết |
+| P0-ASSETS / P0-FIG | Giữ image/chart/formula/source map, redraw có fidelity | Supported subset trước; không đoán geometry/data; uncertain output flagged |
+| P0-CLAIM-QA | Support/refusal/trace UI; tám lớp QA và serious-change confirmation | Product Claims OFF tới gate/semantic approval riêng |
+| P0-OUTPUT | Patent Draft + Annotated Draft + Analysis Report | Reuse renderer, version-bound content/warnings; fixtures từng loại |
+| P1-ACCESS / P1-CASE | Admin/Member, persistent private cases, durable versions/audit/exports | Trước team/real-data use; storage/retention/backup/security decisions |
+| P1-LANG / P1-OPS | VI/EN equivalence, vận hành/restore/security acceptance | Canonical content/roles, no Claims scope drift |
+| P2-SEARCH | Automated lawful free search sau manual workflow | Source availability/terms/confidentiality; giữ manual fallback |
+| P2-LOCAL-AI | Free local model experiment nếu phù hợp | Chưa có hardware telemetry máy Owner; chưa cài/thử model; không dependency bắt buộc |
+| P2-ADVANCED | Redraw nâng cao/OCR/input mở rộng/tối ưu có bằng chứng | Không làm chậm P0/P1; không mặc định SaaS/RAG/vector DB/rewrite |
 
-Required user capabilities: select admitted synthetic file, upload, start mock processing, read cited evidence, review/answer missing information, edit supported draft, validate revision/digest, and export existing expected USPTO v2 draft artifacts. Browser displays **review metadata separately from filing-style prose**, and refuses unsupported Claims. Use existing server-controlled custody/manifest; browser never owns source or approval authority.
+**API_READY_SYNTHETIC:** hai technical contents khác nhau (text PDF và DOCX), browser-to-export, source/consent/Prior Art records, negative/refusal tests, no-provider tripwires và artifact fidelity trong scope đã duyệt. **INTERNAL_GROUP_READY:** thêm P1 RBAC/persistence/audit/retention/security acceptance. Cả hai không bằng LEVEL 3 hoặc production approval.
 
-**Exit:** user can complete the same flow in the browser with no CLI interaction for normal review, while local operator setup/security remains a separate trusted administration boundary.
+## E. GitHub Evidence và validation boundary
 
-### Stage C — Reproducible mock E2E and product acceptance
+Phase 1 chỉ Markdown, không code/schema/template/dependencies/fixture/gold/CI/render.yaml. Branch/final HEAD/TREE/changed paths/local checks/new CI được ghi ở PR167 sau commit; không nhúng SHA tương lai của chính commit. Independent Security/Quality PENDING, self-check không thay reviewer. Không ghi Completed/MERGED trước gate.
 
-Accept **two distinct technical contents** (one text PDF, one DOCX) through explicit permitted fixture admission. Do not treat two file encodings of the same controller as two sources.
+Corpus đã đối chiếu grant PDFs gốc qua Google Patents và USPTO/MPEP ngày 21/11: maps/counts/independent Claims/figure labels phù hợp ở phạm vi quan sát; tests giữ nguyên. Repository chưa pin binary/hash PDF gốc; không claim corpus binary reproducibility.
 
-Demonstrate:
-- source locator/evidence correctness and distinct source fingerprints;
-- end-to-end upload → processing → source-grounded review → revision validation → export with proper filenames, MIME and integrity;
-- controlled Claims behavior: supported standalone capability is not silently used in product; `claims_runtime_implemented=false` and explicit missing/refusal states remain true;
-- negative paths: unsupported or too-large/scanned input, missing support, cross-session misuse, expired session, stale revision/digest, unapproved file/fixture, wrong export authorization, provider/network egress attempt;
-- frontend lint/typecheck/build, backend/MCP, Playwright/browser E2E, security/audit, DOCX/PDF layout QA and exact-HEAD hosted CI.
+## F. Funding-Dependent Backlog
 
-**Exit:** all scoped mock-E2E acceptance tests PASS with no paid provider, verified artifacts and independent review. Declare `API_READY_SYNTHETIC` only with documented criteria; do not equate it to live semantic acceptance or production.
+| Component | Chuẩn bị hiện có | Chờ gì / chưa xác minh |
+|---|---|---|
+| Extraction/draft | OpenAI adapters, prompts/schemas, timeout/retry/output caps, offline preflight | Account/model entitlement, funding/data/call authorization; live chưa chạy |
+| Live spend guard | Checklists và test tripwires | Hard live USD/token/request enforcement NOT_IMPLEMENTED; phải kiểm trước activation |
+| Scientific/Claims acceptance | Evaluator + gold 6 cases/154 items, synthetic authority/refusal tests | Bounded live outputs + Human IP review; EVAL-001 PRODUCT_RUNTIME NOT_DETERMINED |
+| Chat edits/translation | Source/version primitives; target đã mô tả | Chat/prompt integration chưa đầy đủ; interfaces/mock làm được miễn phí |
+| AI image/redraw | Metadata/figure references | Chưa có validated vision/redraw pipeline; API không tự chứng minh fidelity |
 
-### Stage D — Paid-provider pilot (future, separately authorized)
+Prior Art thủ công/auth/RBAC/database/version/audit/export **không bị chặn vì thiếu API**. Không dùng thiếu kinh phí để bỏ qua gap miễn phí.
 
-Prepare provider smoke scripts/default-OFF configs and offline preflight now. Actual provider/model entitlement, cost controls, backend-only secrets, budget enforcement, source permissions, Human/IP evaluation and explicit paid-call authorization remain future gates. **Budget enforcement is NOT_IMPLEMENTED**; a configuration flag or `USD 0` intention is not a runtime cost guard.
+## G. Next Development Task
 
-With approved budget and lawful data, run a bounded live pilot against the accepted evaluation framework, measure grounding/hallucination, disclosure quality, source support, Claims conservatism, error rate, latency and cost. A pilot result is not permission to make filing, novelty or patentability claims.
+Scope nhỏ **P0-CONF rồi P0-PRIOR**, code chỉ sau Phase 1/1B gates. P0-PRIOR dùng manual source/date/query/evidence/limits, buộc có record hoặc `Prior Art Search Incomplete` + actor decision trước drafting; không kết luận tính mới/gọi search provider. Reuse custody revision binding, không external service mới.
 
-## 5. Explicitly defer
-
-Defer multi-user SaaS, account/billing, collaboration platform, cloud databases/vector DB/RAG, prior-art/novelty/FTO automation, OCR/vision, generalized agent orchestration, large UI redesign, automatic product Claims enablement and production/public upload. These are **not prerequisites for the synthetic API-ready milestone**, and would need their own scoped Human decisions if later necessary.
-
-Continue maintaining existing MCP as a development coordination tool. Do not make it the user-document database.
-
-## 6. Recommended next task and authorization boundary
-
-**Next task candidate: `PRODUCT-001B-WEB-001-GAP-AUDIT` (PROPOSED / NOT AUTHORIZED FOR RUNTIME).** Read-only, no code or fixture mutation:
-
-1. Map every required browser action and API route to the *actual accepted-main* backend/frontend implementation, including #164 as a separate unmerged candidate.
-2. Produce a B1–B6 acceptance matrix of `IMPLEMENTED / TESTED / MISSING / BLOCKED` with exact code references.
-3. Reconcile D01–D07 security decisions, session/owner/content lifecycle, two-content fixture admission and output contracts; propose the **smallest next executable increment**, not a complete rewrite.
-4. State all prerequisites and negative security tests, the independent review plan, CI checks, and exact implementation files.
-5. Request a separately scoped Human implementation authorization for the identified gap. No new runtime, provider/Claims activation or production assumption follows from this roadmap.
-
-The Human's request to reassess direction and update repository documentation authorizes this **documentation candidate only**, not Stage B–D implementation, PR merging, data-security policy changes or reviewer bypass.
-
-## 7. Product scorecard and stop rules
-
-| Metric | Near-term acceptance |
-|---|---|
-| Complete browser workflow | Two distinct admitted synthetic sources complete upload-to-export |
-| Grounding | Every represented technical claim/disclosure is linked to source or explicitly flagged for Human confirmation |
-| Document output | Existing v2 export contract and file integrity satisfied; separate review package |
-| Claims | Runtime stays OFF unless separately authorized; unsupported Claims empty/refused |
-| Safety | Auth/session/CSRF/owner/revision gates pass negative tests; no secrets, no provider egress |
-| Reproducibility | Required hosted CI, security artifacts, tests, independent reviews and Human decisions on exact final SHA |
-| Spend | 0 paid provider calls prior to later explicit funding authorization |
-| Semantic quality | NOT DETERMINED until actual authorized model evaluation |
-| Deployment | NOT APPROVED; BLK-003 remains OPEN |
-
-**Stop development expansion** at the verified `API_READY_SYNTHETIC` milestone until real pilot funding/authority exists. Maintain only needed dependency/security fixes and the documented pilot readiness checklist. Never claim that inserting an API key instantly produces a legally complete or filing-ready patent.
-
-## 8. Sources of truth and review request
-
-- [README](../../README.md), [Project Context](../../PROJECT_CONTEXT.md), [system specification](../system-specification.md), [Workflow](../workflow.md)
-- [Website direction decision](../decisions/RESUME-FOUNDATION-001-web-direction.md)
-- [PRODUCT-001B web contract](../tasks/PRODUCT-001B-WEB-001.md) and [API-ready S1 foundation](../tasks/API-READY-WEB-GAP-001B-S1.md)
-- [USPTO target v2](../tasks/P2-001-uspto-target-specification-v2.md), [Claims standalone boundary](../tasks/P2-004-supported-draft-claims.md), [MVP closeout](../operations/FINAL_MVP_CLOSEOUT.md)
-- [Governance AGENTS.md](../../AGENTS.md); [PR #165](https://github.com/nshaokiet/ai-ip-description-generator/pull/165), [#166](https://github.com/nshaokiet/ai-ip-description-generator/pull/166), [#164](https://github.com/nshaokiet/ai-ip-description-generator/pull/164)
-
-**Human review questions:** Approve the website-first priority and the no-rewrite / no-extra-features stop rule? Authorize a separate read-only B-gap audit? After the audit, approve a narrow B implementation slice only with D01–D07 decisions and admitted fixture evidence. Do not merge this docs PR until its own required review/CI and Human approval.
+Changelog 0.1.0 → 0.2.0, 21/11/2026, Codex: Owner-directed expanded gap/roadmap, sửa #165 snapshot, supersede defer Prior Art/internal users. Product planning delta Yes; runtime breaking change No; history/reviews giữ nguyên.

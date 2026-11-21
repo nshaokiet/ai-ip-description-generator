@@ -8,16 +8,25 @@
 |---|---|
 | Document ID | SPEC-002 |
 | Document title | Project Context — AI Intellectual Property Description Generator |
-| Version | 0.4.38 |
+| Version | 0.4.39 |
 | Status | Approved baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT |
 | Reviewer | Human / Product Owner |
 | Created date | 18/09/2026 |
-| Last updated | 05/11/2026 — documentary reconciliation candidate |
+| Last updated | 21/11/2026 — REALIGN-001 candidate |
 | Related task ID | SPEC-002 |
 | Source of Truth | GitHub — `PROJECT_CONTEXT.md` |
 | Confidentiality level | Internal; research inputs are Confidential by default |
+
+### Current product target — 21/11/2026
+
+**Nguyễn Song Hào Kiệt — Independent Developer; sản phẩm phát triển độc lập.**
+[Yêu cầu Owner hiện hành](docs/strategy/AIIP_PRODUCT_REQUIREMENTS.md) và [audit/gap/roadmap](docs/strategy/PRODUCT_DIRECTION_20261121.md) thay ưu tiên sản phẩm cũ: Nonprovisional Utility Patent website; confidentiality trước mọi egress; Prior Art bắt buộc/manual fallback; Claims/figures có support; direct/chat edits; ba loại output VI/EN; Admin/Member, case/version/audit trong roadmap. Không yêu cầu thêm tài liệu như điều kiện intake.
+
+Main `6bb947c1cf67bcfb3ffc935b3a3fafcafb87f0af`; S1 auth đã merge, S2-A164 chưa merge;165 new HEAD4186b7a CI SUCCESS nhưng review/provenance/merge còn chặn. Claims product OFF, provider NOT_RUN, semantic NOT_DETERMINED. AGENTS governance hiện hành giữ nguyên trong Phase 1; proposal tự chủ cần PR riêng/Human approval/integration. Các đoạn phía dưới là lịch sử và approved technical baselines, không mô tả đủ scope sản phẩm hiện tại.
+
+0.4.38 → 0.4.39,21/11/2026,Codex,REALIGN-001: thêm current target/authority pointers, giữ lịch sử. Breaking change No — documentary projection only.
 
 ### Current resume pointer — 05/11/2026
 
