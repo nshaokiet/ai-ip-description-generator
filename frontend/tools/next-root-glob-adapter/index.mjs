@@ -1,6 +1,6 @@
 import path from "node:path";
 import fs from "node:fs";
-import { globSync as tinyGlobSync } from "tinyglobby";
+import { globSync as officialGlobSync } from "glob";
 
 // This is the bounded root-directory API of Next's pinned lint helper, not a
 // general fast-glob replacement. Validate before entering any glob parser.
@@ -59,17 +59,19 @@ export function globSync(pattern, options) {
     try { return fs.statSync(normalized).isDirectory() ? [normalized] : []; }
     catch (error) { if (["ENOENT", "ENOTDIR"].includes(error.code)) return []; throw error; }
   }
-  // fast-glob treats a final globstar as descendants; tinyglobby also matches
-  // the parent. Requiring one terminal entry preserves descendant-only roots.
+  // Requiring one terminal entry preserves the existing descendant-only roots.
   if (normalized === "**" || normalized.endsWith("/**")) normalized += "/*";
-  const results = tinyGlobSync(normalized, {
-    onlyDirectories: true,
-    expandDirectories: false,
+  const results = officialGlobSync(normalized.endsWith("/") ? normalized : normalized + "/", {
+    nodir: false,
     absolute: path.isAbsolute(normalized),
     dot: false,
-    followSymbolicLinks: true,
+    follow: true,
+    nocase: false,
   });
   // Ordering is deliberately deterministic. Next accumulates route URLs from
   // every root; differential route tests verify this does not change findings.
-  return [...new Set(results.map(p => p.length > 1 ? p.replace(/\/$/, "") : p))].sort();
+  return [...new Set(results.map(p => {
+    p = p.replaceAll("\\", "/").replace(/^\/\/\?\//, "");
+    return p.length > 1 ? p.replace(/\/$/, "") : p;
+  }))].sort();
 }

@@ -1,0 +1,268 @@
+{
+  "version": "1.0.0",
+  "source": "tinyglobby0.2.17",
+  "node": "v24.18.0",
+  "source_sha256": "ee408bbc9665cba5800a6b2a0c89dd3df9820baa30d4ff3ba2f2435f16ce9f94",
+  "files": [
+    "tsconfig.json",
+    ".hidden/tsconfig.json",
+    "packages/a/tsconfig.json",
+    "packages/b/tsconfig.json",
+    "packages/a/src/index.ts",
+    "packages/a/src/.private.ts",
+    "packages/a/dist/index.ts",
+    "packages/a/node_modules/dep/index.ts",
+    "src/a.ts",
+    "src/b.tsx",
+    "src/a.js",
+    "space dir/c.ts",
+    "Tiếng Việt/d.ts",
+    "Case/e.ts"
+  ],
+  "cases": [
+    {
+      "patterns": "packages/*/tsconfig.json",
+      "options": {
+        "expandDirectories": false
+      },
+      "expected": [
+        "packages/a/tsconfig.json",
+        "packages/b/tsconfig.json"
+      ]
+    },
+    {
+      "patterns": "**/tsconfig.json",
+      "options": {
+        "expandDirectories": false,
+        "ignore": [
+          "**/node_modules/**"
+        ]
+      },
+      "expected": [
+        "packages/a/tsconfig.json",
+        "packages/b/tsconfig.json",
+        "tsconfig.json"
+      ]
+    },
+    {
+      "patterns": "**/tsconfig.json",
+      "options": {
+        "absolute": true,
+        "dot": true,
+        "expandDirectories": false,
+        "ignore": [
+          "**/node_modules/**"
+        ]
+      },
+      "expected": [
+        "$ROOT/.hidden/tsconfig.json",
+        "$ROOT/packages/a/tsconfig.json",
+        "$ROOT/packages/b/tsconfig.json",
+        "$ROOT/tsconfig.json"
+      ]
+    },
+    {
+      "patterns": [
+        "packages/b/tsconfig.json",
+        "packages/a/tsconfig.json"
+      ],
+      "options": {
+        "absolute": true,
+        "expandDirectories": false
+      },
+      "expected": [
+        "$ROOT/packages/a/tsconfig.json",
+        "$ROOT/packages/b/tsconfig.json"
+      ]
+    },
+    {
+      "patterns": [
+        "packages/*/tsconfig.json",
+        "tsconfig.json"
+      ],
+      "options": {
+        "expandDirectories": false
+      },
+      "expected": [
+        "packages/a/tsconfig.json",
+        "packages/b/tsconfig.json",
+        "tsconfig.json"
+      ]
+    },
+    {
+      "patterns": "**/*",
+      "options": {
+        "absolute": true,
+        "dot": true,
+        "ignore": [
+          "**/node_modules/**",
+          "**/dist/**"
+        ]
+      },
+      "expected": [
+        "$ROOT/.hidden/tsconfig.json",
+        "$ROOT/Case/e.ts",
+        "$ROOT/packages/a/src/.private.ts",
+        "$ROOT/packages/a/src/index.ts",
+        "$ROOT/packages/a/tsconfig.json",
+        "$ROOT/packages/b/tsconfig.json",
+        "$ROOT/space dir/c.ts",
+        "$ROOT/src/a.js",
+        "$ROOT/src/a.ts",
+        "$ROOT/src/b.tsx",
+        "$ROOT/Tiếng Việt/d.ts",
+        "$ROOT/tsconfig.json"
+      ]
+    },
+    {
+      "patterns": [
+        "src",
+        "packages/a/src"
+      ],
+      "options": {
+        "absolute": true,
+        "dot": true
+      },
+      "expected": [
+        "$ROOT/packages/a/src/.private.ts",
+        "$ROOT/packages/a/src/index.ts",
+        "$ROOT/src/a.js",
+        "$ROOT/src/a.ts",
+        "$ROOT/src/b.tsx"
+      ]
+    },
+    {
+      "patterns": "src/*.{ts,tsx}",
+      "options": {
+        "absolute": true,
+        "dot": true
+      },
+      "expected": [
+        "$ROOT/src/a.ts",
+        "$ROOT/src/b.tsx"
+      ]
+    },
+    {
+      "patterns": "packages/{a,b}/src/**/*.ts",
+      "options": {
+        "dot": true,
+        "ignore": [
+          "**/.private.ts"
+        ]
+      },
+      "expected": [
+        "packages/a/src/index.ts"
+      ]
+    },
+    {
+      "patterns": "packages/a/**/*",
+      "options": {
+        "dot": true,
+        "ignore": [
+          "packages/a/dist",
+          "**/node_modules/**"
+        ]
+      },
+      "expected": [
+        "packages/a/src/.private.ts",
+        "packages/a/src/index.ts",
+        "packages/a/tsconfig.json"
+      ]
+    },
+    {
+      "patterns": "missing/**/*.ts",
+      "options": {
+        "dot": true
+      },
+      "expected": []
+    },
+    {
+      "patterns": [],
+      "options": {
+        "absolute": true,
+        "dot": true,
+        "expandDirectories": false
+      },
+      "expected": []
+    },
+    {
+      "patterns": "space dir/*.ts",
+      "options": {
+        "absolute": true,
+        "dot": true
+      },
+      "expected": [
+        "$ROOT/space dir/c.ts"
+      ]
+    },
+    {
+      "patterns": "Tiếng Việt/*.ts",
+      "options": {
+        "absolute": true,
+        "dot": true
+      },
+      "expected": [
+        "$ROOT/Tiếng Việt/d.ts"
+      ]
+    },
+    {
+      "patterns": "Case/*.ts",
+      "options": {
+        "expandDirectories": false
+      },
+      "expected": [
+        "Case/e.ts"
+      ]
+    }
+  ],
+  "dynamic": [
+    {
+      "pattern": "tsconfig.json",
+      "expected": false
+    },
+    {
+      "pattern": "packages/*/tsconfig.json",
+      "expected": true
+    },
+    {
+      "pattern": "**/*.ts",
+      "expected": true
+    },
+    {
+      "pattern": "{a,b}/tsconfig.json",
+      "expected": true
+    },
+    {
+      "pattern": "file[12].ts",
+      "expected": true
+    },
+    {
+      "pattern": "@(a|b)",
+      "expected": true
+    },
+    {
+      "pattern": "a(b)",
+      "expected": true
+    },
+    {
+      "pattern": "{unfinished,",
+      "expected": true
+    },
+    {
+      "pattern": "[unclosed",
+      "expected": false
+    },
+    {
+      "pattern": "!excluded",
+      "expected": true
+    },
+    {
+      "pattern": "",
+      "expected": false
+    },
+    {
+      "pattern": "space dir/file.ts",
+      "expected": false
+    }
+  ]
+}
