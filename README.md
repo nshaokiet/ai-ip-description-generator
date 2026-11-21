@@ -4,6 +4,16 @@
 
 # AI Intellectual Property Description Generator
 
+## Hướng sản phẩm đề xuất — 21/11/2026 (chờ Human review)
+
+**Website-first, API-ready, không xây lại engine:** Hoàn thiện website Next.js + FastAPI với luồng **PDF/DOCX được phép sử dụng → evidence/source locators → draft USPTO-style → Human/IP review và sửa → validate → DOCX/PDF**, tái sử dụng các module và hợp đồng đã có. Mục tiêu kế tiếp là **mock browser end-to-end với hai nội dung synthetic khác nhau**; đây là tiêu chí cần chứng minh, chưa phải kết quả đã PASS.
+
+**Phụ thuộc còn mở:** [PR #165](https://github.com/nshaokiet/ai-ip-description-generator/pull/165) vẫn bị chặn bởi Quality addendum `DEP-RECON-QUAL-001` (MEDIUM / REQUEST CHANGES); [PR #166](https://github.com/nshaokiet/ai-ip-description-generator/pull/166) còn CI security audit FAILURE; [PR #164](https://github.com/nshaokiet/ai-ip-description-generator/pull/164) vẫn là S2-A candidate chưa merge. Không dùng các PR đang mở làm bằng chứng runtime đã được chấp nhận trên `main`.
+
+**Bước sản phẩm tiếp theo được đề xuất:** kiểm kê gap nhỏ nhất của [PRODUCT-001B-WEB-001](docs/tasks/PRODUCT-001B-WEB-001.md) theo code hiện có, xác nhận các quyết định bảo mật D01–D07 và admission hai fixtures trước khi xin scope build. Claims product runtime vẫn **DISABLED**; budget API **USD 0**; provider **NOT_RUN**; semantic acceptance **NOT DETERMINED**; production và dữ liệu nghiên cứu thật/chưa công bố **NOT APPROVED**.
+
+Xem [**Product Direction Reassessment — 2026-11-21 (DRAFT)**](docs/strategy/PRODUCT_DIRECTION_20261121.md) để biết thứ tự thực thi, exit criteria, non-goals và các gate cần phê duyệt. Phần bên dưới giữ lại các trạng thái lịch sử tại ngày ghi tương ứng; proposal này không tự phê duyệt implementation, reviewer verdict, merge hoặc triển khai.
+
 ## Mục tiêu sản phẩm — API-ready, tối giản
 
 **Scientific Paper (PDF/DOCX) → Source-grounded Invention Analysis → Patent Specification + Supported Draft Claims → Human Review → DOCX/PDF**
