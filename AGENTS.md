@@ -8,13 +8,13 @@
 |---|---|
 | Document ID | SPEC-003 |
 | Document title | AGENTS.md — Quy tắc phối hợp AI của dự án |
-| Version | 0.6.3 |
-| Status | Proposed conditional Phase G adoption — pending dual review and accepted merge/postmerge verification |
+| Version | 0.7.0 |
+| Status | GOV-AUTONOMY-001 PROPOSED; current delegation until Owner approval/integration/postmerge verification |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Human / Product Owner |
 | Created date | 18/09/2026 |
-| Last updated | 18/11/2026 |
+| Last updated | 21/11/2026 |
 | Related task ID | SPEC-003 |
 | Source of Truth | GitHub — `AGENTS.md` |
 | Confidentiality level | Internal |
@@ -38,14 +38,14 @@
 
 ## 1. Project identity
 
-- **Project:** AI Intellectual Property Description Generator.
-- **Repository:** `ai-ip-description-generator`.
-- **GitHub:** `https://github.com/nshaokiet/ai-ip-description-generator` — Private, đã xác minh ngày 18/09/2026.
-- **Mục tiêu MVP:** nhận một bài báo khoa học PDF/DOCX, tạo Structured JSON có source evidence, bản dự thảo patent specification cần Human review và DOCX.
-- **Deadline MVP:** 02/10/2026.
-- **Trạng thái dự án:** **MVP COMPLETE — LOCAL/SYNTHETIC**. P1-001 **CLOSED / COMPLETED — MERGED**: application merge `56d7217c0f09fe591585cb298e0b4df0c92f8aa4`, governance closeout merge/current main `88f38851a7c61966eb409172979c62a08fa9e646`.
-- **Ranh giới hiện hành:** EVAL-001 PRODUCT_RUNTIME **DEFERRED — AWAITING FUNDING**; semantic acceptance **NOT_DETERMINED**; provider authorization **NOT GRANTED**, provider/API budget **0**; BLK-003 **OPEN**; production readiness **NO**. P1-002…P1-006 vẫn **PLANNED**, không được tự động phê duyệt. Không suy diễn public deployment hoặc quyền dùng dữ liệu nghiên cứu thật.
-- **Nguyên tắc pháp lý:** output là bản dự thảo, không phải bằng sáng chế, kết luận patentability, tư vấn pháp lý hoặc hồ sơ được bảo đảm chấp thuận.
+- **Project:** AI-IP Description Generator — sản phẩm phát triển độc lập.
+- **Owner:** Nguyễn Song Hào Kiệt — Independent Developer.
+- **Repository:** `https://github.com/nshaokiet/ai-ip-description-generator`, PUBLIC tại audit21/11/2026; không suy quyền public dữ liệu nghiên cứu.
+- **Target:** website Next.js + FastAPI, một PDF/DOCX → source-grounded Nonprovisional Utility Patent draft, có Claims/figures/review/QA/export theo Owner-approved scope; không phải mọi thành phần đã triển khai.
+- **Runtime baseline:** main6bb947c1; local/synthetic modules và S1 auth đã có; product Claims DISABLED, providerNOT_RUN/USD0, semanticNOT_DETERMINED, BLK-003OPEN, productionNOT_APPROVED. PR164/165/166/167 là các candidate riêng, không tự coi đã tích hợp.
+- **Privacy:** công khai tên/Independent Developer/sản phẩm độc lập; không công bố nghề nghiệp riêng tư, quan hệ cơ quan hoặc nguồn giao nhiệm vụ; không suy quyền sở hữu pháp lý.
+- **Authority:** §26 là đề xuất, **chưa có hiệu lực**. Giữ §8.1/§19 hiện hành tới actual Owner approval/integration/postmerge receipt; không tự merge amendment.
+- **Legal boundary:** output là bản thảo cần review, không phải patentability/filing/USPTO approval hoặc bảo đảm cấp bằng.
 
 ## 2. Mục tiêu của AGENTS.md
 
@@ -542,3 +542,34 @@ Human disposition, never silent fallback. No migration or automatic enrollment r
 The governance change is prospective; product/API/schema/template and MCP core stay
 compatible. A separately authorized reviewed revert may restore future V1 preference,
 preserving V2 history and the existing reviewed-disable procedure in §24.6.
+
+
+## 26. Proposed controlled free-development delegation — GOV-AUTONOMY-001
+
+**NOT EFFECTIVE UNTIL HUMAN APPROVAL AND ACCEPTED MAIN INTEGRATION/POSTMERGE VERIFICATION.**
+[Amendment and activation procedure](docs/decisions/GOV-AUTONOMY-001-controlled-free-development.md)
+is the precise prospective scope. This branch does not authorize itself.
+
+After that boundary only, §8.1's individual-task initiation requirement is extended
+for bounded free P0/P1 tasks derived from the Owner-approved REALIGN-001 roadmap:
+Codex records task ID/scope/AC/authority/dependencies, then may plan, implement,
+test/remediate/open PR and normal expected-head merge after genuine separate
+Security AND Quality PASS, exact-head CI/security SUCCESS and all fresh
+scope/PR/base/privacy/platform gates. No repeat permission for routine in-scope
+steps; no automatic approval of an arbitrary backlog or whole-roadmap change.
+
+§19 reserved decisions remain: cost, destructive data action, serious security,
+major architecture or product-goal change, breaking contract/security-policy
+exception, real/confidential research, production/public deployment, missing gate
+or excess platform/GitHub authority. Claims/provider activation are separately
+gated. No paid calls, secret transfer, public signup or production authorization.
+
+Historical V1 and V2 §24/25/G-01–G-09 stay intact. This does not activate risk
+routing/enrollment, bypass MANUAL_EXTERNAL or fabricate reviewer/MCP identity.
+Actual Gemini4ArgonHigh/Antigravity STRICT READ-ONLY provenance remains mandatory;
+Codex self-check never supplies independent PASS. The amendment PR itself must
+be integrated by Owner after approval, not self-merged by Codex.
+
+SPEC-0030.6.3 → 0.7.0,21/11/2026,Codex,GOV-AUTONOMY-001: prospective bounded V1
+delegation and factual independent identity; history preserved. Governance
+breaking change Yes; application/API/schema/template change No. Approval PENDING.
