@@ -1,5 +1,13 @@
 # MVP Processing Workflow
 
+## Proposed development-governance amendment — 21/11/2026
+
+Governance workflow projection0.1.0: [GOV-AUTONOMY-001](decisions/GOV-AUTONOMY-001-controlled-free-development.md), **PROPOSED, NOT EFFECTIVE**. Phase1 audit/product docs/roadmap and Phase1B Human-approved amendment integration/postmerge gates precede Phase2 free development. No self-merge of amendment.
+
+After activation, bounded Owner-approved P0/P1 scope → record task/AC/authority/dependencies → implement/test/remediate → genuine independent Security AND Quality fixed-SHA PASS → required exact-head CI/security and fresh scope/platform checks → normal expected-head merge → exact-main verification/closeout. Cost/destruction/serious-security/major-architecture/product-goal/production/authority exceptions remain with Owner; Claims/real data/provider stay gated.
+
+This does not replace the separately reviewed product-workflow update in PR167. Reconcile both documentation overlays after parent dependencies merge, preserving dated history. Runtime/API/schema/fixtures/Render unchanged.
+
 > Current direction,05/11/2026: website Next.js + FastAPI, upload → source → draft
 > → browser Human review/edit → validate → four USPTO v2 artifacts. This is the
 > target, not a claim that B is implemented. Read [canonical checkpoint](operations/01_PROJECT_CONTROL_CENTER.md#resume-foundation-001-current-baseline),
