@@ -1,7 +1,6 @@
 // Narrow synchronous contract used by pinned typescript-estree project discovery
 // and eslint-import-resolver-typescript. This contains no picomatch/fdir code and
 // is not a general tinyglobby replacement. Unrecognized APIs/options fail closed.
-import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { globSync as officialGlobSync, hasMagic } from "glob";
@@ -47,13 +46,15 @@ export function globSync(patterns, options = {}) {
   if (cwd instanceof URL) cwd = fileURLToPath(cwd);
   if (typeof cwd !== "string") throw new TypeError("Project glob: invalid cwd");
   const include = [], negatives = [];
-  for (let pattern of input) {
+  for (const pattern of input) {
     if (pattern.startsWith("!") && !pattern.startsWith("!(")) { negatives.push(pattern.slice(1)); continue; }
-    if (options.expandDirectories !== false && !isDynamicPattern(pattern)) {
-      try { if (fs.statSync(path.resolve(cwd, pattern)).isDirectory()) pattern = pattern.replace(/\/$/, "") + "/**/*"; }
-      catch (error) { if (!["ENOENT", "ENOTDIR"].includes(error.code)) throw error; }
-    }
-    include.push(pattern);
+    if (options.expandDirectories !== false) {
+      const normalized = pattern.length > 1 ? pattern.replace(/\/$/, "") : pattern;
+      // Keep direct files and directory descendants. At most two derived patterns
+      // per validated input (256 inputs); no filesystem-driven pattern expansion.
+      include.push(normalized);
+      if (!normalized.endsWith("*")) include.push(normalized.endsWith("/") ? `${normalized}**` : `${normalized}/**`);
+    } else include.push(pattern);
   }
   if (!include.length) return [];
   ignores = [...ignores, ...negatives].flatMap(p => [p, p.replace(/\/$/, "") + "/**"]);

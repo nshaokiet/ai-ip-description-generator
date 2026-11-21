@@ -105,6 +105,7 @@ test("advisory repeated extglobs and pathological brace patterns stay bounded", 
     const root=fs.mkdtempSync(path.join(os.tmpdir(),'dep-redos-'));
     try {fs.writeFileSync(path.join(root,'a'.repeat(42)+'!'),'');
       for(const pattern of ['+(*a)','+(*?a)','*(?*a)']) if(globSync(pattern,{cwd:root}).length) throw Error('bad match');
+      if(globSync(Array.from({length:256},(_,i)=>'missing-'+i),{cwd:root}).length) throw Error('bad expanded match');
       for(const pattern of ['{a,b}'.repeat(12),'*'.repeat(65),'a'.repeat(4097)]) {
         let denied=false;try{globSync(pattern,{cwd:root})}catch{denied=true}if(!denied)throw Error('unbounded input');}
     } finally {if(path.dirname(path.resolve(root))!==path.resolve(os.tmpdir())||!path.basename(root).startsWith('dep-redos-'))throw Error('unsafe cleanup');fs.rmSync(root,{recursive:true,force:true});}`;
@@ -112,4 +113,85 @@ test("advisory repeated extglobs and pathological brace patterns stay bounded", 
     timeout: 3000, encoding: "utf8", windowsHide: true });
   assert.equal(result.error, undefined);
   assert.equal(result.status, 0, result.stderr);
+});
+
+
+// Independent synthetic cases for DEP-RECON-QUAL-001. The original frozen
+// tinyglobby baseline above stays unchanged; these exercise its missing contract.
+const expansionRoot = fs.mkdtempSync(path.join(os.tmpdir(), "dep-sec-expansion-"));
+const aFiles = ["packages/a/src/index.ts", "packages/a/src/nested/deep.ts", "packages/a/src/target.ts"];
+const aDots = ["packages/a/src/.hidden/deep.ts", "packages/a/src/.private.ts"];
+const bFiles = ["packages/b/src/index.ts", "packages/b/src/target.ts"];
+const srcFiles = ["src/a.js", "src/a.ts", "src/b.tsx"];
+for (const file of [...aFiles, ...aDots, ...bFiles, ...srcFiles]) {
+  fs.mkdirSync(path.dirname(path.join(expansionRoot, file)), { recursive: true });
+  fs.writeFileSync(path.join(expansionRoot, file), "");
+}
+after(() => {
+  assert.equal(path.dirname(path.resolve(expansionRoot)), path.resolve(os.tmpdir()));
+  assert(path.basename(expansionRoot).startsWith("dep-sec-expansion-"));
+  fs.rmSync(expansionRoot, { recursive: true, force: true });
+});
+const expansionCases = [
+  ["default wildcard directory", "packages/*/src", {}, [...aFiles, ...bFiles]],
+  ["explicit expansion", "packages/*/src", { expandDirectories: true }, [...aFiles, ...bFiles]],
+  ["trailing slash", "packages/*/src/", {}, [...aFiles, ...bFiles]],
+  ["leading dot slash", "./packages/*/src", {}, [...aFiles, ...bFiles]],
+  ["brace directories", "{src,packages/a/src}", {}, [...srcFiles, ...aFiles]],
+  ["character class directories", "packages/[ab]/src", {}, [...aFiles, ...bFiles]],
+  ["extglob directories", "packages/@(a|b)/src", {}, [...aFiles, ...bFiles]],
+  ["globstar directories", "**/src", {}, [...srcFiles, ...aFiles, ...bFiles]],
+  ["nested files and dotfiles", "packages/*/src", { dot: true }, [...aFiles, ...aDots, ...bFiles]],
+  ["negative directory", ["packages/*/src", "!packages/a/src/nested"], {}, [...aFiles.filter(p => !p.includes("/nested/")), ...bFiles]],
+  ["negative dotfile", ["packages/*/src", "!packages/a/src/.private.ts"], { dot: true }, [...aFiles, ...aDots.filter(p => !p.endsWith("/.private.ts")), ...bFiles]],
+  ["ignore directory", "packages/*/src", { ignore: "packages/a/src/nested" }, [...aFiles.filter(p => !p.includes("/nested/")), ...bFiles]],
+  ["ignore leading dot slash", "packages/*/src", { ignore: ["./packages/a/src/nested"] }, [...aFiles.filter(p => !p.includes("/nested/")), ...bFiles]],
+  ["negative leading dot slash", ["packages/*/src", "!./packages/b/src"], {}, aFiles],
+  ["ignore glob subtree", "packages/*/src", { ignore: ["**/nested/**"] }, [...aFiles.filter(p => !p.includes("/nested/")), ...bFiles]],
+  ["disabled wildcard expansion", "packages/*/src", { expandDirectories: false }, []],
+  ["disabled static expansion", "packages/a/src", { expandDirectories: false }, []],
+  ["disabled file matching", "packages/*/src/*.ts", { expandDirectories: false }, [...aFiles.filter(p => !p.includes("/nested/")), ...bFiles]],
+  ["direct brace file glob", "src/*.{ts,tsx}", {}, ["src/a.ts", "src/b.tsx"]],
+  ["direct literal file", "src/a.ts", {}, ["src/a.ts"]],
+  ["mixed file and directory brace", "{src/*,packages/a/src}", {}, [...srcFiles, ...aFiles]],
+  ["terminal wildcard remains direct", "packages/*", {}, []],
+  ["terminal wildcard with slash", "packages/*/", {}, []],
+  ["static directory", "packages/a/src/", {}, aFiles],
+];
+for (const [name, patterns, options, expected] of expansionCases) test(`directory expansion: ${name}`, () => {
+  const actual = globSync(patterns, { cwd: expansionRoot, ...options }).map(slash).sort();
+  assert.deepEqual(actual, [...expected].sort());
+  const absolute = globSync(patterns, { cwd: expansionRoot, ...options, absolute: true });
+  assert.deepEqual(absolute.map(p => slash(path.relative(expansionRoot, p))).sort(), [...expected].sort());
+});
+
+for (const include of ["packages/*/src", "packages/[ab]/src"]) test(`actual resolver selects owning tsconfig for ${include}`, t => {
+  const fixture = fs.mkdtempSync(path.join(os.tmpdir(), "dep-sec-resolver-"));
+  t.after(() => {
+    assert.equal(path.dirname(path.resolve(fixture)), path.resolve(os.tmpdir()));
+    assert(path.basename(fixture).startsWith("dep-sec-resolver-"));
+    fs.rmSync(fixture, { recursive: true, force: true });
+  });
+  for (const file of ["packages/a/src/index.ts", "packages/a/src/target.ts", "packages/legacy/src/target.ts"]) {
+    fs.mkdirSync(path.dirname(path.join(fixture, file)), { recursive: true });
+    fs.writeFileSync(path.join(fixture, file), "export const synthetic = 1;");
+  }
+  const configs = ["legacy", "packages"].map(name => path.join(fixture, `tsconfig.${name}.json`));
+  for (const [index, config] of configs.entries()) fs.writeFileSync(config, JSON.stringify({
+    compilerOptions: { baseUrl: ".", paths: { "@shared/*": [index ? "packages/a/src/*" : "packages/legacy/src/*"] } },
+    include: index ? [include] : ["packages/legacy/src"],
+  }));
+  const resolverEntry = configRequire.resolve("eslint-import-resolver-typescript");
+  assert.equal(JSON.parse(fs.readFileSync(path.join(path.dirname(resolverEntry), "../package.json"))).version, "3.10.1");
+  const resolved = configRequire("eslint-import-resolver-typescript").resolve("@shared/target",
+    path.join(fixture, "packages/a/src/index.ts"), { project: configs });
+  assert.equal(resolved.found, true);
+  assert.equal(slash(resolved.path), slash(path.join(fixture, "packages/a/src/target.ts")));
+  assert.notEqual(slash(resolved.path), slash(path.join(fixture, "packages/legacy/src/target.ts")));
+});
+
+test("directory expansion preserves bounded pattern and ignore arrays", () => {
+  assert.deepEqual(globSync(Array(256).fill("missing-directory"), { cwd: expansionRoot }), []);
+  assert.throws(() => globSync(Array(257).fill("missing-directory")), /bounded pattern array/);
+  assert.throws(() => globSync("packages/*/src", { ignore: Array(257).fill("missing") }), /invalid ignore array/);
 });
