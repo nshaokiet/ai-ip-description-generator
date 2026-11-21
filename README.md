@@ -47,6 +47,7 @@ Dự án hướng tới một **website Next.js + FastAPI** giúp nhóm nghiên 
 
 | Workstream | Trạng thái và giới hạn đã xác minh |
 |---|---|
+| GOV-REVIEWER-002 | [Permanent reviewer policy](docs/decisions/GOV-REVIEWER-002-permanent-reviewer-model.md): Human APPROVED, effective 18/11/2026 — **Gemini 4 Argon (High), STRICT READ-ONLY**, áp dụng ngay cho PR #165 và các Security/Quality review hiện tại/tương lai; documentation-only Draft candidate. Legacy version validator **BLOCKED**; review/CI và Human merge authorization vẫn là gate riêng. |
 | API-READY-001-A | [PR #161](https://github.com/nshaokiet/ai-ip-description-generator/pull/161) **MERGED / postmerge CI/security PASS**; kiểm thử offline **2 nguồn synthetic khác nội dung** qua pipeline hiện có. Không có xác nhận API thật hoặc xử lý tùy ý mọi paper. |
 | PREAPI-D | [PR #141](https://github.com/nshaokiet/ai-ip-description-generator/pull/141) **MERGED**, [exact-main CI #42616869824](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/42616869824) SUCCESS; CLI offline preflight chỉ kiểm tra SDK, prompt/schema, cấu hình và cờ default-OFF. `future_live_budget_enforcement=NOT_IMPLEMENTED`, model entitlement UNVERIFIED. |
 | PREAPI-E | [PR #142](https://github.com/nshaokiet/ai-ip-description-generator/pull/142) **MERGED**; exact-main #42625564182 đang chờ closeout hậu merge khi ghi nhận. Bộ dữ liệu gold đã chấp nhận: **6 cases / 154 items (102 KEY, 52 SECONDARY)**; không đo chất lượng của AI thật. |

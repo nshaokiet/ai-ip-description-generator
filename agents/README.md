@@ -78,6 +78,16 @@ artefacts. Each review must identify the exact spec SHA, base SHA, implementatio
 SHA, evidence inspected, findings, blocking findings, verdict, attribution, and
 whether tracked implementation files were modified.
 
+For actual reviewer selection use the [permanent Human policy effective
+2026-11-18](../docs/decisions/GOV-REVIEWER-002-permanent-reviewer-model.md):
+**Gemini 4 Argon (High), STRICT READ-ONLY**, with actual model/profile/session ID
+and freshness/reuse recorded separately for independent Security and Quality
+streams. If unavailable, STOP and obtain explicit Human authorization before
+substitution. Role contracts remain model-independent; selection does not
+activate/enroll V2 or waive exact-HEAD CI/security or Human merge gates.
+Documentation addendum 0.1.0, 2026-11-18, Codex; package/manifest version0.2.2 and
+role-authority contracts unchanged; no product/API breaking change.
+
 The canonical durable location defined by the GOV-AGENT-001 specification is:
 
 ```text
