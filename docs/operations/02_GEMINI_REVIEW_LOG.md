@@ -10,13 +10,13 @@
 | Document title | Gemini Review Log |
 | Project | AI Intellectual Property Description Generator |
 | Project deadline | 02/10/2026 |
-| Version | 0.3.69 |
+| Version | 0.3.71 |
 | Status | Active review log |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High + Gemini 3.8 Flash High (historical); Google Antigravity (Advanced Agentic Coding) for REV-P0-006-IMPLEMENTATION, REV-P0-007-SPECIFICATION, REV-P0-007-IMPLEMENTATION and REV-P0-008-SPECIFICATION; Google Antigravity / Gemini 1.5 Pro (Advanced Agentic Coding) for REV-P0-008-IMPLEMENTATION; Gemini 3.1 Pro High for REV-P0-009-IMPLEMENTATION, REV-EVAL-001-SPECIFICATION, REV-EVAL-001-FRAMEWORK-IMPLEMENTATION, REV-EVAL-001-GOLD, REV-P0-010-FINAL-CLOSEOUT, REV-P1-001-IMPLEMENTATION, REV-DEPLOY-001-ROADMAP, REV-P1-002-IMPLEMENTATION, REV-P1-003-IMPLEMENTATION, REV-P1-003-CLOSEOUT, REV-P1-004-IMPLEMENTATION, REV-P1-004-CLOSEOUT, REV-P1-005-IMPLEMENTATION, REV-P1-005-CLOSEOUT, REV-P1-006-IMPLEMENTATION, REV-P1-006-CLOSEOUT, REV-DEPLOY-001-IMPLEMENTATION, REV-DEPLOY-001-REWRITE-REMEDIATION, REV-P2-001-IMPLEMENTATION, REV-P2-000-SPECIFICATION, REV-P2-000-IMPLEMENTATION, REV-P2-000-R2-IMPLEMENTATION, REV-P2-000-R3-IMPLEMENTATION and REV-P2-000-R3-CLOSEOUT |
 | Created date | 18/09/2026 |
-| Last updated | 08/11/2026 GMT+7 — C2 specification-only recovery; earlier reports preserved |
+| Last updated | 21/11/2026 GMT+7 — PR165 evidence reconciliation; previous history preserved |
 | P2-002 reviewer / task | Gemini 3.1 Pro High / Antigravity read-only; REV-P2-002-SPECIFICATION, REV-P2-002-IMPLEMENTATION and REV-P2-002-CLOSEOUT |
 | P2-004 reviewer / task | Gemini 3.1 Pro High / Antigravity read-only; REV-P2-004-SPECIFICATION, IMPLEMENTATION and CLOSEOUT all CLOSED — PASS / findings NONE; separate final-status reconciliation fixed-SHA review PENDING; Human-supplied external review evidence, not GitHub-native approval |
 | P2-003 reviewer / task | Gemini 3.1 Pro High / Antigravity read-only; REV-P2-003-SPECIFICATION, REV-P2-003-IMPLEMENTATION and REV-P2-003-CLOSEOUT; Human-supplied external review evidence, not GitHub-native approval; implementation and closeout reviews CLOSED — PASS / findings NONE |
@@ -4083,3 +4083,16 @@ and [safe receipt](../qa/product-001b-web-001-post154-recovery-20261107.json).
   BP402A integration established, BP404new-candidate CI tracked post-commit.
   Raw originals/session/paths/logs private; no native approval, merge, deployment,
   paid API or confidential source use. Format unchanged; Breaking change: No.
+
+
+## DEP-SEC-20261118-001 — independent session reconciliation (21/11/2026)
+
+[Versioned evidence reconciliation](DEP-SEC-20261118-001-review-reconciliation.md) records independently inspected original/backup hashes, full transcripts/metadata and separate child-authored Security/Quality PASS on exact HEADb4e7db7/TREE4b359e07. Child models consistently gemini-4-argon-high; distinct fresh contexts/no observed peer-verdict reads; read-only source/probe/test execution under procedural trust. Shared parent published expanded Markdown narratives; child execution and hosted CI attribution are distinguished. Raw sessions/transcripts remain private.
+
+Original report fingerprints: Security17638bytes SHA2564ee180bedc78404a2cba4e576b64171cd545f160c95e30c0ca4fc42f3f5eb6cd; Quality16992bytes SHA25600f9cd228b2f18575167a5210f07b76081497e73db6fa0ab8d5e5128903b1765; each backup byte-identical. Exact-head CI44263429631SUCCESS; retained security archive verified and fresh full/production audits0/0. These remain external reviews, not native GitHub approvals.
+
+LOW DEP-SEC-F-01 remains non-blocking. Quality's DEP-QUAL-F-01 CLOSED is PARTIALLY ACCEPTED: dynamic-directory subitem3 remains unresolved because transcript DIFF outputs and Codex's actual-consumer-options probe show original one-file selection vs replacement empty. MEDIUM DEP-RECON-QUAL-001 OPEN/merge hold; independent Quality addendum required, no code remediation authorized here. Preserve reviewer PASS and contradictory evidence together. Historical AUTHORIZATION_PROVENANCE_NOT_VERIFIED remains OPEN per actual Human2026-11-21; no retrospective receipt or merge authorization. PR165 remains OPEN/DRAFT/UNMERGED;164/166 untouched.
+
+REVIEW-0010.3.69→0.3.71,2026-11-21,Codex: append actual reconciliation/findings/attribution; preserve all earlier reports and decisions. Format unchanged; Breaking change:No. Documentary branch candidate, not accepted main/task closeout.
+
+Version0.3.70 remains reserved by the unchanged PR164 candidate; this separate main-based reconciliation uses0.3.71 without overwriting that history.
