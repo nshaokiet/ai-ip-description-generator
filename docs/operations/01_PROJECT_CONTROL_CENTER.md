@@ -8,16 +8,24 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.110 |
+| Version | 0.3.114 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
-| Reviewer | Gemini 3.1 Pro High |
+| Reviewer | Historical baseline Gemini3.1; P0-CONF requested Gemini4 Argon(High) Security/Quality PENDING |
 | Created date | 18/09/2026 |
-| Last updated | 08/11/2026 GMT+7 — C2 spec-only post-PR155 recovery; history preserved |
+| Last updated |22/11/2026 Asia/Saigon — P0-CONF candidate; historical records preserved |
 | Related task ID | SPEC-004 |
 | Source of Truth | Operational status bridge; bản nguồn Git tại `docs/operations/01_PROJECT_CONTROL_CENTER.md` |
 | Confidentiality level | Public-safe documentary projection; original internal records retained privately |
+
+## P0-CONF — scoped implementation candidate22/11/2026
+
+Owner actual22/11 AUTONOMOUS PROJECT CONTINUATION C1 P0.1 permits FREE task under existing governance. Separate branch from main6bb947c, no dependency on unmerged167/168 code/policy. [P0-CONF task/review/handoff](../tasks/P0-CONF.md): native offline classification/grant/check/revoke bound to actual source revision, exact payload, owner/destination/purpose/expiry. Reuses existing digest/bounded review snapshot/tripwire. Provider routes unchanged; no claim full website confidentiality is implemented.
+
+IMPLEMENTED_CANDIDATE /INTEGRATION_PENDING /BLOCKED_REVIEW, not Completed. Final tests/HEAD/TREE/new CI in PR receipt; existing main Next audit/build fails,165 remediation pending integration. Antigravity IDE exists but computer-use runtime failed twice; actual independent Gemini4Argon(High) Security/Quality execution NOT_RUN; MCP operational task/lease NOT_VERIFIED/tool unavailable. No fake PASS, V2 migration,168 self-merge, paid call, real paper, Claims activation or deployment. Next consumer requires reviewed contract and applicable gates; preserve historical165 provenance limitation.
+
+OPS-0010.3.110→0.3.114,22/11/2026,Codex: independent P0-CONF candidate checkpoint;111–113 are separate unmerged167 documentary revisions, not overwritten or adopted. Breaking changeNo. Records below are historical source snapshots.
 
 ## RESUME-FOUNDATION-001 current baseline
 
