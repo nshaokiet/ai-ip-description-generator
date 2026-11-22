@@ -8,16 +8,24 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.110 |
+| Version | 0.3.116 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High |
 | Created date | 18/09/2026 |
-| Last updated | 08/11/2026 GMT+7 — C2 spec-only post-PR155 recovery; history preserved |
+| Last updated |22/11/2026 Asia/Saigon — P0-OUTPUT candidate; history preserved |
 | Related task ID | SPEC-004 |
 | Source of Truth | Operational status bridge; bản nguồn Git tại `docs/operations/01_PROJECT_CONTROL_CENTER.md` |
 | Confidentiality level | Public-safe documentary projection; original internal records retained privately |
+
+## P0-OUTPUT — existing renderer business documents22/11/2026
+
+Actual Human NEXT DEVELOPMENT EXECUTION Phase2 authorizes this separate main-based task. [Task/contract/test/handoff](../tasks/P0-OUTPUT.md): extend existing renderer/validator/fonts and pinned LibreOffice QA; Patent/Annotated/Analysis3×DOCX/PDF plus provenance manifest.22 local PASS; VI/EN labels with source technical text unchanged, no translation semantic claim. Actual Prior Art/figure/approval gaps remain explicit; no provider/browser/Claims activation or unmerged169/170 import.
+
+IMPLEMENTED_CANDIDATE /INTEGRATION_PENDING /REVIEW_PENDING, not Completed. Hosted native/DOCX layout and final SHA/CI/visual evidence in PR receipt; no PASS inferred. Current frontend graph failure persists outside disposable165 probe; Antigravity UI tool fails, required independent streams NOT_RUN.165 historical AUTHORIZATION_PROVENANCE_NOT_VERIFIED and168 NOT_EFFECTIVE unchanged. No paid API/real paper/deploy/merge.
+
+OPS-0010.3.110→0.3.116,22/11/2026,Codex: P0-OUTPUT candidate.111–115 remain separate pending candidate revisions, not silently adopted. Breaking changeNo. Earlier baseline below is historical.
 
 ## RESUME-FOUNDATION-001 current baseline
 

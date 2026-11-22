@@ -21,7 +21,7 @@ sys.path.insert(0, str(ROOT))
 from test_uspto_document_package_v1 import inputs, run
 from backend.app.services.uspto_offline_renderer import (
     BANNER, CLAIMS_INCOMPLETE, FILES, render_uspto_document_package,
-    _build_model,
+    _build_model, _business_models, render_business_document_set,
 )
 from verify_p2_006_qa_environment import verify
 
@@ -62,6 +62,46 @@ def synthetic_figure_layout(qa_root: Path) -> None:
         "pdftoppm", "-f", "1", "-l", "1", "-r", "200", "-singlefile",
         "-png", str(path), str(qa_root / "SYNTHETIC_DRAWING_LAYOUT_QA"),
     ])
+
+
+def business_output_layout(qa_root, originals, package):
+    """Render all business PDFs and editable DOCX with the existing pinned tools."""
+    import shutil
+    results = {}
+    for language in ("en", "vi"):
+        outputs = render_business_document_set(package, **originals,
+            output_dir=qa_root, template_language=language)
+        models = _business_models(package, originals, language)
+        for kind, model in models.items():
+            tag = f"BUSINESS-{language}-{kind}"
+            expected = [section.heading for section in model.sections]
+            expected += [part.text for section in model.sections for part in section.parts]
+            conversion = qa_root / (".convert-" + tag)
+            conversion.mkdir()
+            office = qa_root / (".lo-" + tag)
+            check(["soffice", "-env:UserInstallation=" + office.as_uri(),
+                "--headless", "--convert-to", "pdf", "--outdir", str(conversion),
+                str(outputs[kind + ".docx"])])
+            rendered = conversion / (kind + ".pdf")
+            if not rendered.is_file():
+                raise AssertionError("Business DOCX conversion unavailable")
+            result = {"template_language": language, "translation": "NOT_VALIDATED",
+                "docx_sha256": hashlib.sha256(outputs[kind + ".docx"].read_bytes()).hexdigest(),
+                "engines": {}}
+            for engine, path in (("NATIVE", outputs[kind + ".pdf"]), ("LO", rendered)):
+                pages, text = normalized_pdf(path)
+                assert pages and all("DRAFT" in page for page in pages)
+                assert all(re.sub(r"\s+", " ", fragment) in text for fragment in expected)
+                archived_pdf = qa_root / (tag + "-" + engine + ".pdf")
+                shutil.copyfile(path, archived_pdf)
+                for number in range(1, len(pages) + 1):
+                    check(["pdftoppm", "-f", str(number), "-l", str(number), "-r", "150",
+                        "-singlefile", "-png", str(path), str(qa_root / f"{tag}-{engine}-p{number:02}")])
+                result["engines"][engine] = {"pages": len(pages), "all_fragments_preserved": True,
+                    "pdf_sha256": hashlib.sha256(path.read_bytes()).hexdigest()}
+            results[tag] = result
+            print(f"BUSINESS_LO_QA {tag}: native{result['engines']['NATIVE']['pages']} / LO{result['engines']['LO']['pages']} pages, all source fragments preserved")
+    (qa_root / "business-output-qa.json").write_text(json.dumps(results, indent=2) + "\n")
 
 
 def main() -> None:
@@ -141,6 +181,7 @@ def main() -> None:
         print(f"LO_QA {profile}: {len(pages)} pages, editable DOCX converted, text markers verified")
 
     (qa_root / "synthetic-qa-evidence.json").write_text(json.dumps(evidence, indent=2)+"\n")
+    business_output_layout(qa_root, originals, package)
 
 
 if __name__ == "__main__":
