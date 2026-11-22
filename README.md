@@ -6,13 +6,13 @@ Website Next.js + FastAPI hỗ trợ chuyển một bài báo PDF/DOCX thành b�
 
 **Workflow mục tiêu:** Intake → Scientific Analysis → Confidentiality Control → Prior Art Search → Specification → Claims → Figures → Editing → QA → Human Review → Export. Phân loại/xác nhận bảo mật phải hoàn tất **trước mọi egress**, kể cả analysis và search. Prior Art là bước bắt buộc; cho phép nhập thủ công và chuyên viên tiếp tục với `Prior Art Search Incomplete` có ghi nhận.
 
-**Ba loại output mục tiêu:** Patent Draft, Annotated Draft, Analysis Report; tiếng Việt hoặc tiếng Anh. USPTO Application Draft là mặc định, Reference Patent Style là tùy chọn. Draft được xuất dù chưa hoàn chỉnh kèm DRAFT/cảnh báo; chỉ Admin duyệt `Approved for Export`. Đây là approval nội bộ.
+**Ba loại output mục tiêu:** Patent Draft, Annotated Draft, Analysis Report; tiếng Việt hoặc tiếng Anh. USPTO Application Draft là mặc định, Reference Patent Style là tùy chọn. Draft được xuất dù chưa hoàn chỉnh kèm DRAFT/cảnh báo và quyền hồ sơ hợp lệ; security/revision/integrity/confidentiality vẫn bắt buộc; chỉ Admin duyệt `Approved for Export`. Đây là approval nội bộ.
 
 - [Yêu cầu sản phẩm và workflow mục tiêu](docs/strategy/AIIP_PRODUCT_REQUIREMENTS.md)
 - [Repository audit, Feature Gap Matrix, roadmap P0/P1/P2 và funding backlog](docs/strategy/PRODUCT_DIRECTION_20261121.md)
 - [Control Center — current checkpoint](docs/operations/01_PROJECT_CONTROL_CENTER.md#realign-001--current-checkpoint-21112026)
 
-## Project status — 21/11/2026
+## Project status — 22/11/2026
 
 | Hạng mục | Thực tế |
 |---|---|
@@ -22,11 +22,11 @@ Website Next.js + FastAPI hỗ trợ chuyển một bài báo PDF/DOCX thành b�
 | S2-A browser bridge | [#164](https://github.com/nshaokiet/ai-ip-description-generator/pull/164) OPEN/DRAFT, chưa ở main |
 | Dependency remediation | [#165](https://github.com/nshaokiet/ai-ip-description-generator/pull/165) HEAD `4186b7a…`, CI44905331090 SUCCESS; fresh Security/Quality/provenance/Human merge gates còn thiếu |
 | Reviewer policy | [#166](https://github.com/nshaokiet/ai-ip-description-generator/pull/166) OPEN/DRAFT, CI44889601897 FAILURE ở audit; direct Owner chọn Gemini 4 Argon (High), read-only |
-| Product realignment | [#167](https://github.com/nshaokiet/ai-ip-description-generator/pull/167) documentation candidate; exact-new-HEAD CI và independent reviews cần kiểm riêng |
+| Product realignment | [#167](https://github.com/nshaokiet/ai-ip-description-generator/pull/167) Phase1 PENDING; candidate CI44925203009 FAIL tại audit kế thừa; cập nhật22/11 tiếp tục cùng PR, new-head CI/review cần kiểm riêng |
 | Prior Art / consent / figures / report exports | Có gaps được ghi trong roadmap; chưa phải workflow hoàn chỉnh |
 | Claims / API / semantic / production | Product Claims DISABLED; USD 0/provider NOT_RUN; semantic NOT_DETERMINED; production NOT_APPROVED |
 
-**Thứ tự:** hoàn tất Phase 1 docs/review/CI → Phase 1B governance PR riêng, Human approval và integration → Phase 2 free development có gate. Không tự merge amendment hoặc triển khai production. Next business slice: P0-CONF rồi manual P0-PRIOR, reuse custody/source revisions. API_READY_SYNTHETIC không thay P1 operational readiness hoặc live AI validation.
+**Lượt22/11:** Phase0 preflight → Phase1 cập nhật định hướng → Phase2 inventory → Phase3 roadmap. Phase1 chưa tích hợp thì inventory chỉ read-only theo ngoại lệ Owner, không bắt đầu feature work. PR168 NOT_EFFECTIVE; task tiếp theo phải được phê duyệt theo V1 hiện hành. Không tự merge amendment hoặc triển khai production. Next business slice: P0-CONF rồi manual P0-PRIOR, reuse custody/source revisions. API_READY_SYNTHETIC không thay P1 operational readiness hoặc live AI validation.
 
 UI còn legacy attribution; sửa ở task P0-ID sau gates. README này không xác lập quan hệ với một tổ chức hoặc kết luận ownership pháp lý.
 

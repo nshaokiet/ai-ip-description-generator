@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.111 |
+| Version | 0.3.112 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -18,6 +18,12 @@
 | Related task ID | SPEC-004 |
 | Source of Truth | Operational status bridge; bản nguồn Git tại `docs/operations/01_PROJECT_CONTROL_CENTER.md` |
 | Confidentiality level | Public-safe documentary projection; original internal records retained privately |
+
+## REALIGN-001 — continuation22/11/2026
+
+Tiếp tục PR167 từ d2ff45c; Owner cho Phase0preflight→Phase1direction→Phase2inventory→Phase3roadmap. Đã cập nhật và đối chiếu direction checkpoint trước inventory. Phase1 **PENDING integration/review/security CI**, không Completed. Theo ngoại lệ Owner, bước tiếp theo chỉ inventory read-only trên main/candidate đã xác định; không feature work. PR168 NOT_EFFECTIVE; AGENTS/V1 authority unchanged; task mới phải có phê duyệt riêng, không coi roadmap là implementation permission. No paid/provider/real research/deploy/Claims activation. Checkpoint21/11 bên dưới giữ lịch sử.
+
+OPS-0010.3.111→0.3.112,22/11/2026,Codex: actual Owner continuation/phase gate; no runtime/governance policy change.
 
 ## REALIGN-001 — current checkpoint 21/11/2026
 

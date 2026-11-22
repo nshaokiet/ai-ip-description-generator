@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | SPEC-001 |
 | Document title | Đặc tả hệ thống — AI Intellectual Property Description Generator |
-| Version | 0.3.8 |
+| Version | 0.3.9 |
 | Status | Approved baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT |
@@ -30,6 +30,12 @@ Các mục MVP bên dưới giữ approved technical baseline: “Claims ngoài 
 Runtime/production acceptance và independent/CI/security gates không đổi. Governance autonomy amendment được review riêng trước hiệu lực. Phiên bản này không freeze executable product contract mới.
 
 0.3.7 → 0.3.8,21/11/2026,Codex,REALIGN-001: documentary target/supersession overlay, không rewrite lịch sử. Breaking change No — không đổi API/schema/template.
+
+
+
+Checkpoint22/11/2026: định nghĩa Phase0–3 của lượt này theo [requirements](strategy/AIIP_PRODUCT_REQUIREMENTS.md); Phase1 chưa merge cho phép inventory read-only sau đối chiếu định hướng, không phải feature development. PR168 NOT_EFFECTIVE; authority V1 không đổi. Draft-export incomplete không bypass quyền hồ sơ/revision/integrity/confidentiality; chỉ Admin duyệt bản cuối trong target.
+
+0.3.8→0.3.9,22/11/2026,Codex,REALIGN-001: documentary phase/export reconciliation; breaking change No.
 
 ## 2. Lịch sử phiên bản
 

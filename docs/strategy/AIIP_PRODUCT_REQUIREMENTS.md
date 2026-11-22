@@ -2,7 +2,7 @@
 
 | Trường | Giá trị |
 |---|---|
-| ID / version / date | REALIGN-001-REQ / 1.0.0 / 21/11/2026, Asia/Saigon |
+| ID / version / date | REALIGN-001-REQ / 1.0.1 / 22/11/2026, Asia/Saigon |
 | Owner | Nguyễn Song Hào Kiệt — Independent Developer |
 | Status | Yêu cầu từ Owner; cập nhật repository chờ review/CI/integration |
 | Scope / authority | Tài liệu theo Master Project Realignment ngày 21/11/2026; không đổi runtime hoặc quyền merge |
@@ -10,6 +10,11 @@
 AI-IP Description Generator là sản phẩm phát triển độc lập: website Next.js + FastAPI hỗ trợ chuyển một bài báo PDF/DOCX thành bản thảo **Nonprovisional Utility Patent** có căn cứ để chuyên viên/đại diện sáng chế rà soát. Đây là mục tiêu, không phải tuyên bố mọi chức năng đã hoạt động. Xem [audit và roadmap](PRODUCT_DIRECTION_20261121.md).
 
 Thông tin công khai về chủ dự án chỉ dùng tên, **Independent Developer** và sản phẩm phát triển độc lập. Không công bố thông tin nghề nghiệp riêng tư, quan hệ cơ quan hoặc nguồn giao nhiệm vụ. Không suy luận quyền sở hữu pháp lý đối với sản phẩm.
+
+## Hai mục tiêu cốt lõi
+
+1. **Standardized Patent Drafting:** một quy trình chuyển paper thành bản thảo có cấu trúc, source evidence và điểm kiểm tra của chuyên viên.
+2. **U.S. Patent Application Preparation:** tạo nền tảng cho chuyên viên/đại diện sáng chế tiếp tục chuẩn bị hồ sơ; không tự nộp, không chứng nhận filing-ready hoặc patentability.
 
 ## Phạm vi
 
@@ -33,7 +38,7 @@ Bằng chứng kỹ thuật dùng cho invention description/Claims phải từ b
 | 7. Figure Redrawing | Bảo toàn topology, nhãn, số liệu và ý nghĩa; liên kết hình gốc–bản vẽ–description, Figure numbers/reference numerals. Chưa chứng minh fidelity: `REVIEW_REQUIRED`, không xuất như hình đã hợp lệ. |
 | 8. Editing | Direct edit và chat theo section/Claim/figure; lưu actor/time/reason/before-after versions. Không ghi đè approved version; thay đổi làm mất hiệu lực review liên quan. |
 | 9. QA | Tám lớp: structure/format, scientific accuracy, Claims support/consistency, figure fidelity, traceability, unsupported content, contradictions, missing information. Chỉ tự sửa format/lỗi xác minh chắc chắn; thay đổi nghiêm trọng Claims/thông số/hình cần chuyên viên xác nhận. Có báo cáo QA. |
-| 10. Human Review & Export | `Draft → Under Review → Revision Required → Under Review`, hoặc Admin duyệt `Approved for Export`. Member trong quyền hồ sơ được xuất DRAFT ở mọi trạng thái, kèm cảnh báo/phần thiếu. Approved là phê duyệt nội bộ, không phải chấp thuận pháp lý USPTO. |
+| 10. Human Review & Export | `Draft → Under Review → Revision Required → Under Review`, hoặc Admin duyệt `Approved for Export`. Member trong quyền hồ sơ được xuất DRAFT dù thiếu thông tin, kèm cảnh báo/phần thiếu và quyết định tiếp tục của chuyên viên. Quyền hồ sơ, đúng revision, file integrity và confidentiality vẫn bắt buộc; quyền xuất nháp không phải bypass security hoặc giả support cho Claims. Approved là phê duyệt nội bộ, không phải chấp thuận pháp lý USPTO. |
 
 ## Tài liệu đầu ra và kiểu trình bày
 
@@ -74,6 +79,10 @@ Development trong scope được tự thực hiện; staging chỉ miễn phí, 
 
 Owner directive ngày 21/11 thay đề xuất hoãn Prior Art/internal users: Prior Art thuộc P0, Admin/Member/persistence thuộc P1, confidentiality là P0 trước egress. Giữ schema/runtime/evidence lịch sử, không hồi tố approval PR cũ.
 
-Thứ tự bắt buộc: Phase 1 audit/docs/roadmap → Phase 1B governance PR riêng/Human approval/integration → Phase 2 free development sau gates → Phase 3 paid API sau funding. Quyền tự merge đề xuất chưa có hiệu lực. V1, review độc lập và CI/security hiện hành vẫn bắt buộc.
+**Thuật ngữ điều hành theo instruction ngày22/11/2026:** Phase0 minimal preflight → Phase1 đối chiếu/cập nhật định hướng → Phase2 repository reality check → Phase3 gap analysis/roadmap. Nếu Phase1 chưa tích hợp, chỉ dùng ngoại lệ Owner cho phép kiểm kê read-only sau khi định hướng đã được cập nhật/đối chiếu; ghi rõ branch candidate, không gọi Phase1 Completed hoặc bắt đầu feature development.
+
+PR168 là governance proposal NOT_EFFECTIVE, không là điều kiện để làm read-only inventory hoặc task đã được Human cho phép riêng theo V1. Không coi proposal là standing approval cho backlog. Các nhãn cũ “Phase1B/governance → Phase2 free development → Phase3 paid API” chỉ nói về proposal phát triển tương lai, không phải ba giai đoạn của lượt kiểm kê này. Runtime task tiếp theo vẫn cần ID/scope/AC/authorization theo governance hiện hành; production/paid/real-data/Claims activation cần gate riêng.
 
 Changelog: new 1.0.0, 21/11/2026, Codex, REALIGN-001; Owner-directed product scope delta Yes; executable API/schema/template change No.
+
+Changelog1.0.0→1.0.1,22/11/2026,Codex: hai objectives, thuật ngữ Phase0–3 theo Owner, draft-export/security separation; không đổi runtime/governance authority.

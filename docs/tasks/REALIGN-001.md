@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| Version / date / agent | 0.1.0 / 21/11/2026 Asia/Saigon / Codex |
+| Version / date / agent | 0.1.1 / 22/11/2026 Asia/Saigon / Codex |
 | Owner | Nguyễn Song Hào Kiệt — Independent Developer |
 | Authority | Owner Master Project Realignment directive in current session,21/11/2026; public-safe summary only |
 | Status | DOCUMENTATION PREPARED / independent reviews PENDING / merge NOT PERFORMED |
@@ -74,3 +74,9 @@ evidence/continuation; UI identity cleanup P0-ID separately. Production/funding/
 real research authorization remains absent.
 
 Changelog: new0.1.0,21/11/2026,Codex,REALIGN-001; evidence/handoff only; breaking change No.
+
+## Owner continuation —22/11/2026
+
+Human giao Phase0preflight→Phase1direction→Phase2inventory→Phase3roadmap, tiếp tục167. Phase1 direction checkpoint được đối chiếu trước inventory; integration vẫn PENDING vì inherited security CI và independent reviews. Chỉ bắt đầu inventory theo ngoại lệ read-only, không phải Phase2feature work của proposal cũ.168NOT_EFFECTIVE, không đổiAGENTS. Task mới chỉ đề xuất/scope, không implement. Mọi checkout/runtime file ngoài tài liệu giữ nguyên; các kết quả audit21/11 phía trên là lịch sử, không nhận là fresh22/11.
+
+0.1.0→0.1.1,22/11/2026,Codex: actual Owner continuation, phase/export/source clarification; no runtime/governance expansion.

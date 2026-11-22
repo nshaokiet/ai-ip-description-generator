@@ -2,8 +2,8 @@
 
 | Trường | Giá trị |
 |---|---|
-| Document / version | PRODUCT-DIRECTION-20261121 / 0.2.0 |
-| Date / owner | 21/11/2026 Asia/Saigon / Nguyễn Song Hào Kiệt — Independent Developer |
+| Document / version | PRODUCT-DIRECTION-20261121 / 0.2.1 |
+| Date / owner | 22/11/2026 Asia/Saigon / Nguyễn Song Hào Kiệt — Independent Developer |
 | Status | Phase 1 documentation candidate; independent Security/Quality PENDING; không phải closeout |
 | Audit baseline | main `6bb947c1cf67bcfb3ffc935b3a3fafcafb87f0af`; tree `aaece7b6128648deae0ebb2b60749f786cb0ca8f` |
 | Candidate / authority | Draft PR167, `docs/product-direction-20261121-web-api-ready`; Master Project Realignment directive, 21/11/2026 |
@@ -62,13 +62,13 @@ Status áp dụng đúng phạm vi mỗi dòng: `Implemented & Verified` cần t
 
 ## D. Updated Roadmap
 
-Mỗi dòng là scope riêng; không triển khai toàn bộ roadmap một lần. Phase 2 còn chờ Phase 1 review/CI và Phase 1B approval/integration. Không hỏi lại yêu cầu đã chốt; chỉ xác định quyết định kỹ thuật/bảo mật còn thiếu trước task phụ thuộc.
+Mỗi dòng là scope riêng; không triển khai toàn bộ roadmap một lần. Nhãn Phase2free-development cũ không phải inventory Phase2 của lượt22/11. Inventory read-only được Owner cho phép nếu Phase1 integration bị chặn; implementation task cần authority V1 hoặc governance168 thực sự được chấp thuận. Không hỏi lại yêu cầu đã chốt; chỉ xác định quyết định kỹ thuật/bảo mật còn thiếu trước task phụ thuộc.
 
 | Order / task | Lý do / đầu ra tối thiểu | Dependency / exit |
 |---|---|---|
 | 0 — REALIGN-001 | Audit/docs/roadmap nhất quán, public-safe, tách target/runtime | PR167 new-head checks/reviews và merge/platform authority hiện hành |
 | 1 — GOV-AUTONOMY-001 | PR governance riêng để Owner duyệt một lần; không tự merge | Human approval/integration, phối hợp #166; giữ independent/CI/security gates |
-| P0-ID | UI đúng sản phẩm độc lập | Sau Phase 1/1B; scoped UI diff/checks, giữ history |
+| P0-ID | UI đúng sản phẩm độc lập | Task-specific V1 scope/approval hoặc governance thực sự có hiệu lực; scoped UI diff/checks, giữ history |
 | P0-CONF | Consent/egress gate, upload không đồng nghĩa API consent | Reuse S1/custody; default-deny, revoke/stale tests |
 | P0-PRIOR | **Task nghiệp vụ giá trị cao nhất tiếp theo:** manual Prior Art trước drafting | P0-CONF/revision; evidence/explicit incomplete continuation; không cần search API |
 | P0-WEB | Nối browser intake → analysis → confidentiality → Prior Art → review/edit → export | #165 → #164 fresh accepted dependencies; đối chiếu D01–D07/fixture decisions chưa giải quyết |
@@ -103,6 +103,10 @@ Prior Art thủ công/auth/RBAC/database/version/audit/export **không bị ch�
 
 ## G. Next Development Task
 
-Scope nhỏ **P0-CONF rồi P0-PRIOR**, code chỉ sau Phase 1/1B gates. P0-PRIOR dùng manual source/date/query/evidence/limits, buộc có record hoặc `Prior Art Search Incomplete` + actor decision trước drafting; không kết luận tính mới/gọi search provider. Reuse custody revision binding, không external service mới.
+Scope nhỏ **P0-CONF rồi P0-PRIOR**; implementation chỉ khi có task-specific V1 authorization và prerequisites hoặc governance168 đã thực sự có hiệu lực. P0-PRIOR dùng manual source/date/query/evidence/limits, buộc có record hoặc `Prior Art Search Incomplete` + actor decision trước drafting; không kết luận tính mới/gọi search provider. Reuse custody revision binding, không external service mới.
 
 Changelog 0.1.0 → 0.2.0, 21/11/2026, Codex: Owner-directed expanded gap/roadmap, sửa #165 snapshot, supersede defer Prior Art/internal users. Product planning delta Yes; runtime breaking change No; history/reviews giữ nguyên.
+
+Direction checkpoint22/11/2026: tiếp tục167; Phase0preflight→Phase1direction→Phase2inventory→Phase3plan. Đây là alignment checkpoint trước inventory mới; Phase1 integration vẫn PENDING, không feature development, PR168NOT_EFFECTIVE.
+
+Changelog0.2.0→0.2.1,22/11/2026,Codex: pre-inventory direction/phase reconciliation, no runtime change.

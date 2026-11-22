@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | SPEC-002 |
 | Document title | Project Context — AI Intellectual Property Description Generator |
-| Version | 0.4.39 |
+| Version | 0.4.40 |
 | Status | Approved baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT |
@@ -27,6 +27,12 @@
 Main `6bb947c1cf67bcfb3ffc935b3a3fafcafb87f0af`; S1 auth đã merge, S2-A164 chưa merge;165 new HEAD4186b7a CI SUCCESS nhưng review/provenance/merge còn chặn. Claims product OFF, provider NOT_RUN, semantic NOT_DETERMINED. AGENTS governance hiện hành giữ nguyên trong Phase 1; proposal tự chủ cần PR riêng/Human approval/integration. Các đoạn phía dưới là lịch sử và approved technical baselines, không mô tả đủ scope sản phẩm hiện tại.
 
 0.4.38 → 0.4.39,21/11/2026,Codex,REALIGN-001: thêm current target/authority pointers, giữ lịch sử. Breaking change No — documentary projection only.
+
+
+
+Checkpoint22/11/2026: định nghĩa Phase0–3 của lượt này theo [requirements](docs/strategy/AIIP_PRODUCT_REQUIREMENTS.md); Phase1 chưa merge cho phép inventory read-only sau đối chiếu định hướng, không phải feature development. PR168 NOT_EFFECTIVE; authority V1 không đổi. Draft-export incomplete không bypass quyền hồ sơ/revision/integrity/confidentiality; chỉ Admin duyệt bản cuối trong target.
+
+0.4.39→0.4.40,22/11/2026,Codex,REALIGN-001: documentary phase/export reconciliation; breaking change No.
 
 ### Current resume pointer — 05/11/2026
 

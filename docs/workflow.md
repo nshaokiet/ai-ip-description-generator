@@ -2,11 +2,11 @@
 
 ## Current target — REALIGN-001, 21/11/2026
 
-Workflow projection version 0.1.0; Owner-directed target, repository review/integration pending. [Requirements](strategy/AIIP_PRODUCT_REQUIREMENTS.md) mô tả đủ 10 bước, consent/prior-art gates, ba output, VI/EN, roles và revisions. [Audit/roadmap](strategy/PRODUCT_DIRECTION_20261121.md) phân biệt implemented/disabled/mock/API-ready/partial/missing/blocked.
+Workflow projection version 0.1.1; Owner-directed target, repository review/integration pending. [Requirements](strategy/AIIP_PRODUCT_REQUIREMENTS.md) mô tả đủ 10 bước, consent/prior-art gates, ba output, VI/EN, roles và revisions. [Audit/roadmap](strategy/PRODUCT_DIRECTION_20261121.md) phân biệt implemented/disabled/mock/API-ready/partial/missing/blocked.
 
-Intake → Scientific Analysis → Confidentiality → Prior Art → Specification → Claims → Figure Redrawing → Editing → QA → Human Review/Export. **Confidentiality approval trước mọi external analysis/query**, dù thứ tự hiển thị bước 2 trước bước 3. Prior Art có thể nhập thủ công; incomplete phải có explicit chuyên viên continuation. Direct/chat edits invalidate review liên quan. Member có quyền hồ sơ được export DRAFT có warnings ở mọi trạng thái; Admin duyệt Approved for Export nội bộ.
+Intake → Scientific Analysis → Confidentiality → Prior Art → Specification → Claims → Figure Redrawing → Editing → QA → Human Review/Export. **Confidentiality approval trước mọi external analysis/query**, dù thứ tự hiển thị bước 2 trước bước 3. Prior Art có thể nhập thủ công; incomplete phải có explicit chuyên viên continuation. Direct/chat edits invalidate review liên quan. Member có quyền hồ sơ được export DRAFT có warnings dù thiếu thông tin; authorization/revision/integrity/confidentiality vẫn là gate; Admin duyệt Approved for Export nội bộ.
 
-Phase 1 chỉ tài liệu, Claims product OFF. Code mới sau Phase 1 gates và Phase 1B governance approval/integration. Workflow development hiện hành ở AGENTS vẫn áp dụng; không tự merge amendment/deploy. Không phải mô tả rằng toàn bộ browser flow đã triển khai.
+Lượt22/11: Phase0 preflight → Phase1 định hướng → Phase2 inventory → Phase3 roadmap. Phase1 chưa merge chỉ cho phép inventory read-only theo ngoại lệ Owner; không feature work. PR168 vẫn NOT_EFFECTIVE; V1 cho phép task được Human duyệt riêng, không tự phê backlog. Phase1 chỉ tài liệu, Claims product OFF. Workflow development hiện hành ở AGENTS vẫn áp dụng; không tự merge amendment/deploy. Không phải mô tả rằng toàn bộ browser flow đã triển khai.
 
 ## Historical MVP workflow — approved technical baseline
 
@@ -175,3 +175,5 @@ Status: **Completed — Merged via PR #7**. Human Microsoft Word Visual QA, Gemi
 ## 8. Output
 
 The user receives an editable DOCX draft for further technical / legal review.
+
+REALIGN-00122/11/2026: workflow projection0.1.0→0.1.1; phase terminology/export gates, documentary only; historical workflow retained.

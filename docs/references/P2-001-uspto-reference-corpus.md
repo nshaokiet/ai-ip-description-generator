@@ -1,4 +1,10 @@
-# P2-001 — USPTO Reference Corpus v0.1.1
+# P2-001 — USPTO Reference Corpus v0.1.2
+
+## Documentary source check —22/11/2026
+
+Codex đọc lại live [USPTO Filing Guide](https://www.uspto.gov/patents/basics/apply/utility-patent) và [MPEP608](https://www.uspto.gov/web/offices/pac/mpep/s608.html). Application papers còn có administrative/declaration/fee requirements; export không tự thành bộ hồ sơ hoàn chỉnh. Claims/Abstract có phân trang riêng; drawings khi cần. DOCX submission và PDF/reference presentation không đồng nhất; tiếng Việt là bản nghiệp vụ, không tự thay yêu cầu tiếng Anh/translation khi filing. Phần requirement headings là applicability-aware, không giả bibliographic metadata. Không đọc lại PDF binary ở checkpoint này; quan sát corpus21/11 được giữ là lịch sử, không giả fresh visual/hash verification. Hai grant references dùng cấu trúc/style, không làm bằng chứng kỹ thuật cho invention mới.
+
+0.1.1→0.1.2,22/11/2026,Codex: live normative-source check và evidence boundary; no executable template/schema change.
 
 ## Revalidation — 21/11/2026
 

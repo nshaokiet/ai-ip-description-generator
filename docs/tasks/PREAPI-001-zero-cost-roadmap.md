@@ -1,6 +1,6 @@
 # PREAPI-001 — Remaining zero-cost readiness plan
 
-> Current roadmap,21/11/2026: [REALIGN-001 P0/P1/P2](../strategy/PRODUCT_DIRECTION_20261121.md) và [Owner requirements](../strategy/AIIP_PRODUCT_REQUIREMENTS.md). Prior Art/manual, confidentiality, full outputs và internal-group operations được ưu tiên theo nghiệp vụ. API-ready synthetic chỉ là milestone; không dừng các gap miễn phí chỉ vì thiếu API. Phase 2 sau Phase 1/1B gates; không implicit Claims activation/merge/deploy.
+> Current roadmap,21/11/2026: [REALIGN-001 P0/P1/P2](../strategy/PRODUCT_DIRECTION_20261121.md) và [Owner requirements](../strategy/AIIP_PRODUCT_REQUIREMENTS.md). Prior Art/manual, confidentiality, full outputs và internal-group operations được ưu tiên theo nghiệp vụ. API-ready synthetic chỉ là milestone; không dừng các gap miễn phí chỉ vì thiếu API. Lượt22/11 dùng Phase1định hướng→Phase2inventory read-only nếu integration bị chặn→Phase3roadmap; feature work cần task authority V1; PR168 NOT_EFFECTIVE; không implicit Claims activation/merge/deploy.
 
 0.1.2 → 0.1.3,21/11/2026,Codex,REALIGN-001: current roadmap pointer/supersession only; Breaking change No. Các status bên dưới là lịch sử.
 
@@ -48,3 +48,5 @@ Use the six Human-accepted, unchanged gold packages in `eval/semantic/v1/gold/` 
 ## Exit gates
 
 Zero-cost readiness requires accepted C1 custody implementation, separate C2 synthetic flow with four verified outputs, D offline checker, E fixture scorer validation, exact-SHA review/CI/merge receipts and unchanged deployment/security boundaries. It does **not** establish `LIVE_PROVIDER_VALIDATED`, semantic acceptance, patentability, filing readiness or production release.
+
+0.1.3→0.1.4,22/11/2026,Codex: phase-name reconciliation only; không đổi backlog execution authority.
