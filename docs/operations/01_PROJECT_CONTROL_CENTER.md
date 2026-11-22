@@ -8,16 +8,24 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.110 |
+| Version | 0.3.115 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High |
 | Created date | 18/09/2026 |
-| Last updated | 08/11/2026 GMT+7 — C2 spec-only post-PR155 recovery; history preserved |
+| Last updated |22/11/2026 Asia/Saigon — P0-PRIOR candidate; history preserved |
 | Related task ID | SPEC-004 |
 | Source of Truth | Operational status bridge; bản nguồn Git tại `docs/operations/01_PROJECT_CONTROL_CENTER.md` |
 | Confidentiality level | Public-safe documentary projection; original internal records retained privately |
+
+## P0-PRIOR — manual evidence candidate22/11/2026
+
+Actual Human Priority C authorizes P0-PRIOR on main6bb947c. [Task/contract/test/handoff](../tasks/P0-PRIOR.md): registered synthetic PDF/DOCX upload → manual citations/scope/limits → source/dossier-bound STOP/CONTINUE → incomplete/unverified warnings, immutable actor/time/hash-chain audit.84 local PASS; no egress/provider/browser/durable-case integration. OFFLINE_VERIFIED /IMPLEMENTED_CANDIDATE /INTEGRATION_PENDING /BLOCKED_REVIEW, not Completed. Actual Antigravity runtime failed twice after reset; no report/model/session verified; MCP operational lease NOT_VERIFIED/tool unavailable.
+
+Exact165 frontend probe on disposable169 checkout passes full/prod audit0, security135, build/lint/typecheck and browser81; no existing PR HEAD changed. This isolates the downstream dependency blocker but does not establish canonical new-head CI or merge permission.165 historical AUTHORIZATION_PROVENANCE_NOT_VERIFIED unchanged;168 NOT_EFFECTIVE/Owner decision separate. Required exact-SHA Security/Quality/CI/security/platform/authority gates still apply. ClaimsOFF, APIUSD0, no deploy/real paper.
+
+OPS-0010.3.110→0.3.115,22/11/2026,Codex: P0-PRIOR implementation checkpoint.111–114 belong to separate unmerged documentary/task candidates and are not adopted or overwritten. Breaking changeNo. Earlier baseline below is history.
 
 ## RESUME-FOUNDATION-001 current baseline
 

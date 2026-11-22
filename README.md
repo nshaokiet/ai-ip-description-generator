@@ -41,7 +41,19 @@ Dự án hướng tới một **website Next.js + FastAPI** giúp nhóm nghiên 
 
 **Trạng thái chính xác:** `LOCAL/SYNTHETIC MVP COMPLETE`; `API_READY END-TO-END = NOT VERIFIED`; `LIVE SEMANTIC ACCEPTANCE = NOT DETERMINED`; `PRODUCTION = NOT APPROVED`.
 
-## Trạng thái dự án — 09/11/2026
+## Project status — P0-PRIOR checkpoint22/11/2026
+
+| Workstream | Current evidence / boundary |
+|---|---|
+| main |6bb947c1cf67bcfb3ffc935b3a3fafcafb87f0af; this candidate not merged |
+| P0-PRIOR | [Task/evidence](docs/tasks/P0-PRIOR.md): OFFLINE_VERIFIED /IMPLEMENTED_CANDIDATE /INTEGRATION_PENDING;84 local PASS, actual upload/source-bound manual dossier and Human incomplete continuation; no browser/provider wiring |
+| P0-CONF / direction |169/167 remain separate unmerged candidates; no168 authority adopted |
+| Security / review | Actual main graph blocked; existing165 remedy passes disposable full/prod/build/browser probe, not canonical dependent CI. Independent Security/Quality BLOCKED_REVIEW; APIUSD0, ClaimsOFF |
+
+### Historical status — 09/11/2026
+
+The snapshot below is preserved history, not the current candidate's integration status.
+
 
 **Mốc source-of-truth:** `main` tại thời điểm đồng bộ tài liệu = `b7a82b8183de734cd8ac6d84ffbdd9a90db94a4b` (PR #142 normal merge), gồm các increment không tốn phí #161, #141 và #142. [Exact-main CI #42625564182](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/42625564182) **đang chạy ở lần đối chiếu**: MCP SUCCESS, build-and-test/chứng cứ hậu merge còn PENDING; **không ghi postmerge PASS trước khi đủ bằng chứng**. Các receipt có SHA/CI/security chi tiết nằm tại [Issue #131](https://github.com/nshaokiet/ai-ip-description-generator/issues/131) và từng PR; không tái tạo nhật ký lịch sử trong README.
 
