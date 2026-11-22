@@ -8,16 +8,24 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.110 |
+| Version | 0.3.117 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High |
 | Created date | 18/09/2026 |
-| Last updated | 08/11/2026 GMT+7 — C2 spec-only post-PR155 recovery; history preserved |
+| Last updated |22/11/2026 Asia/Saigon — P0-ASSETS DOCX candidate; history preserved |
 | Related task ID | SPEC-004 |
 | Source of Truth | Operational status bridge; bản nguồn Git tại `docs/operations/01_PROJECT_CONTROL_CENTER.md` |
 | Confidentiality level | Public-safe documentary projection; original internal records retained privately |
+
+## P0-ASSETS — DOCX byte provenance subset22/11/2026
+
+Human NEXT DEVELOPMENT EXECUTION Phase3 authorizes this independent main-based subset. [Task/contract/test/handoff](../tasks/P0-ASSETS.md): existing registered/validated DOCX → byte-identical PNG/JPEG data/hash with member/relationship/XML-paragraph locators, caption/text-reference candidates and existing parser TABLE provenance.51 local PASS; no decode/redraw/egress/provider/browser integration. Pages, caption/spec association and image fidelity remain REVIEW_REQUIRED; PDF images unsupported. Ownership is host-authenticated, not new RBAC.
+
+IMPLEMENTED_CANDIDATE /OFFLINE_VERIFIED_DOCX_SUBSET /INTEGRATION_PENDING /REVIEW_PENDING, not Completed. Required actual final-HEAD CI/security/independent Gemini4 Argon(High) Security/Quality pending; UI runtime fails, no verdict/session invented. No unmerged169/170/171 import or168 authority;165 historical AUTHORIZATION_PROVENANCE_NOT_VERIFIED unchanged. APIUSD0, ClaimsOFF, no real paper/deploy/merge.
+
+OPS-0010.3.110→0.3.117,22/11/2026,Codex: bounded DOCX subset implementation checkpoint.111–116 are separate pending candidate revisions, not adopted or overwritten. Breaking changeNo. Prior records below are historical.
 
 ## RESUME-FOUNDATION-001 current baseline
 
