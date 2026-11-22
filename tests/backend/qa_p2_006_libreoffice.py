@@ -18,12 +18,13 @@ from pypdf import PdfReader
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
-from test_uspto_document_package_v1 import inputs, run
+from tests.backend.test_uspto_document_package_v1 import inputs, run
 from backend.app.services.uspto_offline_renderer import (
     BANNER, CLAIMS_INCOMPLETE, FILES, render_uspto_document_package,
     _build_model,
 )
-from verify_p2_006_qa_environment import verify
+from backend.app.services.business_document_outputs import _business_models, render_business_document_set
+from tests.backend.verify_p2_006_qa_environment import verify
 
 
 def check(program: list[str]) -> None:
@@ -62,6 +63,85 @@ def synthetic_figure_layout(qa_root: Path) -> None:
         "pdftoppm", "-f", "1", "-l", "1", "-r", "200", "-singlefile",
         "-png", str(path), str(qa_root / "SYNTHETIC_DRAWING_LAYOUT_QA"),
     ])
+
+
+
+def presentation_pdf_text(text: str) -> str:
+    """Decode standard presentation ligatures only; retain scientific symbols/values."""
+    import unicodedata
+    ligatures = str.maketrans({"ﬀ": "ff", "ﬁ": "fi", "ﬂ": "fl", "ﬃ": "ffi", "ﬄ": "ffl", "ﬅ": "st", "ﬆ": "st"})
+    return unicodedata.normalize("NFC", text.translate(ligatures))
+
+
+def semantic_pdf_text(text: str) -> str:
+    return re.sub(r"\s+", " ", presentation_pdf_text(text))
+
+
+def pdf_contains_source_fragment(fragment: str, raw_text: str) -> bool:
+    """Require every source character; allow a line break after an existing hyphen.
+
+    LibreOffice wraps e.g. MI-IR-0001 as MI-IR-\n0001. Only that observed
+    presentation break is optional; spaces within tokens, removed hyphens,
+    changed numbers and other inserted/removed characters remain mismatches.
+    """
+    expected = semantic_pdf_text(fragment)
+    if not expected:
+        return False
+    pattern = []
+    for index, character in enumerate(expected):
+        pattern.append(r"\s+" if character == " " else re.escape(character))
+        if (character == "-" and 0 < index < len(expected) - 1
+                and expected[index - 1] != " " and expected[index + 1] != " "):
+            pattern.append(r"(?:[ \t]*\r?\n[ \t]*)?")
+    return re.search("".join(pattern), presentation_pdf_text(raw_text)) is not None
+
+
+def business_output_layout(qa_root, originals, package):
+    """Render all business PDFs and editable DOCX with the existing pinned tools."""
+    import shutil
+    results = {}
+    for language in ("en", "vi"):
+        outputs = render_business_document_set(package, **originals,
+            output_dir=qa_root, template_language=language)
+        models = _business_models(package, originals, language)
+        for kind, model in models.items():
+            tag = f"BUSINESS-{language}-{kind}"
+            expected = [section.heading for section in model.sections]
+            expected += [part.text for section in model.sections for part in section.parts]
+            conversion = qa_root / (".convert-" + tag)
+            conversion.mkdir()
+            office = qa_root / (".lo-" + tag)
+            check(["soffice", "-env:UserInstallation=" + office.as_uri(),
+                "--headless", "--convert-to", "pdf", "--outdir", str(conversion),
+                str(outputs[kind + ".docx"])])
+            rendered = conversion / (kind + ".pdf")
+            if not rendered.is_file():
+                raise AssertionError("Business DOCX conversion unavailable")
+            result = {"template_language": language, "translation": "NOT_VALIDATED",
+                "docx_sha256": hashlib.sha256(outputs[kind + ".docx"].read_bytes()).hexdigest(),
+                "engines": {}}
+            for engine, path in (("NATIVE", outputs[kind + ".pdf"]), ("LO", rendered)):
+                pages, text = normalized_pdf(path)
+                assert pages and all("DRAFT" in page for page in pages)
+                raw_text = "\n".join(page.extract_text() or "" for page in PdfReader(str(path)).pages)
+                missing = [index for index, fragment in enumerate(expected)
+                           if not pdf_contains_source_fragment(fragment, raw_text)]
+                archived_pdf = qa_root / (tag + "-" + engine + ".pdf")
+                shutil.copyfile(path, archived_pdf)
+                for number in range(1, len(pages) + 1):
+                    check(["pdftoppm", "-f", str(number), "-l", str(number), "-r", "150",
+                        "-singlefile", "-png", str(path), str(qa_root / f"{tag}-{engine}-p{number:02}")])
+                result["engines"][engine] = {"pages": len(pages), "all_fragments_preserved": not missing,
+                    "expected_fragments": len(expected), "missing_fragment_indices": missing,
+                    "presentation_ligatures": sorted({c for c in text if c in "ﬀﬁﬂﬃﬄﬅﬆ"}),
+                    "pdf_sha256": hashlib.sha256(path.read_bytes()).hexdigest()}
+                results[tag] = result
+                (qa_root / "business-output-qa.json").write_text(json.dumps(results, indent=2) + "\n")
+                if missing:
+                    raise AssertionError(f"{tag}/{engine}: {len(missing)} source fragments missing; raw PDF/pages preserved")
+            results[tag] = result
+            print(f"BUSINESS_LO_QA {tag}: native{result['engines']['NATIVE']['pages']} / LO{result['engines']['LO']['pages']} pages, all source fragments preserved")
+    (qa_root / "business-output-qa.json").write_text(json.dumps(results, indent=2) + "\n")
 
 
 def main() -> None:
@@ -141,6 +221,7 @@ def main() -> None:
         print(f"LO_QA {profile}: {len(pages)} pages, editable DOCX converted, text markers verified")
 
     (qa_root / "synthetic-qa-evidence.json").write_text(json.dumps(evidence, indent=2)+"\n")
+    business_output_layout(qa_root, originals, package)
 
 
 if __name__ == "__main__":

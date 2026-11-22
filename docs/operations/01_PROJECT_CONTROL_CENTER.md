@@ -8,16 +8,24 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.110 |
+| Version | 0.3.120 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High |
 | Created date | 18/09/2026 |
-| Last updated | 08/11/2026 GMT+7 — C2 spec-only post-PR155 recovery; history preserved |
+| Last updated |22/11/2026 Asia/Saigon — P0-OUTPUT candidate; history preserved |
 | Related task ID | SPEC-004 |
 | Source of Truth | Operational status bridge; bản nguồn Git tại `docs/operations/01_PROJECT_CONTROL_CENTER.md` |
 | Confidentiality level | Public-safe documentary projection; original internal records retained privately |
+
+## P0-OUTPUT — existing renderer business documents22/11/2026
+
+Actual Human NEXT DEVELOPMENT EXECUTION Phase2 authorizes this separate main-based task. [Task/contract/test/handoff](../tasks/P0-OUTPUT.md): extend existing byte-frozen renderer/validator/fonts and pinned LibreOffice QA; Patent/Annotated/Analysis3×DOCX/PDF plus provenance manifest.25 local PASS; VI/EN labels with source technical text unchanged, no translation semantic claim. Actual Prior Art/figure/approval gaps remain explicit; no provider/browser/Claims activation or unmerged169/170 import.
+
+IMPLEMENTED_CANDIDATE /INTEGRATION_PENDING /REVIEW_PENDING, not Completed. Hosted native/DOCX layout and final SHA/CI/visual evidence in PR receipt; no PASS inferred. Current frontend graph failure persists outside disposable165 probe; Antigravity UI tool fails, required independent streams NOT_RUN.165 historical AUTHORIZATION_PROVENANCE_NOT_VERIFIED and168 NOT_EFFECTIVE unchanged. No paid API/real paper/deploy/merge.
+
+OPS-0010.3.110→0.3.116,22/11/2026,Codex: P0-OUTPUT candidate.111–115 remain separate pending candidate revisions, not silently adopted. Breaking changeNo. Earlier baseline below is historical.
 
 ## RESUME-FOUNDATION-001 current baseline
 
@@ -1482,3 +1490,9 @@ raw review and sensitive operational/personal metadata retained privately. Publi
 candidate starts at existing main, not internal candidate history. Prior originals
 remain in private custody and prior Git history; redacted local-path references
 in this current projection are labelled explicitly. No new approval/PASS. Breaking change: No.
+
+OPS-0010.3.116→0.3.118,22/11/2026,Codex: preserve initial HD07 failure, restore frozen engine and use additive projection adapter;0.3.117 belongs separate ASSETS candidate. No golden/test/CI gate change.
+
+OPS-0010.3.118→0.3.119,22/11/2026,Codex: preserve b031 LibreOffice source-fragment failure; add raw layout diagnostics, standard ligature decoding with scientific distinctions retained, standalone annotation source context and observed Title-border correction. Local24PASS; final hosted/visual checks and independent reviews still required. No CI threshold/golden/released renderer change.
+
+OPS-0010.3.119→0.3.120,22/11/2026,Codex: preserved9240 LO artifact proves identifier line wrap, not missing characters; narrow raw-line-break comparison keeps every source character and rejects altered/missing content. Actual90-fragment PDF recheck and25 local tests pass; no output adapter/released renderer/golden/CI threshold change. Fresh exact-head hosted/visual and independent reviews pending.
