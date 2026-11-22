@@ -8,16 +8,31 @@
 |---|---|
 | Document ID | SPEC-002 |
 | Document title | Project Context — AI Intellectual Property Description Generator |
-| Version | 0.4.38 |
+| Version | 0.4.41 |
 | Status | Approved baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT |
 | Reviewer | Human / Product Owner |
 | Created date | 18/09/2026 |
-| Last updated | 05/11/2026 — documentary reconciliation candidate |
+| Last updated | 22/11/2026 — REALIGN-001 candidate |
 | Related task ID | SPEC-002 |
 | Source of Truth | GitHub — `PROJECT_CONTEXT.md` |
 | Confidentiality level | Internal; research inputs are Confidential by default |
+
+### Current product target — 21/11/2026
+
+**Nguyễn Song Hào Kiệt — Independent Developer; sản phẩm phát triển độc lập.**
+[Yêu cầu Owner hiện hành](docs/strategy/AIIP_PRODUCT_REQUIREMENTS.md) và [audit/gap/roadmap](docs/strategy/PRODUCT_DIRECTION_20261121.md) thay ưu tiên sản phẩm cũ: Nonprovisional Utility Patent website; confidentiality trước mọi egress; Prior Art bắt buộc/manual fallback; Claims/figures có support; direct/chat edits; ba loại output VI/EN; Admin/Member, case/version/audit trong roadmap. Không yêu cầu thêm tài liệu như điều kiện intake.
+
+Main `6bb947c1cf67bcfb3ffc935b3a3fafcafb87f0af`; S1 auth đã merge, S2-A164 chưa merge;165 new HEAD4186b7a CI SUCCESS nhưng review/provenance/merge còn chặn. Claims product OFF, provider NOT_RUN, semantic NOT_DETERMINED. AGENTS governance hiện hành giữ nguyên trong Phase 1; proposal tự chủ cần PR riêng/Human approval/integration. Các đoạn phía dưới là lịch sử và approved technical baselines, không mô tả đủ scope sản phẩm hiện tại.
+
+0.4.38 → 0.4.39,21/11/2026,Codex,REALIGN-001: thêm current target/authority pointers, giữ lịch sử. Breaking change No — documentary projection only.
+
+
+
+Checkpoint22/11/2026: định nghĩa Phase0–3 của lượt này theo [requirements](docs/strategy/AIIP_PRODUCT_REQUIREMENTS.md); Phase1 chưa merge cho phép inventory read-only sau đối chiếu định hướng, không phải feature development. PR168 NOT_EFFECTIVE; authority V1 không đổi. Draft-export incomplete không bypass quyền hồ sơ/revision/integrity/confidentiality; chỉ Admin duyệt bản cuối trong target.
+
+0.4.39→0.4.40,22/11/2026,Codex,REALIGN-001: documentary phase/export reconciliation; breaking change No.
 
 ### Current resume pointer — 05/11/2026
 
@@ -444,3 +459,5 @@ AI-RUNTIME-001 triển khai internal OpenAI Responses API extraction boundary t�
 AI-RUNTIME-002 triển khai internal OpenAI Responses API draft generation runtime từ validated Structured Invention Analysis (AI-001) qua deterministic AI-003 Draft Input Envelope tới validated Patent Description Draft JSON. Runtime sử dụng `gpt-5.6-sol`, reasoning high, `store=false`, timeout 240 giây, SDK retries 2 và `max_output_tokens=64000`. Output đi qua provider-schema adaptation, schema-aware normalization, canonical Patent Draft 2020-12 validation và deterministic business/grounding validation. Đợt remediation cuối đã xử lý abstract validation governance contract, F-D12 JSON Pointer `/` handling, F-D13 dead helper removal, F-D14 test target_path precision, sửa test imports từ `httpx2` sang `httpx` và bổ sung các biến môi trường draft cần thiết vào `.env.example`; F-D15 prohibited-substring scanner false-positive risk được giữ lại như non-blocking NOTE. Independent final review kết luận `APPROVED`. Human / Product Owner đã approve và merge [PR #16](https://github.com/nshaokiet/ai-ip-description-generator/pull/16) ngày 22/09/2026 tại merge commit `978516a4f5caa90bbd2189668237c6e028597361` (implementation head `a59ce0219d7039f24fa8c7bd71d4e9829dbbf612`). Automated evidence: backend test suite 240 pass, 2 skip, 1 warning; tests/draft 25 pass. Live provider smoke ghi nhận `NOT RUN — DEFERRED due to unavailable API funding`; BLK-003 vẫn mở. Trạng thái hiện tại: **Completed — Merged via PR #16**.
 
 APP-003 hoàn tất vòng đời đặc tả kỹ thuật Core Pipeline Orchestration and Offline E2E Harness v1.2.0. Trải qua các vòng review độc lập bởi Gemini 3.1 Pro High (initial REQUEST CHANGES → remediation v1.1.0 PASS → final hardening v1.2.0 cho H-001/H-002/H-003 PASS), Human / Product Owner đã chính thức phê duyệt Specification v1.2.0 và merge PR #18 ngày 22/09/2026 tại merge commit `bfbcdc760916f497b603bcd49ce0150d6819d337`. REV-APP-003 đã CLOSED. Trạng thái đặc tả: **Specification — Approved & Merged**. Sau mốc đặc tả, APP-003 implementation `3e7c2910695eed9e5ef1d7d0ff11f8f0e3ac6c38` đã merge tại `b5a47f6030441b438e7e1745b75b05d8b345d6c0`: **Completed — Merged**. Thông điệp merge ghi 32/32 AC verified và independent Antigravity `PASS`; exact underlying reviewer model/profile và primary review report không được chứng minh bởi bằng chứng hiện có. GOV-P0-006-01 RESOLVED; BLK-003 vẫn OPEN. Không có bằng chứng live-provider validation hoặc production readiness.
+
+0.4.40→0.4.41,22/11/2026,Codex,REALIGN-001: source inventory/roadmap in existing report; separate actual-date Owner continuation permits scoped free implementation under existing governance, not168 activation or review/merge waiver. Phase1 integration PENDING; this PR changes no runtime. Breaking change No.

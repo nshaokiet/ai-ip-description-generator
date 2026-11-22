@@ -1,4 +1,43 @@
-# P2-001 — USPTO Reference Corpus v0.1.0
+# P2-001 — USPTO Reference Corpus v0.1.2
+
+## Documentary source check —22/11/2026
+
+Codex đọc lại live [USPTO Filing Guide](https://www.uspto.gov/patents/basics/apply/utility-patent) và [MPEP608](https://www.uspto.gov/web/offices/pac/mpep/s608.html). Application papers còn có administrative/declaration/fee requirements; export không tự thành bộ hồ sơ hoàn chỉnh. Claims/Abstract có phân trang riêng; drawings khi cần. DOCX submission và PDF/reference presentation không đồng nhất; tiếng Việt là bản nghiệp vụ, không tự thay yêu cầu tiếng Anh/translation khi filing. Phần requirement headings là applicability-aware, không giả bibliographic metadata. Không đọc lại PDF binary ở checkpoint này; quan sát corpus21/11 được giữ là lịch sử, không giả fresh visual/hash verification. Hai grant references dùng cấu trúc/style, không làm bằng chứng kỹ thuật cho invention mới.
+
+0.1.1→0.1.2,22/11/2026,Codex: live normative-source check và evidence boundary; no executable template/schema change.
+
+## Revalidation — 21/11/2026
+
+REALIGN-001, Codex: read current USPTO filing guide/MPEP §608 and Google Patents
+records, followed each Download PDF link and inspected original grant cover/drawing
+pages plus textual sections/Claims. Structural maps and their existing tests remain
+unchanged. No whole-paper or patent-body text added to fixtures.
+
+| Reference | Original PDF | Grant / Claims structure observed |
+|---|---|---|
+| [US11367264B2](https://patents.google.com/patent/US11367264B2/en) | Linked below, 33 pages | 21 Claims; independent 1/18/19; Figure labels through 15, including lettered subfigures |
+| [US11044591B2](https://patents.google.com/patent/US11044591B2/en) | Linked below, 19 pages | 21 Claims; independent 1/10/15; Figures 1–6 including 5A–5C |
+
+No original PDF binary/hash is pinned here; observation is not binary-reproducibility
+or legal-status verification. Grant bibliographic metadata describes the references
+only; never synthesize it for a new invention.
+
+Application Draft remains the default product target; Reference Patent Style is
+optional and shares scientific content. B2 is a kind code, not a USPTO Form B.
+The [filing guide](https://www.uspto.gov/patents/basics/apply/utility-patent) and
+[MPEP §608](https://www.uspto.gov/web/offices/pac/mpep/s608.html) distinguish
+description/Claims/Abstract from drawings and other application papers. Claims and
+Abstract start separately; drawings apply when needed. Conditional administrative
+sections need evidence, not invented declarations. Technical Field/Embodiments can
+be subsections. Current MPEP §1.72 wording prefers a concise Abstract at most 150
+words; the existing strict 150-word project validation is retained as product policy.
+DOCX/PDF export alone does not produce a complete application or prove compliance.
+
+Before executable layout changes, check 37 CFR 1.52/1.72/1.77/1.84 and applicable
+MPEP guidance again. No template/schema/runtime change in this revalidation.
+
+Changelog 0.1.0 → 0.1.1,21/11/2026,Codex,REALIGN-001: dated source revalidation
+and applicability boundary; breaking change No. Original observations follow.
 
 ## Purpose
 

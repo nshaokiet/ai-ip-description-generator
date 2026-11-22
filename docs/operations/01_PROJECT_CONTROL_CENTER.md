@@ -8,16 +8,36 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.110 |
+| Version | 0.3.113 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
-| Reviewer | Gemini 3.1 Pro High |
+| Reviewer | Historical baseline: Gemini 3.1 Pro High; current REALIGN Security/Quality: Gemini 4 Argon (High), PENDING |
 | Created date | 18/09/2026 |
-| Last updated | 08/11/2026 GMT+7 — C2 spec-only post-PR155 recovery; history preserved |
+| Last updated | 22/11/2026 Asia/Saigon — REALIGN-001 candidate; history preserved |
 | Related task ID | SPEC-004 |
 | Source of Truth | Operational status bridge; bản nguồn Git tại `docs/operations/01_PROJECT_CONTROL_CENTER.md` |
 | Confidentiality level | Public-safe documentary projection; original internal records retained privately |
+
+## REALIGN-001 — current reconciliation22/11/2026
+
+PRODUCT_DIRECTION_ALIGNED / INTEGRATION_PENDING / BLOCKED_REVIEW. Direction checkpoint `cfe1c1643f8eb94c1eae4f66c58a43773dd687bc` precedes fresh read-only inventory under explicit Owner exception; Phase1 not Completed. [Existing report](../strategy/PRODUCT_DIRECTION_20261121.md) now holds source-level architecture,10-step gap matrix,11-field P0/P1/P2 task scopes and funding boundaries, not a duplicate strategy set. No runtime or AGENTS change in167.
+
+Fresh audit: next16.4.1 has1MODERATE/0HIGH/CRITICAL in full AND production; build SecurityFatalError FAIL; browser/static demo BLOCKED, no bypass/retry. Local lint/typecheck/lint-security75PASS and MCP158PASS; Python1266PASS/3SKIP; final immutable HEAD/CI in [task handoff](../tasks/REALIGN-001.md)/PR receipt, not inherited verdicts.165 candidate4186b7a has successful CI but fresh independent reviews/actual-date provenance disposition/merge authority outstanding;166/167 inherited audit failure;168 stacked166, NOT_EFFECTIVE. No edits/merge/rebase/Ready/deploy of these branches in this doc phase.
+
+Owner actual-date continuation22/11 authorizes separate bounded FREE development after this reconciliation under existing rules; P0-CONF then manual P0-PRIOR are next. This is not retrospective165 initiation proof, approval of168, or waiver of auth/privacy/security/review/merge gates. No paid/provider/real research/Claims activation. Antigravity tools unavailable: BLOCKED_REVIEW; MCP operational state/lease NOT VERIFIED. V1 is preserved for authorized unenrolled tasks without V2 history, not a fallback for existing V2 tasks.
+
+OPS-0010.3.112→0.3.113,22/11/2026,Codex: actual-date inventory/validation/continuation evidence; no runtime/governance policy change. Previous21/11 checkpoint below is history.
+
+## REALIGN-001 — current checkpoint 21/11/2026
+
+**Phase 1 documentation candidate, not Completed.** Owner authorized audit/product realignment/gap/docs/roadmap now, governance amendment as a separate PR, then controlled free development only after gates. Public identity: Nguyễn Song Hào Kiệt — Independent Developer; sản phẩm độc lập. [Requirements](../strategy/AIIP_PRODUCT_REQUIREMENTS.md), [reality/gap/roadmap/funding backlog](../strategy/PRODUCT_DIRECTION_20261121.md).
+
+Main6bb947c1 / CI43357769931 SUCCESS (13/11); S1 auth163 merged.165 new4186b7a CI44905331090 SUCCESS, fresh independent reviews/provenance/Human merge authority pending.166 new37e9344 CI44889601897 FAILURE at audit.164 S2-A f08b071 unmerged.167 existing strategy PR expanded; new-head CI/review evidence recorded at PR after commit. Do not overwrite historical status/receipts below or infer closed issues from code presence.
+
+Phase 1 code/fixtures/templates/dependencies/CI/Render unchanged. AGENTS authority unchanged until separate reviewed governance amendment approved/integrated. Requested reviewer Gemini4 Argon(High)/Antigravity read-only per direct Owner selection; actual execution not available in this session, reviews PENDING; MCP state/lease NOT VERIFIED. No fabricated approval/PASS/state. Claims product DISABLED; USD0/providerNOT_RUN; semanticNOT_DETERMINED; productionNOT_APPROVED. Next business scope P0-CONF then manual P0-PRIOR after gates; UI legacy identity cleanup P0-ID separately.
+
+OPS-0010.3.110 → 0.3.111,21/11/2026,Codex,REALIGN-001: current documentary pointer, historical append-preserving projection; Breaking change No.
 
 ## RESUME-FOUNDATION-001 current baseline
 
@@ -1482,3 +1502,5 @@ raw review and sensitive operational/personal metadata retained privately. Publi
 candidate starts at existing main, not internal candidate history. Prior originals
 remain in private custody and prior Git history; redacted local-path references
 in this current projection are labelled explicitly. No new approval/PASS. Breaking change: No.
+
+Reviewer capability readback22/11: Antigravity IDE process/window exists. Approved computer-use runtime failed twice including reset (`helper_unknown_error: setup refresh had errors`, then trusted Node process exited). No app input/review dispatch occurred; actual model/session/transcript remains NOT_VERIFIED. BLOCKED_REVIEW is execution-tool failure, not a claim the app is absent. No reviewer substitution.
