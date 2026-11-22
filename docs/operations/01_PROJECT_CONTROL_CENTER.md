@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.110 |
+| Version | 0.3.121 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -1482,3 +1482,10 @@ raw review and sensitive operational/personal metadata retained privately. Publi
 candidate starts at existing main, not internal candidate history. Prior originals
 remain in private custody and prior Git history; redacted local-path references
 in this current projection are labelled explicitly. No new approval/PASS. Breaking change: No.
+
+
+## P0-SOURCE-LIFECYCLE-001 — bounded execution22/11/2026
+
+Actual Human execution instruction authorizes independent non-policy correction after reproducing nested lease failure. [Execution/interface/decision record](../tasks/P0-SOURCE-LIFECYCLE-001-execution.md). Separate accepted-main candidate; no adoption of unmerged173 specification or169–172 services. Source/TTL/deletion/auth/provider/Claims policies unchanged. Candidate implementation/review/integration pending; no Completed claim or fabricated MCP lease. Exact HEAD/TREE/tests/CI in PR receipt.
+
+OPS-0010.3.110→0.3.121,22/11/2026,Codex: append bounded source-lifecycle execution and lease remediation candidate.111–120 remain parallel unmerged candidates, not silently adopted; preserve all historical entries. Breaking change:No public API/policy change.165 historical AUTHORIZATION_PROVENANCE_NOT_VERIFIED retained;168 NOT_EFFECTIVE.
