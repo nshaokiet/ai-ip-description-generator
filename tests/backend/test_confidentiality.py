@@ -230,3 +230,18 @@ def test_consent_that_expires_during_authorization_is_not_recorded(setup_gate):
     with pytest.raises(ConsentError, match="CONSENT_EXPIRED"):
         grant(gate, now)
     assert not gate.check(SOURCE, PAYLOAD, **SCOPE).allowed
+
+
+def test_callback_cannot_overallocate_record_capacity(setup_gate):
+    _, now, _ = setup_gate
+    second = replace(SOURCE, document_id="doc_b")
+    gate = None
+    def authority(request):
+        if request.action == "CLASSIFY" and request.source == SOURCE:
+            classify(gate, source=second)
+        return True
+    gate = OfflineConfidentialityGate(authorizer=authority, clock=lambda: now[0], max_records=1)
+    with pytest.raises(ConsentError, match="CAPACITY_REACHED"):
+        classify(gate)
+    assert gate.check(SOURCE, PAYLOAD, **SCOPE).code == "CLASSIFICATION_REQUIRED"
+    assert gate.check(second, PAYLOAD, **SCOPE).code == "CONSENT_REQUIRED"

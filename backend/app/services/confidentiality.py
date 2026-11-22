@@ -183,6 +183,8 @@ class OfflineConfidentialityGate:
             if (self._records.get(source.document_id) is not previous
                     or (previous is not None and previous.generation != generation)):
                 raise ConsentError("STALE_SOURCE_REVISION")
+            if previous is None and len(self._records) >= self._max_records:
+                raise ConsentError("CAPACITY_REACHED")
             receipt = ConsentReceipt(request, self._now())
             self._records[source.document_id] = _Record(source, owner, classification, receipt)
             return receipt  # Reclassification always invalidates all prior grants.

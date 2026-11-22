@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| Version / date |0.1.0 /22/11/2026 Asia/Saigon |
+| Version / date |0.1.1 /22/11/2026 Asia/Saigon |
 | Owner / implementer | Nguyễn Song Hào Kiệt — Independent Developer /Codex |
 | Authority | Actual Owner AUTONOMOUS PROJECT CONTINUATION22/11/2026, C1 P0.1; current conversation, no fabricated original receipt or retrospective approval |
 | Workflow | Authorized new unenrolled V1 task; no V2 migration/enrollment/lease claimed. AGENTS unchanged;168 NOT_EFFECTIVE |
@@ -28,7 +28,7 @@ Trusted host responsibilities before separately reviewed integration: authentica
 
 ## Test plan and evidence
 
-`pytest tests/backend/test_confidentiality.py tests/backend/test_extraction_runtime.py tests/backend/test_draft_runtime.py tests/backend/test_preapi_provider_tripwire.py -q -p no:cacheprovider`, Python3.12 Windows, live flags0. Actual local result: **88PASS/0FAIL/0SKIP**,11.75s, comprising35 new confidentiality tests +21 extraction +25 draft +7 tripwire contracts,1 existing deprecation warning. Immutable SHA/TREE and hosted CI are in PR receipt; no future commit SHA embedded here. Tests cover success, fail-closed authority, public/unpublished classification, exact scope/source/payload binding, mutation/revocation/reclassification, expiry, bounded inputs/capacity, clock/callback errors and zero SDK/network activity. Provider regressions remain unmodified.
+`pytest tests/backend/test_confidentiality.py tests/backend/test_extraction_runtime.py tests/backend/test_draft_runtime.py tests/backend/test_preapi_provider_tripwire.py -q -p no:cacheprovider`, Python3.12 Windows, live flags0. Actual final local result: **89PASS/0FAIL/0SKIP**,11.00s, comprising36 confidentiality tests +21 extraction +25 draft +7 tripwire contracts,1 existing deprecation warning. Immutable SHA/TREE and hosted CI are in PR receipt; no future commit SHA embedded here. Tests cover success, fail-closed authority, public/unpublished classification, exact scope/source/payload binding, mutation/revocation/reclassification, expiry, bounded inputs/capacity, clock/callback errors and zero SDK/network activity. Provider regressions remain unmodified.
 
 Existing base source full-suite evidence from same-day REALIGN inventory:1266PASS/3SKIP (Windows), MCP158PASS, frontend lint/typecheck/security75PASS. These are **baseline**, not substitutes for new-candidate CI. Next16.4.1 audit1MODERATE/0HIGH/CRITICAL remains on main; build SecurityFatalError/browser blocked.165 remediation candidate exists but is unmerged; this task does not duplicate dependency upgrades or waive gates. Fresh exact-HEAD hosted CI required, expected result must be read rather than assumed.
 
@@ -47,7 +47,7 @@ Task ID: P0-CONF
 Agent: Codex
 Reviewer: Security AND Quality, Gemini4 Argon(High) requested; execution unavailable
 Status: IMPLEMENTED_CANDIDATE /INTEGRATION_PENDING /BLOCKED_REVIEW
-Version: 0.1.0
+Version: 0.1.1
 Work completed: callable offline classification/grant/check/revoke, immutable scoped receipts, fail-closed tests
 Files affected: confidentiality.py, test_confidentiality.py, P0-CONF.md, README.md, Control Center
 Evidence checked: existing digest/snapshot/tripwire contracts, new functional tests, actual PR CI in receipt
@@ -59,3 +59,5 @@ Recommended next action: exact-final-HEAD independent reviews, accepted security
 ```
 
 Changelog: new0.1.0,22/11/2026,Codex,actual Owner P0.1 continuation; additive offline module, no existing API/schema/policy breaking change.
+
+0.1.0→0.1.1,22/11/2026,Codex: self-check callback reentrancy capacity edge fixed by post-authorization capacity recheck; added regression, final local89PASS/0FAIL/0SKIP. Prior45c9799/88PASS preserved as superseded history; no independent verdict inferred. Breaking changeNo.
