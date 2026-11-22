@@ -10,7 +10,7 @@ Website Next.js + FastAPI hỗ trợ chuyển một bài báo PDF/DOCX thành b�
 
 - [Yêu cầu sản phẩm và workflow mục tiêu](docs/strategy/AIIP_PRODUCT_REQUIREMENTS.md)
 - [Repository audit, Feature Gap Matrix, roadmap P0/P1/P2 và funding backlog](docs/strategy/PRODUCT_DIRECTION_20261121.md)
-- [Control Center — current checkpoint](docs/operations/01_PROJECT_CONTROL_CENTER.md#realign-001--current-checkpoint-21112026)
+- [Control Center — current checkpoint](docs/operations/01_PROJECT_CONTROL_CENTER.md#realign-001--current-reconciliation22112026)
 
 ## Project status — 22/11/2026
 
@@ -23,10 +23,11 @@ Website Next.js + FastAPI hỗ trợ chuyển một bài báo PDF/DOCX thành b�
 | Dependency remediation | [#165](https://github.com/nshaokiet/ai-ip-description-generator/pull/165) HEAD `4186b7a…`, CI44905331090 SUCCESS; fresh Security/Quality/provenance/Human merge gates còn thiếu |
 | Reviewer policy | [#166](https://github.com/nshaokiet/ai-ip-description-generator/pull/166) OPEN/DRAFT, CI44889601897 FAILURE ở audit; direct Owner chọn Gemini 4 Argon (High), read-only |
 | Product realignment | [#167](https://github.com/nshaokiet/ai-ip-description-generator/pull/167) Phase1 PENDING; candidate CI44925203009 FAIL tại audit kế thừa; cập nhật22/11 tiếp tục cùng PR, new-head CI/review cần kiểm riêng |
+| Fresh22/11 validation | MCP158PASS; lint/typecheck/security75PASS; full/prod audit FAIL1MODERATE, build SecurityFatalError FAIL, browser E2E BLOCKED; Python1266PASS/3SKIP; final-head receipt ởPR167 |
 | Prior Art / consent / figures / report exports | Có gaps được ghi trong roadmap; chưa phải workflow hoàn chỉnh |
 | Claims / API / semantic / production | Product Claims DISABLED; USD 0/provider NOT_RUN; semantic NOT_DETERMINED; production NOT_APPROVED |
 
-**Lượt22/11:** Phase0 preflight → Phase1 cập nhật định hướng → Phase2 inventory → Phase3 roadmap. Phase1 chưa tích hợp thì inventory chỉ read-only theo ngoại lệ Owner, không bắt đầu feature work. PR168 NOT_EFFECTIVE; task tiếp theo phải được phê duyệt theo V1 hiện hành. Không tự merge amendment hoặc triển khai production. Next business slice: P0-CONF rồi manual P0-PRIOR, reuse custody/source revisions. API_READY_SYNTHETIC không thay P1 operational readiness hoặc live AI validation.
+**Lượt22/11:** Phase0 preflight → Phase1 cập nhật định hướng → Phase2 inventory → Phase3 roadmap. Phase1 vẫn INTEGRATION_PENDING/BLOCKED_REVIEW; inventory đã thực hiện read-only theo ngoại lệ Owner. Actual-date Owner continuation22/11 cho phép task FREE riêng sau audit, trong quyền hiện hành; PR168 NOT_EFFECTIVE, không miễn review/merge gates. Không tự merge amendment hoặc triển khai production. Next business slice: P0-CONF rồi manual P0-PRIOR, reuse custody/source revisions. API_READY_SYNTHETIC không thay P1 operational readiness hoặc live AI validation.
 
 UI còn legacy attribution; sửa ở task P0-ID sau gates. README này không xác lập quan hệ với một tổ chức hoặc kết luận ownership pháp lý.
 

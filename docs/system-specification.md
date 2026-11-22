@@ -8,13 +8,13 @@
 |---|---|
 | Document ID | SPEC-001 |
 | Document title | Đặc tả hệ thống — AI Intellectual Property Description Generator |
-| Version | 0.3.9 |
+| Version | 0.3.10 |
 | Status | Approved baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT |
 | Reviewer | Human / Product Owner |
 | Created date | 18/09/2026 |
-| Last updated | 21/11/2026 — REALIGN-001 documentary overlay |
+| Last updated | 22/11/2026 — REALIGN-001 documentary overlay |
 | Related task ID | SPEC-001 |
 | Source of Truth | GitHub — `docs/system-specification.md` |
 | Confidentiality level | Internal; tài liệu nghiên cứu đầu vào phải được xử lý như Confidential |
@@ -572,3 +572,5 @@ Ngày hoàn thành từng phase: `[CẦN XÁC NHẬN]`. Mục tiêu hoàn thành
 | HD-008 | DOCX template và các section áp dụng | Đã được Human quyết định cho DOC-001 v1.0.0; Human Visual QA/Gemini reviews PASS; Completed — Merged via PR #7 | Human / chuyên gia SHTT |
 | HD-009 | Optional PDF/QA/claim mapping | Ảnh hưởng workload trước deadline | Human / Product Owner |
 | HD-010 | Golden set, metrics và threshold | Không thể kết luận chất lượng AI đạt | Human / Product Owner |
+
+0.3.9→0.3.10,22/11/2026,Codex,REALIGN-001: source inventory/roadmap in existing report; separate actual-date Owner continuation permits scoped free implementation under existing governance, not168 activation or review/merge waiver. Phase1 integration PENDING; this PR changes no runtime. Breaking change No.

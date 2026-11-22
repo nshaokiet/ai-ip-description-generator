@@ -8,22 +8,26 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.112 |
+| Version | 0.3.113 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
-| Reviewer | Gemini 3.1 Pro High |
+| Reviewer | Historical baseline: Gemini 3.1 Pro High; current REALIGN Security/Quality: Gemini 4 Argon (High), PENDING |
 | Created date | 18/09/2026 |
-| Last updated | 21/11/2026 Asia/Saigon — REALIGN-001 candidate; history preserved |
+| Last updated | 22/11/2026 Asia/Saigon — REALIGN-001 candidate; history preserved |
 | Related task ID | SPEC-004 |
 | Source of Truth | Operational status bridge; bản nguồn Git tại `docs/operations/01_PROJECT_CONTROL_CENTER.md` |
 | Confidentiality level | Public-safe documentary projection; original internal records retained privately |
 
-## REALIGN-001 — continuation22/11/2026
+## REALIGN-001 — current reconciliation22/11/2026
 
-Tiếp tục PR167 từ d2ff45c; Owner cho Phase0preflight→Phase1direction→Phase2inventory→Phase3roadmap. Đã cập nhật và đối chiếu direction checkpoint trước inventory. Phase1 **PENDING integration/review/security CI**, không Completed. Theo ngoại lệ Owner, bước tiếp theo chỉ inventory read-only trên main/candidate đã xác định; không feature work. PR168 NOT_EFFECTIVE; AGENTS/V1 authority unchanged; task mới phải có phê duyệt riêng, không coi roadmap là implementation permission. No paid/provider/real research/deploy/Claims activation. Checkpoint21/11 bên dưới giữ lịch sử.
+PRODUCT_DIRECTION_ALIGNED / INTEGRATION_PENDING / BLOCKED_REVIEW. Direction checkpoint `cfe1c1643f8eb94c1eae4f66c58a43773dd687bc` precedes fresh read-only inventory under explicit Owner exception; Phase1 not Completed. [Existing report](../strategy/PRODUCT_DIRECTION_20261121.md) now holds source-level architecture,10-step gap matrix,11-field P0/P1/P2 task scopes and funding boundaries, not a duplicate strategy set. No runtime or AGENTS change in167.
 
-OPS-0010.3.111→0.3.112,22/11/2026,Codex: actual Owner continuation/phase gate; no runtime/governance policy change.
+Fresh audit: next16.4.1 has1MODERATE/0HIGH/CRITICAL in full AND production; build SecurityFatalError FAIL; browser/static demo BLOCKED, no bypass/retry. Local lint/typecheck/lint-security75PASS and MCP158PASS; Python1266PASS/3SKIP; final immutable HEAD/CI in [task handoff](../tasks/REALIGN-001.md)/PR receipt, not inherited verdicts.165 candidate4186b7a has successful CI but fresh independent reviews/actual-date provenance disposition/merge authority outstanding;166/167 inherited audit failure;168 stacked166, NOT_EFFECTIVE. No edits/merge/rebase/Ready/deploy of these branches in this doc phase.
+
+Owner actual-date continuation22/11 authorizes separate bounded FREE development after this reconciliation under existing rules; P0-CONF then manual P0-PRIOR are next. This is not retrospective165 initiation proof, approval of168, or waiver of auth/privacy/security/review/merge gates. No paid/provider/real research/Claims activation. Antigravity tools unavailable: BLOCKED_REVIEW; MCP operational state/lease NOT VERIFIED. V1 is preserved for authorized unenrolled tasks without V2 history, not a fallback for existing V2 tasks.
+
+OPS-0010.3.112→0.3.113,22/11/2026,Codex: actual-date inventory/validation/continuation evidence; no runtime/governance policy change. Previous21/11 checkpoint below is history.
 
 ## REALIGN-001 — current checkpoint 21/11/2026
 
@@ -1498,3 +1502,5 @@ raw review and sensitive operational/personal metadata retained privately. Publi
 candidate starts at existing main, not internal candidate history. Prior originals
 remain in private custody and prior Git history; redacted local-path references
 in this current projection are labelled explicitly. No new approval/PASS. Breaking change: No.
+
+Reviewer capability readback22/11: Antigravity IDE process/window exists. Approved computer-use runtime failed twice including reset (`helper_unknown_error: setup refresh had errors`, then trusted Node process exited). No app input/review dispatch occurred; actual model/session/transcript remains NOT_VERIFIED. BLOCKED_REVIEW is execution-tool failure, not a claim the app is absent. No reviewer substitution.
