@@ -21,8 +21,9 @@ sys.path.insert(0, str(ROOT))
 from test_uspto_document_package_v1 import inputs, run
 from backend.app.services.uspto_offline_renderer import (
     BANNER, CLAIMS_INCOMPLETE, FILES, render_uspto_document_package,
-    _build_model, _business_models, render_business_document_set,
+    _build_model,
 )
+from backend.app.services.business_document_outputs import _business_models, render_business_document_set
 from verify_p2_006_qa_environment import verify
 
 

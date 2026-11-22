@@ -10,7 +10,7 @@ from docx import Document
 from pypdf import PdfReader
 import pytest
 
-from backend.app.services import uspto_offline_renderer as renderer
+from backend.app.services import business_document_outputs as renderer
 from backend.app.services.uspto_document_package_validation import USPTODocumentPackageValidationError
 from tests.backend.test_uspto_document_package_v1 import inputs, run
 from tests.backend.test_uspto_offline_renderer import _docx_text, _pdf_text
