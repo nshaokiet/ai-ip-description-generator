@@ -27,7 +27,13 @@ def _business_docx_title(path: Path, title: str) -> None:
     paragraph = document.paragraphs[0]
     if paragraph.text != title:
         raise ValueError("Business title unavailable")
-    paragraph.style = document.styles["Title"]
+    style = document.styles["Title"]
+    paragraph.style = style
+    style.font.name = "Crimson Text"
+    style.font.color.rgb = RGBColor(0, 0, 0)
+    for element in (style.element, paragraph._p):
+        for border in list(element.xpath(".//w:pBdr")):
+            border.getparent().remove(border)
     for run in paragraph.runs:
         run.font.name = "Crimson Text"
         run.font.color.rgb = RGBColor(0, 0, 0)
@@ -35,7 +41,7 @@ def _business_docx_title(path: Path, title: str) -> None:
     document.save(path)
 
 
-BUSINESS_OUTPUT_VERSION = "1.0.1"
+BUSINESS_OUTPUT_VERSION = "1.0.3"
 BUSINESS_FILES = tuple(f"{kind}.{extension}" for kind in
     ("PATENT_DRAFT", "ANNOTATED_DRAFT", "ANALYSIS_REPORT") for extension in ("pdf", "docx"))
 BUSINESS_MANIFEST = "BUSINESS_OUTPUT_MANIFEST.json"
@@ -43,7 +49,7 @@ BUSINESS_LABELS = {
     "en": {"PATENT_DRAFT": "Patent Draft", "ANNOTATED_DRAFT": "Annotated Draft",
         "ANALYSIS_REPORT": "Analysis Report", "source": "Source", "missing": "Missing information",
         "prior": "Prior Art limitations", "figures": "Figure review", "claims": "Claims support",
-        "notice": "DRAFT — HUMAN REVIEW REQUIRED. Template labels only; source technical text unchanged. Translation not assessed.",
+        "notice": "Template labels only; source technical text unchanged. Translation not assessed.",
         "prior_notice": "Prior Art evidence NOT_PROVIDED. Search completeness and Human continuation NOT_VERIFIED. No novelty or patentability conclusion.",
         "figure_notice": "REVIEW_REQUIRED: no original-asset/redraw fidelity verification is supplied."},
     "vi": {"PATENT_DRAFT": "Bản thảo sáng chế", "ANNOTATED_DRAFT": "Bản thảo có chú thích",
@@ -148,6 +154,7 @@ def _business_models(package, originals, template_language):
     report.append(Section("CLAIM_SUPPORT_REVIEW", labels["claims"], tuple(claim_parts)))
     limitations = (Section("PRIOR_ART_LIMITATIONS", labels["prior"], (Part("status", labels["prior_notice"]),)),
                    Section("FIGURE_VALIDATION", labels["figures"], (Part("status", labels["figure_notice"]),)))
+    annotated.insert(0, report[0])  # Give every inline citation its actual document/hash context.
     annotated.extend(limitations)
     report.extend(limitations)
     report.append(Section("QUALITY_REVIEW", "Human review", (Part("status",

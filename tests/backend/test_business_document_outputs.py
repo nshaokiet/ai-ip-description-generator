@@ -52,7 +52,10 @@ def test_canonical_package_to_three_document_types_docx_pdf_and_provenance(tmp_p
         if path.suffix == ".pdf":
             assert all("DRAFT" in (page.extract_text() or "") for page in PdfReader(str(path)).pages)
         else:
-            assert any(p.style.name == "Title" for p in Document(path).paragraphs)
+            document = Document(path)
+            assert any(p.style.name == "Title" for p in document.paragraphs)
+            assert not document.styles["Title"].element.xpath(".//w:pBdr")
+            assert not document.paragraphs[0]._p.xpath(".//w:pBdr")
             with ZipFile(path) as archive:
                 assert not any("vbaProject" in entry or "embeddings/" in entry for entry in archive.namelist())
                 for entry in archive.namelist():
@@ -63,6 +66,8 @@ def test_canonical_package_to_three_document_types_docx_pdf_and_provenance(tmp_p
     report = _docx_text(files["ANALYSIS_REPORT.docx"])
     assert "EV-P0001-C001" not in patent and "MI-P2-003" not in patent
     assert "EV-P0001-C001 (page=1, chunk_id=P0001-C001)" in annotated
+    assert package["source_identity"]["source_sha256"] in annotated
+    assert package["source_identity"]["file_name"] in annotated
     paragraphs = [p.text for p in Document(files["ANNOTATED_DRAFT.docx"]).paragraphs]
     position = paragraphs.index("Synthetic Optical Controller Calibration")
     assert "EV-P0001-C001" in paragraphs[position+1]
@@ -119,3 +124,12 @@ def test_input_objects_are_not_modified(tmp_path):
     original = inputs();package = run(original);before = deepcopy((original, package))
     renderer.render_business_document_set(package, **original, output_dir=tmp_path)
     assert (original, package) == before
+
+
+def test_pdf_qa_decodes_ligatures_without_erasing_scientific_content():
+    from tests.backend.qa_p2_006_libreoffice import semantic_pdf_text
+    assert semantic_pdf_text("oﬀ conﬁrmation ﬂow coeﬃcient") == "off confirmation flow coefficient"
+    assert semantic_pdf_text("12 percent") != semantic_pdf_text("21 percent")
+    assert semantic_pdf_text("not supported") != semantic_pdf_text("supported")
+    assert semantic_pdf_text("µm") != semantic_pdf_text("μm")
+    assert semantic_pdf_text("SOURCE_FACT") != semantic_pdf_text("MISSING")

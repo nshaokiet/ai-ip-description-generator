@@ -18,13 +18,13 @@ from pypdf import PdfReader
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
-from test_uspto_document_package_v1 import inputs, run
+from tests.backend.test_uspto_document_package_v1 import inputs, run
 from backend.app.services.uspto_offline_renderer import (
     BANNER, CLAIMS_INCOMPLETE, FILES, render_uspto_document_package,
     _build_model,
 )
 from backend.app.services.business_document_outputs import _business_models, render_business_document_set
-from verify_p2_006_qa_environment import verify
+from tests.backend.verify_p2_006_qa_environment import verify
 
 
 def check(program: list[str]) -> None:
@@ -65,6 +65,14 @@ def synthetic_figure_layout(qa_root: Path) -> None:
     ])
 
 
+
+def semantic_pdf_text(text: str) -> str:
+    """Decode standard presentation ligatures only; retain scientific symbols/values."""
+    import unicodedata
+    ligatures = str.maketrans({"ﬀ": "ff", "ﬁ": "fi", "ﬂ": "fl", "ﬃ": "ffi", "ﬄ": "ffl", "ﬅ": "st", "ﬆ": "st"})
+    return re.sub(r"\s+", " ", unicodedata.normalize("NFC", text.translate(ligatures)))
+
+
 def business_output_layout(qa_root, originals, package):
     """Render all business PDFs and editable DOCX with the existing pinned tools."""
     import shutil
@@ -92,14 +100,21 @@ def business_output_layout(qa_root, originals, package):
             for engine, path in (("NATIVE", outputs[kind + ".pdf"]), ("LO", rendered)):
                 pages, text = normalized_pdf(path)
                 assert pages and all("DRAFT" in page for page in pages)
-                assert all(re.sub(r"\s+", " ", fragment) in text for fragment in expected)
+                missing = [index for index, fragment in enumerate(expected)
+                           if semantic_pdf_text(fragment) not in semantic_pdf_text(text)]
                 archived_pdf = qa_root / (tag + "-" + engine + ".pdf")
                 shutil.copyfile(path, archived_pdf)
                 for number in range(1, len(pages) + 1):
                     check(["pdftoppm", "-f", str(number), "-l", str(number), "-r", "150",
                         "-singlefile", "-png", str(path), str(qa_root / f"{tag}-{engine}-p{number:02}")])
-                result["engines"][engine] = {"pages": len(pages), "all_fragments_preserved": True,
+                result["engines"][engine] = {"pages": len(pages), "all_fragments_preserved": not missing,
+                    "expected_fragments": len(expected), "missing_fragment_indices": missing,
+                    "presentation_ligatures": sorted({c for c in text if c in "ﬀﬁﬂﬃﬄﬅﬆ"}),
                     "pdf_sha256": hashlib.sha256(path.read_bytes()).hexdigest()}
+                results[tag] = result
+                (qa_root / "business-output-qa.json").write_text(json.dumps(results, indent=2) + "\n")
+                if missing:
+                    raise AssertionError(f"{tag}/{engine}: {len(missing)} source fragments missing; raw PDF/pages preserved")
             results[tag] = result
             print(f"BUSINESS_LO_QA {tag}: native{result['engines']['NATIVE']['pages']} / LO{result['engines']['LO']['pages']} pages, all source fragments preserved")
     (qa_root / "business-output-qa.json").write_text(json.dumps(results, indent=2) + "\n")

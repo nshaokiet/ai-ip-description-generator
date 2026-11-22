@@ -46,7 +46,7 @@ Dự án hướng tới một **website Next.js + FastAPI** giúp nhóm nghiên 
 | Workstream | Current evidence / boundary |
 |---|---|
 | main |6bb947c1cf67bcfb3ffc935b3a3fafcafb87f0af; this candidate not merged |
-| P0-OUTPUT | [Task/test/review package](docs/tasks/P0-OUTPUT.md): three business document types ×DOCX/PDF and provenance manifest;23 local PASS; VI/EN template labels only, no semantic translation; native candidate, browser integration pending |
+| P0-OUTPUT | [Task/test/review package](docs/tasks/P0-OUTPUT.md): three business document types ×DOCX/PDF and provenance manifest;24 local PASS; VI/EN template labels only, no semantic translation; native candidate, browser integration pending |
 | P0-PRIOR / P0-CONF / direction |170/169/167 remain independent unmerged candidates; no unaccepted code or168 policy imported |
 | Security / readiness | Actual main Next graph still fails; existing165 remediation probe passes audit/build/browser. Required independent reviews/security/layout/integration gates remain; APIUSD0, ClaimsOFF, no deployment or end-to-end MVP claim |
 

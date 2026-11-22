@@ -8,7 +8,7 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.118 |
+| Version | 0.3.119 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
@@ -21,7 +21,7 @@
 
 ## P0-OUTPUT — existing renderer business documents22/11/2026
 
-Actual Human NEXT DEVELOPMENT EXECUTION Phase2 authorizes this separate main-based task. [Task/contract/test/handoff](../tasks/P0-OUTPUT.md): extend existing byte-frozen renderer/validator/fonts and pinned LibreOffice QA; Patent/Annotated/Analysis3×DOCX/PDF plus provenance manifest.23 local PASS; VI/EN labels with source technical text unchanged, no translation semantic claim. Actual Prior Art/figure/approval gaps remain explicit; no provider/browser/Claims activation or unmerged169/170 import.
+Actual Human NEXT DEVELOPMENT EXECUTION Phase2 authorizes this separate main-based task. [Task/contract/test/handoff](../tasks/P0-OUTPUT.md): extend existing byte-frozen renderer/validator/fonts and pinned LibreOffice QA; Patent/Annotated/Analysis3×DOCX/PDF plus provenance manifest.24 local PASS; VI/EN labels with source technical text unchanged, no translation semantic claim. Actual Prior Art/figure/approval gaps remain explicit; no provider/browser/Claims activation or unmerged169/170 import.
 
 IMPLEMENTED_CANDIDATE /INTEGRATION_PENDING /REVIEW_PENDING, not Completed. Hosted native/DOCX layout and final SHA/CI/visual evidence in PR receipt; no PASS inferred. Current frontend graph failure persists outside disposable165 probe; Antigravity UI tool fails, required independent streams NOT_RUN.165 historical AUTHORIZATION_PROVENANCE_NOT_VERIFIED and168 NOT_EFFECTIVE unchanged. No paid API/real paper/deploy/merge.
 
@@ -1492,3 +1492,5 @@ remain in private custody and prior Git history; redacted local-path references
 in this current projection are labelled explicitly. No new approval/PASS. Breaking change: No.
 
 OPS-0010.3.116→0.3.118,22/11/2026,Codex: preserve initial HD07 failure, restore frozen engine and use additive projection adapter;0.3.117 belongs separate ASSETS candidate. No golden/test/CI gate change.
+
+OPS-0010.3.118→0.3.119,22/11/2026,Codex: preserve b031 LibreOffice source-fragment failure; add raw layout diagnostics, standard ligature decoding with scientific distinctions retained, standalone annotation source context and observed Title-border correction. Local24PASS; final hosted/visual checks and independent reviews still required. No CI threshold/golden/released renderer change.
