@@ -66,11 +66,34 @@ def synthetic_figure_layout(qa_root: Path) -> None:
 
 
 
-def semantic_pdf_text(text: str) -> str:
+def presentation_pdf_text(text: str) -> str:
     """Decode standard presentation ligatures only; retain scientific symbols/values."""
     import unicodedata
     ligatures = str.maketrans({"ﬀ": "ff", "ﬁ": "fi", "ﬂ": "fl", "ﬃ": "ffi", "ﬄ": "ffl", "ﬅ": "st", "ﬆ": "st"})
-    return re.sub(r"\s+", " ", unicodedata.normalize("NFC", text.translate(ligatures)))
+    return unicodedata.normalize("NFC", text.translate(ligatures))
+
+
+def semantic_pdf_text(text: str) -> str:
+    return re.sub(r"\s+", " ", presentation_pdf_text(text))
+
+
+def pdf_contains_source_fragment(fragment: str, raw_text: str) -> bool:
+    """Require every source character; allow a line break after an existing hyphen.
+
+    LibreOffice wraps e.g. MI-IR-0001 as MI-IR-\n0001. Only that observed
+    presentation break is optional; spaces within tokens, removed hyphens,
+    changed numbers and other inserted/removed characters remain mismatches.
+    """
+    expected = semantic_pdf_text(fragment)
+    if not expected:
+        return False
+    pattern = []
+    for index, character in enumerate(expected):
+        pattern.append(r"\s+" if character == " " else re.escape(character))
+        if (character == "-" and 0 < index < len(expected) - 1
+                and expected[index - 1] != " " and expected[index + 1] != " "):
+            pattern.append(r"(?:[ \t]*\r?\n[ \t]*)?")
+    return re.search("".join(pattern), presentation_pdf_text(raw_text)) is not None
 
 
 def business_output_layout(qa_root, originals, package):
@@ -100,8 +123,9 @@ def business_output_layout(qa_root, originals, package):
             for engine, path in (("NATIVE", outputs[kind + ".pdf"]), ("LO", rendered)):
                 pages, text = normalized_pdf(path)
                 assert pages and all("DRAFT" in page for page in pages)
+                raw_text = "\n".join(page.extract_text() or "" for page in PdfReader(str(path)).pages)
                 missing = [index for index, fragment in enumerate(expected)
-                           if semantic_pdf_text(fragment) not in semantic_pdf_text(text)]
+                           if not pdf_contains_source_fragment(fragment, raw_text)]
                 archived_pdf = qa_root / (tag + "-" + engine + ".pdf")
                 shutil.copyfile(path, archived_pdf)
                 for number in range(1, len(pages) + 1):

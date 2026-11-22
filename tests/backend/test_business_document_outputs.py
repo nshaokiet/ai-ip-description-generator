@@ -133,3 +133,16 @@ def test_pdf_qa_decodes_ligatures_without_erasing_scientific_content():
     assert semantic_pdf_text("not supported") != semantic_pdf_text("supported")
     assert semantic_pdf_text("µm") != semantic_pdf_text("μm")
     assert semantic_pdf_text("SOURCE_FACT") != semantic_pdf_text("MISSING")
+
+
+def test_pdf_qa_matches_observed_identifier_wrap_without_omitting_characters():
+    from tests.backend.qa_p2_006_libreoffice import pdf_contains_source_fragment as contains
+    assert contains('"missing_id": "MI-IR-0001"', '"missing_id": "MI-IR-\n0001"')
+    assert contains("The flow is 12 percent.", "The ﬂow is 12\npercent.")
+    assert not contains("MI-IR-0001", "MI-IR- 0001")
+    assert not contains("MI-IR-0001", "MI-IR-\n0002")
+    assert not contains("MI-IR-0001", "MIIR0001")
+    assert not contains("MI-IR-0001", "MI-I\nR-0001")
+    assert not contains("12 percent", "21 percent")
+    assert not contains("not supported", "supported")
+    assert not contains("µm", "μm")

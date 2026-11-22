@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| Version / date |0.1.2 /22/11/2026 Asia/Saigon |
+| Version / date |0.1.3 /22/11/2026 Asia/Saigon |
 | Authority | Actual Human NEXT DEVELOPMENT EXECUTION, Phase2, current22/11 conversation; task-specific V1, no new governance authority |
 | Owner / implementer | Nguyễn Song Hào Kiệt — Independent Developer /Codex |
 | Base / branch | main6bb947c1cf67bcfb3ffc935b3a3fafcafb87f0af /feature/p0-output-business-documents-20261122 |
@@ -24,7 +24,7 @@ Changelog new0.1.0,22/11/2026,Codex: scoped additive output contract before impl
 
 ## Local verification and remaining evidence
 
-Final post-remediation local24PASS/0FAIL/0SKIP,28.28s:11 new business-output/QA cases +12 existing renderer regressions +1 unchanged HD07 released-file hash gate. All3×2 formats generated, actual scientific values/source citations/missing markers preserved, manifests match output hashes, VI labels extract, unsupported/tampered inputs rejected, collision/partial-failure safety and no SDK/network use verified. Existing four-output API retains its prior behavior. AST/UTF8/links/credential/diff/governance structural checks apply before publication.
+Final post-remediation local25PASS/0FAIL/0SKIP,38.04s:12 new business-output/QA cases +12 existing renderer regressions +1 unchanged HD07 released-file hash gate. All3×2 formats generated, actual scientific values/source citations/missing markers preserved, manifests match output hashes, VI labels extract, unsupported/tampered inputs rejected, collision/partial-failure safety and no SDK/network use verified. Existing four-output API retains its prior behavior. AST/UTF8/links/credential/diff/governance structural checks apply before publication.
 
 Native export validates consistency against seven supplied canonical originals, not external authenticity/existence of a real paper. Prior Art input is NOT_PROVIDED; source technical prose is not translated, figure fidelity remains REVIEW_REQUIRED. Neither template labels nor mock/structural PASS is real semantic/filing acceptance.
 
@@ -37,10 +37,10 @@ Task ID: P0-OUTPUT
 Agent: Codex
 Reviewer: actual Gemini4 Argon(High) Security AND Quality requested; NOT_RUN
 Status: IMPLEMENTED_CANDIDATE /INTEGRATION_PENDING /REVIEW_PENDING
-Version: task0.1.2 /business-output contract1.0.3
+Version: task0.1.3 /business-output contract1.0.3
 Work completed: three native business document types ×DOCX/PDF, source annotations/report and hash manifest; template labels en/vi; existing renderer/QA reused
 Files affected: business_document_outputs.py, test_business_document_outputs.py, qa_p2_006_libreoffice.py, P0-OUTPUT.md, README.md, Control Center
-Evidence checked: canonical seven-input validation,24 local tests, no-egress tripwire, actual hosted layout/CI evidence in receipt
+Evidence checked: canonical seven-input validation,25 local tests, no-egress tripwire, actual hosted layout/CI evidence in receipt
 Findings: prior-art/figure/translation semantic evidence unavailable; actual main frontend audit fails until accepted165 integration
 Decisions: no new dependency/pipeline/provider/browser/Claims activation or168 authority
 Issues: independent review/tool access, exact-head security CI and integration gates pending; DOCX visual QA must be observed
@@ -55,3 +55,5 @@ Recommended next action: inspect preserved native/LibreOffice pages, genuine fin
 Business manifest1.0.1→1.0.2,22/11/2026: add actual document/file/SHA context to Annotated Draft so per-paper evidence IDs cannot be mistaken across standalone files; scientific source text unchanged. Same current task0.1.2 includes QA diagnostic update; all source fragments remain required.
 
 Business manifest1.0.2→1.0.3,22/11/2026: visual inspection of preserved b031 LO page exposed inherited blue Title-style border and duplicate status text. Additive DOCX post-formatting removes title borders/sets black, and English notice avoids duplicate DRAFT wording; released renderer remains unchanged. These are presentation corrections, not source/semantic changes. Fresh full/visual checks required.
+
+0.1.2→0.1.3,22/11/2026,Codex: actual9240 hosted backend1278PASS/2SKIP; preserved LO PDF diagnostic identifies fragment82 as MI-IR-0001 wrapping after its existing hyphen, not missing characters or a ligature. Compare raw line breaks with a narrow optional newline after an existing unspaced hyphen; every source character, number, hyphen and scientific symbol remains required. Plain intra-token spaces, altered IDs/values and omitted content remain rejected. All90 fragments of that actual LO PDF now match;25 local tests pass. Output adapter/contract1.0.3 and released renderer unchanged. Fresh complete hosted/visual evidence still required.
