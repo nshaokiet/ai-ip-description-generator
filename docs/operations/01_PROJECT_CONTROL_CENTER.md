@@ -8,13 +8,13 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.123 |
+| Version | 0.3.124 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High |
 | Created date | 18/09/2026 |
-| Last updated |22/11/2026 — factual165 postmerge candidate; historical records preserved |
+| Last updated |23/11/2026 —174 reconciliation; accepted175 historical records preserved |
 | Related task ID | SPEC-004 |
 | Source of Truth | Operational status bridge; bản nguồn Git tại `docs/operations/01_PROJECT_CONTROL_CENTER.md` |
 | Confidentiality level | Public-safe documentary projection; original internal records retained privately |
@@ -1509,3 +1509,5 @@ OPS-0010.3.110→0.3.121,22/11/2026,Codex: append bounded source-lifecycle execu
 PR175 accepted at986c49782326487fd2b619f6f3603e618d9f806d; exact-main CI45097285617 SUCCESS. Earlier175 CLOSEOUT_PENDING paragraphs above are historical evidence, not current state. PR174 remains a separate Draft requiring fresh final-HEAD CI/reviews and Human merge decision. Accepted175 evidence is preserved; no authority transfers to174. Historical165 AUTHORIZATION_PROVENANCE_NOT_VERIFIED and prospective22Nov disposition remain distinct.
 
 OPS-0010.3.122→0.3.123,23/11/2026,Codex:combine accepted175 and174 candidate records after normal main merge; preserve both histories. Runtime/TTL/auth/retention unchanged.
+
+OPS-0010.3.123→0.3.124,23/11/2026,Codex:align current metadata date with reconciliation;accepted historical entry dates unchanged.
