@@ -6,9 +6,12 @@
 
 ## Project status — DEP-SEC postmerge22/11/2026
 
+Current23/11 checkpoint: PR175 MERGED at986c49782326487fd2b619f6f3603e618d9f806d; exact-main CI45097285617 SUCCESS. The22Nov pending-closeout wording below is preserved history. It grants no174 merge authority.
+
 | Task | Current evidence / boundary |
 |---|---|
 | DEP-SEC-20261118-001 | PR165 implementation MERGED_VERIFIED at50072fc; exact-main CI45041622472 SUCCESS, full/prod audit0, fresh reviewed4186b7a tree identical. [Evidence](docs/tasks/DEP-SEC-20261118-001.md). Governance closeout pending this docs candidate's review/merge gates. Historical authorization limitation retained with actual-date prospective disposition. |
+| P0-SOURCE-LIFECYCLE-001 | [Execution record](docs/tasks/P0-SOURCE-LIFECYCLE-001-execution.md): PR174 lease candidate reconciled with accepted main; fresh exact-HEAD CI/review pending, not merged; source handoff/strict-age admission not implemented. |
 | Integration |174 requires fresh new-HEAD CI and independent dual review;168 NOT_EFFECTIVE; ClaimsOFF/APIUSD0/productionNOT_APPROVED. |
 
 Historical status follows unchanged.

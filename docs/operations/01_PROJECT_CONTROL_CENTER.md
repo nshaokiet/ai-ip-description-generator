@@ -8,13 +8,13 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.122 |
+| Version | 0.3.124 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High |
 | Created date | 18/09/2026 |
-| Last updated |22/11/2026 — factual165 postmerge candidate; historical records preserved |
+| Last updated |23/11/2026 —174 reconciliation; accepted175 historical records preserved |
 | Related task ID | SPEC-004 |
 | Source of Truth | Operational status bridge; bản nguồn Git tại `docs/operations/01_PROJECT_CONTROL_CENTER.md` |
 | Confidentiality level | Public-safe documentary projection; original internal records retained privately |
@@ -1495,3 +1495,19 @@ Historical `AUTHORIZATION_PROVENANCE_NOT_VERIFIED` remains unresolved for2026-11
 Technical implementation MERGED_VERIFIED; governance documentation CLOSEOUT_PENDING this separate candidate's own review/accepted merge/postmerge gates. No fabricated MCP closeout/lease; capability unavailable. PR168 NOT_EFFECTIVE; ClaimsOFF/APIUSD0/productionNOT_APPROVED. This record grants no174 merge authority.
 
 OPS-0010.3.110→0.3.122,actual2026-11-22,Codex:postmerge factual evidence;parallel candidate history preserved, not adopted;no authority/policy change.
+
+
+## P0-SOURCE-LIFECYCLE-001 — bounded execution22/11/2026
+
+Actual Human execution instruction authorizes independent non-policy correction after reproducing nested lease failure. [Execution/interface/decision record](../tasks/P0-SOURCE-LIFECYCLE-001-execution.md). Separate accepted-main candidate; no adoption of unmerged173 specification or169–172 services. Source/TTL/deletion/auth/provider/Claims policies unchanged. Candidate implementation/review/integration pending; no Completed claim or fabricated MCP lease. Exact HEAD/TREE/tests/CI in PR receipt.
+
+OPS-0010.3.110→0.3.121,22/11/2026,Codex: append bounded source-lifecycle execution and lease remediation candidate.111–120 remain parallel unmerged candidates, not silently adopted; preserve all historical entries. Breaking change:No public API/policy change.165 historical AUTHORIZATION_PROVENANCE_NOT_VERIFIED retained;168 NOT_EFFECTIVE.
+
+
+### Current reconciliation — actual23/11/2026
+
+PR175 accepted at986c49782326487fd2b619f6f3603e618d9f806d; exact-main CI45097285617 SUCCESS. Earlier175 CLOSEOUT_PENDING paragraphs above are historical evidence, not current state. PR174 remains a separate Draft requiring fresh final-HEAD CI/reviews and Human merge decision. Accepted175 evidence is preserved; no authority transfers to174. Historical165 AUTHORIZATION_PROVENANCE_NOT_VERIFIED and prospective22Nov disposition remain distinct.
+
+OPS-0010.3.122→0.3.123,23/11/2026,Codex:combine accepted175 and174 candidate records after normal main merge; preserve both histories. Runtime/TTL/auth/retention unchanged.
+
+OPS-0010.3.123→0.3.124,23/11/2026,Codex:align current metadata date with reconciliation;accepted historical entry dates unchanged.
