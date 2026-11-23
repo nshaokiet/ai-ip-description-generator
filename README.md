@@ -4,6 +4,12 @@
 
 # AI Intellectual Property Description Generator
 
+## Current accepted status — P0-SOURCE-LIFECYCLE-001 (2026-11-23)
+
+- **PR #174 bounded nested/concurrent lease correction:** `MERGED_VERIFIED`; reviewed HEAD `2f79c83f2f0050591cdf8468a52dac2007382d9a`, merged main `f988aac71bd8615c9b56ab66d352a6becd39d487`, identical TREE `6ce55d0d3393973b361dc20a19b37efd07d54ed5`.
+- **Postmerge gates:** [push CI #45105551647](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/45105551647) `COMPLETED/SUCCESS`; both jobs PASS; security graph audit PASS. [Evidence/limitations](https://github.com/nshaokiet/ai-ip-description-generator/pull/174#issuecomment-7090856152).
+- **NOT complete:** `SOURCE_LIFECYCLE_HANDOFF_NOT_VERIFIED` remains OPEN; strict-age TTL admission NOT_IMPLEMENTED; PR #173 / SL-D01–08 still PROPOSED, SL-D04/SL-D05 and other dependencies require separate decisions. No policy, Claims, provider, real-document or production authorization. The preceding 22/11 and original baseline status entries below are historical snapshots, not live PR #174 status.
+
 ## Project status — DEP-SEC postmerge22/11/2026
 
 Current23/11 checkpoint: PR175 MERGED at986c49782326487fd2b619f6f3603e618d9f806d; exact-main CI45097285617 SUCCESS. The22Nov pending-closeout wording below is preserved history. It grants no174 merge authority.

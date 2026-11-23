@@ -1,7 +1,7 @@
 # P0-SOURCE-LIFECYCLE-001 — bounded execution
 
-Version1.0.1, actual2026-11-23, Codex; Owner Nguyễn Song Hào Kiệt — Independent Developer.
-Status: IMPLEMENTED_CANDIDATE / REVIEW_PENDING / INTEGRATION_PENDING, not Completed.
+Version1.0.2, actual2026-11-23, Codex/GitHub integration executor; Owner Nguyễn Song Hào Kiệt — Independent Developer.
+Current status: LEASE_FIX_MERGED_VERIFIED / CI_SECURITY_POSTMERGE_SUCCESS / GOVERNANCE_DOC_SYNC_PENDING / SOURCE_HANDOFF_INTEGRATION_PENDING. Earlier candidate and review-pending records below are historical; full website handoff is not Completed.
 Authority: actual Human P0-SOURCE-LIFECYCLE-001 execution instruction permits reproducible non-policy fixes and isolated contract tests. The earlier PR173 spec75d6778576d56b6d19b61bf018179869623a9dfb remains proposed, not adopted. Latest instruction permits the bounded lease correction, not blanket SL-D approval.
 Base6bb947c1cf67bcfb3ffc935b3a3fafcafb87f0af; branch fix/p0-source-lifecycle-lease-20261122.
 
@@ -60,3 +60,14 @@ Recommended next action:genuine fixed-SHA dual review;accepted dependencies and 
 
 
 1.0.0→1.0.1,actual23/11/2026,Codex: reconcile174 against accepted175/main986c49782326487fd2b619f6f3603e618d9f806d. Original baseline/review/test entries remain history. No lease/backend/test implementation changes. Fresh final-HEAD CI and review required; previous Gemini3.8 one-cycle approval is not assumed renewed. Proposed new model selection requires actual-date disposition before dispatch. Strict age admission and SL-D04/D05 remain pending.
+
+
+## PR #174 accepted bounded lease-fix checkpoint — actual 2026-11-23
+
+Human authorized normal merge with exact `expected_head_sha=2f79c83f2f0050591cdf8468a52dac2007382d9a`. [Decision](https://github.com/nshaokiet/ai-ip-description-generator/pull/174#issuecomment-7090677535). Accepted main `f988aac71bd8615c9b56ab66d352a6becd39d487` with unchanged reviewed TREE `6ce55d0d3393973b361dc20a19b37efd07d54ed5`.
+
+[Postmerge push CI #45105551647](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/45105551647) COMPLETED/SUCCESS; both jobs and DEP-001 security-graph check SUCCESS. Artifact `14787631676`, 15,461 bytes, GitHub API digest `sha256:eb56d480e197491fc4b1798b9b21e92fcd3eb1712a79d3eefbed6d1e4b2162b1` on the exact merge SHA. API metadata verified; ZIP-byte rehash not performed by this recorder. Fresh Security/Quality Gemini 3.8 Flash High PASS/PASS with 0 blocking findings reported by Antigravity on exact candidate; provenance/hashes in Review Log and [PR receipt](https://github.com/nshaokiet/ai-ip-description-generator/pull/174#issuecomment-7090856152), original local bytes not independently inspected here.
+
+Bounded nested/concurrent source lease remediation `MERGED_VERIFIED`; out-of-band filesystem edits still require C1 fail-closed revalidation. TTL strict-age admission `NOT_IMPLEMENTED`; `SOURCE_LIFECYCLE_HANDOFF_NOT_VERIFIED` still OPEN. SL-D04, SL-D05, TTL, PR173 and PR164/169–172 remain pending Human dispositions/dependencies. No provider, paid API, real paper, Claims runtime, auth, retention or production authorization. Documentation closeout must itself pass independent review and merge gates; do not claim MCP task completion.
+
+Execution v1.0.1→v1.0.2, 2026-11-23: append verified postmerge evidence preserving historical candidate/review records; no policy change.
