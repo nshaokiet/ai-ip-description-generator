@@ -4,6 +4,15 @@
 
 # AI Intellectual Property Description Generator
 
+## Project status — DEP-SEC postmerge22/11/2026
+
+| Task | Current evidence / boundary |
+|---|---|
+| DEP-SEC-20261118-001 | PR165 implementation MERGED_VERIFIED at50072fc; exact-main CI45041622472 SUCCESS, full/prod audit0, fresh reviewed4186b7a tree identical. [Evidence](docs/tasks/DEP-SEC-20261118-001.md). Governance closeout pending this docs candidate's review/merge gates. Historical authorization limitation retained with actual-date prospective disposition. |
+| Integration |174 requires fresh new-HEAD CI and independent dual review;168 NOT_EFFECTIVE; ClaimsOFF/APIUSD0/productionNOT_APPROVED. |
+
+Historical status follows unchanged.
+
 ## Mục tiêu sản phẩm — API-ready, tối giản
 
 **Scientific Paper (PDF/DOCX) → Source-grounded Invention Analysis → Patent Specification + Supported Draft Claims → Human Review → DOCX/PDF**
