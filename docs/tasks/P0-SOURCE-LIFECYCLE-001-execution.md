@@ -1,6 +1,6 @@
 # P0-SOURCE-LIFECYCLE-001 — bounded execution
 
-Version1.0.0, actual2026-11-22, Codex; Owner Nguyễn Song Hào Kiệt — Independent Developer.
+Version1.0.1, actual2026-11-23, Codex; Owner Nguyễn Song Hào Kiệt — Independent Developer.
 Status: IMPLEMENTED_CANDIDATE / REVIEW_PENDING / INTEGRATION_PENDING, not Completed.
 Authority: actual Human P0-SOURCE-LIFECYCLE-001 execution instruction permits reproducible non-policy fixes and isolated contract tests. The earlier PR173 spec75d6778576d56b6d19b61bf018179869623a9dfb remains proposed, not adopted. Latest instruction permits the bounded lease correction, not blanket SL-D approval.
 Base6bb947c1cf67bcfb3ffc935b3a3fafcafb87f0af; branch fix/p0-source-lifecycle-lease-20261122.
@@ -57,3 +57,6 @@ Decisions:no SL-D blanket approval or policy amendment
 Issues:unaccepted dependencies and trusted revision/principal handoff block website integration
 Security impact:restore protection during all live leases;no retention/TTL/auth policy change
 Recommended next action:genuine fixed-SHA dual review;accepted dependencies and explicit decision disposition before runtime handoff
+
+
+1.0.0→1.0.1,actual23/11/2026,Codex: reconcile174 against accepted175/main986c49782326487fd2b619f6f3603e618d9f806d. Original baseline/review/test entries remain history. No lease/backend/test implementation changes. Fresh final-HEAD CI and review required; previous Gemini3.8 one-cycle approval is not assumed renewed. Proposed new model selection requires actual-date disposition before dispatch. Strict age admission and SL-D04/D05 remain pending.

@@ -10,13 +10,13 @@
 | Document title | Gemini Review Log |
 | Project | AI Intellectual Property Description Generator |
 | Project deadline | 02/10/2026 |
-| Version | 0.3.69 |
+| Version | 0.4.0 |
 | Status | Active review log |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High + Gemini 3.8 Flash High (historical); Google Antigravity (Advanced Agentic Coding) for REV-P0-006-IMPLEMENTATION, REV-P0-007-SPECIFICATION, REV-P0-007-IMPLEMENTATION and REV-P0-008-SPECIFICATION; Google Antigravity / Gemini 1.5 Pro (Advanced Agentic Coding) for REV-P0-008-IMPLEMENTATION; Gemini 3.1 Pro High for REV-P0-009-IMPLEMENTATION, REV-EVAL-001-SPECIFICATION, REV-EVAL-001-FRAMEWORK-IMPLEMENTATION, REV-EVAL-001-GOLD, REV-P0-010-FINAL-CLOSEOUT, REV-P1-001-IMPLEMENTATION, REV-DEPLOY-001-ROADMAP, REV-P1-002-IMPLEMENTATION, REV-P1-003-IMPLEMENTATION, REV-P1-003-CLOSEOUT, REV-P1-004-IMPLEMENTATION, REV-P1-004-CLOSEOUT, REV-P1-005-IMPLEMENTATION, REV-P1-005-CLOSEOUT, REV-P1-006-IMPLEMENTATION, REV-P1-006-CLOSEOUT, REV-DEPLOY-001-IMPLEMENTATION, REV-DEPLOY-001-REWRITE-REMEDIATION, REV-P2-001-IMPLEMENTATION, REV-P2-000-SPECIFICATION, REV-P2-000-IMPLEMENTATION, REV-P2-000-R2-IMPLEMENTATION, REV-P2-000-R3-IMPLEMENTATION and REV-P2-000-R3-CLOSEOUT |
 | Created date | 18/09/2026 |
-| Last updated | 08/11/2026 GMT+7 — C2 specification-only recovery; earlier reports preserved |
+| Last updated |22/11/2026 — factual165 postmerge candidate; historical records preserved |
 | P2-002 reviewer / task | Gemini 3.1 Pro High / Antigravity read-only; REV-P2-002-SPECIFICATION, REV-P2-002-IMPLEMENTATION and REV-P2-002-CLOSEOUT |
 | P2-004 reviewer / task | Gemini 3.1 Pro High / Antigravity read-only; REV-P2-004-SPECIFICATION, IMPLEMENTATION and CLOSEOUT all CLOSED — PASS / findings NONE; separate final-status reconciliation fixed-SHA review PENDING; Human-supplied external review evidence, not GitHub-native approval |
 | P2-003 reviewer / task | Gemini 3.1 Pro High / Antigravity read-only; REV-P2-003-SPECIFICATION, REV-P2-003-IMPLEMENTATION and REV-P2-003-CLOSEOUT; Human-supplied external review evidence, not GitHub-native approval; implementation and closeout reviews CLOSED — PASS / findings NONE |
@@ -4083,3 +4083,16 @@ and [safe receipt](../qa/product-001b-web-001-post154-recovery-20261107.json).
   BP402A integration established, BP404new-candidate CI tracked post-commit.
   Raw originals/session/paths/logs private; no native approval, merge, deployment,
   paid API or confidential source use. Format unchanged; Breaking change: No.
+
+
+## DEP-SEC-20261118-001 postmerge evidence — actual2026-11-22
+
+Implementation PR165 merged by actual Human authorization at `50072fc6a09d4c5fde34d95e4f63f414a31b4632`; reviewed HEAD `4186b7afd4845497decc041f3016968fada2c754`; both TREE `df22b4a6e704d0646be316ad419e369c1ddbccf9`, zero changed files. Exact merge push [CI45041622472](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/45041622472) SUCCESS, both jobs SUCCESS:backend1267PASS/2SKIP,browser81PASS,compatibility77+5PASS,demo8PASS,MCP SUCCESS; lint/typecheck/build/document QA/security gates PASS. Artifact14761739804,15457bytes,SHA256 `92a57bf9c3335946055b3fbe095910e88cc4db3c4c1ecf31bf77db41b293fd7b`, API digest/size/ZIP CRC verified; full/prod0, dependency tree and135security tests retained. Premerge44905331090 is history, not postmerge proof.
+
+Original independent Security/Quality reports and backups were read/hashed and byte-compared:Security30807bytes SHA256 `50fa49801a22654b2148269dbd2e4e94ad83757b75fd479370076d63f82a4c95`;Quality28771bytes SHA256 `b152883bc53cdc214945ff8aff09de6d981f4262106b1f9fecb9a542929d96da`. Actual separate fresh child transcripts start at step0 and record `gemini-4-argon-high` (49/67 full entries). Tool inventories show separately authored report writes and own probes, permitted scratch/report outputs, no observed tracked implementation mutation or fresh peer-report read. Original reports reside in parent evidence directory, but child tool calls author them; not inferred from IDs/location alone. This is local procedural provenance, not cryptographic identity or GitHub-native approval. Raw reports/transcripts/private paths retained privately. Both PASS apply to exact4186b7a/TREE above. Quality closes DEP-RECON-QUAL-001 VERIFIED RESOLVED; LOW DEP-SEC-F-01 and unused-import observation remain OPEN/non-blocking.
+
+Historical `AUTHORIZATION_PROVENANCE_NOT_VERIFIED` remains unresolved for2026-11-18. Actual Human2026-11-22 prospectively accepted the limitation and authorized normal merge; [merge verification](https://github.com/nshaokiet/ai-ip-description-generator/pull/165#issuecomment-7081793458). No historical approval/receipt reconstructed or backdated.
+
+Technical implementation MERGED_VERIFIED; governance documentation CLOSEOUT_PENDING this separate candidate's own review/accepted merge/postmerge gates. No fabricated MCP closeout/lease; capability unavailable. PR168 NOT_EFFECTIVE; ClaimsOFF/APIUSD0/productionNOT_APPROVED. This record grants no174 merge authority.
+
+REVIEW-0010.3.69→0.4.0,actual2026-11-22,Codex:add verified final165 review/postmerge stream with historical limitations;append only, no review-format/authority change.
