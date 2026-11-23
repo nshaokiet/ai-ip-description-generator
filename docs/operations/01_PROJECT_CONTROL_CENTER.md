@@ -8,13 +8,13 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.124 |
+| Version | 0.3.125 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High |
 | Created date | 18/09/2026 |
-| Last updated |23/11/2026 —174 reconciliation; accepted175 historical records preserved |
+| Last updated | 23/11/2026 — PR174 postmerge verified; previous candidate history preserved |
 | Related task ID | SPEC-004 |
 | Source of Truth | Operational status bridge; bản nguồn Git tại `docs/operations/01_PROJECT_CONTROL_CENTER.md` |
 | Confidentiality level | Public-safe documentary projection; original internal records retained privately |
@@ -1511,3 +1511,16 @@ PR175 accepted at986c49782326487fd2b619f6f3603e618d9f806d; exact-main CI45097285
 OPS-0010.3.122→0.3.123,23/11/2026,Codex:combine accepted175 and174 candidate records after normal main merge; preserve both histories. Runtime/TTL/auth/retention unchanged.
 
 OPS-0010.3.123→0.3.124,23/11/2026,Codex:align current metadata date with reconciliation;accepted historical entry dates unchanged.
+
+
+## PR #174 accepted postmerge evidence — actual 2026-11-23
+
+Human-authorized normal merge with `expected_head_sha=2f79c83f2f0050591cdf8468a52dac2007382d9a`, BASE `986c49782326487fd2b619f6f3603e618d9f806d`, accepted main/merge `f988aac71bd8615c9b56ab66d352a6becd39d487`; reviewed and merged TREE `6ce55d0d3393973b361dc20a19b37efd07d54ed5` identical. [Authorization](https://github.com/nshaokiet/ai-ip-description-generator/pull/174#issuecomment-7090677535). [Closeout receipt](https://github.com/nshaokiet/ai-ip-description-generator/pull/174#issuecomment-7090856152).
+
+Exact-main `push` [CI #45105551647](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/45105551647) COMPLETED/SUCCESS; `build-and-test`, `mcp-tests`, full/prod DEP-001 security graph check and security evidence archival SUCCESS. Artifact `14787631676`, 15,461 bytes, GitHub API digest `sha256:eb56d480e197491fc4b1798b9b21e92fcd3eb1712a79d3eefbed6d1e4b2162b1`, linked to exact merge SHA. API metadata verified; ZIP CRC/bytes not independently verified by this recorder.
+
+Independent Security and Quality PASS on final reviewed HEAD/TREE are attributed to actual fresh `gemini-3.8-flash-high` Antigravity sessions; original/backup equality and transcripts were reported by the coordinator and retained privately, not independently rehashed by this connected recorder or submitted as GitHub-native review. Review Log records session/hash provenance. Earlier candidate/review-pending text remains historical and is not erased.
+
+**Bounded lease fix `MERGED_VERIFIED`; website source-lifecycle handoff `INTEGRATION_PENDING`.** Strict-age TTL admission NOT_IMPLEMENTED; SL-D04/05/expiry and PR #173 + #164/#169–172 remain unaccepted dependencies. No MCP completion claim, policy, auth, retention, paid provider, Claims or production change. PR #168 NOT_EFFECTIVE. This new documentation update is a separate draft with CI/review/merge gates.
+
+OPS-001 v0.3.124→v0.3.125 (2026-11-23): factual PR174 postmerge synchronization; preceding records preserved, Breaking change: No.
