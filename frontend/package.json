@@ -11,10 +11,10 @@
     "test:e2e": "playwright test",
     "test:e2e:demo": "node e2e-demo/run-demo-e2e.mjs",
     "test:e2e:performance": "playwright test e2e/performance.spec.ts",
-    "test:lint-security": "node --test tools/dep-001-lint-security.test.mjs && node --test tools/dep-001-minimatch-compat.test.mjs"
+    "test:lint-security": "node --test tools/dep-001-lint-security.test.mjs && node --test tools/dep-001-minimatch-compat.test.mjs && node --test tools/dep-sec-glob-compat.test.mjs"
   },
   "dependencies": {
-    "next": "16.4.1",
+    "next": "16.4.6",
     "react": "19.3.0",
     "react-dom": "19.3.0"
   },
@@ -25,10 +25,13 @@
     "@types/react-dom": "19.3.0",
     "eslint": "9.39.5",
     "eslint-config-next": "16.3.8",
-    "typescript": "6.0.3",
-    "fast-glob": "file:tools/next-root-glob-adapter"
+    "fast-glob": "file:tools/next-root-glob-adapter",
+    "glob": "14.0.6",
+    "tinyglobby": "file:tools/ts-project-glob-adapter",
+    "typescript": "6.0.3"
   },
   "overrides": {
+    "tinyglobby": "$tinyglobby",
     "sharp": "0.35.5",
     "source-map-js": "1.2.2",
     "@next/eslint-plugin-next@16.3.8": {
