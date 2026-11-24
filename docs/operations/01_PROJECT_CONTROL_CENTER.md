@@ -8,13 +8,13 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.111 |
+| Version | 0.3.126 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High |
 | Created date | 18/09/2026 |
-| Last updated | 18/11/2026 GMT+7 — S2-A security remediation candidate; history preserved |
+| Last updated | 24/11/2026 — authorized PR164 recovery; prior evidence retained |
 | Related task ID | SPEC-004 |
 | Source of Truth | Operational status bridge; bản nguồn Git tại `docs/operations/01_PROJECT_CONTROL_CENTER.md` |
 | Confidentiality level | Public-safe documentary projection; original internal records retained privately |
@@ -1495,3 +1495,66 @@ raw review and sensitive operational/personal metadata retained privately. Publi
 candidate starts at existing main, not internal candidate history. Prior originals
 remain in private custody and prior Git history; redacted local-path references
 in this current projection are labelled explicitly. No new approval/PASS. Breaking change: No.
+
+
+## DEP-SEC-20261118-001 postmerge evidence — actual2026-11-22
+
+Implementation PR165 merged by actual Human authorization at `50072fc6a09d4c5fde34d95e4f63f414a31b4632`; reviewed HEAD `4186b7afd4845497decc041f3016968fada2c754`; both TREE `df22b4a6e704d0646be316ad419e369c1ddbccf9`, zero changed files. Exact merge push [CI45041622472](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/45041622472) SUCCESS, both jobs SUCCESS:backend1267PASS/2SKIP,browser81PASS,compatibility77+5PASS,demo8PASS,MCP SUCCESS; lint/typecheck/build/document QA/security gates PASS. Artifact14761739804,15457bytes,SHA256 `92a57bf9c3335946055b3fbe095910e88cc4db3c4c1ecf31bf77db41b293fd7b`, API digest/size/ZIP CRC verified; full/prod0, dependency tree and135security tests retained. Premerge44905331090 is history, not postmerge proof.
+
+Original independent Security/Quality reports and backups were read/hashed and byte-compared:Security30807bytes SHA256 `50fa49801a22654b2148269dbd2e4e94ad83757b75fd479370076d63f82a4c95`;Quality28771bytes SHA256 `b152883bc53cdc214945ff8aff09de6d981f4262106b1f9fecb9a542929d96da`. Actual separate fresh child transcripts start at step0 and record `gemini-4-argon-high` (49/67 full entries). Tool inventories show separately authored report writes and own probes, permitted scratch/report outputs, no observed tracked implementation mutation or fresh peer-report read. Original reports reside in parent evidence directory, but child tool calls author them; not inferred from IDs/location alone. This is local procedural provenance, not cryptographic identity or GitHub-native approval. Raw reports/transcripts/private paths retained privately. Both PASS apply to exact4186b7a/TREE above. Quality closes DEP-RECON-QUAL-001 VERIFIED RESOLVED; LOW DEP-SEC-F-01 and unused-import observation remain OPEN/non-blocking.
+
+Historical `AUTHORIZATION_PROVENANCE_NOT_VERIFIED` remains unresolved for2026-11-18. Actual Human2026-11-22 prospectively accepted the limitation and authorized normal merge; [merge verification](https://github.com/nshaokiet/ai-ip-description-generator/pull/165#issuecomment-7081793458). No historical approval/receipt reconstructed or backdated.
+
+Technical implementation MERGED_VERIFIED; governance documentation CLOSEOUT_PENDING this separate candidate's own review/accepted merge/postmerge gates. No fabricated MCP closeout/lease; capability unavailable. PR168 NOT_EFFECTIVE; ClaimsOFF/APIUSD0/productionNOT_APPROVED. This record grants no174 merge authority.
+
+OPS-0010.3.110→0.3.122,actual2026-11-22,Codex:postmerge factual evidence;parallel candidate history preserved, not adopted;no authority/policy change.
+
+
+## P0-SOURCE-LIFECYCLE-001 — bounded execution22/11/2026
+
+Actual Human execution instruction authorizes independent non-policy correction after reproducing nested lease failure. [Execution/interface/decision record](../tasks/P0-SOURCE-LIFECYCLE-001-execution.md). Separate accepted-main candidate; no adoption of unmerged173 specification or169–172 services. Source/TTL/deletion/auth/provider/Claims policies unchanged. Candidate implementation/review/integration pending; no Completed claim or fabricated MCP lease. Exact HEAD/TREE/tests/CI in PR receipt.
+
+OPS-0010.3.110→0.3.121,22/11/2026,Codex: append bounded source-lifecycle execution and lease remediation candidate.111–120 remain parallel unmerged candidates, not silently adopted; preserve all historical entries. Breaking change:No public API/policy change.165 historical AUTHORIZATION_PROVENANCE_NOT_VERIFIED retained;168 NOT_EFFECTIVE.
+
+
+### Current reconciliation — actual23/11/2026
+
+PR175 accepted at986c49782326487fd2b619f6f3603e618d9f806d; exact-main CI45097285617 SUCCESS. Earlier175 CLOSEOUT_PENDING paragraphs above are historical evidence, not current state. PR174 remains a separate Draft requiring fresh final-HEAD CI/reviews and Human merge decision. Accepted175 evidence is preserved; no authority transfers to174. Historical165 AUTHORIZATION_PROVENANCE_NOT_VERIFIED and prospective22Nov disposition remain distinct.
+
+OPS-0010.3.122→0.3.123,23/11/2026,Codex:combine accepted175 and174 candidate records after normal main merge; preserve both histories. Runtime/TTL/auth/retention unchanged.
+
+OPS-0010.3.123→0.3.124,23/11/2026,Codex:align current metadata date with reconciliation;accepted historical entry dates unchanged.
+
+
+## PR #174 accepted postmerge evidence — actual 2026-11-23
+
+Human-authorized normal merge with `expected_head_sha=2f79c83f2f0050591cdf8468a52dac2007382d9a`, BASE `986c49782326487fd2b619f6f3603e618d9f806d`, accepted main/merge `f988aac71bd8615c9b56ab66d352a6becd39d487`; reviewed and merged TREE `6ce55d0d3393973b361dc20a19b37efd07d54ed5` identical. [Authorization](https://github.com/nshaokiet/ai-ip-description-generator/pull/174#issuecomment-7090677535). [Closeout receipt](https://github.com/nshaokiet/ai-ip-description-generator/pull/174#issuecomment-7090856152).
+
+Exact-main `push` [CI #45105551647](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/45105551647) COMPLETED/SUCCESS; `build-and-test`, `mcp-tests`, full/prod DEP-001 security graph check and security evidence archival SUCCESS. Artifact `14787631676`, 15,461 bytes, GitHub API digest `sha256:eb56d480e197491fc4b1798b9b21e92fcd3eb1712a79d3eefbed6d1e4b2162b1`, linked to exact merge SHA. API metadata verified; ZIP CRC/bytes not independently verified by this recorder.
+
+Independent Security and Quality PASS on final reviewed HEAD/TREE are attributed to actual fresh `gemini-3.8-flash-high` Antigravity sessions; original/backup equality and transcripts were reported by the coordinator and retained privately, not independently rehashed by this connected recorder or submitted as GitHub-native review. Review Log records session/hash provenance. Earlier candidate/review-pending text remains historical and is not erased.
+
+**Bounded lease fix `MERGED_VERIFIED`; website source-lifecycle handoff `INTEGRATION_PENDING`.** Strict-age TTL admission NOT_IMPLEMENTED; SL-D04/05/expiry and PR #173 + #164/#169–172 remain unaccepted dependencies. No MCP completion claim, policy, auth, retention, paid provider, Claims or production change. PR #168 NOT_EFFECTIVE. This new documentation update is a separate draft with CI/review/merge gates.
+
+OPS-001 v0.3.124→v0.3.125 (2026-11-23): factual PR174 postmerge synchronization; preceding records preserved, Breaking change: No.
+
+
+## PR #164 official dependency recovery — 2026-11-24
+
+Human authorization: “HUMAN AUTHORIZATION — OFFICIAL DEPENDENCY RECOVERY”,
+2026-11-24, P0-WEB-PRECOMMIT-001. Normal merge of accepted main `448de79be9720d4d1fd5b6b7e1cb87a360a0d5a7`
+into original candidate `f08b071ee76468f01ad20bfa917d1b6360e5b453`; history and earlier authorization/review dates retained.
+Accepted PR165 security graph, PR174 reference-count leases and PR176 governance retained.
+Candidate business runtime is unchanged relative to the non-documentary merge projection.
+
+Current state: RECOVERY_COMMITTED / EXACT_HEAD_CI_PENDING / FRESH_DUAL_REVIEW_PENDING.
+Earlier pending/merged statements above are historical snapshots, not this recovered PR's verdict.
+Standing reviewer Gemini 4 Argon (High), separate Security/Quality sessions on this final SHA.
+No new review/PASS or original-report hashes fabricated. Desktop reviewer dispatch currently
+blocked by node_repl Windows sandbox helper setup failure before app/model selection.
+Original source-attributed authorization limitations remain; this new recovery authorization
+is prospective, not retrospective approval.
+
+No merge/Ready authority, precommit runtime, new admission hook, strict-age TTL, publicationV2,
+workspace, auth/retention change, Claims, paid API, real research or production deployment.
+Metadata version increases on this branch record recovery only; canonical acceptance pending.

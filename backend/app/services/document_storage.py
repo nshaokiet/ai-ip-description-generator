@@ -39,7 +39,7 @@ class DocumentStorage:
         self.ttl_seconds = ttl_seconds
         self.max_upload_bytes = max_upload_bytes
         self.read_chunk_bytes = read_chunk_bytes
-        self._active_ids: set[str] = set()
+        self._active_ids: dict[str, int] = {}
         self._lock = threading.RLock()
         self._on_removed = on_removed
         self.root.mkdir(mode=0o700, parents=True, exist_ok=True)
@@ -116,12 +116,16 @@ class DocumentStorage:
         """Prevent an in-process TTL sweep from racing active downstream work."""
 
         with self._lock:
-            self._active_ids.add(document_id)
+            self._active_ids[document_id] = self._active_ids.get(document_id, 0) + 1
         try:
             yield self.path_for(document_id)
         finally:
             with self._lock:
-                self._active_ids.discard(document_id)
+                remaining = self._active_ids[document_id] - 1
+                if remaining:
+                    self._active_ids[document_id] = remaining
+                else:
+                    del self._active_ids[document_id]
 
     def sweep_expired(self, *, now: float | None = None) -> list[str]:
         """Best-effort idempotent cleanup of opaque files at or beyond the TTL."""
