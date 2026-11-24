@@ -16,11 +16,14 @@ from typing import Callable
 SNAPSHOT_RE = re.compile(r"^\d{8}T\d{6}Z$")
 SUITES = ("noble", "noble-updates", "noble-security")
 RETRY_DELAYS = (2, 5)
+COMPONENTS = ("main", "universe")
+INDEX_SUFFIXES = ("", ".lz4", ".gz", ".xz", ".bz2")
 INDEX_SUMMARY = "E: Some index files failed to download. They have been ignored, or old ones used instead."
 BAD_SECURITY_MARKERS = (
     "NO_PUBKEY", "BADSIG", "EXPKEYSIG", "REVKEYSIG", "Hash Sum mismatch",
     "is not signed", "does not have a Release file", "Clearsigned file isn't valid",
     "signatures couldn't be verified", "Signature verification failed",
+    "GPG error:", "File has unexpected size", "Certificate verification failed",
 )
 
 
@@ -33,13 +36,16 @@ def _inrelease_path(lists: Path, snapshot: str, suite: str) -> Path:
 
 
 def _transient_only(diagnostics: str, snapshot: str) -> bool:
-    """Accept only explicitly reported HTTP 502/503 on the three pinned indexes."""
+    """Retry only named index targets on the exact official pin, never packages."""
     if any(marker.lower() in diagnostics.lower() for marker in BAD_SECURITY_MARKERS):
         return False
     expected = re.compile(
         r"^(?:W|E): Failed to fetch https://snapshot\.ubuntu\.com/ubuntu/"
         + re.escape(snapshot)
-        + r"/dists/(?:noble|noble-updates|noble-security)/InRelease\s+(?:502|503)\b"
+        + r"/dists/(?:noble|noble-updates|noble-security)/"
+        + r"(?:InRelease|(?:main|universe)/(?:binary-(?:amd64|all)/Packages"
+        + r"|i18n/Translation-en|cnf/Commands-amd64)(?:\.(?:gz|xz|bz2|lz4))?)"
+        + r"\s+(?:500|502|503)\b"
     )
     failed_fetch = [line.strip() for line in diagnostics.splitlines()
                     if "Failed to fetch" in line]
@@ -50,6 +56,21 @@ def _transient_only(diagnostics: str, snapshot: str) -> bool:
         if line.startswith("E:") and "Failed to fetch" not in line and line.strip() != INDEX_SUMMARY:
             return False
     return True
+
+
+def _complete_indexes(lists: Path, snapshot: str) -> bool:
+    """APT must authenticate a fresh complete set, including required Packages."""
+    def present(path: Path) -> bool:
+        return not path.is_symlink() and path.is_file() and path.stat().st_size > 0
+
+    return all(
+        present(_inrelease_path(lists, snapshot, suite))
+        and all(any(present(lists / (
+            f"snapshot.ubuntu.com_ubuntu_{snapshot}_dists_{suite}_{component}"
+            f"_binary-amd64_Packages{suffix}"
+        )) for suffix in INDEX_SUFFIXES) for component in COMPONENTS)
+        for suite in SUITES
+    )
 
 
 def update_snapshot_indexes(
@@ -86,9 +107,7 @@ def update_snapshot_indexes(
         print(f"[P2-006 pinned index attempt {attempt}/{len(RETRY_DELAYS)+1}]", file=sys.stderr)
         if diagnostics.strip():
             print(diagnostics.rstrip(), file=sys.stderr)
-        complete = all(_inrelease_path(lists, snapshot, suite).is_file()
-                       and _inrelease_path(lists, snapshot, suite).stat().st_size > 0
-                       for suite in SUITES)
+        complete = _complete_indexes(lists, snapshot)
         has_fetch_errors = "Failed to fetch" in diagnostics
         # InRelease files alone do not prove every component index was acquired.
         # Never accept APT's partial/stale-index summary, even with exit status 0.
@@ -108,7 +127,7 @@ def update_snapshot_indexes(
                 f"apt_exit={result.returncode}, complete={complete}, retryable=false"
             )
         if attempt > len(RETRY_DELAYS):
-            raise SnapshotIndexError("Pinned snapshot index acquisition exhausted 3 attempts (HTTP 502/503)")
+            raise SnapshotIndexError("Pinned snapshot index acquisition exhausted 3 attempts (HTTP 500/502/503)")
         delay = RETRY_DELAYS[attempt - 1]
         print(f"[P2-006 pinned index retry after {delay}s; fresh lists required]", file=sys.stderr)
         sleeper(delay)
