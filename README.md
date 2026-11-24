@@ -1,4 +1,13 @@
 <p align="center">
+
+## Project status — CI-SNAPSHOT-RESILIENCE-001 (2026-11-24)
+
+| Task | Current status |
+|---|---|
+| CI-SNAPSHOT-RESILIENCE-001 | [Bounded shared QA snapshot remediation](docs/tasks/CI-SNAPSHOT-RESILIENCE-001.md): IMPLEMENTED_CANDIDATE; exact-HEAD CI and independent Security/Quality pending. No merge or dependency integration authorized. |
+
+Earlier checkpoints below remain historical; existing product/provider/production boundaries remain.
+
   <img src="frontend/public/brand/vnuhcm-innovation-hub-logo.png" alt="VNUHCM Innovation Hub" width="190" />
 </p>
 
