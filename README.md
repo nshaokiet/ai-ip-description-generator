@@ -68,7 +68,19 @@ Dự án hướng tới một **website Next.js + FastAPI** giúp nhóm nghiên 
 
 **Trạng thái chính xác:** `LOCAL/SYNTHETIC MVP COMPLETE`; `API_READY END-TO-END = NOT VERIFIED`; `LIVE SEMANTIC ACCEPTANCE = NOT DETERMINED`; `PRODUCTION = NOT APPROVED`.
 
-## Trạng thái dự án — 09/11/2026
+## Project status — P0-ASSETS checkpoint22/11/2026
+
+| Workstream | Current evidence / boundary |
+|---|---|
+| main |6bb947c1cf67bcfb3ffc935b3a3fafcafb87f0af; this candidate not merged |
+| P0-ASSETS | [Task/test/review package](docs/tasks/P0-ASSETS.md): native DOCX PNG/JPEG byte/hash/locators and caption/reference/table provenance,51 local PASS; image fidelity/association REVIEW_REQUIRED, PDF extraction/redraw unsupported |
+| P0-PRIOR / P0-OUTPUT / P0-CONF |170/171/169 separate unmerged candidates; this task imports none of them |
+| Gates / funding | Existing main security graph fails; actual independent reviews/integration pending. No168 adoption, paid API, Claims activation, real research or deployment |
+
+### Historical status — 09/11/2026
+
+The snapshot below is retained history, not current candidate integration status.
+
 
 **Mốc source-of-truth:** `main` tại thời điểm đồng bộ tài liệu = `b7a82b8183de734cd8ac6d84ffbdd9a90db94a4b` (PR #142 normal merge), gồm các increment không tốn phí #161, #141 và #142. [Exact-main CI #42625564182](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/42625564182) **đang chạy ở lần đối chiếu**: MCP SUCCESS, build-and-test/chứng cứ hậu merge còn PENDING; **không ghi postmerge PASS trước khi đủ bằng chứng**. Các receipt có SHA/CI/security chi tiết nằm tại [Issue #131](https://github.com/nshaokiet/ai-ip-description-generator/issues/131) và từng PR; không tái tạo nhật ký lịch sử trong README.
 
@@ -178,3 +190,24 @@ Khai báo dưới đây được validator đối chiếu nguyên văn; các nh�
 | WORKFLOW_V2_ACTIVATION_COMMIT | 9c291325d409f74bc767f9b870e81d75c9b70802 |
 
 </details>
+
+
+## PR #172 official dependency recovery — 2026-11-24
+
+Human authorization: “HUMAN AUTHORIZATION — OFFICIAL DEPENDENCY RECOVERY”,
+2026-11-24, P0-WEB-PRECOMMIT-001. Normal merge of accepted main `448de79be9720d4d1fd5b6b7e1cb87a360a0d5a7`
+into original candidate `e6ed73a702e8a9fbf9126ca1a651f2e3e57d57fb`; history and earlier authorization/review dates retained.
+Accepted PR165 security graph, PR174 reference-count leases and PR176 governance retained.
+Candidate business runtime is unchanged relative to the non-documentary merge projection.
+
+Current state: RECOVERY_COMMITTED / EXACT_HEAD_CI_PENDING / FRESH_DUAL_REVIEW_PENDING.
+Earlier pending/merged statements above are historical snapshots, not this recovered PR's verdict.
+Standing reviewer Gemini 4 Argon (High), separate Security/Quality sessions on this final SHA.
+No new review/PASS or original-report hashes fabricated. Desktop reviewer dispatch currently
+blocked by node_repl Windows sandbox helper setup failure before app/model selection.
+Original source-attributed authorization limitations remain; this new recovery authorization
+is prospective, not retrospective approval.
+
+No merge/Ready authority, precommit runtime, new admission hook, strict-age TTL, publicationV2,
+workspace, auth/retention change, Claims, paid API, real research or production deployment.
+Metadata version increases on this branch record recovery only; canonical acceptance pending.
