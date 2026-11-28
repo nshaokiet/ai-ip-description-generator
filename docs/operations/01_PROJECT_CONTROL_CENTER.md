@@ -8,16 +8,24 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.125 |
+| Version | 0.3.128 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High |
 | Created date | 18/09/2026 |
-| Last updated | 23/11/2026 — PR174 postmerge verified; previous candidate history preserved |
+| Last updated | 24/11/2026 — authorized PR170 recovery; prior evidence retained |
 | Related task ID | SPEC-004 |
 | Source of Truth | Operational status bridge; bản nguồn Git tại `docs/operations/01_PROJECT_CONTROL_CENTER.md` |
 | Confidentiality level | Public-safe documentary projection; original internal records retained privately |
+
+## P0-PRIOR — manual evidence candidate22/11/2026
+
+Actual Human Priority C authorizes P0-PRIOR on main6bb947c. [Task/contract/test/handoff](../tasks/P0-PRIOR.md): registered synthetic PDF/DOCX upload → manual citations/scope/limits → source/dossier-bound STOP/CONTINUE → incomplete/unverified warnings, immutable actor/time/hash-chain audit.84 local PASS; no egress/provider/browser/durable-case integration. OFFLINE_VERIFIED /IMPLEMENTED_CANDIDATE /INTEGRATION_PENDING /BLOCKED_REVIEW, not Completed. Actual Antigravity runtime failed twice after reset; no report/model/session verified; MCP operational lease NOT_VERIFIED/tool unavailable.
+
+Exact165 frontend probe on disposable169 checkout passes full/prod audit0, security135, build/lint/typecheck and browser81; no existing PR HEAD changed. This isolates the downstream dependency blocker but does not establish canonical new-head CI or merge permission.165 historical AUTHORIZATION_PROVENANCE_NOT_VERIFIED unchanged;168 NOT_EFFECTIVE/Owner decision separate. Required exact-SHA Security/Quality/CI/security/platform/authority gates still apply. ClaimsOFF, APIUSD0, no deploy/real paper.
+
+OPS-0010.3.110→0.3.115,22/11/2026,Codex: P0-PRIOR implementation checkpoint.111–114 belong to separate unmerged documentary/task candidates and are not adopted or overwritten. Breaking changeNo. Earlier baseline below is history.
 
 ## RESUME-FOUNDATION-001 current baseline
 
@@ -1524,3 +1532,24 @@ Independent Security and Quality PASS on final reviewed HEAD/TREE are attributed
 **Bounded lease fix `MERGED_VERIFIED`; website source-lifecycle handoff `INTEGRATION_PENDING`.** Strict-age TTL admission NOT_IMPLEMENTED; SL-D04/05/expiry and PR #173 + #164/#169–172 remain unaccepted dependencies. No MCP completion claim, policy, auth, retention, paid provider, Claims or production change. PR #168 NOT_EFFECTIVE. This new documentation update is a separate draft with CI/review/merge gates.
 
 OPS-001 v0.3.124→v0.3.125 (2026-11-23): factual PR174 postmerge synchronization; preceding records preserved, Breaking change: No.
+
+
+## PR #170 official dependency recovery — 2026-11-24
+
+Human authorization: “HUMAN AUTHORIZATION — OFFICIAL DEPENDENCY RECOVERY”,
+2026-11-24, P0-WEB-PRECOMMIT-001. Normal merge of accepted main `448de79be9720d4d1fd5b6b7e1cb87a360a0d5a7`
+into original candidate `5a8abca89889433f99199b1ca0c6a687f64433b6`; history and earlier authorization/review dates retained.
+Accepted PR165 security graph, PR174 reference-count leases and PR176 governance retained.
+Candidate business runtime is unchanged relative to the non-documentary merge projection.
+
+Current state: RECOVERY_COMMITTED / EXACT_HEAD_CI_PENDING / FRESH_DUAL_REVIEW_PENDING.
+Earlier pending/merged statements above are historical snapshots, not this recovered PR's verdict.
+Standing reviewer Gemini 4 Argon (High), separate Security/Quality sessions on this final SHA.
+No new review/PASS or original-report hashes fabricated. Desktop reviewer dispatch currently
+blocked by node_repl Windows sandbox helper setup failure before app/model selection.
+Original source-attributed authorization limitations remain; this new recovery authorization
+is prospective, not retrospective approval.
+
+No merge/Ready authority, precommit runtime, new admission hook, strict-age TTL, publicationV2,
+workspace, auth/retention change, Claims, paid API, real research or production deployment.
+Metadata version increases on this branch record recovery only; canonical acceptance pending.
