@@ -80,6 +80,7 @@ Dự án hướng tới một **website Next.js + FastAPI** giúp nhóm nghiên 
 | Core A/C1, PDF/DOCX, USPTO, Claims standalone | Các bộ xử lý/validator/rendering và synthetic tests đã có. **Product Claims runtime OFF**, không suy ra browser upload-to-patent v2 hay sản phẩm filing-ready. |
 | PRODUCT-001B / PREAPI-C2 | WEB-001 v0.1.1 chỉ có documentary baseline; **NOT FROZEN**; scope B1–B6, D01–D07 và C2 runtime chưa tự cấp phép. |
 | API-READY-WEB-GAP-001B-S1 | [Local transport/auth foundation](docs/tasks/API-READY-WEB-GAP-001B-S1.md): Human cho phép D-GAP-01/03 ngày 11/11/2026, **implementation candidate / independent review pending**; chỉ HTTPS/pairing/session, chưa có document routes hoặc fixture admission. |
+| API-READY-WEB-GAP-001B-S2-A | [Minimal local synthetic backend bridge](docs/tasks/API-READY-WEB-GAP-001B-S2-A.md): **security remediation candidate / fresh exact-HEAD CI and independent re-review required** under Human-approved S2A-PUBLICATION-COORDINATION-001 (18/11/2026); shared private publication/revocation gate, deterministic race coverage; default OFF, exactly two fixtures, limited R0, Claims disabled. PR164 remains Draft; no merge or S2-B. |
 | DEP-SEC-20261118-001 | [PR #165](https://github.com/nshaokiet/ai-ip-description-generator/pull/165) OPEN/DRAFT/UNMERGED; Human2026-11-21 authorized bounded dynamic-directory/resolver compatibility correction. **IMPLEMENTER-REMEDIATED / separate Security/Quality review PENDING**; exact-new-HEAD CI/security evidence is required and recorded in the PR. Old Quality PASS superseded by REQUEST CHANGES; historical initiation AUTHORIZATION_PROVENANCE_NOT_VERIFIED remains; no merge authority. [Task/evidence](docs/tasks/DEP-SEC-20261118-001.md). |
 | MCP Security / maintenance | [PR #158](https://github.com/nshaokiet/ai-ip-description-generator/pull/158) đã merge; [Issue #160](https://github.com/nshaokiet/ai-ip-description-generator/issues/160) giữ các rủi ro input/resource cần quyết định riêng. |
 | Funded provider pilot / EVAL-001 Product Runtime | **NOT RUN / NOT DETERMINED**; model/account entitlement và semantic-quality chưa nghiệm thu; API budget **USD 0**. |
@@ -178,3 +179,24 @@ Khai báo dưới đây được validator đối chiếu nguyên văn; các nh�
 | WORKFLOW_V2_ACTIVATION_COMMIT | 9c291325d409f74bc767f9b870e81d75c9b70802 |
 
 </details>
+
+
+## PR #164 official dependency recovery — 2026-11-24
+
+Human authorization: “HUMAN AUTHORIZATION — OFFICIAL DEPENDENCY RECOVERY”,
+2026-11-24, P0-WEB-PRECOMMIT-001. Normal merge of accepted main `448de79be9720d4d1fd5b6b7e1cb87a360a0d5a7`
+into original candidate `f08b071ee76468f01ad20bfa917d1b6360e5b453`; history and earlier authorization/review dates retained.
+Accepted PR165 security graph, PR174 reference-count leases and PR176 governance retained.
+Candidate business runtime is unchanged relative to the non-documentary merge projection.
+
+Current state: RECOVERY_COMMITTED / EXACT_HEAD_CI_PENDING / FRESH_DUAL_REVIEW_PENDING.
+Earlier pending/merged statements above are historical snapshots, not this recovered PR's verdict.
+Standing reviewer Gemini 4 Argon (High), separate Security/Quality sessions on this final SHA.
+No new review/PASS or original-report hashes fabricated. Desktop reviewer dispatch currently
+blocked by node_repl Windows sandbox helper setup failure before app/model selection.
+Original source-attributed authorization limitations remain; this new recovery authorization
+is prospective, not retrospective approval.
+
+No merge/Ready authority, precommit runtime, new admission hook, strict-age TTL, publicationV2,
+workspace, auth/retention change, Claims, paid API, real research or production deployment.
+Metadata version increases on this branch record recovery only; canonical acceptance pending.

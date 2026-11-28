@@ -10,19 +10,42 @@
 | Document title | Gemini Review Log |
 | Project | AI Intellectual Property Description Generator |
 | Project deadline | 02/10/2026 |
-| Version | 0.4.1 |
+| Version | 0.4.2 |
 | Status | Active review log |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
 | Reviewer | Gemini 3.1 Pro High + Gemini 3.8 Flash High (historical); Google Antigravity (Advanced Agentic Coding) for REV-P0-006-IMPLEMENTATION, REV-P0-007-SPECIFICATION, REV-P0-007-IMPLEMENTATION and REV-P0-008-SPECIFICATION; Google Antigravity / Gemini 1.5 Pro (Advanced Agentic Coding) for REV-P0-008-IMPLEMENTATION; Gemini 3.1 Pro High for REV-P0-009-IMPLEMENTATION, REV-EVAL-001-SPECIFICATION, REV-EVAL-001-FRAMEWORK-IMPLEMENTATION, REV-EVAL-001-GOLD, REV-P0-010-FINAL-CLOSEOUT, REV-P1-001-IMPLEMENTATION, REV-DEPLOY-001-ROADMAP, REV-P1-002-IMPLEMENTATION, REV-P1-003-IMPLEMENTATION, REV-P1-003-CLOSEOUT, REV-P1-004-IMPLEMENTATION, REV-P1-004-CLOSEOUT, REV-P1-005-IMPLEMENTATION, REV-P1-005-CLOSEOUT, REV-P1-006-IMPLEMENTATION, REV-P1-006-CLOSEOUT, REV-DEPLOY-001-IMPLEMENTATION, REV-DEPLOY-001-REWRITE-REMEDIATION, REV-P2-001-IMPLEMENTATION, REV-P2-000-SPECIFICATION, REV-P2-000-IMPLEMENTATION, REV-P2-000-R2-IMPLEMENTATION, REV-P2-000-R3-IMPLEMENTATION and REV-P2-000-R3-CLOSEOUT |
 | Created date | 18/09/2026 |
-| Last updated | 23/11/2026 — PR174 review and postmerge evidence, historical records retained |
+| Last updated | 24/11/2026 — authorized PR164 recovery; prior evidence retained |
 | P2-002 reviewer / task | Gemini 3.1 Pro High / Antigravity read-only; REV-P2-002-SPECIFICATION, REV-P2-002-IMPLEMENTATION and REV-P2-002-CLOSEOUT |
 | P2-004 reviewer / task | Gemini 3.1 Pro High / Antigravity read-only; REV-P2-004-SPECIFICATION, IMPLEMENTATION and CLOSEOUT all CLOSED — PASS / findings NONE; separate final-status reconciliation fixed-SHA review PENDING; Human-supplied external review evidence, not GitHub-native approval |
 | P2-003 reviewer / task | Gemini 3.1 Pro High / Antigravity read-only; REV-P2-003-SPECIFICATION, REV-P2-003-IMPLEMENTATION and REV-P2-003-CLOSEOUT; Human-supplied external review evidence, not GitHub-native approval; implementation and closeout reviews CLOSED — PASS / findings NONE |
 | Related task ID | AI-CONV-001; P2-005; P2-007; REVIEW-001; SPEC-001; SPEC-002; SPEC-003; AI-001; AI-002; AI-003; DOC-001; APP-001; APP-002; AI-RUNTIME-001; AI-RUNTIME-002; APP-003; P0-006; P0-007; P0-008; P0-009; EVAL-001; P0-010; P1-001; P1-002; P1-003; P1-004; P1-005; P1-006; DEPLOY-001; P2-001; P2-000; P2-002; P2-003; P2-004 |
 | Source of Truth | Review history; bản nguồn Git tại `docs/operations/02_GEMINI_REVIEW_LOG.md` |
 | Confidentiality level | Public-safe summary projection; original reviews retained privately; research findings remain Confidential |
+
+## S2-A independent-review reconciliation / remediation candidate — 18/11/2026
+
+REVIEW-001 0.3.69 -> 0.3.70, Codex; format unchanged, Breaking change No.
+This is source attribution and implementation reconciliation, not an independent
+review verdict. Original/backup external reports are retained unchanged privately:
+39,656 bytes each, byte-equal SHA256
+`11b16f1aba72cc4e7ade2da98d0b056635ab65b430be27810d9f972f8295c43c`.
+They target e22e1cd3810912385622d5bf095ff73044fd5d29, tree
+1edbcc6908af0e3c8a7037f015d76188f24e4eac. Requested model3.8FlashHigh;
+actual reviewer-reported Gemini4ArgonHigh/Antigravity, REUSED conversation;
+reviewer-local application tests NOT_RUN. Reported Security/Quality/overall PASS
+and F-01/F-02/F-03 Low/non-blocking remain historical source statements.
+
+Codex PARTIALLY ACCEPTS F-01 while retaining both fences; REJECTS WITH REASON
+F-02's non-blocking/probability conclusion after four deterministic real-browser
+reproductions; ACCEPTS F-03's error masking. Human then explicitly approved
+S2A-PUBLICATION-COORDINATION-001 for bounded remediation, not merge or review.
+The [v0.2.0 task record](../tasks/API-READY-WEB-GAP-001B-S2-A.md) documents the
+shared private gate, acknowledged invalidation, ASGI/error fixes and targeted
+tests. Fresh exact-final-SHA CI/artifact and ChatGPT-coordinated independent
+Security/Quality re-review remain required. No changed-SHA PASS, authenticated
+model identity, separate-session review, MCP state or completion is invented.
 
 ## PREAPI-C2 REVISION-004 — post-PR155 specification recovery (08/11/2026)
 
@@ -4110,3 +4133,24 @@ Both reports recorded zero blocking findings. Raw original evidence/transcripts 
 [PR #174](https://github.com/nshaokiet/ai-ip-description-generator/pull/174) normal-merged with expected-head protection, accepted main `f988aac71bd8615c9b56ab66d352a6becd39d487`, TREE identical. [Exact-main CI #45105551647](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/45105551647) SUCCESS on both jobs plus DEP-001 full/prod security gate. Security artifact `14787631676`, 15,461 bytes, GitHub API SHA256 digest `eb56d480e197491fc4b1798b9b21e92fcd3eb1712a79d3eefbed6d1e4b2162b1` tied to exact merge SHA (not independently ZIP-byte rehashed). [Receipt](https://github.com/nshaokiet/ai-ip-description-generator/pull/174#issuecomment-7090856152). Lease-fix MERGED_VERIFIED, but website handoff OPEN, strict-age TTL admission NOT_IMPLEMENTED. No actual MCP closeout, production, policy or provider authorization.
 
 REVIEW-001 v0.4.0→v0.4.1 (2026-11-23): append fixed-SHA external independent-review and exact-main evidence; historic entries unchanged, no review policy change.
+
+
+## PR #164 official dependency recovery — 2026-11-24
+
+Human authorization: “HUMAN AUTHORIZATION — OFFICIAL DEPENDENCY RECOVERY”,
+2026-11-24, P0-WEB-PRECOMMIT-001. Normal merge of accepted main `448de79be9720d4d1fd5b6b7e1cb87a360a0d5a7`
+into original candidate `f08b071ee76468f01ad20bfa917d1b6360e5b453`; history and earlier authorization/review dates retained.
+Accepted PR165 security graph, PR174 reference-count leases and PR176 governance retained.
+Candidate business runtime is unchanged relative to the non-documentary merge projection.
+
+Current state: RECOVERY_COMMITTED / EXACT_HEAD_CI_PENDING / FRESH_DUAL_REVIEW_PENDING.
+Earlier pending/merged statements above are historical snapshots, not this recovered PR's verdict.
+Standing reviewer Gemini 4 Argon (High), separate Security/Quality sessions on this final SHA.
+No new review/PASS or original-report hashes fabricated. Desktop reviewer dispatch currently
+blocked by node_repl Windows sandbox helper setup failure before app/model selection.
+Original source-attributed authorization limitations remain; this new recovery authorization
+is prospective, not retrospective approval.
+
+No merge/Ready authority, precommit runtime, new admission hook, strict-age TTL, publicationV2,
+workspace, auth/retention change, Claims, paid API, real research or production deployment.
+Metadata version increases on this branch record recovery only; canonical acceptance pending.
