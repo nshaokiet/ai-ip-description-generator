@@ -2,6 +2,19 @@
 
 ## Project status — CI-SNAPSHOT-RESILIENCE-001 (2026-11-24)
 
+## Project status — dependency acceptance 28/11/2026
+
+| Workstream | Verified status / boundary |
+|---|---|
+| Accepted main / PR #164 | `3b3891f5452083bf09cc4f10388b7145d73ea5c4`, TREE `2252e514c339de12bd2d43a02ae5650e93b8ed13`; **MERGED_VERIFIED / POSTMERGE_CI_SECURITY_SUCCESS**. [Exact-main CI46124575472](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/46124575472) SUCCESS, both jobs/DEP-001 SUCCESS, artifact15254653794 zero full/production vulnerabilities. [Canonical closeout](https://github.com/nshaokiet/ai-ip-description-generator/pull/164#issuecomment-7236596530). |
+| P0-CONF / PR #169 | Authorized reconciliation of accepted main into existing candidate; original consent service and tests unchanged. **RECONCILED_CANDIDATE / EXACT_HEAD_CI_PENDING / FRESH_DUAL_REVIEW_PENDING**; no merge or Ready transition. [Task](docs/tasks/P0-CONF.md). |
+| Independent review | Gemini 4 Argon (Medium), separate STRICT READ-ONLY Security and Quality sessions on final BASE/HEAD/TREE; NOT_RUN. Computer Use prohibited by Human; prepare manual prompts if direct connector dispatch is unavailable. Prior PASS does not transfer. |
+| Remaining dependency gates | PR #170 has a verified branch/PR API HEAD+BASE metadata discrepancy; no force-push or refresh commit. PR #172 waits for the required accepted baseline. PR #171/#173 merges excluded. |
+| Preserved boundaries | SL-D04/SL-D05/TTL Option A approved; architecture commit `23d847f3a441c2db8c7f6a9eced75868aefbbb87` preserved. Precommit runtime and role reversal NOT ACTIVATED. Claims OFF; provider NOT_RUN; API USD0; synthetic only; production NOT APPROVED. |
+
+Current dated status above supersedes older pending/audit snapshots below; all historical entries remain. Component acceptance is distinct from integrated website acceptance. MCP state/lease/completion is not asserted.
+
+
 | Task | Current status |
 |---|---|
 | CI-SNAPSHOT-RESILIENCE-001 | [Bounded shared QA snapshot remediation](docs/tasks/CI-SNAPSHOT-RESILIENCE-001.md): IMPLEMENTED_CANDIDATE; exact-HEAD CI and independent Security/Quality pending. No merge or dependency integration authorized. |
@@ -92,6 +105,7 @@ The following snapshot is historical; current P0-CONF status is the table above.
 | Core A/C1, PDF/DOCX, USPTO, Claims standalone | Các bộ xử lý/validator/rendering và synthetic tests đã có. **Product Claims runtime OFF**, không suy ra browser upload-to-patent v2 hay sản phẩm filing-ready. |
 | PRODUCT-001B / PREAPI-C2 | WEB-001 v0.1.1 chỉ có documentary baseline; **NOT FROZEN**; scope B1–B6, D01–D07 và C2 runtime chưa tự cấp phép. |
 | API-READY-WEB-GAP-001B-S1 | [Local transport/auth foundation](docs/tasks/API-READY-WEB-GAP-001B-S1.md): Human cho phép D-GAP-01/03 ngày 11/11/2026, **implementation candidate / independent review pending**; chỉ HTTPS/pairing/session, chưa có document routes hoặc fixture admission. |
+| API-READY-WEB-GAP-001B-S2-A | [Minimal local synthetic backend bridge](docs/tasks/API-READY-WEB-GAP-001B-S2-A.md): **security remediation candidate / fresh exact-HEAD CI and independent re-review required** under Human-approved S2A-PUBLICATION-COORDINATION-001 (18/11/2026); shared private publication/revocation gate, deterministic race coverage; default OFF, exactly two fixtures, limited R0, Claims disabled. PR164 remains Draft; no merge or S2-B. |
 | DEP-SEC-20261118-001 | [PR #165](https://github.com/nshaokiet/ai-ip-description-generator/pull/165) OPEN/DRAFT/UNMERGED; Human2026-11-21 authorized bounded dynamic-directory/resolver compatibility correction. **IMPLEMENTER-REMEDIATED / separate Security/Quality review PENDING**; exact-new-HEAD CI/security evidence is required and recorded in the PR. Old Quality PASS superseded by REQUEST CHANGES; historical initiation AUTHORIZATION_PROVENANCE_NOT_VERIFIED remains; no merge authority. [Task/evidence](docs/tasks/DEP-SEC-20261118-001.md). |
 | MCP Security / maintenance | [PR #158](https://github.com/nshaokiet/ai-ip-description-generator/pull/158) đã merge; [Issue #160](https://github.com/nshaokiet/ai-ip-description-generator/issues/160) giữ các rủi ro input/resource cần quyết định riêng. |
 | Funded provider pilot / EVAL-001 Product Runtime | **NOT RUN / NOT DETERMINED**; model/account entitlement và semantic-quality chưa nghiệm thu; API budget **USD 0**. |
@@ -191,6 +205,26 @@ Khai báo dưới đây được validator đối chiếu nguyên văn; các nh�
 
 </details>
 
+
+## PR #164 official dependency recovery — 2026-11-24
+
+Human authorization: “HUMAN AUTHORIZATION — OFFICIAL DEPENDENCY RECOVERY”,
+2026-11-24, P0-WEB-PRECOMMIT-001. Normal merge of accepted main `448de79be9720d4d1fd5b6b7e1cb87a360a0d5a7`
+into original candidate `f08b071ee76468f01ad20bfa917d1b6360e5b453`; history and earlier authorization/review dates retained.
+Accepted PR165 security graph, PR174 reference-count leases and PR176 governance retained.
+Candidate business runtime is unchanged relative to the non-documentary merge projection.
+
+Current state: RECOVERY_COMMITTED / EXACT_HEAD_CI_PENDING / FRESH_DUAL_REVIEW_PENDING.
+Earlier pending/merged statements above are historical snapshots, not this recovered PR's verdict.
+Standing reviewer Gemini 4 Argon (High), separate Security/Quality sessions on this final SHA.
+No new review/PASS or original-report hashes fabricated. Desktop reviewer dispatch currently
+blocked by node_repl Windows sandbox helper setup failure before app/model selection.
+Original source-attributed authorization limitations remain; this new recovery authorization
+is prospective, not retrospective approval.
+
+No merge/Ready authority, precommit runtime, new admission hook, strict-age TTL, publicationV2,
+workspace, auth/retention change, Claims, paid API, real research or production deployment.
+Metadata version increases on this branch record recovery only; canonical acceptance pending.
 
 ## PR #169 official dependency recovery — 2026-11-24
 

@@ -8,16 +8,28 @@
 |---|---|
 | Document ID | OPS-001 |
 | Document title | AI IP Generator – Project Control Center |
-| Version | 0.3.127 |
+| Version | 0.3.128 |
 | Status | Active — approved specification baseline |
 | Owner | Human / Product Owner |
 | Author | ChatGPT/Codex |
-| Reviewer | Historical baseline Gemini3.1; P0-CONF requested Gemini4 Argon(High) Security/Quality PENDING |
+| Reviewer | Historical reviewers preserved; current P0-CONF Gemini 4 Argon (Medium), separate Security/Quality PENDING |
 | Created date | 18/09/2026 |
-| Last updated | 24/11/2026 — authorized PR169 recovery; prior evidence retained |
+| Last updated | 28/11/2026 — accepted PR164 / authorized PR169 reconciliation |
 | Related task ID | SPEC-004 |
 | Source of Truth | Operational status bridge; bản nguồn Git tại `docs/operations/01_PROJECT_CONTROL_CENTER.md` |
 | Confidentiality level | Public-safe documentary projection; original internal records retained privately |
+
+## Project status — dependency acceptance 28/11/2026
+
+| Workstream | Verified status / boundary |
+|---|---|
+| Accepted main / PR #164 | `3b3891f5452083bf09cc4f10388b7145d73ea5c4`, TREE `2252e514c339de12bd2d43a02ae5650e93b8ed13`; **MERGED_VERIFIED / POSTMERGE_CI_SECURITY_SUCCESS**. [Exact-main CI46124575472](https://github.com/nshaokiet/ai-ip-description-generator/actions/runs/46124575472) SUCCESS, both jobs/DEP-001 SUCCESS, artifact15254653794 zero full/production vulnerabilities. [Canonical closeout](https://github.com/nshaokiet/ai-ip-description-generator/pull/164#issuecomment-7236596530). |
+| P0-CONF / PR #169 | Authorized reconciliation of accepted main into existing candidate; original consent service and tests unchanged. **RECONCILED_CANDIDATE / EXACT_HEAD_CI_PENDING / FRESH_DUAL_REVIEW_PENDING**; no merge or Ready transition. [Task](../tasks/P0-CONF.md). |
+| Independent review | Gemini 4 Argon (Medium), separate STRICT READ-ONLY Security and Quality sessions on final BASE/HEAD/TREE; NOT_RUN. Computer Use prohibited by Human; prepare manual prompts if direct connector dispatch is unavailable. Prior PASS does not transfer. |
+| Remaining dependency gates | PR #170 has a verified branch/PR API HEAD+BASE metadata discrepancy; no force-push or refresh commit. PR #172 waits for the required accepted baseline. PR #171/#173 merges excluded. |
+| Preserved boundaries | SL-D04/SL-D05/TTL Option A approved; architecture commit `23d847f3a441c2db8c7f6a9eced75868aefbbb87` preserved. Precommit runtime and role reversal NOT ACTIVATED. Claims OFF; provider NOT_RUN; API USD0; synthetic only; production NOT APPROVED. |
+
+Current dated status above supersedes older pending/audit snapshots below; all historical entries remain. Component acceptance is distinct from integrated website acceptance. MCP state/lease/completion is not asserted.
 
 ## P0-CONF — scoped implementation candidate22/11/2026
 
@@ -26,6 +38,19 @@ Owner actual22/11 AUTONOMOUS PROJECT CONTINUATION C1 P0.1 permits FREE task unde
 IMPLEMENTED_CANDIDATE /INTEGRATION_PENDING /BLOCKED_REVIEW, not Completed. Final tests/HEAD/TREE/new CI in PR receipt; existing main Next audit/build fails,165 remediation pending integration. Antigravity IDE exists but computer-use runtime failed twice; actual independent Gemini4Argon(High) Security/Quality execution NOT_RUN; MCP operational task/lease NOT_VERIFIED/tool unavailable. No fake PASS, V2 migration,168 self-merge, paid call, real paper, Claims activation or deployment. Next consumer requires reviewed contract and applicable gates; preserve historical165 provenance limitation.
 
 OPS-0010.3.110→0.3.114,22/11/2026,Codex: independent P0-CONF candidate checkpoint;111–113 are separate unmerged167 documentary revisions, not overwritten or adopted. Breaking changeNo. Records below are historical source snapshots.
+
+## S2-A security remediation candidate — 18/11/2026
+
+OPS-001 0.3.110 -> 0.3.111, Codex; factual task handoff only, no policy
+expansion. Human explicitly approved S2A-PUBLICATION-COORDINATION-001 in the
+current conversation for task API-READY-WEB-GAP-001B-S2-A / PR164. The
+[task record](../tasks/API-READY-WEB-GAP-001B-S2-A.md) v0.2.0 preserves the
+previous publication defect and new scoped coordination/test contract.
+Base6bb947c1 / reviewed e22e1cd remain history; correction requires its own exact
+SHA/CI/security artifact and independent re-review. PR remains Draft; not completed,
+no merge/deploy/Gemini invocation/S2-B/R1/provider/Claims authority. MCP state/lease
+not available and not fabricated. Provider NOT_RUN, budget USD0, Claims DISABLED,
+semantic readiness NOT_DETERMINED, live spend enforcement NOT_IMPLEMENTED.
 
 ## RESUME-FOUNDATION-001 current baseline
 
@@ -1534,6 +1559,26 @@ Independent Security and Quality PASS on final reviewed HEAD/TREE are attributed
 OPS-001 v0.3.124→v0.3.125 (2026-11-23): factual PR174 postmerge synchronization; preceding records preserved, Breaking change: No.
 
 
+## PR #164 official dependency recovery — 2026-11-24
+
+Human authorization: “HUMAN AUTHORIZATION — OFFICIAL DEPENDENCY RECOVERY”,
+2026-11-24, P0-WEB-PRECOMMIT-001. Normal merge of accepted main `448de79be9720d4d1fd5b6b7e1cb87a360a0d5a7`
+into original candidate `f08b071ee76468f01ad20bfa917d1b6360e5b453`; history and earlier authorization/review dates retained.
+Accepted PR165 security graph, PR174 reference-count leases and PR176 governance retained.
+Candidate business runtime is unchanged relative to the non-documentary merge projection.
+
+Current state: RECOVERY_COMMITTED / EXACT_HEAD_CI_PENDING / FRESH_DUAL_REVIEW_PENDING.
+Earlier pending/merged statements above are historical snapshots, not this recovered PR's verdict.
+Standing reviewer Gemini 4 Argon (High), separate Security/Quality sessions on this final SHA.
+No new review/PASS or original-report hashes fabricated. Desktop reviewer dispatch currently
+blocked by node_repl Windows sandbox helper setup failure before app/model selection.
+Original source-attributed authorization limitations remain; this new recovery authorization
+is prospective, not retrospective approval.
+
+No merge/Ready authority, precommit runtime, new admission hook, strict-age TTL, publicationV2,
+workspace, auth/retention change, Claims, paid API, real research or production deployment.
+Metadata version increases on this branch record recovery only; canonical acceptance pending.
+
 ## PR #169 official dependency recovery — 2026-11-24
 
 Human authorization: “HUMAN AUTHORIZATION — OFFICIAL DEPENDENCY RECOVERY”,
@@ -1553,3 +1598,5 @@ is prospective, not retrospective approval.
 No merge/Ready authority, precommit runtime, new admission hook, strict-age TTL, publicationV2,
 workspace, auth/retention change, Claims, paid API, real research or production deployment.
 Metadata version increases on this branch record recovery only; canonical acceptance pending.
+
+OPS-001 0.3.127 -> 0.3.128, 28/11/2026, Codex: preserve both recovery histories, record verified PR164 acceptance and authorized PR169 reconciliation/review gates. Breaking change: No.

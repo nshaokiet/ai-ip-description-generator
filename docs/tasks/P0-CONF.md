@@ -2,18 +2,30 @@
 
 | Field | Value |
 |---|---|
-| Version / date |0.1.1 /22/11/2026 Asia/Saigon |
+| Version / date |0.1.2 /28/11/2026 Asia/Saigon |
 | Owner / implementer | Nguyễn Song Hào Kiệt — Independent Developer /Codex |
 | Authority | Actual Owner AUTONOMOUS PROJECT CONTINUATION22/11/2026, C1 P0.1; current conversation, no fabricated original receipt or retrospective approval |
 | Workflow | Authorized new unenrolled V1 task; no V2 migration/enrollment/lease claimed. AGENTS unchanged;168 NOT_EFFECTIVE |
-| Status | IMPLEMENTED_CANDIDATE /INTEGRATION_PENDING /BLOCKED_REVIEW; not Completed |
-| Base / branch | main `6bb947c1cf67bcfb3ffc935b3a3fafcafb87f0af` / `feature/p0-conf-offline-consent-20261122` |
+| Status | RECONCILED_CANDIDATE /EXACT_HEAD_CI_PENDING /FRESH_DUAL_REVIEW_PENDING; not Completed |
+| Base / branch | accepted main `3b3891f5452083bf09cc4f10388b7145d73ea5c4` / `feature/p0-conf-offline-consent-20261122` |
 | Business objective | Bind explicit Human egress consent to actual paper revision, payload, purpose and destination before future provider/search integration |
 | Current evidence reused | Canonical SHA256 helper from supported_draft_claims_validation; bounded immutable JSON snapshot from custody_review; existing no-provider tripwire |
 | Missing scope addressed | Native offline decision store only, independent of unmerged164/165/166/167/168. Actual routes/providers/website workflow remain unwired |
 | Complexity / risk | M /HIGH confidentiality: require independent Security AND Quality on final immutable HEAD/TREE |
 | Funding | FREE — CAN IMPLEMENT NOW; USD0; no provider/network/real-paper/deploy |
 | Proposed PR scope | One additive service, functional/negative tests, this task record, README status and Control Center pointer. No new dependency/schema/feature flag or global policy |
+
+## Current authorized integration — 28/11/2026
+
+Human continuation explicitly authorizes reconciling accepted PR164 main into this existing PR, scope-preserving conflict resolution, offline tests, normal commit/push, CI/security verification, Draft PR updates and independent review coordination. Original 22/11 authorization and implementation remain preserved; this is prospective integration authority, not retrospective approval.
+
+Accepted PR164 merge `3b3891f5452083bf09cc4f10388b7145d73ea5c4`, TREE `2252e514c339de12bd2d43a02ae5650e93b8ed13`, exact-main CI46124575472 SUCCESS and [closeout](https://github.com/nshaokiet/ai-ip-description-generator/pull/164#issuecomment-7236596530) establish the integration baseline. Original candidate HEAD `df356efbf44d0b99d586eec2ca860eb0cee6330f` is the other merge parent. Runtime confidentiality and its tests must remain byte-identical to that candidate; accepted website/publication, leases, dependencies and snapshot fixes remain unchanged. Resolve only README/Control Center documentary conflicts by preserving both dated records.
+
+This cycle uses the Human-authorized **Gemini 4 Argon (Medium)** override, separate Security and Quality sessions, STRICT READ-ONLY, exact final BASE/HEAD/TREE, complete original reports plus identical backups/digests and actual execution evidence. Earlier High requests and old pending/failing CI below are dated history. No reviewer dispatch or PASS is claimed. Human prohibits Computer Use; if a direct reviewer connector is unavailable, prepare two copy-ready prompts for the exact candidate. Coordinator must read both complete reports and compare technical descriptions to immutable source.
+
+Current gates: fresh exact-HEAD CI/security artifact and fresh independent dual review PENDING. Each immutable result belongs in the PR/evidence receipt. Keep PR Draft; any required new exact-candidate Human merge decision is preserved. No provider callsites are wired by this merge: consent remains a callable offline service, not proof the accepted website enforces egress consent or complete cross-session transport integration. No runtime/policy/dependency expansion, real data, paid call, Claims activation, precommit implementation or role-reversal activation.
+
+The original acceptance criteria below remain unchanged. Version 0.1.1 -> 0.1.2, 28/11/2026, Codex: factual integration/review-baseline reconciliation, no consent API or policy change; Breaking change: No.
 
 ## Acceptance criteria and implementation
 
